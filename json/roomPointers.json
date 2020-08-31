@@ -1,0 +1,3147 @@
+{
+  "0": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 15398,
+        "hexaddr": "$3c26",
+        "idx": "$00"
+      },
+      {
+        "addr": 15415,
+        "hexaddr": "$3c37",
+        "idx": "$01"
+      },
+      {
+        "addr": 15434,
+        "hexaddr": "$3c4a",
+        "idx": "$02"
+      },
+      {
+        "addr": 15474,
+        "hexaddr": "$3c72",
+        "idx": "$03"
+      },
+      {
+        "addr": 15485,
+        "hexaddr": "$3c7d",
+        "idx": "$04"
+      },
+      {
+        "addr": 15505,
+        "hexaddr": "$3c91",
+        "idx": "$05"
+      },
+      {
+        "addr": 15524,
+        "hexaddr": "$3ca4",
+        "idx": "$06"
+      },
+      {
+        "addr": 15541,
+        "hexaddr": "$3cb5",
+        "idx": "$07"
+      },
+      {
+        "addr": 15554,
+        "hexaddr": "$3cc2",
+        "idx": "$08"
+      },
+      {
+        "addr": 15565,
+        "hexaddr": "$3ccd",
+        "idx": "$09"
+      },
+      {
+        "addr": 15596,
+        "hexaddr": "$3cec",
+        "idx": "$0a"
+      },
+      {
+        "addr": 15613,
+        "hexaddr": "$3cfd",
+        "idx": "$0b"
+      },
+      {
+        "addr": 15627,
+        "hexaddr": "$3d0b",
+        "idx": "$0c"
+      },
+      {
+        "addr": 15651,
+        "hexaddr": "$3d23",
+        "idx": "$0d"
+      },
+      {
+        "addr": 15663,
+        "hexaddr": "$3d2f",
+        "idx": "$0e"
+      },
+      {
+        "addr": 15679,
+        "hexaddr": "$3d3f",
+        "idx": "$0f"
+      },
+      {
+        "addr": 15698,
+        "hexaddr": "$3d52",
+        "idx": "$10"
+      },
+      {
+        "addr": 15721,
+        "hexaddr": "$3d69",
+        "idx": "$11"
+      },
+      {
+        "addr": 15739,
+        "hexaddr": "$3d7b",
+        "idx": "$12"
+      },
+      {
+        "addr": 15762,
+        "hexaddr": "$3d92",
+        "idx": "$13"
+      },
+      {
+        "addr": 15782,
+        "hexaddr": "$3da6",
+        "idx": "$14"
+      },
+      {
+        "addr": 15796,
+        "hexaddr": "$3db4",
+        "idx": "$15"
+      },
+      {
+        "addr": 15815,
+        "hexaddr": "$3dc7",
+        "idx": "$16"
+      },
+      {
+        "addr": 15836,
+        "hexaddr": "$3ddc",
+        "idx": "$17"
+      }
+    ]
+  },
+  "1": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 15951,
+        "hexaddr": "$3e4f",
+        "idx": "$00"
+      },
+      {
+        "addr": 15970,
+        "hexaddr": "$3e62",
+        "idx": "$01"
+      },
+      {
+        "addr": 15981,
+        "hexaddr": "$3e6d",
+        "idx": "$02"
+      },
+      {
+        "addr": 16006,
+        "hexaddr": "$3e86",
+        "idx": "$03"
+      },
+      {
+        "addr": 16032,
+        "hexaddr": "$3ea0",
+        "idx": "$04"
+      },
+      {
+        "addr": 16051,
+        "hexaddr": "$3eb3",
+        "idx": "$05"
+      },
+      {
+        "addr": 16076,
+        "hexaddr": "$3ecc",
+        "idx": "$06"
+      },
+      {
+        "addr": 16090,
+        "hexaddr": "$3eda",
+        "idx": "$07"
+      },
+      {
+        "addr": 16104,
+        "hexaddr": "$3ee8",
+        "idx": "$08"
+      },
+      {
+        "addr": 16129,
+        "hexaddr": "$3f01",
+        "idx": "$09"
+      },
+      {
+        "addr": 16146,
+        "hexaddr": "$3f12",
+        "idx": "$0a"
+      },
+      {
+        "addr": 16160,
+        "hexaddr": "$3f20",
+        "idx": "$0b"
+      },
+      {
+        "addr": 16174,
+        "hexaddr": "$3f2e",
+        "idx": "$0c"
+      },
+      {
+        "addr": 16207,
+        "hexaddr": "$3f4f",
+        "idx": "$0d"
+      },
+      {
+        "addr": 16227,
+        "hexaddr": "$3f63",
+        "idx": "$0e"
+      },
+      {
+        "addr": 16252,
+        "hexaddr": "$3f7c",
+        "idx": "$0f"
+      },
+      {
+        "addr": 16289,
+        "hexaddr": "$3fa1",
+        "idx": "$10"
+      },
+      {
+        "addr": 16303,
+        "hexaddr": "$3faf",
+        "idx": "$11"
+      },
+      {
+        "addr": 16325,
+        "hexaddr": "$3fc5",
+        "idx": "$12"
+      },
+      {
+        "addr": 16339,
+        "hexaddr": "$3fd3",
+        "idx": "$13"
+      },
+      {
+        "addr": 16361,
+        "hexaddr": "$3fe9",
+        "idx": "$14"
+      },
+      {
+        "addr": 16381,
+        "hexaddr": "$3ffd",
+        "idx": "$15"
+      },
+      {
+        "addr": 16407,
+        "hexaddr": "$4017",
+        "idx": "$16"
+      },
+      {
+        "addr": 16424,
+        "hexaddr": "$4028",
+        "idx": "$17"
+      },
+      {
+        "addr": 16435,
+        "hexaddr": "$4033",
+        "idx": "$18"
+      }
+    ]
+  },
+  "2": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$00"
+      },
+      {
+        "addr": 16387,
+        "hexaddr": "$4003",
+        "idx": "$01"
+      },
+      {
+        "addr": 16413,
+        "hexaddr": "$401d",
+        "idx": "$02"
+      },
+      {
+        "addr": 16435,
+        "hexaddr": "$4033",
+        "idx": "$03"
+      },
+      {
+        "addr": 16464,
+        "hexaddr": "$4050",
+        "idx": "$04"
+      },
+      {
+        "addr": 16494,
+        "hexaddr": "$406e",
+        "idx": "$05"
+      },
+      {
+        "addr": 16532,
+        "hexaddr": "$4094",
+        "idx": "$06"
+      },
+      {
+        "addr": 16557,
+        "hexaddr": "$40ad",
+        "idx": "$07"
+      },
+      {
+        "addr": 16571,
+        "hexaddr": "$40bb",
+        "idx": "$08"
+      },
+      {
+        "addr": 16600,
+        "hexaddr": "$40d8",
+        "idx": "$09"
+      },
+      {
+        "addr": 16621,
+        "hexaddr": "$40ed",
+        "idx": "$0a"
+      },
+      {
+        "addr": 16656,
+        "hexaddr": "$4110",
+        "idx": "$0b"
+      },
+      {
+        "addr": 16677,
+        "hexaddr": "$4125",
+        "idx": "$0c"
+      },
+      {
+        "addr": 16703,
+        "hexaddr": "$413f",
+        "idx": "$0d"
+      },
+      {
+        "addr": 16721,
+        "hexaddr": "$4151",
+        "idx": "$0e"
+      },
+      {
+        "addr": 16742,
+        "hexaddr": "$4166",
+        "idx": "$0f"
+      },
+      {
+        "addr": 16774,
+        "hexaddr": "$4186",
+        "idx": "$10"
+      },
+      {
+        "addr": 16802,
+        "hexaddr": "$41a2",
+        "idx": "$11"
+      },
+      {
+        "addr": 16819,
+        "hexaddr": "$41b3",
+        "idx": "$12"
+      },
+      {
+        "addr": 16844,
+        "hexaddr": "$41cc",
+        "idx": "$13"
+      }
+    ]
+  },
+  "3": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 16876,
+        "hexaddr": "$41ec",
+        "idx": "$00"
+      },
+      {
+        "addr": 16901,
+        "hexaddr": "$4205",
+        "idx": "$01"
+      },
+      {
+        "addr": 16940,
+        "hexaddr": "$422c",
+        "idx": "$02"
+      },
+      {
+        "addr": 16969,
+        "hexaddr": "$4249",
+        "idx": "$03"
+      },
+      {
+        "addr": 16986,
+        "hexaddr": "$425a",
+        "idx": "$04"
+      },
+      {
+        "addr": 17008,
+        "hexaddr": "$4270",
+        "idx": "$05"
+      },
+      {
+        "addr": 17034,
+        "hexaddr": "$428a",
+        "idx": "$06"
+      },
+      {
+        "addr": 17056,
+        "hexaddr": "$42a0",
+        "idx": "$07"
+      },
+      {
+        "addr": 17075,
+        "hexaddr": "$42b3",
+        "idx": "$08"
+      }
+    ]
+  },
+  "4": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 17097,
+        "hexaddr": "$42c9",
+        "idx": "$00"
+      },
+      {
+        "addr": 17108,
+        "hexaddr": "$42d4",
+        "idx": "$01"
+      },
+      {
+        "addr": 17122,
+        "hexaddr": "$42e2",
+        "idx": "$02"
+      },
+      {
+        "addr": 17133,
+        "hexaddr": "$42ed",
+        "idx": "$03"
+      },
+      {
+        "addr": 17162,
+        "hexaddr": "$430a",
+        "idx": "$04"
+      },
+      {
+        "addr": 17176,
+        "hexaddr": "$4318",
+        "idx": "$05"
+      },
+      {
+        "addr": 17190,
+        "hexaddr": "$4326",
+        "idx": "$06"
+      },
+      {
+        "addr": 17209,
+        "hexaddr": "$4339",
+        "idx": "$07"
+      },
+      {
+        "addr": 17223,
+        "hexaddr": "$4347",
+        "idx": "$08"
+      },
+      {
+        "addr": 17242,
+        "hexaddr": "$435a",
+        "idx": "$09"
+      },
+      {
+        "addr": 17250,
+        "hexaddr": "$4362",
+        "idx": "$0a"
+      },
+      {
+        "addr": 17282,
+        "hexaddr": "$4382",
+        "idx": "$0b"
+      }
+    ]
+  },
+  "5": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 17298,
+        "hexaddr": "$4392",
+        "idx": "$00"
+      },
+      {
+        "addr": 17314,
+        "hexaddr": "$43a2",
+        "idx": "$01"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$02"
+      },
+      {
+        "addr": 17330,
+        "hexaddr": "$43b2",
+        "idx": "$03"
+      },
+      {
+        "addr": 17358,
+        "hexaddr": "$43ce",
+        "idx": "$04"
+      },
+      {
+        "addr": 17378,
+        "hexaddr": "$43e2",
+        "idx": "$05"
+      },
+      {
+        "addr": 17398,
+        "hexaddr": "$43f6",
+        "idx": "$06"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$07"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$08"
+      }
+    ]
+  },
+  "6": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 18096,
+        "hexaddr": "$46b0",
+        "idx": "$00"
+      },
+      {
+        "addr": 18119,
+        "hexaddr": "$46c7",
+        "idx": "$01"
+      },
+      {
+        "addr": 18142,
+        "hexaddr": "$46de",
+        "idx": "$02"
+      },
+      {
+        "addr": 18173,
+        "hexaddr": "$46fd",
+        "idx": "$03"
+      },
+      {
+        "addr": 18196,
+        "hexaddr": "$4714",
+        "idx": "$04"
+      },
+      {
+        "addr": 18226,
+        "hexaddr": "$4732",
+        "idx": "$05"
+      },
+      {
+        "addr": 18241,
+        "hexaddr": "$4741",
+        "idx": "$06"
+      },
+      {
+        "addr": 18256,
+        "hexaddr": "$4750",
+        "idx": "$07"
+      },
+      {
+        "addr": 18279,
+        "hexaddr": "$4767",
+        "idx": "$08"
+      },
+      {
+        "addr": 18294,
+        "hexaddr": "$4776",
+        "idx": "$09"
+      },
+      {
+        "addr": 18328,
+        "hexaddr": "$4798",
+        "idx": "$0a"
+      },
+      {
+        "addr": 18351,
+        "hexaddr": "$47af",
+        "idx": "$0b"
+      },
+      {
+        "addr": 18394,
+        "hexaddr": "$47da",
+        "idx": "$0c"
+      },
+      {
+        "addr": 18409,
+        "hexaddr": "$47e9",
+        "idx": "$0d"
+      },
+      {
+        "addr": 18424,
+        "hexaddr": "$47f8",
+        "idx": "$0e"
+      }
+    ]
+  },
+  "7": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 17918,
+        "hexaddr": "$45fe",
+        "idx": "$00"
+      },
+      {
+        "addr": 17946,
+        "hexaddr": "$461a",
+        "idx": "$01"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$02"
+      },
+      {
+        "addr": 17974,
+        "hexaddr": "$4636",
+        "idx": "$03"
+      },
+      {
+        "addr": 18000,
+        "hexaddr": "$4650",
+        "idx": "$04"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$05"
+      },
+      {
+        "addr": 18017,
+        "hexaddr": "$4661",
+        "idx": "$06"
+      },
+      {
+        "addr": 18034,
+        "hexaddr": "$4672",
+        "idx": "$07"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$08"
+      },
+      {
+        "addr": 18059,
+        "hexaddr": "$468b",
+        "idx": "$09"
+      },
+      {
+        "addr": 18081,
+        "hexaddr": "$46a1",
+        "idx": "$0a"
+      },
+      {
+        "addr": 18109,
+        "hexaddr": "$46bd",
+        "idx": "$0b"
+      },
+      {
+        "addr": 18126,
+        "hexaddr": "$46ce",
+        "idx": "$0c"
+      },
+      {
+        "addr": 18151,
+        "hexaddr": "$46e7",
+        "idx": "$0d"
+      },
+      {
+        "addr": 18168,
+        "hexaddr": "$46f8",
+        "idx": "$0e"
+      },
+      {
+        "addr": 18199,
+        "hexaddr": "$4717",
+        "idx": "$0f"
+      },
+      {
+        "addr": 18219,
+        "hexaddr": "$472b",
+        "idx": "$10"
+      },
+      {
+        "addr": 18251,
+        "hexaddr": "$474b",
+        "idx": "$11"
+      },
+      {
+        "addr": 18280,
+        "hexaddr": "$4768",
+        "idx": "$12"
+      },
+      {
+        "addr": 18309,
+        "hexaddr": "$4785",
+        "idx": "$13"
+      },
+      {
+        "addr": 18329,
+        "hexaddr": "$4799",
+        "idx": "$14"
+      },
+      {
+        "addr": 18360,
+        "hexaddr": "$47b8",
+        "idx": "$15"
+      },
+      {
+        "addr": 18377,
+        "hexaddr": "$47c9",
+        "idx": "$16"
+      },
+      {
+        "addr": 18391,
+        "hexaddr": "$47d7",
+        "idx": "$17"
+      },
+      {
+        "addr": 18423,
+        "hexaddr": "$47f7",
+        "idx": "$18"
+      },
+      {
+        "addr": 18453,
+        "hexaddr": "$4815",
+        "idx": "$19"
+      },
+      {
+        "addr": 18486,
+        "hexaddr": "$4836",
+        "idx": "$1a"
+      }
+    ]
+  },
+  "8": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 17499,
+        "hexaddr": "$445b",
+        "idx": "$00"
+      },
+      {
+        "addr": 17515,
+        "hexaddr": "$446b",
+        "idx": "$01"
+      },
+      {
+        "addr": 17529,
+        "hexaddr": "$4479",
+        "idx": "$02"
+      },
+      {
+        "addr": 17545,
+        "hexaddr": "$4489",
+        "idx": "$03"
+      },
+      {
+        "addr": 17563,
+        "hexaddr": "$449b",
+        "idx": "$04"
+      },
+      {
+        "addr": 17588,
+        "hexaddr": "$44b4",
+        "idx": "$05"
+      },
+      {
+        "addr": 17599,
+        "hexaddr": "$44bf",
+        "idx": "$06"
+      },
+      {
+        "addr": 17629,
+        "hexaddr": "$44dd",
+        "idx": "$07"
+      },
+      {
+        "addr": 17637,
+        "hexaddr": "$44e5",
+        "idx": "$08"
+      },
+      {
+        "addr": 17658,
+        "hexaddr": "$44fa",
+        "idx": "$09"
+      },
+      {
+        "addr": 17669,
+        "hexaddr": "$4505",
+        "idx": "$0a"
+      },
+      {
+        "addr": 17693,
+        "hexaddr": "$451d",
+        "idx": "$0b"
+      }
+    ]
+  },
+  "9": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$00"
+      },
+      {
+        "addr": 17815,
+        "hexaddr": "$4597",
+        "idx": "$01"
+      },
+      {
+        "addr": 17767,
+        "hexaddr": "$4567",
+        "idx": "$02"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$03"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$04"
+      },
+      {
+        "addr": 16454,
+        "hexaddr": "$4046",
+        "idx": "$05"
+      },
+      {
+        "addr": 18130,
+        "hexaddr": "$46d2",
+        "idx": "$06"
+      },
+      {
+        "addr": 18429,
+        "hexaddr": "$47fd",
+        "idx": "$07"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$08"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$09"
+      },
+      {
+        "addr": 16533,
+        "hexaddr": "$4095",
+        "idx": "$0a"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$0b"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$0c"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$0d"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$0e"
+      },
+      {
+        "addr": 17709,
+        "hexaddr": "$452d",
+        "idx": "$0f"
+      },
+      {
+        "addr": 17719,
+        "hexaddr": "$4537",
+        "idx": "$10"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$11"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$12"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$13"
+      },
+      {
+        "addr": 17750,
+        "hexaddr": "$4556",
+        "idx": "$14"
+      },
+      {
+        "addr": 17790,
+        "hexaddr": "$457e",
+        "idx": "$15"
+      },
+      {
+        "addr": 17840,
+        "hexaddr": "$45b0",
+        "idx": "$16"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$17"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$18"
+      }
+    ]
+  },
+  "10": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 16556,
+        "hexaddr": "$40ac",
+        "idx": "$00"
+      },
+      {
+        "addr": 16568,
+        "hexaddr": "$40b8",
+        "idx": "$01"
+      },
+      {
+        "addr": 16583,
+        "hexaddr": "$40c7",
+        "idx": "$02"
+      },
+      {
+        "addr": 16595,
+        "hexaddr": "$40d3",
+        "idx": "$03"
+      },
+      {
+        "addr": 16604,
+        "hexaddr": "$40dc",
+        "idx": "$04"
+      },
+      {
+        "addr": 16631,
+        "hexaddr": "$40f7",
+        "idx": "$05"
+      },
+      {
+        "addr": 16642,
+        "hexaddr": "$4102",
+        "idx": "$06"
+      },
+      {
+        "addr": 16656,
+        "hexaddr": "$4110",
+        "idx": "$07"
+      },
+      {
+        "addr": 16670,
+        "hexaddr": "$411e",
+        "idx": "$08"
+      },
+      {
+        "addr": 16681,
+        "hexaddr": "$4129",
+        "idx": "$09"
+      },
+      {
+        "addr": 16700,
+        "hexaddr": "$413c",
+        "idx": "$0a"
+      },
+      {
+        "addr": 16716,
+        "hexaddr": "$414c",
+        "idx": "$0b"
+      },
+      {
+        "addr": 16735,
+        "hexaddr": "$415f",
+        "idx": "$0c"
+      },
+      {
+        "addr": 16754,
+        "hexaddr": "$4172",
+        "idx": "$0d"
+      },
+      {
+        "addr": 16768,
+        "hexaddr": "$4180",
+        "idx": "$0e"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$0f"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$10"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$11"
+      },
+      {
+        "addr": 16772,
+        "hexaddr": "$4184",
+        "idx": "$12"
+      },
+      {
+        "addr": 16791,
+        "hexaddr": "$4197",
+        "idx": "$13"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$14"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$15"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$16"
+      },
+      {
+        "addr": 16810,
+        "hexaddr": "$41aa",
+        "idx": "$17"
+      },
+      {
+        "addr": 16818,
+        "hexaddr": "$41b2",
+        "idx": "$18"
+      }
+    ]
+  },
+  "11": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$00"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$01"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$02"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$03"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$04"
+      },
+      {
+        "addr": 17421,
+        "hexaddr": "$440d",
+        "idx": "$05"
+      },
+      {
+        "addr": 17445,
+        "hexaddr": "$4425",
+        "idx": "$06"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$07"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$08"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$09"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$0a"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$0b"
+      },
+      {
+        "addr": 17477,
+        "hexaddr": "$4445",
+        "idx": "$0c"
+      },
+      {
+        "addr": 17495,
+        "hexaddr": "$4457",
+        "idx": "$0d"
+      },
+      {
+        "addr": 17512,
+        "hexaddr": "$4468",
+        "idx": "$0e"
+      },
+      {
+        "addr": 17538,
+        "hexaddr": "$4482",
+        "idx": "$0f"
+      },
+      {
+        "addr": 17556,
+        "hexaddr": "$4494",
+        "idx": "$10"
+      },
+      {
+        "addr": 17586,
+        "hexaddr": "$44b2",
+        "idx": "$11"
+      },
+      {
+        "addr": 17608,
+        "hexaddr": "$44c8",
+        "idx": "$12"
+      },
+      {
+        "addr": 17626,
+        "hexaddr": "$44da",
+        "idx": "$13"
+      },
+      {
+        "addr": 17644,
+        "hexaddr": "$44ec",
+        "idx": "$14"
+      },
+      {
+        "addr": 17676,
+        "hexaddr": "$450c",
+        "idx": "$15"
+      },
+      {
+        "addr": 17685,
+        "hexaddr": "$4515",
+        "idx": "$16"
+      },
+      {
+        "addr": 17716,
+        "hexaddr": "$4534",
+        "idx": "$17"
+      },
+      {
+        "addr": 17733,
+        "hexaddr": "$4545",
+        "idx": "$18"
+      },
+      {
+        "addr": 17759,
+        "hexaddr": "$455f",
+        "idx": "$19"
+      },
+      {
+        "addr": 17787,
+        "hexaddr": "$457b",
+        "idx": "$1a"
+      },
+      {
+        "addr": 17807,
+        "hexaddr": "$458f",
+        "idx": "$1b"
+      }
+    ]
+  },
+  "12": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$00"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$01"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$02"
+      },
+      {
+        "addr": 17144,
+        "hexaddr": "$42f8",
+        "idx": "$03"
+      },
+      {
+        "addr": 17155,
+        "hexaddr": "$4303",
+        "idx": "$04"
+      },
+      {
+        "addr": 17174,
+        "hexaddr": "$4316",
+        "idx": "$05"
+      },
+      {
+        "addr": 17182,
+        "hexaddr": "$431e",
+        "idx": "$06"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$07"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$08"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$09"
+      },
+      {
+        "addr": 17190,
+        "hexaddr": "$4326",
+        "idx": "$0a"
+      },
+      {
+        "addr": 17206,
+        "hexaddr": "$4336",
+        "idx": "$0b"
+      },
+      {
+        "addr": 17217,
+        "hexaddr": "$4341",
+        "idx": "$0c"
+      },
+      {
+        "addr": 17228,
+        "hexaddr": "$434c",
+        "idx": "$0d"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$0e"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$0f"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$10"
+      },
+      {
+        "addr": 17242,
+        "hexaddr": "$435a",
+        "idx": "$11"
+      },
+      {
+        "addr": 17256,
+        "hexaddr": "$4368",
+        "idx": "$12"
+      },
+      {
+        "addr": 17276,
+        "hexaddr": "$437c",
+        "idx": "$13"
+      },
+      {
+        "addr": 17290,
+        "hexaddr": "$438a",
+        "idx": "$14"
+      },
+      {
+        "addr": 17301,
+        "hexaddr": "$4395",
+        "idx": "$15"
+      },
+      {
+        "addr": 17317,
+        "hexaddr": "$43a5",
+        "idx": "$16"
+      },
+      {
+        "addr": 17328,
+        "hexaddr": "$43b0",
+        "idx": "$17"
+      },
+      {
+        "addr": 17339,
+        "hexaddr": "$43bb",
+        "idx": "$18"
+      },
+      {
+        "addr": 17359,
+        "hexaddr": "$43cf",
+        "idx": "$19"
+      },
+      {
+        "addr": 17379,
+        "hexaddr": "$43e3",
+        "idx": "$1a"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$1b"
+      },
+      {
+        "addr": 17399,
+        "hexaddr": "$43f7",
+        "idx": "$1c"
+      },
+      {
+        "addr": 17422,
+        "hexaddr": "$440e",
+        "idx": "$1d"
+      },
+      {
+        "addr": 17438,
+        "hexaddr": "$441e",
+        "idx": "$1e"
+      },
+      {
+        "addr": 17461,
+        "hexaddr": "$4435",
+        "idx": "$1f"
+      },
+      {
+        "addr": 17469,
+        "hexaddr": "$443d",
+        "idx": "$20"
+      },
+      {
+        "addr": 17488,
+        "hexaddr": "$4450",
+        "idx": "$21"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$22"
+      }
+    ]
+  },
+  "13": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$00"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$01"
+      },
+      {
+        "addr": 16878,
+        "hexaddr": "$41ee",
+        "idx": "$02"
+      },
+      {
+        "addr": 16890,
+        "hexaddr": "$41fa",
+        "idx": "$03"
+      },
+      {
+        "addr": 16910,
+        "hexaddr": "$420e",
+        "idx": "$04"
+      },
+      {
+        "addr": 16949,
+        "hexaddr": "$4235",
+        "idx": "$05"
+      },
+      {
+        "addr": 16978,
+        "hexaddr": "$4252",
+        "idx": "$06"
+      },
+      {
+        "addr": 16993,
+        "hexaddr": "$4261",
+        "idx": "$07"
+      },
+      {
+        "addr": 17017,
+        "hexaddr": "$4279",
+        "idx": "$08"
+      },
+      {
+        "addr": 17035,
+        "hexaddr": "$428b",
+        "idx": "$09"
+      },
+      {
+        "addr": 17047,
+        "hexaddr": "$4297",
+        "idx": "$0a"
+      },
+      {
+        "addr": 17067,
+        "hexaddr": "$42ab",
+        "idx": "$0b"
+      },
+      {
+        "addr": 17088,
+        "hexaddr": "$42c0",
+        "idx": "$0c"
+      },
+      {
+        "addr": 17103,
+        "hexaddr": "$42cf",
+        "idx": "$0d"
+      },
+      {
+        "addr": 17115,
+        "hexaddr": "$42db",
+        "idx": "$0e"
+      },
+      {
+        "addr": 17132,
+        "hexaddr": "$42ec",
+        "idx": "$0f"
+      }
+    ]
+  },
+  "14": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 15917,
+        "hexaddr": "$3e2d",
+        "idx": "$00"
+      },
+      {
+        "addr": 15929,
+        "hexaddr": "$3e39",
+        "idx": "$01"
+      },
+      {
+        "addr": 15940,
+        "hexaddr": "$3e44",
+        "idx": "$02"
+      },
+      {
+        "addr": 17852,
+        "hexaddr": "$45bc",
+        "idx": "$03"
+      }
+    ]
+  },
+  "15": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 17975,
+        "hexaddr": "$4637",
+        "idx": "$00"
+      },
+      {
+        "addr": 17907,
+        "hexaddr": "$45f3",
+        "idx": "$01"
+      },
+      {
+        "addr": 16488,
+        "hexaddr": "$4068",
+        "idx": "$02"
+      },
+      {
+        "addr": 18002,
+        "hexaddr": "$4652",
+        "idx": "$03"
+      },
+      {
+        "addr": 18164,
+        "hexaddr": "$46f4",
+        "idx": "$04"
+      },
+      {
+        "addr": 16508,
+        "hexaddr": "$407c",
+        "idx": "$05"
+      },
+      {
+        "addr": 15868,
+        "hexaddr": "$3dfc",
+        "idx": "$06"
+      },
+      {
+        "addr": 15890,
+        "hexaddr": "$3e12",
+        "idx": "$07"
+      },
+      {
+        "addr": 15909,
+        "hexaddr": "$3e25",
+        "idx": "$08"
+      },
+      {
+        "addr": 18194,
+        "hexaddr": "$4712",
+        "idx": "$09"
+      },
+      {
+        "addr": 18219,
+        "hexaddr": "$472b",
+        "idx": "$0a"
+      },
+      {
+        "addr": 17868,
+        "hexaddr": "$45cc",
+        "idx": "$0b"
+      },
+      {
+        "addr": 17888,
+        "hexaddr": "$45e0",
+        "idx": "$0c"
+      },
+      {
+        "addr": 18241,
+        "hexaddr": "$4741",
+        "idx": "$0d"
+      },
+      {
+        "addr": 18363,
+        "hexaddr": "$47bb",
+        "idx": "$0e"
+      },
+      {
+        "addr": 18050,
+        "hexaddr": "$4682",
+        "idx": "$0f"
+      },
+      {
+        "addr": 18077,
+        "hexaddr": "$469d",
+        "idx": "$10"
+      },
+      {
+        "addr": 18096,
+        "hexaddr": "$46b0",
+        "idx": "$11"
+      },
+      {
+        "addr": 18107,
+        "hexaddr": "$46bb",
+        "idx": "$12"
+      },
+      {
+        "addr": 18343,
+        "hexaddr": "$47a7",
+        "idx": "$13"
+      },
+      {
+        "addr": 18395,
+        "hexaddr": "$47db",
+        "idx": "$14"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$15"
+      },
+      {
+        "addr": 18452,
+        "hexaddr": "$4814",
+        "idx": "$16"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$17"
+      },
+      {
+        "addr": 18322,
+        "hexaddr": "$4792",
+        "idx": "$18"
+      }
+    ]
+  },
+  "16": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$00"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$01"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$02"
+      },
+      {
+        "addr": 19018,
+        "hexaddr": "$4a4a",
+        "idx": "$03"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$04"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$05"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$06"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$07"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$08"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$09"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$0a"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$0b"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$0c"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$0d"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$0e"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$0f"
+      },
+      {
+        "addr": 19690,
+        "hexaddr": "$4cea",
+        "idx": "$10"
+      },
+      {
+        "addr": 19564,
+        "hexaddr": "$4c6c",
+        "idx": "$11"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$12"
+      },
+      {
+        "addr": 19524,
+        "hexaddr": "$4c44",
+        "idx": "$13"
+      }
+    ]
+  },
+  "17": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 18576,
+        "hexaddr": "$4890",
+        "idx": "$00"
+      },
+      {
+        "addr": 18643,
+        "hexaddr": "$48d3",
+        "idx": "$01"
+      },
+      {
+        "addr": 18479,
+        "hexaddr": "$482f",
+        "idx": "$02"
+      },
+      {
+        "addr": 18532,
+        "hexaddr": "$4864",
+        "idx": "$03"
+      },
+      {
+        "addr": 18559,
+        "hexaddr": "$487f",
+        "idx": "$04"
+      },
+      {
+        "addr": 18439,
+        "hexaddr": "$4807",
+        "idx": "$05"
+      },
+      {
+        "addr": 18462,
+        "hexaddr": "$481e",
+        "idx": "$06"
+      },
+      {
+        "addr": 18589,
+        "hexaddr": "$489d",
+        "idx": "$07"
+      }
+    ]
+  },
+  "18": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 18269,
+        "hexaddr": "$475d",
+        "idx": "$00"
+      }
+    ]
+  },
+  "19": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 17830,
+        "hexaddr": "$45a6",
+        "idx": "$00"
+      },
+      {
+        "addr": 17857,
+        "hexaddr": "$45c1",
+        "idx": "$01"
+      },
+      {
+        "addr": 17882,
+        "hexaddr": "$45da",
+        "idx": "$02"
+      },
+      {
+        "addr": 17901,
+        "hexaddr": "$45ed",
+        "idx": "$03"
+      }
+    ]
+  },
+  "20": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 18757,
+        "hexaddr": "$4945",
+        "idx": "$00"
+      },
+      {
+        "addr": 18809,
+        "hexaddr": "$4979",
+        "idx": "$01"
+      },
+      {
+        "addr": 18861,
+        "hexaddr": "$49ad",
+        "idx": "$02"
+      },
+      {
+        "addr": 18913,
+        "hexaddr": "$49e1",
+        "idx": "$03"
+      },
+      {
+        "addr": 18966,
+        "hexaddr": "$4a16",
+        "idx": "$04"
+      },
+      {
+        "addr": 16357,
+        "hexaddr": "$3fe5",
+        "idx": "$05"
+      }
+    ]
+  },
+  "21": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$00"
+      },
+      {
+        "addr": 18737,
+        "hexaddr": "$4931",
+        "idx": "$01"
+      },
+      {
+        "addr": 18767,
+        "hexaddr": "$494f",
+        "idx": "$02"
+      },
+      {
+        "addr": 18778,
+        "hexaddr": "$495a",
+        "idx": "$03"
+      },
+      {
+        "addr": 18789,
+        "hexaddr": "$4965",
+        "idx": "$04"
+      },
+      {
+        "addr": 18801,
+        "hexaddr": "$4971",
+        "idx": "$05"
+      },
+      {
+        "addr": 18812,
+        "hexaddr": "$497c",
+        "idx": "$06"
+      },
+      {
+        "addr": 18824,
+        "hexaddr": "$4988",
+        "idx": "$07"
+      },
+      {
+        "addr": 18832,
+        "hexaddr": "$4990",
+        "idx": "$08"
+      },
+      {
+        "addr": 18843,
+        "hexaddr": "$499b",
+        "idx": "$09"
+      },
+      {
+        "addr": 18862,
+        "hexaddr": "$49ae",
+        "idx": "$0a"
+      },
+      {
+        "addr": 18873,
+        "hexaddr": "$49b9",
+        "idx": "$0b"
+      }
+    ]
+  },
+  "22": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$00"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$01"
+      },
+      {
+        "addr": 19017,
+        "hexaddr": "$4a49",
+        "idx": "$02"
+      },
+      {
+        "addr": 19034,
+        "hexaddr": "$4a5a",
+        "idx": "$03"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$04"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$05"
+      },
+      {
+        "addr": 18995,
+        "hexaddr": "$4a33",
+        "idx": "$06"
+      },
+      {
+        "addr": 19006,
+        "hexaddr": "$4a3e",
+        "idx": "$07"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$08"
+      },
+      {
+        "addr": 19042,
+        "hexaddr": "$4a62",
+        "idx": "$09"
+      },
+      {
+        "addr": 18979,
+        "hexaddr": "$4a23",
+        "idx": "$0a"
+      },
+      {
+        "addr": 18987,
+        "hexaddr": "$4a2b",
+        "idx": "$0b"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$0c"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$0d"
+      },
+      {
+        "addr": 18963,
+        "hexaddr": "$4a13",
+        "idx": "$0e"
+      },
+      {
+        "addr": 18971,
+        "hexaddr": "$4a1b",
+        "idx": "$0f"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$10"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$11"
+      },
+      {
+        "addr": 18947,
+        "hexaddr": "$4a03",
+        "idx": "$12"
+      },
+      {
+        "addr": 18951,
+        "hexaddr": "$4a07",
+        "idx": "$13"
+      },
+      {
+        "addr": 18892,
+        "hexaddr": "$49cc",
+        "idx": "$14"
+      },
+      {
+        "addr": 18911,
+        "hexaddr": "$49df",
+        "idx": "$15"
+      },
+      {
+        "addr": 18919,
+        "hexaddr": "$49e7",
+        "idx": "$16"
+      },
+      {
+        "addr": 18935,
+        "hexaddr": "$49f7",
+        "idx": "$17"
+      }
+    ]
+  },
+  "23": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 19093,
+        "hexaddr": "$4a95",
+        "idx": "$00"
+      },
+      {
+        "addr": 19143,
+        "hexaddr": "$4ac7",
+        "idx": "$01"
+      },
+      {
+        "addr": 19170,
+        "hexaddr": "$4ae2",
+        "idx": "$02"
+      },
+      {
+        "addr": 19378,
+        "hexaddr": "$4bb2",
+        "idx": "$03"
+      },
+      {
+        "addr": 19199,
+        "hexaddr": "$4aff",
+        "idx": "$04"
+      },
+      {
+        "addr": 19231,
+        "hexaddr": "$4b1f",
+        "idx": "$05"
+      },
+      {
+        "addr": 19274,
+        "hexaddr": "$4b4a",
+        "idx": "$06"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$07"
+      },
+      {
+        "addr": 19306,
+        "hexaddr": "$4b6a",
+        "idx": "$08"
+      },
+      {
+        "addr": 19335,
+        "hexaddr": "$4b87",
+        "idx": "$09"
+      },
+      {
+        "addr": 19349,
+        "hexaddr": "$4b95",
+        "idx": "$0a"
+      },
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$0b"
+      }
+    ]
+  },
+  "24": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 18725,
+        "hexaddr": "$4925",
+        "idx": "$00"
+      },
+      {
+        "addr": 19391,
+        "hexaddr": "$4bbf",
+        "idx": "$01"
+      },
+      {
+        "addr": 19410,
+        "hexaddr": "$4bd2",
+        "idx": "$02"
+      },
+      {
+        "addr": 19467,
+        "hexaddr": "$4c0b",
+        "idx": "$03"
+      },
+      {
+        "addr": 19486,
+        "hexaddr": "$4c1e",
+        "idx": "$04"
+      },
+      {
+        "addr": 19422,
+        "hexaddr": "$4bde",
+        "idx": "$05"
+      },
+      {
+        "addr": 19458,
+        "hexaddr": "$4c02",
+        "idx": "$06"
+      },
+      {
+        "addr": 19446,
+        "hexaddr": "$4bf6",
+        "idx": "$07"
+      },
+      {
+        "addr": 19434,
+        "hexaddr": "$4bea",
+        "idx": "$08"
+      }
+    ]
+  },
+  "25": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 19961,
+        "hexaddr": "$4df9",
+        "idx": "$00"
+      },
+      {
+        "addr": 19987,
+        "hexaddr": "$4e13",
+        "idx": "$01"
+      },
+      {
+        "addr": 20011,
+        "hexaddr": "$4e2b",
+        "idx": "$02"
+      },
+      {
+        "addr": 20035,
+        "hexaddr": "$4e43",
+        "idx": "$03"
+      },
+      {
+        "addr": 20059,
+        "hexaddr": "$4e5b",
+        "idx": "$04"
+      },
+      {
+        "addr": 20083,
+        "hexaddr": "$4e73",
+        "idx": "$05"
+      },
+      {
+        "addr": 20107,
+        "hexaddr": "$4e8b",
+        "idx": "$06"
+      },
+      {
+        "addr": 20131,
+        "hexaddr": "$4ea3",
+        "idx": "$07"
+      },
+      {
+        "addr": 20155,
+        "hexaddr": "$4ebb",
+        "idx": "$08"
+      },
+      {
+        "addr": 20167,
+        "hexaddr": "$4ec7",
+        "idx": "$09"
+      },
+      {
+        "addr": 20179,
+        "hexaddr": "$4ed3",
+        "idx": "$0a"
+      },
+      {
+        "addr": 20191,
+        "hexaddr": "$4edf",
+        "idx": "$0b"
+      },
+      {
+        "addr": 20203,
+        "hexaddr": "$4eeb",
+        "idx": "$0c"
+      },
+      {
+        "addr": 20215,
+        "hexaddr": "$4ef7",
+        "idx": "$0d"
+      },
+      {
+        "addr": 20239,
+        "hexaddr": "$4f0f",
+        "idx": "$0e"
+      },
+      {
+        "addr": 20263,
+        "hexaddr": "$4f27",
+        "idx": "$0f"
+      },
+      {
+        "addr": 20275,
+        "hexaddr": "$4f33",
+        "idx": "$10"
+      },
+      {
+        "addr": 20299,
+        "hexaddr": "$4f4b",
+        "idx": "$11"
+      },
+      {
+        "addr": 20323,
+        "hexaddr": "$4f63",
+        "idx": "$12"
+      },
+      {
+        "addr": 20335,
+        "hexaddr": "$4f6f",
+        "idx": "$13"
+      },
+      {
+        "addr": 20347,
+        "hexaddr": "$4f7b",
+        "idx": "$14"
+      },
+      {
+        "addr": 20371,
+        "hexaddr": "$4f93",
+        "idx": "$15"
+      },
+      {
+        "addr": 20395,
+        "hexaddr": "$4fab",
+        "idx": "$16"
+      },
+      {
+        "addr": 20407,
+        "hexaddr": "$4fb7",
+        "idx": "$17"
+      },
+      {
+        "addr": 20419,
+        "hexaddr": "$4fc3",
+        "idx": "$18"
+      },
+      {
+        "addr": 20443,
+        "hexaddr": "$4fdb",
+        "idx": "$19"
+      },
+      {
+        "addr": 20455,
+        "hexaddr": "$4fe7",
+        "idx": "$1a"
+      },
+      {
+        "addr": 20467,
+        "hexaddr": "$4ff3",
+        "idx": "$1b"
+      },
+      {
+        "addr": 20491,
+        "hexaddr": "$500b",
+        "idx": "$1c"
+      },
+      {
+        "addr": 20515,
+        "hexaddr": "$5023",
+        "idx": "$1d"
+      },
+      {
+        "addr": 20527,
+        "hexaddr": "$502f",
+        "idx": "$1e"
+      },
+      {
+        "addr": 20539,
+        "hexaddr": "$503b",
+        "idx": "$1f"
+      },
+      {
+        "addr": 20568,
+        "hexaddr": "$5058",
+        "idx": "$20"
+      },
+      {
+        "addr": 20580,
+        "hexaddr": "$5064",
+        "idx": "$21"
+      },
+      {
+        "addr": 20592,
+        "hexaddr": "$5070",
+        "idx": "$22"
+      },
+      {
+        "addr": 20616,
+        "hexaddr": "$5088",
+        "idx": "$23"
+      },
+      {
+        "addr": 20640,
+        "hexaddr": "$50a0",
+        "idx": "$24"
+      },
+      {
+        "addr": 20652,
+        "hexaddr": "$50ac",
+        "idx": "$25"
+      },
+      {
+        "addr": 20664,
+        "hexaddr": "$50b8",
+        "idx": "$26"
+      },
+      {
+        "addr": 20676,
+        "hexaddr": "$50c4",
+        "idx": "$27"
+      },
+      {
+        "addr": 20688,
+        "hexaddr": "$50d0",
+        "idx": "$28"
+      },
+      {
+        "addr": 20700,
+        "hexaddr": "$50dc",
+        "idx": "$29"
+      },
+      {
+        "addr": 20705,
+        "hexaddr": "$50e1",
+        "idx": "$2a"
+      },
+      {
+        "addr": 20729,
+        "hexaddr": "$50f9",
+        "idx": "$2b"
+      },
+      {
+        "addr": 20741,
+        "hexaddr": "$5105",
+        "idx": "$2c"
+      },
+      {
+        "addr": 20753,
+        "hexaddr": "$5111",
+        "idx": "$2d"
+      },
+      {
+        "addr": 20765,
+        "hexaddr": "$511d",
+        "idx": "$2e"
+      },
+      {
+        "addr": 20777,
+        "hexaddr": "$5129",
+        "idx": "$2f"
+      },
+      {
+        "addr": 20789,
+        "hexaddr": "$5135",
+        "idx": "$30"
+      },
+      {
+        "addr": 20813,
+        "hexaddr": "$514d",
+        "idx": "$31"
+      },
+      {
+        "addr": 20837,
+        "hexaddr": "$5165",
+        "idx": "$32"
+      },
+      {
+        "addr": 20865,
+        "hexaddr": "$5181",
+        "idx": "$33"
+      },
+      {
+        "addr": 20889,
+        "hexaddr": "$5199",
+        "idx": "$34"
+      },
+      {
+        "addr": 20913,
+        "hexaddr": "$51b1",
+        "idx": "$35"
+      },
+      {
+        "addr": 20937,
+        "hexaddr": "$51c9",
+        "idx": "$36"
+      },
+      {
+        "addr": 20961,
+        "hexaddr": "$51e1",
+        "idx": "$37"
+      }
+    ]
+  },
+  "26": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 19534,
+        "hexaddr": "$4c4e",
+        "idx": "$00"
+      },
+      {
+        "addr": 19552,
+        "hexaddr": "$4c60",
+        "idx": "$01"
+      },
+      {
+        "addr": 19567,
+        "hexaddr": "$4c6f",
+        "idx": "$02"
+      },
+      {
+        "addr": 19582,
+        "hexaddr": "$4c7e",
+        "idx": "$03"
+      },
+      {
+        "addr": 19591,
+        "hexaddr": "$4c87",
+        "idx": "$04"
+      },
+      {
+        "addr": 19606,
+        "hexaddr": "$4c96",
+        "idx": "$05"
+      },
+      {
+        "addr": 19615,
+        "hexaddr": "$4c9f",
+        "idx": "$06"
+      },
+      {
+        "addr": 19624,
+        "hexaddr": "$4ca8",
+        "idx": "$07"
+      },
+      {
+        "addr": 19651,
+        "hexaddr": "$4cc3",
+        "idx": "$08"
+      },
+      {
+        "addr": 19681,
+        "hexaddr": "$4ce1",
+        "idx": "$09"
+      },
+      {
+        "addr": 19711,
+        "hexaddr": "$4cff",
+        "idx": "$0a"
+      },
+      {
+        "addr": 19741,
+        "hexaddr": "$4d1d",
+        "idx": "$0b"
+      },
+      {
+        "addr": 19756,
+        "hexaddr": "$4d2c",
+        "idx": "$0c"
+      },
+      {
+        "addr": 19765,
+        "hexaddr": "$4d35",
+        "idx": "$0d"
+      },
+      {
+        "addr": 19803,
+        "hexaddr": "$4d5b",
+        "idx": "$0e"
+      },
+      {
+        "addr": 19833,
+        "hexaddr": "$4d79",
+        "idx": "$0f"
+      },
+      {
+        "addr": 19866,
+        "hexaddr": "$4d9a",
+        "idx": "$10"
+      },
+      {
+        "addr": 19884,
+        "hexaddr": "$4dac",
+        "idx": "$11"
+      },
+      {
+        "addr": 19893,
+        "hexaddr": "$4db5",
+        "idx": "$12"
+      },
+      {
+        "addr": 19905,
+        "hexaddr": "$4dc1",
+        "idx": "$13"
+      },
+      {
+        "addr": 19914,
+        "hexaddr": "$4dca",
+        "idx": "$14"
+      },
+      {
+        "addr": 19923,
+        "hexaddr": "$4dd3",
+        "idx": "$15"
+      },
+      {
+        "addr": 19932,
+        "hexaddr": "$4ddc",
+        "idx": "$16"
+      },
+      {
+        "addr": 19941,
+        "hexaddr": "$4de5",
+        "idx": "$17"
+      }
+    ]
+  },
+  "27": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 18529,
+        "hexaddr": "$4861",
+        "idx": "$00"
+      },
+      {
+        "addr": 18556,
+        "hexaddr": "$487c",
+        "idx": "$01"
+      },
+      {
+        "addr": 18579,
+        "hexaddr": "$4893",
+        "idx": "$02"
+      },
+      {
+        "addr": 18602,
+        "hexaddr": "$48aa",
+        "idx": "$03"
+      },
+      {
+        "addr": 18629,
+        "hexaddr": "$48c5",
+        "idx": "$04"
+      },
+      {
+        "addr": 18657,
+        "hexaddr": "$48e1",
+        "idx": "$05"
+      },
+      {
+        "addr": 18680,
+        "hexaddr": "$48f8",
+        "idx": "$06"
+      },
+      {
+        "addr": 18707,
+        "hexaddr": "$4913",
+        "idx": "$07"
+      },
+      {
+        "addr": 18732,
+        "hexaddr": "$492c",
+        "idx": "$08"
+      }
+    ]
+  },
+  "28": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 18476,
+        "hexaddr": "$482c",
+        "idx": "$00"
+      },
+      {
+        "addr": 18499,
+        "hexaddr": "$4843",
+        "idx": "$01"
+      },
+      {
+        "addr": 18522,
+        "hexaddr": "$485a",
+        "idx": "$02"
+      },
+      {
+        "addr": 18545,
+        "hexaddr": "$4871",
+        "idx": "$03"
+      },
+      {
+        "addr": 18568,
+        "hexaddr": "$4888",
+        "idx": "$04"
+      },
+      {
+        "addr": 18593,
+        "hexaddr": "$48a1",
+        "idx": "$05"
+      },
+      {
+        "addr": 18616,
+        "hexaddr": "$48b8",
+        "idx": "$06"
+      },
+      {
+        "addr": 18639,
+        "hexaddr": "$48cf",
+        "idx": "$07"
+      },
+      {
+        "addr": 18662,
+        "hexaddr": "$48e6",
+        "idx": "$08"
+      },
+      {
+        "addr": 18685,
+        "hexaddr": "$48fd",
+        "idx": "$09"
+      },
+      {
+        "addr": 18708,
+        "hexaddr": "$4914",
+        "idx": "$0a"
+      },
+      {
+        "addr": 18731,
+        "hexaddr": "$492b",
+        "idx": "$0b"
+      },
+      {
+        "addr": 18754,
+        "hexaddr": "$4942",
+        "idx": "$0c"
+      },
+      {
+        "addr": 18777,
+        "hexaddr": "$4959",
+        "idx": "$0d"
+      },
+      {
+        "addr": 18800,
+        "hexaddr": "$4970",
+        "idx": "$0e"
+      },
+      {
+        "addr": 17942,
+        "hexaddr": "$4616",
+        "idx": "$0f"
+      },
+      {
+        "addr": 18823,
+        "hexaddr": "$4987",
+        "idx": "$10"
+      },
+      {
+        "addr": 18846,
+        "hexaddr": "$499e",
+        "idx": "$11"
+      },
+      {
+        "addr": 18869,
+        "hexaddr": "$49b5",
+        "idx": "$12"
+      },
+      {
+        "addr": 18892,
+        "hexaddr": "$49cc",
+        "idx": "$13"
+      },
+      {
+        "addr": 18915,
+        "hexaddr": "$49e3",
+        "idx": "$14"
+      },
+      {
+        "addr": 18938,
+        "hexaddr": "$49fa",
+        "idx": "$15"
+      },
+      {
+        "addr": 18961,
+        "hexaddr": "$4a11",
+        "idx": "$16"
+      },
+      {
+        "addr": 18984,
+        "hexaddr": "$4a28",
+        "idx": "$17"
+      },
+      {
+        "addr": 19007,
+        "hexaddr": "$4a3f",
+        "idx": "$18"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$19"
+      },
+      {
+        "addr": 16837,
+        "hexaddr": "$41c5",
+        "idx": "$1a"
+      }
+    ]
+  },
+  "29": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$00"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$01"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$02"
+      },
+      {
+        "addr": 19064,
+        "hexaddr": "$4a78",
+        "idx": "$03"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$04"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$05"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$06"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$07"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$08"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$09"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$0a"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$0b"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$0c"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$0d"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$0e"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$0f"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$10"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$11"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$12"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$13"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$14"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$15"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$16"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$17"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$18"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$19"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$1a"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$1b"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$1c"
+      },
+      {
+        "addr": 19038,
+        "hexaddr": "$4a5e",
+        "idx": "$1d"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$1e"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$1f"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$20"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$21"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$22"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$23"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$24"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$25"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$26"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$27"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$28"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$29"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$2a"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$2b"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$2c"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$2d"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$2e"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$2f"
+      },
+      {
+        "addr": 19055,
+        "hexaddr": "$4a6f",
+        "idx": "$30"
+      }
+    ]
+  },
+  "30": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 19090,
+        "hexaddr": "$4a92",
+        "idx": "$00"
+      },
+      {
+        "addr": 19115,
+        "hexaddr": "$4aab",
+        "idx": "$01"
+      },
+      {
+        "addr": 19140,
+        "hexaddr": "$4ac4",
+        "idx": "$02"
+      },
+      {
+        "addr": 19172,
+        "hexaddr": "$4ae4",
+        "idx": "$03"
+      },
+      {
+        "addr": 19250,
+        "hexaddr": "$4b32",
+        "idx": "$04"
+      },
+      {
+        "addr": 19335,
+        "hexaddr": "$4b87",
+        "idx": "$05"
+      },
+      {
+        "addr": 19372,
+        "hexaddr": "$4bac",
+        "idx": "$06"
+      },
+      {
+        "addr": 19406,
+        "hexaddr": "$4bce",
+        "idx": "$07"
+      },
+      {
+        "addr": 19443,
+        "hexaddr": "$4bf3",
+        "idx": "$08"
+      }
+    ]
+  },
+  "31": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 18506,
+        "hexaddr": "$484a",
+        "idx": "$00"
+      },
+      {
+        "addr": 18510,
+        "hexaddr": "$484e",
+        "idx": "$01"
+      }
+    ]
+  },
+  "32": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 19030,
+        "hexaddr": "$4a56",
+        "idx": "$00"
+      }
+    ]
+  },
+  "33": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 19063,
+        "hexaddr": "$4a77",
+        "idx": "$00"
+      }
+    ]
+  },
+  "34": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 18683,
+        "hexaddr": "$48fb",
+        "idx": "$00"
+      }
+    ]
+  },
+  "35": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 18532,
+        "hexaddr": "$4864",
+        "idx": "$00"
+      }
+    ]
+  },
+  "36": {
+    "bank": 2,
+    "rooms": [
+      {
+        "addr": 19101,
+        "hexaddr": "$4a9d",
+        "idx": "$00"
+      }
+    ]
+  },
+  "37": {
+    "bank": 4,
+    "rooms": [
+      {
+        "addr": 19505,
+        "hexaddr": "$4c31",
+        "idx": "$00"
+      }
+    ]
+  },
+  "38": {
+    "bank": 3,
+    "rooms": [
+      {
+        "addr": 19478,
+        "hexaddr": "$4c16",
+        "idx": "$00"
+      }
+    ]
+  }
+}

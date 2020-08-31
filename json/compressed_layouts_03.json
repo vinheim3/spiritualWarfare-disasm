@@ -1,0 +1,931 @@
+{
+  "7041": {
+    "tileset_idx": 12,
+    "labels": [
+      "shared_03_3fe9layout:"
+    ],
+    "shared": [
+      "group02room00layout:",
+      "group05room02layout:",
+      "group05room07layout:",
+      "group05room08layout:",
+      "group07room02layout:",
+      "group07room05layout:",
+      "group07room08layout:",
+      "group0broom00layout:",
+      "group0broom01layout:",
+      "group0broom02layout:",
+      "group0broom03layout:",
+      "group0broom04layout:",
+      "group0broom07layout:",
+      "group0broom08layout:",
+      "group0broom09layout:",
+      "group0broom0alayout:",
+      "group0broom0blayout:",
+      "group10room00layout:",
+      "group10room01layout:",
+      "group10room02layout:",
+      "group10room04layout:",
+      "group10room05layout:",
+      "group10room06layout:",
+      "group10room07layout:",
+      "group10room08layout:",
+      "group10room09layout:",
+      "group10room0alayout:",
+      "group10room0blayout:",
+      "group10room0clayout:",
+      "group10room0dlayout:",
+      "group10room0elayout:",
+      "group10room0flayout:",
+      "group10room12layout:",
+      "group14room05layout:"
+    ]
+  },
+  "7138": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room01layout:"
+    ],
+    "shared": []
+  },
+  "7199": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room02layout:"
+    ],
+    "shared": []
+  },
+  "7275": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room03layout:"
+    ],
+    "shared": []
+  },
+  "7361": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room04layout:"
+    ],
+    "shared": []
+  },
+  "7470": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room05layout:"
+    ],
+    "shared": []
+  },
+  "7565": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room06layout:"
+    ],
+    "shared": []
+  },
+  "7648": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room07layout:"
+    ],
+    "shared": []
+  },
+  "7724": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room08layout:"
+    ],
+    "shared": []
+  },
+  "7797": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room09layout:"
+    ],
+    "shared": []
+  },
+  "7890": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room0alayout:"
+    ],
+    "shared": []
+  },
+  "7996": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room0blayout:"
+    ],
+    "shared": []
+  },
+  "8080": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room0clayout:"
+    ],
+    "shared": []
+  },
+  "8171": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room0dlayout:"
+    ],
+    "shared": []
+  },
+  "8256": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room0elayout:"
+    ],
+    "shared": []
+  },
+  "8362": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room0flayout:"
+    ],
+    "shared": []
+  },
+  "8468": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room10layout:"
+    ],
+    "shared": []
+  },
+  "8558": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room11layout:"
+    ],
+    "shared": []
+  },
+  "8643": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room12layout:"
+    ],
+    "shared": []
+  },
+  "8739": {
+    "tileset_idx": 12,
+    "labels": [
+      "group02room13layout:"
+    ],
+    "shared": []
+  },
+  "8835": {
+    "tileset_idx": 22,
+    "labels": [
+      "group03room00layout:"
+    ],
+    "shared": []
+  },
+  "8957": {
+    "tileset_idx": 12,
+    "labels": [
+      "group03room01layout:"
+    ],
+    "shared": []
+  },
+  "9038": {
+    "tileset_idx": 22,
+    "labels": [
+      "group03room02layout:"
+    ],
+    "shared": []
+  },
+  "9138": {
+    "tileset_idx": 22,
+    "labels": [
+      "group03room03layout:"
+    ],
+    "shared": []
+  },
+  "9258": {
+    "tileset_idx": 22,
+    "labels": [
+      "group03room04layout:"
+    ],
+    "shared": []
+  },
+  "9370": {
+    "tileset_idx": 22,
+    "labels": [
+      "group03room05layout:"
+    ],
+    "shared": []
+  },
+  "9477": {
+    "tileset_idx": 22,
+    "labels": [
+      "group03room06layout:"
+    ],
+    "shared": []
+  },
+  "9561": {
+    "tileset_idx": 22,
+    "labels": [
+      "group03room07layout:"
+    ],
+    "shared": []
+  },
+  "9621": {
+    "tileset_idx": 22,
+    "labels": [
+      "group03room08layout:"
+    ],
+    "shared": []
+  },
+  "9719": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room00layout:"
+    ],
+    "shared": []
+  },
+  "9815": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room01layout:"
+    ],
+    "shared": []
+  },
+  "9899": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room02layout:"
+    ],
+    "shared": []
+  },
+  "9989": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room03layout:"
+    ],
+    "shared": []
+  },
+  "10088": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room04layout:"
+    ],
+    "shared": []
+  },
+  "10155": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room05layout:"
+    ],
+    "shared": []
+  },
+  "10211": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room06layout:"
+    ],
+    "shared": []
+  },
+  "10285": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room07layout:"
+    ],
+    "shared": []
+  },
+  "10357": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room08layout:"
+    ],
+    "shared": []
+  },
+  "10458": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room09layout:"
+    ],
+    "shared": []
+  },
+  "10536": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room0alayout:"
+    ],
+    "shared": []
+  },
+  "10593": {
+    "tileset_idx": 8,
+    "labels": [
+      "group04room0blayout:"
+    ],
+    "shared": []
+  },
+  "10660": {
+    "tileset_idx": 24,
+    "labels": [
+      "group05room00layout:"
+    ],
+    "shared": []
+  },
+  "10761": {
+    "tileset_idx": 24,
+    "labels": [
+      "group05room01layout:"
+    ],
+    "shared": []
+  },
+  "10864": {
+    "tileset_idx": 8,
+    "labels": [
+      "group05room03layout:"
+    ],
+    "shared": []
+  },
+  "10953": {
+    "tileset_idx": 8,
+    "labels": [
+      "group05room04layout:"
+    ],
+    "shared": []
+  },
+  "11016": {
+    "tileset_idx": 8,
+    "labels": [
+      "group05room05layout:"
+    ],
+    "shared": []
+  },
+  "11086": {
+    "tileset_idx": 8,
+    "labels": [
+      "group05room06layout:"
+    ],
+    "shared": []
+  },
+  "11198": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom05layout:"
+    ],
+    "shared": []
+  },
+  "11270": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom06layout:"
+    ],
+    "shared": []
+  },
+  "11345": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom0clayout:"
+    ],
+    "shared": []
+  },
+  "11421": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom0dlayout:"
+    ],
+    "shared": []
+  },
+  "11498": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom0elayout:"
+    ],
+    "shared": []
+  },
+  "11564": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom0flayout:"
+    ],
+    "shared": []
+  },
+  "11609": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom10layout:"
+    ],
+    "shared": []
+  },
+  "11674": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom11layout:"
+    ],
+    "shared": []
+  },
+  "11746": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom12layout:"
+    ],
+    "shared": []
+  },
+  "11808": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom13layout:"
+    ],
+    "shared": []
+  },
+  "11876": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom14layout:"
+    ],
+    "shared": []
+  },
+  "11951": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom15layout:"
+    ],
+    "shared": []
+  },
+  "11995": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom16layout:"
+    ],
+    "shared": []
+  },
+  "12046": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom17layout:",
+      "group0broom1alayout:"
+    ],
+    "shared": []
+  },
+  "12068": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom18layout:"
+    ],
+    "shared": []
+  },
+  "12138": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom19layout:"
+    ],
+    "shared": []
+  },
+  "12194": {
+    "tileset_idx": 18,
+    "labels": [
+      "group0broom1blayout:"
+    ],
+    "shared": []
+  },
+  "12276": {
+    "tileset_idx": 24,
+    "labels": [
+      "group13room00layout:"
+    ],
+    "shared": []
+  },
+  "12360": {
+    "tileset_idx": 22,
+    "labels": [
+      "group13room01layout:"
+    ],
+    "shared": []
+  },
+  "12448": {
+    "tileset_idx": 22,
+    "labels": [
+      "group13room02layout:"
+    ],
+    "shared": []
+  },
+  "12520": {
+    "tileset_idx": 22,
+    "labels": [
+      "group13room03layout:"
+    ],
+    "shared": []
+  },
+  "12596": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room00layout:"
+    ],
+    "shared": []
+  },
+  "12686": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room01layout:"
+    ],
+    "shared": []
+  },
+  "12774": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room03layout:"
+    ],
+    "shared": []
+  },
+  "12869": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room04layout:"
+    ],
+    "shared": []
+  },
+  "12946": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room06layout:"
+    ],
+    "shared": []
+  },
+  "13020": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room07layout:"
+    ],
+    "shared": []
+  },
+  "13098": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room09layout:"
+    ],
+    "shared": []
+  },
+  "13163": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room0alayout:"
+    ],
+    "shared": []
+  },
+  "13226": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room0blayout:"
+    ],
+    "shared": []
+  },
+  "13328": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room0clayout:"
+    ],
+    "shared": []
+  },
+  "13400": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room0dlayout:"
+    ],
+    "shared": []
+  },
+  "13492": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room0elayout:"
+    ],
+    "shared": []
+  },
+  "13589": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room0flayout:"
+    ],
+    "shared": []
+  },
+  "13670": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room10layout:"
+    ],
+    "shared": []
+  },
+  "13775": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room11layout:"
+    ],
+    "shared": []
+  },
+  "13852": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room12layout:"
+    ],
+    "shared": []
+  },
+  "13948": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room13layout:"
+    ],
+    "shared": []
+  },
+  "14061": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room14layout:"
+    ],
+    "shared": []
+  },
+  "14172": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room15layout:"
+    ],
+    "shared": []
+  },
+  "14253": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room16layout:"
+    ],
+    "shared": []
+  },
+  "14319": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room17layout:"
+    ],
+    "shared": []
+  },
+  "14406": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room18layout:"
+    ],
+    "shared": []
+  },
+  "14491": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room19layout:"
+    ],
+    "shared": []
+  },
+  "14541": {
+    "tileset_idx": 4,
+    "labels": [
+      "group07room1alayout:"
+    ],
+    "shared": []
+  },
+  "14625": {
+    "tileset_idx": 24,
+    "labels": [
+      "group1froom00layout:"
+    ],
+    "shared": []
+  },
+  "14734": {
+    "tileset_idx": 24,
+    "labels": [
+      "group1froom01layout:"
+    ],
+    "shared": []
+  },
+  "14841": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom00layout:"
+    ],
+    "shared": []
+  },
+  "14882": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom01layout:"
+    ],
+    "shared": []
+  },
+  "14923": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom02layout:"
+    ],
+    "shared": []
+  },
+  "14964": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom03layout:"
+    ],
+    "shared": []
+  },
+  "15005": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom04layout:"
+    ],
+    "shared": []
+  },
+  "15049": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom05layout:"
+    ],
+    "shared": []
+  },
+  "15090": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom06layout:"
+    ],
+    "shared": []
+  },
+  "15131": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom07layout:",
+      "group10room10layout:"
+    ],
+    "shared": []
+  },
+  "15174": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1broom08layout:"
+    ],
+    "shared": []
+  },
+  "16234": {
+    "tileset_idx": 30,
+    "labels": [
+      "group14room00layout:",
+      "group14room01layout:",
+      "group14room02layout:",
+      "group14room03layout:",
+      "group14room04layout:"
+    ],
+    "shared": []
+  },
+  "15217": {
+    "tileset_idx": 22,
+    "labels": [
+      "group10room03layout:"
+    ],
+    "shared": []
+  },
+  "15260": {
+    "tileset_idx": 18,
+    "labels": [
+      "group1droom1dlayout:"
+    ],
+    "shared": []
+  },
+  "15321": {
+    "tileset_idx": 18,
+    "labels": [
+      "shared_03_4a71layout:"
+    ],
+    "shared": [
+      "group1droom00layout:",
+      "group1droom01layout:",
+      "group1droom02layout:",
+      "group1droom04layout:",
+      "group1droom05layout:",
+      "group1droom06layout:",
+      "group1droom07layout:",
+      "group1droom08layout:",
+      "group1droom09layout:",
+      "group1droom0alayout:",
+      "group1droom0blayout:",
+      "group1droom0clayout:",
+      "group1droom0dlayout:",
+      "group1droom0elayout:",
+      "group1droom0flayout:",
+      "group1droom10layout:",
+      "group1droom11layout:",
+      "group1droom12layout:",
+      "group1droom13layout:",
+      "group1droom14layout:",
+      "group1droom15layout:",
+      "group1droom16layout:",
+      "group1droom17layout:",
+      "group1droom18layout:",
+      "group1droom19layout:",
+      "group1droom1alayout:",
+      "group1droom1blayout:",
+      "group1droom1clayout:",
+      "group1droom1elayout:",
+      "group1droom1flayout:",
+      "group1droom20layout:",
+      "group1droom21layout:",
+      "group1droom22layout:",
+      "group1droom23layout:",
+      "group1droom24layout:",
+      "group1droom25layout:",
+      "group1droom26layout:",
+      "group1droom27layout:",
+      "group1droom28layout:",
+      "group1droom29layout:",
+      "group1droom2alayout:",
+      "group1droom2blayout:",
+      "group1droom2clayout:",
+      "group1droom2dlayout:",
+      "group1droom2elayout:",
+      "group1droom2flayout:",
+      "group1droom30layout:"
+    ]
+  },
+  "15343": {
+    "tileset_idx": 18,
+    "labels": [
+      "group1droom03layout:"
+    ],
+    "shared": []
+  },
+  "15394": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1eroom00layout:"
+    ],
+    "shared": []
+  },
+  "15437": {
+    "tileset_idx": 30,
+    "labels": [
+      "group1eroom01layout:"
+    ],
+    "shared": []
+  },
+  "15480": {
+    "tileset_idx": 12,
+    "labels": [
+      "group1eroom02layout:"
+    ],
+    "shared": []
+  },
+  "15575": {
+    "tileset_idx": 12,
+    "labels": [
+      "group1eroom03layout:"
+    ],
+    "shared": []
+  },
+  "15649": {
+    "tileset_idx": 12,
+    "labels": [
+      "group1eroom04layout:"
+    ],
+    "shared": []
+  },
+  "15729": {
+    "tileset_idx": 12,
+    "labels": [
+      "group1eroom05layout:"
+    ],
+    "shared": []
+  },
+  "15835": {
+    "tileset_idx": 12,
+    "labels": [
+      "group1eroom06layout:"
+    ],
+    "shared": []
+  },
+  "15930": {
+    "tileset_idx": 12,
+    "labels": [
+      "group1eroom07layout:"
+    ],
+    "shared": []
+  },
+  "16030": {
+    "tileset_idx": 12,
+    "labels": [
+      "group1eroom08layout:"
+    ],
+    "shared": []
+  },
+  "16148": {
+    "tileset_idx": 30,
+    "labels": [
+      "group26room00layout:"
+    ],
+    "shared": []
+  },
+  "16212": {
+    "tileset_idx": 30,
+    "labels": [
+      "group10room13layout:"
+    ],
+    "shared": []
+  },
+  "16280": {
+    "tileset_idx": 30,
+    "labels": [
+      "group10room11layout:"
+    ],
+    "shared": []
+  }
+}

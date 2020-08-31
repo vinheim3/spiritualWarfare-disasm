@@ -1,0 +1,57 @@
+\ +;.*
+
+
+bank 4 - audio?
+
+1:5194 - increases bombs function
+
+
+# ------ room loading
+Call_000_1909
+- looks in structure 74a1 for word (offset $12) $7bcb
+- loads $3d23 into ec (immediately put into $c038/9)
+as part of TODOloads... function, this goes into general-purpose wram $c006/7
+which is then used as part of the decompression algo in common.s
+
+
+# ------ constants
+0:4ea6 - transitioning up - c=3
+0:4ee2 - transitioning down - c=6
+0:4ef9 - transitioning to left screen - c=9
+0:4f0f - transitioning right
+
+
+# ------- room structs
+byte 2 lower nybble x2 - tileset idx
+
+byte 1 - read and move on - stored in c72b
+if byte 1 bit 7 set - read next 2 bytes
+if byte 1 bit 6 set - read next 2 bytes
+if byte 1 bit 2 set - read next byte
+byte 2 - read and move on - stored in c72c
+if byte 2 bit 5 set - read next 4 bytes
+next 2 bytes is address of tiles to decompress
+
+group00room0estruct:
+	.db $10
+	.db $00
+	.dw group00room0elayout
+	.db $55 $8c $09 $00 $02 $10 $80 $ff $04 $83 $66 $ff
+after the 1st $ff, $04 $83 $66 $ff
+$04 - could be npc idx
+$83 - the 3 could be direction?
+$66 - upper nybble is x, lower nybble is y
+
+
+# ------- text
+text - debug c062/3 word written $640e
+bank 1 code - deals with room flags/alterations
+
+
+# ------- room generation duplicates
+repeated car gfx - group 2
+repeated forest cave gfx - group d
+repeated wall enclosure - group 15
+check ignored on 1b to 1e
+
+
