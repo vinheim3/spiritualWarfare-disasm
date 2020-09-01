@@ -17,85 +17,85 @@ clear_c0fe_c0ff:
 
 getRoomIdxWithinAllRooms:
 // save the following 2
-	ld   hl, wCurrRoomGroupWidth                                   ; $4956: $21 $36 $c0
-	ld   a, (hl)                                     ; $4959: $7e
-	push af                                          ; $495a: $f5
-	ld   hl, wCurrRoomGroupHeight                                   ; $495b: $21 $37 $c0
-	ld   a, (hl)                                     ; $495e: $7e
-	push af                                          ; $495f: $f5
+	ld   hl, wCurrRoomGroupWidth
+	ld   a, (hl)
+	push af
+	ld   hl, wCurrRoomGroupHeight
+	ld   a, (hl)
+	push af
 // room group into c00a
-	ld   hl, wCurrRoomGroup                                   ; $4960: $21 $33 $c0
-	ld   a, (hl)                                     ; $4963: $7e
-	ld   hl, $c00a                                   ; $4964: $21 $0a $c0
-	ld   (hl), a                                     ; $4967: $77
+	ld   hl, wCurrRoomGroup
+	ld   a, (hl)
+	ld   hl, wActualRoomGroup
+	ld   (hl), a
 // clear c008 and c009
-	ld   a, $00                                      ; $4968: $3e $00
-	ld   hl, $c008                                   ; $496a: $21 $08 $c0
-	ld   (hl), a                                     ; $496d: $77
-	ld   hl, $c009                                   ; $496e: $21 $09 $c0
-	ld   (hl), a                                     ; $4971: $77
+	ld   a, $00
+	ld   hl, wTotalRoomsFromGroup0beforeCurrRoomIdx
+	ld   (hl), a
+	ld   hl, wTotalRoomsFromGroup0beforeCurrRoomIdx+1
+	ld   (hl), a
 
 // start at room group 0
-	ld   hl, wCurrRoomGroup                                   ; $4972: $21 $33 $c0
-	ld   (hl), a                                     ; $4975: $77
+	ld   hl, wCurrRoomGroup
+	ld   (hl), a
 -
-	ld   hl, wCurrRoomGroup                                   ; $4976: $21 $33 $c0
-	ld   a, (hl)                                     ; $4979: $7e
-	ld   hl, $c00a                                   ; $497a: $21 $0a $c0
-	cp   (hl)                                        ; $497d: $be
-	jr   z, @nowAtActualCurrRoomGroup                              ; $497e: $28 $1e
+	ld   hl, wCurrRoomGroup
+	ld   a, (hl)
+	ld   hl, wActualRoomGroup
+	cp   (hl)
+	jr   z, @nowAtActualCurrRoomGroup
 
 // get size of earlier room groups, and add to c009/8
-	ld   a, $01                                      ; $4980: $3e $01
-	call call_b0_getCurrRoomGroupsWidthAndHeight                                       ; $4982: $cd $45 $02
-	ld   hl, wCurrRoomGroupWidth                                   ; $4985: $21 $36 $c0
-	ld   c, (hl)                                     ; $4988: $4e
-	ld   b, $00                                      ; $4989: $06 $00
-	ld   hl, wCurrRoomGroupHeight                                   ; $498b: $21 $37 $c0
-	ld   e, (hl)                                     ; $498e: $5e
-	ld   d, $00                                      ; $498f: $16 $00
-	call ecEquEtimesC                                       ; $4991: $cd $03 $08
-	call addECto_c009_c008                                       ; $4994: $cd $c6 $09
-	ld   hl, wCurrRoomGroup                                   ; $4997: $21 $33 $c0
-	inc  (hl)                                        ; $499a: $34
-	jp   -                                       ; $499b: $c3 $76 $09
+	ld   a, $01
+	call call_b0_getCurrRoomGroupsWidthAndHeight
+	ld   hl, wCurrRoomGroupWidth
+	ld   c, (hl)
+	ld   b, $00
+	ld   hl, wCurrRoomGroupHeight
+	ld   e, (hl)
+	ld   d, $00
+	call ecEquEtimesC
+	call addECtoTotalRoomsFromRoom0
+	ld   hl, wCurrRoomGroup
+	inc  (hl)
+	jp   -
 
 @nowAtActualCurrRoomGroup:
 // restore wCurrRoomGroup
-	ld   hl, $c00a                                   ; $499e: $21 $0a $c0
-	ld   a, (hl)                                     ; $49a1: $7e
-	ld   hl, wCurrRoomGroup                                   ; $49a2: $21 $33 $c0
-	ld   (hl), a                                     ; $49a5: $77
+	ld   hl, wActualRoomGroup
+	ld   a, (hl)
+	ld   hl, wCurrRoomGroup
+	ld   (hl), a
 // restore group height and width
-	pop  af                                          ; $49a6: $f1
-	ld   hl, wCurrRoomGroupHeight                                   ; $49a7: $21 $37 $c0
-	ld   (hl), a                                     ; $49aa: $77
-	pop  af                                          ; $49ab: $f1
-	ld   hl, wCurrRoomGroupWidth                                   ; $49ac: $21 $36 $c0
-	ld   (hl), a                                     ; $49af: $77
+	pop  af
+	ld   hl, wCurrRoomGroupHeight
+	ld   (hl), a
+	pop  af
+	ld   hl, wCurrRoomGroupWidth
+	ld   (hl), a
 
 // ec is idx of room within group
-	ld   hl, wCurrRoomGroupWidth                                   ; $49b0: $21 $36 $c0
-	ld   c, (hl)                                     ; $49b3: $4e
-	ld   b, $00                                      ; $49b4: $06 $00
-	ld   hl, wCurrRoomY                                   ; $49b6: $21 $35 $c0
-	ld   e, (hl)                                     ; $49b9: $5e
-	ld   d, $00                                      ; $49ba: $16 $00
-	call ecEquEtimesC                                       ; $49bc: $cd $03 $08
-	ld   hl, wCurrRoomX                                   ; $49bf: $21 $34 $c0
-	ld   a, (hl)                                     ; $49c2: $7e
-	call ecPlusEquA                                       ; $49c3: $cd $3d $08
+	ld   hl, wCurrRoomGroupWidth
+	ld   c, (hl)
+	ld   b, $00
+	ld   hl, wCurrRoomY
+	ld   e, (hl)
+	ld   d, $00
+	call ecEquEtimesC
+	ld   hl, wCurrRoomX
+	ld   a, (hl)
+	call ecPlusEquA
 
-addECto_c009_c008:
-	ld   a, c                                        ; $49c6: $79
-	ld   hl, $c008                                   ; $49c7: $21 $08 $c0
-	add  (hl)                                        ; $49ca: $86
-	ld   (hl), a                                     ; $49cb: $77
-	ld   a, e                                        ; $49cc: $7b
-	ld   hl, $c009                                   ; $49cd: $21 $09 $c0
-	adc  (hl)                                        ; $49d0: $8e
-	ld   (hl), a                                     ; $49d1: $77
-	ret                                              ; $49d2: $c9
+addECtoTotalRoomsFromRoom0:
+	ld   a, c
+	ld   hl, wTotalRoomsFromGroup0beforeCurrRoomIdx
+	add  (hl)
+	ld   (hl), a
+	ld   a, e
+	ld   hl, wTotalRoomsFromGroup0beforeCurrRoomIdx+1
+	adc  (hl)
+	ld   (hl), a
+	ret
 
 
 //------------------ the following few functions have to do with room flags?

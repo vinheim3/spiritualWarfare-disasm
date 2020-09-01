@@ -266,11 +266,11 @@ func_0224:
 
 
 call_b0_getCurrRoomGroupsWidthAndHeight:
-	push af                                          ; $0245: $f5
-	ld   hl, $0000                                   ; $0246: $21 $00 $00
-	ld   (hl), a                                     ; $0249: $77
-	call getCurrRoomGroupsWidthAndHeight                               ; $024a: $cd $e9 $18
-	jp   loadFirst1000hVramTiles@popAFjpBankA                               ; $024d: $c3 $6d $01
+	push af
+	ld   hl, $0000
+	ld   (hl), a
+	call getCurrRoomGroupsWidthAndHeight
+	jp   loadFirst1000hVramTiles@popAFjpBankA
 
 
 Call_000_0250:

@@ -6,7 +6,18 @@
 
 // these 1st few wram bytes seem to be multi-purpose, ie unions
 wc000:
-	dsb $2b
+	dsb 8
+
+.union
+	wTotalRoomsFromGroup0beforeCurrRoomIdx: ; $c008
+		dw
+
+	wActualRoomGroup: ; $c00a
+		db
+.endu
+
+wc00b:
+	dsb $2b-$b
 
 wPlayerScore: ; $c02b
 	dsb 7

@@ -4,7 +4,7 @@
 
 bank 4 - audio?
 
-1:5194 - increases bombs function
+0:5194 - increases bombs function
 
 
 # ------ room loading
