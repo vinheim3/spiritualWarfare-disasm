@@ -22,8 +22,8 @@ of each bank, so when you swap within that section, you are still executing pred
 Only stuff that may not be immediately obvious
 * `code` - all the code, maybe a little bit of data
     * `bank_000.s` - core engine stuff
-    * `bank_001.s` - very short file that seem to be around room transitions?
-    * `bank_004.s` - inventory and item-related code, also audio?
+    * `bank_001.s` - very short file that seem to be around room transitions,
+    and room flags?
     * `common.*` - the shared 'bank 0'-like code
 * `data`
     * `*_roomStructsAndLayouts.s` - contains variable-sized structs for rooms,

@@ -5,7 +5,8 @@
 ; https://github.com/mattcurrie/mgbdis
 ; https://github.com/vinheim3
 
-func_01_094b:
+
+clear_c0fe_c0ff:
 	ld   a, $00                                      ; $494b: $3e $00
 	ld   hl, $c0ff                                   ; $494d: $21 $ff $c0
 	ld   (hl), a                                     ; $4950: $77
@@ -101,7 +102,7 @@ func_01_09d3:
 	call func_01_09ea                                       ; $49d3: $cd $ea $09
 	jr   z, +                              ; $49d6: $28 $03
 
-	call jr_002_4a28                                       ; $49d8: $cd $28 $0a
+	call func_01_0a28                                       ; $49d8: $cd $28 $0a
 
 +
 	inc  bc                                          ; $49db: $03
@@ -168,7 +169,8 @@ jr_002_4a12:
 	jp   func_01_09ed                                       ; $4a25: $c3 $ed $09
 
 
-jr_002_4a28:
+func_01_0a28:
+@bigLoop:
 	ld   hl, $c0fc                                   ; $4a28: $21 $fc $c0
 	ld   a, (hl)                                     ; $4a2b: $7e
 	add  $07                                         ; $4a2c: $c6 $07
@@ -180,9 +182,9 @@ jr_002_4a28:
 	ld   hl, $c0fe                                   ; $4a38: $21 $fe $c0
 	ld   a, (hl)                                     ; $4a3b: $7e
 	cp   $0a                                         ; $4a3c: $fe $0a
-	jr   c, jr_002_4a77                              ; $4a3e: $38 $37
+	jr   c, @func_0a77                              ; $4a3e: $38 $37
 
-jr_002_4a40:
+@loop_0a40:
 	ld   hl, $c101                                   ; $4a40: $21 $01 $c1
 	ld   a, (hl)                                     ; $4a43: $7e
 	call aDivEqu16                                       ; $4a44: $cd $fa $07
@@ -190,10 +192,11 @@ jr_002_4a40:
 	ld   e, a                                        ; $4a49: $5f
 	ld   d, $00                                      ; $4a4a: $16 $00
 	ld   bc, $0000                                   ; $4a4c: $01 $00 $00
+-
 	ld   hl, $c0ff                                   ; $4a4f: $21 $ff $c0
 	ld   a, e                                        ; $4a52: $7b
 	cp   (hl)                                        ; $4a53: $be
-	jr   nc, jr_002_4a65                             ; $4a54: $30 $0f
+	jr   nc, +                             ; $4a54: $30 $0f
 
 	ld   hl, $c100                                   ; $4a56: $21 $00 $c1
 	add  hl, de                                      ; $4a59: $19
@@ -203,33 +206,32 @@ jr_002_4a40:
 	ld   (hl), a                                     ; $4a5f: $77
 	inc  bc                                          ; $4a60: $03
 	inc  de                                          ; $4a61: $13
-	jp   $0a4f                                       ; $4a62: $c3 $4f $0a
+	jp   -                                       ; $4a62: $c3 $4f $0a
 
-
-jr_002_4a65:
++
 	ld   hl, $c0ff                                   ; $4a65: $21 $ff $c0
 	ld   (hl), c                                     ; $4a68: $71
 	ld   hl, $c0fe                                   ; $4a69: $21 $fe $c0
 	dec  (hl)                                        ; $4a6c: $35
 	bit  7, (hl)                                     ; $4a6d: $cb $7e
-	jr   z, jr_002_4a28                              ; $4a6f: $28 $b7
+	jr   z, @bigLoop                              ; $4a6f: $28 $b7
 
-	call func_01_094b                                       ; $4a71: $cd $4b $09
-	jp   $0a28                                       ; $4a74: $c3 $28 $0a
+	call clear_c0fe_c0ff                                       ; $4a71: $cd $4b $09
+	jp   @bigLoop                                       ; $4a74: $c3 $28 $0a
 
 
-jr_002_4a77:
+@func_0a77:
 	ld   a, $40                                      ; $4a77: $3e $40
 	ld   hl, $c0ff                                   ; $4a79: $21 $ff $c0
 	sub  (hl)                                        ; $4a7c: $96
-	jr   c, jr_002_4a40                              ; $4a7d: $38 $c1
+	jr   c, @loop_0a40                              ; $4a7d: $38 $c1
 
 	sbc  $02                                         ; $4a7f: $de $02
-	jr   c, jr_002_4a40                              ; $4a81: $38 $bd
+	jr   c, @loop_0a40                              ; $4a81: $38 $bd
 
 	ld   hl, $c00b                                   ; $4a83: $21 $0b $c0
 	sbc  (hl)                                        ; $4a86: $9e
-	jr   c, jr_002_4a40                              ; $4a87: $38 $b7
+	jr   c, @loop_0a40                              ; $4a87: $38 $b7
 
 	ld   hl, $c0ff                                   ; $4a89: $21 $ff $c0
 	ld   c, (hl)                                     ; $4a8c: $4e
@@ -257,11 +259,11 @@ jr_002_4a77:
 	ld   d, $00                                      ; $4ab3: $16 $00
 	ld   a, e                                        ; $4ab5: $7b
 	cp   $00                                         ; $4ab6: $fe $00
-	jr   z, jr_002_4ac7                              ; $4ab8: $28 $0d
+	jr   z, +                              ; $4ab8: $28 $0d
 
 	ld   a, $00                                      ; $4aba: $3e $00
 
-jr_002_4abc:
+-
 	ld   hl, $c100                                   ; $4abc: $21 $00 $c1
 	add  hl, bc                                      ; $4abf: $09
 	ld   (hl), a                                     ; $4ac0: $77
@@ -269,9 +271,9 @@ jr_002_4abc:
 	dec  de                                          ; $4ac2: $1b
 	ld   a, e                                        ; $4ac3: $7b
 	or   d                                           ; $4ac4: $b2
-	jr   nz, jr_002_4abc                             ; $4ac5: $20 $f5
+	jr   nz, -                             ; $4ac5: $20 $f5
 
-jr_002_4ac7:
++
 	ld   a, c                                        ; $4ac7: $79
 	ld   hl, $c0ff                                   ; $4ac8: $21 $ff $c0
 	ld   c, (hl)                                     ; $4acb: $4e
@@ -282,6 +284,7 @@ jr_002_4ac7:
 	ret                                              ; $4ad3: $c9
 
 
+data_01_0ad4:
 	ld   d, h                                        ; $4ad4: $54
 	ld   (hl), d                                     ; $4ad5: $72
 	ld   (hl), l                                     ; $4ad6: $75
@@ -291,6 +294,8 @@ jr_002_4ac7:
 	ld   l, h                                        ; $4ada: $6c
 	ld   (hl), e                                     ; $4adb: $73
 	ld   h, l                                        ; $4adc: $65
+	
+data_01_0add:
 	ld   hl, $5198                                   ; $4add: $21 $98 $51
 	ld   (hl), l                                     ; $4ae0: $75
 	ld   h, l                                        ; $4ae1: $65
@@ -301,6 +306,8 @@ jr_002_4ac7:
 	ld   l, (hl)                                     ; $4ae6: $6e
 	jr   nz, $23                                     ; $4ae7: $20 $23
 
+
+data_01_0ae9:
 	ld   h, c                                        ; $4ae9: $61
 	sbc  b                                           ; $4aea: $98
 	ld   d, b                                        ; $4aeb: $50
@@ -309,17 +316,27 @@ jr_002_4ac7:
 	ld   a, d                                        ; $4aee: $7a
 	ld   h, l                                        ; $4aef: $65
 	ldd  a, (hl)                                     ; $4af0: $3a
+	
+data_01_0af1:
 	ld   b, a                                        ; $4af1: $47
 	sbc  b                                           ; $4af2: $98
-	call nc, $67d6                           ; $4af3: $d4 $d6 $67
+	.db $d4 $d6
+	
+	
+data_01_0af5:
+	.db $67
 	sbc  b                                           ; $4af6: $98
 	push de                                          ; $4af7: $d5
 	rst  $10                                         ; $4af8: $d7
+	
+data_01_0af9:
 	ld   b, a                                        ; $4af9: $47
 	sbc  b                                           ; $4afa: $98
 	call c, $e0de                                    ; $4afb: $dc $de $e0
 	ld   ($ff00+c), a                                ; $4afe: $e2
 	ldh  (<$e2), a                                   ; $4aff: $e0 $e2
+	
+data_01_0b01:
 	ld   h, a                                        ; $4b01: $67
 	sbc  b                                           ; $4b02: $98
 	.db  $dd                                         ; $4b03: $dd
@@ -328,29 +345,43 @@ jr_002_4ac7:
 	.db  $e3                                         ; $4b06: $e3
 	pop  hl                                          ; $4b07: $e1
 	.db  $e3                                         ; $4b08: $e3
+	
+data_01_0b09:
 	ld   c, b                                        ; $4b09: $48
 	sbc  b                                           ; $4b0a: $98
 	ldh  (<$e2), a                                   ; $4b0b: $e0 $e2
+	
+data_01_0b0d:
 	ld   l, b                                        ; $4b0d: $68
 	sbc  b                                           ; $4b0e: $98
 	pop  hl                                          ; $4b0f: $e1
 	.db  $e3                                         ; $4b10: $e3
+	
+data_01_0b11:
 	ld   l, $98                                      ; $4b11: $2e $98
 	or   h                                           ; $4b13: $b4
 	or   (hl)                                        ; $4b14: $b6
 	cp   b                                           ; $4b15: $b8
 	cp   d                                           ; $4b16: $ba
+	
+data_01_0b17:
 	ld   c, (hl)                                     ; $4b17: $4e
 	sbc  b                                           ; $4b18: $98
 	or   l                                           ; $4b19: $b5
 	or   a                                           ; $4b1a: $b7
 	cp   c                                           ; $4b1b: $b9
 	cp   e                                           ; $4b1c: $bb
+	
+data_01_0b1d:
 	ld   l, (hl)                                     ; $4b1d: $6e
 	sbc  b                                           ; $4b1e: $98
 	.db  $f4                                         ; $4b1f: $f4
 	or   $f8                                         ; $4b20: $f6 $f8
-	ld   a, ($988e)                                  ; $4b22: $fa $8e $98
+	.db $fa
+	
+	
+data_01_0b23:
+	.db $8e $98
 	push af                                          ; $4b25: $f5
 	rst  $30                                         ; $4b26: $f7
 	ld   sp, hl                                      ; $4b27: $f9
@@ -380,25 +411,25 @@ jr_002_4b45:
 	ld   (hl), a                                     ; $4b48: $77
 
 jr_002_4b49:
-	call $0bed                                       ; $4b49: $cd $ed $0b
-	ld   hl, $0ae9                                   ; $4b4c: $21 $e9 $0a
+	call func_01_0bed                                       ; $4b49: $cd $ed $0b
+	ld   hl, data_01_0ae9                                   ; $4b4c: $21 $e9 $0a
 	ld   c, $06                                      ; $4b4f: $0e $06
-	call $0bdd                                       ; $4b51: $cd $dd $0b
-	ld   hl, $0add                                   ; $4b54: $21 $dd $0a
+	call func_01_0bdd                                       ; $4b51: $cd $dd $0b
+	ld   hl, data_01_0add                                   ; $4b54: $21 $dd $0a
 	ld   c, $0a                                      ; $4b57: $0e $0a
-	call $0bdd                                       ; $4b59: $cd $dd $0b
+	call func_01_0bdd                                       ; $4b59: $cd $dd $0b
 	ld   c, $04                                      ; $4b5c: $0e $04
-	ld   hl, $0b11                                   ; $4b5e: $21 $11 $0b
-	call $0bdd                                       ; $4b61: $cd $dd $0b
+	ld   hl, data_01_0b11                                   ; $4b5e: $21 $11 $0b
+	call func_01_0bdd                                       ; $4b61: $cd $dd $0b
 	ld   c, $04                                      ; $4b64: $0e $04
-	ld   hl, $0b17                                   ; $4b66: $21 $17 $0b
-	call $0bdd                                       ; $4b69: $cd $dd $0b
+	ld   hl, data_01_0b17                                   ; $4b66: $21 $17 $0b
+	call func_01_0bdd                                       ; $4b69: $cd $dd $0b
 	ld   c, $04                                      ; $4b6c: $0e $04
-	ld   hl, $0b1d                                   ; $4b6e: $21 $1d $0b
-	call $0bdd                                       ; $4b71: $cd $dd $0b
+	ld   hl, data_01_0b1d                                   ; $4b6e: $21 $1d $0b
+	call func_01_0bdd                                       ; $4b71: $cd $dd $0b
 	ld   c, $04                                      ; $4b74: $0e $04
-	ld   hl, $0b23                                   ; $4b76: $21 $23 $0b
-	call $0bdd                                       ; $4b79: $cd $dd $0b
+	ld   hl, data_01_0b23                                   ; $4b76: $21 $23 $0b
+	call func_01_0bdd                                       ; $4b79: $cd $dd $0b
 	ld   hl, $c021                                   ; $4b7c: $21 $21 $c0
 	ld   a, (hl)                                     ; $4b7f: $7e
 	cp   $01                                         ; $4b80: $fe $01
@@ -422,40 +453,41 @@ jr_002_4b9a:
 	ld   hl, $c022                                   ; $4b9a: $21 $22 $c0
 	ld   a, (hl)                                     ; $4b9d: $7e
 	bit  7, a                                        ; $4b9e: $cb $7f
-	jr   nz, jr_002_4bcc                             ; $4ba0: $20 $2a
+	jr   nz, ++                             ; $4ba0: $20 $2a
 
 	cp   $03                                         ; $4ba2: $fe $03
-	jr   nz, jr_002_4bb9                             ; $4ba4: $20 $13
+	jr   nz, +                             ; $4ba4: $20 $13
 
 	ld   c, $06                                      ; $4ba6: $0e $06
-	ld   hl, $0af9                                   ; $4ba8: $21 $f9 $0a
-	call $0bdd                                       ; $4bab: $cd $dd $0b
+	ld   hl, data_01_0af9                                   ; $4ba8: $21 $f9 $0a
+	call func_01_0bdd                                       ; $4bab: $cd $dd $0b
 	ld   c, $06                                      ; $4bae: $0e $06
-	ld   hl, $0b01                                   ; $4bb0: $21 $01 $0b
-	call $0bdd                                       ; $4bb3: $cd $dd $0b
-	jp   $0bdc                                       ; $4bb6: $c3 $dc $0b
+	ld   hl, data_01_0b01                                   ; $4bb0: $21 $01 $0b
+	call func_01_0bdd                                       ; $4bb3: $cd $dd $0b
+	jp   @done                                       ; $4bb6: $c3 $dc $0b
 
-
-jr_002_4bb9:
++
 	ld   c, $02                                      ; $4bb9: $0e $02
-	ld   hl, $0af1                                   ; $4bbb: $21 $f1 $0a
-	call $0bdd                                       ; $4bbe: $cd $dd $0b
+	ld   hl, data_01_0af1                                   ; $4bbb: $21 $f1 $0a
+	call func_01_0bdd                                       ; $4bbe: $cd $dd $0b
 	ld   c, $02                                      ; $4bc1: $0e $02
-	ld   hl, $0af5                                   ; $4bc3: $21 $f5 $0a
-	call $0bdd                                       ; $4bc6: $cd $dd $0b
-	jp   $0bdc                                       ; $4bc9: $c3 $dc $0b
+	ld   hl, data_01_0af5                                   ; $4bc3: $21 $f5 $0a
+	call func_01_0bdd                                       ; $4bc6: $cd $dd $0b
+	jp   @done                                       ; $4bc9: $c3 $dc $0b
 
-
-jr_002_4bcc:
+++
 	ld   c, $02                                      ; $4bcc: $0e $02
-	ld   hl, $0b09                                   ; $4bce: $21 $09 $0b
-	call $0bdd                                       ; $4bd1: $cd $dd $0b
+	ld   hl, data_01_0b09                                   ; $4bce: $21 $09 $0b
+	call func_01_0bdd                                       ; $4bd1: $cd $dd $0b
 	ld   c, $02                                      ; $4bd4: $0e $02
-	ld   hl, $0b0d                                   ; $4bd6: $21 $0d $0b
-	call $0bdd                                       ; $4bd9: $cd $dd $0b
+	ld   hl, data_01_0b0d                                   ; $4bd6: $21 $0d $0b
+	call func_01_0bdd                                       ; $4bd9: $cd $dd $0b
+	
+@done:
 	ret                                              ; $4bdc: $c9
 
 
+func_01_0bdd:
 	ld   de, wScreen1displayOffset                                   ; $4bdd: $11 $dd $c6
 	ld   a, (de)                                     ; $4be0: $1a
 	ld   e, (hl)                                     ; $4be1: $5e
@@ -474,6 +506,7 @@ jr_002_4be6:
 	ret                                              ; $4bec: $c9
 
 
+func_01_0bed:
 	ld   hl, wScreen1displayOffset                                   ; $4bed: $21 $dd $c6
 	ld   a, (hl)                                     ; $4bf0: $7e
 	add  $98                                         ; $4bf1: $c6 $98
@@ -491,7 +524,7 @@ jr_002_4bfb:
 	ld   hl, $c00a                                   ; $4c01: $21 $0a $c0
 	ld   e, (hl)                                     ; $4c04: $5e
 	ld   d, $00                                      ; $4c05: $16 $00
-	ld   hl, $0da3                                   ; $4c07: $21 $a3 $0d
+	ld   hl, data_01_0da3                                   ; $4c07: $21 $a3 $0d
 	add  hl, de                                      ; $4c0a: $19
 	add  hl, de                                      ; $4c0b: $19
 	ld   c, (hl)                                     ; $4c0c: $4e
@@ -514,7 +547,7 @@ jr_002_4bfb:
 	ld   (hl), $ff                                   ; $4c27: $36 $ff
 
 jr_002_4c29:
-	call $0ca1                                       ; $4c29: $cd $a1 $0c
+	call func_01_0ca1                                       ; $4c29: $cd $a1 $0c
 	cp   $01                                         ; $4c2c: $fe $01
 	jr   z, jr_002_4c29                              ; $4c2e: $28 $f9
 
@@ -545,12 +578,12 @@ jr_002_4c29:
 	inc  (hl)                                        ; $4c58: $34
 
 jr_002_4c59:
-	call $0cbf                                       ; $4c59: $cd $bf $0c
-	call $0caa                                       ; $4c5c: $cd $aa $0c
+	call func_01_0cbf                                       ; $4c59: $cd $bf $0c
+	call func_01_0caa                                       ; $4c5c: $cd $aa $0c
 	ld   bc, $0000                                   ; $4c5f: $01 $00 $00
 
 jr_002_4c62:
-	ld   hl, $0ad4                                   ; $4c62: $21 $d4 $0a
+	ld   hl, data_01_0ad4                                   ; $4c62: $21 $d4 $0a
 	add  hl, bc                                      ; $4c65: $09
 	ld   a, (hl)                                     ; $4c66: $7e
 	ld   (de), a                                     ; $4c67: $12
@@ -560,7 +593,7 @@ jr_002_4c62:
 	cp   $04                                         ; $4c6b: $fe $04
 	jr   nz, jr_002_4c72                             ; $4c6d: $20 $03
 
-	call $0cbf                                       ; $4c6f: $cd $bf $0c
+	call func_01_0cbf                                       ; $4c6f: $cd $bf $0c
 
 jr_002_4c72:
 	ld   a, c                                        ; $4c72: $79
@@ -578,7 +611,7 @@ jr_002_4c78:
 	ld   (hl), $00                                   ; $4c81: $36 $00
 
 jr_002_4c83:
-	call $0ca1                                       ; $4c83: $cd $a1 $0c
+	call func_01_0ca1                                       ; $4c83: $cd $a1 $0c
 	ld   hl, $c098                                   ; $4c86: $21 $98 $c0
 	ld   c, (hl)                                     ; $4c89: $4e
 	ld   b, $00                                      ; $4c8a: $06 $00
@@ -599,11 +632,13 @@ jr_002_4ca0:
 	ret                                              ; $4ca0: $c9
 
 
-	call $0cbf                                       ; $4ca1: $cd $bf $0c
-	call $0caa                                       ; $4ca4: $cd $aa $0c
-	jp   $0cc6                                       ; $4ca7: $c3 $c6 $0c
+func_01_0ca1:
+	call func_01_0cbf                                       ; $4ca1: $cd $bf $0c
+	call func_01_0caa                                       ; $4ca4: $cd $aa $0c
+	jp   func_01_0cc6                                       ; $4ca7: $c3 $c6 $0c
 
 
+func_01_0caa:
 	ld   hl, $c00d                                   ; $4caa: $21 $0d $c0
 	ld   a, (hl)                                     ; $4cad: $7e
 	add  $20                                         ; $4cae: $c6 $20
@@ -617,6 +652,7 @@ jr_002_4ca0:
 	ret                                              ; $4cbe: $c9
 
 
+func_01_0cbf:
 	ld   hl, $c00d                                   ; $4cbf: $21 $0d $c0
 	ld   e, (hl)                                     ; $4cc2: $5e
 	inc  hl                                          ; $4cc3: $23
@@ -624,11 +660,12 @@ jr_002_4ca0:
 	ret                                              ; $4cc5: $c9
 
 
+func_01_0cc6:
 	ld   hl, $c009                                   ; $4cc6: $21 $09 $c0
 	ld   (hl), $22                                   ; $4cc9: $36 $22
 
 jr_002_4ccb:
-	call $0d8c                                       ; $4ccb: $cd $8c $0d
+	call func_01_0d8c                                       ; $4ccb: $cd $8c $0d
 	cp   $08                                         ; $4cce: $fe $08
 	jr   c, jr_002_4d38                              ; $4cd0: $38 $66
 
@@ -655,7 +692,7 @@ jr_002_4cde:
 	jr   z, jr_002_4cf6                              ; $4ced: $28 $07
 
 	pop  af                                          ; $4cef: $f1
-	call $0d98                                       ; $4cf0: $cd $98 $0d
+	call func_01_0d98                                       ; $4cf0: $cd $98 $0d
 	ld   a, $20                                      ; $4cf3: $3e $20
 	push af                                          ; $4cf5: $f5
 
@@ -708,7 +745,7 @@ jr_002_4d1d:
 	cp   $20                                         ; $4d27: $fe $20
 	jr   nz, jr_002_4ccb                             ; $4d29: $20 $a0
 
-	call $0d39                                       ; $4d2b: $cd $39 $0d
+	call func_01_0d39                                       ; $4d2b: $cd $39 $0d
 	ld   a, e                                        ; $4d2e: $7b
 	and  $1f                                         ; $4d2f: $e6 $1f
 	add  l                                           ; $4d31: $85
@@ -721,6 +758,7 @@ jr_002_4d38:
 	ret                                              ; $4d38: $c9
 
 
+func_01_0d39:
 	ld   hl, $c08e                                   ; $4d39: $21 $8e $c0
 	ld   c, (hl)                                     ; $4d3c: $4e
 	inc  hl                                          ; $4d3d: $23
@@ -798,6 +836,7 @@ jr_002_4d8b:
 	ret                                              ; $4d8b: $c9
 
 
+func_01_0d8c:
 	ld   hl, $c08e                                   ; $4d8c: $21 $8e $c0
 	ld   c, (hl)                                     ; $4d8f: $4e
 	inc  hl                                          ; $4d90: $23
@@ -810,6 +849,7 @@ jr_002_4d8b:
 	ret                                              ; $4d97: $c9
 
 
+func_01_0d98:
 	ld   hl, $c08e                                   ; $4d98: $21 $8e $c0
 	ld   c, (hl)                                     ; $4d9b: $4e
 	inc  hl                                          ; $4d9c: $23
