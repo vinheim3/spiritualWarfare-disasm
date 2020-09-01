@@ -19,18 +19,23 @@ pattern in these games is to keep common 'bank 0'-like functionality at the begi
 of each bank, so when you swap within that section, you are still executing predictable code
 
 # Directories
+Only stuff that may not be immediately obvious
 * `code` - all the code, maybe a little bit of data
     * `bank_000.s` - core engine stuff
     * `bank_001.s` - very short file that seem to be around room transitions?
     * `bank_004.s` - inventory and item-related code, also audio?
+    * `common.*` - the shared 'bank 0'-like code
 * `data`
     * `*_roomStructsAndLayouts.s` - contains variable-sized structs for rooms,
     and compressed room layout data
     * `bank_*.s` - data that hasn't been decoded yet
     * `roomGroupStructs.s` - rooms are grouped, and this file contains info about
     the groups, with some bytes still having unknown purpose
+    * `vramTileConversionTables.s` - for each of the $20 tilesets, each value
+    in a tile layout is checked against here to turn into its actual tile idx,
+    eg an invisible wall is converted to a black tile
 * `gfx` - compressed graphics and pngs of the graphics
-* `include` - stuff for building, will contain constants in the future
+* `include` - ram definitions, macros, etc
 * `json` - intermediary structures for working with the scripts
 * `layouts` - as in vram bg/window layouts
 * `roomGroup_gfx` - pngs of grouped rooms laid out based on a group's width and height

@@ -637,14 +637,11 @@ drawArmorOfGod:
 
 
 playerNameCharToTileIdx:
-	.db $30 $31 $32 $33 $34 $35 $36 $37
-	.db $38 $39 $41 $42 $43 $44 $45 $46
-	.db $47 $48 $49 $4a $4b $4c $4d $4e
-	.db $4f $50 $51 $52 $53 $54 $55 $56
-	.db $57 $58 $59 $5a $61 $62 $63 $64
-	.db $65 $66 $67 $68 $69 $6a $6b $6c
-	.db $6d $6e $6f $70 $71 $72 $73 $74
-	.db $75 $76 $77 $78 $79 $7a $21 $5c
+	.asc "0123456789"
+	.asc "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	.asc "abcdefghijklmnopqrstuvwxyz"
+	.asc "!"
+	.db $5c  // underscore filler
 
 
 drawPlayerNameInMap:

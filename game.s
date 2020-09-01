@@ -58,7 +58,7 @@
 	.include "data/vramTileConversionTables.s"
 	.include "code/inventoryDrawing.s"
 	.include "data/bank_004.s"
-	.include "code/bank_004.s"
+	.include "code/soundEngine.s"
 	.include "data/b4_roomStructsAndLayouts.s"
 
 	m_GfxDataCompressed spr_04_5201
