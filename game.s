@@ -25,7 +25,7 @@
 
 	.incbin "code/common.bin"
 	.include "code/bank_001.s"
-	.include "data/bank_001.s"
+	.include "data/bank1_textCollection.s"
 
 	m_GfxDataCompressed spr_01_56a7
 	m_GfxDataCompressed spr_01_5e51

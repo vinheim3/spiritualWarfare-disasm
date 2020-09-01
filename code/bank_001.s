@@ -98,6 +98,7 @@ addECto_c009_c008:
 	ret                                              ; $49d2: $c9
 
 
+//------------------ the following few functions have to do with room flags?
 func_01_09d3:
 	call func_01_09ea                                       ; $49d3: $cd $ea $09
 	jr   z, +                              ; $49d6: $28 $03
@@ -134,7 +135,7 @@ func_01_09ed:
 	ld   a, (hl)                                     ; $49f8: $7e
 	ld   hl, $c008                                   ; $49f9: $21 $08 $c0
 	cp   (hl)                                        ; $49fc: $be
-	jr   nz, jr_002_4a12                             ; $49fd: $20 $13
+	jr   nz, @func_0a12                             ; $49fd: $20 $13
 
 	ld   hl, $c101                                   ; $49ff: $21 $01 $c1
 	add  hl, bc                                      ; $4a02: $09
@@ -142,7 +143,7 @@ func_01_09ed:
 	and  $0f                                         ; $4a04: $e6 $0f
 	ld   hl, $c009                                   ; $4a06: $21 $09 $c0
 	cp   (hl)                                        ; $4a09: $be
-	jr   nz, jr_002_4a12                             ; $4a0a: $20 $06
+	jr   nz, @func_0a12                             ; $4a0a: $20 $06
 
 // set z flag
 	ret                                              ; $4a0c: $c9
@@ -152,8 +153,7 @@ func_01_09ed:
 	cp   $00                                         ; $4a0f: $fe $00
 	ret                                              ; $4a11: $c9
 
-
-jr_002_4a12:
+@func_0a12:
 	ld   hl, $c101                                   ; $4a12: $21 $01 $c1
 	add  hl, bc                                      ; $4a15: $09
 	ld   a, (hl)                                     ; $4a16: $7e
@@ -282,8 +282,12 @@ func_01_0a28:
 	ld   hl, $c0fe                                   ; $4acf: $21 $fe $c0
 	inc  (hl)                                        ; $4ad2: $34
 	ret                                              ; $4ad3: $c9
+//------------------ end of what seems to be room flags-related code
 
 
+
+
+//------------------ quiz/text-related stuf
 data_01_0ad4:
 	ld   d, h                                        ; $4ad4: $54
 	ld   (hl), d                                     ; $4ad5: $72
@@ -295,31 +299,18 @@ data_01_0ad4:
 	ld   (hl), e                                     ; $4adb: $73
 	ld   h, l                                        ; $4adc: $65
 	
-data_01_0add:
-	ld   hl, $5198                                   ; $4add: $21 $98 $51
-	ld   (hl), l                                     ; $4ae0: $75
-	ld   h, l                                        ; $4ae1: $65
-	ld   (hl), e                                     ; $4ae2: $73
-	ld   (hl), h                                     ; $4ae3: $74
-	ld   l, c                                        ; $4ae4: $69
-	ld   l, a                                        ; $4ae5: $6f
-	ld   l, (hl)                                     ; $4ae6: $6e
-	jr   nz, $23                                     ; $4ae7: $20 $23
+
+text_questionNum:
+	.dw $9821
+	.asc "Question #"
 
 
-data_01_0ae9:
-	ld   h, c                                        ; $4ae9: $61
-	sbc  b                                           ; $4aea: $98
-	ld   d, b                                        ; $4aeb: $50
-	ld   (hl), d                                     ; $4aec: $72
-	ld   l, c                                        ; $4aed: $69
-	ld   a, d                                        ; $4aee: $7a
-	ld   h, l                                        ; $4aef: $65
-	ldd  a, (hl)                                     ; $4af0: $3a
+text_prize:
+	.dw $9861
+	.asc "Prize:"
 	
 data_01_0af1:
-	ld   b, a                                        ; $4af1: $47
-	sbc  b                                           ; $4af2: $98
+	.dw $9847
 	.db $d4 $d6
 	
 	
@@ -358,7 +349,7 @@ data_01_0b0d:
 	.db  $e3                                         ; $4b10: $e3
 	
 data_01_0b11:
-	ld   l, $98                                      ; $4b11: $2e $98
+	.dw $982e
 	or   h                                           ; $4b13: $b4
 	or   (hl)                                        ; $4b14: $b6
 	cp   b                                           ; $4b15: $b8
@@ -388,13 +379,14 @@ data_01_0b23:
 	ei                                               ; $4b28: $fb
 
 
+
 func_01_0b29:
 	ld   hl, $c020                                   ; $4b29: $21 $20 $c0
 	ld   a, (hl)                                     ; $4b2c: $7e
 	ld   hl, $c00a                                   ; $4b2d: $21 $0a $c0
 	ld   (hl), a                                     ; $4b30: $77
 	cp   $ff                                         ; $4b31: $fe $ff
-	jr   nz, jr_002_4b49                             ; $4b33: $20 $14
+	jr   nz, @next_0b49                             ; $4b33: $20 $14
 
 	ld   hl, $c4df                                   ; $4b35: $21 $df $c4
 	ld   a, (hl)                                     ; $4b38: $7e
@@ -402,54 +394,61 @@ func_01_0b29:
 	ld   (hl), a                                     ; $4b3c: $77
 	add  $01                                         ; $4b3d: $c6 $01
 	cp   $fa                                         ; $4b3f: $fe $fa
-	jr   c, jr_002_4b45                              ; $4b41: $38 $02
+	jr   c, +                              ; $4b41: $38 $02
 
 	ld   a, $00                                      ; $4b43: $3e $00
 
-jr_002_4b45:
++
 	ld   hl, $c4df                                   ; $4b45: $21 $df $c4
 	ld   (hl), a                                     ; $4b48: $77
 
-jr_002_4b49:
+@next_0b49:
 	call func_01_0bed                                       ; $4b49: $cd $ed $0b
-	ld   hl, data_01_0ae9                                   ; $4b4c: $21 $e9 $0a
+
+	ld   hl, text_prize                                   ; $4b4c: $21 $e9 $0a
 	ld   c, $06                                      ; $4b4f: $0e $06
-	call func_01_0bdd                                       ; $4b51: $cd $dd $0b
-	ld   hl, data_01_0add                                   ; $4b54: $21 $dd $0a
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b51: $cd $dd $0b
+
+	ld   hl, text_questionNum                                   ; $4b54: $21 $dd $0a
 	ld   c, $0a                                      ; $4b57: $0e $0a
-	call func_01_0bdd                                       ; $4b59: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b59: $cd $dd $0b
+
 	ld   c, $04                                      ; $4b5c: $0e $04
 	ld   hl, data_01_0b11                                   ; $4b5e: $21 $11 $0b
-	call func_01_0bdd                                       ; $4b61: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b61: $cd $dd $0b
+
 	ld   c, $04                                      ; $4b64: $0e $04
 	ld   hl, data_01_0b17                                   ; $4b66: $21 $17 $0b
-	call func_01_0bdd                                       ; $4b69: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b69: $cd $dd $0b
+
 	ld   c, $04                                      ; $4b6c: $0e $04
 	ld   hl, data_01_0b1d                                   ; $4b6e: $21 $1d $0b
-	call func_01_0bdd                                       ; $4b71: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b71: $cd $dd $0b
+
 	ld   c, $04                                      ; $4b74: $0e $04
 	ld   hl, data_01_0b23                                   ; $4b76: $21 $23 $0b
-	call func_01_0bdd                                       ; $4b79: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b79: $cd $dd $0b
+
 	ld   hl, $c021                                   ; $4b7c: $21 $21 $c0
 	ld   a, (hl)                                     ; $4b7f: $7e
 	cp   $01                                         ; $4b80: $fe $01
-	jr   nz, jr_002_4b9a                             ; $4b82: $20 $16
+	jr   nz, @next_0b9a                             ; $4b82: $20 $16
 
 	ld   hl, $c022                                   ; $4b84: $21 $22 $c0
 	ld   a, (hl)                                     ; $4b87: $7e
 	bit  7, a                                        ; $4b88: $cb $7f
-	jr   nz, jr_002_4b9a                             ; $4b8a: $20 $0e
+	jr   nz, @next_0b9a                             ; $4b8a: $20 $0e
 
 	ld   hl, $c01f                                   ; $4b8c: $21 $1f $c0
 	ld   a, (hl)                                     ; $4b8f: $7e
 	cp   $00                                         ; $4b90: $fe $00
-	jr   nz, jr_002_4b9a                             ; $4b92: $20 $06
+	jr   nz, @next_0b9a                             ; $4b92: $20 $06
 
 	ld   a, $03                                      ; $4b94: $3e $03
 	ld   hl, $c022                                   ; $4b96: $21 $22 $c0
 	ld   (hl), a                                     ; $4b99: $77
 
-jr_002_4b9a:
+@next_0b9a:
 	ld   hl, $c022                                   ; $4b9a: $21 $22 $c0
 	ld   a, (hl)                                     ; $4b9d: $7e
 	bit  7, a                                        ; $4b9e: $cb $7f
@@ -460,34 +459,35 @@ jr_002_4b9a:
 
 	ld   c, $06                                      ; $4ba6: $0e $06
 	ld   hl, data_01_0af9                                   ; $4ba8: $21 $f9 $0a
-	call func_01_0bdd                                       ; $4bab: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4bab: $cd $dd $0b
 	ld   c, $06                                      ; $4bae: $0e $06
 	ld   hl, data_01_0b01                                   ; $4bb0: $21 $01 $0b
-	call func_01_0bdd                                       ; $4bb3: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4bb3: $cd $dd $0b
 	jp   @done                                       ; $4bb6: $c3 $dc $0b
 
 +
 	ld   c, $02                                      ; $4bb9: $0e $02
 	ld   hl, data_01_0af1                                   ; $4bbb: $21 $f1 $0a
-	call func_01_0bdd                                       ; $4bbe: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4bbe: $cd $dd $0b
 	ld   c, $02                                      ; $4bc1: $0e $02
 	ld   hl, data_01_0af5                                   ; $4bc3: $21 $f5 $0a
-	call func_01_0bdd                                       ; $4bc6: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4bc6: $cd $dd $0b
 	jp   @done                                       ; $4bc9: $c3 $dc $0b
 
 ++
 	ld   c, $02                                      ; $4bcc: $0e $02
 	ld   hl, data_01_0b09                                   ; $4bce: $21 $09 $0b
-	call func_01_0bdd                                       ; $4bd1: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4bd1: $cd $dd $0b
 	ld   c, $02                                      ; $4bd4: $0e $02
 	ld   hl, data_01_0b0d                                   ; $4bd6: $21 $0d $0b
-	call func_01_0bdd                                       ; $4bd9: $cd $dd $0b
+	call destAndCbytesToCopyToScreen1AtHL                                       ; $4bd9: $cd $dd $0b
 	
 @done:
 	ret                                              ; $4bdc: $c9
 
 
-func_01_0bdd:
+destAndCbytesToCopyToScreen1AtHL:
+// screen 1 word in hl
 	ld   de, wScreen1displayOffset                                   ; $4bdd: $11 $dd $c6
 	ld   a, (de)                                     ; $4be0: $1a
 	ld   e, (hl)                                     ; $4be1: $5e
@@ -495,36 +495,39 @@ func_01_0bdd:
 	add  (hl)                                        ; $4be3: $86
 	ld   d, a                                        ; $4be4: $57
 	inc  hl                                          ; $4be5: $23
-
-jr_002_4be6:
+// copy memory C
+-
 	ldi  a, (hl)                                     ; $4be6: $2a
 	ld   (de), a                                     ; $4be7: $12
 	inc  de                                          ; $4be8: $13
 	dec  c                                           ; $4be9: $0d
-	jr   nz, jr_002_4be6                             ; $4bea: $20 $fa
+	jr   nz, -                             ; $4bea: $20 $fa
 
 	ret                                              ; $4bec: $c9
 
 
 func_01_0bed:
+// hl = $9c00
 	ld   hl, wScreen1displayOffset                                   ; $4bed: $21 $dd $c6
 	ld   a, (hl)                                     ; $4bf0: $7e
-	add  $98                                         ; $4bf1: $c6 $98
+	add  >$9800                                         ; $4bf1: $c6 $98
 	ld   h, a                                        ; $4bf3: $67
 	ld   l, $00                                      ; $4bf4: $2e $00
+
+// clear screen 1
 	ld   bc, $0240                                   ; $4bf6: $01 $40 $02
 	ld   a, $00                                      ; $4bf9: $3e $00
-
-jr_002_4bfb:
+-
 	ldi  (hl), a                                     ; $4bfb: $22
 	dec  bc                                          ; $4bfc: $0b
 	bit  7, b                                        ; $4bfd: $cb $78
-	jr   z, jr_002_4bfb                              ; $4bff: $28 $fa
+	jr   z, -                              ; $4bff: $28 $fa
 
+//
 	ld   hl, $c00a                                   ; $4c01: $21 $0a $c0
 	ld   e, (hl)                                     ; $4c04: $5e
 	ld   d, $00                                      ; $4c05: $16 $00
-	ld   hl, data_01_0da3                                   ; $4c07: $21 $a3 $0d
+	ld   hl, bank1textData                                   ; $4c07: $21 $a3 $0d
 	add  hl, de                                      ; $4c0a: $19
 	add  hl, de                                      ; $4c0b: $19
 	ld   c, (hl)                                     ; $4c0c: $4e
@@ -546,10 +549,10 @@ jr_002_4bfb:
 	ld   hl, $c008                                   ; $4c24: $21 $08 $c0
 	ld   (hl), $ff                                   ; $4c27: $36 $ff
 
-jr_002_4c29:
+-
 	call func_01_0ca1                                       ; $4c29: $cd $a1 $0c
 	cp   $01                                         ; $4c2c: $fe $01
-	jr   z, jr_002_4c29                              ; $4c2e: $28 $f9
+	jr   z, -                              ; $4c2e: $28 $f9
 
 	push af                                          ; $4c30: $f5
 	ld   a, $02                                      ; $4c31: $3e $02
@@ -569,20 +572,20 @@ jr_002_4c29:
 	ld   (hl), d                                     ; $4c4b: $72
 	pop  af                                          ; $4c4c: $f1
 	cp   $06                                         ; $4c4d: $fe $06
-	jr   z, jr_002_4c59                              ; $4c4f: $28 $08
+	jr   z, +                              ; $4c4f: $28 $08
 
 	cp   $07                                         ; $4c51: $fe $07
-	jr   nz, jr_002_4c78                             ; $4c53: $20 $23
+	jr   nz, @func_0c78                             ; $4c53: $20 $23
 
 	ld   hl, $c0c4                                   ; $4c55: $21 $c4 $c0
 	inc  (hl)                                        ; $4c58: $34
 
-jr_002_4c59:
-	call func_01_0cbf                                       ; $4c59: $cd $bf $0c
-	call func_01_0caa                                       ; $4c5c: $cd $aa $0c
++
+	call store_c00d_wordIntoDE                                       ; $4c59: $cd $bf $0c
+	call c00e_c00d_plusEqu20h                                       ; $4c5c: $cd $aa $0c
 	ld   bc, $0000                                   ; $4c5f: $01 $00 $00
 
-jr_002_4c62:
+-
 	ld   hl, data_01_0ad4                                   ; $4c62: $21 $d4 $0a
 	add  hl, bc                                      ; $4c65: $09
 	ld   a, (hl)                                     ; $4c66: $7e
@@ -591,26 +594,25 @@ jr_002_4c62:
 	inc  bc                                          ; $4c69: $03
 	ld   a, c                                        ; $4c6a: $79
 	cp   $04                                         ; $4c6b: $fe $04
-	jr   nz, jr_002_4c72                             ; $4c6d: $20 $03
+	jr   nz, +                             ; $4c6d: $20 $03
 
-	call func_01_0cbf                                       ; $4c6f: $cd $bf $0c
+	call store_c00d_wordIntoDE                                       ; $4c6f: $cd $bf $0c
 
-jr_002_4c72:
++
 	ld   a, c                                        ; $4c72: $79
 	cp   $09                                         ; $4c73: $fe $09
-	jr   nz, jr_002_4c62                             ; $4c75: $20 $eb
+	jr   nz, -                             ; $4c75: $20 $eb
 
 	ret                                              ; $4c77: $c9
 
-
-jr_002_4c78:
+@func_0c78:
 	ld   a, $00                                      ; $4c78: $3e $00
 	ld   hl, $c098                                   ; $4c7a: $21 $98 $c0
 	ld   (hl), a                                     ; $4c7d: $77
 	ld   hl, $c008                                   ; $4c7e: $21 $08 $c0
 	ld   (hl), $00                                   ; $4c81: $36 $00
 
-jr_002_4c83:
+@loop:
 	call func_01_0ca1                                       ; $4c83: $cd $a1 $0c
 	ld   hl, $c098                                   ; $4c86: $21 $98 $c0
 	ld   c, (hl)                                     ; $4c89: $4e
@@ -618,32 +620,33 @@ jr_002_4c83:
 	ld   hl, $c098                                   ; $4c8c: $21 $98 $c0
 	inc  (hl)                                        ; $4c8f: $34
 	cp   $02                                         ; $4c90: $fe $02
-	jr   z, jr_002_4c83                              ; $4c92: $28 $ef
+	jr   z, @loop                              ; $4c92: $28 $ef
 
 	cp   $05                                         ; $4c94: $fe $05
-	jr   z, jr_002_4ca0                              ; $4c96: $28 $08
+	jr   z, @done                              ; $4c96: $28 $08
 
 	ld   hl, $c0c4                                   ; $4c98: $21 $c4 $c0
 	ld   (hl), c                                     ; $4c9b: $71
 	cp   $03                                         ; $4c9c: $fe $03
-	jr   z, jr_002_4c83                              ; $4c9e: $28 $e3
+	jr   z, @loop                              ; $4c9e: $28 $e3
 
-jr_002_4ca0:
+@done:
 	ret                                              ; $4ca0: $c9
 
 
 func_01_0ca1:
-	call func_01_0cbf                                       ; $4ca1: $cd $bf $0c
-	call func_01_0caa                                       ; $4ca4: $cd $aa $0c
+	call store_c00d_wordIntoDE                                       ; $4ca1: $cd $bf $0c
+	call c00e_c00d_plusEqu20h                                       ; $4ca4: $cd $aa $0c
 	jp   func_01_0cc6                                       ; $4ca7: $c3 $c6 $0c
 
 
-func_01_0caa:
+c00e_c00d_plusEqu20h:
 	ld   hl, $c00d                                   ; $4caa: $21 $0d $c0
 	ld   a, (hl)                                     ; $4cad: $7e
 	add  $20                                         ; $4cae: $c6 $20
 	ld   hl, $c00d                                   ; $4cb0: $21 $0d $c0
 	ld   (hl), a                                     ; $4cb3: $77
+
 	ld   hl, $c00e                                   ; $4cb4: $21 $0e $c0
 	ld   a, (hl)                                     ; $4cb7: $7e
 	adc  $00                                         ; $4cb8: $ce $00
@@ -652,7 +655,7 @@ func_01_0caa:
 	ret                                              ; $4cbe: $c9
 
 
-func_01_0cbf:
+store_c00d_wordIntoDE:
 	ld   hl, $c00d                                   ; $4cbf: $21 $0d $c0
 	ld   e, (hl)                                     ; $4cc2: $5e
 	inc  hl                                          ; $4cc3: $23
@@ -664,48 +667,48 @@ func_01_0cc6:
 	ld   hl, $c009                                   ; $4cc6: $21 $09 $c0
 	ld   (hl), $22                                   ; $4cc9: $36 $22
 
-jr_002_4ccb:
+@bigLoop:
 	call func_01_0d8c                                       ; $4ccb: $cd $8c $0d
 	cp   $08                                         ; $4cce: $fe $08
-	jr   c, jr_002_4d38                              ; $4cd0: $38 $66
+	jr   c, @done                              ; $4cd0: $38 $66
 
 	cp   $5f                                         ; $4cd2: $fe $5f
-	jr   z, jr_002_4cde                              ; $4cd4: $28 $08
+	jr   z, +                              ; $4cd4: $28 $08
 
 	cp   $41                                         ; $4cd6: $fe $41
-	jr   c, jr_002_4cf7                              ; $4cd8: $38 $1d
+	jr   c, @func_0cf7                              ; $4cd8: $38 $1d
 
 	cp   $5b                                         ; $4cda: $fe $5b
-	jr   nc, jr_002_4cf7                             ; $4cdc: $30 $19
+	jr   nc, @func_0cf7                             ; $4cdc: $30 $19
 
-jr_002_4cde:
++
 	push af                                          ; $4cde: $f5
 	ld   hl, $c009                                   ; $4cdf: $21 $09 $c0
 	ld   a, (hl)                                     ; $4ce2: $7e
 	cp   $22                                         ; $4ce3: $fe $22
-	jr   z, jr_002_4cf6                              ; $4ce5: $28 $0f
+	jr   z, +                              ; $4ce5: $28 $0f
 
 	cp   $2c                                         ; $4ce7: $fe $2c
-	jr   z, jr_002_4cf6                              ; $4ce9: $28 $0b
+	jr   z, +                              ; $4ce9: $28 $0b
 
 	cp   $20                                         ; $4ceb: $fe $20
-	jr   z, jr_002_4cf6                              ; $4ced: $28 $07
+	jr   z, +                              ; $4ced: $28 $07
 
 	pop  af                                          ; $4cef: $f1
 	call func_01_0d98                                       ; $4cf0: $cd $98 $0d
 	ld   a, $20                                      ; $4cf3: $3e $20
 	push af                                          ; $4cf5: $f5
 
-jr_002_4cf6:
++
 	pop  af                                          ; $4cf6: $f1
 
-jr_002_4cf7:
+@func_0cf7:
 	ld   (de), a                                     ; $4cf7: $12
 	inc  de                                          ; $4cf8: $13
 	ld   hl, $c009                                   ; $4cf9: $21 $09 $c0
 	ld   (hl), a                                     ; $4cfc: $77
 	cp   $5f                                         ; $4cfd: $fe $5f
-	jr   nz, jr_002_4d09                             ; $4cff: $20 $08
+	jr   nz, +                             ; $4cff: $20 $08
 
 	ld   (de), a                                     ; $4d01: $12
 	inc  de                                          ; $4d02: $13
@@ -716,45 +719,45 @@ jr_002_4cf7:
 	ld   (de), a                                     ; $4d07: $12
 	inc  de                                          ; $4d08: $13
 
-jr_002_4d09:
++
 	cp   $2c                                         ; $4d09: $fe $2c
-	jr   z, jr_002_4d19                              ; $4d0b: $28 $0c
+	jr   z, +                              ; $4d0b: $28 $0c
 
 	cp   $3b                                         ; $4d0d: $fe $3b
-	jr   z, jr_002_4d19                              ; $4d0f: $28 $08
+	jr   z, +                              ; $4d0f: $28 $08
 
 	cp   $3f                                         ; $4d11: $fe $3f
-	jr   z, jr_002_4d19                              ; $4d13: $28 $04
+	jr   z, +                              ; $4d13: $28 $04
 
 	cp   $21                                         ; $4d15: $fe $21
-	jr   nz, jr_002_4d1d                             ; $4d17: $20 $04
+	jr   nz, @next_0d1d                             ; $4d17: $20 $04
 
-jr_002_4d19:
++
 	ld   a, $20                                      ; $4d19: $3e $20
 	ld   (de), a                                     ; $4d1b: $12
 	inc  de                                          ; $4d1c: $13
 
-jr_002_4d1d:
+@next_0d1d:
 	ld   c, a                                        ; $4d1d: $4f
 	ld   hl, $c008                                   ; $4d1e: $21 $08 $c0
 	ld   a, (hl)                                     ; $4d21: $7e
 	cp   $00                                         ; $4d22: $fe $00
-	jr   z, jr_002_4ccb                              ; $4d24: $28 $a5
+	jr   z, @bigLoop                              ; $4d24: $28 $a5
 
 	ld   a, c                                        ; $4d26: $79
 	cp   $20                                         ; $4d27: $fe $20
-	jr   nz, jr_002_4ccb                             ; $4d29: $20 $a0
+	jr   nz, @bigLoop                             ; $4d29: $20 $a0
 
 	call func_01_0d39                                       ; $4d2b: $cd $39 $0d
 	ld   a, e                                        ; $4d2e: $7b
 	and  $1f                                         ; $4d2f: $e6 $1f
 	add  l                                           ; $4d31: $85
 	cp   $15                                         ; $4d32: $fe $15
-	jr   c, jr_002_4ccb                              ; $4d34: $38 $95
+	jr   c, @bigLoop                              ; $4d34: $38 $95
 
 	ld   a, $01                                      ; $4d36: $3e $01
 
-jr_002_4d38:
+@done:
 	ret                                              ; $4d38: $c9
 
 
@@ -766,73 +769,75 @@ func_01_0d39:
 	ld   l, $00                                      ; $4d3f: $2e $00
 	ld   h, $00                                      ; $4d41: $26 $00
 
-jr_002_4d43:
+@bigLoop:
 	ld   a, (bc)                                     ; $4d43: $0a
 	inc  bc                                          ; $4d44: $03
 	cp   $20                                         ; $4d45: $fe $20
-	jr   z, jr_002_4d8b                              ; $4d47: $28 $42
+	jr   z, @done                              ; $4d47: $28 $42
 
 	cp   $08                                         ; $4d49: $fe $08
-	jr   c, jr_002_4d8b                              ; $4d4b: $38 $3e
+	jr   c, @done                              ; $4d4b: $38 $3e
 
 	inc  l                                           ; $4d4d: $2c
 	cp   $5f                                         ; $4d4e: $fe $5f
-	jr   nz, jr_002_4d5e                             ; $4d50: $20 $0c
+	jr   nz, +                             ; $4d50: $20 $0c
 
 	ld   h, a                                        ; $4d52: $67
 	ld   a, l                                        ; $4d53: $7d
 	cp   $01                                         ; $4d54: $fe $01
-	jr   nz, jr_002_4d8b                             ; $4d56: $20 $33
+	jr   nz, @done                             ; $4d56: $20 $33
 
 	inc  l                                           ; $4d58: $2c
 	inc  l                                           ; $4d59: $2c
 	inc  l                                           ; $4d5a: $2c
 	inc  l                                           ; $4d5b: $2c
-	jr   jr_002_4d43                                 ; $4d5c: $18 $e5
+	jr   @bigLoop                                 ; $4d5c: $18 $e5
 
-jr_002_4d5e:
++
+
+// go to done, or 0d88, with optional pop af, if after the push af
 	cp   $2c                                         ; $4d5e: $fe $2c
-	jr   z, jr_002_4d8b                              ; $4d60: $28 $29
+	jr   z, @done                              ; $4d60: $28 $29
 
 	cp   $3b                                         ; $4d62: $fe $3b
-	jr   z, jr_002_4d8b                              ; $4d64: $28 $25
+	jr   z, @done                              ; $4d64: $28 $25
 
 	cp   $3f                                         ; $4d66: $fe $3f
-	jr   z, jr_002_4d8b                              ; $4d68: $28 $21
+	jr   z, @done                              ; $4d68: $28 $21
 
 	cp   $21                                         ; $4d6a: $fe $21
-	jr   z, jr_002_4d8b                              ; $4d6c: $28 $1d
+	jr   z, @done                              ; $4d6c: $28 $1d
 
 	cp   $41                                         ; $4d6e: $fe $41
-	jr   c, jr_002_4d88                              ; $4d70: $38 $16
+	jr   c, @func_0d88                              ; $4d70: $38 $16
 
 	cp   $5b                                         ; $4d72: $fe $5b
-	jr   nc, jr_002_4d88                             ; $4d74: $30 $12
+	jr   nc, @func_0d88                             ; $4d74: $30 $12
 
 	push af                                          ; $4d76: $f5
 	ld   a, h                                        ; $4d77: $7c
 	cp   $22                                         ; $4d78: $fe $22
-	jr   z, jr_002_4d87                              ; $4d7a: $28 $0b
+	jr   z, @func_0d87                              ; $4d7a: $28 $0b
 
 	cp   $2c                                         ; $4d7c: $fe $2c
-	jr   z, jr_002_4d87                              ; $4d7e: $28 $07
+	jr   z, @func_0d87                              ; $4d7e: $28 $07
 
 	ld   a, l                                        ; $4d80: $7d
 	cp   $01                                         ; $4d81: $fe $01
-	jr   z, jr_002_4d87                              ; $4d83: $28 $02
+	jr   z, @func_0d87                              ; $4d83: $28 $02
 
 	pop  af                                          ; $4d85: $f1
 	ret                                              ; $4d86: $c9
 
 
-jr_002_4d87:
+@func_0d87:
 	pop  af                                          ; $4d87: $f1
 
-jr_002_4d88:
+@func_0d88:
 	ld   h, a                                        ; $4d88: $67
-	jr   jr_002_4d43                                 ; $4d89: $18 $b8
+	jr   @bigLoop                                 ; $4d89: $18 $b8
 
-jr_002_4d8b:
+@done:
 	ret                                              ; $4d8b: $c9
 
 
