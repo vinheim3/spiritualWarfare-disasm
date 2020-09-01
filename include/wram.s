@@ -92,7 +92,35 @@ wPlayerMaxHealth: ; $c073
 	db
 
 wc074:
-	dsb $da-$74
+	db
+
+wRoomCompressedLayoutAddr: ; $c075
+	dw
+
+wc077:
+	dsb 9-7
+
+// ie 4 or 0
+wRoomStructByteWhenFirstByteBitSet2: ; $c079
+	db
+
+wc07a:
+	dsb $90-$7a
+
+wSecondRoomStructByteBit4: ; $c090
+	db
+
+wAddrOfRooms40hTableAt_02_4acd: ; $c091
+	dw
+
+wc093:
+	dsb $b5-$93
+
+wBytePatternInRoomStructAfterlayoutAddr: ; $c0b5
+	dw
+
+wc0b7:
+	dsb $da-$b7
 
 wCurrGroupMapVRamOffset: ; $c0da
 	dw
@@ -128,13 +156,33 @@ w2x2gameScreenTiles: ; $c3b0
 	dsb $b0
 
 wc460:
-	dsb $5fa-$460
+	dsb $5f0-$460
+
+wRoomStructWord_whenFirstByteBit7set_1: ; $c5f0
+	dw
+
+wRoomStructWord_whenFirstByteBit6set_1: ; $c5f2
+	dw
+
+// if 2nd byte's bit 5 is set, this is overridden with the word after it
+wRoomStructWord_whenFirstByteBit7set_2: ; $c5f4
+	dw
+
+// if 2nd byte's bit 5 is set, this is overridden with the word after above
+wRoomStructWord_whenFirstByteBit6set_2: ; $c5f6
+	dw
+
+wc5f8:
+	dsb $a-8
 
 wNumKeys: ; $c5fa
 	db
 
 wc5fb:
-	dsb $f-$b
+	dsb $e-$b
+
+wSecondRoomStructByteBit7: ; $c5fe
+	db
 
 wTilesetIdx: ; $c5ff
 	db
@@ -207,7 +255,16 @@ wRoomGroupNameLine2: ; $c71d
 	dsb 7
 
 wc724:
-	dsb $850-$724
+	dsb $b-4
+
+wFirstRoomStructByte: ; $c72b
+	db
+
+wSecondRoomStructByte: ; $c72c
+	db
+
+wc72d:
+	dsb $850-$72d
 
 wGameScreenTiles: ; $c850
 	dsb $2c0

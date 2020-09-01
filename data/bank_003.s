@@ -5,6 +5,7 @@
 ; https://github.com/mattcurrie/mgbdis
 ; https://github.com/vinheim3
 
+data_03_094b:
 	add  b                                           ; $494b: $80
 	ld   c, l                                        ; $494c: $4d
 	sub  e                                           ; $494d: $93

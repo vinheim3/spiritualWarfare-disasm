@@ -145,6 +145,7 @@ copyMemoryInBankA:
 	ret
 
 
+// sound-related functions
 Jump_000_01be:
 	ld   hl, :func_04_1fc2                                   ; $01be: $21 $04 $00
 	ld   (hl), a                                     ; $01c1: $77
@@ -273,10 +274,10 @@ call_b0_getCurrRoomGroupsWidthAndHeight:
 	jp   loadFirst1000hVramTiles@popAFjpBankA
 
 
-Call_000_0250:
-// $c006 is currently a room struct
+loadRoomStructData:
+// $c006 currently points to a room struct
 
-// c05c is the bank to get data from
+// wTileLayoutDataBank is the bank to get data from
 	ld   hl, wTileLayoutDataBank                                   ; $0250: $21 $5c $c0
 	ld   l, (hl)                                     ; $0253: $6e
 	ld   h, $00                                      ; $0254: $26 $00
@@ -289,7 +290,7 @@ Call_000_0250:
 	ld   h, (hl)                                     ; $025e: $66
 	ld   l, a                                        ; $025f: $6f
 	ld   a, (hl)                                     ; $0260: $7e
-	ld   hl, $c72b                                   ; $0261: $21 $2b $c7
+	ld   hl, wFirstRoomStructByte                                   ; $0261: $21 $2b $c7
 	ld   (hl), a                                     ; $0264: $77
 
 	inc  de                                          ; $0265: $13
@@ -303,9 +304,10 @@ Call_000_0250:
 	ld   l, a                                        ; $026f: $6f
 	add  hl, de                                      ; $0270: $19
 	ld   a, (hl)                                     ; $0271: $7e
-	ld   hl, $c5f0                                   ; $0272: $21 $f0 $c5
+// next byte into c5f0 and c5f4
+	ld   hl, wRoomStructWord_whenFirstByteBit7set_1                                   ; $0272: $21 $f0 $c5
 	ld   (hl), a                                     ; $0275: $77
-	ld   hl, $c5f4                                   ; $0276: $21 $f4 $c5
+	ld   hl, wRoomStructWord_whenFirstByteBit7set_2                                   ; $0276: $21 $f4 $c5
 	ld   (hl), a                                     ; $0279: $77
 	inc  de                                          ; $027a: $13
 	ld   hl, $c006                                   ; $027b: $21 $06 $c0
@@ -314,14 +316,15 @@ Call_000_0250:
 	ld   h, (hl)                                     ; $0280: $66
 	ld   l, a                                        ; $0281: $6f
 	ld   a, (hl)                                     ; $0282: $7e
-	ld   hl, $c5f1                                   ; $0283: $21 $f1 $c5
+// next byte into c5f1 and c5f5
+	ld   hl, wRoomStructWord_whenFirstByteBit7set_1+1                                   ; $0283: $21 $f1 $c5
 	ld   (hl), a                                     ; $0286: $77
-	ld   hl, $c5f5                                   ; $0287: $21 $f5 $c5
+	ld   hl, wRoomStructWord_whenFirstByteBit7set_2+1                                   ; $0287: $21 $f5 $c5
 	ld   (hl), a                                     ; $028a: $77
 	inc  de                                          ; $028b: $13
 
 @next_028c:
-	ld   hl, $c72b                                   ; $028c: $21 $2b $c7
+	ld   hl, wFirstRoomStructByte                                   ; $028c: $21 $2b $c7
 	ld   a, (hl)                                     ; $028f: $7e
 	and  $40                                         ; $0290: $e6 $40
 	jr   z, @next_02b6                              ; $0292: $28 $22
@@ -333,9 +336,10 @@ Call_000_0250:
 	ld   l, a                                        ; $0299: $6f
 	add  hl, de                                      ; $029a: $19
 	ld   a, (hl)                                     ; $029b: $7e
-	ld   hl, $c5f2                                   ; $029c: $21 $f2 $c5
+// next byte into c5f2 and c5f6
+	ld   hl, wRoomStructWord_whenFirstByteBit6set_1                                   ; $029c: $21 $f2 $c5
 	ld   (hl), a                                     ; $029f: $77
-	ld   hl, $c5f6                                   ; $02a0: $21 $f6 $c5
+	ld   hl, wRoomStructWord_whenFirstByteBit6set_2                                   ; $02a0: $21 $f6 $c5
 	ld   (hl), a                                     ; $02a3: $77
 	inc  de                                          ; $02a4: $13
 	ld   hl, $c006                                   ; $02a5: $21 $06 $c0
@@ -344,18 +348,19 @@ Call_000_0250:
 	ld   l, a                                        ; $02aa: $6f
 	add  hl, de                                      ; $02ab: $19
 	ld   a, (hl)                                     ; $02ac: $7e
-	ld   hl, $c5f3                                   ; $02ad: $21 $f3 $c5
+// next byte into c5f3 and c5f7
+	ld   hl, wRoomStructWord_whenFirstByteBit6set_1+1                                   ; $02ad: $21 $f3 $c5
 	ld   (hl), a                                     ; $02b0: $77
-	ld   hl, $c5f7                                   ; $02b1: $21 $f7 $c5
+	ld   hl, wRoomStructWord_whenFirstByteBit6set_2+1                                   ; $02b1: $21 $f7 $c5
 	ld   (hl), a                                     ; $02b4: $77
 	inc  de                                          ; $02b5: $13
 
 @next_02b6:
 // $c079 is 1st struct byte's bit 2
-	ld   hl, $c72b                                   ; $02b6: $21 $2b $c7
+	ld   hl, wFirstRoomStructByte                                   ; $02b6: $21 $2b $c7
 	ld   a, (hl)                                     ; $02b9: $7e
 	and  $04                                         ; $02ba: $e6 $04
-	ld   hl, $c079                                   ; $02bc: $21 $79 $c0
+	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $02bc: $21 $79 $c0
 	ld   (hl), a                                     ; $02bf: $77
 	cp   $00                                         ; $02c0: $fe $00
 	jr   z, @next_02d1                              ; $02c2: $28 $0d
@@ -367,7 +372,7 @@ Call_000_0250:
 	ld   l, a                                        ; $02c9: $6f
 	add  hl, de                                      ; $02ca: $19
 	ld   a, (hl)                                     ; $02cb: $7e
-	ld   hl, $c079                                   ; $02cc: $21 $79 $c0
+	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $02cc: $21 $79 $c0
 	ld   (hl), a                                     ; $02cf: $77
 	inc  de                                          ; $02d0: $13
 
@@ -382,32 +387,32 @@ Call_000_0250:
 	inc  de                                          ; $02d9: $13
 
 // store it in $c72c
-	ld   hl, $c72c                                   ; $02da: $21 $2c $c7
+	ld   hl, wSecondRoomStructByte                                   ; $02da: $21 $2c $c7
 	ld   (hl), a                                     ; $02dd: $77
 	and  $80                                         ; $02de: $e6 $80
 // store its bit 7 in $c5fe
-	ld   hl, $c5fe                                   ; $02e0: $21 $fe $c5
+	ld   hl, wSecondRoomStructByteBit7                                   ; $02e0: $21 $fe $c5
 	ld   (hl), a                                     ; $02e3: $77
-	ld   hl, $c72c                                   ; $02e4: $21 $2c $c7
+	ld   hl, wSecondRoomStructByte                                   ; $02e4: $21 $2c $c7
 	ld   a, (hl)                                     ; $02e7: $7e
 	and  $40                                         ; $02e8: $e6 $40
 	jr   z, +                              ; $02ea: $28 $06
 
-// run the following if 2nd byte's bit 6 is set
+// TODO: run the following if 2nd byte's bit 6 is set
 	ld   a, $00                                      ; $02ec: $3e $00
 	ld   hl, $c04a                                   ; $02ee: $21 $4a $c0
 	ld   (hl), a                                     ; $02f1: $77
 
 +
 // 2nd byte's bit 4 in $c090
-	ld   hl, $c72c                                   ; $02f2: $21 $2c $c7
+	ld   hl, wSecondRoomStructByte                                   ; $02f2: $21 $2c $c7
 	ld   a, (hl)                                     ; $02f5: $7e
 	and  $10                                         ; $02f6: $e6 $10
-	ld   hl, $c090                                   ; $02f8: $21 $90 $c0
+	ld   hl, wSecondRoomStructByteBit4                                   ; $02f8: $21 $90 $c0
 	ld   (hl), a                                     ; $02fb: $77
 
 // 2nd byte's low nybble x2 in wTilesetIdx
-	ld   hl, $c72c                                   ; $02fc: $21 $2c $c7
+	ld   hl, wSecondRoomStructByte                                   ; $02fc: $21 $2c $c7
 	ld   a, (hl)                                     ; $02ff: $7e
 	and  $0f                                         ; $0300: $e6 $0f
 	sla  a                                           ; $0302: $cb $27
@@ -419,17 +424,17 @@ Call_000_0250:
 	sla  c                                           ; $030b: $cb $21
 	rl   b                                           ; $030d: $cb $10
 .endr
-// low 2 bits are now at upper 2 bits
-	ld   hl, $4acd                                   ; $031f: $21 $cd $4a
+// lower nybble * $40
+	ld   hl, data_02_4acd                                   ; $031f: $21 $cd $4a
 	add  hl, bc                                      ; $0322: $09
 	push hl                                          ; $0323: $e5
 	pop  bc                                          ; $0324: $c1
-	ld   hl, $c091                                   ; $0325: $21 $91 $c0
+	ld   hl, wAddrOfRooms40hTableAt_02_4acd                                   ; $0325: $21 $91 $c0
 	ld   (hl), c                                     ; $0328: $71
 	inc  hl                                          ; $0329: $23
 	ld   (hl), b                                     ; $032a: $70
 
-	ld   hl, $c72c                                   ; $032b: $21 $2c $c7
+	ld   hl, wSecondRoomStructByte                                   ; $032b: $21 $2c $c7
 	ld   a, (hl)                                     ; $032e: $7e
 	and  $20                                         ; $032f: $e6 $20
 	jr   z, @next_0367                              ; $0331: $28 $34
@@ -441,10 +446,8 @@ Call_000_0250:
 	ld   l, a                                        ; $0338: $6f
 	add  hl, de                                      ; $0339: $19
 	ld   a, (hl)                                     ; $033a: $7e
-	ld   hl, $c5f4                                   ; $033b: $21 $f4 $c5
+	ld   hl, wRoomStructWord_whenFirstByteBit7set_2                                   ; $033b: $21 $f4 $c5
 	ld   (hl), a                                     ; $033e: $77
-
-//
 	inc  de                                          ; $033f: $13
 	ld   hl, $c006                                   ; $0340: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0343: $2a
@@ -452,10 +455,8 @@ Call_000_0250:
 	ld   l, a                                        ; $0345: $6f
 	add  hl, de                                      ; $0346: $19
 	ld   a, (hl)                                     ; $0347: $7e
-	ld   hl, $c5f5                                   ; $0348: $21 $f5 $c5
+	ld   hl, wRoomStructWord_whenFirstByteBit7set_2+1                                   ; $0348: $21 $f5 $c5
 	ld   (hl), a                                     ; $034b: $77
-
-//
 	inc  de                                          ; $034c: $13
 	ld   hl, $c006                                   ; $034d: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0350: $2a
@@ -463,10 +464,8 @@ Call_000_0250:
 	ld   l, a                                        ; $0352: $6f
 	add  hl, de                                      ; $0353: $19
 	ld   a, (hl)                                     ; $0354: $7e
-	ld   hl, $c5f6                                   ; $0355: $21 $f6 $c5
+	ld   hl, wRoomStructWord_whenFirstByteBit6set_2                                   ; $0355: $21 $f6 $c5
 	ld   (hl), a                                     ; $0358: $77
-
-//
 	inc  de                                          ; $0359: $13
 	ld   hl, $c006                                   ; $035a: $21 $06 $c0
 	ldi  a, (hl)                                     ; $035d: $2a
@@ -474,7 +473,7 @@ Call_000_0250:
 	ld   l, a                                        ; $035f: $6f
 	add  hl, de                                      ; $0360: $19
 	ld   a, (hl)                                     ; $0361: $7e
-	ld   hl, $c5f7                                   ; $0362: $21 $f7 $c5
+	ld   hl, wRoomStructWord_whenFirstByteBit6set_2+1                                   ; $0362: $21 $f7 $c5
 	ld   (hl), a                                     ; $0365: $77
 	inc  de                                          ; $0366: $13
 
@@ -486,7 +485,7 @@ Call_000_0250:
 	ld   l, a                                        ; $036c: $6f
 	add  hl, de                                      ; $036d: $19
 	ld   a, (hl)                                     ; $036e: $7e
-	ld   hl, $c075                                   ; $036f: $21 $75 $c0
+	ld   hl, wRoomCompressedLayoutAddr                                   ; $036f: $21 $75 $c0
 	ld   (hl), a                                     ; $0372: $77
 	ld   hl, $c008                                   ; $0373: $21 $08 $c0
 	ld   (hl), a                                     ; $0376: $77
@@ -499,48 +498,51 @@ Call_000_0250:
 	ld   l, a                                        ; $037d: $6f
 	add  hl, de                                      ; $037e: $19
 	ld   a, (hl)                                     ; $037f: $7e
-	ld   hl, $c076                                   ; $0380: $21 $76 $c0
+	ld   hl, wRoomCompressedLayoutAddr+1                                   ; $0380: $21 $76 $c0
 	ld   (hl), a                                     ; $0383: $77
 	ld   hl, $c009                                   ; $0384: $21 $09 $c0
 	ld   (hl), a                                     ; $0387: $77
 
-//
+// c007/6 and c0b6/5 = current addr in room struct
 	inc  de                                          ; $0388: $13
 	ld   a, e                                        ; $0389: $7b
 	ld   hl, $c006                                   ; $038a: $21 $06 $c0
 	add  (hl)                                        ; $038d: $86
-	ld   hl, $c0b5                                   ; $038e: $21 $b5 $c0
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $038e: $21 $b5 $c0
 	ld   (hl), a                                     ; $0391: $77
 	ld   hl, $c006                                   ; $0392: $21 $06 $c0
 	ld   (hl), a                                     ; $0395: $77
 	ld   hl, $c007                                   ; $0396: $21 $07 $c0
 	ld   a, (hl)                                     ; $0399: $7e
 	adc  $00                                         ; $039a: $ce $00
-	ld   hl, $c0b6                                   ; $039c: $21 $b6 $c0
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1                                   ; $039c: $21 $b6 $c0
 	ld   (hl), a                                     ; $039f: $77
 	ld   hl, $c007                                   ; $03a0: $21 $07 $c0
 	ld   (hl), a                                     ; $03a3: $77
-	ld   de, $0000                                   ; $03a4: $11 $00 $00
 
-//
-	ld   hl, $c72b                                   ; $03a7: $21 $2b $c7
+// offset back to 0
+	ld   de, $0000                                   ; $03a4: $11 $00 $00
+	ld   hl, wFirstRoomStructByte                                   ; $03a7: $21 $2b $c7
 	ld   a, (hl)                                     ; $03aa: $7e
 	and  $20                                         ; $03ab: $e6 $20
-	jr   z, Jump_000_03bf                              ; $03ad: $28 $10
+	jr   z, @next_03bf                              ; $03ad: $28 $10
 
-	ld   a, $be                                      ; $03af: $3e $be
-	ld   hl, $c0b5                                   ; $03b1: $21 $b5 $c0
+// first struct byte bit 5 set
+	ld   a, <@terminator                                      ; $03af: $3e $be
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $03b1: $21 $b5 $c0
 	ld   (hl), a                                     ; $03b4: $77
-	ld   a, $03                                      ; $03b5: $3e $03
-	ld   hl, $c0b6                                   ; $03b7: $21 $b6 $c0
+	ld   a, >@terminator                                      ; $03b5: $3e $03
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1                                   ; $03b7: $21 $b6 $c0
 	ld   (hl), a                                     ; $03ba: $77
-	jp   Jump_000_03e6                               ; $03bb: $c3 $e6 $03
+	jp   @afterBytePattern                               ; $03bb: $c3 $e6 $03
 
-;;
-	rst  $38                                         ; $03be: $ff
+@terminator:
+	.db $ff
 
-Jump_000_03bf:
-	ld   hl, $c0b5                                   ; $03bf: $21 $b5 $c0
+@next_03bf:
+// first struct byte bit 5 not set
+-
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $03bf: $21 $b5 $c0
 	ldi  a, (hl)                                     ; $03c2: $2a
 	ld   h, (hl)                                     ; $03c3: $66
 	ld   l, a                                        ; $03c4: $6f
@@ -552,22 +554,23 @@ Jump_000_03bf:
 	ld   a, e                                        ; $03cb: $7b
 	add  $07                                         ; $03cc: $c6 $07
 	ld   e, a                                        ; $03ce: $5f
-	jp   Jump_000_03bf                               ; $03cf: $c3 $bf $03
+	jp   -                               ; $03cf: $c3 $bf $03
 
 +
+// c006/7 now at byte after previous byte pattern
 	inc  de                                          ; $03d2: $13
 	ld   a, e                                        ; $03d3: $7b
-	ld   hl, $c0b5                                   ; $03d4: $21 $b5 $c0
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $03d4: $21 $b5 $c0
 	add  (hl)                                        ; $03d7: $86
 	ld   hl, $c006                                   ; $03d8: $21 $06 $c0
 	ld   (hl), a                                     ; $03db: $77
-	ld   hl, $c0b6                                   ; $03dc: $21 $b6 $c0
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1                                   ; $03dc: $21 $b6 $c0
 	ld   a, (hl)                                     ; $03df: $7e
 	adc  $00                                         ; $03e0: $ce $00
 	ld   hl, $c007                                   ; $03e2: $21 $07 $c0
 	ld   (hl), a                                     ; $03e5: $77
 
-Jump_000_03e6:
+@afterBytePattern:
 	ld   bc, $0000                                   ; $03e6: $01 $00 $00
 
 @keepFilling2x2TileData:
@@ -664,26 +667,29 @@ Jump_000_03e6:
 	cp   $b0                                         ; $0461: $fe $b0
 	jp   c, @keepFilling2x2TileData                            ; $0463: $da $e9 $03
 
-;;
-	ld   hl, $c075                                   ; $0466: $21 $75 $c0
+// after loading compressed layout data
+// store that address in c009/c008
+	ld   hl, wRoomCompressedLayoutAddr                                   ; $0466: $21 $75 $c0
 	ld   a, (hl)                                     ; $0469: $7e
 	ld   hl, $c008                                   ; $046a: $21 $08 $c0
 	ld   (hl), a                                     ; $046d: $77
-	ld   hl, $c076                                   ; $046e: $21 $76 $c0
+	ld   hl, wRoomCompressedLayoutAddr+1                                   ; $046e: $21 $76 $c0
 	ld   a, (hl)                                     ; $0471: $7e
 	ld   hl, $c009                                   ; $0472: $21 $09 $c0
 	ld   (hl), a                                     ; $0475: $77
+
+// TODO:
 	ld   de, $0000                                   ; $0476: $11 $00 $00
 	ld   bc, $0000                                   ; $0479: $01 $00 $00
 
-Jump_000_047c:
+@bigLoop_047c:
 	ld   hl, $c5e0                                   ; $047c: $21 $e0 $c5
 	add  hl, bc                                      ; $047f: $09
 	ld   (hl), e                                     ; $0480: $73
 	inc  bc                                          ; $0481: $03
 	ld   a, c                                        ; $0482: $79
 	cp   $0b                                         ; $0483: $fe $0b
-	jr   z, jr_000_04d0                              ; $0485: $28 $49
+	jr   z, @next_04d0                              ; $0485: $28 $49
 
 	ld   a, $ff                                      ; $0487: $3e $ff
 	ld   hl, $c00a                                   ; $0489: $21 $0a $c0
@@ -693,7 +699,7 @@ Jump_000_047c:
 	add  hl, bc                                      ; $0492: $09
 	ld   (hl), a                                     ; $0493: $77
 
-jr_000_0494:
+@smallLoopUpTo10h:
 	ld   hl, $c008                                   ; $0494: $21 $08 $c0
 	ldi  a, (hl)                                     ; $0497: $2a
 	ld   h, (hl)                                     ; $0498: $66
@@ -714,13 +720,13 @@ jr_000_0494:
 	and  $fc                                         ; $04ac: $e6 $fc
 	ld   hl, $c00a                                   ; $04ae: $21 $0a $c0
 	cp   (hl)                                        ; $04b1: $be
-	jr   nz, jr_000_04bb                             ; $04b2: $20 $07
+	jr   nz, +                             ; $04b2: $20 $07
 
 	ld   hl, $c00b                                   ; $04b4: $21 $0b $c0
 	sla  (hl)                                        ; $04b7: $cb $26
 	sla  (hl)                                        ; $04b9: $cb $26
 
-jr_000_04bb:
++
 	ld   hl, $c00a                                   ; $04bb: $21 $0a $c0
 	ld   (hl), a                                     ; $04be: $77
 	ld   hl, $c00b                                   ; $04bf: $21 $0b $c0
@@ -730,12 +736,12 @@ jr_000_04bb:
 	add  (hl)                                        ; $04c7: $86
 	ld   (hl), a                                     ; $04c8: $77
 	cp   $10                                         ; $04c9: $fe $10
-	jr   c, jr_000_0494                              ; $04cb: $38 $c7
+	jr   c, @smallLoopUpTo10h                              ; $04cb: $38 $c7
 
-	jp   Jump_000_047c                               ; $04cd: $c3 $7c $04
+	jp   @bigLoop_047c                               ; $04cd: $c3 $7c $04
 
-
-jr_000_04d0:
+//
+@next_04d0:
 	ld   hl, $c007                                   ; $04d0: $21 $07 $c0
 	ld   a, (hl)                                     ; $04d3: $7e
 	push af                                          ; $04d4: $f5
@@ -746,34 +752,33 @@ jr_000_04d0:
 	ld   hl, $c0fc                                   ; $04dd: $21 $fc $c0
 	ld   (hl), c                                     ; $04e0: $71
 
-jr_000_04e1:
+@loop_04e1:
 	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $04e1: $21 $00 $c3
 	add  hl, bc                                      ; $04e4: $09
 	ld   a, (hl)                                     ; $04e5: $7e
 	cp   $10                                         ; $04e6: $fe $10
-	jr   nc, jr_000_04f1                             ; $04e8: $30 $07
+	jr   nc, +                             ; $04e8: $30 $07
 
 	cp   $03                                         ; $04ea: $fe $03
-	jr   c, jr_000_04f1                              ; $04ec: $38 $03
+	jr   c, +                              ; $04ec: $38 $03
 
 	call Call_000_073a                               ; $04ee: $cd $3a $07
 
-jr_000_04f1:
++
 	inc  bc                                          ; $04f1: $03
 	ld   a, c                                        ; $04f2: $79
 	cp   $b0                                         ; $04f3: $fe $b0
-	jr   nz, jr_000_04e1                             ; $04f5: $20 $ea
+	jr   nz, @loop_04e1                             ; $04f5: $20 $ea
 
 	ld   de, $0000                                   ; $04f7: $11 $00 $00
 	ld   hl, $c00a                                   ; $04fa: $21 $0a $c0
 	ld   (hl), e                                     ; $04fd: $73
-	ld   hl, $c72b                                   ; $04fe: $21 $2b $c7
+	ld   hl, wFirstRoomStructByte                                   ; $04fe: $21 $2b $c7
 	ld   a, (hl)                                     ; $0501: $7e
 	and  $10                                         ; $0502: $e6 $10
-	jr   nz, jr_000_054d                             ; $0504: $20 $47
+	jr   nz, @func_054d                             ; $0504: $20 $47
 
-Jump_000_0506:
-jr_000_0506:
+@bigLoop_0506:
 	ld   hl, $c006                                   ; $0506: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0509: $2a
 	ld   h, (hl)                                     ; $050a: $66
@@ -781,7 +786,7 @@ jr_000_0506:
 	add  hl, de                                      ; $050c: $19
 	ld   a, (hl)                                     ; $050d: $7e
 	cp   $ff                                         ; $050e: $fe $ff
-	jr   z, jr_000_054c                              ; $0510: $28 $3a
+	jr   z, @func_054c                              ; $0510: $28 $3a
 
 	call Call_000_073a                               ; $0512: $cd $3a $07
 	ld   a, $02                                      ; $0515: $3e $02
@@ -790,7 +795,7 @@ jr_000_0506:
 	ld   hl, $c00a                                   ; $051b: $21 $0a $c0
 	ld   a, (hl)                                     ; $051e: $7e
 	cp   $00                                         ; $051f: $fe $00
-	jr   z, jr_000_053b                              ; $0521: $28 $18
+	jr   z, @next_053b                              ; $0521: $28 $18
 
 	ld   hl, $c0a0                                   ; $0523: $21 $a0 $c0
 	inc  (hl)                                        ; $0526: $34
@@ -804,40 +809,39 @@ jr_000_0506:
 	dec  de                                          ; $0530: $1b
 	and  $80                                         ; $0531: $e6 $80
 	bit  7, a                                        ; $0533: $cb $7f
-	jr   nz, jr_000_053b                             ; $0535: $20 $04
+	jr   nz, @next_053b                             ; $0535: $20 $04
 
 	ld   hl, $c0a0                                   ; $0537: $21 $a0 $c0
 	inc  (hl)                                        ; $053a: $34
 
-jr_000_053b:
+@next_053b:
 	ld   a, e                                        ; $053b: $7b
 	ld   hl, $c0a0                                   ; $053c: $21 $a0 $c0
 	add  (hl)                                        ; $053f: $86
 	ld   e, a                                        ; $0540: $5f
 	ld   d, $00                                      ; $0541: $16 $00
-	jr   nc, jr_000_0506                             ; $0543: $30 $c1
+	jr   nc, @bigLoop_0506                             ; $0543: $30 $c1
 
 	ld   hl, $c007                                   ; $0545: $21 $07 $c0
 	inc  (hl)                                        ; $0548: $34
-	jp   Jump_000_0506                               ; $0549: $c3 $06 $05
+	jp   @bigLoop_0506                               ; $0549: $c3 $06 $05
 
-
-jr_000_054c:
+@func_054c:
 	inc  de                                          ; $054c: $13
 
-jr_000_054d:
+@func_054d:
 	ld   hl, $c00a                                   ; $054d: $21 $0a $c0
 	ld   a, (hl)                                     ; $0550: $7e
 	cp   $00                                         ; $0551: $fe $00
-	jr   nz, jr_000_055f                             ; $0553: $20 $0a
+	jr   nz, +                             ; $0553: $20 $0a
 
 	ld   (hl), $01                                   ; $0555: $36 $01
-	ld   hl, $c72b                                   ; $0557: $21 $2b $c7
+	ld   hl, wFirstRoomStructByte                                   ; $0557: $21 $2b $c7
 	ld   a, (hl)                                     ; $055a: $7e
 	and  $08                                         ; $055b: $e6 $08
-	jr   z, jr_000_0506                              ; $055d: $28 $a7
+	jr   z, @bigLoop_0506                              ; $055d: $28 $a7
 
-jr_000_055f:
++
 	ld   hl, $0001                                   ; $055f: $21 $01 $00
 	ld   (hl), a                                     ; $0562: $77
 	call getRoomIdxWithinAllRooms                                       ; $0563: $cd $56 $09
@@ -857,12 +861,12 @@ jr_000_055f:
 	ld   de, $0000                                   ; $057e: $11 $00 $00
 	ld   hl, $c0fc                                   ; $0581: $21 $fc $c0
 	ld   (hl), e                                     ; $0584: $73
-	ld   hl, $c72b                                   ; $0585: $21 $2b $c7
+	ld   hl, wFirstRoomStructByte                                   ; $0585: $21 $2b $c7
 	ld   a, (hl)                                     ; $0588: $7e
 	and  $10                                         ; $0589: $e6 $10
-	jr   nz, jr_000_05d8                             ; $058b: $20 $4b
+	jr   nz, @next_05d8                             ; $058b: $20 $4b
 
-Jump_000_058d:
+@bigLoop_058d:
 	ld   hl, $c006                                   ; $058d: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0590: $2a
 	ld   h, (hl)                                     ; $0591: $66
@@ -870,10 +874,10 @@ Jump_000_058d:
 	add  hl, de                                      ; $0593: $19
 	ld   a, (hl)                                     ; $0594: $7e
 	cp   $ff                                         ; $0595: $fe $ff
-	jr   z, jr_000_05d7                              ; $0597: $28 $3e
+	jr   z, @next_05d7                              ; $0597: $28 $3e
 
 	call Call_000_072c                               ; $0599: $cd $2c $07
-	jr   c, jr_000_05cf                              ; $059c: $38 $31
+	jr   c, @skip_05cf                              ; $059c: $38 $31
 
 	ld   hl, $c006                                   ; $059e: $21 $06 $c0
 	ldi  a, (hl)                                     ; $05a1: $2a
@@ -908,35 +912,34 @@ Jump_000_058d:
 	call Call_000_085c                               ; $05cb: $cd $5c $08
 	pop  de                                          ; $05ce: $d1
 
-jr_000_05cf:
+@skip_05cf:
 	inc  de                                          ; $05cf: $13
 	inc  de                                          ; $05d0: $13
 	call Call_000_073a                               ; $05d1: $cd $3a $07
-	jp   Jump_000_058d                               ; $05d4: $c3 $8d $05
+	jp   @bigLoop_058d                               ; $05d4: $c3 $8d $05
 
-
-jr_000_05d7:
+@next_05d7:
 	inc  de                                          ; $05d7: $13
 
-jr_000_05d8:
+@next_05d8:
 	ld   a, e                                        ; $05d8: $7b
 	ld   hl, $c006                                   ; $05d9: $21 $06 $c0
 	add  (hl)                                        ; $05dc: $86
 	ld   (hl), a                                     ; $05dd: $77
-	jr   nc, jr_000_05e4                             ; $05de: $30 $04
+	jr   nc, +                             ; $05de: $30 $04
 
 	ld   hl, $c007                                   ; $05e0: $21 $07 $c0
 	inc  (hl)                                        ; $05e3: $34
 
-jr_000_05e4:
++
 	ld   de, $0000                                   ; $05e4: $11 $00 $00
 	ld   bc, $0000                                   ; $05e7: $01 $00 $00
-	ld   hl, $c72b                                   ; $05ea: $21 $2b $c7
+	ld   hl, wFirstRoomStructByte                                   ; $05ea: $21 $2b $c7
 	ld   a, (hl)                                     ; $05ed: $7e
 	and  $08                                         ; $05ee: $e6 $08
-	jp   nz, Jump_000_06a0                           ; $05f0: $c2 $a0 $06
+	jp   nz, @next_06a0                           ; $05f0: $c2 $a0 $06
 
-Jump_000_05f3:
+@bigLoop_05f3:
 	ld   hl, $c006                                   ; $05f3: $21 $06 $c0
 	ldi  a, (hl)                                     ; $05f6: $2a
 	ld   h, (hl)                                     ; $05f7: $66
@@ -944,14 +947,14 @@ Jump_000_05f3:
 	add  hl, de                                      ; $05f9: $19
 	ld   a, (hl)                                     ; $05fa: $7e
 	cp   $ff                                         ; $05fb: $fe $ff
-	jp   z, Jump_000_06a0                            ; $05fd: $ca $a0 $06
+	jp   z, @next_06a0                            ; $05fd: $ca $a0 $06
 
 	ld   a, c                                        ; $0600: $79
 	cp   $0c                                         ; $0601: $fe $0c
-	jp   nc, Jump_000_06a0                           ; $0603: $d2 $a0 $06
+	jp   nc, @next_06a0                           ; $0603: $d2 $a0 $06
 
 	call Call_000_072c                               ; $0606: $cd $2c $07
-	jr   nc, jr_000_061e                             ; $0609: $30 $13
+	jr   nc, ++                             ; $0609: $30 $13
 
 	inc  de                                          ; $060b: $13
 	ld   hl, $c006                                   ; $060c: $21 $06 $c0
@@ -968,10 +971,9 @@ Jump_000_05f3:
 +
 	inc  de                                          ; $0619: $13
 	inc  de                                          ; $061a: $13
-	jp   Jump_000_069a                               ; $061b: $c3 $9a $06
+	jp   @next_069a                               ; $061b: $c3 $9a $06
 
-
-jr_000_061e:
+++
 	ld   hl, $c006                                   ; $061e: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0621: $2a
 	ld   h, (hl)                                     ; $0622: $66
@@ -1023,7 +1025,7 @@ jr_000_061e:
 	pop  af                                          ; $065f: $f1
 	push af                                          ; $0660: $f5
 	bit  7, a                                        ; $0661: $cb $7f
-	jr   z, jr_000_0683                              ; $0663: $28 $1e
+	jr   z, +                              ; $0663: $28 $1e
 
 	dec  de                                          ; $0665: $1b
 	ld   hl, $cb3c                                   ; $0666: $21 $3c $cb
@@ -1044,10 +1046,10 @@ jr_000_061e:
 	add  hl, bc                                      ; $0681: $09
 	ld   (hl), a                                     ; $0682: $77
 
-jr_000_0683:
++
 	pop  af                                          ; $0683: $f1
 	and  $40                                         ; $0684: $e6 $40
-	jr   z, jr_000_0690                              ; $0686: $28 $08
+	jr   z, +                              ; $0686: $28 $08
 
 	ld   hl, $cb48                                   ; $0688: $21 $48 $cb
 	add  hl, bc                                      ; $068b: $09
@@ -1055,7 +1057,7 @@ jr_000_0683:
 	add  $08                                         ; $068d: $c6 $08
 	ld   (hl), a                                     ; $068f: $77
 
-jr_000_0690:
++
 	ld   hl, $c0fc                                   ; $0690: $21 $fc $c0
 	ld   a, (hl)                                     ; $0693: $7e
 	ld   hl, $cbf0                                   ; $0694: $21 $f0 $cb
@@ -1063,30 +1065,29 @@ jr_000_0690:
 	ld   (hl), a                                     ; $0698: $77
 	inc  bc                                          ; $0699: $03
 
-Jump_000_069a:
+@next_069a:
 	call Call_000_073a                               ; $069a: $cd $3a $07
-	jp   Jump_000_05f3                               ; $069d: $c3 $f3 $05
+	jp   @bigLoop_05f3                               ; $069d: $c3 $f3 $05
 
-
-Jump_000_06a0:
+@next_06a0:
+-
 	ld   a, c                                        ; $06a0: $79
 	cp   $0c                                         ; $06a1: $fe $0c
-	jp   nc, Jump_000_06b0                           ; $06a3: $d2 $b0 $06
+	jp   nc, +                           ; $06a3: $d2 $b0 $06
 
 	ld   hl, $cb30                                   ; $06a6: $21 $30 $cb
 	add  hl, bc                                      ; $06a9: $09
 	ld   (hl), $ff                                   ; $06aa: $36 $ff
 	inc  bc                                          ; $06ac: $03
-	jp   Jump_000_06a0                               ; $06ad: $c3 $a0 $06
+	jp   -                               ; $06ad: $c3 $a0 $06
 
-
-Jump_000_06b0:
++
 	ld   de, $0000                                   ; $06b0: $11 $00 $00
 
-jr_000_06b3:
+@bigLoop_06b3:
 	ld   bc, $0000                                   ; $06b3: $01 $00 $00
 
-jr_000_06b6:
+@slightlySmallerLoop_06b6:
 	call store16ePlusCin_c01e                               ; $06b6: $cd $0d $09
 	ld   hl, $c0a0                                   ; $06b9: $21 $a0 $c0
 	ld   (hl), c                                     ; $06bc: $71
@@ -1100,21 +1101,20 @@ jr_000_06b6:
 	ld   c, (hl)                                     ; $06cb: $4e
 	ld   b, $00                                      ; $06cc: $06 $00
 	cp   $27                                         ; $06ce: $fe $27
-	jr   nz, jr_000_06d5                             ; $06d0: $20 $03
+	jr   nz, +                             ; $06d0: $20 $03
 
-	jp   Jump_000_070a                               ; $06d2: $c3 $0a $07
+	jp   @next_070a                               ; $06d2: $c3 $0a $07
 
-
-jr_000_06d5:
++
 	cp   $10                                         ; $06d5: $fe $10
-	jr   nc, Jump_000_070a                             ; $06d7: $30 $31
+	jr   nc, @next_070a                             ; $06d7: $30 $31
 
 	cp   $03                                         ; $06d9: $fe $03
-	jr   c, Jump_000_070a                              ; $06db: $38 $2d
+	jr   c, @next_070a                              ; $06db: $38 $2d
 
 	push af                                          ; $06dd: $f5
 	call Call_000_072c                               ; $06de: $cd $2c $07
-	jr   nc, jr_000_0703                             ; $06e1: $30 $20
+	jr   nc, +                             ; $06e1: $30 $20
 
 // deals with clearing tiles, eg bombs if bombs gotten
 	pop  af                                          ; $06e3: $f1
@@ -1127,7 +1127,7 @@ jr_000_06d5:
 	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $06ee: $21 $00 $c3
 	add  hl, bc                                      ; $06f1: $09
 	ld   (hl), a                                     ; $06f2: $77
-	ld   hl, $c079                                   ; $06f3: $21 $79 $c0
+	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $06f3: $21 $79 $c0
 	ld   a, (hl)                                     ; $06f6: $7e
 	ld   hl, w2x2gameScreenTiles                                   ; $06f7: $21 $b0 $c3
 	add  hl, bc                                      ; $06fa: $09
@@ -1135,26 +1135,25 @@ jr_000_06d5:
 	pop  af                                          ; $06fc: $f1
 	ld   c, a                                        ; $06fd: $4f
 	ld   b, $00                                      ; $06fe: $06 $00
-	jp   Jump_000_0707                               ; $0700: $c3 $07 $07
+	jp   @next_0707                               ; $0700: $c3 $07 $07
 
-
-jr_000_0703:
++
 	pop  af                                          ; $0703: $f1
 	call Call_000_085c                               ; $0704: $cd $5c $08
 
-Jump_000_0707:
+@next_0707:
 	call Call_000_073a                               ; $0707: $cd $3a $07
 
-Jump_000_070a:
+@next_070a:
 	inc  bc                                          ; $070a: $03
 	ld   a, c                                        ; $070b: $79
 	cp   $10                                         ; $070c: $fe $10
-	jr   c, jr_000_06b6                              ; $070e: $38 $a6
+	jr   c, @slightlySmallerLoop_06b6                              ; $070e: $38 $a6
 
 	inc  de                                          ; $0710: $13
 	ld   a, e                                        ; $0711: $7b
 	cp   $0b                                         ; $0712: $fe $0b
-	jr   c, jr_000_06b3                              ; $0714: $38 $9d
+	jr   c, @bigLoop_06b3                              ; $0714: $38 $9d
 
 	ld   bc, $0003                                   ; $0716: $01 $03 $00
 	ld   a, $00                                      ; $0719: $3e $00
@@ -1173,6 +1172,7 @@ Jump_000_070a:
 	ret                                              ; $072b: $c9
 
 
+//----------------- seems to be room flags-related
 Call_000_072c:
 	push bc                                          ; $072c: $c5
 	call Call_000_0749                               ; $072d: $cd $49 $07
@@ -1235,7 +1235,7 @@ Call_000_076b:
 	ld   e, a                                        ; $0778: $5f
 	ld   d, $00                                      ; $0779: $16 $00
 // word in $c091 + layout data byte in de, store in
-	ld   hl, $c091                                   ; $077b: $21 $91 $c0
+	ld   hl, wAddrOfRooms40hTableAt_02_4acd                                   ; $077b: $21 $91 $c0
 	ldi  a, (hl)                                     ; $077e: $2a
 	ld   h, (hl)                                     ; $077f: $66
 	ld   l, a                                        ; $0780: $6f
@@ -1256,6 +1256,8 @@ Call_000_078b:
 	ld   l, (hl)                                     ; $0790: $6e
 	ld   h, $00                                      ; $0791: $26 $00
 	ld   (hl), a                                     ; $0793: $77
+
+//
 	ld   hl, $c5e0                                   ; $0794: $21 $e0 $c5
 	add  hl, de                                      ; $0797: $19
 	ld   a, (hl)                                     ; $0798: $7e
@@ -1268,8 +1270,8 @@ Call_000_078b:
 	ld   hl, $c0a2                                   ; $07a4: $21 $a2 $c0
 	ld   (hl), a                                     ; $07a7: $77
 
-Jump_000_07a8:
-	ld   hl, $c075                                   ; $07a8: $21 $75 $c0
+@loop_07a8:
+	ld   hl, wRoomCompressedLayoutAddr                                   ; $07a8: $21 $75 $c0
 	ldi  a, (hl)                                     ; $07ab: $2a
 	ld   h, (hl)                                     ; $07ac: $66
 	ld   l, a                                        ; $07ad: $6f
@@ -1283,7 +1285,7 @@ Jump_000_07a8:
 	ld   b, a                                        ; $07b8: $47
 	ld   hl, $c0a2                                   ; $07b9: $21 $a2 $c0
 	cp   (hl)                                        ; $07bc: $be
-	jr   nz, jr_000_07c6                             ; $07bd: $20 $07
+	jr   nz, +                             ; $07bd: $20 $07
 
 	pop  af                                          ; $07bf: $f1
 	sla  a                                           ; $07c0: $cb $27
@@ -1291,7 +1293,7 @@ Jump_000_07a8:
 	push af                                          ; $07c4: $f5
 	ld   a, b                                        ; $07c5: $78
 
-jr_000_07c6:
++
 	ld   hl, $c0a2                                   ; $07c6: $21 $a2 $c0
 	ld   (hl), a                                     ; $07c9: $77
 	pop  af                                          ; $07ca: $f1
@@ -1300,15 +1302,14 @@ jr_000_07c6:
 	add  (hl)                                        ; $07cf: $86
 	ld   (hl), a                                     ; $07d0: $77
 	cp   c                                           ; $07d1: $b9
-	jr   nc, jr_000_07dc                             ; $07d2: $30 $08
+	jr   nc, @next_07dc                             ; $07d2: $30 $08
 
 	ld   hl, $c0a1                                   ; $07d4: $21 $a1 $c0
 	inc  (hl)                                        ; $07d7: $34
 	inc  de                                          ; $07d8: $13
-	jp   Jump_000_07a8                               ; $07d9: $c3 $a8 $07
+	jp   @loop_07a8                               ; $07d9: $c3 $a8 $07
 
-
-jr_000_07dc:
+@next_07dc:
 	ld   a, b                                        ; $07dc: $78
 	ld   hl, $c028                                   ; $07dd: $21 $28 $c0
 	ld   (hl), a                                     ; $07e0: $77
@@ -1318,7 +1319,7 @@ jr_000_07dc:
 	cp   $00                                         ; $07e7: $fe $00
 	jr   z, +                              ; $07e9: $28 $08
 
-	ld   hl, $c079                                   ; $07eb: $21 $79 $c0
+	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $07eb: $21 $79 $c0
 	ld   a, (hl)                                     ; $07ee: $7e
 	ld   hl, $c028                                   ; $07ef: $21 $28 $c0
 	ld   (hl), a                                     ; $07f2: $77
