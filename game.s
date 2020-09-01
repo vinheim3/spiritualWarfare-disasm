@@ -15,7 +15,7 @@
 .bank $000 slot 0
 .org $0
 
-	.include "common.s"
+	.include "code/common.s"
 	.include "code/bank_000.s"
 	.include "data/roomGroupStructs.s"
 
@@ -23,7 +23,7 @@
 .bank $001 slot 0
 .org $0
 
-	.incbin "common.bin"
+	.incbin "code/common.bin"
 	.include "code/bank_001.s"
 	.include "data/bank_001.s"
 
@@ -35,7 +35,7 @@
 .bank $002 slot 0
 .org $0
 
-	.incbin "common.bin"
+	.incbin "code/common.bin"
 	.include "data/b2_roomStructsAndLayouts.s"
 	.include "data/bank_002.s"
 
@@ -45,7 +45,7 @@
 .bank $003 slot 0
 .org $0
 
-	.incbin "common.bin"
+	.incbin "code/common.bin"
 	.include "data/bank_003.s"
 
 	m_GfxDataCompressed spr_03_6b0f
@@ -54,8 +54,10 @@
 .bank $004 slot 0
 .org $0
 
-	.incbin "common.bin"
+	.incbin "code/common.bin"
 	.include "data/vramTileConversionTables.s"
+	.include "code/inventoryDrawing.s"
+	.include "data/bank_004.s"
 	.include "code/bank_004.s"
 	.include "data/b4_roomStructsAndLayouts.s"
 
@@ -67,7 +69,7 @@
 .bank $005 slot 0
 .org $0
 
-	.incbin "common.bin"
+	.incbin "code/common.bin"
 
 	m_GfxDataCompressed spr_05_094b
 	m_GfxDataCompressed spr_05_1753
@@ -83,7 +85,7 @@
 .bank $006 slot 0
 .org $0
 
-	.incbin "common.bin"
+	.incbin "code/common.bin"
 	.include "data/bank_006.s"
 
 	m_GfxDataCompressed spr_06_1bfd
@@ -99,7 +101,7 @@
 .bank $007 slot 0
 .org $0
 
-	.incbin "common.bin"
+	.incbin "code/common.bin"
 
 	m_GfxDataCompressed spr_07_094b
 	m_GfxDataCompressed spr_07_173a

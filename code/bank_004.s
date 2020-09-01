@@ -5,709 +5,6 @@
 ; https://github.com/mattcurrie/mgbdis
 ; https://github.com/vinheim3
 
-//
-bItemTopLeftTileIdxs:
-	.db $c8 $84 $d8
-
-
-// fruits
-aItemTopTileIdxs:
-	.db $92 $96 $94 $98 $90
-
-
-armorOfGodVramLocs:
-	.dw $98aa
-	.dw $98ad
-	.dw $98b0
-	.dw $98f0
-	.dw $98ea
-	.dw $98ed
-
-
-drawInDynamicPartOfInventoryScreen:
-	ld   hl, wNumBombs
-	ld   a, (hl)
-	ld   de, $99ec
-	call drawBombsOrKeys
-
-	ld   hl, wNumKeys
-	ld   a, (hl)
-	ld   de, $99e7
-	call drawBombsOrKeys
-
-	call drawNumBirds
-	call drawHearts
-	call drawFruitAmounts
-	call drawScore
-	call drawBitem
-	call drawAitem
-	call drawRailroadTicketIfRetrieved
-	call drawSelectableBitems
-	call drawArmorOfGod
-	ret
-
-
-drawNumBirds:
-	ld   hl, wNumBirds
-	ld   a, (hl)
-	ld   de, $99f1
-	call func_04_1234
-	ret
-
-
-drawInDynamicPartOfMap:
-	call drawAreaTextInMapScreen
-	call drawCurrentLocationInMap
-	call drawPlayerNameInMap
-	ret
-
-
-// build up a byte in a, each bit signalling if we have that
-// selectable b item
-checkBitemsSelectable:
-	ld   hl, wNumBirds
-	ld   a, (hl)
-	cp   $0a
-	jr   nc, @moreThan10birds
-
-	ld   a, $00
-	jr   @checkBombs
-
-// can pray
-@moreThan10birds:
-	ld   a, $80
-
-@checkBombs:
-
-// always display bombs
-	or   $01
-	ld   hl, wNumBombs
-	ld   c, (hl)
-	ld   b, $00
-	jr   nz, +
-	xor  $01
-+
-
-// c0a0 is used as temp storage
-	ld   hl, wSpecialItemsGottenByte
-	ld   (hl), a
-
-// bit 0 set of special items byte, put in bit 3
-	ld   hl, wSpecialBitemsGotten
-	ld   a, (hl)
-	and  $01
-	sla  a
-	sla  a
-	sla  a
-	ld   hl, wSpecialItemsGottenByte
-	or   (hl)
-
-	ld   hl, wSpecialItemsGottenByte
-	ld   (hl), a
-
-// bit 1 set of special items byte, put in bit 1
-	ld   hl, wSpecialBitemsGotten
-	ld   a, (hl)
-	and  $02
-	ld   hl, wSpecialItemsGottenByte
-	or   (hl)
-
-	ld   hl, wSpecialItemsGottenByte
-	ld   (hl), a
-
-// bit 2 set of special items byte, put in bit 4
-	ld   hl, wSpecialBitemsGotten
-	ld   a, (hl)
-	and  $04
-	sla  a
-	sla  a
-	ld   hl, wSpecialItemsGottenByte
-	or   (hl)
-
-	ld   hl, wSpecialItemsGottenByte
-	ld   (hl), a
-
-// bit 5 and 6 - anointing oils
-	ld   hl, wAnointingOilsGotten
-	ld   a, (hl)
-	and  $03
-	sla  a
-	sla  a
-	sla  a
-	sla  a
-	sla  a
-	ld   hl, wSpecialItemsGottenByte
-	or   (hl)
-
-	ld   hl, wSpecialItemsGottenByte
-	ld   (hl), a
-
-// bit 2 - sword of the spirit
-	ld   hl, wArmorOfGodGotten
-	ld   a, (hl)
-	and  $20
-	srl  a
-	srl  a
-	srl  a
-	ld   hl, wSpecialItemsGottenByte
-	or   (hl)
-	ld   hl, wSpecialItemsGottenByte
-	ld   (hl), a
-	ret
-
-
-;;
-	ld   hl, $c000                                   ; $5223: $21 $00 $c0
-	ld   (hl), $01                                   ; $5226: $36 $01
-	jr   jr_008_5239                                 ; $5228: $18 $0f
-
-
-drawBombsOrKeys:
-	ld   hl, $c000                                   ; $522a: $21 $00 $c0
-	ld   (hl), $02                                   ; $522d: $36 $02
-	call aIsMax99                                       ; $522f: $cd $ef $12
-	jr   jr_008_5239                                 ; $5232: $18 $05
-
-func_04_1234:
-	ld   hl, $c000                                   ; $5234: $21 $00 $c0
-	ld   (hl), $03                                   ; $5237: $36 $03
-
-jr_008_5239:
-	ld   c, a                                        ; $5239: $4f
-	ld   b, $00                                      ; $523a: $06 $00
-	call b4_dEquDoffsetInScreen1                                       ; $523c: $cd $01 $13
-	ld   hl, $c5fc                                   ; $523f: $21 $fc $c5
-	ld   (hl), e                                     ; $5242: $73
-	inc  hl                                          ; $5243: $23
-	ld   (hl), d                                     ; $5244: $72
-	ld   a, $0a                                      ; $5245: $3e $0a
-	call bcDivA_divInC_modInAB                                       ; $5247: $cd $44 $08
-	ld   hl, $c0a0                                   ; $524a: $21 $a0 $c0
-	ld   (hl), b                                     ; $524d: $70
-	ld   b, $00                                      ; $524e: $06 $00
-	ld   a, $0a                                      ; $5250: $3e $0a
-	call bcDivA_divInC_modInAB                                       ; $5252: $cd $44 $08
-	ld   hl, $c0a1                                   ; $5255: $21 $a1 $c0
-	ld   (hl), b                                     ; $5258: $70
-	ld   hl, $c0a2                                   ; $5259: $21 $a2 $c0
-	ld   (hl), c                                     ; $525c: $71
-	ld   hl, $c000                                   ; $525d: $21 $00 $c0
-	ld   a, (hl)                                     ; $5260: $7e
-	cp   $01                                         ; $5261: $fe $01
-	jr   nz, +                             ; $5263: $20 $08
-
-	ld   hl, $c0a0                                   ; $5265: $21 $a0 $c0
-	call copyHLDDigitTileIdxIntoDE                                       ; $5268: $cd $e1 $12
-	jr   @next_1299                                 ; $526b: $18 $2c
-
-+
-	cp   $02                                         ; $526d: $fe $02
-	jr   nz, +                             ; $526f: $20 $0b
-
-	ld   hl, $c0a1                                   ; $5271: $21 $a1 $c0
-	call copyHLDDigitTileIdxIntoDE                                       ; $5274: $cd $e1 $12
-	call copyHLDDigitTileIdxIntoDE                                       ; $5277: $cd $e1 $12
-	jr   @next_1299                                 ; $527a: $18 $1d
-
-+
-	ld   hl, $c0a2                                   ; $527c: $21 $a2 $c0
-	ld   a, (hl)                                     ; $527f: $7e
-	cp   $00                                         ; $5280: $fe $00
-	jr   nz, +                             ; $5282: $20 $0c
-
-	dec  hl                                          ; $5284: $2b
-	call copyHLDDigitTileIdxIntoDE                                       ; $5285: $cd $e1 $12
-	call copyHLDDigitTileIdxIntoDE                                       ; $5288: $cd $e1 $12
-	ld   a, $00                                      ; $528b: $3e $00
-	ld   (de), a                                     ; $528d: $12
-	jr   @next_1299                                 ; $528e: $18 $09
-
-+
-	call copyHLDDigitTileIdxIntoDE                                       ; $5290: $cd $e1 $12
-	call copyHLDDigitTileIdxIntoDE                                       ; $5293: $cd $e1 $12
-	call copyHLDDigitTileIdxIntoDE                                       ; $5296: $cd $e1 $12
-
-@next_1299:
-// start copying bottom half of tiles
-	ld   hl, $c5fc                                   ; $5299: $21 $fc $c5
-	ldi  a, (hl)                                     ; $529c: $2a
-	add  $20                                         ; $529d: $c6 $20
-	ld   e, a                                        ; $529f: $5f
-	ld   a, (hl)                                     ; $52a0: $7e
-	adc  $00                                         ; $52a1: $ce $00
-	ld   d, a                                        ; $52a3: $57
-	ld   hl, $c000                                   ; $52a4: $21 $00 $c0
-	ld   a, (hl)                                     ; $52a7: $7e
-	cp   $01                                         ; $52a8: $fe $01
-	jr   nz, +                             ; $52aa: $20 $08
-
-	ld   hl, $c0a0                                   ; $52ac: $21 $a0 $c0
-	call copyHLDDigitBottomTileIdxIntoDE                                       ; $52af: $cd $e8 $12
-	jr   @done                                 ; $52b2: $18 $2c
-
-+
-	cp   $02                                         ; $52b4: $fe $02
-	jr   nz, +                             ; $52b6: $20 $0b
-
-	ld   hl, $c0a1                                   ; $52b8: $21 $a1 $c0
-	call copyHLDDigitBottomTileIdxIntoDE                                       ; $52bb: $cd $e8 $12
-	call copyHLDDigitBottomTileIdxIntoDE                                       ; $52be: $cd $e8 $12
-	jr   @done                                 ; $52c1: $18 $1d
-
-+
-	ld   hl, $c0a2                                   ; $52c3: $21 $a2 $c0
-	ld   a, (hl)                                     ; $52c6: $7e
-	cp   $00                                         ; $52c7: $fe $00
-	jr   nz, +                             ; $52c9: $20 $0c
-
-	dec  hl                                          ; $52cb: $2b
-	call copyHLDDigitBottomTileIdxIntoDE                                       ; $52cc: $cd $e8 $12
-	call copyHLDDigitBottomTileIdxIntoDE                                       ; $52cf: $cd $e8 $12
-	ld   a, $00                                      ; $52d2: $3e $00
-	ld   (de), a                                     ; $52d4: $12
-	jr   @done                                 ; $52d5: $18 $09
-
-+
-	call copyHLDDigitBottomTileIdxIntoDE                                       ; $52d7: $cd $e8 $12
-	call copyHLDDigitBottomTileIdxIntoDE                                       ; $52da: $cd $e8 $12
-	call copyHLDDigitBottomTileIdxIntoDE                                       ; $52dd: $cd $e8 $12
-
-@done:
-	ret                                              ; $52e0: $c9
-
-
-// draws the number of bombs
-copyHLDDigitTileIdxIntoDE:
-	ldd  a, (hl)
-	call convDigitIntoTileIdx
-	ld   (de), a
-	inc  de
-	ret
-
-
-copyHLDDigitBottomTileIdxIntoDE:
-	ldd  a, (hl)
-	call convDigitIntoBottomHalfTileIdx
-	ld   (de), a
-	inc  de
-	ret
-
-
-aIsMax99:
-	cp   100
-	jr   c, +
-
-	ld   a, 99
-
-+
-	ret
-
-
-convDigitIntoTileIdx:
-	sla  a
-	add  $0a
-	ret
-
-
-convDigitIntoBottomHalfTileIdx:
-	call convDigitIntoTileIdx
-	add  $01
-	ret
-
-
-b4_dEquDoffsetInScreen1:
-	ld   hl, wScreen1displayOffset
-	ld   a, d
-	add  (hl)
-	ld   d, a
-	ret
-
-
-drawScore:
-	ld   de, $996a
-	call b4_dEquDoffsetInScreen1
-	ld   bc, $0000
-
--
-	ld   hl, wPlayerScore
-	add  hl, bc
-	ld   a, (hl)
-	add  $30
-	ld   (de), a
-	inc  de
-	inc  bc
-	ld   a, c
-	cp   $07
-	jr   nz, -
-
-	ret
-
-
-drawHearts:
-	ld   de, $99a8
-	call b4_dEquDoffsetInScreen1
-
-	ld   a, 12
-	ld   hl, wCurrentHeartDrawn
-	ld   (hl), a
-
-	ld   hl, wPlayerMaxHealth
-	ld   b, (hl)
-	srl  b
-	ld   hl, wPlayerHealth
-	ld   c, (hl)
-
-@nextHeart:
-	inc  c
-// empty heart
-	ld   a, $ea
-	dec  c
-	jr   z, @drawHeart
-
-// half heart
-	ld   a, $e9
-	dec  c
-	jr   z, @drawHeart
-
-// full heart
-	ld   a, $e8
-	dec  c
-
-@drawHeart:
-	ld   (de), a
-	inc  de
-
-	ld   hl, wCurrentHeartDrawn
-	dec  (hl)
-	dec  b
-	jr   nz, @nextHeart
-
-// clear hearts not yet gotten
-	ld   hl, wCurrentHeartDrawn
-	ld   c, (hl)
-	inc  c
-	ld   a, $00
-
-@loopC:
-	dec  c
-	jr   z, @done
-
-	ld   (de), a
-	inc  de
-	jr   @loopC
-
-@done:
-	ret
-
-
-drawAreaTextInMapScreen:
-	ld   de, $99e6
-	call b4_dEquDoffsetInScreen1
-	ld   hl, wRoomGroupNameLine1
-	ld   c, $07
-	call copyTextToVram_spaceIsTile0
-	ld   de, $9a06
-	call b4_dEquDoffsetInScreen1
-	ld   hl, wRoomGroupNameLine2
-	ld   c, $07
-
-copyTextToVram_spaceIsTile0:
--
-	ldi  a, (hl)
-	cp   $20
-	jr   nz, +
-
-	ld   a, $00
-
-+
-	ld   (de), a
-	inc  de
-	dec  c
-	jr   nz, -
-
-	ret
-
-
-drawBitem:
-	ld   de, $98c5
-	call b4_dEquDoffsetInScreen1
-	ld   hl, wEquippedBItem
-	ld   c, (hl)
-	ld   b, $00
-	ld   hl, bItemTopLeftTileIdxs
-	add  hl, bc
-	ld   a, (hl)
-	ld   (de), a
-	inc  de
-	add  $02
-	ld   (de), a
-	push af
-	ld   de, $98e5
-	call b4_dEquDoffsetInScreen1
-	pop  af
-	dec  a
-	ld   (de), a
-	inc  de
-	add  $02
-	ld   (de), a
-	ret
-
-
-drawAitem:
-// 2 fruit tiles
-	ld   de, $9945
-	call b4_dEquDoffsetInScreen1
-	ld   hl, wFruitEquipped
-	ld   c, (hl)
-	ld   b, $00
-	ld   hl, aItemTopTileIdxs
-	add  hl, bc
-	ld   a, (hl)
-	ld   (de), a
-	inc  de
-	push af
-
-// fruit amounts
-	ld   a, c
-	push de
-	ld   e, a
-	call getFruitAmountFromWram
-	add  $30
-	pop  de
-	ld   (de), a
-	ld   de, $9965
-	call b4_dEquDoffsetInScreen1
-	pop  af
-	add  $01
-	ld   (de), a
-	ret
-
-
-drawFruitAmounts:
-	ld   de, $9882
-	call b4_dEquDoffsetInScreen1
-	ld   bc, $0000
-
-@loop:
-	push de
-	push bc
-	push bc
-	pop  de
-	call getFruitAmountFromWram
-	ld   a, e
-	pop  bc
-	pop  de
-
-// turn fruit nums into the tile idxes
-	call convDigitIntoTileIdx
-	ld   (de), a
-	call b4_dePlusEqu20h
-	inc  a
-	ld   (de), a
-	call b4_dePlusEqu20h
-
-// 5 fruits?
-	inc  bc
-	ld   a, c
-	cp   $05
-	jr   nz, @loop
-
-	ret
-
-b4_dePlusEqu20h:
-	ld   hl, $0020
-	add  hl, de
-	push hl
-	pop  de
-	ret
-
-
-getFruitAmountFromWram:
-	ld   a, e
-	push af
-	srl  e
-	ld   d, $00
-	ld   hl, wFruitAmounts
-	add  hl, de
-	ld   e, (hl)
-	pop  af
-	and  $01
-	jr   z, +
-
-	srl  e
-	srl  e
-	srl  e
-
-+
-	ld   a, e
-	and  $07
-	ld   e, a
-	ret
-
-
-drawRailroadTicketIfRetrieved:
-	ld   hl, wSpecialBitemsGotten
-	ld   a, (hl)
-	and  $08
-	jr   nz, +
-
-// clear railroad ticket text
-	ld   de, $99a4
-	call b4_dEquDoffsetInScreen1
-	ld   a, $00
-	ld   (de), a
-	inc  de
-	ld   (de), a
-	inc  de
-	ld   (de), a
-	inc  de
-	ld   (de), a
-	inc  de
-
-+
-	ret
-
-
-drawSelectableBitems:
-	ld   de, $9821
-	call b4_dEquDoffsetInScreen1
-	call checkBitemsSelectable
-	ld   b, a
-	ld   c, $00
-
-@checkNextItem:
-	bit  0, b
-	jr   nz, +
-
-// dont have item
-	call clearOut2x2TileAtDE
-
-+
-	inc  de
-	inc  de
-	srl  b
-	inc  c
-	ld   a, c
-	cp   $08
-	jr   nz, @checkNextItem
-
-	ret
-
-
-clearOut2x2TileAtDE:
-	push af
-	push de
-	push hl
-	ld   a, $00
-	ld   (de), a
-	inc  de
-	ld   (de), a
-	ld   hl, $001f
-	add  hl, de
-	ldi  (hl), a
-	ldi  (hl), a
-	pop  hl
-	pop  de
-	pop  af
-	ret
-
-
-drawArmorOfGod:
-	ld   hl, wArmorOfGodGotten
-	ld   b, (hl)
-	ld   c, $00
-
-@nextArmorOfGod:
-	bit  0, b
-	jr   nz, +
-
-	ld   hl, armorOfGodVramLocs
-	push bc
-	ld   b, $00
-	add  hl, bc
-	add  hl, bc
-	pop  bc
-	ld   e, (hl)
-	inc  hl
-	ld   d, (hl)
-	call b4_dEquDoffsetInScreen1
-	call clearOut2x2TileAtDE
-
-+
-	srl  b
-	inc  c
-	ld   a, c
-	cp   $06
-	jr   nz, @nextArmorOfGod
-
-	ret
-
-
-playerNameCharToTileIdx:
-	.db $30 $31 $32 $33 $34 $35 $36 $37
-	.db $38 $39 $41 $42 $43 $44 $45 $46
-	.db $47 $48 $49 $4a $4b $4c $4d $4e
-	.db $4f $50 $51 $52 $53 $54 $55 $56
-	.db $57 $58 $59 $5a $61 $62 $63 $64
-	.db $65 $66 $67 $68 $69 $6a $6b $6c
-	.db $6d $6e $6f $70 $71 $72 $73 $74
-	.db $75 $76 $77 $78 $79 $7a $21 $5c
-
-
-drawPlayerNameInMap:
-	ld   de, $9806
-	call b4_dEquDoffsetInScreen1
-	ld   bc, $0000
-
--
-	ld   hl, wPlayerName
-	add  hl, bc
-
-	push de
-	ld   e, (hl)
-	ld   d, $00
-	ld   hl, playerNameCharToTileIdx
-	add  hl, de
-	ld   a, (hl)
-	pop  de
-
-	ld   (de), a
-	inc  de
-	inc  bc
-	ld   a, c
-	cp   $08
-	jr   nz, -
-
-	ret
-
-
-drawCurrentLocationInMap:
-// check if group vram offset is not listed as $ffff, eg indoors
-	ld   hl, wCurrGroupMapVRamOffset
-	ld   a, (hl)
-	cp   $ff
-	jr   nz, @notFFFF
-
-	ld   hl, wCurrGroupMapVRamOffset+1
-	ld   a, (hl)
-	cp   $ff
-	jr   nz, @notFFFF
-
-	ret
-
-@notFFFF:
-	ld   hl, wCurrRoomY
-	ld   c, (hl)
-	ld   e, $20
-	call ecEquEtimesC
-	ld   hl, wCurrRoomX
-	ld   a, (hl)
-	call ecPlusEquA
-	ld   a, c
-
-
-.include "data/bank_004.s"
-
 
 func_04_1fc2:
 	call retZandTimes13ifAlt5                                       ; $5fc2: $cd $bb $23
@@ -782,11 +79,12 @@ func_04_200a:
 
 ++
 	call retZandTimes13ifAlt5                                       ; $6021: $cd $bb $23
-	jp   z, +                                    ; $6024: $ca $28 $20
+	jp   z, func_04_2028                                    ; $6024: $ca $28 $20
 
 	ret                                              ; $6027: $c9
 
-+
+
+func_04_2028:
 	ld   hl, $c800                                   ; $6028: $21 $00 $c8
 	add  hl, bc                                      ; $602b: $09
 	ld   a, (hl)                                     ; $602c: $7e
@@ -908,7 +206,7 @@ func_04_2092:
 	ld   a, (de)                                     ; $60d9: $1a
 	and  $1f                                         ; $60da: $e6 $1f
 	cp   $1f                                         ; $60dc: $fe $1f
-	jr   z, +                              ; $60de: $28 $18
+	jr   z, @func_20f8                              ; $60de: $28 $18
 
 	sla  a                                           ; $60e0: $cb $27
 	call b4_addAtoHL                                       ; $60e2: $cd $ea $23
@@ -924,13 +222,13 @@ func_04_2092:
 	call func_04_234f                                       ; $60f2: $cd $4f $23
 	call func_04_2363                                       ; $60f5: $cd $63 $23
 
-+
+@func_20f8:
 	call func_04_238a                                       ; $60f8: $cd $8a $23
 	jp   @func_20a6                                       ; $60fb: $c3 $a6 $20
 
 @func_20fe:
 	cp   $b0                                         ; $60fe: $fe $b0
-	jp   nc, func_04_211e                                   ; $6100: $d2 $1e $21
+	jp   nc, @func_211e                                   ; $6100: $d2 $1e $21
 
 	cp   $a4                                         ; $6103: $fe $a4
 	jp   c, +                                    ; $6105: $da $0a $21
@@ -945,18 +243,18 @@ func_04_2092:
 	call func_04_238a                                       ; $6114: $cd $8a $23
 	jp   @func_20b2                                       ; $6117: $c3 $b2 $20
 
-
+@data_211a:
 	nop                                              ; $611a: $00
 	dec  b                                           ; $611b: $05
 	ld   a, (bc)                                     ; $611c: $0a
 	.db  $10                                         ; $611d: $10
 	
-func_04_211e:
+@func_211e:
 	cp   $b4                                         ; $611e: $fe $b4
-	jp   nc, $216e                                   ; $6120: $d2 $6e $21
+	jp   nc, @func_216e                                   ; $6120: $d2 $6e $21
 
 	sub  $b0                                         ; $6123: $d6 $b0
-	ld   hl, $211a                                   ; $6125: $21 $1a $21
+	ld   hl, @data_211a                                   ; $6125: $21 $1a $21
 	call b4_addAtoHL                                       ; $6128: $cd $ea $23
 	ld   a, (hl)                                     ; $612b: $7e
 	ld   hl, $c800                                   ; $612c: $21 $00 $c8
@@ -967,12 +265,13 @@ func_04_211e:
 	ld   (hl), a                                     ; $6136: $77
 	push bc                                          ; $6137: $c5
 	ld   bc, $0000                                   ; $6138: $01 $00 $00
+@loop:
 	ld   hl, $c800                                   ; $613b: $21 $00 $c8
 	add  hl, bc                                      ; $613e: $09
 	ld   a, (hl)                                     ; $613f: $7e
 	ld   hl, $c09e                                   ; $6140: $21 $9e $c0
 	xor  (hl)                                        ; $6143: $ae
-	jp   nz, $2153                                   ; $6144: $c2 $53 $21
+	jp   nz, +                                   ; $6144: $c2 $53 $21
 
 	ld   hl, $c800                                   ; $6147: $21 $00 $c8
 	add  hl, bc                                      ; $614a: $09
@@ -981,11 +280,12 @@ func_04_211e:
 	ld   hl, $c800                                   ; $614e: $21 $00 $c8
 	add  hl, bc                                      ; $6151: $09
 	ld   (hl), a                                     ; $6152: $77
++
 	ld   a, $0d                                      ; $6153: $3e $0d
 	call b4_addAtoBC                                       ; $6155: $cd $dc $23
 	ld   a, c                                        ; $6158: $79
 	cp   $41                                         ; $6159: $fe $41
-	jp   c, $213b                                    ; $615b: $da $3b $21
+	jp   c, @loop                                    ; $615b: $da $3b $21
 
 	pop  bc                                          ; $615e: $c1
 	ld   hl, $c09e                                   ; $615f: $21 $9e $c0
@@ -994,21 +294,21 @@ func_04_211e:
 	add  hl, bc                                      ; $6166: $09
 	ld   (hl), a                                     ; $6167: $77
 	call func_04_238a                                       ; $6168: $cd $8a $23
-	jp   $20b2                                       ; $616b: $c3 $b2 $20
+	jp   @func_20b2                                       ; $616b: $c3 $b2 $20
 
-
+@func_216e:
 	cp   $b9                                         ; $616e: $fe $b9
-	jp   nc, $21a6                                   ; $6170: $d2 $a6 $21
+	jp   nc, @func_04_21a6                                   ; $6170: $d2 $a6 $21
 
 	ld   hl, $c800                                   ; $6173: $21 $00 $c8
 	add  hl, bc                                      ; $6176: $09
 	ld   a, (hl)                                     ; $6177: $7e
 	and  $60                                         ; $6178: $e6 $60
-	jp   z, $2180                                    ; $617a: $ca $80 $21
+	jp   z, +                                    ; $617a: $ca $80 $21
 
-	jp   $2199                                       ; $617d: $c3 $99 $21
+	jp   @func_2199                                       ; $617d: $c3 $99 $21
 
-
++
 	ld   hl, $c800                                   ; $6180: $21 $00 $c8
 	add  hl, bc                                      ; $6183: $09
 	ld   a, (hl)                                     ; $6184: $7e
@@ -1021,17 +321,22 @@ func_04_211e:
 	inc  de                                          ; $6193: $13
 	ld   a, (de)                                     ; $6194: $1a
 	ldi  (hl), a                                     ; $6195: $22
+
+// big loops
+@func_2196:
 	call func_04_238a                                       ; $6196: $cd $8a $23
+
+@func_2199:
 	call func_04_238a                                       ; $6199: $cd $8a $23
 	ld   a, $01                                      ; $619c: $3e $01
 	ld   hl, $c801                                   ; $619e: $21 $01 $c8
 	add  hl, bc                                      ; $61a1: $09
 	ld   (hl), a                                     ; $61a2: $77
-	jp   $20a6                                       ; $61a3: $c3 $a6 $20
+	jp   @func_20a6                                       ; $61a3: $c3 $a6 $20
 
-
+@func_04_21a6:
 	cp   $b9                                         ; $61a6: $fe $b9
-	jp   nz, $21c2                                   ; $61a8: $c2 $c2 $21
+	jp   nz, +                                   ; $61a8: $c2 $c2 $21
 
 	ld   hl, $c802                                   ; $61ab: $21 $02 $c8
 	add  hl, bc                                      ; $61ae: $09
@@ -1045,20 +350,20 @@ func_04_211e:
 	ld   hl, $c805                                   ; $61ba: $21 $05 $c8
 	add  hl, bc                                      ; $61bd: $09
 	ld   (hl), a                                     ; $61be: $77
-	jp   $20b2                                       ; $61bf: $c3 $b2 $20
+	jp   @func_20b2                                       ; $61bf: $c3 $b2 $20
 
-
++
 	cp   $ba                                         ; $61c2: $fe $ba
-	jp   nz, $21cf                                   ; $61c4: $c2 $cf $21
+	jp   nz, +                                   ; $61c4: $c2 $cf $21
 
 	push bc                                          ; $61c7: $c5
-	call $2028                                       ; $61c8: $cd $28 $20
+	call func_04_2028                                       ; $61c8: $cd $28 $20
 	pop  bc                                          ; $61cb: $c1
-	jp   $2199                                       ; $61cc: $c3 $99 $21
+	jp   @func_2199                                       ; $61cc: $c3 $99 $21
 
-
++
 	cp   $bb                                         ; $61cf: $fe $bb
-	jp   nz, $21ec                                   ; $61d1: $c2 $ec $21
+	jp   nz, +                                   ; $61d1: $c2 $ec $21
 
 	inc  de                                          ; $61d4: $13
 	ld   a, (de)                                     ; $61d5: $1a
@@ -1071,11 +376,11 @@ func_04_211e:
 	ldi  (hl), a                                     ; $61e2: $22
 	call func_04_238a                                       ; $61e3: $cd $8a $23
 	call func_04_238a                                       ; $61e6: $cd $8a $23
-	jp   $20b2                                       ; $61e9: $c3 $b2 $20
+	jp   @func_20b2                                       ; $61e9: $c3 $b2 $20
 
-
++
 	cp   $bc                                         ; $61ec: $fe $bc
-	jr   nz, jr_008_6200                             ; $61ee: $20 $10
+	jr   nz, +                             ; $61ee: $20 $10
 
 	inc  de                                          ; $61f0: $13
 	push de                                          ; $61f1: $d5
@@ -1084,12 +389,11 @@ func_04_211e:
 	ld   hl, $c804                                   ; $61f6: $21 $04 $c8
 	add  hl, bc                                      ; $61f9: $09
 	call b4_deIntoHL                                       ; $61fa: $cd $ce $23
-	jp   $20b2                                       ; $61fd: $c3 $b2 $20
+	jp   @func_20b2                                       ; $61fd: $c3 $b2 $20
 
-
-jr_008_6200:
++
 	cp   $bd                                         ; $6200: $fe $bd
-	jr   nz, jr_008_6211                             ; $6202: $20 $0d
+	jr   nz, +                             ; $6202: $20 $0d
 
 	inc  de                                          ; $6204: $13
 	ld   a, (de)                                     ; $6205: $1a
@@ -1097,19 +401,18 @@ jr_008_6200:
 	add  hl, bc                                      ; $6209: $09
 	ld   (hl), a                                     ; $620a: $77
 	call func_04_238a                                       ; $620b: $cd $8a $23
-	jp   $20f8                                       ; $620e: $c3 $f8 $20
+	jp   @func_20f8                                       ; $620e: $c3 $f8 $20
 
-
-jr_008_6211:
++
 	cp   $be                                         ; $6211: $fe $be
-	jr   nz, jr_008_625d                             ; $6213: $20 $48
+	jr   nz, @last_225d                             ; $6213: $20 $48
 
 	inc  de                                          ; $6215: $13
 	ld   hl, $c800                                   ; $6216: $21 $00 $c8
 	add  hl, bc                                      ; $6219: $09
 	ld   a, (hl)                                     ; $621a: $7e
 	and  $60                                         ; $621b: $e6 $60
-	jp   nz, $224b                                   ; $621d: $c2 $4b $22
+	jp   nz, @func_224b                                   ; $621d: $c2 $4b $22
 
 	ld   hl, $c800                                   ; $6220: $21 $00 $c8
 	add  hl, bc                                      ; $6223: $09
@@ -1119,18 +422,18 @@ jr_008_6211:
 	call b4_addAtoHL                                       ; $622a: $cd $ea $23
 	ld   a, l                                        ; $622d: $7d
 	cp   $20                                         ; $622e: $fe $20
-	jr   nz, jr_008_6236                             ; $6230: $20 $04
+	jr   nz, +                             ; $6230: $20 $04
 
 	inc  hl                                          ; $6232: $23
 	inc  de                                          ; $6233: $13
-	jr   jr_008_6239                                 ; $6234: $18 $03
+	jr   @next_2239                                 ; $6234: $18 $03
 
-jr_008_6236:
++
 	ld   a, (de)                                     ; $6236: $1a
 	inc  de                                          ; $6237: $13
 	ldi  (hl), a                                     ; $6238: $22
 
-jr_008_6239:
+@next_2239:
 	ld   a, (de)                                     ; $6239: $1a
 	inc  de                                          ; $623a: $13
 	ldi  (hl), a                                     ; $623b: $22
@@ -1147,18 +450,19 @@ jr_008_6239:
 	ld   hl, $c801                                   ; $6246: $21 $01 $c8
 	add  hl, bc                                      ; $6249: $09
 	ld   (hl), a                                     ; $624a: $77
+@func_224b:
 	call func_04_238a                                       ; $624b: $cd $8a $23
 	call func_04_238a                                       ; $624e: $cd $8a $23
 	call func_04_238a                                       ; $6251: $cd $8a $23
 	call func_04_238a                                       ; $6254: $cd $8a $23
 	call func_04_238a                                       ; $6257: $cd $8a $23
-	jp   $2196                                       ; $625a: $c3 $96 $21
+	jp   @func_2196                                       ; $625a: $c3 $96 $21
+
+@last_225d:
+	jp   @func_2199                                       ; $625d: $c3 $99 $21
 
 
-jr_008_625d:
-	jp   $2199                                       ; $625d: $c3 $99 $21
-
-
+data_04_2260:
 	nop                                              ; $6260: $00
 	ld   b, b                                        ; $6261: $40
 	ldh  a, (<$b0)                                   ; $6262: $f0 $b0
@@ -1173,7 +477,11 @@ jr_008_625d:
 
 	ret  nz                                          ; $626f: $c0
 
-	ld   ($1001), sp                                 ; $6270: $08 $01 $10
+	.db $08
+	
+	
+data_04_2271:
+	.db $01 $10
 	ld   (bc), a                                     ; $6273: $02
 	jr   nz, jr_008_627a                             ; $6274: $20 $04
 
@@ -1206,13 +514,14 @@ jr_008_6286:
 	add  hl, bc                                      ; $6292: $09
 	ld   a, (hl)                                     ; $6293: $7e
 	or   a                                           ; $6294: $b7
-	jp   z, $229c                                    ; $6295: $ca $9c $22
+	jp   z, +                                    ; $6295: $ca $9c $22
 
 	pop  af                                          ; $6298: $f1
 	add  $0a                                         ; $6299: $c6 $0a
 	push af                                          ; $629b: $f5
++
 	pop  af                                          ; $629c: $f1
-	ld   hl, $2271                                   ; $629d: $21 $71 $22
+	ld   hl, data_04_2271                                   ; $629d: $21 $71 $22
 	call b4_addAtoHL                                       ; $62a0: $cd $ea $23
 	ldd  a, (hl)                                     ; $62a3: $3a
 	push af                                          ; $62a4: $f5
@@ -1232,14 +541,11 @@ jr_008_6286:
 
 
 data_04_22b7:
-	rst  $10                                         ; $62b7: $d7
-	ldi  (hl), a                                     ; $62b8: $22
-	rst  $10                                         ; $62b9: $d7
-	ldi  (hl), a                                     ; $62ba: $22
-	rst  $10                                         ; $62bb: $d7
-	ldi  (hl), a                                     ; $62bc: $22
-	rst  $10                                         ; $62bd: $d7
-	ldi  (hl), a                                     ; $62be: $22
+	.dw data_04_22d7
+	.dw data_04_22d7
+	.dw data_04_22d7
+	.dw data_04_22d7
+	
 	jr   nz, jr_008_62c1                             ; $62bf: $20 $00
 
 jr_008_62c1:
@@ -1262,6 +568,8 @@ jr_008_62c1:
 	inc  bc                                          ; $62d4: $03
 	rst  $10                                         ; $62d5: $d7
 	inc  bc                                          ; $62d6: $03
+	
+data_04_22d7:
 	jr   jr_008_62dd                                 ; $62d7: $18 $04
 
 	ld   d, d                                        ; $62d9: $52
@@ -1390,12 +698,12 @@ func_04_2363:
 	add  hl, bc                                      ; $6366: $09
 	ld   a, (hl)                                     ; $6367: $7e
 	and  $60                                         ; $6368: $e6 $60
-	jp   nz, $2389                                   ; $636a: $c2 $89 $23
+	jp   nz, @done                                   ; $636a: $c2 $89 $23
 
 	ld   a, (hl)                                     ; $636d: $7e
 	and  $1f                                         ; $636e: $e6 $1f
 	ld   de, $ff10                                   ; $6370: $11 $10 $ff
-	call $23e3                                       ; $6373: $cd $e3 $23
+	call b4_addAtoDE                                       ; $6373: $cd $e3 $23
 	ld   hl, $c807                                   ; $6376: $21 $07 $c8
 	add  hl, bc                                      ; $6379: $09
 	ldi  a, (hl)                                     ; $637a: $2a
@@ -1413,6 +721,7 @@ func_04_2363:
 	ldi  a, (hl)                                     ; $6386: $2a
 	ld   (de), a                                     ; $6387: $12
 	inc  de                                          ; $6388: $13
+@done:
 	ret                                              ; $6389: $c9
 
 
@@ -1431,8 +740,8 @@ func_04_2396:
 	ld   a, (hl)                                     ; $639a: $7e
 	sla  a                                           ; $639b: $cb $27
 	sla  a                                           ; $639d: $cb $27
-	ld   de, $2260                                   ; $639f: $11 $60 $22
-	call $23e3                                       ; $63a2: $cd $e3 $23
+	ld   de, data_04_2260                                   ; $639f: $11 $60 $22
+	call b4_addAtoDE                                       ; $63a2: $cd $e3 $23
 	ld   hl, $c807                                   ; $63a5: $21 $07 $c8
 	add  hl, bc                                      ; $63a8: $09
 	ld   a, (de)                                     ; $63a9: $1a
@@ -1468,47 +777,48 @@ retZandTimes13ifAlt5:
 	or   $ff                                         ; $63cb: $f6 $ff
 	ret                                              ; $63cd: $c9
 
-
+// utilities for sound engine
 b4_deIntoHL:
-	ld   (hl), e                                     ; $63ce: $73
-	inc  hl                                          ; $63cf: $23
-	ld   (hl), d                                     ; $63d0: $72
-	dec  hl                                          ; $63d1: $2b
-	ret                                              ; $63d2: $c9
+	ld   (hl), e
+	inc  hl
+	ld   (hl), d
+	dec  hl
+	ret
 
 
 b4_deEquWordInHL:
-	ld   de, $0000                                   ; $63d3: $11 $00 $00
-	add  hl, de                                      ; $63d6: $19
-	ld   e, (hl)                                     ; $63d7: $5e
-	inc  hl                                          ; $63d8: $23
-	ld   d, (hl)                                     ; $63d9: $56
-	dec  hl                                          ; $63da: $2b
-	ret                                              ; $63db: $c9
+	ld   de, $0000
+	add  hl, de
+	ld   e, (hl)
+	inc  hl
+	ld   d, (hl)
+	dec  hl
+	ret
 
 
 b4_addAtoBC:
-	add  c                                           ; $63dc: $81
-	ld   c, a                                        ; $63dd: $4f
-	ld   a, b                                        ; $63de: $78
-	adc  $00                                         ; $63df: $ce $00
-	ld   b, a                                        ; $63e1: $47
-	ret                                              ; $63e2: $c9
+	add  c
+	ld   c, a
+	ld   a, b
+	adc  $00
+	ld   b, a
+	ret
 
 
-	add  e                                           ; $63e3: $83
-	ld   e, a                                        ; $63e4: $5f
-	ld   a, d                                        ; $63e5: $7a
-	adc  $00                                         ; $63e6: $ce $00
-	ld   d, a                                        ; $63e8: $57
-	ret                                              ; $63e9: $c9
+b4_addAtoDE:
+	add  e
+	ld   e, a
+	ld   a, d
+	adc  $00
+	ld   d, a
+	ret
 
 
 b4_addAtoHL:
-	add  l                                           ; $63ea: $85
-	ld   l, a                                        ; $63eb: $6f
-	ld   a, h                                        ; $63ec: $7c
-	adc  $00                                         ; $63ed: $ce $00
-	ld   h, a                                        ; $63ef: $67
-	ret                                              ; $63f0: $c9
+	add  l
+	ld   l, a
+	ld   a, h
+	adc  $00
+	ld   h, a
+	ret
 
