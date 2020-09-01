@@ -156,7 +156,13 @@ w2x2gameScreenTiles: ; $c3b0
 	dsb $b0
 
 wc460:
-	dsb $5f0-$460
+	dsb $5e0-$460
+
+wOffsetIntoCompressedRoomLayoutPerScreenRow: ; $c5e0
+	dsb $b
+
+wc5eb:
+	dsb $f0-$eb
 
 wRoomStructWord_whenFirstByteBit7set_1: ; $c5f0
 	dw

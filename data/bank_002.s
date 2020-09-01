@@ -5709,7 +5709,7 @@ jr_005_660f:
 	rst  $08                                         ; $6613: $cf
 	rst  $38                                         ; $6614: $ff
 	dec  b                                           ; $6615: $05
-	ld   bc, wAnother2x2blockForGameScreenTilesTODO                                   ; $6616: $01 $00 $c3
+	.db $01 $00 $c3
 
 jr_005_6619:
 	add  b                                           ; $6619: $80

@@ -124,7 +124,7 @@ func_01_09de:
 
 func_01_09ea:
 	ld   bc, $0000                                   ; $49ea: $01 $00 $00
-func_01_09ed:
+@bigLoop_09ed:
 	ld   hl, $c0ff                                   ; $49ed: $21 $ff $c0
 	ld   a, c                                        ; $49f0: $79
 	cp   (hl)                                        ; $49f1: $be
@@ -166,7 +166,7 @@ func_01_09ed:
 	adc  (hl)                                        ; $4a21: $8e
 	ld   c, a                                        ; $4a22: $4f
 	ld   b, $00                                      ; $4a23: $06 $00
-	jp   func_01_09ed                                       ; $4a25: $c3 $ed $09
+	jp   @bigLoop_09ed                                       ; $4a25: $c3 $ed $09
 
 
 func_01_0a28:
@@ -218,7 +218,6 @@ func_01_0a28:
 
 	call clear_c0fe_c0ff                                       ; $4a71: $cd $4b $09
 	jp   @bigLoop                                       ; $4a74: $c3 $28 $0a
-
 
 @func_0a77:
 	ld   a, $40                                      ; $4a77: $3e $40
