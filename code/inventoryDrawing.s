@@ -694,3 +694,19 @@ drawCurrentLocationInMap:
 	ld   a, (hl)
 	call ecPlusEquA
 	ld   a, c
+	ld   hl, wCurrGroupMapVRamOffset
+	add  (hl)
+
+	push af
+	ld   a, e
+	ld   hl, wCurrGroupMapVRamOffset+1
+	adc  (hl)
+	ld   d, a
+	pop  af
+
+	ld   e, a
+	call b4_dEquDoffsetInScreen1
+// 5b is the x on current location
+	ld   a, $5b
+	ld   (de), a
+	ret

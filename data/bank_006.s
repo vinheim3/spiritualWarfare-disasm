@@ -5,6 +5,8 @@
 ; https://github.com/mattcurrie/mgbdis
 ; https://github.com/vinheim3
 
+
+data_06_094b:
 	or   h                                           ; $494b: $b4
 	adc  b                                           ; $494c: $88
 	sub  h                                           ; $494d: $94

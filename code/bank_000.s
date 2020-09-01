@@ -2253,8 +2253,8 @@ jr_000_15dd:
 
 Jump_000_15f3:
 	call Call_000_241a                               ; $15f3: $cd $1a $24
-	ld   hl, $094b                                   ; $15f6: $21 $4b $09
-	call $61b0                                       ; $15f9: $cd $b0 $61
+	ld   hl, clear_c0fe_c0ff                                   ; $15f6: $21 $4b $09
+	call jpHLinBank1                                       ; $15f9: $cd $b0 $61
 
 Jump_000_15fc:
 	ld   hl, $c6df                                   ; $15fc: $21 $df $c6
@@ -3660,7 +3660,7 @@ loadMapScreen:
 
 
 dPlusEquScreen0displayOffset:
-	push hl                                          ; dPlusEquScreen0displayOffset: $e5
+	push hl
 	ld   hl, wScreen0displayOffset                                   ; $1e9a: $21 $dc $c6
 	ld   a, d                                        ; $1e9d: $7a
 	add  (hl)                                        ; $1e9e: $86
@@ -8202,8 +8202,8 @@ jr_000_3941:
 	ld   a, (hl)                                     ; $395f: $7e
 	ld   hl, $c0fc                                   ; $3960: $21 $fc $c0
 	ld   (hl), a                                     ; $3963: $77
-	ld   hl, $09de                                   ; $3964: $21 $de $09
-	call $61b0                                       ; $3967: $cd $b0 $61
+	ld   hl, func_01_09de                                   ; $3964: $21 $de $09
+	call jpHLinBank1                                       ; $3967: $cd $b0 $61
 
 jr_000_396a:
 	ld   hl, $c00c                                   ; $396a: $21 $0c $c0
@@ -10946,37 +10946,51 @@ clear_c094_c095:
 	ret                                              ; $48b0: $c9
 
 
+;;
 	ret                                              ; $48b1: $c9
 
 
 Call_001_48b2:
+// c0a1 is bank
 	ld   hl, $c0a1                                   ; $48b2: $21 $a1 $c0
 	ld   (hl), $06                                   ; $48b5: $36 $06
+
+// number of bytes
 	ld   hl, $c0a0                                   ; $48b7: $21 $a0 $c0
 	ld   (hl), $01                                   ; $48ba: $36 $01
+
+//
 	ld   hl, $c094                                   ; $48bc: $21 $94 $c0
 	ld   e, (hl)                                     ; $48bf: $5e
 	ld   hl, $c095                                   ; $48c0: $21 $95 $c0
 	ld   d, (hl)                                     ; $48c3: $56
 	inc  de                                          ; $48c4: $13
+
+//
 	bit  2, d                                        ; $48c5: $cb $52
 	jr   z, +                              ; $48c7: $28 $03
-
 	ld   de, $0000                                   ; $48c9: $11 $00 $00
-
 +
 	ld   (hl), d                                     ; $48cc: $72
 	ld   hl, $c094                                   ; $48cd: $21 $94 $c0
 	ld   (hl), e                                     ; $48d0: $73
-	ld   hl, $094b                                   ; $48d1: $21 $4b $09
+
+//
+	ld   hl, data_06_094b                                   ; $48d1: $21 $4b $09
 	add  hl, de                                      ; $48d4: $19
 	push hl                                          ; $48d5: $e5
 	pop  de                                          ; $48d6: $d1
+
+// copy from offset in data_06_094b
 	ld   hl, $c09a                                   ; $48d7: $21 $9a $c0
 	ld   (hl), e                                     ; $48da: $73
 	ld   hl, $c09b                                   ; $48db: $21 $9b $c0
 	ld   (hl), d                                     ; $48de: $72
+
+// copy bytes
 	call func_0224                                       ; $48df: $cd $24 $02
+
+//
 	ld   hl, $c6d0                                   ; $48e2: $21 $d0 $c6
 	ld   a, (hl)                                     ; $48e5: $7e
 	ld   hl, $c096                                   ; $48e6: $21 $96 $c0
