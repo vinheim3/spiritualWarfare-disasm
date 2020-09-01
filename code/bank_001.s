@@ -456,7 +456,7 @@ jr_002_4bcc:
 	ret                                              ; $4bdc: $c9
 
 
-	ld   de, $c6dd                                   ; $4bdd: $11 $dd $c6
+	ld   de, wScreen1displayOffset                                   ; $4bdd: $11 $dd $c6
 	ld   a, (de)                                     ; $4be0: $1a
 	ld   e, (hl)                                     ; $4be1: $5e
 	inc  hl                                          ; $4be2: $23
@@ -474,7 +474,7 @@ jr_002_4be6:
 	ret                                              ; $4bec: $c9
 
 
-	ld   hl, $c6dd                                   ; $4bed: $21 $dd $c6
+	ld   hl, wScreen1displayOffset                                   ; $4bed: $21 $dd $c6
 	ld   a, (hl)                                     ; $4bf0: $7e
 	add  $98                                         ; $4bf1: $c6 $98
 	ld   h, a                                        ; $4bf3: $67
@@ -502,7 +502,7 @@ jr_002_4bfb:
 	inc  hl                                          ; $4c13: $23
 	ld   (hl), b                                     ; $4c14: $70
 	ld   de, $98e1                                   ; $4c15: $11 $e1 $98
-	ld   hl, $c6dd                                   ; $4c18: $21 $dd $c6
+	ld   hl, wScreen1displayOffset                                   ; $4c18: $21 $dd $c6
 	ld   a, (hl)                                     ; $4c1b: $7e
 	add  d                                           ; $4c1c: $82
 	ld   d, a                                        ; $4c1d: $57
@@ -526,7 +526,7 @@ jr_002_4c29:
 	ld   hl, $c0c4                                   ; $4c39: $21 $c4 $c0
 	ld   (hl), a                                     ; $4c3c: $77
 	ld   de, $99c3                                   ; $4c3d: $11 $c3 $99
-	ld   hl, $c6dd                                   ; $4c40: $21 $dd $c6
+	ld   hl, wScreen1displayOffset                                   ; $4c40: $21 $dd $c6
 	ld   a, (hl)                                     ; $4c43: $7e
 	add  d                                           ; $4c44: $82
 	ld   d, a                                        ; $4c45: $57

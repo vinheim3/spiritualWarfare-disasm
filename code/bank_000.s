@@ -1441,7 +1441,7 @@ jr_000_10d7:
 	ld   a, (hl)                                     ; $1114: $7e
 	and  $0f                                         ; $1115: $e6 $0f
 	sla  a                                           ; $1117: $cb $27
-	ld   de, $c073                                   ; $1119: $11 $73 $c0
+	ld   de, wPlayerMaxHealth                                   ; $1119: $11 $73 $c0
 	ld   (de), a                                     ; $111c: $12
 	ld   a, (hl)                                     ; $111d: $7e
 	and  $30                                         ; $111e: $e6 $30
@@ -1457,7 +1457,7 @@ jr_000_10d7:
 	ld   a, $06                                      ; $1131: $3e $06
 
 jr_000_1133:
-	ld   hl, $c072                                   ; $1133: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $1133: $21 $72 $c0
 	ld   (hl), a                                     ; $1136: $77
 	ld   hl, $c4ed                                   ; $1137: $21 $ed $c4
 	ld   a, (hl)                                     ; $113a: $7e
@@ -1515,7 +1515,7 @@ jr_000_1166:
 	and  $07                                         ; $119a: $e6 $07
 	ld   hl, wFruitAmounts+2                                   ; $119c: $21 $0b $c7
 	ld   (hl), a                                     ; $119f: $77
-	ld   hl, $c70c                                   ; $11a0: $21 $0c $c7
+	ld   hl, wFruitEquipped                                   ; $11a0: $21 $0c $c7
 	ld   (hl), $00                                   ; $11a3: $36 $00
 	ld   hl, $c05b                                   ; $11a5: $21 $5b $c0
 	ld   (hl), $00                                   ; $11a8: $36 $00
@@ -1576,7 +1576,7 @@ jr_000_11d9:
 	ld   a, (hl)                                     ; $11f7: $7e
 	ld   hl, $c4e8                                   ; $11f8: $21 $e8 $c4
 	ld   (hl), a                                     ; $11fb: $77
-	ld   hl, $c073                                   ; $11fc: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $11fc: $21 $73 $c0
 	ld   a, (hl)                                     ; $11ff: $7e
 	srl  a                                           ; $1200: $cb $3f
 	and  $0f                                         ; $1202: $e6 $0f
@@ -1592,7 +1592,7 @@ jr_000_11d9:
 	ld   hl, $c4eb                                   ; $1216: $21 $eb $c4
 	or   (hl)                                        ; $1219: $b6
 	ld   (hl), a                                     ; $121a: $77
-	ld   hl, $c072                                   ; $121b: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $121b: $21 $72 $c0
 	ld   a, (hl)                                     ; $121e: $7e
 	ld   hl, $c4ec                                   ; $121f: $21 $ec $c4
 	ld   (hl), a                                     ; $1222: $77
@@ -2225,7 +2225,7 @@ jr_000_156b:
 	ld   (hl), a                                     ; $15c1: $77
 	ld   hl, wEquippedBItem                                   ; $15c2: $21 $49 $c0
 	ld   (hl), a                                     ; $15c5: $77
-	ld   hl, $c70c                                   ; $15c6: $21 $0c $c7
+	ld   hl, wFruitEquipped                                   ; $15c6: $21 $0c $c7
 	ld   (hl), a                                     ; $15c9: $77
 	ld   hl, wFruitAmounts+1                                   ; $15ca: $21 $0a $c7
 	ld   (hl), a                                     ; $15cd: $77
@@ -2246,9 +2246,9 @@ jr_000_15dd:
 	cp   $0a                                         ; $15e5: $fe $0a
 	jr   nz, jr_000_15dd                             ; $15e7: $20 $f4
 
-	ld   hl, $c073                                   ; $15e9: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $15e9: $21 $73 $c0
 	ld   (hl), $06                                   ; $15ec: $36 $06
-	ld   hl, $c072                                   ; $15ee: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $15ee: $21 $72 $c0
 	ld   (hl), $06                                   ; $15f1: $36 $06
 
 Jump_000_15f3:
@@ -2288,12 +2288,12 @@ jr_000_160e:
 	ld   (hl), a                                     ; $1631: $77
 	ld   hl, $c0d9                                   ; $1632: $21 $d9 $c0
 	ld   (hl), a                                     ; $1635: $77
-	ld   hl, $c02b                                   ; $1636: $21 $2b $c0
+	ld   hl, wPlayerScore                                   ; $1636: $21 $2b $c0
 	ld   de, $0007                                   ; $1639: $11 $07 $00
 	call setAtoHL_deBytes                               ; $163c: $cd $6d $27
 	ld   hl, $c6de                                   ; $163f: $21 $de $c6
 	ld   (hl), $00                                   ; $1642: $36 $00
-	ld   hl, $c6dd                                   ; $1644: $21 $dd $c6
+	ld   hl, wScreen1displayOffset                                   ; $1644: $21 $dd $c6
 	ld   (hl), $04                                   ; $1647: $36 $04
 	ld   hl, $c0d6                                   ; $1649: $21 $d6 $c0
 	ld   (hl), $ff                                   ; $164c: $36 $ff
@@ -2383,7 +2383,7 @@ jr_000_168d:
 
 jr_000_16e0:
 	ld   a, $06                                      ; $16e0: $3e $06
-	ld   hl, $c072                                   ; $16e2: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $16e2: $21 $72 $c0
 	ld   (hl), a                                     ; $16e5: $77
 	call Call_000_1996                               ; $16e6: $cd $96 $19
 	call clear_c200_to_c2ff                                       ; $16e9: $cd $9e $5b
@@ -2720,6 +2720,7 @@ Call_000_183b:
 	ld   bc, $0000                                   ; $18af: $01 $00 $00
 
 -
+// copies group name line 1 and 2
 	ld   hl, $c006                                   ; $18b2: $21 $06 $c0
 	ldi  a, (hl)                                     ; $18b5: $2a
 	ld   h, (hl)                                     ; $18b6: $66
@@ -2727,7 +2728,7 @@ Call_000_183b:
 	add  hl, de                                      ; $18b8: $19
 	ld   a, (hl)                                     ; $18b9: $7e
 	inc  de                                          ; $18ba: $13
-	ld   hl, $c716                                   ; $18bb: $21 $16 $c7
+	ld   hl, wRoomGroupNameLine1                                   ; $18bb: $21 $16 $c7
 	add  hl, bc                                      ; $18be: $09
 	ld   (hl), a                                     ; $18bf: $77
 	inc  bc                                          ; $18c0: $03
@@ -3146,7 +3147,7 @@ Jump_000_1b60:
 	ld   (hl), $00                                   ; $1b69: $36 $00
 	ld   hl, $c6de                                   ; $1b6b: $21 $de $c6
 	ld   (hl), $00                                   ; $1b6e: $36 $00
-	ld   hl, $c6dd                                   ; $1b70: $21 $dd $c6
+	ld   hl, wScreen1displayOffset                                   ; $1b70: $21 $dd $c6
 	ld   (hl), $04                                   ; $1b73: $36 $04
 	call TODOloadsRoomData                               ; $1b75: $cd $af $1e
 	call Call_000_1e06                               ; $1b78: $cd $06 $1e
@@ -3632,7 +3633,7 @@ Call_000_1e4a:
 
 loadInventoryScreen:
 	ld   de, $9800                                   ; $1e66: $11 $00 $98
-	call dPlusEquValIn_c6dd                               ; $1e69: $cd $a8 $1e
+	call dEquDoffsetInScreen1                               ; $1e69: $cd $a8 $1e
 	ld   hl, lyt_inventoryScreen                                   ; $1e6c: $21 $aa $16
 	call copyLayoutFromBank3                               ; $1e6f: $cd $40 $15
 	ld   hl, drawInDynamicPartOfInventoryScreen                                   ; $1e72: $21 $5f $11
@@ -3644,7 +3645,7 @@ loadInventoryScreen:
 
 loadMapScreen:
 	ld   de, $9800                                   ; $1e7f: $11 $00 $98
-	call dPlusEquValIn_c6dd                               ; $1e82: $cd $a8 $1e
+	call dEquDoffsetInScreen1                               ; $1e82: $cd $a8 $1e
 	ld   hl, lyt_mapScreen                                   ; $1e85: $21 $69 $12
 	call copyLayoutFromBank3                               ; $1e88: $cd $40 $15
 	ld   hl, drawInDynamicPartOfMap                                   ; $1e8b: $21 $9a $11
@@ -3673,8 +3674,8 @@ dPlusEquValIn_c6de:
 	jp   dPlusEquValInHL                               ; $1ea5: $c3 $ab $1e
 
 
-dPlusEquValIn_c6dd:
-	ld   hl, $c6dd
+dEquDoffsetInScreen1:
+	ld   hl, wScreen1displayOffset
 
 dPlusEquValInHL:
 	ld   a, d                                        ; $1eab: $7a
@@ -4034,9 +4035,9 @@ jr_000_20cf:
 
 	ld   de, text_praying                                   ; $20d7: $11 $dc $24
 	call drawInventoryItemDescription                               ; $20da: $cd $f0 $26
-	ld   hl, $c072                                   ; $20dd: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $20dd: $21 $72 $c0
 	ld   a, (hl)                                     ; $20e0: $7e
-	ld   hl, $c073                                   ; $20e1: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $20e1: $21 $73 $c0
 	cp   (hl)                                        ; $20e4: $be
 	jr   z, jr_000_2124                              ; $20e5: $28 $3d
 
@@ -4172,9 +4173,9 @@ jr_000_21b3:
 	cp   $08                                         ; $21b3: $fe $08
 	jp   z, _transitionToMapScreen                            ; $21b5: $ca $1a $22
 
-	ld   hl, $c072                                   ; $21b8: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $21b8: $21 $72 $c0
 	ld   a, (hl)                                     ; $21bb: $7e
-	ld   hl, $c073                                   ; $21bc: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $21bc: $21 $73 $c0
 	cp   (hl)                                        ; $21bf: $be
 	jr   nz, jr_000_21c8                             ; $21c0: $20 $06
 
@@ -4183,9 +4184,9 @@ jr_000_21b3:
 
 
 jr_000_21c8:
-	ld   hl, $c072                                   ; $21c8: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $21c8: $21 $72 $c0
 	ld   a, (hl)                                     ; $21cb: $7e
-	ld   hl, $c073                                   ; $21cc: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $21cc: $21 $73 $c0
 	cp   (hl)                                        ; $21cf: $be
 	jr   c, jr_000_21d8                              ; $21d0: $38 $06
 
@@ -4195,7 +4196,7 @@ jr_000_21c8:
 
 jr_000_21d8:
 	call Call_000_27ff                               ; $21d8: $cd $ff $27
-	ld   hl, $c072                                   ; $21db: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $21db: $21 $72 $c0
 	inc  (hl)                                        ; $21de: $34
 	call waitUntilStartOfVBlankPeriod                               ; $21df: $cd $e8 $01
 	ld   hl, drawHearts                                   ; $21e2: $21 $21 $13
@@ -4203,9 +4204,9 @@ jr_000_21d8:
 	call Call_000_01d6                               ; $21e8: $cd $d6 $01
 	call Call_000_1a76                               ; $21eb: $cd $76 $1a
 	call Call_000_1a76                               ; $21ee: $cd $76 $1a
-	ld   hl, $c072                                   ; $21f1: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $21f1: $21 $72 $c0
 	ld   a, (hl)                                     ; $21f4: $7e
-	ld   hl, $c073                                   ; $21f5: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $21f5: $21 $73 $c0
 	cp   (hl)                                        ; $21f8: $be
 	jr   c, jr_000_21d8                              ; $21f9: $38 $dd
 
@@ -4260,9 +4261,9 @@ jr_000_2243:
 
 	ld   hl, $c65f                                   ; $224f: $21 $5f $c6
 	ld   a, (hl)                                     ; $2252: $7e
-	ld   hl, $c70c                                   ; $2253: $21 $0c $c7
+	ld   hl, wFruitEquipped                                   ; $2253: $21 $0c $c7
 	ld   (hl), a                                     ; $2256: $77
-	ld   hl, $c70c                                   ; $2257: $21 $0c $c7
+	ld   hl, wFruitEquipped                                   ; $2257: $21 $0c $c7
 	dec  (hl)                                        ; $225a: $35
 	call Call_000_241a                               ; $225b: $cd $1a $24
 	call waitUntilStartOfVBlankPeriod                               ; $225e: $cd $e8 $01
@@ -4557,13 +4558,13 @@ jr_000_23f8:
 	add  b                                           ; $2419: $80
 
 Call_000_241a:
-	ld   hl, $c70c                                   ; $241a: $21 $0c $c7
+	ld   hl, wFruitEquipped                                   ; $241a: $21 $0c $c7
 	ld   e, (hl)                                     ; $241d: $5e
 	ld   hl, getFruitAmountFromWram                                   ; $241e: $21 $fe $13
 	call jpHLinBank4                                       ; $2421: $cd $b5 $61
 	ld   hl, $c046                                   ; $2424: $21 $46 $c0
 	ld   (hl), e                                     ; $2427: $73
-	ld   hl, $c70c                                   ; $2428: $21 $0c $c7
+	ld   hl, wFruitEquipped                                   ; $2428: $21 $0c $c7
 	ld   c, (hl)                                     ; $242b: $4e
 	ld   b, $00                                      ; $242c: $06 $00
 	ld   hl, $240b                                   ; $242e: $21 $0b $24
@@ -4584,7 +4585,7 @@ Call_000_241a:
 	call bcDivA_divInC_modInAB                               ; $244a: $cd $44 $08
 	ld   hl, $c045                                   ; $244d: $21 $45 $c0
 	ld   (hl), c                                     ; $2450: $71
-	ld   hl, $c70c                                   ; $2451: $21 $0c $c7
+	ld   hl, wFruitEquipped                                   ; $2451: $21 $0c $c7
 	ld   c, (hl)                                     ; $2454: $4e
 	ld   b, $00                                      ; $2455: $06 $00
 	ld   hl, $2410                                   ; $2457: $21 $10 $24
@@ -4781,7 +4782,7 @@ text_26dd:
 drawInventoryItemDescription:
 	push de
 	ld   de, $9a20
-	call dPlusEquValIn_c6dd
+	call dEquDoffsetInScreen1
 	push de
 	call waitUntilStartOfVBlankPeriod
 	pop  de
@@ -5137,11 +5138,11 @@ jr_000_28b2:
 
 Jump_000_28b5:
 jr_000_28b5:
-	ld   hl, $c072                                   ; $28b5: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $28b5: $21 $72 $c0
 	ld   a, (hl)                                     ; $28b8: $7e
 	ld   hl, $c0a0                                   ; $28b9: $21 $a0 $c0
 	sub  (hl)                                        ; $28bc: $96
-	ld   hl, $c072                                   ; $28bd: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $28bd: $21 $72 $c0
 	ld   (hl), a                                     ; $28c0: $77
 	jr   z, jr_000_28c5                              ; $28c1: $28 $02
 
@@ -12335,22 +12336,22 @@ Call_001_5084:
 	ld   a, $02                                      ; $5084: $3e $02
 
 Call_001_5086:
-	ld   hl, $c072                                   ; Call_001_5086: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; Call_001_5086: $21 $72 $c0
 	add  (hl)                                        ; $5089: $86
 	jr   nc, jr_001_508e                             ; $508a: $30 $02
 
 	ld   a, $ff                                      ; $508c: $3e $ff
 
 jr_001_508e:
-	ld   hl, $c073                                   ; $508e: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $508e: $21 $73 $c0
 	cp   (hl)                                        ; $5091: $be
 	jr   c, jr_001_5098                              ; $5092: $38 $04
 
-	ld   hl, $c073                                   ; $5094: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $5094: $21 $73 $c0
 	ld   a, (hl)                                     ; $5097: $7e
 
 jr_001_5098:
-	ld   hl, $c072                                   ; $5098: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $5098: $21 $72 $c0
 	ld   (hl), a                                     ; $509b: $77
 	ret                                              ; $509c: $c9
 
@@ -12655,7 +12656,7 @@ Call_001_5236:
 	call $284f                                       ; $5246: $cd $4f $28
 
 Call_001_5249:
-	ld   hl, $c073                                   ; $5249: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $5249: $21 $73 $c0
 	ld   a, (hl)                                     ; $524c: $7e
 	add  $02                                         ; $524d: $c6 $02
 	cp   $18                                         ; $524f: $fe $18
@@ -12664,7 +12665,7 @@ Call_001_5249:
 	ld   a, $18                                      ; $5253: $3e $18
 
 jr_001_5255:
-	ld   hl, $c073                                   ; $5255: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $5255: $21 $73 $c0
 	ld   (hl), a                                     ; $5258: $77
 	ret                                              ; $5259: $c9
 
@@ -13678,7 +13679,7 @@ jr_001_57c3:
 	ld   hl, $c205                                   ; $57d4: $21 $05 $c2
 	add  hl, de                                      ; $57d7: $19
 	ld   (hl), a                                     ; $57d8: $77
-	ld   hl, $c072                                   ; $57d9: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $57d9: $21 $72 $c0
 	ld   a, (hl)                                     ; $57dc: $7e
 	cp   $01                                         ; $57dd: $fe $01
 	jr   nz, @done                             ; $57df: $20 $0f
@@ -14181,7 +14182,7 @@ Call_001_5a7e:
 	cp   $0a                                         ; $5a9e: $fe $0a
 	jr   c, jr_001_5aad                              ; $5aa0: $38 $0b
 
-	ld   hl, $c02b                                   ; $5aa2: $21 $2b $c0
+	ld   hl, wPlayerScore                                   ; $5aa2: $21 $2b $c0
 	ld   a, $09                                      ; $5aa5: $3e $09
 	ld   de, $0007                                   ; $5aa7: $11 $07 $00
 	call setAtoHL_deBytes                                       ; $5aaa: $cd $6d $27
@@ -14218,7 +14219,7 @@ func_5abf:
 	ld   (hl), b                                     ; $5acb: $70
 
 jr_001_5acc:
-	ld   hl, $c02b                                   ; $5acc: $21 $2b $c0
+	ld   hl, wPlayerScore                                   ; $5acc: $21 $2b $c0
 	add  hl, bc                                      ; $5acf: $09
 	ld   a, (hl)                                     ; $5ad0: $7e
 	push af                                          ; $5ad1: $f5
@@ -14384,7 +14385,7 @@ jr_001_5b7c:
 
 ;;
 	ld   de, $9800                                   ; $5b85: $11 $00 $98
-	call dPlusEquValIn_c6dd                                       ; $5b88: $cd $a8 $1e
+	call dEquDoffsetInScreen1                                       ; $5b88: $cd $a8 $1e
 	jp   Jump_001_5b94                               ; $5b8b: $c3 $94 $5b
 
 
@@ -16811,7 +16812,7 @@ jr_001_6635:
 	jp   Jump_001_628a                               ; $6641: $c3 $8a $62
 
 
-	ld   hl, $c073                                   ; $6644: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $6644: $21 $73 $c0
 	ld   a, (hl)                                     ; $6647: $7e
 	sub  $02                                         ; $6648: $d6 $02
 	cp   $06                                         ; $664a: $fe $06
@@ -16820,7 +16821,7 @@ jr_001_6635:
 	ld   a, $06                                      ; $664e: $3e $06
 
 jr_001_6650:
-	ld   hl, $c073                                   ; $6650: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $6650: $21 $73 $c0
 	ld   (hl), a                                     ; $6653: $77
 	jp   Jump_001_628a                               ; $6654: $c3 $8a $62
 
@@ -17659,7 +17660,7 @@ jr_001_6b44:
 	add  e                                           ; $6b51: $83
 	ld   e, a                                        ; $6b52: $5f
 	ld   a, d                                        ; $6b53: $7a
-	ld   hl, $c6dd                                   ; $6b54: $21 $dd $c6
+	ld   hl, wScreen1displayOffset                                   ; $6b54: $21 $dd $c6
 	adc  (hl)                                        ; $6b57: $8e
 	add  $98                                         ; $6b58: $c6 $98
 	ld   d, a                                        ; $6b5a: $57
@@ -17742,7 +17743,7 @@ Call_001_6b93:
 Call_001_6bc6:
 	call turnOffLCD                                       ; $6bc6: $cd $0d $02
 	ld   de, $9800                                   ; $6bc9: $11 $00 $98
-	call dPlusEquValIn_c6dd                                       ; $6bcc: $cd $a8 $1e
+	call dEquDoffsetInScreen1                                       ; $6bcc: $cd $a8 $1e
 	ld   hl, lyt_03_153f                                   ; $6bcf: $21 $3f $15
 	call copyLayoutFromBank3                                       ; $6bd2: $cd $40 $15
 	ld   hl, $001c                                   ; $6bd5: $21 $1c $00
@@ -17752,7 +17753,7 @@ Call_001_6bc6:
 	ldi  (hl), a                                     ; $6be0: $22
 	ldi  (hl), a                                     ; $6be1: $22
 	ld   e, $8d                                      ; $6be2: $1e $8d
-	ld   hl, $c6dd                                   ; $6be4: $21 $dd $c6
+	ld   hl, wScreen1displayOffset                                   ; $6be4: $21 $dd $c6
 	ld   a, (hl)                                     ; $6be7: $7e
 	cp   $00                                         ; $6be8: $fe $00
 	jr   nz, +                             ; $6bea: $20 $02
@@ -17806,9 +17807,9 @@ jr_001_6c25:
 	jp   Jump_001_628a                               ; $6c25: $c3 $8a $62
 
 
-	ld   hl, $c072                                   ; $6c28: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $6c28: $21 $72 $c0
 	ld   a, (hl)                                     ; $6c2b: $7e
-	ld   hl, $c073                                   ; $6c2c: $21 $73 $c0
+	ld   hl, wPlayerMaxHealth                                   ; $6c2c: $21 $73 $c0
 	cp   (hl)                                        ; $6c2f: $be
 	jr   c, jr_001_6c25                              ; $6c30: $38 $f3
 
@@ -18416,7 +18417,7 @@ Jump_001_6fdc:
 	jp   Jump_001_6fdc                               ; $6fe9: $c3 $dc $6f
 
 
-	ld   hl, $c072                                   ; $6fec: $21 $72 $c0
+	ld   hl, wPlayerHealth                                   ; $6fec: $21 $72 $c0
 	ld   a, (hl)                                     ; $6fef: $7e
 	jp   Jump_001_6fdc                               ; $6ff0: $c3 $dc $6f
 
@@ -18460,7 +18461,7 @@ Jump_001_7022:
 	ld   hl, func_01_0b29                                   ; $702d: $21 $29 $0b
 	call callHLinBankC                                       ; $7030: $cd $4e $01
 	ld   de, $982b                                   ; $7033: $11 $2b $98
-	call dPlusEquValIn_c6dd                                       ; $7036: $cd $a8 $1e
+	call dEquDoffsetInScreen1                                       ; $7036: $cd $a8 $1e
 	ld   hl, $c00a                                   ; $7039: $21 $0a $c0
 	inc  (hl)                                        ; $703c: $34
 	ld   a, (hl)                                     ; $703d: $7e

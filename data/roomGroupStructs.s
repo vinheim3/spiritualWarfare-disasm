@@ -1,7 +1,8 @@
 roomGroupStructsData:
 // width, height
 // group's vram tile idx offset in map screen
-// ???
+// group name in map, line 1
+// group name in map, line 2
 // pointer to room structs
 // ??? - byte 0 is the bank containing the room structs
 
@@ -23,273 +24,312 @@ roomGroupStructsData:
 // room group 00
 	.db $06 $04
 	.dw $9842
-	.db $20 $50 $41 $52 $4b $20 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc " PARK  "
+	.asc "       "
 	.dw group00pointersToRoomStructs
 	.db $02 $00 $01 $02 $40 $50 $06 $24 $1b $00 $1b $00
 
 // room group 01
 	.db $05 $05
 	.dw $98a8
-	.db $20 $44 $4f $57 $4e $2d $20 $20 $54 $4f $57 $4e $20 $20
+	.asc " DOWN- "
+	.asc " TOWN  "
 	.dw group01pointersToRoomStructs
 	.db $02 $01 $00 $00 $18 $68 $06 $9b $1b $00 $1b $00
 
 // room group 02
 	.db $05 $04
 	.dw $984d
-	.db $20 $53 $4c $55 $4d $53 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc " SLUMS "
+	.asc "       "
 	.dw group02pointersToRoomStructs
 	.db $03 $02 $00 $03 $10 $88 $00 $24 $1b $00 $1b $00
 
 // room group 03
 	.db $03 $03
 	.dw $ffff
-	.db $49 $4e $53 $49 $44 $45 $20 $53 $4c $55 $4d $53 $20 $20
+	.asc "INSIDE "
+	.asc "SLUMS  "
 	.dw group03pointersToRoomStructs
 	.db $03 $ff $01 $02 $80 $64 $00 $24 $1b $00 $1b $00
 
 // room group 04
 	.db $04 $03
 	.dw $98c4
-	.db $41 $49 $52 $50 $4f $52 $54 $20 $20 $20 $20 $20 $20 $20
+	.asc "AIRPORT"
+	.asc "       "
 	.dw group04pointersToRoomStructs
 	.db $03 $04 $03 $02 $e0 $70 $09 $9a $1b $00 $1b $00
 
 // room group 05
 	.db $03 $03
 	.dw $ffff
-	.db $49 $4e $53 $49 $44 $45 $20 $41 $49 $52 $50 $4f $52 $54
+	.asc "INSIDE "
+	.asc "AIRPORT"
 	.dw group05pointersToRoomStructs
 	.db $03 $ff $01 $02 $80 $64 $00 $9a $1b $00 $1b $00
 
 // room group 06
 	.db $05 $03
 	.dw $9848
-	.db $50 $52 $49 $53 $4f $4e $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "PRISON "
+	.asc "       "
 	.dw group06pointersToRoomStructs
 	.db $04 $06 $04 $01 $e0 $48 $09 $9a $1b $00 $1b $00
 
 // room group 07
 	.db $03 $09
 	.dw $98c2
-	.db $57 $41 $52 $45 $20 $20 $20 $48 $4f $55 $53 $45 $20 $20
+	.asc "WARE   "
+	.asc "HOUSE  "
 	.dw group07pointersToRoomStructs
 	.db $03 $07 $01 $02 $e0 $70 $09 $9b $1b $00 $1b $00
 
 // room group 08
 	.db $03 $04
 	.dw $9925
-	.db $48 $4f $54 $45 $4c $53 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "HOTELS "
+	.asc "       "
 	.dw group08pointersToRoomStructs
 	.db $02 $08 $00 $01 $10 $70 $00 $24 $1b $00 $1b $00
 
 // room group 09
 	.db $05 $05
 	.dw $ffff
-	.db $55 $4e $44 $45 $52 $2d $20 $47 $52 $4f $55 $4e $44 $20
+	.asc "UNDER- "
+	.asc "GROUND "
 	.dw group09pointersToRoomStructs
 	.db $02 $ff $01 $02 $80 $64 $00 $24 $1b $00 $1b $00
 
 // room group 0a
 	.db $05 $05
 	.dw $98cd
-	.db $48 $4f $55 $53 $45 $53 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "HOUSES "
+	.asc "       "
 	.dw group0apointersToRoomStructs
 	.db $02 $0a $00 $02 $20 $78 $00 $9a $1b $00 $1b $00
 
 // room group 0b
 	.db $07 $04
 	.dw $996b
-	.db $42 $45 $41 $43 $48 $20 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "BEACH  "
+	.asc "       "
 	.dw group0bpointersToRoomStructs
 	.db $03 $0b $03 $02 $70 $10 $06 $9b $1b $00 $1b $00
 
 // room group 0c
 	.db $07 $05
 	.dw $9945
-	.db $53 $48 $49 $50 $20 $20 $20 $59 $41 $52 $44 $20 $20 $20
+	.asc "SHIP   "
+	.asc "YARD   "
 	.dw group0cpointersToRoomStructs
 	.db $02 $0c $03 $01 $10 $68 $00 $9a $1b $00 $1b $00
 
 // room group 0d
 	.db $04 $04
 	.dw $992c
-	.db $57 $4f $4f $44 $53 $20 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "WOODS  "
+	.asc "       "
 	.dw group0dpointersToRoomStructs
 	.db $02 $0d $02 $03 $70 $90 $03 $24 $1b $00 $1b $00
 
 // room group 0e
 	.db $04 $01
 	.dw $ffff
-	.db $20 $43 $49 $54 $59 $20 $20 $20 $52 $4f $4f $46 $20 $20
+	.asc " CITY  "
+	.asc " ROOF  "
 	.dw group0epointersToRoomStructs
 	.db $02 $ff $01 $02 $80 $64 $00 $9b $1b $00 $1b $00
 
 // room group 0f
 	.db $05 $05
 	.dw $ffff
-	.db $49 $4e $53 $49 $44 $45 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "INSIDE "
+	.asc "       "
 	.dw group0fpointersToRoomStructs
 	.db $02 $ff $01 $02 $80 $64 $00 $9b $1b $00 $1b $00
 
 // room group 10
 	.db $04 $05
 	.dw $ffff
-	.db $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "       "
+	.asc "       "
 	.dw group10pointersToRoomStructs
 	.db $03 $ff $01 $02 $80 $64 $00 $24 $1b $00 $1b $00
 
 // room group 11
 	.db $04 $02
 	.dw $ffff
-	.db $43 $45 $4c $4c $20 $20 $20 $42 $4c $4f $43 $4b $20 $20
+	.asc "CELL   "
+	.asc "BLOCK  "
 	.dw group11pointersToRoomStructs
 	.db $04 $ff $01 $02 $80 $64 $00 $9a $1b $00 $1b $00
 
 // room group 12
 	.db $01 $01
 	.dw $ffff
-	.db $43 $48 $55 $52 $43 $48 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "CHURCH "
+	.asc "       "
 	.dw group12pointersToRoomStructs
 	.db $02 $ff $01 $02 $80 $64 $00 $24 $1b $00 $1b $00
 
 // room group 13
 	.db $02 $02
 	.dw $ffff
-	.db $50 $49 $45 $52 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "PIER   "
+	.asc "       "
 	.dw group13pointersToRoomStructs
 	.db $03 $ff $01 $02 $80 $64 $00 $9a $1b $00 $1b $00
 
 // room group 14
 	.db $02 $03
 	.dw $ffff
-	.db $54 $52 $41 $49 $4e $20 $20 $53 $54 $41 $54 $49 $4f $4e
+	.asc "TRAIN  "
+	.asc "STATION"
 	.dw group14pointersToRoomStructs
 	.db $03 $ff $01 $02 $80 $64 $00 $24 $1b $00 $1b $00
 
 // room group 15
 	.db $03 $04
 	.dw $ffff
-	.db $44 $45 $4d $4f $4e $27 $53 $4c $41 $49 $52 $20 $20 $31
+	.asc "DEMON'S"
+	.asc "LAIR  1"
 	.dw group15pointersToRoomStructs
 	.db $04 $15 $00 $00 $20 $48 $06 $24 $1b $00 $1b $00
 
 // room group 16
 	.db $04 $06
 	.dw $ffff
-	.db $44 $45 $4d $4f $4e $27 $53 $4c $41 $49 $52 $20 $20 $32
+	.asc "DEMON'S"
+	.asc "LAIR  2"
 	.dw group16pointersToRoomStructs
 	.db $04 $15 $00 $00 $20 $48 $06 $24 $1b $00 $1b $00
 
 // room group 17
 	.db $04 $03
 	.dw $ffff
-	.db $44 $45 $4d $4f $4e $27 $53 $4c $41 $49 $52 $20 $20 $33
+	.asc "DEMON'S"
+	.asc "LAIR  3"
 	.dw group17pointersToRoomStructs
 	.db $04 $15 $00 $00 $20 $48 $06 $24 $1b $00 $1b $00
 
 // room group 18
 	.db $03 $03
 	.dw $ffff
-	.db $44 $45 $4d $4f $4e $27 $53 $4c $41 $49 $52 $20 $20 $34
+	.asc "DEMON'S"
+	.asc "LAIR  4"
 	.dw group18pointersToRoomStructs
 	.db $04 $15 $00 $00 $20 $48 $06 $24 $1b $00 $1b $00
 
 // room group 19
 	.db $07 $08
 	.dw $ffff
-	.db $44 $45 $4d $4f $4e $27 $53 $4c $41 $49 $52 $20 $20 $35
+	.asc "DEMON'S"
+	.asc "LAIR  5"
 	.dw group19pointersToRoomStructs
 	.db $04 $15 $00 $00 $20 $48 $06 $24 $1b $00 $1b $00
 
 // room group 1a
 	.db $06 $04
 	.dw $ffff
-	.db $44 $45 $4d $4f $4e $27 $53 $4c $41 $49 $52 $20 $20 $36
+	.asc "DEMON'S"
+	.asc "LAIR  6"
 	.dw group1apointersToRoomStructs
 	.db $04 $15 $00 $00 $20 $48 $06 $24 $1b $00 $1b $00
 
 // room group 1b
 	.db $03 $03
 	.dw $ffff
-	.db $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "       "
+	.asc "       "
 	.dw group1bpointersToRoomStructs
 	.db $03 $ff $01 $02 $80 $64 $00 $24 $1b $00 $1b $00
 
 // room group 1c
 	.db $03 $09
 	.dw $ffff
-	.db $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "       "
+	.asc "       "
 	.dw group1cpointersToRoomStructs
 	.db $02 $ff $01 $02 $80 $64 $00 $24 $1b $00 $1b $00
 
 // room group 1d
 	.db $07 $07
 	.dw $ffff
-	.db $4c $4f $53 $54 $20 $20 $20 $41 $54 $20 $53 $45 $41 $20
+	.asc "LOST   "
+	.asc "AT SEA "
 	.dw group1dpointersToRoomStructs
 	.db $03 $0b $03 $02 $70 $10 $06 $24 $1b $00 $1b $00
 
 // room group 1e
 	.db $03 $03
 	.dw $ffff
-	.db $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20
+	.asc "       "
+	.asc "       "
 	.dw group1epointersToRoomStructs
 	.db $03 $07 $01 $02 $e0 $70 $09 $9b $1b $00 $1b $00
 
 // room group 1f
 	.db $01 $02
 	.dw $ffff
-	.db $20 $42 $45 $41 $43 $48 $20 $20 $48 $4f $55 $53 $45 $20
+	.asc " BEACH "
+	.asc " HOUSE "
 	.dw group1fpointersToRoomStructs
 	.db $03 $0b $03 $02 $70 $10 $06 $24 $1b $00 $1b $00
 
 // room group 20
 	.db $01 $01
 	.dw $ffff
-	.db $42 $4f $53 $53 $20 $20 $20 $52 $4f $4f $4d $20 $31 $20
+	.asc "BOSS   "
+	.asc "ROOM 1 "
 	.dw group20pointersToRoomStructs
 	.db $02 $09 $01 $00 $40 $70 $00 $24 $1b $00 $1b $00
 
 // room group 21
 	.db $01 $01
 	.dw $ffff
-	.db $42 $4f $53 $53 $20 $20 $20 $52 $4f $4f $4d $20 $32 $20
+	.asc "BOSS   "
+	.asc "ROOM 2 "
 	.dw group21pointersToRoomStructs
 	.db $02 $0f $01 $02 $e0 $40 $00 $24 $1b $00 $1b $00
 
 // room group 22
 	.db $01 $01
 	.dw $ffff
-	.db $42 $4f $53 $53 $20 $20 $20 $52 $4f $4f $4d $20 $33 $20
+	.asc "BOSS   "
+	.asc "ROOM 3 "
 	.dw group22pointersToRoomStructs
 	.db $04 $07 $02 $05 $d0 $49 $00 $24 $1b $00 $1b $00
 
 // room group 23
 	.db $01 $01
 	.dw $ffff
-	.db $42 $4f $53 $53 $20 $20 $20 $52 $4f $4f $4d $20 $34 $20
+	.asc "BOSS   "
+	.asc "ROOM 4 "
 	.dw group23pointersToRoomStructs
 	.db $04 $0d $01 $00 $70 $78 $00 $24 $1b $00 $1b $00
 
 // room group 24
 	.db $01 $01
 	.dw $ffff
-	.db $42 $4f $53 $53 $20 $20 $20 $52 $4f $4f $4d $20 $35 $20
+	.asc "BOSS   "
+	.asc "ROOM 5 "
 	.dw group24pointersToRoomStructs
 	.db $02 $0b $06 $03 $b0 $70 $00 $24 $1b $00 $1b $00
 
 // room group 25
 	.db $01 $01
 	.dw $ffff
-	.db $42 $4f $53 $53 $20 $20 $20 $52 $4f $4f $4d $20 $36 $20
+	.asc "BOSS   "
+	.asc "ROOM 6 "
 	.dw group25pointersToRoomStructs
 	.db $04 $16 $01 $02 $20 $28 $00 $24 $1b $00 $1b $00
 
 // room group 26
 	.db $01 $01
 	.dw $ffff
-	.db $20 $46 $49 $4e $41 $4c $20 $20 $42 $4f $53 $53 $20 $20
+	.asc " FINAL "
+	.asc " BOSS  "
 	.dw group26pointersToRoomStructs
 	.db $03 $1a $01 $02 $30 $89 $00 $24 $1b $00 $1b $00
 

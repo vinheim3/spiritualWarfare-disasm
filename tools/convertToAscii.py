@@ -20,24 +20,6 @@ def convertToAscii(start):
 
     for char in hexchars:
         adjusted_chars.append(chr(char))
-        # if char == 0xff:
-        #     adjusted_chars.append(" ")
-        # elif char == 0x1d:
-        #     adjusted_chars.append("#")
-        # elif char == 0x1e:
-        #     adjusted_chars.append("'")
-        # elif char == 0x1f:
-        #     adjusted_chars.append("-")
-        # elif char == 0x20:
-        #     adjusted_chars.append("!")
-        # elif char == 0x21:
-        #     adjusted_chars.append("?")
-        # elif char == 0xe0:
-        #     adjusted_chars.append(":")
-        # elif char >= 0x3c:
-        #     adjusted_chars.append(chr(char-0x3c+ord("0")))
-        # else:
-        #     adjusted_chars.append(chr(char+ord("A")))
 
     final_str = f"text_{start:04x}:\n\t.asc \"" + "".join(adjusted_chars) + "\"\n\t.db $00"
     return final_str, offset

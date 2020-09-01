@@ -30,11 +30,15 @@ pointersToRoomStructs = {}
 
 while start + offset < end:
     comps.append(f'// room group {group:02x}')
+    # width/height
     comps.append(f'\t.db ${data[start+offset+0x0]:02x} ${data[start+offset+0x1]:02x}')
+    # map vram offset
     comps.append(f'\t.dw ${data[start+offset+0x3]:02x}{data[start+offset+2]:02x}')
-    row1 = " ".join(f"${data[start+offset+i]:02x}" for i in range(0x4, 0x12))
-    row2 = " ".join(f"${data[start+offset+i]:02x}" for i in range(0x14, 0x20))
-    comps.append(f'\t.db {row1}')
+
+    name1 = "".join(chr(data[start+offset+i]) for i in range(0x4, 0xb))
+    name2 = "".join(chr(data[start+offset+i]) for i in range(0xb, 0x12))
+    comps.append(f'\t.asc "{name1}"')
+    comps.append(f'\t.asc "{name2}"')
 
     roomStructPointerWord = (data[start+offset+0x13] << 8) + data[start+offset+0x12]
     roomStructAddressToGroupMap[roomStructPointerWord] = group
@@ -45,6 +49,7 @@ while start + offset < end:
         'rooms': []
     }
 
+    row2 = " ".join(f"${data[start+offset+i]:02x}" for i in range(0x14, 0x20))
     comps.append(f'\t.db {row2}\n')
     group += 1
     offset += 0x20

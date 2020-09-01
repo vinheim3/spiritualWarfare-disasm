@@ -6,7 +6,13 @@
 
 // these 1st few wram bytes seem to be multi-purpose, ie unions
 wc000:
-	dsb $33
+	dsb $2b
+
+wPlayerScore: ; $c02b
+	dsb 7
+
+wc032:
+	db
 
 wCurrRoomGroup: ; $c033
 	db
@@ -65,13 +71,35 @@ wTileLayoutDataBank: ; $c05c
 	db
 
 wc05d:
-	dsb $da-$5d
+	dsb $72-$5d
+
+// every 2 health is a heart
+wPlayerHealth: ; $c072
+	db
+
+wPlayerMaxHealth: ; $c073
+	db
+
+wc074:
+	dsb $da-$74
 
 wCurrGroupMapVRamOffset: ; $c0da
 	dw
 
 wc0dc:
-	dsb $100-$dc
+	dsb $a0-$dc
+
+.union
+	wSpecialItemsGottenByte: ; $c0a0
+		db
+.nextu
+	// so when max health loop ends, it can fill the rest with 0's
+	wCurrentHeartDrawn: ; $c0a0
+		db
+.endu
+
+wc0a1:
+	dsb $100-$a1
 
 wRoomFlags: ; $c100
 	dsb $100 // TODO: unknown size
@@ -133,11 +161,16 @@ wSpecialBitemsGotten: ; $c653
 wc654:
 	dsb $dc-$54
 
+// seems to always be 0
 wScreen0displayOffset: ; $c6dc
 	db
 
-wc6dd:
-	dsb $708-$6dd
+// seems to always be 4
+wScreen1displayOffset: ; $c6dd
+	db
+
+wc6de:
+	dsb $708-$6de
 
 wNumBirds: ; $c708
 	db
@@ -150,8 +183,20 @@ wNumBirds: ; $c708
 wFruitAmounts: ; $c709
 	dsb 3
 
-wc70c:
-	dsb $850-$70c
+wFruitEquipped: ; $c70c
+	db
+
+wc70d:
+	dsb $16-$d
+
+wRoomGroupNameLine1: ; $c716
+	dsb 7
+
+wRoomGroupNameLine2: ; $c71d
+	dsb 7
+
+wc724:
+	dsb $850-$724
 
 wGameScreenTiles: ; $c850
 	dsb $2c0

@@ -55,6 +55,7 @@
 .org $0
 
 	.incbin "common.bin"
+	.include "data/vramTileConversionTables.s"
 	.include "code/bank_004.s"
 	.include "data/b4_roomStructsAndLayouts.s"
 
