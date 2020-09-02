@@ -966,6 +966,7 @@ loadRoomStructData:
 	cp   $ff                                         ; $05fb: $fe $ff
 	jp   z, @next_06a0                            ; $05fd: $ca $a0 $06
 
+// only load up to 12 npcs?
 	ld   a, c                                        ; $0600: $79
 	cp   $0c                                         ; $0601: $fe $0c
 	jp   nc, @next_06a0                           ; $0603: $d2 $a0 $06
@@ -991,6 +992,7 @@ loadRoomStructData:
 	jp   @next_069a                               ; $061b: $c3 $9a $06
 
 ++
+// npc 1st byte is max $f5
 	ld   hl, $c006                                   ; $061e: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0621: $2a
 	ld   h, (hl)                                     ; $0622: $66
@@ -1003,10 +1005,13 @@ loadRoomStructData:
 	ld   a, $00                                      ; $062a: $3e $00
 
 +
-	ld   hl, $cb30                                   ; $062c: $21 $30 $cb
+// store NPC 1st byte into cb30
+	ld   hl, wNPC1stBytes                                   ; $062c: $21 $30 $cb
 	add  hl, bc                                      ; $062f: $09
 	ld   (hl), a                                     ; $0630: $77
 	inc  de                                          ; $0631: $13
+
+// get 2nd byte
 	ld   hl, $c006                                   ; $0632: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0635: $2a
 	ld   h, (hl)                                     ; $0636: $66
@@ -1014,61 +1019,75 @@ loadRoomStructData:
 	add  hl, de                                      ; $0638: $19
 	ld   a, (hl)                                     ; $0639: $7e
 	inc  de                                          ; $063a: $13
+
+// lower 6 bits into cb84 region
 	push af                                          ; $063b: $f5
 	and  $3f                                         ; $063c: $e6 $3f
-	ld   hl, $cb84                                   ; $063e: $21 $84 $cb
+	ld   hl, wNPC2ndByteLower6Bits                                   ; $063e: $21 $84 $cb
 	add  hl, bc                                      ; $0641: $09
 	ld   (hl), a                                     ; $0642: $77
+
+// 3rd byte into cb3c region
 	ld   hl, $c006                                   ; $0643: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0646: $2a
 	ld   h, (hl)                                     ; $0647: $66
 	ld   l, a                                        ; $0648: $6f
 	add  hl, de                                      ; $0649: $19
 	ld   a, (hl)                                     ; $064a: $7e
-	ld   hl, $cb3c                                   ; $064b: $21 $3c $cb
+	ld   hl, wNPC3rdBytesOrXCoords                                   ; $064b: $21 $3c $cb
 	add  hl, bc                                      ; $064e: $09
 	ld   (hl), a                                     ; $064f: $77
 	inc  de                                          ; $0650: $13
+
+// 4th byte into cb48 region
 	ld   hl, $c006                                   ; $0651: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0654: $2a
 	ld   h, (hl)                                     ; $0655: $66
 	ld   l, a                                        ; $0656: $6f
 	add  hl, de                                      ; $0657: $19
 	ld   a, (hl)                                     ; $0658: $7e
-	ld   hl, $cb48                                   ; $0659: $21 $48 $cb
+	ld   hl, wNPC4thBytesOrYCoords                                   ; $0659: $21 $48 $cb
 	add  hl, bc                                      ; $065c: $09
 	ld   (hl), a                                     ; $065d: $77
 	inc  de                                          ; $065e: $13
 	pop  af                                          ; $065f: $f1
+
+// check 2nd NPC byte bit 7
+// if not set, have DE inc'ed
 	push af                                          ; $0660: $f5
 	bit  7, a                                        ; $0661: $cb $7f
 	jr   z, +                              ; $0663: $28 $1e
 
+// get npc 3rd byte
 	dec  de                                          ; $0665: $1b
-	ld   hl, $cb3c                                   ; $0666: $21 $3c $cb
+	ld   hl, wNPC3rdBytesOrXCoords                                   ; $0666: $21 $3c $cb
 	add  hl, bc                                      ; $0669: $09
 	ld   a, (hl)                                     ; $066a: $7e
 	push af                                          ; $066b: $f5
+// put lower nybble in upper nybble, and store in cb48
 	and  $0f                                         ; $066c: $e6 $0f
 	sla  a                                           ; $066e: $cb $27
 	sla  a                                           ; $0670: $cb $27
 	sla  a                                           ; $0672: $cb $27
 	sla  a                                           ; $0674: $cb $27
-	ld   hl, $cb48                                   ; $0676: $21 $48 $cb
+	ld   hl, wNPC4thBytesOrYCoords                                   ; $0676: $21 $48 $cb
 	add  hl, bc                                      ; $0679: $09
 	ld   (hl), a                                     ; $067a: $77
+// put upper nybble in cb3c
 	pop  af                                          ; $067b: $f1
 	and  $f0                                         ; $067c: $e6 $f0
-	ld   hl, $cb3c                                   ; $067e: $21 $3c $cb
+	ld   hl, wNPC3rdBytesOrXCoords                                   ; $067e: $21 $3c $cb
 	add  hl, bc                                      ; $0681: $09
 	ld   (hl), a                                     ; $0682: $77
 
 +
+// check NPC 2nd byte bit 6
 	pop  af                                          ; $0683: $f1
 	and  $40                                         ; $0684: $e6 $40
 	jr   z, +                              ; $0686: $28 $08
 
-	ld   hl, $cb48                                   ; $0688: $21 $48 $cb
+// if set, adjust cb48 by 8 (lower NPC by 8 pixels down?)
+	ld   hl, wNPC4thBytesOrYCoords                                   ; $0688: $21 $48 $cb
 	add  hl, bc                                      ; $068b: $09
 	ld   a, (hl)                                     ; $068c: $7e
 	add  $08                                         ; $068d: $c6 $08
@@ -1087,18 +1106,20 @@ loadRoomStructData:
 	jp   @bigLoop_05f3                               ; $069d: $c3 $f3 $05
 
 @next_06a0:
+// fill the rest of npc 1st byte with $ff to not process them
 -
 	ld   a, c                                        ; $06a0: $79
 	cp   $0c                                         ; $06a1: $fe $0c
 	jp   nc, +                           ; $06a3: $d2 $b0 $06
 
-	ld   hl, $cb30                                   ; $06a6: $21 $30 $cb
+	ld   hl, wNPC1stBytes                                   ; $06a6: $21 $30 $cb
 	add  hl, bc                                      ; $06a9: $09
 	ld   (hl), $ff                                   ; $06aa: $36 $ff
 	inc  bc                                          ; $06ac: $03
 	jp   -                               ; $06ad: $c3 $a0 $06
 
 +
+//
 	ld   de, $0000                                   ; $06b0: $11 $00 $00
 
 @bigLoop_06b3:
@@ -1172,9 +1193,9 @@ loadRoomStructData:
 	cp   $0b                                         ; $0712: $fe $0b
 	jr   c, @bigLoop_06b3                              ; $0714: $38 $9d
 
+// clear c660-c663
 	ld   bc, $0003                                   ; $0716: $01 $03 $00
 	ld   a, $00                                      ; $0719: $3e $00
-
 -
 	dec  bc                                          ; $071b: $0b
 	ld   hl, $c660                                   ; $071c: $21 $60 $c6
@@ -1182,6 +1203,7 @@ loadRoomStructData:
 	ld   (hl), a                                     ; $0720: $77
 	jr   nz, -                             ; $0721: $20 $f8
 
+// clear c07d, back to bank 0
 	ld   hl, $c07d                                   ; $0723: $21 $7d $c0
 	ld   (hl), a                                     ; $0726: $77
 	ld   hl, $0000                                   ; $0727: $21 $00 $00
@@ -1193,7 +1215,7 @@ loadRoomStructData:
 Call_000_072c:
 	push bc                                          ; $072c: $c5
 	call Call_000_0749                               ; $072d: $cd $49 $07
-	ld   hl, $c100                                   ; $0730: $21 $00 $c1
+	ld   hl, wRoomFlags                                   ; $0730: $21 $00 $c1
 	add  hl, bc                                      ; $0733: $09
 	and  (hl)                                        ; $0734: $a6
 	cp   $01                                         ; $0735: $fe $01

@@ -114,7 +114,7 @@ func_01_09d3:
 func_01_09de:
 	push bc                                          ; $49de: $c5
 	call Call_000_0749                                       ; $49df: $cd $49 $07
-	ld   hl, $c100                                   ; $49e2: $21 $00 $c1
+	ld   hl, wRoomFlags                                   ; $49e2: $21 $00 $c1
 	add  hl, bc                                      ; $49e5: $09
 	or   (hl)                                        ; $49e6: $b6
 	ld   (hl), a                                     ; $49e7: $77
@@ -130,7 +130,7 @@ func_01_09ea:
 	cp   (hl)                                        ; $49f1: $be
 	jr   z, @clearZflag                              ; $49f2: $28 $19
 
-	ld   hl, $c100                                   ; $49f4: $21 $00 $c1
+	ld   hl, wRoomFlags                                   ; $49f4: $21 $00 $c1
 	add  hl, bc                                      ; $49f7: $09
 	ld   a, (hl)                                     ; $49f8: $7e
 	ld   hl, $c008                                   ; $49f9: $21 $08 $c0
@@ -198,10 +198,10 @@ func_01_0a28:
 	cp   (hl)                                        ; $4a53: $be
 	jr   nc, +                             ; $4a54: $30 $0f
 
-	ld   hl, $c100                                   ; $4a56: $21 $00 $c1
+	ld   hl, wRoomFlags                                   ; $4a56: $21 $00 $c1
 	add  hl, de                                      ; $4a59: $19
 	ld   a, (hl)                                     ; $4a5a: $7e
-	ld   hl, $c100                                   ; $4a5b: $21 $00 $c1
+	ld   hl, wRoomFlags                                   ; $4a5b: $21 $00 $c1
 	add  hl, bc                                      ; $4a5e: $09
 	ld   (hl), a                                     ; $4a5f: $77
 	inc  bc                                          ; $4a60: $03
@@ -237,7 +237,7 @@ func_01_0a28:
 	ld   b, $00                                      ; $4a8d: $06 $00
 	ld   hl, $c008                                   ; $4a8f: $21 $08 $c0
 	ld   a, (hl)                                     ; $4a92: $7e
-	ld   hl, $c100                                   ; $4a93: $21 $00 $c1
+	ld   hl, wRoomFlags                                   ; $4a93: $21 $00 $c1
 	add  hl, bc                                      ; $4a96: $09
 	ld   (hl), a                                     ; $4a97: $77
 	ld   hl, $c00b                                   ; $4a98: $21 $0b $c0
@@ -263,7 +263,7 @@ func_01_0a28:
 	ld   a, $00                                      ; $4aba: $3e $00
 
 -
-	ld   hl, $c100                                   ; $4abc: $21 $00 $c1
+	ld   hl, wRoomFlags                                   ; $4abc: $21 $00 $c1
 	add  hl, bc                                      ; $4abf: $09
 	ld   (hl), a                                     ; $4ac0: $77
 	inc  bc                                          ; $4ac1: $03

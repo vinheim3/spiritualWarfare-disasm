@@ -5,6 +5,10 @@ roomGroupStructsData:
 // group name in map, line 2
 // pointer to room structs
 // ??? - byte 0 is the bank containing the room structs
+//     - byte 5th from last goes into c728
+//     - last 4 into words c724 and c726
+//     - if byte 1 is not $ff, copy currRoomGroup to $c715
+//     - bytes 2 to 6 are reset variables (room x,y, player x,y, unknown)
 
 //  ________________________________
 // |           |         |         |

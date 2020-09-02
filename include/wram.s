@@ -6,7 +6,18 @@
 
 // these 1st few wram bytes seem to be multi-purpose, ie unions
 wc000:
-	dsb 8
+	dsb 6
+
+.union
+	wCurrGroupStructPointer: ; $c006
+		dw
+.nextu
+	wCurrGroupRoomStructPointers: ; $c006
+		dw
+.nextu
+	wCurrRoomStructPointer: ; $c006
+		dw
+.endu
 
 .union
 	wTotalRoomsFromGroup0beforeCurrRoomIdx: ; $c008
@@ -17,7 +28,19 @@ wc000:
 .endu
 
 wc00b:
-	dsb $2b-$b
+	dsb $16-$b
+
+wKeysPressed: ; $c016
+	db
+
+wc017:
+	db
+
+wNewKeysPressed: ; $c018
+	db
+
+wc019:
+	dsb $2b-$19
 
 wPlayerScore: ; $c02b
 	dsb 7
@@ -140,8 +163,9 @@ wc0dc:
 wc0a1:
 	dsb $100-$a1
 
+// TODO: unknown size, could be global flags
 wRoomFlags: ; $c100
-	dsb $100 // TODO: unknown size
+	dsb $100
 
 wOam: ; $c200
 	dsb $a0
@@ -260,8 +284,17 @@ wRoomGroupNameLine1: ; $c716
 wRoomGroupNameLine2: ; $c71d
 	dsb 7
 
-wc724:
-	dsb $b-4
+wCurrGroupStruct2ndLastWord: ; $c724
+	dw
+
+wCurrGroupStructLastWord: ; $c726
+	dw
+
+wCurrGroupStructByte1bh: ; $c728
+	db
+
+wc729:
+	dsb $b-9
 
 wFirstRoomStructByte: ; $c72b
 	db
@@ -280,6 +313,24 @@ wSCXvalue: ; $cb10
 
 wSCYvalue: ; $cb11
 	db
+
+wcb12:
+	dsb $30-$12
+
+wNPC1stBytes: ; $cb30
+	dsb $0c
+
+wNPC3rdBytesOrXCoords: ; $cb3c
+	dsb $0c
+
+wNPC4thBytesOrYCoords: ; $cb48
+	dsb $0c
+
+wcb54:
+	dsb $84-$54
+
+wNPC2ndByteLower6Bits: ; $cb84
+	dsb $0c
 
 .ends
 
