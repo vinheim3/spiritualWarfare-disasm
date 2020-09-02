@@ -104,6 +104,7 @@ wc055:
 wTileLayoutDataBank: ; $c05c
 	db
 
+// c05d - ff when transitioning out of room group (screen transition)
 wc05d:
 	dsb $72-$5d
 
