@@ -12,3 +12,6 @@
 .rombanks 8
 
 .nintendologo
+
+.asciitable
+.enda

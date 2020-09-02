@@ -5844,18 +5844,17 @@ Call_000_2cbf:
 	ld   hl, $c6cb                                   ; $2cbf: $21 $cb $c6
 	ld   a, (hl)                                     ; $2cc2: $7e
 	cp   $00                                         ; $2cc3: $fe $00
-	jr   nz, jr_000_2cc8                             ; $2cc5: $20 $01
+	jr   nz, +                             ; $2cc5: $20 $01
 
 	ret                                              ; $2cc7: $c9
 
-
-jr_000_2cc8:
++
 	bit  7, a                                        ; $2cc8: $cb $7f
-	jr   nz, jr_000_2d45                             ; $2cca: $20 $79
+	jr   nz, @func_2d45                             ; $2cca: $20 $79
 
 	ld   hl, $c6cb                                   ; $2ccc: $21 $cb $c6
 	dec  (hl)                                        ; $2ccf: $35
-	jr   z, jr_000_2d34                              ; $2cd0: $28 $62
+	jr   z, @next_2d34                              ; $2cd0: $28 $62
 
 	ld   hl, wEquippedBItem                                   ; $2cd2: $21 $49 $c0
 	ld   a, (hl)                                     ; $2cd5: $7e
@@ -5865,152 +5864,141 @@ jr_000_2cc8:
 	ld   hl, $c6ce                                   ; $2cdc: $21 $ce $c6
 	ld   a, (hl)                                     ; $2cdf: $7e
 	cp   $03                                         ; $2ce0: $fe $03
-	jr   nz, jr_000_2cf5                             ; $2ce2: $20 $11
+	jr   nz, +                             ; $2ce2: $20 $11
 
 	ld   hl, $c6cd                                   ; $2ce4: $21 $cd $c6
 	ld   a, (hl)                                     ; $2ce7: $7e
 	ld   hl, $c00d                                   ; $2ce8: $21 $0d $c0
 	sub  (hl)                                        ; $2ceb: $96
-	jr   c, jr_000_2d34                              ; $2cec: $38 $46
+	jr   c, @next_2d34                              ; $2cec: $38 $46
 
 	ld   hl, $c6cd                                   ; $2cee: $21 $cd $c6
 	ld   (hl), a                                     ; $2cf1: $77
-	jp   Jump_000_2d91                               ; $2cf2: $c3 $91 $2d
+	jp   @next_2d91                               ; $2cf2: $c3 $91 $2d
 
-
-jr_000_2cf5:
++
 	cp   $06                                         ; $2cf5: $fe $06
-	jr   nz, jr_000_2d0c                             ; $2cf7: $20 $13
+	jr   nz, +                             ; $2cf7: $20 $13
 
 	ld   hl, $c6cd                                   ; $2cf9: $21 $cd $c6
 	ld   a, (hl)                                     ; $2cfc: $7e
 	ld   hl, $c00d                                   ; $2cfd: $21 $0d $c0
 	add  (hl)                                        ; $2d00: $86
 	cp   $a0                                         ; $2d01: $fe $a0
-	jr   nc, jr_000_2d34                             ; $2d03: $30 $2f
+	jr   nc, @next_2d34                             ; $2d03: $30 $2f
 
 	ld   hl, $c6cd                                   ; $2d05: $21 $cd $c6
 	ld   (hl), a                                     ; $2d08: $77
-	jp   Jump_000_2d91                               ; $2d09: $c3 $91 $2d
+	jp   @next_2d91                               ; $2d09: $c3 $91 $2d
 
-
-jr_000_2d0c:
++
 	cp   $09                                         ; $2d0c: $fe $09
-	jr   nz, jr_000_2d21                             ; $2d0e: $20 $11
+	jr   nz, +                             ; $2d0e: $20 $11
 
 	ld   hl, $c6cc                                   ; $2d10: $21 $cc $c6
 	ld   a, (hl)                                     ; $2d13: $7e
 	ld   hl, $c00d                                   ; $2d14: $21 $0d $c0
 	sub  (hl)                                        ; $2d17: $96
-	jr   c, jr_000_2d34                              ; $2d18: $38 $1a
+	jr   c, @next_2d34                              ; $2d18: $38 $1a
 
 	ld   hl, $c6cc                                   ; $2d1a: $21 $cc $c6
 	ld   (hl), a                                     ; $2d1d: $77
-	jp   Jump_000_2d91                               ; $2d1e: $c3 $91 $2d
+	jp   @next_2d91                               ; $2d1e: $c3 $91 $2d
 
-
-jr_000_2d21:
++
 	ld   hl, $c6cc                                   ; $2d21: $21 $cc $c6
 	ld   a, (hl)                                     ; $2d24: $7e
 	ld   hl, $c00d                                   ; $2d25: $21 $0d $c0
 	add  (hl)                                        ; $2d28: $86
 	cp   $f0                                         ; $2d29: $fe $f0
-	jr   nc, jr_000_2d34                             ; $2d2b: $30 $07
+	jr   nc, @next_2d34                             ; $2d2b: $30 $07
 
 	ld   hl, $c6cc                                   ; $2d2d: $21 $cc $c6
 	ld   (hl), a                                     ; $2d30: $77
-	jp   Jump_000_2d91                               ; $2d31: $c3 $91 $2d
+	jp   @next_2d91                               ; $2d31: $c3 $91 $2d
 
-
-jr_000_2d34:
+@next_2d34:
 	ld   a, $ff                                      ; $2d34: $3e $ff
 	ld   hl, $c6cb                                   ; $2d36: $21 $cb $c6
 	ld   (hl), a                                     ; $2d39: $77
 	ld   hl, wEquippedBItem                                   ; $2d3a: $21 $49 $c0
 	ld   a, (hl)                                     ; $2d3d: $7e
 	cp   $01                                         ; $2d3e: $fe $01
-	jr   z, jr_000_2d91                              ; $2d40: $28 $4f
+	jr   z, @next_2d91                              ; $2d40: $28 $4f
 
-	jp   Jump_000_2e40                               ; $2d42: $c3 $40 $2e
+	jp   @func_2e40                               ; $2d42: $c3 $40 $2e
 
-
-jr_000_2d45:
+@func_2d45:
 	ld   bc, $0000                                   ; $2d45: $01 $00 $00
 	ld   hl, wPlayerX                                   ; $2d48: $21 $52 $c0
 	ld   a, (hl)                                     ; $2d4b: $7e
 	ld   hl, $c6cc                                   ; $2d4c: $21 $cc $c6
 	sub  (hl)                                        ; $2d4f: $96
-	jr   c, jr_000_2d5c                              ; $2d50: $38 $0a
+	jr   c, ++                              ; $2d50: $38 $0a
 
 	cp   $08                                         ; $2d52: $fe $08
-	jr   nc, jr_000_2d57                             ; $2d54: $30 $01
+	jr   nc, +                             ; $2d54: $30 $01
 
 	inc  bc                                          ; $2d56: $03
 
-jr_000_2d57:
++
 	inc  (hl)                                        ; $2d57: $34
 	inc  (hl)                                        ; $2d58: $34
-	jp   Jump_000_2d65                               ; $2d59: $c3 $65 $2d
+	jp   @func_2d65                               ; $2d59: $c3 $65 $2d
 
-
-jr_000_2d5c:
+++
 	cp   $f8                                         ; $2d5c: $fe $f8
-	jr   c, jr_000_2d61                              ; $2d5e: $38 $01
+	jr   c, +                              ; $2d5e: $38 $01
 
 	inc  bc                                          ; $2d60: $03
 
-jr_000_2d61:
++
 	dec  (hl)                                        ; $2d61: $35
-	jr   z, jr_000_2d65                              ; $2d62: $28 $01
+	jr   z, @func_2d65                              ; $2d62: $28 $01
 
 	dec  (hl)                                        ; $2d64: $35
 
-Jump_000_2d65:
-jr_000_2d65:
+@func_2d65:
 	ld   hl, wPlayerY                                   ; $2d65: $21 $54 $c0
 	ld   a, (hl)                                     ; $2d68: $7e
 	ld   hl, $c6cd                                   ; $2d69: $21 $cd $c6
 	sub  (hl)                                        ; $2d6c: $96
-	jr   c, jr_000_2d79                              ; $2d6d: $38 $0a
+	jr   c, ++                              ; $2d6d: $38 $0a
 
 	cp   $08                                         ; $2d6f: $fe $08
-	jr   nc, jr_000_2d74                             ; $2d71: $30 $01
+	jr   nc, +                             ; $2d71: $30 $01
 
 	inc  bc                                          ; $2d73: $03
 
-jr_000_2d74:
++
 	inc  (hl)                                        ; $2d74: $34
 	inc  (hl)                                        ; $2d75: $34
-	jp   Jump_000_2d86                               ; $2d76: $c3 $86 $2d
+	jp   @func_2d86                               ; $2d76: $c3 $86 $2d
 
-
-jr_000_2d79:
+++
 	cp   $f8                                         ; $2d79: $fe $f8
-	jr   c, jr_000_2d7e                              ; $2d7b: $38 $01
+	jr   c, +                              ; $2d7b: $38 $01
 
 	inc  bc                                          ; $2d7d: $03
 
-jr_000_2d7e:
++
 	ld   hl, $c6cd                                   ; $2d7e: $21 $cd $c6
 	dec  (hl)                                        ; $2d81: $35
-	jr   z, jr_000_2d86                              ; $2d82: $28 $02
+	jr   z, @func_2d86                              ; $2d82: $28 $02
 
 	dec  (hl)                                        ; $2d84: $35
 	ld   a, c                                        ; $2d85: $79
 
-Jump_000_2d86:
-jr_000_2d86:
+@func_2d86:
 	cp   $02                                         ; $2d86: $fe $02
-	jr   nz, jr_000_2d91                             ; $2d88: $20 $07
+	jr   nz, @next_2d91                             ; $2d88: $20 $07
 
 	ld   a, $00                                      ; $2d8a: $3e $00
 	ld   hl, $c6cb                                   ; $2d8c: $21 $cb $c6
 	ld   (hl), a                                     ; $2d8f: $77
 	ret                                              ; $2d90: $c9
 
-
-Jump_000_2d91:
-jr_000_2d91:
+@next_2d91:
 	ld   a, $ff                                      ; $2d91: $3e $ff
 	ld   hl, $c711                                   ; $2d93: $21 $11 $c7
 	ld   (hl), a                                     ; $2d96: $77
@@ -6031,11 +6019,11 @@ jr_000_2d91:
 	ld   hl, $c6cd                                   ; $2db5: $21 $cd $c6
 	ld   a, (hl)                                     ; $2db8: $7e
 	sub  $0e                                         ; $2db9: $d6 $0e
-	jr   nc, jr_000_2dbf                             ; $2dbb: $30 $02
+	jr   nc, +                             ; $2dbb: $30 $02
 
 	ld   a, $00                                      ; $2dbd: $3e $00
 
-jr_000_2dbf:
++
 	ld   hl, $c0a7                                   ; $2dbf: $21 $a7 $c0
 	ld   (hl), a                                     ; $2dc2: $77
 	ld   hl, $c6cd                                   ; $2dc3: $21 $cd $c6
@@ -6046,64 +6034,62 @@ jr_000_2dbf:
 	ld   hl, $c6cc                                   ; $2dcd: $21 $cc $c6
 	ld   a, (hl)                                     ; $2dd0: $7e
 	sub  $0e                                         ; $2dd1: $d6 $0e
-	jr   nc, jr_000_2dd7                             ; $2dd3: $30 $02
+	jr   nc, +                             ; $2dd3: $30 $02
 
 	ld   a, $00                                      ; $2dd5: $3e $00
 
-jr_000_2dd7:
++
 	ld   hl, $c0a9                                   ; $2dd7: $21 $a9 $c0
 	ld   (hl), a                                     ; $2dda: $77
 	ld   hl, $c6cc                                   ; $2ddb: $21 $cc $c6
 	ld   a, (hl)                                     ; $2dde: $7e
 	add  $0e                                         ; $2ddf: $c6 $0e
-	jr   nc, jr_000_2de5                             ; $2de1: $30 $02
+	jr   nc, +                             ; $2de1: $30 $02
 
 	ld   a, $ff                                      ; $2de3: $3e $ff
 
-jr_000_2de5:
++
 	ld   hl, $c0aa                                   ; $2de5: $21 $aa $c0
 	ld   (hl), a                                     ; $2de8: $77
 	ld   bc, $0000                                   ; $2de9: $01 $00 $00
 
-jr_000_2dec:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $2dec: $21 $30 $cb
 	add  hl, bc                                      ; $2def: $09
 	ld   a, (hl)                                     ; $2df0: $7e
 	cp   $ff                                         ; $2df1: $fe $ff
-	jr   nz, jr_000_2dfc                             ; $2df3: $20 $07
+	jr   nz, @processNPC                             ; $2df3: $20 $07
 
-Jump_000_2df5:
-jr_000_2df5:
+@gotoCheckNextNPC:
 	inc  bc                                          ; $2df5: $03
 	ld   a, c                                        ; $2df6: $79
 	cp   $0c                                         ; $2df7: $fe $0c
-	jr   c, jr_000_2dec                              ; $2df9: $38 $f1
+	jr   c, @checkNextNPC                              ; $2df9: $38 $f1
 
 	ret                                              ; $2dfb: $c9
 
-
-jr_000_2dfc:
+@processNPC:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $2dfc: $21 $48 $cb
 	add  hl, bc                                      ; $2dff: $09
 	ld   a, (hl)                                     ; $2e00: $7e
 	ld   hl, $c0a7                                   ; $2e01: $21 $a7 $c0
 	cp   (hl)                                        ; $2e04: $be
-	jr   c, jr_000_2df5                              ; $2e05: $38 $ee
+	jr   c, @gotoCheckNextNPC                              ; $2e05: $38 $ee
 
 	ld   hl, $c0a8                                   ; $2e07: $21 $a8 $c0
 	cp   (hl)                                        ; $2e0a: $be
-	jr   nc, jr_000_2df5                             ; $2e0b: $30 $e8
+	jr   nc, @gotoCheckNextNPC                             ; $2e0b: $30 $e8
 
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $2e0d: $21 $3c $cb
 	add  hl, bc                                      ; $2e10: $09
 	ld   a, (hl)                                     ; $2e11: $7e
 	ld   hl, $c0a9                                   ; $2e12: $21 $a9 $c0
 	cp   (hl)                                        ; $2e15: $be
-	jr   c, jr_000_2df5                              ; $2e16: $38 $dd
+	jr   c, @gotoCheckNextNPC                              ; $2e16: $38 $dd
 
 	ld   hl, $c0aa                                   ; $2e18: $21 $aa $c0
 	cp   (hl)                                        ; $2e1b: $be
-	jr   nc, jr_000_2df5                             ; $2e1c: $30 $d7
+	jr   nc, @gotoCheckNextNPC                             ; $2e1c: $30 $d7
 
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $2e1e: $21 $84 $cb
 	add  hl, bc                                      ; $2e21: $09
@@ -6113,44 +6099,43 @@ jr_000_2dfc:
 	add  hl, bc                                      ; $2e28: $09
 	ld   (hl), a                                     ; $2e29: $77
 	call Call_001_7372                                       ; $2e2a: $cd $72 $73
-	jr   nz, jr_000_2df5                             ; $2e2d: $20 $c6
+	jr   nz, @gotoCheckNextNPC                             ; $2e2d: $20 $c6
 
 	ld   hl, wEquippedBItem                                   ; $2e2f: $21 $49 $c0
 	ld   a, (hl)                                     ; $2e32: $7e
 	cp   $02                                         ; $2e33: $fe $02
-	jr   nz, jr_000_2e4b                             ; $2e35: $20 $14
+	jr   nz, @bItemIsNotSword                             ; $2e35: $20 $14
 
 	ld   hl, $cbe4                                   ; $2e37: $21 $e4 $cb
 	add  hl, bc                                      ; $2e3a: $09
 	ld   a, (hl)                                     ; $2e3b: $7e
 	and  $04                                         ; $2e3c: $e6 $04
-	jr   nz, jr_000_2df5                             ; $2e3e: $20 $b5
+	jr   nz, @gotoCheckNextNPC                             ; $2e3e: $20 $b5
 
-Jump_000_2e40:
+@func_2e40:
 	ld   a, $00                                      ; $2e40: $3e $00
 	ld   hl, $c6cb                                   ; $2e42: $21 $cb $c6
 	ld   (hl), a                                     ; $2e45: $77
 	ld   a, $80                                      ; $2e46: $3e $80
 	jp   Jump_000_29d2                               ; $2e48: $c3 $d2 $29
 
-
-jr_000_2e4b:
+@bItemIsNotSword:
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $2e4b: $21 $84 $cb
 	add  hl, bc                                      ; $2e4e: $09
 	ld   a, (hl)                                     ; $2e4f: $7e
 	bit  7, a                                        ; $2e50: $cb $7f
-	jr   z, jr_000_2df5                              ; $2e52: $28 $a1
+	jr   z, @gotoCheckNextNPC                              ; $2e52: $28 $a1
 
 	call Call_001_72c6                                       ; $2e54: $cd $c6 $72
 	ld   hl, $c6d4                                   ; $2e57: $21 $d4 $c6
 	ld   a, (hl)                                     ; $2e5a: $7e
 	cp   $ff                                         ; $2e5b: $fe $ff
-	jr   z, jr_000_2df5                              ; $2e5d: $28 $96
+	jr   z, @gotoCheckNextNPC                              ; $2e5d: $28 $96
 
 	ld   hl, $cbc0                                   ; $2e5f: $21 $c0 $cb
 	add  hl, bc                                      ; $2e62: $09
 	ld   (hl), a                                     ; $2e63: $77
-	jp   Jump_000_2df5                               ; $2e64: $c3 $f5 $2d
+	jp   @gotoCheckNextNPC                               ; $2e64: $c3 $f5 $2d
 
 
 Call_000_2e67:
@@ -7055,89 +7040,85 @@ jr_000_32dd:
 Jump_000_333d:
 	ld   bc, $0000                                   ; $333d: $01 $00 $00
 
-jr_000_3340:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $3340: $21 $30 $cb
 	add  hl, bc                                      ; $3343: $09
 	ld   a, (hl)                                     ; $3344: $7e
 	cp   $ff                                         ; $3345: $fe $ff
-	jr   nz, jr_000_3350                             ; $3347: $20 $07
+	jr   nz, @processNPC                             ; $3347: $20 $07
 
-jr_000_3349:
+@gotoCheckNextNPC:
 	inc  bc                                          ; $3349: $03
 	ld   a, c                                        ; $334a: $79
 	cp   $0c                                         ; $334b: $fe $0c
-	jr   c, jr_000_3340                              ; $334d: $38 $f1
+	jr   c, @checkNextNPC                              ; $334d: $38 $f1
 
 	ret                                              ; $334f: $c9
 
-
-jr_000_3350:
+@processNPC:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $3350: $21 $48 $cb
 	add  hl, bc                                      ; $3353: $09
 	ld   a, (hl)                                     ; $3354: $7e
 	ld   hl, $c0a7                                   ; $3355: $21 $a7 $c0
 	cp   (hl)                                        ; $3358: $be
-	jr   c, jr_000_3349                              ; $3359: $38 $ee
+	jr   c, @gotoCheckNextNPC                              ; $3359: $38 $ee
 
 	ld   hl, $c0a8                                   ; $335b: $21 $a8 $c0
 	cp   (hl)                                        ; $335e: $be
-	jr   nc, jr_000_3349                             ; $335f: $30 $e8
+	jr   nc, @gotoCheckNextNPC                             ; $335f: $30 $e8
 
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $3361: $21 $3c $cb
 	add  hl, bc                                      ; $3364: $09
 	ld   a, (hl)                                     ; $3365: $7e
 	ld   hl, $c0a9                                   ; $3366: $21 $a9 $c0
 	cp   (hl)                                        ; $3369: $be
-	jr   c, jr_000_3349                              ; $336a: $38 $dd
+	jr   c, @gotoCheckNextNPC                              ; $336a: $38 $dd
 
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $336c: $21 $3c $cb
 	add  hl, bc                                      ; $336f: $09
 	ld   a, (hl)                                     ; $3370: $7e
 	ld   hl, $c0aa                                   ; $3371: $21 $aa $c0
 	cp   (hl)                                        ; $3374: $be
-	jr   nc, jr_000_3349                             ; $3375: $30 $d2
+	jr   nc, @gotoCheckNextNPC                             ; $3375: $30 $d2
 
 	call Call_001_7372                                       ; $3377: $cd $72 $73
-	jr   nz, jr_000_3349                             ; $337a: $20 $cd
+	jr   nz, @gotoCheckNextNPC                             ; $337a: $20 $cd
 
 	ld   hl, $cbe4                                   ; $337c: $21 $e4 $cb
 	add  hl, bc                                      ; $337f: $09
 	ld   a, (hl)                                     ; $3380: $7e
 	and  $04                                         ; $3381: $e6 $04
-	jr   nz, jr_000_3349                             ; $3383: $20 $c4
+	jr   nz, @gotoCheckNextNPC                             ; $3383: $20 $c4
 
 	ld   hl, $cb60                                   ; $3385: $21 $60 $cb
 	add  hl, bc                                      ; $3388: $09
 	ld   a, (hl)                                     ; $3389: $7e
 	bit  7, a                                        ; $338a: $cb $7f
-	jr   nz, jr_000_33a1                             ; $338c: $20 $13
+	jr   nz, +                             ; $338c: $20 $13
 
 	call Call_001_72c6                                       ; $338e: $cd $c6 $72
 	ld   hl, $c6d4                                   ; $3391: $21 $d4 $c6
 	ld   a, (hl)                                     ; $3394: $7e
 	cp   $ff                                         ; $3395: $fe $ff
-	jr   z, jr_000_33aa                              ; $3397: $28 $11
+	jr   z, @func_33aa                              ; $3397: $28 $11
 
 	ld   hl, $cbc0                                   ; $3399: $21 $c0 $cb
 	add  hl, bc                                      ; $339c: $09
 	ld   (hl), a                                     ; $339d: $77
-	jp   Jump_000_33aa                               ; $339e: $c3 $aa $33
+	jp   @func_33aa                               ; $339e: $c3 $aa $33
 
-
-jr_000_33a1:
++
 	ld   a, $ff                                      ; $33a1: $3e $ff
 	ld   hl, $c0b3                                   ; $33a3: $21 $b3 $c0
 	ld   (hl), a                                     ; $33a6: $77
-	jp   Jump_000_33b0                               ; $33a7: $c3 $b0 $33
+	jp   @done                               ; $33a7: $c3 $b0 $33
 
-
-Jump_000_33aa:
-jr_000_33aa:
+@func_33aa:
 	ld   a, $ff                                      ; $33aa: $3e $ff
 	ld   hl, $c5f8                                   ; $33ac: $21 $f8 $c5
 	ld   (hl), a                                     ; $33af: $77
 
-Jump_000_33b0:
+@done:
 	ret                                              ; $33b0: $c9
 
 
@@ -7991,19 +7972,18 @@ jr_000_37d7:
 Jump_000_3837:
 	ld   bc, $0000                                   ; $3837: $01 $00 $00
 
-jr_000_383a:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $383a: $21 $30 $cb
 	add  hl, bc                                      ; $383d: $09
 	ld   a, (hl)                                     ; $383e: $7e
 	cp   $ff                                         ; $383f: $fe $ff
-	jr   nz, jr_000_3852                             ; $3841: $20 $0f
+	jr   nz, @processNPC                             ; $3841: $20 $0f
 
-Jump_000_3843:
-jr_000_3843:
+@gotoCheckNextNPC:
 	inc  bc                                          ; $3843: $03
 	ld   a, c                                        ; $3844: $79
 	cp   $0c                                         ; $3845: $fe $0c
-	jr   c, jr_000_383a                              ; $3847: $38 $f1
+	jr   c, @checkNextNPC                              ; $3847: $38 $f1
 
 	pop  af                                          ; $3849: $f1
 	ld   c, a                                        ; $384a: $4f
@@ -8013,48 +7993,47 @@ jr_000_3843:
 	ld   d, $00                                      ; $384f: $16 $00
 	ret                                              ; $3851: $c9
 
-
-jr_000_3852:
+@processNPC:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $3852: $21 $48 $cb
 	add  hl, bc                                      ; $3855: $09
 	ld   a, (hl)                                     ; $3856: $7e
 	ld   hl, $c0a7                                   ; $3857: $21 $a7 $c0
 	cp   (hl)                                        ; $385a: $be
-	jr   c, jr_000_3843                              ; $385b: $38 $e6
+	jr   c, @gotoCheckNextNPC                              ; $385b: $38 $e6
 
 	ld   hl, $c0a8                                   ; $385d: $21 $a8 $c0
 	cp   (hl)                                        ; $3860: $be
-	jr   nc, jr_000_3843                             ; $3861: $30 $e0
+	jr   nc, @gotoCheckNextNPC                             ; $3861: $30 $e0
 
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $3863: $21 $3c $cb
 	add  hl, bc                                      ; $3866: $09
 	ld   a, (hl)                                     ; $3867: $7e
 	ld   hl, $c0a9                                   ; $3868: $21 $a9 $c0
 	cp   (hl)                                        ; $386b: $be
-	jr   c, jr_000_3843                              ; $386c: $38 $d5
+	jr   c, @gotoCheckNextNPC                              ; $386c: $38 $d5
 
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $386e: $21 $3c $cb
 	add  hl, bc                                      ; $3871: $09
 	ld   a, (hl)                                     ; $3872: $7e
 	ld   hl, $c0aa                                   ; $3873: $21 $aa $c0
 	cp   (hl)                                        ; $3876: $be
-	jr   nc, jr_000_3843                             ; $3877: $30 $ca
+	jr   nc, @gotoCheckNextNPC                             ; $3877: $30 $ca
 
 	call Call_001_7372                                       ; $3879: $cd $72 $73
-	jr   nz, jr_000_3843                             ; $387c: $20 $c5
+	jr   nz, @gotoCheckNextNPC                             ; $387c: $20 $c5
 
 	call Call_001_72c6                                       ; $387e: $cd $c6 $72
 	ld   hl, $c6d6                                   ; $3881: $21 $d6 $c6
 	ld   a, (hl)                                     ; $3884: $7e
 	cp   $ff                                         ; $3885: $fe $ff
-	jr   z, jr_000_388e                              ; $3887: $28 $05
+	jr   z, +                              ; $3887: $28 $05
 
 	ld   hl, $cbc0                                   ; $3889: $21 $c0 $cb
 	add  hl, bc                                      ; $388c: $09
 	ld   (hl), a                                     ; $388d: $77
 
-jr_000_388e:
-	jp   Jump_000_3843                               ; $388e: $c3 $43 $38
++
+	jp   @gotoCheckNextNPC                               ; $388e: $c3 $43 $38
 
 
 func_3891:
@@ -8665,31 +8644,31 @@ Call_000_3b7d:
 	ld   a, (hl)                                     ; $3bbf: $7e
 	ld   hl, wPlayerY                                   ; $3bc0: $21 $54 $c0
 	cp   (hl)                                        ; $3bc3: $be
-	jp   c, Jump_000_3c56                            ; $3bc4: $da $56 $3c
+	jp   c, @next_3c56                            ; $3bc4: $da $56 $3c
 
 	ld   hl, $c0c8                                   ; $3bc7: $21 $c8 $c0
 	ld   a, (hl)                                     ; $3bca: $7e
 	ld   hl, wPlayerY                                   ; $3bcb: $21 $54 $c0
 	cp   (hl)                                        ; $3bce: $be
-	jp   nc, Jump_000_3c56                           ; $3bcf: $d2 $56 $3c
+	jp   nc, @next_3c56                           ; $3bcf: $d2 $56 $3c
 
 	ld   hl, $c0cb                                   ; $3bd2: $21 $cb $c0
 	ld   a, (hl)                                     ; $3bd5: $7e
 	ld   hl, wPlayerX                                   ; $3bd6: $21 $52 $c0
 	cp   (hl)                                        ; $3bd9: $be
-	jr   c, jr_000_3c56                              ; $3bda: $38 $7a
+	jr   c, @next_3c56                              ; $3bda: $38 $7a
 
 	ld   hl, $c0ca                                   ; $3bdc: $21 $ca $c0
 	ld   a, (hl)                                     ; $3bdf: $7e
 	ld   hl, wPlayerX                                   ; $3be0: $21 $52 $c0
 	cp   (hl)                                        ; $3be3: $be
-	jr   nc, jr_000_3c56                             ; $3be4: $30 $70
+	jr   nc, @next_3c56                             ; $3be4: $30 $70
 
 	ld   hl, $c660                                   ; $3be6: $21 $60 $c6
 	add  hl, bc                                      ; $3be9: $09
 	ld   a, (hl)                                     ; $3bea: $7e
 	cp   $18                                         ; $3beb: $fe $18
-	jr   nz, jr_000_3c13                             ; $3bed: $20 $24
+	jr   nz, +                             ; $3bed: $20 $24
 
 	ld   a, $1d                                      ; $3bef: $3e $1d
 	ld   hl, $c66c                                   ; $3bf1: $21 $6c $c6
@@ -8710,33 +8689,32 @@ Call_000_3b7d:
 	add  hl, bc                                      ; $3c0b: $09
 	ld   (hl), a                                     ; $3c0c: $77
 	call Call_001_5084                                       ; $3c0d: $cd $84 $50
-	jp   Jump_000_3c68                               ; $3c10: $c3 $68 $3c
+	jp   @done                               ; $3c10: $c3 $68 $3c
 
-
-jr_000_3c13:
++
 	ld   hl, $c093                                   ; $3c13: $21 $93 $c0
 	ld   a, (hl)                                     ; $3c16: $7e
 	cp   $09                                         ; $3c17: $fe $09
-	jr   z, jr_000_3c49                              ; $3c19: $28 $2e
+	jr   z, @func_3c49                              ; $3c19: $28 $2e
 
 	cp   $00                                         ; $3c1b: $fe $00
-	jr   z, jr_000_3c51                              ; $3c1d: $28 $32
+	jr   z, @func_3c51                              ; $3c1d: $28 $32
 
 	cp   $03                                         ; $3c1f: $fe $03
-	jr   z, jr_000_3c56                              ; $3c21: $28 $33
+	jr   z, @next_3c56                              ; $3c21: $28 $33
 
-jr_000_3c23:
+@loop_3c23:
 	ld   hl, $c0cd                                   ; $3c23: $21 $cd $c0
 	ld   a, (hl)                                     ; $3c26: $7e
 	ld   hl, wPlayerX                                   ; $3c27: $21 $52 $c0
 	cp   (hl)                                        ; $3c2a: $be
-	jr   c, jr_000_3c56                              ; $3c2b: $38 $29
+	jr   c, @next_3c56                              ; $3c2b: $38 $29
 
 	ld   hl, $c0cc                                   ; $3c2d: $21 $cc $c0
 	ld   a, (hl)                                     ; $3c30: $7e
 	ld   hl, wPlayerX                                   ; $3c31: $21 $52 $c0
 	cp   (hl)                                        ; $3c34: $be
-	jr   nc, jr_000_3c56                             ; $3c35: $30 $1f
+	jr   nc, @next_3c56                             ; $3c35: $30 $1f
 
 	ld   a, $81                                      ; $3c37: $3e $81
 	ld   hl, $c023                                   ; $3c39: $21 $23 $c0
@@ -8745,143 +8723,136 @@ jr_000_3c23:
 	ld   hl, $c024                                   ; $3c3f: $21 $24 $c0
 	ld   (hl), a                                     ; $3c42: $77
 	call Call_000_2875                               ; $3c43: $cd $75 $28
-	jp   Jump_000_3c56                               ; $3c46: $c3 $56 $3c
+	jp   @next_3c56                               ; $3c46: $c3 $56 $3c
 
-
-jr_000_3c49:
+@func_3c49:
 	call func_4fe8                                       ; $3c49: $cd $e8 $4f
-	jr   c, jr_000_3c23                              ; $3c4c: $38 $d5
+	jr   c, @loop_3c23                              ; $3c4c: $38 $d5
 
-	jp   Jump_000_3c56                               ; $3c4e: $c3 $56 $3c
+	jp   @next_3c56                               ; $3c4e: $c3 $56 $3c
 
-
-jr_000_3c51:
+@func_3c51:
 	call func_5034                                       ; $3c51: $cd $34 $50
-	jr   c, jr_000_3c23                              ; $3c54: $38 $cd
+	jr   c, @loop_3c23                              ; $3c54: $38 $cd
 
-Jump_000_3c56:
-jr_000_3c56:
+@next_3c56:
 	ld   bc, $0000                                   ; $3c56: $01 $00 $00
 
-jr_000_3c59:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $3c59: $21 $30 $cb
 	add  hl, bc                                      ; $3c5c: $09
 	ld   a, (hl)                                     ; $3c5d: $7e
 	cp   $ff                                         ; $3c5e: $fe $ff
-	jr   nz, jr_000_3c6d                             ; $3c60: $20 $0b
+	jr   nz, @processNPC                             ; $3c60: $20 $0b
 
-Jump_000_3c62:
-jr_000_3c62:
+@gotoCheckNextNPC:
 	inc  bc                                          ; $3c62: $03
 	ld   a, c                                        ; $3c63: $79
 	cp   $0c                                         ; $3c64: $fe $0c
-	jr   c, jr_000_3c59                              ; $3c66: $38 $f1
+	jr   c, @checkNextNPC                              ; $3c66: $38 $f1
 
-Jump_000_3c68:
+@done:
 	pop  af                                          ; $3c68: $f1
 	ld   c, a                                        ; $3c69: $4f
 	ld   b, $00                                      ; $3c6a: $06 $00
 	ret                                              ; $3c6c: $c9
 
-
-jr_000_3c6d:
+@processNPC:
 	ld   hl, $cb60                                   ; $3c6d: $21 $60 $cb
 	add  hl, bc                                      ; $3c70: $09
 	ld   a, (hl)                                     ; $3c71: $7e
 	and  $30                                         ; $3c72: $e6 $30
-	jr   nz, jr_000_3c62                             ; $3c74: $20 $ec
+	jr   nz, @gotoCheckNextNPC                             ; $3c74: $20 $ec
 
 	ld   hl, $c0c9                                   ; $3c76: $21 $c9 $c0
 	ld   a, (hl)                                     ; $3c79: $7e
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $3c7a: $21 $48 $cb
 	add  hl, bc                                      ; $3c7d: $09
 	cp   (hl)                                        ; $3c7e: $be
-	jr   c, jr_000_3c62                              ; $3c7f: $38 $e1
+	jr   c, @gotoCheckNextNPC                              ; $3c7f: $38 $e1
 
 	ld   hl, $c0c8                                   ; $3c81: $21 $c8 $c0
 	ld   a, (hl)                                     ; $3c84: $7e
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $3c85: $21 $48 $cb
 	add  hl, bc                                      ; $3c88: $09
 	cp   (hl)                                        ; $3c89: $be
-	jr   nc, jr_000_3c62                             ; $3c8a: $30 $d6
+	jr   nc, @gotoCheckNextNPC                             ; $3c8a: $30 $d6
 
 	ld   hl, $c0cb                                   ; $3c8c: $21 $cb $c0
 	ld   a, (hl)                                     ; $3c8f: $7e
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $3c90: $21 $3c $cb
 	add  hl, bc                                      ; $3c93: $09
 	cp   (hl)                                        ; $3c94: $be
-	jr   c, jr_000_3c62                              ; $3c95: $38 $cb
+	jr   c, @gotoCheckNextNPC                              ; $3c95: $38 $cb
 
 	ld   hl, $c0ca                                   ; $3c97: $21 $ca $c0
 	ld   a, (hl)                                     ; $3c9a: $7e
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $3c9b: $21 $3c $cb
 	add  hl, bc                                      ; $3c9e: $09
 	cp   (hl)                                        ; $3c9f: $be
-	jr   nc, jr_000_3c62                             ; $3ca0: $30 $c0
+	jr   nc, @gotoCheckNextNPC                             ; $3ca0: $30 $c0
 
 	ld   hl, $c093                                   ; $3ca2: $21 $93 $c0
 	ld   a, (hl)                                     ; $3ca5: $7e
 	cp   $09                                         ; $3ca6: $fe $09
-	jr   z, jr_000_3ce1                              ; $3ca8: $28 $37
+	jr   z, @func_3ce1                              ; $3ca8: $28 $37
 
 	cp   $00                                         ; $3caa: $fe $00
-	jr   z, jr_000_3cf3                              ; $3cac: $28 $45
+	jr   z, @func_3cf3                              ; $3cac: $28 $45
 
-jr_000_3cae:
+@loop_3cae:
 	ld   hl, $c0cd                                   ; $3cae: $21 $cd $c0
 	ld   a, (hl)                                     ; $3cb1: $7e
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $3cb2: $21 $3c $cb
 	add  hl, bc                                      ; $3cb5: $09
 	cp   (hl)                                        ; $3cb6: $be
-	jr   c, jr_000_3c62                              ; $3cb7: $38 $a9
+	jr   c, @gotoCheckNextNPC                              ; $3cb7: $38 $a9
 
 	ld   hl, $c0cc                                   ; $3cb9: $21 $cc $c0
 	ld   a, (hl)                                     ; $3cbc: $7e
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $3cbd: $21 $3c $cb
 	add  hl, bc                                      ; $3cc0: $09
 	cp   (hl)                                        ; $3cc1: $be
-	jr   nc, jr_000_3c62                             ; $3cc2: $30 $9e
+	jr   nc, @gotoCheckNextNPC                             ; $3cc2: $30 $9e
 
 	call Call_001_7372                                       ; $3cc4: $cd $72 $73
-	jr   nz, jr_000_3c62                             ; $3cc7: $20 $99
+	jr   nz, @gotoCheckNextNPC                             ; $3cc7: $20 $99
 
 	call Call_001_737a                                       ; $3cc9: $cd $7a $73
-	jr   nz, jr_000_3c62                             ; $3ccc: $20 $94
+	jr   nz, @gotoCheckNextNPC                             ; $3ccc: $20 $94
 
 	call Call_001_72c6                                       ; $3cce: $cd $c6 $72
 	ld   hl, $c6d5                                   ; $3cd1: $21 $d5 $c6
 	ld   a, (hl)                                     ; $3cd4: $7e
 	cp   $ff                                         ; $3cd5: $fe $ff
-	jr   z, jr_000_3c62                              ; $3cd7: $28 $89
+	jr   z, @gotoCheckNextNPC                              ; $3cd7: $28 $89
 
 	ld   hl, $cbc0                                   ; $3cd9: $21 $c0 $cb
 	add  hl, bc                                      ; $3cdc: $09
 	ld   (hl), a                                     ; $3cdd: $77
-	jp   Jump_000_3c62                               ; $3cde: $c3 $62 $3c
+	jp   @gotoCheckNextNPC                               ; $3cde: $c3 $62 $3c
 
-
-jr_000_3ce1:
+@func_3ce1:
 	ld   hl, $c0a6                                   ; $3ce1: $21 $a6 $c0
 	ld   (hl), c                                     ; $3ce4: $71
 	call func_47ed                                       ; $3ce5: $cd $ed $47
 	ld   hl, $c0a6                                   ; $3ce8: $21 $a6 $c0
 	ld   c, (hl)                                     ; $3ceb: $4e
 	ld   b, $00                                      ; $3cec: $06 $00
-	jr   c, jr_000_3cae                              ; $3cee: $38 $be
+	jr   c, @loop_3cae                              ; $3cee: $38 $be
 
-	jp   Jump_000_3c62                               ; $3cf0: $c3 $62 $3c
+	jp   @gotoCheckNextNPC                               ; $3cf0: $c3 $62 $3c
 
-
-jr_000_3cf3:
+@func_3cf3:
 	ld   hl, $c0a6                                   ; $3cf3: $21 $a6 $c0
 	ld   (hl), c                                     ; $3cf6: $71
 	call func_4849                                       ; $3cf7: $cd $49 $48
 	ld   hl, $c0a6                                   ; $3cfa: $21 $a6 $c0
 	ld   c, (hl)                                     ; $3cfd: $4e
 	ld   b, $00                                      ; $3cfe: $06 $00
-	jr   c, jr_000_3cae                              ; $3d00: $38 $ac
+	jr   c, @loop_3cae                              ; $3d00: $38 $ac
 
-	jp   Jump_000_3c62                               ; $3d02: $c3 $62 $3c
+	jp   @gotoCheckNextNPC                               ; $3d02: $c3 $62 $3c
 
 
 Call_000_3d05:
@@ -8912,31 +8883,31 @@ Call_000_3d05:
 	ld   a, (hl)                                     ; $3d31: $7e
 	ld   hl, wPlayerY                                   ; $3d32: $21 $54 $c0
 	cp   (hl)                                        ; $3d35: $be
-	jr   c, jr_000_3d97                              ; $3d36: $38 $5f
+	jr   c, @next_3d97                              ; $3d36: $38 $5f
 
 	ld   hl, $c0c8                                   ; $3d38: $21 $c8 $c0
 	ld   a, (hl)                                     ; $3d3b: $7e
 	ld   hl, wPlayerY                                   ; $3d3c: $21 $54 $c0
 	cp   (hl)                                        ; $3d3f: $be
-	jr   nc, jr_000_3d97                             ; $3d40: $30 $55
+	jr   nc, @next_3d97                             ; $3d40: $30 $55
 
 	ld   hl, $c0cb                                   ; $3d42: $21 $cb $c0
 	ld   a, (hl)                                     ; $3d45: $7e
 	ld   hl, wPlayerX                                   ; $3d46: $21 $52 $c0
 	cp   (hl)                                        ; $3d49: $be
-	jr   c, jr_000_3d97                              ; $3d4a: $38 $4b
+	jr   c, @next_3d97                              ; $3d4a: $38 $4b
 
 	ld   hl, $c0ca                                   ; $3d4c: $21 $ca $c0
 	ld   a, (hl)                                     ; $3d4f: $7e
 	ld   hl, wPlayerX                                   ; $3d50: $21 $52 $c0
 	cp   (hl)                                        ; $3d53: $be
-	jr   nc, jr_000_3d97                             ; $3d54: $30 $41
+	jr   nc, @next_3d97                             ; $3d54: $30 $41
 
 	ld   hl, $c660                                   ; $3d56: $21 $60 $c6
 	add  hl, bc                                      ; $3d59: $09
 	ld   a, (hl)                                     ; $3d5a: $7e
 	cp   $18                                         ; $3d5b: $fe $18
-	jr   nz, jr_000_3d83                             ; $3d5d: $20 $24
+	jr   nz, +                             ; $3d5d: $20 $24
 
 	ld   a, $1d                                      ; $3d5f: $3e $1d
 	ld   hl, $c66c                                   ; $3d61: $21 $6c $c6
@@ -8957,15 +8928,14 @@ Call_000_3d05:
 	add  hl, bc                                      ; $3d7b: $09
 	ld   (hl), a                                     ; $3d7c: $77
 	call Call_001_5084                                       ; $3d7d: $cd $84 $50
-	jp   Jump_000_3da9                               ; $3d80: $c3 $a9 $3d
+	jp   @done                               ; $3d80: $c3 $a9 $3d
 
-
-jr_000_3d83:
++
 	ld   hl, $c66c                                   ; $3d83: $21 $6c $c6
 	add  hl, bc                                      ; $3d86: $09
 	ld   a, (hl)                                     ; $3d87: $7e
 	cp   $06                                         ; $3d88: $fe $06
-	jr   nz, jr_000_3d97                             ; $3d8a: $20 $0b
+	jr   nz, @next_3d97                             ; $3d8a: $20 $0b
 
 	ld   a, $81                                      ; $3d8c: $3e $81
 	ld   a, $ff                                      ; $3d8e: $3e $ff
@@ -8973,75 +8943,73 @@ jr_000_3d83:
 	ld   (hl), a                                     ; $3d93: $77
 	call Call_000_2875                               ; $3d94: $cd $75 $28
 
-jr_000_3d97:
+@next_3d97:
 	ld   bc, $0000                                   ; $3d97: $01 $00 $00
 
-jr_000_3d9a:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $3d9a: $21 $30 $cb
 	add  hl, bc                                      ; $3d9d: $09
 	ld   a, (hl)                                     ; $3d9e: $7e
 	cp   $ff                                         ; $3d9f: $fe $ff
-	jr   nz, jr_000_3dae                             ; $3da1: $20 $0b
+	jr   nz, @processNPC                             ; $3da1: $20 $0b
 
-Jump_000_3da3:
-jr_000_3da3:
+@gotoCheckNextNPC:
 	inc  bc                                          ; $3da3: $03
 	ld   a, c                                        ; $3da4: $79
 	cp   $0c                                         ; $3da5: $fe $0c
-	jr   c, jr_000_3d9a                              ; $3da7: $38 $f1
+	jr   c, @checkNextNPC                              ; $3da7: $38 $f1
 
-Jump_000_3da9:
+@done:
 	pop  af                                          ; $3da9: $f1
 	ld   c, a                                        ; $3daa: $4f
 	ld   b, $00                                      ; $3dab: $06 $00
 	ret                                              ; $3dad: $c9
 
-
-jr_000_3dae:
+@processNPC:
 	ld   hl, $c0c9                                   ; $3dae: $21 $c9 $c0
 	ld   a, (hl)                                     ; $3db1: $7e
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $3db2: $21 $48 $cb
 	add  hl, bc                                      ; $3db5: $09
 	cp   (hl)                                        ; $3db6: $be
-	jr   c, jr_000_3da3                              ; $3db7: $38 $ea
+	jr   c, @gotoCheckNextNPC                              ; $3db7: $38 $ea
 
 	ld   hl, $c0c8                                   ; $3db9: $21 $c8 $c0
 	ld   a, (hl)                                     ; $3dbc: $7e
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $3dbd: $21 $48 $cb
 	add  hl, bc                                      ; $3dc0: $09
 	cp   (hl)                                        ; $3dc1: $be
-	jr   nc, jr_000_3da3                             ; $3dc2: $30 $df
+	jr   nc, @gotoCheckNextNPC                             ; $3dc2: $30 $df
 
 	ld   hl, $c0cb                                   ; $3dc4: $21 $cb $c0
 	ld   a, (hl)                                     ; $3dc7: $7e
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $3dc8: $21 $3c $cb
 	add  hl, bc                                      ; $3dcb: $09
 	cp   (hl)                                        ; $3dcc: $be
-	jr   c, jr_000_3da3                              ; $3dcd: $38 $d4
+	jr   c, @gotoCheckNextNPC                              ; $3dcd: $38 $d4
 
 	ld   hl, $c0ca                                   ; $3dcf: $21 $ca $c0
 	ld   a, (hl)                                     ; $3dd2: $7e
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $3dd3: $21 $3c $cb
 	add  hl, bc                                      ; $3dd6: $09
 	cp   (hl)                                        ; $3dd7: $be
-	jr   nc, jr_000_3da3                             ; $3dd8: $30 $c9
+	jr   nc, @gotoCheckNextNPC                             ; $3dd8: $30 $c9
 
 	call Call_001_7372                                       ; $3dda: $cd $72 $73
-	jr   nz, jr_000_3da3                             ; $3ddd: $20 $c4
+	jr   nz, @gotoCheckNextNPC                             ; $3ddd: $20 $c4
 
 	call Call_001_737a                                       ; $3ddf: $cd $7a $73
-	jr   nz, jr_000_3da3                             ; $3de2: $20 $bf
+	jr   nz, @gotoCheckNextNPC                             ; $3de2: $20 $bf
 
 	call Call_001_72c6                                       ; $3de4: $cd $c6 $72
 	ld   hl, $c6d5                                   ; $3de7: $21 $d5 $c6
 	ld   a, (hl)                                     ; $3dea: $7e
 	cp   $ff                                         ; $3deb: $fe $ff
-	jr   z, jr_000_3da3                              ; $3ded: $28 $b4
+	jr   z, @gotoCheckNextNPC                              ; $3ded: $28 $b4
 
 	ld   hl, $cbc0                                   ; $3def: $21 $c0 $cb
 	add  hl, bc                                      ; $3df2: $09
 	ld   (hl), a                                     ; $3df3: $77
-	jp   Jump_000_3da3                               ; $3df4: $c3 $a3 $3d
+	jp   @gotoCheckNextNPC                               ; $3df4: $c3 $a3 $3d
 
 
 Call_000_3df7:
@@ -9514,23 +9482,23 @@ Jump_001_4080:
 	ld   a, (hl)                                     ; $4083: $7e
 	ld   hl, $c00a                                   ; $4084: $21 $0a $c0
 	cp   (hl)                                        ; $4087: $be
-	jr   c, jr_001_40ac                              ; $4088: $38 $22
+	jr   c, @next_40ac                              ; $4088: $38 $22
 
 	ld   hl, $c00b                                   ; $408a: $21 $0b $c0
 	cp   (hl)                                        ; $408d: $be
-	jr   nc, jr_001_40ac                             ; $408e: $30 $1c
+	jr   nc, @next_40ac                             ; $408e: $30 $1c
 
 	ld   hl, wPlayerX                                   ; $4090: $21 $52 $c0
 	ld   a, (hl)                                     ; $4093: $7e
 	ld   hl, $c006                                   ; $4094: $21 $06 $c0
 	cp   (hl)                                        ; $4097: $be
-	jr   c, jr_001_40ac                              ; $4098: $38 $12
+	jr   c, @next_40ac                              ; $4098: $38 $12
 
 	ld   hl, wPlayerX                                   ; $409a: $21 $52 $c0
 	ld   a, (hl)                                     ; $409d: $7e
 	ld   hl, $c008                                   ; $409e: $21 $08 $c0
 	cp   (hl)                                        ; $40a1: $be
-	jr   nc, jr_001_40ac                             ; $40a2: $30 $08
+	jr   nc, @next_40ac                             ; $40a2: $30 $08
 
 	pop  af                                          ; $40a4: $f1
 	ld   c, a                                        ; $40a5: $4f
@@ -9539,23 +9507,21 @@ Jump_001_4080:
 	scf                                              ; $40aa: $37
 	ret                                              ; $40ab: $c9
 
-
-jr_001_40ac:
+@next_40ac:
 	ld   bc, $0000                                   ; $40ac: $01 $00 $00
 
-jr_001_40af:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $40af: $21 $30 $cb
 	add  hl, bc                                      ; $40b2: $09
 	ld   a, (hl)                                     ; $40b3: $7e
 	cp   $ff                                         ; $40b4: $fe $ff
-	jr   nz, jr_001_40cf                             ; $40b6: $20 $17
+	jr   nz, @processNPC                             ; $40b6: $20 $17
 
-Jump_001_40b8:
-jr_001_40b8:
+@gotoCheckNextNPC:
 	inc  bc                                          ; $40b8: $03
 	ld   a, c                                        ; $40b9: $79
 	cp   $0c                                         ; $40ba: $fe $0c
-	jr   c, jr_001_40af                              ; $40bc: $38 $f1
+	jr   c, @checkNextNPC                              ; $40bc: $38 $f1
 
 	pop  af                                          ; $40be: $f1
 	ld   c, a                                        ; $40bf: $4f
@@ -9565,8 +9531,7 @@ jr_001_40b8:
 	ccf                                              ; $40c5: $3f
 	ret                                              ; $40c6: $c9
 
-
-Jump_001_40c7:
+@done:
 	pop  af                                          ; $40c7: $f1
 	ld   c, a                                        ; $40c8: $4f
 	ld   b, $00                                      ; $40c9: $06 $00
@@ -9574,44 +9539,42 @@ Jump_001_40c7:
 	scf                                              ; $40cd: $37
 	ret                                              ; $40ce: $c9
 
-
-jr_001_40cf:
+@processNPC:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $40cf: $21 $48 $cb
 	add  hl, bc                                      ; $40d2: $09
 	ld   a, (hl)                                     ; $40d3: $7e
 	ld   hl, $c00a                                   ; $40d4: $21 $0a $c0
 	cp   (hl)                                        ; $40d7: $be
-	jr   c, jr_001_40b8                              ; $40d8: $38 $de
+	jr   c, @gotoCheckNextNPC                              ; $40d8: $38 $de
 
 	ld   hl, $c00b                                   ; $40da: $21 $0b $c0
 	cp   (hl)                                        ; $40dd: $be
-	jr   nc, jr_001_40b8                             ; $40de: $30 $d8
+	jr   nc, @gotoCheckNextNPC                             ; $40de: $30 $d8
 
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $40e0: $21 $3c $cb
 	add  hl, bc                                      ; $40e3: $09
 	ld   a, (hl)                                     ; $40e4: $7e
 	ld   hl, $c006                                   ; $40e5: $21 $06 $c0
 	cp   (hl)                                        ; $40e8: $be
-	jr   c, jr_001_40b8                              ; $40e9: $38 $cd
+	jr   c, @gotoCheckNextNPC                              ; $40e9: $38 $cd
 
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $40eb: $21 $3c $cb
 	add  hl, bc                                      ; $40ee: $09
 	ld   a, (hl)                                     ; $40ef: $7e
 	ld   hl, $c008                                   ; $40f0: $21 $08 $c0
 	cp   (hl)                                        ; $40f3: $be
-	jr   c, jr_001_40f9                              ; $40f4: $38 $03
+	jr   c, +                              ; $40f4: $38 $03
 
-	jp   Jump_001_40b8                               ; $40f6: $c3 $b8 $40
+	jp   @gotoCheckNextNPC                               ; $40f6: $c3 $b8 $40
 
-
-jr_001_40f9:
++
 	call Call_001_737a                               ; $40f9: $cd $7a $73
-	jr   nz, jr_001_40b8                             ; $40fc: $20 $ba
+	jr   nz, @gotoCheckNextNPC                             ; $40fc: $20 $ba
 
 	call Call_001_7372                               ; $40fe: $cd $72 $73
-	jr   nz, jr_001_40b8                             ; $4101: $20 $b5
+	jr   nz, @gotoCheckNextNPC                             ; $4101: $20 $b5
 
-	jp   Jump_001_40c7                               ; $4103: $c3 $c7 $40
+	jp   @done                               ; $4103: $c3 $c7 $40
 
 
 Call_001_4106:
@@ -9720,7 +9683,7 @@ Call_001_4198:
 func_41bd:
 	ld   bc, $0000                                   ; func_41bd: $01 $00 $00
 
-Jump_001_41c0:
+@checkNextNPC:
 	ld   a, $1e                                      ; $41c0: $3e $1e
 	sub  c                                           ; $41c2: $91
 	sub  c                                           ; $41c3: $91
@@ -9730,15 +9693,16 @@ Jump_001_41c0:
 	add  hl, bc                                      ; $41cd: $09
 	ld   a, (hl)                                     ; $41ce: $7e
 	cp   $ff                                         ; $41cf: $fe $ff
-	jp   z, Jump_001_4268                            ; $41d1: $ca $68 $42
+	jp   z, @gotoCheckNextNPC                            ; $41d1: $ca $68 $42
 
+// NPC exists at offset BC
 	call Call_001_7372                               ; $41d4: $cd $72 $73
-	jp   nz, Jump_001_4268                           ; $41d7: $c2 $68 $42
+	jp   nz, @gotoCheckNextNPC                           ; $41d7: $c2 $68 $42
 
 	ld   hl, $cbe4                                   ; $41da: $21 $e4 $cb
 	add  hl, bc                                      ; $41dd: $09
 	bit  1, (hl)                                     ; $41de: $cb $4e
-	jp   nz, Jump_001_4268                           ; $41e0: $c2 $68 $42
+	jp   nz, @gotoCheckNextNPC                           ; $41e0: $c2 $68 $42
 
 	push de                                          ; $41e3: $d5
 	call Call_001_738a                               ; $41e4: $cd $8a $73
@@ -9746,15 +9710,15 @@ Jump_001_41c0:
 	ld   hl, $c007                                   ; $41e8: $21 $07 $c0
 	ld   a, (hl)                                     ; $41eb: $7e
 	and  $20                                         ; $41ec: $e6 $20
-	jr   z, jr_001_420a                              ; $41ee: $28 $1a
+	jr   z, @func_420a                              ; $41ee: $28 $1a
 
 	ld   hl, $c006                                   ; $41f0: $21 $06 $c0
 	ld   a, (hl)                                     ; $41f3: $7e
 	call func_17dd                                       ; $41f4: $cd $dd $17
 	bit  0, a                                        ; $41f7: $cb $47
-	jr   nz, jr_001_4215                             ; $41f9: $20 $1a
+	jr   nz, @func_4215                             ; $41f9: $20 $1a
 
-jr_001_41fb:
+@loop_41fb:
 	ld   hl, $c206                                   ; $41fb: $21 $06 $c2
 	add  hl, de                                      ; $41fe: $19
 	ld   (hl), a                                     ; $41ff: $77
@@ -9762,17 +9726,16 @@ jr_001_41fb:
 	ld   hl, $c202                                   ; $4202: $21 $02 $c2
 	add  hl, de                                      ; $4205: $19
 	ld   (hl), a                                     ; $4206: $77
-	jp   Jump_001_4221                               ; $4207: $c3 $21 $42
+	jp   @func_4221                               ; $4207: $c3 $21 $42
 
-
-jr_001_420a:
+@func_420a:
 	ld   hl, $c006                                   ; $420a: $21 $06 $c0
 	ld   a, (hl)                                     ; $420d: $7e
 	call func_17dd                                       ; $420e: $cd $dd $17
 	bit  0, a                                        ; $4211: $cb $47
-	jr   nz, jr_001_41fb                             ; $4213: $20 $e6
+	jr   nz, @loop_41fb                             ; $4213: $20 $e6
 
-jr_001_4215:
+@func_4215:
 	ld   hl, $c202                                   ; $4215: $21 $02 $c2
 	add  hl, de                                      ; $4218: $19
 	ld   (hl), a                                     ; $4219: $77
@@ -9781,16 +9744,16 @@ jr_001_4215:
 	add  hl, de                                      ; $421f: $19
 	ld   (hl), a                                     ; $4220: $77
 
-Jump_001_4221:
+@func_4221:
 	ld   hl, $c007                                   ; $4221: $21 $07 $c0
 	ld   a, (hl)                                     ; $4224: $7e
 	ld   hl, $c017                                   ; $4225: $21 $17 $c0
 	bit  0, (hl)                                     ; $4228: $cb $46
-	jr   z, jr_001_422e                              ; $422a: $28 $02
+	jr   z, +                              ; $422a: $28 $02
 
 	xor  $20                                         ; $422c: $ee $20
 
-jr_001_422e:
++
 	ld   hl, $c203                                   ; $422e: $21 $03 $c2
 	add  hl, de                                      ; $4231: $19
 	ld   (hl), a                                     ; $4232: $77
@@ -9807,11 +9770,11 @@ jr_001_422e:
 	add  hl, de                                      ; $4246: $19
 	ld   (hl), a                                     ; $4247: $77
 	add  $08                                         ; $4248: $c6 $08
-	jr   nc, jr_001_424e                             ; $424a: $30 $02
+	jr   nc, +                             ; $424a: $30 $02
 
 	ld   a, $ff                                      ; $424c: $3e $ff
 
-jr_001_424e:
++
 	ld   hl, $c205                                   ; $424e: $21 $05 $c2
 	add  hl, de                                      ; $4251: $19
 	ld   (hl), a                                     ; $4252: $77
@@ -9828,16 +9791,15 @@ jr_001_424e:
 	add  hl, de                                      ; $4266: $19
 	ld   (hl), a                                     ; $4267: $77
 
-Jump_001_4268:
+@gotoCheckNextNPC:
 	inc  bc                                          ; $4268: $03
 	ld   a, c                                        ; $4269: $79
 	cp   $0c                                         ; $426a: $fe $0c
-	jr   nc, jr_001_4271                             ; $426c: $30 $03
+	jr   nc, @done                             ; $426c: $30 $03
 
-	jp   Jump_001_41c0                               ; $426e: $c3 $c0 $41
+	jp   @checkNextNPC                               ; $426e: $c3 $c0 $41
 
-
-jr_001_4271:
+@done:
 	ret                                              ; $4271: $c9
 
 
@@ -9850,46 +9812,45 @@ func_4272:
 	ld   hl, $c65e                                   ; $427b: $21 $5e $c6
 	inc  (hl)                                        ; $427e: $34
 
-jr_001_427f:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $427f: $21 $30 $cb
 	add  hl, bc                                      ; $4282: $09
 	ld   a, (hl)                                     ; $4283: $7e
 	cp   $ff                                         ; $4284: $fe $ff
-	jr   nz, jr_001_4290                             ; $4286: $20 $08
+	jr   nz, @processNPC                             ; $4286: $20 $08
 
-Jump_001_4288:
+@gotoCheckNextNPC:
 	inc  bc                                          ; $4288: $03
 	inc  bc                                          ; $4289: $03
 	ld   a, c                                        ; $428a: $79
 	cp   $0c                                         ; $428b: $fe $0c
-	jr   c, jr_001_427f                              ; $428d: $38 $f0
+	jr   c, @checkNextNPC                              ; $428d: $38 $f0
 
 	ret                                              ; $428f: $c9
 
-
-jr_001_4290:
+@processNPC:
 	ld   hl, $c0a6                                   ; $4290: $21 $a6 $c0
 	ld   (hl), c                                     ; $4293: $71
 	ld   hl, $cbc0                                   ; $4294: $21 $c0 $cb
 	add  hl, bc                                      ; $4297: $09
 	ld   a, (hl)                                     ; $4298: $7e
 	cp   $ff                                         ; $4299: $fe $ff
-	jr   z, jr_001_42a0                              ; $429b: $28 $03
+	jr   z, +                              ; $429b: $28 $03
 
 	call Call_001_7367                               ; $429d: $cd $67 $73
 
-jr_001_42a0:
++
 	call Call_001_4324                               ; $42a0: $cd $24 $43
-	jr   nz, jr_001_42e7                             ; $42a3: $20 $42
+	jr   nz, @next_42e7                             ; $42a3: $20 $42
 
 	call Call_001_7382                               ; $42a5: $cd $82 $73
-	jr   nz, jr_001_42c4                             ; $42a8: $20 $1a
+	jr   nz, +                             ; $42a8: $20 $1a
 
 	ld   hl, $cba8                                   ; $42aa: $21 $a8 $cb
 	add  hl, bc                                      ; $42ad: $09
 	ld   a, (hl)                                     ; $42ae: $7e
 	cp   $00                                         ; $42af: $fe $00
-	jr   z, jr_001_42e7                              ; $42b1: $28 $34
+	jr   z, @next_42e7                              ; $42b1: $28 $34
 
 	ld   hl, $cb6c                                   ; $42b3: $21 $6c $cb
 	add  hl, bc                                      ; $42b6: $09
@@ -9898,12 +9859,11 @@ jr_001_42a0:
 	add  hl, bc                                      ; $42bb: $09
 	ld   a, (hl)                                     ; $42bc: $7e
 	cp   $03                                         ; $42bd: $fe $03
-	jr   nc, jr_001_42e0                             ; $42bf: $30 $1f
+	jr   nc, @next_42e0                             ; $42bf: $30 $1f
 
-	jp   Jump_001_42e7                               ; $42c1: $c3 $e7 $42
+	jp   @next_42e7                               ; $42c1: $c3 $e7 $42
 
-
-jr_001_42c4:
++
 	ld   hl, $cb6c                                   ; $42c4: $21 $6c $cb
 	add  hl, bc                                      ; $42c7: $09
 	inc  (hl)                                        ; $42c8: $34
@@ -9911,36 +9871,35 @@ jr_001_42c4:
 	ld   hl, $c009                                   ; $42cc: $21 $09 $c0
 	ld   a, (hl)                                     ; $42cf: $7e
 	cp   $02                                         ; $42d0: $fe $02
-	jr   z, jr_001_42e0                              ; $42d2: $28 $0c
+	jr   z, @next_42e0                              ; $42d2: $28 $0c
 
 	cp   $01                                         ; $42d4: $fe $01
-	jr   nz, jr_001_42e7                             ; $42d6: $20 $0f
+	jr   nz, @next_42e7                             ; $42d6: $20 $0f
 
 	ld   hl, $cb6c                                   ; $42d8: $21 $6c $cb
 	add  hl, bc                                      ; $42db: $09
 	dec  (hl)                                        ; $42dc: $35
-	jp   Jump_001_42e7                               ; $42dd: $c3 $e7 $42
+	jp   @next_42e7                               ; $42dd: $c3 $e7 $42
 
-
-jr_001_42e0:
+@next_42e0:
 	ld   a, $00                                      ; $42e0: $3e $00
 	ld   hl, $cb6c                                   ; $42e2: $21 $6c $cb
 	add  hl, bc                                      ; $42e5: $09
 	ld   (hl), a                                     ; $42e6: $77
 
-Jump_001_42e7:
-jr_001_42e7:
+@next_42e7:
+-
 	ld   hl, $cb78                                   ; $42e7: $21 $78 $cb
 	add  hl, bc                                      ; $42ea: $09
 	ld   a, (hl)                                     ; $42eb: $7e
 	cp   $00                                         ; $42ec: $fe $00
-	jr   nz, jr_001_4314                             ; $42ee: $20 $24
+	jr   nz, @func_4314                             ; $42ee: $20 $24
 
 	ld   hl, $cba8                                   ; $42f0: $21 $a8 $cb
 	add  hl, bc                                      ; $42f3: $09
 	ld   a, (hl)                                     ; $42f4: $7e
 	cp   $00                                         ; $42f5: $fe $00
-	jr   nz, jr_001_431a                             ; $42f7: $20 $21
+	jr   nz, @func_431a                             ; $42f7: $20 $21
 
 	call Call_001_628a                               ; $42f9: $cd $8a $62
 	ld   hl, $c0a6                                   ; $42fc: $21 $a6 $c0
@@ -9952,20 +9911,18 @@ jr_001_42e7:
 	ld   hl, $cba8                                   ; $4307: $21 $a8 $cb
 	add  hl, bc                                      ; $430a: $09
 	or   (hl)                                        ; $430b: $b6
-	jr   nz, jr_001_42e7                             ; $430c: $20 $d9
+	jr   nz, -                             ; $430c: $20 $d9
 
 	call Call_001_4346                               ; $430e: $cd $46 $43
-	jp   Jump_001_4288                               ; $4311: $c3 $88 $42
+	jp   @gotoCheckNextNPC                               ; $4311: $c3 $88 $42
 
-
-jr_001_4314:
+@func_4314:
 	call Call_001_433d                               ; $4314: $cd $3d $43
-	jp   Jump_001_4288                               ; $4317: $c3 $88 $42
+	jp   @gotoCheckNextNPC                               ; $4317: $c3 $88 $42
 
-
-jr_001_431a:
+@func_431a:
 	call Call_001_43d5                               ; $431a: $cd $d5 $43
-	jp   Jump_001_4288                               ; $431d: $c3 $88 $42
+	jp   @gotoCheckNextNPC                               ; $431d: $c3 $88 $42
 
 
 data_4320:
@@ -16169,8 +16126,8 @@ jr_001_626f:
 	ret                                              ; $6289: $c9
 
 
+//-----------------------start of collion? functions
 Call_001_628a:
-Jump_001_628a:
 	ld   hl, $c0a6                                   ; $628a: $21 $a6 $c0
 	ld   c, (hl)                                     ; $628d: $4e
 	ld   b, $00                                      ; $628e: $06 $00
@@ -16223,13 +16180,13 @@ Jump_001_628a:
 	scf                                              ; $62dd: $37
 	adc  (hl)                                        ; $62de: $8e
 	ld   (hl), a                                     ; $62df: $77
-	jr   nc, jr_001_62e7                             ; $62e0: $30 $05
+	jr   nc, +                             ; $62e0: $30 $05
 
 	ld   hl, $cb9c                                   ; $62e2: $21 $9c $cb
 	add  hl, bc                                      ; $62e5: $09
 	inc  (hl)                                        ; $62e6: $34
 
-jr_001_62e7:
++
 	ld   hl, $c01f                                   ; $62e7: $21 $1f $c0
 	ld   a, (hl)                                     ; $62ea: $7e
 	and  $3f                                         ; $62eb: $e6 $3f
@@ -16240,12 +16197,13 @@ jr_001_62e7:
 	ld   a, (hl)                                     ; $62f5: $7e
 	ld   hl, $c006                                   ; $62f6: $21 $06 $c0
 	add  (hl)                                        ; $62f9: $86
+// only $68 ... (collisions?)
 	cp   $68                                         ; $62fa: $fe $68
-	jr   c, jr_001_6300                              ; $62fc: $38 $02
+	jr   c, +                              ; $62fc: $38 $02
 
 	ld   a, $00                                      ; $62fe: $3e $00
 
-jr_001_6300:
++
 	ld   e, a                                        ; $6300: $5f
 	ld   d, $00                                      ; $6301: $16 $00
 	ld   hl, table_630c                                   ; $6303: $21 $0c $63
@@ -16258,110 +16216,110 @@ jr_001_6300:
 
 
 table_630c:
-	.dw $63e0
-	.dw $63e8
-	.dw $63f1
-	.dw $63fa
-	.dw $6403
-	.dw $640c
-	.dw $641c
-	.dw $6429
-	.dw $6436
-	.dw $6443
-	.dw $6452
-	.dw $645a
-	.dw $64f8
-	.dw $651f
-	.dw $6539
-	.dw $6551
-	.dw $6569
-	.dw $6588
-	.dw $65a2
-	.dw $65be
-	.dw $65eb
-	.dw $65f4
-	.dw $65fd
-	.dw $662d
-	.dw $6638
-	.dw $663e
-	.dw $6644
-	.dw $6657
-	.dw $665d
-	.dw $6669
-	.dw $6672
-	.dw $667b
-	.dw $6683
-	.dw $66bf
-	.dw $66df
-	.dw $66e8
-	.dw $66f1
-	.dw $6708
-	.dw $670e
-	.dw $6717
-	.dw $6722
-	.dw $6738
-	.dw $6748
-	.dw $6770
-	.dw $6773
-	.dw $6795
-	.dw $679a
-	.dw $67a4
-	.dw $67bf
-	.dw $67c9
-	.dw $67d3
-	.dw $67f1
-	.dw $6811
-	.dw $682c
-	.dw $6847
-	.dw $6853
-	.dw $6866
-	.dw $6872
-	.dw $6885
-	.dw $688f
-	.dw $68a3
-	.dw $68b6
-	.dw $68c5
-	.dw $68d1
-	.dw $6900
-	.dw $691f
-	.dw $6932
-	.dw $693d
-	.dw $6989
-	.dw $699e
-	.dw $69b3
-	.dw $69bb
-	.dw $6a08
-	.dw $6a13
-	.dw $6a2a
-	.dw $6aed
-	.dw $6bf3
-	.dw $6c01
-	.dw $6c0f
-	.dw $6c28
-	.dw $6c35
-	.dw $6cd6
-	.dw $6d11
-	.dw $6d2f
-	.dw $6d4d
-	.dw $6d6c
-	.dw $6d8b
-	.dw $6dd8
-	.dw $6e5b
-	.dw $6e75
-	.dw $6e94
-	.dw $6ea4
-	.dw $6ec3
-	.dw $6eca
-	.dw $6ed7
-	.dw $6f84
-	.dw $6f99
-	.dw $6fd8
-	.dw $6fe5
-	.dw $6fec
-	.dw $6ff3
-	.dw $7006
-	.dw $700e
-	.dw $7288
+	.dw removeNPCatOffsetBC
+	.dw func_63e8
+	.dw func_63f1
+	.dw func_63fa
+	.dw func_6403
+	.dw func_640c
+	.dw func_641c
+	.dw func_6429
+	.dw func_6436
+	.dw func_6443
+	.dw func_6452
+	.dw func_645a
+	.dw func_64f8
+	.dw Jump_001_651f
+	.dw Jump_001_6539
+	.dw Jump_001_6551
+	.dw Jump_001_6569
+	.dw Jump_001_6588
+	.dw func_65a2
+	.dw func_65be
+	.dw func_65eb
+	.dw func_65f4
+	.dw func_65fd
+	.dw func_662d
+	.dw func_6638
+	.dw func_663e
+	.dw func_6644
+	.dw func_6657
+	.dw func_665d
+	.dw func_6669
+	.dw func_6672
+	.dw func_667b
+	.dw func_6683
+	.dw func_66bf
+	.dw func_66df
+	.dw func_66e8
+	.dw func_66f1
+	.dw func_6708
+	.dw func_670e
+	.dw func_6717
+	.dw func_6722
+	.dw func_6738
+	.dw func_6748
+	.dw func_6770
+	.dw func_6773
+	.dw func_6795
+	.dw func_679a
+	.dw func_67a4
+	.dw func_67bf
+	.dw func_67c9
+	.dw func_67d3
+	.dw func_67f1
+	.dw func_6811
+	.dw func_682c
+	.dw func_6847
+	.dw func_6853
+	.dw func_6866
+	.dw func_6872
+	.dw func_6885
+	.dw func_688f
+	.dw func_68a3
+	.dw func_68b6
+	.dw func_68c5
+	.dw func_68d1
+	.dw func_6900
+	.dw func_691f
+	.dw func_6932
+	.dw func_693d
+	.dw func_6989
+	.dw Jump_001_699e
+	.dw func_69b3
+	.dw func_69bb
+	.dw func_6a08
+	.dw func_6a13
+	.dw func_6a2a
+	.dw func_6aed
+	.dw func_6bf3
+	.dw func_6c01
+	.dw func_6c0f
+	.dw func_6c28
+	.dw func_6c35
+	.dw func_6cd6
+	.dw func_6d11
+	.dw func_6d2f
+	.dw func_6d4d
+	.dw func_6d6c
+	.dw func_6d8b
+	.dw Jump_001_6dd8
+	.dw func_6e5b
+	.dw func_6e75
+	.dw func_6e94
+	.dw func_6ea4
+	.dw func_6ec3
+	.dw func_6eca
+	.dw func_6ed7
+	.dw func_6f84
+	.dw func_6f99
+	.dw func_6fd8
+	.dw func_6fe5
+	.dw func_6fec
+	.dw func_6ff3
+	.dw func_7006
+	.dw func_700e
+	.dw func_7288
 
 
 data_63dc:
@@ -16369,7 +16327,7 @@ data_63dc:
 	ld   l, $44                                      ; $63dd: $2e $44
 	ld   d, a                                        ; $63df: $57
 
-Jump_001_63e0:
+removeNPCatOffsetBC:
 	ld   a, $ff                                      ; $63e0: $3e $ff
 	ld   hl, wNPC1stBytes                                   ; $63e2: $21 $30 $cb
 	add  hl, bc                                      ; $63e5: $09
@@ -16377,30 +16335,35 @@ Jump_001_63e0:
 	ret                                              ; $63e7: $c9
 
 
+func_63e8:
 	ld   hl, $cb60                                   ; $63e8: $21 $60 $cb
 	add  hl, bc                                      ; $63eb: $09
 	set  5, (hl)                                     ; $63ec: $cb $ee
-	jp   Jump_001_628a                               ; $63ee: $c3 $8a $62
+	jp   Call_001_628a                               ; $63ee: $c3 $8a $62
 
 
+func_63f1:
 	ld   hl, $cb60                                   ; $63f1: $21 $60 $cb
 	add  hl, bc                                      ; $63f4: $09
 	res  5, (hl)                                     ; $63f5: $cb $ae
-	jp   Jump_001_628a                               ; $63f7: $c3 $8a $62
+	jp   Call_001_628a                               ; $63f7: $c3 $8a $62
 
 
+func_63fa:
 	ld   hl, $cb60                                   ; $63fa: $21 $60 $cb
 	add  hl, bc                                      ; $63fd: $09
 	set  7, (hl)                                     ; $63fe: $cb $fe
-	jp   Jump_001_628a                               ; $6400: $c3 $8a $62
+	jp   Call_001_628a                               ; $6400: $c3 $8a $62
 
 
+func_6403:
 	ld   hl, $cb60                                   ; $6403: $21 $60 $cb
 	add  hl, bc                                      ; $6406: $09
 	set  4, (hl)                                     ; $6407: $cb $e6
-	jp   Jump_001_628a                               ; $6409: $c3 $8a $62
+	jp   Call_001_628a                               ; $6409: $c3 $8a $62
 
 
+func_640c:
 	call Call_001_65da                               ; $640c: $cd $da $65
 	or   $03                                         ; $640f: $f6 $03
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $6411: $21 $84 $cb
@@ -16409,9 +16372,10 @@ Jump_001_63e0:
 
 Jump_001_6416:
 	call Call_001_6741                               ; $6416: $cd $41 $67
-	jp   Jump_001_628a                               ; $6419: $c3 $8a $62
+	jp   Call_001_628a                               ; $6419: $c3 $8a $62
 
 
+func_641c:
 	call Call_001_65da                               ; $641c: $cd $da $65
 	or   $06                                         ; $641f: $f6 $06
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $6421: $21 $84 $cb
@@ -16420,6 +16384,7 @@ Jump_001_6416:
 	jp   Jump_001_6416                               ; $6426: $c3 $16 $64
 
 
+func_6429:
 	call Call_001_65da                               ; $6429: $cd $da $65
 	or   $00                                         ; $642c: $f6 $00
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $642e: $21 $84 $cb
@@ -16428,6 +16393,7 @@ Jump_001_6416:
 	jp   Jump_001_6416                               ; $6433: $c3 $16 $64
 
 
+func_6436:
 	call Call_001_65da                               ; $6436: $cd $da $65
 	or   $09                                         ; $6439: $f6 $09
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $643b: $21 $84 $cb
@@ -16436,6 +16402,7 @@ Jump_001_6416:
 	jp   Jump_001_6416                               ; $6440: $c3 $16 $64
 
 
+func_6443:
 	ld   hl, $cb60                                   ; $6443: $21 $60 $cb
 	add  hl, bc                                      ; $6446: $09
 	set  6, (hl)                                     ; $6447: $cb $f6
@@ -16444,15 +16411,17 @@ Jump_001_6416:
 	ld   (hl), $00                                   ; $644d: $36 $00
 
 jr_001_644f:
-	jp   Jump_001_628a                               ; $644f: $c3 $8a $62
+	jp   Call_001_628a                               ; $644f: $c3 $8a $62
 
 
+func_6452:
 	call Call_001_6462                               ; $6452: $cd $62 $64
 	jr   nc, jr_001_644f                             ; $6455: $30 $f8
 
 	jp   Jump_001_6539                               ; $6457: $c3 $39 $65
 
 
+func_645a:
 	call Call_001_6462                               ; $645a: $cd $62 $64
 	jr   nc, jr_001_644f                             ; $645d: $30 $f0
 
@@ -16568,10 +16537,11 @@ Call_001_64f3:
 	jp   Jump_001_6c3f                               ; $64f5: $c3 $3f $6c
 
 
+func_64f8:
 	ld   hl, $cb60                                   ; $64f8: $21 $60 $cb
 	add  hl, bc                                      ; $64fb: $09
 	res  4, (hl)                                     ; $64fc: $cb $a6
-	jp   Jump_001_628a                               ; $64fe: $c3 $8a $62
+	jp   Call_001_628a                               ; $64fe: $c3 $8a $62
 
 
 data_6501:
@@ -16585,8 +16555,8 @@ data_6501:
 	nop                                              ; $6508: $00
 	nop                                              ; $6509: $00
 	.db $06
-	
-	
+
+
 data_650b:
 	.db $06
 	nop                                              ; $650c: $00
@@ -16598,7 +16568,7 @@ data_650b:
 	nop                                              ; $6512: $00
 	nop                                              ; $6513: $00
 	inc  bc                                          ; $6514: $03
-	
+
 data_6515:
 	add  hl, bc                                      ; data_6515: $09
 	nop                                              ; $6516: $00
@@ -16625,7 +16595,7 @@ Jump_001_651f:
 	or   (hl)                                        ; $6533: $b6
 	pop  hl                                          ; $6534: $e1
 	ld   (hl), a                                     ; $6535: $77
-	jp   Jump_001_628a                               ; $6536: $c3 $8a $62
+	jp   Call_001_628a                               ; $6536: $c3 $8a $62
 
 
 Jump_001_6539:
@@ -16642,7 +16612,7 @@ Jump_001_6539:
 	or   (hl)                                        ; $654b: $b6
 	pop  hl                                          ; $654c: $e1
 	ld   (hl), a                                     ; $654d: $77
-	jp   Jump_001_628a                               ; $654e: $c3 $8a $62
+	jp   Call_001_628a                               ; $654e: $c3 $8a $62
 
 
 Jump_001_6551:
@@ -16659,7 +16629,7 @@ Jump_001_6551:
 	or   (hl)                                        ; $6563: $b6
 	pop  hl                                          ; $6564: $e1
 	ld   (hl), a                                     ; $6565: $77
-	jp   Jump_001_628a                               ; $6566: $c3 $8a $62
+	jp   Call_001_628a                               ; $6566: $c3 $8a $62
 
 
 Jump_001_6569:
@@ -16700,6 +16670,7 @@ Jump_001_6588:
 	jp   Jump_001_6580                               ; $659f: $c3 $80 $65
 
 
+func_65a2:
 	ld   hl, wPlayerX                                   ; $65a2: $21 $52 $c0
 	ld   a, (hl)                                     ; $65a5: $7e
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $65a6: $21 $3c $cb
@@ -16723,6 +16694,7 @@ Jump_001_65b6:
 	jp   Jump_001_6569                               ; $65bb: $c3 $69 $65
 
 
+func_65be:
 	ld   hl, wPlayerY                                   ; $65be: $21 $54 $c0
 	ld   a, (hl)                                     ; $65c1: $7e
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $65c2: $21 $48 $cb
@@ -16763,18 +16735,21 @@ Call_001_65e3:
 	ret                                              ; $65ea: $c9
 
 
+func_65eb:
 	ld   hl, $cb60                                   ; $65eb: $21 $60 $cb
 	add  hl, bc                                      ; $65ee: $09
 	set  3, (hl)                                     ; $65ef: $cb $de
-	jp   Jump_001_628a                               ; $65f1: $c3 $8a $62
+	jp   Call_001_628a                               ; $65f1: $c3 $8a $62
 
 
+func_65f4:
 	ld   hl, $cb60                                   ; $65f4: $21 $60 $cb
 	add  hl, bc                                      ; $65f7: $09
 	res  3, (hl)                                     ; $65f8: $cb $9e
-	jp   Jump_001_628a                               ; $65fa: $c3 $8a $62
+	jp   Call_001_628a                               ; $65fa: $c3 $8a $62
 
 
+func_65fd:
 	ld   hl, $cb6c                                   ; $65fd: $21 $6c $cb
 	add  hl, bc                                      ; $6600: $09
 	inc  (hl)                                        ; $6601: $34
@@ -16811,6 +16786,7 @@ Call_001_661c:
 	ret                                              ; $662c: $c9
 
 
+func_662d:
 	call Call_001_6462                               ; $662d: $cd $62 $64
 	jr   nc, jr_001_6635                             ; $6630: $30 $03
 
@@ -16818,17 +16794,20 @@ Call_001_661c:
 
 
 jr_001_6635:
-	jp   Jump_001_628a                               ; $6635: $c3 $8a $62
+	jp   Call_001_628a                               ; $6635: $c3 $8a $62
 
 
+func_6638:
 	call Call_000_27ff                                       ; $6638: $cd $ff $27
-	jp   Jump_001_628a                               ; $663b: $c3 $8a $62
+	jp   Call_001_628a                               ; $663b: $c3 $8a $62
 
 
+func_663e:
 	call Call_001_5249                               ; $663e: $cd $49 $52
-	jp   Jump_001_628a                               ; $6641: $c3 $8a $62
+	jp   Call_001_628a                               ; $6641: $c3 $8a $62
 
 
+func_6644:
 	ld   hl, wPlayerMaxHealth                                   ; $6644: $21 $73 $c0
 	ld   a, (hl)                                     ; $6647: $7e
 	sub  $02                                         ; $6648: $d6 $02
@@ -16840,13 +16819,15 @@ jr_001_6635:
 jr_001_6650:
 	ld   hl, wPlayerMaxHealth                                   ; $6650: $21 $73 $c0
 	ld   (hl), a                                     ; $6653: $77
-	jp   Jump_001_628a                               ; $6654: $c3 $8a $62
+	jp   Call_001_628a                               ; $6654: $c3 $8a $62
 
 
+func_6657:
 	call Call_001_5289                               ; $6657: $cd $89 $52
-	jp   Jump_001_628a                               ; $665a: $c3 $8a $62
+	jp   Call_001_628a                               ; $665a: $c3 $8a $62
 
 
+func_665d:
 	ld   hl, wNumKeys                                   ; $665d: $21 $fa $c5
 	ld   a, (hl)                                     ; $6660: $7e
 	cp   $00                                         ; $6661: $fe $00
@@ -16855,26 +16836,30 @@ jr_001_6650:
 	dec  (hl)                                        ; $6665: $35
 
 jr_001_6666:
-	jp   Jump_001_628a                               ; $6666: $c3 $8a $62
+	jp   Call_001_628a                               ; $6666: $c3 $8a $62
 
 
+func_6669:
 	ld   hl, $cb60                                   ; $6669: $21 $60 $cb
 	add  hl, bc                                      ; $666c: $09
 	set  2, (hl)                                     ; $666d: $cb $d6
-	jp   Jump_001_628a                               ; $666f: $c3 $8a $62
+	jp   Call_001_628a                               ; $666f: $c3 $8a $62
 
 
+func_6672:
 	ld   hl, $cb60                                   ; $6672: $21 $60 $cb
 	add  hl, bc                                      ; $6675: $09
 	res  2, (hl)                                     ; $6676: $cb $96
-	jp   Jump_001_628a                               ; $6678: $c3 $8a $62
+	jp   Call_001_628a                               ; $6678: $c3 $8a $62
 
 
+func_667b:
 	ld   hl, $c02a                                   ; $667b: $21 $2a $c0
 	ld   (hl), $ff                                   ; $667e: $36 $ff
-	jp   Jump_001_628a                               ; $6680: $c3 $8a $62
+	jp   Call_001_628a                               ; $6680: $c3 $8a $62
 
 
+func_6683:
 	call Call_001_669b                               ; $6683: $cd $9b $66
 	jr   nz, jr_001_6698                             ; $6686: $20 $10
 
@@ -16889,7 +16874,7 @@ jr_001_6666:
 	ld   (hl), a                                     ; $6697: $77
 
 jr_001_6698:
-	jp   Jump_001_628a                               ; $6698: $c3 $8a $62
+	jp   Call_001_628a                               ; $6698: $c3 $8a $62
 
 
 Call_001_669b:
@@ -16915,6 +16900,7 @@ Call_001_669b:
 	ret                                              ; $66be: $c9
 
 
+func_66bf:
 	call Call_001_669b                               ; $66bf: $cd $9b $66
 	jr   nz, jr_001_6698                             ; $66c2: $20 $d4
 
@@ -16931,21 +16917,24 @@ Call_001_669b:
 	xor  (hl)                                        ; $66d7: $ae
 	ld   hl, $c07e                                   ; $66d8: $21 $7e $c0
 	ld   (hl), a                                     ; $66db: $77
-	jp   Jump_001_628a                               ; $66dc: $c3 $8a $62
+	jp   Call_001_628a                               ; $66dc: $c3 $8a $62
 
 
+func_66df:
 	ld   a, $ff                                      ; $66df: $3e $ff
 	ld   hl, $c714                                   ; $66e1: $21 $14 $c7
 	ld   (hl), a                                     ; $66e4: $77
-	jp   Jump_001_628a                               ; $66e5: $c3 $8a $62
+	jp   Call_001_628a                               ; $66e5: $c3 $8a $62
 
 
+func_66e8:
 	ld   a, $00                                      ; $66e8: $3e $00
 	ld   hl, $c714                                   ; $66ea: $21 $14 $c7
 	ld   (hl), a                                     ; $66ed: $77
-	jp   Jump_001_628a                               ; $66ee: $c3 $8a $62
+	jp   Call_001_628a                               ; $66ee: $c3 $8a $62
 
 
+func_66f1:
 	ld   hl, $cbcc                                   ; $66f1: $21 $cc $cb
 	add  hl, bc                                      ; $66f4: $09
 	ld   a, (hl)                                     ; $66f5: $7e
@@ -16958,20 +16947,22 @@ Call_001_669b:
 	ld   hl, $cb9c                                   ; $6700: $21 $9c $cb
 	add  hl, bc                                      ; $6703: $09
 	ld   (hl), a                                     ; $6704: $77
-	jp   Jump_001_628a                               ; $6705: $c3 $8a $62
+	jp   Call_001_628a                               ; $6705: $c3 $8a $62
 
 
-;;
+func_6708:
 	call incAnointingOilsGotten                               ; $6708: $cd $6b $52
-	jp   Jump_001_628a                               ; $670b: $c3 $8a $62
+	jp   Call_001_628a                               ; $670b: $c3 $8a $62
 
 
+func_670e:
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $670e: $21 $84 $cb
 	add  hl, bc                                      ; $6711: $09
 	set  7, (hl)                                     ; $6712: $cb $fe
-	jp   Jump_001_628a                               ; $6714: $c3 $8a $62
+	jp   Call_001_628a                               ; $6714: $c3 $8a $62
 
 
+func_6717:
 	ld   a, $04                                      ; $6717: $3e $04
 
 Jump_001_6719:
@@ -16979,9 +16970,10 @@ Jump_001_6719:
 	add  hl, bc                                      ; $671c: $09
 	or   (hl)                                        ; $671d: $b6
 	ld   (hl), a                                     ; $671e: $77
-	jp   Jump_001_628a                               ; $671f: $c3 $8a $62
+	jp   Call_001_628a                               ; $671f: $c3 $8a $62
 
 
+func_6722:
 	ld   hl, $cbf0                                   ; $6722: $21 $f0 $cb
 	add  hl, bc                                      ; $6725: $09
 	ld   a, (hl)                                     ; $6726: $7e
@@ -16994,13 +16986,14 @@ Jump_001_6719:
 	call jpHLinBank1                               ; $6732: $cd $b0 $61
 
 jr_001_6735:
-	jp   Jump_001_628a                               ; $6735: $c3 $8a $62
+	jp   Call_001_628a                               ; $6735: $c3 $8a $62
 
 
+func_6738:
 	ld   hl, $cbe4                                   ; $6738: $21 $e4 $cb
 	add  hl, bc                                      ; $673b: $09
 	set  3, (hl)                                     ; $673c: $cb $de
-	jp   Jump_001_628a                               ; $673e: $c3 $8a $62
+	jp   Call_001_628a                               ; $673e: $c3 $8a $62
 
 
 Call_001_6741:
@@ -17010,6 +17003,7 @@ Call_001_6741:
 	ret                                              ; $6747: $c9
 
 
+func_6748:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $6748: $21 $48 $cb
 	add  hl, bc                                      ; $674b: $09
 	ld   a, (hl)                                     ; $674c: $7e
@@ -17029,19 +17023,21 @@ Call_001_6741:
 	ld   (hl), a                                     ; $6767: $77
 	ld   a, $06                                      ; $6768: $3e $06
 	call Call_001_6244                               ; $676a: $cd $44 $62
-	jp   Jump_001_628a                               ; $676d: $c3 $8a $62
+	jp   Call_001_628a                               ; $676d: $c3 $8a $62
 
 
+func_6770:
 	jp   begin2                                       ; $6770: $c3 $58 $0b
 
 
+func_6773:
 	ld   de, $0000                                   ; $6773: $11 $00 $00
 
-jr_001_6776:
+@checkNextNPC:
 	ld   hl, $c0a6                                   ; $6776: $21 $a6 $c0
 	ld   a, e                                        ; $6779: $7b
 	cp   (hl)                                        ; $677a: $be
-	jr   z, jr_001_678c                              ; $677b: $28 $0f
+	jr   z, @next_678c                              ; $677b: $28 $0f
 
 	ld   hl, wNPC1stBytes                                   ; $677d: $21 $30 $cb
 	add  hl, de                                      ; $6780: $19
@@ -17049,24 +17045,25 @@ jr_001_6776:
 	ld   hl, wNPC1stBytes                                   ; $6782: $21 $30 $cb
 	add  hl, bc                                      ; $6785: $09
 	cp   (hl)                                        ; $6786: $be
-	jr   nz, jr_001_678c                             ; $6787: $20 $03
+	jr   nz, @next_678c                             ; $6787: $20 $03
 
-	jp   Jump_001_63e0                               ; $6789: $c3 $e0 $63
+	jp   removeNPCatOffsetBC                               ; $6789: $c3 $e0 $63
 
-
-jr_001_678c:
+@next_678c:
 	inc  de                                          ; $678c: $13
 	ld   a, e                                        ; $678d: $7b
 	cp   $0c                                         ; $678e: $fe $0c
-	jr   nz, jr_001_6776                             ; $6790: $20 $e4
+	jr   nz, @checkNextNPC                             ; $6790: $20 $e4
 
-	jp   Jump_001_628a                               ; $6792: $c3 $8a $62
+	jp   Call_001_628a                               ; $6792: $c3 $8a $62
 
 
+func_6795:
 	ld   a, $02                                      ; $6795: $3e $02
 	jp   Jump_001_6719                               ; $6797: $c3 $19 $67
 
 
+func_679a:
 	ld   hl, $c020                                   ; $679a: $21 $20 $c0
 	ld   a, (hl)                                     ; $679d: $7e
 	ld   hl, $cba8                                   ; $679e: $21 $a8 $cb
@@ -17075,6 +17072,7 @@ jr_001_678c:
 	ret                                              ; $67a3: $c9
 
 
+func_67a4:
 	ld   hl, $c020                                   ; $67a4: $21 $20 $c0
 	dec  (hl)                                        ; $67a7: $35
 	ld   a, (hl)                                     ; $67a8: $7e
@@ -17089,9 +17087,10 @@ jr_001_678c:
 	ld   hl, $cb54                                   ; $67b7: $21 $54 $cb
 	add  hl, bc                                      ; $67ba: $09
 	ld   (hl), a                                     ; $67bb: $77
-	jp   Jump_001_628a                               ; $67bc: $c3 $8a $62
+	jp   Call_001_628a                               ; $67bc: $c3 $8a $62
 
 
+func_67bf:
 	ld   hl, $c020                                   ; $67bf: $21 $20 $c0
 	ld   a, (hl)                                     ; $67c2: $7e
 	ld   hl, $cb78                                   ; $67c3: $21 $78 $cb
@@ -17100,6 +17099,7 @@ jr_001_678c:
 	ret                                              ; $67c8: $c9
 
 
+func_67c9:
 	ld   hl, $c020                                   ; $67c9: $21 $20 $c0
 	ld   a, (hl)                                     ; $67cc: $7e
 	ld   hl, $cbc0                                   ; $67cd: $21 $c0 $cb
@@ -17108,6 +17108,7 @@ jr_001_678c:
 	ret                                              ; $67d2: $c9
 
 
+func_67d3:
 	ld   hl, $c020                                   ; $67d3: $21 $20 $c0
 	sla  (hl)                                        ; $67d6: $cb $26
 	sla  (hl)                                        ; $67d8: $cb $26
@@ -17122,14 +17123,15 @@ jr_001_678c:
 	ld   hl, $cb54                                   ; $67e9: $21 $54 $cb
 	add  hl, bc                                      ; $67ec: $09
 	ld   (hl), a                                     ; $67ed: $77
-	jp   Jump_001_628a                               ; $67ee: $c3 $8a $62
+	jp   Call_001_628a                               ; $67ee: $c3 $8a $62
 
 
+func_67f1:
 	ld   hl, $c020                                   ; $67f1: $21 $20 $c0
 	ld   e, (hl)                                     ; $67f4: $5e
 	ld   d, $00                                      ; $67f5: $16 $00
 	call Call_001_5a7e                               ; $67f7: $cd $7e $5a
-	jp   Jump_001_628a                               ; $67fa: $c3 $8a $62
+	jp   Call_001_628a                               ; $67fa: $c3 $8a $62
 
 
 data_67fd:
@@ -17141,8 +17143,8 @@ data_67fd:
 	nop                                              ; $6804: $00
 	nop                                              ; $6805: $00
 	rst  $28                                         ; $6806: $ef
-	
-	
+
+
 data_6807:
 	nop                                              ; $6807: $00
 	nop                                              ; $6808: $00
@@ -17152,6 +17154,9 @@ data_6807:
 	nop                                              ; $680c: $00
 	ld   de, $0000                                   ; $680d: $11 $00 $00
 	nop                                              ; $6810: $00
+
+
+func_6811:
 	call Call_001_65e3                               ; $6811: $cd $e3 $65
 	ld   e, a                                        ; $6814: $5f
 	ld   d, $00                                      ; $6815: $16 $00
@@ -17168,6 +17173,7 @@ data_6807:
 	jp   Jump_001_6dd8                               ; $6829: $c3 $d8 $6d
 
 
+func_682c:
 	ld   hl, $c020                                   ; $682c: $21 $20 $c0
 	dec  (hl)                                        ; $682f: $35
 	ld   a, (hl)                                     ; $6830: $7e
@@ -17182,17 +17188,19 @@ data_6807:
 	ld   hl, $cb60                                   ; $683f: $21 $60 $cb
 	add  hl, bc                                      ; $6842: $09
 	ld   (hl), a                                     ; $6843: $77
-	jp   Jump_001_628a                               ; $6844: $c3 $8a $62
+	jp   Call_001_628a                               ; $6844: $c3 $8a $62
 
 
+func_6847:
 	ld   hl, $c020                                   ; $6847: $21 $20 $c0
 	ld   a, (hl)                                     ; $684a: $7e
 	ld   hl, wArmorOfGodGotten                                   ; $684b: $21 $52 $c6
 	or   (hl)                                        ; $684e: $b6
 	ld   (hl), a                                     ; $684f: $77
-	jp   Jump_001_628a                               ; $6850: $c3 $8a $62
+	jp   Call_001_628a                               ; $6850: $c3 $8a $62
 
 
+func_6853:
 	ld   hl, $c020                                   ; $6853: $21 $20 $c0
 	ld   a, (hl)                                     ; $6856: $7e
 	ld   hl, wArmorOfGodGotten                                   ; $6857: $21 $52 $c6
@@ -17201,17 +17209,19 @@ data_6807:
 	xor  (hl)                                        ; $685e: $ae
 	ld   hl, wArmorOfGodGotten                                   ; $685f: $21 $52 $c6
 	ld   (hl), a                                     ; $6862: $77
-	jp   Jump_001_628a                               ; $6863: $c3 $8a $62
+	jp   Call_001_628a                               ; $6863: $c3 $8a $62
 
 
+func_6866:
 	ld   hl, $c020                                   ; $6866: $21 $20 $c0
 	ld   a, (hl)                                     ; $6869: $7e
 	ld   hl, wSpecialBitemsGotten                                   ; $686a: $21 $53 $c6
 	or   (hl)                                        ; $686d: $b6
 	ld   (hl), a                                     ; $686e: $77
-	jp   Jump_001_628a                               ; $686f: $c3 $8a $62
+	jp   Call_001_628a                               ; $686f: $c3 $8a $62
 
 
+func_6872:
 	ld   hl, $c020                                   ; $6872: $21 $20 $c0
 	ld   a, (hl)                                     ; $6875: $7e
 	ld   hl, wSpecialBitemsGotten                                   ; $6876: $21 $53 $c6
@@ -17220,15 +17230,17 @@ data_6807:
 	xor  (hl)                                        ; $687d: $ae
 	ld   hl, wSpecialBitemsGotten                                   ; $687e: $21 $53 $c6
 	ld   (hl), a                                     ; $6881: $77
-	jp   Jump_001_628a                               ; $6882: $c3 $8a $62
+	jp   Call_001_628a                               ; $6882: $c3 $8a $62
 
 
+func_6885:
 	ld   hl, $c020                                   ; $6885: $21 $20 $c0
 	ld   a, (hl)                                     ; $6888: $7e
 	call Call_001_5086                               ; $6889: $cd $86 $50
-	jp   Jump_001_628a                               ; $688c: $c3 $8a $62
+	jp   Call_001_628a                               ; $688c: $c3 $8a $62
 
 
+func_688f:
 	ld   hl, $c020                                   ; $688f: $21 $20 $c0
 	ld   a, (hl)                                     ; $6892: $7e
 	ld   hl, $c023                                   ; $6893: $21 $23 $c0
@@ -17237,9 +17249,10 @@ data_6807:
 	ld   hl, $c024                                   ; $6899: $21 $24 $c0
 	ld   (hl), a                                     ; $689c: $77
 	call Call_000_2875                                       ; $689d: $cd $75 $28
-	jp   Jump_001_628a                               ; $68a0: $c3 $8a $62
+	jp   Call_001_628a                               ; $68a0: $c3 $8a $62
 
 
+func_68a3:
 	ld   hl, wNumBirds                                   ; $68a3: $21 $08 $c7
 	ld   a, (hl)                                     ; $68a6: $7e
 	ld   hl, $c020                                   ; $68a7: $21 $20 $c0
@@ -17252,9 +17265,10 @@ Jump_001_68af:
 jr_001_68af:
 	ld   hl, wNumBirds                                   ; $68af: $21 $08 $c7
 	ld   (hl), a                                     ; $68b2: $77
-	jp   Jump_001_628a                               ; $68b3: $c3 $8a $62
+	jp   Call_001_628a                               ; $68b3: $c3 $8a $62
 
 
+func_68b6:
 	ld   hl, wNumBirds                                   ; $68b6: $21 $08 $c7
 	ld   a, (hl)                                     ; $68b9: $7e
 	ld   hl, $c020                                   ; $68ba: $21 $20 $c0
@@ -17267,14 +17281,16 @@ jr_001_68c2:
 	jp   Jump_001_68af                               ; $68c2: $c3 $af $68
 
 
+func_68c5:
 	call Call_001_68e9                               ; $68c5: $cd $e9 $68
 	ld   hl, $c654                                   ; $68c8: $21 $54 $c6
 	add  hl, bc                                      ; $68cb: $09
 	or   (hl)                                        ; $68cc: $b6
 	ld   (hl), a                                     ; $68cd: $77
-	jp   Jump_001_628a                               ; $68ce: $c3 $8a $62
+	jp   Call_001_628a                               ; $68ce: $c3 $8a $62
 
 
+func_68d1:
 	call Call_001_68e9                               ; $68d1: $cd $e9 $68
 	ld   hl, $c020                                   ; $68d4: $21 $20 $c0
 	ld   (hl), a                                     ; $68d7: $77
@@ -17286,7 +17302,7 @@ jr_001_68c2:
 	ld   hl, $c654                                   ; $68e1: $21 $54 $c6
 	add  hl, bc                                      ; $68e4: $09
 	ld   (hl), a                                     ; $68e5: $77
-	jp   Jump_001_628a                               ; $68e6: $c3 $8a $62
+	jp   Call_001_628a                               ; $68e6: $c3 $8a $62
 
 
 Call_001_68e9:
@@ -17305,6 +17321,7 @@ Call_001_68e9:
 	ret                                              ; $68ff: $c9
 
 
+func_6900:
 	ld   hl, $c020                                   ; $6900: $21 $20 $c0
 	ld   e, (hl)                                     ; $6903: $5e
 	ld   hl, getFruitAmountFromWram                                   ; $6904: $21 $fe $13
@@ -17321,9 +17338,10 @@ Call_001_68e9:
 	call Call_000_241a                                       ; $6919: $cd $1a $24
 
 jr_001_691c:
-	jp   Jump_001_628a                               ; $691c: $c3 $8a $62
+	jp   Call_001_628a                               ; $691c: $c3 $8a $62
 
 
+func_691f:
 	ld   hl, wNumBombs                                   ; $691f: $21 $3b $c0
 	ld   a, (hl)                                     ; $6922: $7e
 	ld   hl, $c020                                   ; $6923: $21 $20 $c0
@@ -17335,40 +17353,41 @@ jr_001_691c:
 jr_001_692b:
 	ld   hl, wNumBombs                                   ; $692b: $21 $3b $c0
 	ld   (hl), a                                     ; $692e: $77
-	jp   Jump_001_628a                               ; $692f: $c3 $8a $62
+	jp   Call_001_628a                               ; $692f: $c3 $8a $62
 
 
+func_6932:
 	ld   hl, $c020                                   ; $6932: $21 $20 $c0
 	ld   a, (hl)                                     ; $6935: $7e
 	ld   hl, $c059                                   ; $6936: $21 $59 $c0
 	ld   (hl), a                                     ; $6939: $77
-	jp   Jump_001_628a                               ; $693a: $c3 $8a $62
+	jp   Call_001_628a                               ; $693a: $c3 $8a $62
 
 
+func_693d:
 	ld   de, $0000                                   ; $693d: $11 $00 $00
 
-jr_001_6940:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $6940: $21 $30 $cb
 	add  hl, de                                      ; $6943: $19
 	ld   a, (hl)                                     ; $6944: $7e
 	ld   hl, $c020                                   ; $6945: $21 $20 $c0
 	cp   (hl)                                        ; $6948: $be
-	jr   z, jr_001_6954                              ; $6949: $28 $09
+	jr   z, +                              ; $6949: $28 $09
 
-jr_001_694b:
+@gotoCheckNextNPC:
 	inc  de                                          ; $694b: $13
 	ld   a, e                                        ; $694c: $7b
 	cp   $0c                                         ; $694d: $fe $0c
-	jr   c, jr_001_6940                              ; $694f: $38 $ef
+	jr   c, @checkNextNPC                              ; $694f: $38 $ef
 
-	jp   Jump_001_628a                               ; $6951: $c3 $8a $62
+	jp   Call_001_628a                               ; $6951: $c3 $8a $62
 
-
-jr_001_6954:
++
 	ld   hl, $c0a6                                   ; $6954: $21 $a6 $c0
 	ld   a, e                                        ; $6957: $7b
 	cp   (hl)                                        ; $6958: $be
-	jr   z, jr_001_694b                              ; $6959: $28 $f0
+	jr   z, @gotoCheckNextNPC                              ; $6959: $28 $f0
 
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $695b: $21 $3c $cb
 	add  hl, de                                      ; $695e: $19
@@ -17397,6 +17416,7 @@ jr_001_6954:
 	jp   Jump_001_6416                               ; $6986: $c3 $16 $64
 
 
+func_6989:
 	ld   hl, $c020                                   ; $6989: $21 $20 $c0
 	ld   a, (hl)                                     ; $698c: $7e
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $698d: $21 $3c $cb
@@ -17407,7 +17427,7 @@ jr_001_6954:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $6996: $21 $48 $cb
 	add  hl, bc                                      ; $6999: $09
 	ld   (hl), a                                     ; $699a: $77
-	jp   Jump_001_628a                               ; $699b: $c3 $8a $62
+	jp   Call_001_628a                               ; $699b: $c3 $8a $62
 
 
 Jump_001_699e:
@@ -17422,25 +17442,26 @@ jr_001_699e:
 	ld   hl, $cb9c                                   ; $69ab: $21 $9c $cb
 	add  hl, bc                                      ; $69ae: $09
 	ld   (hl), a                                     ; $69af: $77
-	jp   Jump_001_628a                               ; $69b0: $c3 $8a $62
+	jp   Call_001_628a                               ; $69b0: $c3 $8a $62
 
 
+func_69b3:
 	call Call_001_64f3                               ; $69b3: $cd $f3 $64
 	jr   nz, jr_001_699e                             ; $69b6: $20 $e6
 
-	jp   Jump_001_628a                               ; $69b8: $c3 $8a $62
+	jp   Call_001_628a                               ; $69b8: $c3 $8a $62
 
 
+func_69bb:
 	ld   hl, $c061                                   ; $69bb: $21 $61 $c0
 	ld   a, (hl)                                     ; $69be: $7e
 	cp   $00                                         ; $69bf: $fe $00
-	jr   z, jr_001_69c7                              ; $69c1: $28 $04
+	jr   z, +                              ; $69c1: $28 $04
 
 	call Call_001_6616                               ; $69c3: $cd $16 $66
 	ret                                              ; $69c6: $c9
 
-
-jr_001_69c7:
++
 	ld   hl, $c020                                   ; $69c7: $21 $20 $c0
 	ld   a, (hl)                                     ; $69ca: $7e
 	ld   hl, $c062                                   ; $69cb: $21 $62 $c0
@@ -17473,17 +17494,19 @@ jr_001_69c7:
 	ld   hl, $c068                                   ; $69fe: $21 $68 $c0
 	ld   (hl), a                                     ; $6a01: $77
 	call Call_001_6c49                               ; $6a02: $cd $49 $6c
-	jp   Jump_001_628a                               ; $6a05: $c3 $8a $62
+	jp   Call_001_628a                               ; $6a05: $c3 $8a $62
 
 
+func_6a08:
 	ld   hl, wNumKeys                                   ; $6a08: $21 $fa $c5
 	ld   a, (hl)                                     ; $6a0b: $7e
 	cp   $00                                         ; $6a0c: $fe $00
 	jr   nz, jr_001_699e                             ; $6a0e: $20 $8e
 
-	jp   Jump_001_628a                               ; $6a10: $c3 $8a $62
+	jp   Call_001_628a                               ; $6a10: $c3 $8a $62
 
 
+func_6a13:
 	ld   hl, $cb90                                   ; $6a13: $21 $90 $cb
 	add  hl, bc                                      ; $6a16: $09
 	ld   a, (hl)                                     ; $6a17: $7e
@@ -17499,6 +17522,7 @@ jr_001_69c7:
 	jp   Jump_001_699e                               ; $6a27: $c3 $9e $69
 
 
+func_6a2a:
 	ld   hl, $c020                                   ; $6a2a: $21 $20 $c0
 	ld   a, (hl)                                     ; $6a2d: $7e
 	ld   hl, $c006                                   ; $6a2e: $21 $06 $c0
@@ -17593,7 +17617,7 @@ jr_001_6a96:
 	ld   hl, $cb9c                                   ; $6acb: $21 $9c $cb
 	add  hl, bc                                      ; $6ace: $09
 	ld   (hl), a                                     ; $6acf: $77
-	jp   Jump_001_628a                               ; $6ad0: $c3 $8a $62
+	jp   Call_001_628a                               ; $6ad0: $c3 $8a $62
 
 
 jr_001_6ad3:
@@ -17611,9 +17635,10 @@ jr_001_6ad3:
 
 
 jr_001_6aea:
-	jp   Jump_001_628a                               ; $6aea: $c3 $8a $62
+	jp   Call_001_628a                               ; $6aea: $c3 $8a $62
 
 
+func_6aed:
 	ld   hl, $cbfc                                   ; $6aed: $21 $fc $cb
 	add  hl, bc                                      ; $6af0: $09
 	ld   a, (hl)                                     ; $6af1: $7e
@@ -17635,7 +17660,7 @@ jr_001_6b04:
 
 	call jr_000_232a                                       ; $6b0c: $cd $2a $23
 	call Call_000_27ae                                       ; $6b0f: $cd $ae $27
-	jp   Jump_001_628a                               ; $6b12: $c3 $8a $62
+	jp   Call_001_628a                               ; $6b12: $c3 $8a $62
 
 
 Jump_001_6b15:
@@ -17792,7 +17817,7 @@ Call_001_6bc6:
 	ret                                              ; $6bf2: $c9
 
 
-;;
+func_6bf3:
 	ld   hl, $c05b                                   ; $6bf3: $21 $5b $c0
 	ld   a, (hl)                                     ; $6bf6: $7e
 	cp   $00                                         ; $6bf7: $fe $00
@@ -17802,17 +17827,19 @@ Call_001_6bc6:
 
 
 jr_001_6bfe:
-	jp   Jump_001_628a                               ; $6bfe: $c3 $8a $62
+	jp   Call_001_628a                               ; $6bfe: $c3 $8a $62
 
 
+func_6c01:
 	ld   hl, $c020                                   ; $6c01: $21 $20 $c0
 	ld   e, (hl)                                     ; $6c04: $5e
 	ld   hl, $c021                                   ; $6c05: $21 $21 $c0
 	ld   d, (hl)                                     ; $6c08: $56
 	call Call_000_1513                                       ; $6c09: $cd $13 $15
-	jp   Jump_001_628a                               ; $6c0c: $c3 $8a $62
+	jp   Call_001_628a                               ; $6c0c: $c3 $8a $62
 
 
+func_6c0f:
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $6c0f: $21 $84 $cb
 	add  hl, bc                                      ; $6c12: $09
 	ld   a, (hl)                                     ; $6c13: $7e
@@ -17830,9 +17857,10 @@ jr_001_6bfe:
 
 
 jr_001_6c25:
-	jp   Jump_001_628a                               ; $6c25: $c3 $8a $62
+	jp   Call_001_628a                               ; $6c25: $c3 $8a $62
 
 
+func_6c28:
 	ld   hl, wPlayerHealth                                   ; $6c28: $21 $72 $c0
 	ld   a, (hl)                                     ; $6c2b: $7e
 	ld   hl, wPlayerMaxHealth                                   ; $6c2c: $21 $73 $c0
@@ -17843,10 +17871,11 @@ jr_001_6c32:
 	jp   Jump_001_699e                               ; $6c32: $c3 $9e $69
 
 
+func_6c35:
 	call Call_001_6c3d                               ; $6c35: $cd $3d $6c
 	jr   nz, jr_001_6c32                             ; $6c38: $20 $f8
 
-	jp   Jump_001_628a                               ; $6c3a: $c3 $8a $62
+	jp   Call_001_628a                               ; $6c3a: $c3 $8a $62
 
 
 Call_001_6c3d:
@@ -17956,7 +17985,7 @@ Call_001_6cab:
 	ret                                              ; $6cd5: $c9
 
 
-;;
+func_6cd6:
 	call Call_001_48b2                               ; $6cd6: $cd $b2 $48
 	ld   hl, $c021                                   ; $6cd9: $21 $21 $c0
 	ld   a, (hl)                                     ; $6cdc: $7e
@@ -17993,6 +18022,7 @@ jr_001_6d10:
 	ret                                              ; $6d10: $c9
 
 
+func_6d11:
 	ld   hl, $c020                                   ; $6d11: $21 $20 $c0
 	ld   a, (hl)                                     ; $6d14: $7e
 	ld   hl, wRoomStructWord_whenFirstByteBit7set_1                                   ; $6d15: $21 $f0 $c5
@@ -18006,9 +18036,10 @@ jr_001_6d10:
 	ld   hl, wRoomStructWord_whenFirstByteBit7set_2+1                                   ; $6d25: $21 $f5 $c5
 	ld   (hl), a                                     ; $6d28: $77
 	call Call_000_1e06                                       ; $6d29: $cd $06 $1e
-	jp   Jump_001_628a                               ; $6d2c: $c3 $8a $62
+	jp   Call_001_628a                               ; $6d2c: $c3 $8a $62
 
 
+func_6d2f:
 	ld   hl, $c020                                   ; $6d2f: $21 $20 $c0
 	ld   a, (hl)                                     ; $6d32: $7e
 	ld   hl, wRoomStructWord_whenFirstByteBit6set_1                                   ; $6d33: $21 $f2 $c5
@@ -18022,9 +18053,10 @@ jr_001_6d10:
 	ld   hl, wRoomStructWord_whenFirstByteBit6set_2+1                                   ; $6d43: $21 $f7 $c5
 	ld   (hl), a                                     ; $6d46: $77
 	call Call_000_1e06                                       ; $6d47: $cd $06 $1e
-	jp   Jump_001_628a                               ; $6d4a: $c3 $8a $62
+	jp   Call_001_628a                               ; $6d4a: $c3 $8a $62
 
 
+func_6d4d:
 	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6d4d: $21 $3c $cb
 	add  hl, bc                                      ; $6d50: $09
 	ld   a, (hl)                                     ; $6d51: $7e
@@ -18041,9 +18073,10 @@ jr_001_6d10:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $6d64: $21 $48 $cb
 	add  hl, bc                                      ; $6d67: $09
 	ld   (hl), a                                     ; $6d68: $77
-	jp   Jump_001_628a                               ; $6d69: $c3 $8a $62
+	jp   Call_001_628a                               ; $6d69: $c3 $8a $62
 
 
+func_6d6c:
 	call Call_000_14d7                                       ; $6d6c: $cd $d7 $14
 	ld   hl, $c020                                   ; $6d6f: $21 $20 $c0
 	ld   a, (hl)                                     ; $6d72: $7e
@@ -18057,9 +18090,10 @@ jr_001_6d10:
 	ld   a, $00                                      ; $6d82: $3e $00
 	ld   hl, $c72a                                   ; $6d84: $21 $2a $c7
 	ld   (hl), a                                     ; $6d87: $77
-	jp   Jump_001_628a                               ; $6d88: $c3 $8a $62
+	jp   Call_001_628a                               ; $6d88: $c3 $8a $62
 
 
+func_6d8b:
 // copy 5 bytes
 	ld   a, $05                                      ; $6d8b: $3e $05
 	ld   hl, $c0a0                                   ; $6d8d: $21 $a0 $c0
@@ -18166,7 +18200,7 @@ Jump_001_6e1b:
 	ld   (hl), a                                     ; $6e3f: $77
 
 jr_001_6e40:
-	jp   Jump_001_628a                               ; $6e40: $c3 $8a $62
+	jp   Call_001_628a                               ; $6e40: $c3 $8a $62
 
 
 Call_001_6e43:
@@ -18189,6 +18223,7 @@ Jump_001_6e51:
 	ret                                              ; $6e5a: $c9
 
 
+func_6e5b:
 	call Call_001_7350                               ; $6e5b: $cd $50 $73
 	jr   z, jr_001_6e40                              ; $6e5e: $28 $e0
 
@@ -18205,6 +18240,7 @@ Jump_001_6e51:
 	jp   Jump_001_6e1b                               ; $6e72: $c3 $1b $6e
 
 
+func_6e75:
 	ld   hl, $cbb4                                   ; $6e75: $21 $b4 $cb
 	add  hl, bc                                      ; $6e78: $09
 	ld   a, (hl)                                     ; $6e79: $7e
@@ -18217,7 +18253,7 @@ Jump_001_6e7e:
 	dec  (hl)                                        ; $6e82: $35
 	jr   nz, jr_001_6eae                             ; $6e83: $20 $29
 
-	jp   Jump_001_628a                               ; $6e85: $c3 $8a $62
+	jp   Call_001_628a                               ; $6e85: $c3 $8a $62
 
 
 jr_001_6e88:
@@ -18229,6 +18265,7 @@ jr_001_6e88:
 	jp   Jump_001_6e7e                               ; $6e91: $c3 $7e $6e
 
 
+func_6e94:
 	call Call_001_48b2                               ; $6e94: $cd $b2 $48
 	ld   hl, $c020                                   ; $6e97: $21 $20 $c0
 	ld   a, (hl)                                     ; $6e9a: $7e
@@ -18236,9 +18273,10 @@ jr_001_6e88:
 	cp   (hl)                                        ; $6e9e: $be
 	jr   nc, jr_001_6eae                             ; $6e9f: $30 $0d
 
-	jp   Jump_001_628a                               ; $6ea1: $c3 $8a $62
+	jp   Call_001_628a                               ; $6ea1: $c3 $8a $62
 
 
+func_6ea4:
 	ld   hl, wArmorOfGodGotten                                   ; $6ea4: $21 $52 $c6
 	ld   a, (hl)                                     ; $6ea7: $7e
 
@@ -18261,23 +18299,26 @@ jr_001_6eae:
 	ld   (hl), a                                     ; $6ebf: $77
 
 jr_001_6ec0:
-	jp   Jump_001_628a                               ; $6ec0: $c3 $8a $62
+	jp   Call_001_628a                               ; $6ec0: $c3 $8a $62
 
 
+func_6ec3:
 	ld   hl, wSpecialBitemsGotten                                   ; $6ec3: $21 $53 $c6
 	ld   a, (hl)                                     ; $6ec6: $7e
 	jp   Jump_001_6ea8                               ; $6ec7: $c3 $a8 $6e
 
 
+func_6eca:
 	ld   hl, wNumBirds                                   ; $6eca: $21 $08 $c7
 	ld   a, (hl)                                     ; $6ecd: $7e
 	ld   hl, $c020                                   ; $6ece: $21 $20 $c0
 	cp   (hl)                                        ; $6ed1: $be
 	jr   nc, jr_001_6eae                             ; $6ed2: $30 $da
 
-	jp   Jump_001_628a                               ; $6ed4: $c3 $8a $62
+	jp   Call_001_628a                               ; $6ed4: $c3 $8a $62
 
 
+func_6ed7:
 	ld   hl, $c022                                   ; $6ed7: $21 $22 $c0
 	ld   a, (hl)                                     ; $6eda: $7e
 	bit  7, a                                        ; $6edb: $cb $7f
@@ -18375,9 +18416,10 @@ jr_001_6f37:
 	call Call_001_59ba                               ; $6f7e: $cd $ba $59
 
 jr_001_6f81:
-	jp   Jump_001_628a                               ; $6f81: $c3 $8a $62
+	jp   Call_001_628a                               ; $6f81: $c3 $8a $62
 
 
+func_6f84:
 	call Call_001_68e9                               ; $6f84: $cd $e9 $68
 	ld   hl, $c020                                   ; $6f87: $21 $20 $c0
 	ld   (hl), a                                     ; $6f8a: $77
@@ -18390,6 +18432,7 @@ jr_001_6f81:
 	jp   Jump_001_6ea8                               ; $6f96: $c3 $a8 $6e
 
 
+func_6f99:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $6f99: $21 $48 $cb
 	add  hl, bc                                      ; $6f9c: $09
 	ld   a, (hl)                                     ; $6f9d: $7e
@@ -18426,9 +18469,10 @@ jr_001_6fd2:
 
 
 jr_001_6fd5:
-	jp   Jump_001_628a                               ; $6fd5: $c3 $8a $62
+	jp   Call_001_628a                               ; $6fd5: $c3 $8a $62
 
 
+func_6fd8:
 	ld   hl, wNumBombs                                   ; $6fd8: $21 $3b $c0
 	ld   a, (hl)                                     ; $6fdb: $7e
 
@@ -18437,19 +18481,22 @@ Jump_001_6fdc:
 	cp   (hl)                                        ; $6fdf: $be
 	jr   nc, jr_001_6fd2                             ; $6fe0: $30 $f0
 
-	jp   Jump_001_628a                               ; $6fe2: $c3 $8a $62
+	jp   Call_001_628a                               ; $6fe2: $c3 $8a $62
 
 
+func_6fe5:
 	ld   hl, wAnointingOilsGotten                                   ; $6fe5: $21 $51 $c6
 	ld   a, (hl)                                     ; $6fe8: $7e
 	jp   Jump_001_6fdc                               ; $6fe9: $c3 $dc $6f
 
 
+func_6fec:
 	ld   hl, wPlayerHealth                                   ; $6fec: $21 $72 $c0
 	ld   a, (hl)                                     ; $6fef: $7e
 	jp   Jump_001_6fdc                               ; $6ff0: $c3 $dc $6f
 
 
+func_6ff3:
 	call pollInput                               ; $6ff3: $cd $3b $5b
 	ld   hl, wKeysPressed                                   ; $6ff6: $21 $16 $c0
 	ld   a, (hl)                                     ; $6ff9: $7e
@@ -18461,15 +18508,17 @@ Jump_001_6fdc:
 
 
 jr_001_7003:
-	jp   Jump_001_628a                               ; $7003: $c3 $8a $62
+	jp   Call_001_628a                               ; $7003: $c3 $8a $62
 
 
+func_7006:
 	call Call_001_6468                               ; $7006: $cd $68 $64
 	jr   nc, jr_001_7003                             ; $7009: $30 $f8
 
 	jp   Jump_001_6eae                               ; $700b: $c3 $ae $6e
 
 
+func_700e:
 	ld   hl, $c0a6                                   ; $700e: $21 $a6 $c0
 	ld   a, (hl)                                     ; $7011: $7e
 	push af                                          ; $7012: $f5
@@ -18481,7 +18530,7 @@ jr_001_7003:
 	ld   hl, $c01f                                   ; $701e: $21 $1f $c0
 	ld   (hl), a                                     ; $7021: $77
 
-Jump_001_7022:
+@massiveLoop_7022:
 	call turnOffLCD                                       ; $7022: $cd $0d $02
 	call clear_c200_to_c2ff                               ; $7025: $cd $9e $5b
 	call copyA0hDataToOam                                       ; $7028: $cd $99 $1a
@@ -18531,12 +18580,11 @@ Jump_001_7022:
 	ld   a, (hl)                                     ; $7092: $7e
 	ld   hl, $c0c4                                   ; $7093: $21 $c4 $c0
 	cp   (hl)                                        ; $7096: $be
-	jr   z, jr_001_709c                              ; $7097: $28 $03
+	jr   z, +                              ; $7097: $28 $03
 
-	jp   Jump_001_7147                               ; $7099: $c3 $47 $71
+	jp   @func_7147                               ; $7099: $c3 $47 $71
 
-
-jr_001_709c:
++
 	ld   a, $ff                                      ; $709c: $3e $ff
 	ld   hl, $c72a                                   ; $709e: $21 $2a $c7
 	ld   (hl), a                                     ; $70a1: $77
@@ -18560,89 +18608,87 @@ jr_001_709c:
 	ld   hl, $c021                                   ; $70cf: $21 $21 $c0
 	ld   a, (hl)                                     ; $70d2: $7e
 	cp   $01                                         ; $70d3: $fe $01
-	jr   nz, jr_001_70e5                             ; $70d5: $20 $0e
+	jr   nz, @next_70e5                             ; $70d5: $20 $0e
 
 	ld   hl, $c01f                                   ; $70d7: $21 $1f $c0
 	ld   a, (hl)                                     ; $70da: $7e
 	cp   $00                                         ; $70db: $fe $00
-	jr   nz, jr_001_70e5                             ; $70dd: $20 $06
+	jr   nz, @next_70e5                             ; $70dd: $20 $06
 
 	call Call_001_7267                               ; $70df: $cd $67 $72
 	call Call_000_1815                                       ; $70e2: $cd $15 $18
 
-jr_001_70e5:
+@next_70e5:
+-
 	call Call_000_1a5e                                       ; $70e5: $cd $5e $1a
 	call Call_000_14f8                                       ; $70e8: $cd $f8 $14
-	jr   nz, jr_001_70e5                             ; $70eb: $20 $f8
+	jr   nz, -                             ; $70eb: $20 $f8
 
 	ld   hl, $c022                                   ; $70ed: $21 $22 $c0
 	ld   c, (hl)                                     ; $70f0: $4e
 	ld   b, $00                                      ; $70f1: $06 $00
 	ld   a, c                                        ; $70f3: $79
 	cp   $ff                                         ; $70f4: $fe $ff
-	jr   nz, jr_001_70fe                             ; $70f6: $20 $06
+	jr   nz, +                             ; $70f6: $20 $06
 
 	call Call_001_5084                               ; $70f8: $cd $84 $50
-	jp   Jump_001_7125                               ; $70fb: $c3 $25 $71
+	jp   @bigLoop_7125                               ; $70fb: $c3 $25 $71
 
-
-jr_001_70fe:
++
 	ld   c, $05                                      ; $70fe: $0e $05
 	ld   hl, $c022                                   ; $7100: $21 $22 $c0
 	ld   a, (hl)                                     ; $7103: $7e
 	cp   $03                                         ; $7104: $fe $03
-	jr   nz, jr_001_710a                             ; $7106: $20 $02
+	jr   nz, @startAddingBirdsMaxFF                             ; $7106: $20 $02
 
 	ld   c, $0a                                      ; $7108: $0e $0a
 
-jr_001_710a:
+@startAddingBirdsMaxFF:
 	ld   hl, wNumBirds                                   ; $710a: $21 $08 $c7
 	inc  (hl)                                        ; $710d: $34
-	jr   nz, jr_001_7114                             ; $710e: $20 $04
+	jr   nz, +                             ; $710e: $20 $04
 
 	ld   hl, wNumBirds                                   ; $7110: $21 $08 $c7
 	dec  (hl)                                        ; $7113: $35
 
-jr_001_7114:
++
 	dec  c                                           ; $7114: $0d
-	jr   nz, jr_001_710a                             ; $7115: $20 $f3
+	jr   nz, @startAddingBirdsMaxFF                             ; $7115: $20 $f3
 
 	ld   hl, $c022                                   ; $7117: $21 $22 $c0
 	ld   a, (hl)                                     ; $711a: $7e
 	cp   $01                                         ; $711b: $fe $01
-	jr   z, jr_001_7125                              ; $711d: $28 $06
+	jr   z, @bigLoop_7125                              ; $711d: $28 $06
 
 	call Call_001_5084                               ; $711f: $cd $84 $50
 	call Call_001_5084                               ; $7122: $cd $84 $50
 
-Jump_001_7125:
-jr_001_7125:
+@bigLoop_7125:
 	ld   hl, $c021                                   ; $7125: $21 $21 $c0
 	dec  (hl)                                        ; $7128: $35
-	jr   z, jr_001_7187                              ; $7129: $28 $5c
+	jr   z, @done                              ; $7129: $28 $5c
 
 	ld   hl, $c020                                   ; $712b: $21 $20 $c0
 	ld   a, (hl)                                     ; $712e: $7e
 	cp   $ff                                         ; $712f: $fe $ff
-	jr   z, jr_001_713f                              ; $7131: $28 $0c
+	jr   z, ++                              ; $7131: $28 $0c
 
 	add  $01                                         ; $7133: $c6 $01
 	cp   $fa                                         ; $7135: $fe $fa
-	jr   c, jr_001_713b                              ; $7137: $38 $02
+	jr   c, +                              ; $7137: $38 $02
 
 	ld   a, $00                                      ; $7139: $3e $00
 
-jr_001_713b:
++
 	ld   hl, $c020                                   ; $713b: $21 $20 $c0
 	ld   (hl), a                                     ; $713e: $77
 
-jr_001_713f:
+++
 	ld   e, $3c                                      ; $713f: $1e $3c
 	call Call_000_19f8                                       ; $7141: $cd $f8 $19
-	jp   Jump_001_7022                               ; $7144: $c3 $22 $70
+	jp   @massiveLoop_7022                               ; $7144: $c3 $22 $70
 
-
-Jump_001_7147:
+@func_7147:
 	ld   hl, $c01f                                   ; $7147: $21 $1f $c0
 	inc  (hl)                                        ; $714a: $34
 	ld   de, $15e0                                   ; $714b: $11 $e0 $15
@@ -18663,22 +18709,21 @@ Jump_001_7147:
 	ld   bc, $0001                                   ; $7176: $01 $01 $00
 	call Call_001_71b4                               ; $7179: $cd $b4 $71
 
-jr_001_717c:
+-
 	call Call_000_1a5e                                       ; $717c: $cd $5e $1a
 	call Call_000_14f8                                       ; $717f: $cd $f8 $14
-	jr   nz, jr_001_717c                             ; $7182: $20 $f8
+	jr   nz, -                             ; $7182: $20 $f8
 
-	jp   Jump_001_7125                               ; $7184: $c3 $25 $71
+	jp   @bigLoop_7125                               ; $7184: $c3 $25 $71
 
-
-jr_001_7187:
+@done:
 	call func_180f                                       ; $7187: $cd $0f $18
 	call jr_000_232a                                       ; $718a: $cd $2a $23
 	call Call_000_27ae                                       ; $718d: $cd $ae $27
 	pop  af                                          ; $7190: $f1
 	ld   hl, $c0a6                                   ; $7191: $21 $a6 $c0
 	ld   (hl), a                                     ; $7194: $77
-	jp   Jump_001_628a                               ; $7195: $c3 $8a $62
+	jp   Call_001_628a                               ; $7195: $c3 $8a $62
 
 
 data_7198:
@@ -18695,7 +18740,7 @@ Call_001_719b:
 	add  hl, bc                                      ; $71a7: $09
 	ld   a, (hl)                                     ; $71a8: $7e
 	ld   bc, $0021                                   ; $71a9: $01 $21 $00
-	jp   Jump_001_71eb                               ; $71ac: $c3 $eb $71
+	jp   Call_001_71eb                               ; $71ac: $c3 $eb $71
 
 
 data_71af:
@@ -18729,13 +18774,13 @@ Call_001_71cc:
 	ld   (hl), a                                     ; $71d1: $77
 	ld   a, c                                        ; $71d2: $79
 	cp   $01                                         ; $71d3: $fe $01
-	jr   nz, jr_001_71dc                             ; $71d5: $20 $05
+	jr   nz, +                             ; $71d5: $20 $05
 
 	ld   a, $00                                      ; $71d7: $3e $00
 	or   $20                                         ; $71d9: $f6 $20
 	ld   (hl), a                                     ; $71db: $77
 
-jr_001_71dc:
++
 	ld   de, $0018                                   ; $71dc: $11 $18 $00
 	ld   hl, data_71c8                                   ; $71df: $21 $c8 $71
 	add  hl, bc                                      ; $71e2: $09
@@ -18746,7 +18791,6 @@ jr_001_71dc:
 
 
 Call_001_71eb:
-Jump_001_71eb:
 	push af                                          ; $71eb: $f5
 	ld   hl, $c006                                   ; $71ec: $21 $06 $c0
 	ld   a, (hl)                                     ; $71ef: $7e
@@ -18757,7 +18801,7 @@ Jump_001_71eb:
 	add  hl, de                                      ; $71f8: $19
 	ld   (hl), a                                     ; $71f9: $77
 	and  $20                                         ; $71fa: $e6 $20
-	jr   z, jr_001_720e                              ; $71fc: $28 $10
+	jr   z, +                              ; $71fc: $28 $10
 
 	pop  af                                          ; $71fe: $f1
 	ld   hl, $c206                                   ; $71ff: $21 $06 $c2
@@ -18769,8 +18813,7 @@ Jump_001_71eb:
 	ld   (hl), a                                     ; $720a: $77
 	jp   Jump_001_721b                               ; $720b: $c3 $1b $72
 
-
-jr_001_720e:
++
 	pop  af                                          ; $720e: $f1
 	ld   hl, $c202                                   ; $720f: $21 $02 $c2
 	add  hl, de                                      ; $7212: $19
@@ -18797,7 +18840,6 @@ Jump_001_721b:
 	add  hl, de                                      ; $7232: $19
 	ld   (hl), a                                     ; $7233: $77
 	ret                                              ; $7234: $c9
-
 
 Jump_001_7235:
 	push af                                          ; $7235: $f5
@@ -18858,36 +18900,36 @@ jr_001_7278:
 	ret                                              ; $7287: $c9
 
 
+func_7288:
 	call Call_001_65e3                               ; $7288: $cd $e3 $65
 	ld   hl, $c020                                   ; $728b: $21 $20 $c0
 	cp   (hl)                                        ; $728e: $be
-	jr   nz, jr_001_7294                             ; $728f: $20 $03
+	jr   nz, +                             ; $728f: $20 $03
 
 	jp   Jump_001_6eae                               ; $7291: $c3 $ae $6e
 
-
-jr_001_7294:
-	jp   Jump_001_628a                               ; $7294: $c3 $8a $62
++
+	jp   Call_001_628a                               ; $7294: $c3 $8a $62
 
 
 func_7297:
 	ld   bc, $0000
 
-jr_001_729a:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $729a: $21 $30 $cb
 	add  hl, bc                                      ; $729d: $09
 	ld   a, (hl)                                     ; $729e: $7e
 	cp   $ff                                         ; $729f: $fe $ff
-	jr   z, jr_001_72a9                              ; $72a1: $28 $06
+	jr   z, +                              ; $72a1: $28 $06
 
 	call Call_001_72b0                               ; $72a3: $cd $b0 $72
 	call Call_001_7304                               ; $72a6: $cd $04 $73
 
-jr_001_72a9:
++
 	inc  bc                                          ; $72a9: $03
 	ld   a, c                                        ; $72aa: $79
 	cp   $0c                                         ; $72ab: $fe $0c
-	jr   c, jr_001_729a                              ; $72ad: $38 $eb
+	jr   c, @checkNextNPC                              ; $72ad: $38 $eb
 
 	ret                                              ; $72af: $c9
 
@@ -18947,7 +18989,6 @@ Call_001_72fd:
 	ld   (hl), a                                     ; $7303: $77
 
 Call_001_7304:
-Jump_001_7304:
 	ld   a, $10                                      ; $7304: $3e $10
 	ld   hl, $cb60                                   ; $7306: $21 $60 $cb
 	add  hl, bc                                      ; $7309: $09
@@ -18999,23 +19040,25 @@ jr_001_7343:
 Call_001_7350:
 	ld   de, $0000                                   ; $7350: $11 $00 $00
 
-jr_001_7353:
+@checkNextNPC:
 	ld   hl, wNPC1stBytes                                   ; $7353: $21 $30 $cb
 	add  hl, de                                      ; $7356: $19
 	ld   a, (hl)                                     ; $7357: $7e
 	cp   $ff                                         ; $7358: $fe $ff
-	jr   z, jr_001_7364                              ; $735a: $28 $08
+	jr   z, @done                              ; $735a: $28 $08
 
 	inc  de                                          ; $735c: $13
 	ld   a, e                                        ; $735d: $7b
 	cp   $0c                                         ; $735e: $fe $0c
-	jr   c, jr_001_7353                              ; $7360: $38 $f1
+	jr   c, @checkNextNPC                              ; $7360: $38 $f1
 
 	ld   a, $00                                      ; $7362: $3e $00
 
-jr_001_7364:
+@done:
 	cp   $00                                         ; $7364: $fe $00
 	ret                                              ; $7366: $c9
+//-----------------------end of collion? functions
+
 
 
 Call_001_7367:
@@ -19023,7 +19066,7 @@ Call_001_7367:
 	add  hl, bc                                      ; $736a: $09
 	ld   (hl), a                                     ; $736b: $77
 	call Call_001_72b0                               ; $736c: $cd $b0 $72
-	jp   Jump_001_7304                               ; $736f: $c3 $04 $73
+	jp   Call_001_7304                               ; $736f: $c3 $04 $73
 
 
 Call_001_7372:
