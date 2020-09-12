@@ -304,7 +304,23 @@ wSecondRoomStructByte: ; $c72c
 	db
 
 wc72d:
-	dsb $850-$72d
+	dsb $800-$72d
+
+wSoundChannelA: ; $c800
+	instanceof SoundChannel
+wSoundChannelB: ; $c80d
+	instanceof SoundChannel
+wSoundChannelC: ; $c81a
+	instanceof SoundChannel
+wSoundChannelD: ; $c827
+	instanceof SoundChannel
+wSoundChannelE: ; $c834
+	instanceof SoundChannel
+wSoundChannelEnd:
+	.db
+
+wc841:
+	dsb $50-$41
 
 wGameScreenTiles: ; $c850
 	dsb $2c0
@@ -350,8 +366,11 @@ wd001:
 wCurrent2x2tileToVramTileIdxConversionTable: ; $d006
 	dsb $40
 
-wd046:
-	dsb $fff-$46
+wVramTileConversionTables: ; $d046
+	dsb $40
+
+wd086:
+	dsb $fff-$86
 
 wStackTop: ; $dfff
 	db

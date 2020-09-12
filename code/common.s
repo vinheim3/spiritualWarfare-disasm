@@ -146,28 +146,28 @@ copyMemoryInBankA:
 
 
 // sound-related functions
-Jump_000_01be:
-	ld   hl, :func_04_1fc2                                   ; $01be: $21 $04 $00
+commonSoundFunc0:
+	ld   hl, :soundEngineFunc0                                   ; $01be: $21 $04 $00
 	ld   (hl), a                                     ; $01c1: $77
-	call func_04_1fc2                               ; $01c2: $cd $c2 $1f
+	call soundEngineFunc0                               ; $01c2: $cd $c2 $1f
 	ld   hl, $0000                                   ; $01c5: $21 $00 $00
 	ld   (hl), a                                     ; $01c8: $77
 	ret                                              ; $01c9: $c9
 
 
-Call_000_01ca:
-	ld   hl, :func_04_200a                                   ; $01ca: $21 $04 $00
+commonSoundFunc1:
+	ld   hl, :soundEngineFunc1                                   ; $01ca: $21 $04 $00
 	ld   (hl), a                                     ; $01cd: $77
-	call func_04_200a                                       ; $01ce: $cd $0a $20
+	call soundEngineFunc1                                       ; $01ce: $cd $0a $20
 	ld   hl, $0000                                   ; $01d1: $21 $00 $00
 	ld   (hl), a                                     ; $01d4: $77
 	ret                                              ; $01d5: $c9
 
 
-Call_000_01d6:
-	ld   hl, :func_04_2092                                   ; $01d6: $21 $04 $00
+commonSoundFunc2:
+	ld   hl, :soundEngineFunc2                                   ; $01d6: $21 $04 $00
 	ld   (hl), a                                     ; $01d9: $77
-	call func_04_2092                                       ; $01da: $cd $92 $20
+	call soundEngineFunc2                                       ; $01da: $cd $92 $20
 	ld   hl, $0000                                   ; $01dd: $21 $00 $00
 	ld   (hl), a                                     ; $01e0: $77
 	ret                                              ; $01e1: $c9

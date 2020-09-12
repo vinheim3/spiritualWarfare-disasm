@@ -6,7 +6,9 @@
 ; https://github.com/vinheim3
 
 .include "include/rominfo.s"
+.include "include/constants.s"
 .include "include/hardware.s"
+.include "include/structs.s"
 .include "include/wram.s"
 .include "include/hram.s"
 .include "include/macros.s"

@@ -20,7 +20,7 @@ begin:
 	ld   (hl), $00                                   ; $0967: $36 $00
 	ld   hl, $d400                                   ; $0969: $21 $00 $d4
 	ld   (hl), $00                                   ; $096c: $36 $00
-	call Call_000_1532                               ; $096e: $cd $32 $15
+	call callCommonSoundFunc1_withFF                               ; $096e: $cd $32 $15
 	ld   hl, lyt_introTradeMarkScreen                                   ; $0971: $21 $80 $19
 	call copyLayoutFromBank3toScreen0withOffset                               ; $0974: $cd $37 $15
 	ld   hl, $001c                                   ; $0977: $21 $1c $00
@@ -29,10 +29,10 @@ begin:
 	call copyA0hDataToOam                               ; $0980: $cd $99 $1a
 	ld   a, $01                                      ; $0983: $3e $01
 	call setLCDfromValue                               ; $0985: $cd $11 $02
-	call Call_000_27d8                               ; $0988: $cd $d8 $27
+	call callsCommonSoundFuncs_27d8                               ; $0988: $cd $d8 $27
 	ld   e, $ff                                      ; $098b: $1e $ff
 	call Call_000_19f8                               ; $098d: $cd $f8 $19
-	call Call_000_1532                               ; $0990: $cd $32 $15
+	call callCommonSoundFunc1_withFF                               ; $0990: $cd $32 $15
 	call clear_c094_c095                                       ; $0993: $cd $a6 $48
 	ld   hl, $c4dd                                   ; $0996: $21 $dd $c4
 	ld   (hl), $00                                   ; $0999: $36 $00
@@ -115,45 +115,13 @@ data_09fc:
 	
 	
 data_09fd:
-	cp   $05                                         ; data_09fd: $fe $05
-	rst  $38                                         ; $09ff: $ff
-	nop                                              ; $0a00: $00
-	rla                                              ; $0a01: $17
-	dec  b                                           ; $0a02: $05
-	.db  $10                                         ; $0a03: $10
-	inc  b                                           ; $0a04: $04
-	ld   de, $0004                                   ; $0a05: $11 $04 $00
-	nop                                              ; $0a08: $00
-	.db  $10                                         ; $0a09: $10
-	dec  b                                           ; $0a0a: $05
-	ld   de, $0004                                   ; $0a0b: $11 $04 $00
-	nop                                              ; $0a0e: $00
-	rla                                              ; $0a0f: $17
-	ld   b, $49                                      ; $0a10: $06 $49
-	ld   b, $4a                                      ; $0a12: $06 $4a
-	ld   b, $4b                                      ; $0a14: $06 $4b
-	ld   a, b                                        ; $0a16: $78
-	ld   c, e                                        ; $0a17: $4b
-	nop                                              ; $0a18: $00
-	inc  d                                           ; $0a19: $14
-	ld   b, $15                                      ; $0a1a: $06 $15
-	inc  b                                           ; $0a1c: $04
-	ld   d, $03                                      ; $0a1d: $16 $03
-	nop                                              ; $0a1f: $00
-	nop                                              ; $0a20: $00
-	rla                                              ; $0a21: $17
-	dec  b                                           ; $0a22: $05
-	.db  $fd                                         ; $0a23: $fd
-	ld   a, (de)                                     ; $0a24: $1a
-	nop                                              ; $0a25: $00
-	nop                                              ; $0a26: $00
-	inc  d                                           ; $0a27: $14
-	ld   b, $15                                      ; $0a28: $06 $15
-	inc  b                                           ; $0a2a: $04
-	ld   d, $03                                      ; $0a2b: $16 $03
-	.db  $fd                                         ; $0a2d: $fd
-	ld   c, $00                                      ; $0a2e: $0e $00
-	nop                                              ; $0a30: $00
+	.db $fe $05 $ff $00 $17 $05 $10 $04
+	.db $11 $04 $00 $00 $10 $05 $11 $04
+	.db $00 $00 $17 $06 $49 $06 $4a $06
+	.db $4b $78 $4b $00 $14 $06 $15 $04
+	.db $16 $03 $00 $00 $17 $05 $fd $1a
+	.db $00 $00 $14 $06 $15 $04 $16 $03
+	.db $fd $0e $00 $00
 
 
 table_0a31:
@@ -289,32 +257,32 @@ table_0b05:
 	.dw Jump_000_3925
 
 
-table_0b23:
+collisionsTable:
 	.dw _ret_5108
-	.dw _table_0b23_01
-	.dw _table_0b23_02
-	.dw give7bombs // gives 7 bombs
-	.dw give3bombs // gives 3 bombs
+	.dw _collisionsTable_01
+	.dw _collisionsTable_02
+	.dw give7bombs
+	.dw give3bombs
 	.dw give5birds
 	.dw give1bird
-	.dw _table_0b23_07
-	.dw _table_0b23_08
-	.dw _table_0b23_09
-	.dw _table_0b23_0a
-	.dw _table_0b23_0b
+	.dw _collisionsTable_07
+	.dw _collisionsTable_08
+	.dw _collisionsTable_09
+	.dw _collisionsTable_0a
+	.dw _collisionsTable_0b
 	.dw _ret_525a
-	.dw _table_0b23_0d
-	.dw _table_0b23_0e
-	.dw _table_0b23_0f
-	.dw _table_0b23_10
-	.dw _table_0b23_11
-	.dw _table_0b23_12
-	.dw _table_0b23_13
+	.dw _collisionsTable_0d
+	.dw _collisionsTable_0e
+	.dw _collisionsTable_0f
+	.dw _collisionsTable_10
+	.dw _collisionsTable_11
+	.dw _collisionsTable_12
+	.dw _collisionsTable_13
 	.dw _ret_5108
 	.dw _ret_5108
 	.dw _ret_5108
-	.dw _table_0b23_17
-	.dw _table_0b23_18
+	.dw _collisionsTable_17
+	.dw _collisionsTable_18
 
 
 reset:
@@ -378,10 +346,10 @@ begin2:
 	ld   (hl), $02                                   ; $0bbe: $36 $02
 	ld   a, $01                                      ; $0bc0: $3e $01
 	call setLCDfromValue                               ; $0bc2: $cd $11 $02
-	call Call_000_1532                               ; $0bc5: $cd $32 $15
+	call callCommonSoundFunc1_withFF                               ; $0bc5: $cd $32 $15
 	ld   hl, wNewKeysPressed                                   ; $0bc8: $21 $18 $c0
 	ld   (hl), $00                                   ; $0bcb: $36 $00
-	call Call_000_278f                               ; $0bcd: $cd $8f $27
+	call callsCommonSoundFuncs_278f                               ; $0bcd: $cd $8f $27
 	ld   hl, $c201                                   ; $0bd0: $21 $01 $c2
 	ld   (hl), $1e                                   ; $0bd3: $36 $1e
 	ld   hl, $c202                                   ; $0bd5: $21 $02 $c2
@@ -410,7 +378,7 @@ begin2:
 	jp   @loop_0be9                               ; $0c04: $c3 $e9 $0b
 
 +
-	call Call_000_1532                               ; $0c07: $cd $32 $15
+	call callCommonSoundFunc1_withFF                               ; $0c07: $cd $32 $15
 	ld   a, $00                                      ; $0c0a: $3e $00
 	ld   hl, $c0fb                                   ; $0c0c: $21 $fb $c0
 	ld   (hl), a                                     ; $0c0f: $77
@@ -429,9 +397,9 @@ begin2:
 	ld   a, (hl)                                     ; $0c22: $7e
 	xor  $ff                                         ; $0c23: $ee $ff
 	ld   (hl), a                                     ; $0c25: $77
-	call Call_000_27ff                               ; $0c26: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $0c26: $cd $ff $27
 	call Call_000_0c50                               ; $0c29: $cd $50 $0c
-	call Call_000_278f                               ; $0c2c: $cd $8f $27
+	call callsCommonSoundFuncs_278f                               ; $0c2c: $cd $8f $27
 	jp   @loop_0be9                               ; $0c2f: $c3 $e9 $0b
 
 +
@@ -475,11 +443,11 @@ Call_000_0c50:
 
 jr_000_0c64:
 	ld   c, $03                                      ; $0c64: $0e $03
-	jp   Jump_000_2780                               ; $0c66: $c3 $80 $27
+	jp   copyMemoryCinVBlank_callCommonSoundFunc2                               ; $0c66: $c3 $80 $27
 
 
 Call_000_0c69:
-	ld   a, $00                                      ; Call_000_0c69: $3e $00
+	ld   a, $00
 	ld   hl, $c00b                                   ; $0c6b: $21 $0b $c0
 	ld   (hl), a                                     ; $0c6e: $77
 
@@ -516,7 +484,7 @@ jr_000_0c91:
 	cp   $40                                         ; $0c99: $fe $40
 	jr   nz, jr_000_0cd1                             ; $0c9b: $20 $34
 
-	call Call_000_27ff                               ; $0c9d: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $0c9d: $cd $ff $27
 	ld   hl, $c097                                   ; $0ca0: $21 $97 $c0
 	ld   a, (hl)                                     ; $0ca3: $7e
 	cp   $00                                         ; $0ca4: $fe $00
@@ -534,7 +502,7 @@ jr_000_0cb0:
 
 
 jr_000_0cb7:
-	call Call_000_27ff                               ; $0cb7: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $0cb7: $cd $ff $27
 	ld   hl, $c097                                   ; $0cba: $21 $97 $c0
 	inc  (hl)                                        ; $0cbd: $34
 	ld   hl, $c097                                   ; $0cbe: $21 $97 $c0
@@ -786,7 +754,7 @@ Call_000_0da6:
 	call Call_000_11b0                               ; $0daf: $cd $b0 $11
 	jr   z, @correctPass                              ; $0db2: $28 $28
 
-	call Call_000_2867                               ; $0db4: $cd $67 $28
+	call safeCallCommonSoundFuncs_with29h                               ; $0db4: $cd $67 $28
 	call turnOffLCDstartOfVBlank                               ; $0db7: $cd $0a $02
 	call clear_c200_to_c2ff                                       ; $0dba: $cd $9e $5b
 	call copyA0hDataToOam                               ; $0dbd: $cd $99 $1a
@@ -802,7 +770,7 @@ Call_000_0da6:
 	jp   @loop                               ; $0dd9: $c3 $af $0d
 
 @correctPass:
-	call Call_000_2805                               ; $0ddc: $cd $05 $28
+	call safeCallCommonSoundFuncs_with12h                               ; $0ddc: $cd $05 $28
 	xor  a                                           ; $0ddf: $af
 	ret                                              ; $0de0: $c9
 
@@ -1011,7 +979,7 @@ jr_000_0f06:
 
 Jump_000_0f18:
 jr_000_0f18:
-	call Call_000_27ff                               ; $0f18: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $0f18: $cd $ff $27
 	jp   Jump_000_0e74                               ; $0f1b: $c3 $74 $0e
 
 
@@ -1362,7 +1330,7 @@ jr_000_10d7:
 	ld   a, (hl)                                     ; $10f7: $7e
 	ld   hl, $c715                                   ; $10f8: $21 $15 $c7
 	ld   (hl), a                                     ; $10fb: $77
-	call Call_000_1996                               ; $10fc: $cd $96 $19
+	call setRevivePointInRoomGroup                               ; $10fc: $cd $96 $19
 	ld   hl, $c4e9                                   ; $10ff: $21 $e9 $c4
 	ld   a, (hl)                                     ; $1102: $7e
 	ld   hl, wArmorOfGodGotten                                   ; $1103: $21 $52 $c6
@@ -1855,7 +1823,7 @@ jr_000_13fa:
 
 jr_000_1402:
 	cp   $02                                         ; $1402: $fe $02
-	jr   nz, jr_000_1411                             ; $1404: $20 $0b
+	jr   nz, Jump_000_1411                             ; $1404: $20 $0b
 
 	ld   hl, $c0a7                                   ; $1406: $21 $a7 $c0
 	inc  (hl)                                        ; $1409: $34
@@ -1863,14 +1831,13 @@ jr_000_1402:
 
 jr_000_140b:
 	cp   $06                                         ; $140b: $fe $06
-	jr   c, jr_000_1411                              ; $140d: $38 $02
+	jr   c, Jump_000_1411                              ; $140d: $38 $02
 
 	ld   (hl), $00                                   ; $140f: $36 $00
 
 Jump_000_1411:
-jr_000_1411:
 	call Call_000_1450                               ; $1411: $cd $50 $14
-	call Call_000_14d7                               ; $1414: $cd $d7 $14
+	call callCommonSoundFunc1_3times                               ; $1414: $cd $d7 $14
 	ld   hl, $c711                                   ; $1417: $21 $11 $c7
 	ld   a, (hl)                                     ; $141a: $7e
 	ld   hl, $c72a                                   ; $141b: $21 $2a $c7
@@ -1879,7 +1846,7 @@ jr_000_1411:
 	ld   a, (hl)                                     ; $1422: $7e
 	ld   hl, $c009                                   ; $1423: $21 $09 $c0
 	ld   (hl), a                                     ; $1426: $77
-	call Call_000_14bf                               ; $1427: $cd $bf $14
+	call callCommonSoundFunc0_3times                               ; $1427: $cd $bf $14
 	jp   Jump_000_13be                               ; $142a: $c3 $be $13
 
 
@@ -1887,22 +1854,22 @@ jr_000_142d:
 	ld   hl, $c00c                                   ; $142d: $21 $0c $c0
 	ld   a, (hl)                                     ; $1430: $7e
 	cp   $02                                         ; $1431: $fe $02
-	jr   nz, jr_000_1440                             ; $1433: $20 $0b
+	jr   nz, +                             ; $1433: $20 $0b
 
 	ld   hl, $c0a9                                   ; $1435: $21 $a9 $c0
 	inc  (hl)                                        ; $1438: $34
 	ld   a, (hl)                                     ; $1439: $7e
 	cp   $2a                                         ; $143a: $fe $2a
-	jr   c, jr_000_1440                              ; $143c: $38 $02
+	jr   c, +                              ; $143c: $38 $02
 
 	ld   (hl), $00                                   ; $143e: $36 $00
 
-jr_000_1440:
-	call Call_000_14d7                               ; $1440: $cd $d7 $14
++
+	call callCommonSoundFunc1_3times                               ; $1440: $cd $d7 $14
 	call Call_000_1450                               ; $1443: $cd $50 $14
 	ld   hl, $c0a9                                   ; $1446: $21 $a9 $c0
 	ld   a, (hl)                                     ; $1449: $7e
-	call Call_000_1507                               ; $144a: $cd $07 $15
+	call callCommonSoundFuncs_1507                               ; $144a: $cd $07 $15
 	jp   Jump_000_13be                               ; $144d: $c3 $be $13
 
 
@@ -1933,39 +1900,41 @@ Call_000_1475:
 	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $1485: $cd $7a $17
 	pop  hl                                          ; $1488: $e1
 
-jr_000_1489:
+@tryNextHLvalue:
 	ld   e, (hl)                                     ; $1489: $5e
 	inc  hl                                          ; $148a: $23
 	ld   d, (hl)                                     ; $148b: $56
 	inc  hl                                          ; $148c: $23
 	ld   a, e                                        ; $148d: $7b
 	cp   $ff                                         ; $148e: $fe $ff
-	jr   nz, jr_000_1497                             ; $1490: $20 $05
+	jr   nz, +                             ; $1490: $20 $05
 
+// go to done if de == $ffff
 	ld   a, d                                        ; $1492: $7a
 	cp   $ff                                         ; $1493: $fe $ff
-	jr   z, jr_000_14a8                              ; $1495: $28 $11
+	jr   z, @done                              ; $1495: $28 $11
 
-jr_000_1497:
++
 	ld   a, d                                        ; $1497: $7a
 	add  $98                                         ; $1498: $c6 $98
 	ld   d, a                                        ; $149a: $57
 	call dPlusEquScreen0displayOffset                               ; $149b: $cd $99 $1e
 
-Jump_000_149e:
+@waitUntilHLequFF:
 	ldi  a, (hl)                                     ; $149e: $2a
 	cp   $ff                                         ; $149f: $fe $ff
-	jr   z, jr_000_1489                              ; $14a1: $28 $e6
+	jr   z, @tryNextHLvalue                              ; $14a1: $28 $e6
 
 	ld   (de), a                                     ; $14a3: $12
 	inc  de                                          ; $14a4: $13
-	jp   Jump_000_149e                               ; $14a5: $c3 $9e $14
+	jp   @waitUntilHLequFF                               ; $14a5: $c3 $9e $14
 
-
-jr_000_14a8:
+@done:
 	ret                                              ; $14a8: $c9
 
 
+;;
+func_14a9
 	ld   de, $0000                                   ; $14a9: $11 $00 $00
 	ld   hl, $c006                                   ; $14ac: $21 $06 $c0
 	ldi  a, (hl)                                     ; $14af: $2a
@@ -1975,37 +1944,39 @@ jr_000_14a8:
 	ld   a, (hl)                                     ; $14b3: $7e
 	ld   hl, $c006                                   ; $14b4: $21 $06 $c0
 	inc  (hl)                                        ; $14b7: $34
-	jr   nz, jr_000_14be                             ; $14b8: $20 $04
+	jr   nz, @done                             ; $14b8: $20 $04
 
 	ld   hl, $c007                                   ; $14ba: $21 $07 $c0
 	inc  (hl)                                        ; $14bd: $34
 
-jr_000_14be:
+@done:
 	ret                                              ; $14be: $c9
 
 
-Call_000_14bf:
-	ld   bc, data_61cc                                   ; Call_000_14bf: $01 $cc $61
+callCommonSoundFunc0_3times:
+	ld   bc, data_61cc
 	ld   a, $00                                      ; $14c2: $3e $00
-	call Call_000_14e6                               ; $14c4: $cd $e6 $14
+	call callCommonSoundFunc0_14e6                               ; $14c4: $cd $e6 $14
+
 	ld   bc, data_61d8                                   ; $14c7: $01 $d8 $61
 	ld   a, $01                                      ; $14ca: $3e $01
-	call Call_000_14e6                               ; $14cc: $cd $e6 $14
+	call callCommonSoundFunc0_14e6                               ; $14cc: $cd $e6 $14
+
 	ld   bc, data_61e4                                   ; $14cf: $01 $e4 $61
 	ld   a, $02                                      ; $14d2: $3e $02
-	jp   Call_000_14e6                               ; $14d4: $c3 $e6 $14
+	jp   callCommonSoundFunc0_14e6                               ; $14d4: $c3 $e6 $14
 
 
-Call_000_14d7:
-	ld   a, $00                                      ; Call_000_14d7: $3e $00
-	call Call_000_01ca                               ; $14d9: $cd $ca $01
+callCommonSoundFunc1_3times:
+	ld   a, $00
+	call commonSoundFunc1                               ; $14d9: $cd $ca $01
 	ld   a, $01                                      ; $14dc: $3e $01
-	call Call_000_01ca                               ; $14de: $cd $ca $01
+	call commonSoundFunc1                               ; $14de: $cd $ca $01
 	ld   a, $02                                      ; $14e1: $3e $02
-	jp   Call_000_01ca                               ; $14e3: $c3 $ca $01
+	jp   commonSoundFunc1                               ; $14e3: $c3 $ca $01
 
 
-Call_000_14e6:
+callCommonSoundFunc0_14e6:
 	push af                                          ; $14e6: $f5
 	ld   hl, $c009                                   ; $14e7: $21 $09 $c0
 	ld   a, (hl)                                     ; $14ea: $7e
@@ -2017,11 +1988,11 @@ Call_000_14e6:
 	inc  hl                                          ; $14f2: $23
 	ld   d, (hl)                                     ; $14f3: $56
 	pop  af                                          ; $14f4: $f1
-	jp   Jump_000_01be                               ; $14f5: $c3 $be $01
+	jp   commonSoundFunc0                               ; $14f5: $c3 $be $01
 
 
 Call_000_14f8:
-	ld   hl, $c800                                   ; Call_000_14f8: $21 $00 $c8
+	ld   hl, $c800
 	ld   a, (hl)                                     ; $14fb: $7e
 	ld   hl, $c80d                                   ; $14fc: $21 $0d $c8
 	or   (hl)                                        ; $14ff: $b6
@@ -2031,7 +2002,7 @@ Call_000_14f8:
 	ret                                              ; $1506: $c9
 
 
-Call_000_1507:
+callCommonSoundFuncs_1507:
 	sla  a                                           ; $1507: $cb $27
 	ld   c, a                                        ; $1509: $4f
 	ld   b, $00                                      ; $150a: $06 $00
@@ -2041,31 +2012,30 @@ Call_000_1507:
 	inc  hl                                          ; $1511: $23
 	ld   d, (hl)                                     ; $1512: $56
 
-Call_000_1513:
-	ld   a, $00                                      ; Call_000_1513: $3e $00
+callCommonSoundFuncs_1513:
+	ld   a, $00
 	ld   hl, $c72a                                   ; $1515: $21 $2a $c7
 	ld   (hl), a                                     ; $1518: $77
 	ld   hl, $c827                                   ; $1519: $21 $27 $c8
 	ld   a, (hl)                                     ; $151c: $7e
 	and  $80                                         ; $151d: $e6 $80
-	jr   z, jr_000_152d                              ; $151f: $28 $0c
+	jr   z, +                              ; $151f: $28 $0c
 
 	push de                                          ; $1521: $d5
 	ld   a, $04                                      ; $1522: $3e $04
-	call Call_000_01ca                               ; $1524: $cd $ca $01
+	call commonSoundFunc1                               ; $1524: $cd $ca $01
 	pop  de                                          ; $1527: $d1
 	ld   a, $04                                      ; $1528: $3e $04
-	jp   Jump_000_01be                               ; $152a: $c3 $be $01
+	jp   commonSoundFunc0                               ; $152a: $c3 $be $01
 
-
-jr_000_152d:
++
 	ld   a, $03                                      ; $152d: $3e $03
-	jp   Jump_000_01be                               ; $152f: $c3 $be $01
+	jp   commonSoundFunc0                               ; $152f: $c3 $be $01
 
 
-Call_000_1532:
-	ld   a, $ff                                      ; Call_000_1532: $3e $ff
-	jp   Call_000_01ca                               ; $1534: $c3 $ca $01
+callCommonSoundFunc1_withFF:
+	ld   a, $ff
+	jp   commonSoundFunc1                               ; $1534: $c3 $ca $01
 
 
 copyLayoutFromBank3toScreen0withOffset:
@@ -2187,7 +2157,8 @@ postInitGame:
 	ld   hl, clear_c0fe_c0ff                                   ; $15f6: $21 $4b $09
 	call jpHLinBank1                                       ; $15f9: $cd $b0 $61
 
-Jump_000_15fc:
+// after continuing after dying?
+postInitGame2:
 	ld   hl, $c6df                                   ; $15fc: $21 $df $c6
 	ld   a, (hl)                                     ; $15ff: $7e
 	ld   c, $00                                      ; $1600: $0e $00
@@ -2287,7 +2258,7 @@ jr_000_168d:
 
 	ld   a, $01                                      ; $16a6: $3e $01
 	call setLCDfromValue                               ; $16a8: $cd $11 $02
-	call Call_000_27ea                               ; $16ab: $cd $ea $27
+	call callsCommonSoundFuncs_27ea                               ; $16ab: $cd $ea $27
 	ld   hl, $c201                                   ; $16ae: $21 $01 $c2
 	ld   (hl), $34                                   ; $16b1: $36 $34
 	ld   hl, $c202                                   ; $16b3: $21 $02 $c2
@@ -2304,22 +2275,21 @@ jr_000_168d:
 	ld   hl, $c0b1                                   ; $16cb: $21 $b1 $c0
 	ld   (hl), a                                     ; $16ce: $77
 	call Call_000_0c69                               ; $16cf: $cd $69 $0c
-	call Call_000_1532                               ; $16d2: $cd $32 $15
+	call callCommonSoundFunc1_withFF                               ; $16d2: $cd $32 $15
 	ld   hl, $c097                                   ; $16d5: $21 $97 $c0
 	ld   a, (hl)                                     ; $16d8: $7e
 	cp   $00                                         ; $16d9: $fe $00
-	jr   z, jr_000_16e0                              ; $16db: $28 $03
+	jr   z, +                              ; $16db: $28 $03
 
 	jp   begin2                               ; $16dd: $c3 $58 $0b
 
-
-jr_000_16e0:
++
 	ld   a, $06                                      ; $16e0: $3e $06
 	ld   hl, wPlayerHealth                                   ; $16e2: $21 $72 $c0
 	ld   (hl), a                                     ; $16e5: $77
-	call Call_000_1996                               ; $16e6: $cd $96 $19
+	call setRevivePointInRoomGroup                               ; $16e6: $cd $96 $19
 	call clear_c200_to_c2ff                                       ; $16e9: $cd $9e $5b
-	jp   Jump_000_15fc                               ; $16ec: $c3 $fc $15
+	jp   postInitGame2                               ; $16ec: $c3 $fc $15
 
 
 Call_000_16ef:
@@ -2339,7 +2309,7 @@ Call_000_170b:
 	ld   hl, $001d                                   ; $170b: $21 $1d $00
 	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $170e: $cd $7a $17
 	ld   hl, $001c                                   ; $1711: $21 $1c $00
-	jp   Jump_000_17a4                               ; $1714: $c3 $a4 $17
+	jp   loadFirst800hVramTilesAndVramTileConversionTable                               ; $1714: $c3 $a4 $17
 
 
 tilesetAddresses:
@@ -2439,13 +2409,13 @@ load40hByte2x2tileToVramTileIdxConverstionTable:
 	jp   copyMemoryInBankA
 
 
-Jump_000_17a4:
-	push hl                                          ; $17a4: $e5
-	call getTileAddressAndBankIdxedByHL                               ; $17a5: $cd $b2 $17
-	call loadFirst800hVramTiles                               ; $17a8: $cd $85 $01
-	pop  hl                                          ; $17ab: $e1
-	ld   de, $d046                                   ; $17ac: $11 $46 $d0
-	jp   load40hByte2x2tileToVramTileIdxConverstionTable                               ; $17af: $c3 $91 $17
+loadFirst800hVramTilesAndVramTileConversionTable:
+	push hl
+	call getTileAddressAndBankIdxedByHL
+	call loadFirst800hVramTiles
+	pop  hl
+	ld   de, wVramTileConversionTables
+	jp   load40hByte2x2tileToVramTileIdxConverstionTable
 
 
 getTileAddressAndBankIdxedByHL:
@@ -2558,12 +2528,12 @@ jr_000_181a:
 waitUntilAllKeysReleased:
 -
 	call pollInput
-	ld   hl, wKeysPressed                                   ; $1826: $21 $16 $c0
-	ld   a, (hl)                                     ; $1829: $7e
-	cp   $00                                         ; $182a: $fe $00
-	jr   nz, -                             ; $182c: $20 $f5
+	ld   hl, wKeysPressed
+	ld   a, (hl)
+	cp   $00
+	jr   nz, -
 
-	ret                                              ; $182e: $c9
+	ret
 
 
 ;;
@@ -2833,7 +2803,7 @@ getAddrOfCurrGroupDataStruct:
 	ret
 
 
-Call_000_1996:
+setRevivePointInRoomGroup:
 // possibly deals with resetting when a player dies?
 // as it puts player in a specific section in a group
 // and called at some point when previous code sets player health back to 6
@@ -2990,15 +2960,16 @@ jr_000_1a49:
 	ret                                              ; $1a4a: $c9
 
 
+;;
 jr_000_1a4b:
 	ld   e, $0c                                      ; $1a4b: $1e $0c
 	call Call_000_19f8                               ; $1a4d: $cd $f8 $19
-	jr   nz, jr_000_1a57                             ; $1a50: $20 $05
+	jr   nz, @done                             ; $1a50: $20 $05
 
 	call Call_000_1a58                               ; $1a52: $cd $58 $1a
 	jr   jr_000_1a4b                                 ; $1a55: $18 $f4
 
-jr_000_1a57:
+@done:
 	ret                                              ; $1a57: $c9
 
 
@@ -3011,35 +2982,36 @@ Call_000_1a58:
 Call_000_1a5e:
 	call waitUntilStartOfVBlankPeriod                               ; Call_000_1a5e: $cd $e8 $01
 	call copy50hDataToOam                               ; $1a61: $cd $8f $1a
-	call Call_000_1a7d                               ; $1a64: $cd $7d $1a
+	call flashOBP1every8timesCalled                               ; $1a64: $cd $7d $1a
 	ld   hl, $d400                                   ; $1a67: $21 $00 $d4
 	ld   a, (hl)                                     ; $1a6a: $7e
 	cp   $00                                         ; $1a6b: $fe $00
-	jr   z, jr_000_1a72                              ; $1a6d: $28 $03
+	jr   z, +                              ; $1a6d: $28 $03
 
 	call func_60b5                                       ; $1a6f: $cd $b5 $60
 
-jr_000_1a72:
-	call Call_000_01d6                               ; $1a72: $cd $d6 $01
++
+	call commonSoundFunc2                               ; $1a72: $cd $d6 $01
 	ret                                              ; $1a75: $c9
 
 
-Call_000_1a76:
+callCommonSoundFunc2startOfVBlank:
 	call waitUntilStartOfVBlankPeriod                               ; $1a76: $cd $e8 $01
-	call Call_000_01d6                               ; $1a79: $cd $d6 $01
+	call commonSoundFunc2                               ; $1a79: $cd $d6 $01
 	ret                                              ; $1a7c: $c9
 
 
-Call_000_1a7d:
+flashOBP1every8timesCalled:
+// flash OBP1 every 8 times this function is called
 	ld   hl, $d003                                   ; $1a7d: $21 $03 $d0
 	inc  (hl)                                        ; $1a80: $34
-	ld   a, $1b                                      ; $1a81: $3e $1b
+	ld   a, %00011011                                      ; $1a81: $3e $1b
 	bit  3, (hl)                                     ; $1a83: $cb $5e
-	jp   nz, Jump_000_1a8a                           ; $1a85: $c2 $8a $1a
+	jp   nz, +                           ; $1a85: $c2 $8a $1a
 
-	ld   a, $e4                                      ; $1a88: $3e $e4
+	ld   a, %11100100                                      ; $1a88: $3e $e4
 
-Jump_000_1a8a:
++
 	ld   hl, rOBP1                                   ; $1a8a: $21 $49 $ff
 	ld   (hl), a                                     ; $1a8d: $77
 	ret                                              ; $1a8e: $c9
@@ -3101,12 +3073,12 @@ Call_000_1b1e:
 	call setScrollValues                               ; $1b54: $cd $f1 $1d
 	ld   hl, wRoomTransitionType                                   ; $1b57: $21 $3a $c0
 	ld   a, (hl)                                     ; $1b5a: $7e
-	cp   $0c                                         ; $1b5b: $fe $0c
-	jp   nz, Jump_000_1b9b                           ; $1b5d: $c2 $9b $1b
+	cp   RTT_DIFF_GROUP                                         ; $1b5b: $fe $0c
+	jp   nz, @handleRoomTransitionInit                           ; $1b5d: $c2 $9b $1b
 
 // involved with loading a screen
-Jump_000_1b60:
-	call Call_000_1a76                               ; $1b60: $cd $76 $1a
+@loadScreen:
+	call callCommonSoundFunc2startOfVBlank                               ; $1b60: $cd $76 $1a
 	call turnOffLCD                               ; $1b63: $cd $0d $02
 	ld   hl, wScreen0displayOffset                                   ; $1b66: $21 $dc $c6
 	ld   (hl), $00                                   ; $1b69: $36 $00
@@ -3118,9 +3090,9 @@ Jump_000_1b60:
 	call Call_000_1e06                               ; $1b78: $cd $06 $1e
 	call func_7297                                       ; $1b7b: $cd $97 $72
 	call clear_c200_to_c2ff                                       ; $1b7e: $cd $9e $5b
-	call Call_000_01d6                               ; $1b81: $cd $d6 $01
+	call commonSoundFunc2                               ; $1b81: $cd $d6 $01
 	call loadGameScreenTilesOntoScreen                               ; $1b84: $cd $3b $1e
-	call Call_000_01d6                               ; $1b87: $cd $d6 $01
+	call commonSoundFunc2                               ; $1b87: $cd $d6 $01
 	call func_56aa                                       ; $1b8a: $cd $aa $56
 	call jr_001_55fd                                       ; $1b8d: $cd $fd $55
 	ld   a, $06                                      ; $1b90: $3e $06
@@ -3129,77 +3101,79 @@ Jump_000_1b60:
 	jp   Jump_000_1bf7                               ; $1b98: $c3 $f7 $1b
 
 
-Jump_000_1b9b:
+@handleRoomTransitionInit:
 	ld   hl, wRoomTransitionType                                   ; $1b9b: $21 $3a $c0
 	ld   a, (hl)                                     ; $1b9e: $7e
-	cp   $09                                         ; $1b9f: $fe $09
-	jr   nz, jr_000_1bb0                             ; $1ba1: $20 $0d
+	cp   RTT_LEFT                                         ; $1b9f: $fe $09
+	jr   nz, +                             ; $1ba1: $20 $0d
 
+// transitioned left
 	ld   hl, wPlayerX                                   ; $1ba3: $21 $52 $c0
 	ld   (hl), $f0                                   ; $1ba6: $36 $f0
 	ld   hl, wSCXvalue                                   ; $1ba8: $21 $10 $cb
 	ld   (hl), $60                                   ; $1bab: $36 $60
-	jp   Jump_000_1b60                               ; $1bad: $c3 $60 $1b
+	jp   @loadScreen                               ; $1bad: $c3 $60 $1b
 
++
+	cp   RTT_RIGHT                                         ; $1bb0: $fe $00
+	jr   nz, +                             ; $1bb2: $20 $0d
 
-jr_000_1bb0:
-	cp   $00                                         ; $1bb0: $fe $00
-	jr   nz, jr_000_1bc1                             ; $1bb2: $20 $0d
-
+// transitioned right
 	ld   hl, wPlayerX                                   ; $1bb4: $21 $52 $c0
 	ld   (hl), $00                                   ; $1bb7: $36 $00
 	ld   hl, wSCXvalue                                   ; $1bb9: $21 $10 $cb
 	ld   (hl), $00                                   ; $1bbc: $36 $00
-	jp   Jump_000_1b60                               ; $1bbe: $c3 $60 $1b
+	jp   @loadScreen                               ; $1bbe: $c3 $60 $1b
 
++
+	cp   RTT_UP                                         ; $1bc1: $fe $03
+	jp   nz, +                           ; $1bc3: $c2 $d3 $1b
 
-jr_000_1bc1:
-	cp   $03                                         ; $1bc1: $fe $03
-	jp   nz, Jump_000_1bd3                           ; $1bc3: $c2 $d3 $1b
-
+// transitioned up
 	ld   hl, wPlayerY                                   ; $1bc6: $21 $54 $c0
 	ld   (hl), $a0                                   ; $1bc9: $36 $a0
 	ld   hl, wSCYvalue                                   ; $1bcb: $21 $11 $cb
 	ld   (hl), $20                                   ; $1bce: $36 $20
-	jp   Jump_000_1b60                               ; $1bd0: $c3 $60 $1b
+	jp   @loadScreen                               ; $1bd0: $c3 $60 $1b
 
-
-Jump_000_1bd3:
++
+// transitioned down
 	ld   hl, wPlayerY                                   ; $1bd3: $21 $54 $c0
 	ld   (hl), $00                                   ; $1bd6: $36 $00
 	ld   hl, wSCYvalue                                   ; $1bd8: $21 $11 $cb
 	ld   (hl), $00                                   ; $1bdb: $36 $00
-	jp   Jump_000_1b60                               ; $1bdd: $c3 $60 $1b
+	jp   @loadScreen                               ; $1bdd: $c3 $60 $1b
 
 
+;;
 	ld   a, $00                                      ; $1be0: $3e $00
 	ld   hl, $c0b7                                   ; $1be2: $21 $b7 $c0
 	ld   (hl), a                                     ; $1be5: $77
 
-jr_000_1be6:
-	call Call_000_1a76                               ; $1be6: $cd $76 $1a
+-
+	call callCommonSoundFunc2startOfVBlank                               ; $1be6: $cd $76 $1a
 	call Call_001_5826                                       ; $1be9: $cd $26 $58
-	jr   nz, jr_000_1be6                             ; $1bec: $20 $f8
+	jr   nz, -                             ; $1bec: $20 $f8
 
 	call waitUntilStartOfVBlankPeriod                               ; $1bee: $cd $e8 $01
 	call Call_000_1e06                               ; $1bf1: $cd $06 $1e
-	call Call_000_01d6                               ; $1bf4: $cd $d6 $01
+	call commonSoundFunc2                               ; $1bf4: $cd $d6 $01
 
 Jump_000_1bf7:
 	call Call_000_23b5                               ; $1bf7: $cd $b5 $23
-	jr   z, jr_000_1c02                              ; $1bfa: $28 $06
+	jr   z, +                              ; $1bfa: $28 $06
 
 	ld   a, $00                                      ; $1bfc: $3e $00
 	ld   hl, $c04c                                   ; $1bfe: $21 $4c $c0
 	ld   (hl), a                                     ; $1c01: $77
 
-jr_000_1c02:
++
 	call Call_000_14f8                               ; $1c02: $cd $f8 $14
-	jr   nz, jr_000_1c0a                             ; $1c05: $20 $03
+	jr   nz, +                             ; $1c05: $20 $03
 
-	call Call_000_27ae                               ; $1c07: $cd $ae $27
+	call callsCommonSoundFuncs_27ae                               ; $1c07: $cd $ae $27
 
-jr_000_1c0a:
++
 	ld   a, $00                                      ; $1c0a: $3e $00
 	ld   hl, $c014                                   ; $1c0c: $21 $14 $c0
 	ld   (hl), a                                     ; $1c0f: $77
@@ -3211,7 +3185,7 @@ Jump_000_1c17:
 	call waitUntilStartOfVBlankPeriod                               ; $1c17: $cd $e8 $01
 	ld   hl, $c014                                   ; $1c1a: $21 $14 $c0
 	inc  (hl)                                        ; $1c1d: $34
-	call Call_000_1a7d                               ; $1c1e: $cd $7d $1a
+	call flashOBP1every8timesCalled                               ; $1c1e: $cd $7d $1a
 	ld   hl, $c014                                   ; $1c21: $21 $14 $c0
 	bit  0, (hl)                                     ; $1c24: $cb $46
 	jr   nz, jr_000_1c3a                             ; $1c26: $20 $12
@@ -3233,7 +3207,7 @@ jr_000_1c3a:
 	call func_60b5                                       ; $1c43: $cd $b5 $60
 
 jr_000_1c46:
-	call Call_000_01d6                               ; $1c46: $cd $d6 $01
+	call commonSoundFunc2                               ; $1c46: $cd $d6 $01
 	call pollInput                                       ; $1c49: $cd $3b $5b
 	ld   hl, $c058                                   ; $1c4c: $21 $58 $c0
 	ld   a, (hl)                                     ; $1c4f: $7e
@@ -3265,12 +3239,12 @@ jr_000_1c74:
 	ld   hl, wNewKeysPressed                                   ; $1c74: $21 $18 $c0
 	ld   a, (hl)                                     ; $1c77: $7e
 	and  PADF_START                                         ; $1c78: $e6 $08
-	jr   z, jr_000_1ca9                              ; $1c7a: $28 $2d
+	jr   z, Jump_000_1ca9                              ; $1c7a: $28 $2d
 
 	ld   hl, wKeysPressed                                   ; $1c7c: $21 $16 $c0
 	ld   a, (hl)                                     ; $1c7f: $7e
 	and  PADF_START                                         ; $1c80: $e6 $08
-	jr   z, jr_000_1ca9                              ; $1c82: $28 $25
+	jr   z, Jump_000_1ca9                              ; $1c82: $28 $25
 
 	ld   hl, $c058                                   ; $1c84: $21 $58 $c0
 	ld   a, (hl)                                     ; $1c87: $7e
@@ -3280,7 +3254,7 @@ jr_000_1c74:
 	cp   $00                                         ; $1c8e: $fe $00
 	jr   z, jr_000_1c98                              ; $1c90: $28 $06
 
-	call Call_000_27c3                               ; $1c92: $cd $c3 $27
+	call callsCommonSoundFuncs_27c3                               ; $1c92: $cd $c3 $27
 	jp   Jump_000_1ca9                               ; $1c95: $c3 $a9 $1c
 
 
@@ -3290,15 +3264,14 @@ jr_000_1c98:
 	cp   $00                                         ; $1c9c: $fe $00
 	jr   z, jr_000_1ca6                              ; $1c9e: $28 $06
 
-	call Call_000_27ae                               ; $1ca0: $cd $ae $27
+	call callsCommonSoundFuncs_27ae                               ; $1ca0: $cd $ae $27
 	jp   Jump_000_1ca9                               ; $1ca3: $c3 $a9 $1c
 
 
 jr_000_1ca6:
-	call Call_000_27ae                               ; $1ca6: $cd $ae $27
+	call callsCommonSoundFuncs_27ae                               ; $1ca6: $cd $ae $27
 
 Jump_000_1ca9:
-jr_000_1ca9:
 	ld   hl, $c058                                   ; $1ca9: $21 $58 $c0
 	ld   a, (hl)                                     ; $1cac: $7e
 	cp   $00                                         ; $1cad: $fe $00
@@ -3352,14 +3325,13 @@ jr_000_1cdb:
 	ld   hl, $c08d                                   ; $1cea: $21 $8d $c0
 	ld   a, (hl)                                     ; $1ced: $7e
 	cp   $00                                         ; $1cee: $fe $00
-	jr   nz, jr_000_1cf5                             ; $1cf0: $20 $03
+	jr   nz, Jump_000_1cf5                             ; $1cf0: $20 $03
 
 	jp   Jump_000_1dca                               ; $1cf2: $c3 $ca $1d
 
 
 Jump_000_1cf5:
-jr_000_1cf5:
-	call Call_000_1532                               ; $1cf5: $cd $32 $15
+	call callCommonSoundFunc1_withFF                               ; $1cf5: $cd $32 $15
 	scf                                              ; $1cf8: $37
 	ret                                              ; $1cf9: $c9
 
@@ -3478,7 +3450,7 @@ Jump_000_1dad:
 	ld   hl, $c059                                   ; $1dad: $21 $59 $c0
 	ld   a, (hl)                                     ; $1db0: $7e
 	cp   $00                                         ; $1db1: $fe $00
-	jr   nz, jr_000_1dca                             ; $1db3: $20 $15
+	jr   nz, Jump_000_1dca                             ; $1db3: $20 $15
 
 	call Call_000_29ea                               ; $1db5: $cd $ea $29
 	ld   hl, $c05d                                   ; $1db8: $21 $5d $c0
@@ -3498,7 +3470,6 @@ jr_000_1dc7:
 	call Call_000_2982                               ; $1dc7: $cd $82 $29
 
 Jump_000_1dca:
-jr_000_1dca:
 	call func_4272                                       ; $1dca: $cd $72 $42
 	call func_41bd                                       ; $1dcd: $cd $bd $41
 	call func_56aa                                       ; $1dd0: $cd $aa $56
@@ -3515,19 +3486,19 @@ jr_000_1dca:
 
 
 setScrollValues:
-	ld   a, $00                                      ; $1df1: $3e $00
-	ld   hl, wSCXvalue                                   ; $1df3: $21 $10 $cb
-	ld   (hl), a                                     ; $1df6: $77
-	inc  hl                                          ; $1df7: $23
-	ld   (hl), a                                     ; $1df8: $77
-	ld   hl, wSCYvalue                                   ; $1df9: $21 $11 $cb
-	ld   (hl), a                                     ; $1dfc: $77
-	ld   a, $00                                      ; $1dfd: $3e $00
-	ld   hl, rSCY                                   ; $1dff: $21 $42 $ff
-	ld   (hl), a                                     ; $1e02: $77
-	inc  hl                                          ; $1e03: $23
-	ld   (hl), a                                     ; $1e04: $77
-	ret                                              ; $1e05: $c9
+	ld   a, $00
+	ld   hl, wSCXvalue
+	ld   (hl), a
+	inc  hl
+	ld   (hl), a
+	ld   hl, wSCYvalue
+	ld   (hl), a
+	ld   a, $00
+	ld   hl, rSCY
+	ld   (hl), a
+	inc  hl
+	ld   (hl), a
+	ret
 
 
 Call_000_1e06:
@@ -3560,11 +3531,11 @@ jr_000_1e1f:
 
 
 setNormalBGP_OBP0vals:
-	ld   hl, rBGP                                   ; setNormalBGP_OBP0vals: $21 $47 $ff
-	ld   (hl), $1b                                   ; $1e33: $36 $1b
-	ld   hl, rOBP0                                   ; $1e35: $21 $48 $ff
-	ld   (hl), $1b                                   ; $1e38: $36 $1b
-	ret                                              ; $1e3a: $c9
+	ld   hl, rBGP
+	ld   (hl), $1b
+	ld   hl, rOBP0
+	ld   (hl), $1b
+	ret
 
 
 loadGameScreenTilesOntoScreen:
@@ -3572,9 +3543,9 @@ loadGameScreenTilesOntoScreen:
 	call dPlusEquValIn_c6de                               ; $1e3e: $cd $a2 $1e
 
 copyGameScreenTilesOntoDE:
-	ld   hl, wGameScreenTiles                                   ; $1e41: $21 $50 $c8
-	ld   bc, $02c0                                   ; $1e44: $01 $c0 $02
-	jp   copyMemoryBC                               ; $1e47: $c3 $76 $27
+	ld   hl, wGameScreenTiles
+	ld   bc, $02c0
+	jp   copyMemoryBC
 
 
 Call_000_1e4a:
@@ -3585,9 +3556,10 @@ Call_000_1e4a:
 	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $1e51: $cd $7a $17
 	pop  hl                                          ; $1e54: $e1
 	inc  hl                                          ; $1e55: $23
-	jp   Jump_000_17a4                               ; $1e56: $c3 $a4 $17
+	jp   loadFirst800hVramTilesAndVramTileConversionTable                               ; $1e56: $c3 $a4 $17
 
 
+;;
 	ld   de, $9800                                   ; $1e59: $11 $00 $98
 	call dPlusEquValIn_c6de                               ; $1e5c: $cd $a2 $1e
 	ld   a, d                                        ; $1e5f: $7a
@@ -3597,27 +3569,28 @@ Call_000_1e4a:
 
 
 loadInventoryScreen:
-	ld   de, $9800                                   ; $1e66: $11 $00 $98
-	call dEquDoffsetInScreen1                               ; $1e69: $cd $a8 $1e
-	ld   hl, lyt_inventoryScreen                                   ; $1e6c: $21 $aa $16
-	call copyLayoutFromBank3                               ; $1e6f: $cd $40 $15
-	ld   hl, drawInDynamicPartOfInventoryScreen                                   ; $1e72: $21 $5f $11
-	call jpHLinBank4                                       ; $1e75: $cd $b5 $61
-	ld   hl, $001c                                   ; $1e78: $21 $1c $00
-	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $1e7b: $cd $7a $17
-	ret                                              ; $1e7e: $c9
+	ld   de, $9800
+	call dEquDoffsetInScreen1
+	ld   hl, lyt_inventoryScreen
+	call copyLayoutFromBank3
+	ld   hl, drawInDynamicPartOfInventoryScreen
+	call jpHLinBank4
+	ld   hl, $001c
+	call loadTilesetAndVramTileConversionTable_idxedHL
+	ret
 
 
 loadMapScreen:
-	ld   de, $9800                                   ; $1e7f: $11 $00 $98
-	call dEquDoffsetInScreen1                               ; $1e82: $cd $a8 $1e
-	ld   hl, lyt_mapScreen                                   ; $1e85: $21 $69 $12
-	call copyLayoutFromBank3                               ; $1e88: $cd $40 $15
-	ld   hl, drawInDynamicPartOfMap                                   ; $1e8b: $21 $9a $11
+	ld   de, $9800
+	call dEquDoffsetInScreen1
+	ld   hl, lyt_mapScreen
+	call copyLayoutFromBank3
+	ld   hl, drawInDynamicPartOfMap
 	call jpHLinBank4
 	ret
 
 
+;;
 	ld   a, $46                                      ; $1e92: $3e $46
 	ld   hl, $c015                                   ; $1e94: $21 $15 $c0
 	ld   (hl), a                                     ; $1e97: $77
@@ -3626,12 +3599,12 @@ loadMapScreen:
 
 dPlusEquScreen0displayOffset:
 	push hl
-	ld   hl, wScreen0displayOffset                                   ; $1e9a: $21 $dc $c6
-	ld   a, d                                        ; $1e9d: $7a
-	add  (hl)                                        ; $1e9e: $86
-	ld   d, a                                        ; $1e9f: $57
-	pop  hl                                          ; $1ea0: $e1
-	ret                                              ; $1ea1: $c9
+	ld   hl, wScreen0displayOffset
+	ld   a, d
+	add  (hl)
+	ld   d, a
+	pop  hl
+	ret
 
 
 dPlusEquValIn_c6de:
@@ -3643,10 +3616,10 @@ dEquDoffsetInScreen1:
 	ld   hl, wScreen1displayOffset
 
 dPlusEquValInHL:
-	ld   a, d                                        ; $1eab: $7a
-	add  (hl)                                        ; $1eac: $86
-	ld   d, a                                        ; $1ead: $57
-	ret                                              ; $1eae: $c9
+	ld   a, d
+	add  (hl)
+	ld   d, a
+	ret
 
 
 // deals with loading a game screen's 2x2 tile data?
@@ -3777,19 +3750,11 @@ TODOloadsRoomData:
 
 
 data_1f8d:
-	jr   $28                                         ; $1f8d: $18 $28
-
-	jr   c, $48                                      ; $1f8f: $38 $48
-
-	ld   e, b                                        ; $1f91: $58
-	ld   l, b                                        ; $1f92: $68
-	ld   a, b                                        ; $1f93: $78
-	adc  b                                           ; $1f94: $88
-	sbc  b                                           ; $1f95: $98
+	.db $18 $28 $38 $48 $58 $68 $78 $88 $98
 
 Call_000_1f96:
 	call turnOffLCDstartOfVBlank                               ; $1f96: $cd $0a $02
-	call Call_000_01d6                               ; $1f99: $cd $d6 $01
+	call commonSoundFunc2                               ; $1f99: $cd $d6 $01
 	call clear_c200_to_c2ff                                       ; $1f9c: $cd $9e $5b
 	call copyA0hDataToOam                               ; $1f9f: $cd $99 $1a
 	call loadInventoryScreen                               ; $1fa2: $cd $66 $1e
@@ -3889,7 +3854,6 @@ jr_000_202b:
 	inc  (hl)                                        ; $2040: $34
 
 Jump_000_2041:
-jr_000_2041:
 	call Call_000_2712                               ; $2041: $cd $12 $27
 	ld   a, $00                                      ; $2044: $3e $00
 	ld   hl, $c0c6                                   ; $2046: $21 $c6 $c0
@@ -3897,8 +3861,7 @@ jr_000_2041:
 	call Call_000_2279                               ; $204a: $cd $79 $22
 
 Jump_000_204d:
-jr_000_204d:
-	call Call_000_27ff                               ; $204d: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $204d: $cd $ff $27
 	jp   Jump_000_1fcf                               ; $2050: $c3 $cf $1f
 
 
@@ -3908,7 +3871,7 @@ jr_000_2053:
 	ld   hl, $c0a0                                   ; $2059: $21 $a0 $c0
 	ld   a, (hl)                                     ; $205c: $7e
 	cp   $00                                         ; $205d: $fe $00
-	jr   z, jr_000_204d                              ; $205f: $28 $ec
+	jr   z, Jump_000_204d                              ; $205f: $28 $ec
 
 	ld   a, $00                                      ; $2061: $3e $00
 	ld   hl, $c65f                                   ; $2063: $21 $5f $c6
@@ -3942,7 +3905,7 @@ jr_000_2083:
 	jr   z, jr_000_209a                              ; $208b: $28 $0d
 
 	bit  7, (hl)                                     ; $208d: $cb $7e
-	jr   z, jr_000_2041                              ; $208f: $28 $b0
+	jr   z, Jump_000_2041                              ; $208f: $28 $b0
 
 jr_000_2091:
 	ld   a, $06                                      ; $2091: $3e $06
@@ -3970,7 +3933,7 @@ jr_000_20ab:
 	inc  (hl)                                        ; $20b2: $34
 	ld   a, (hl)                                     ; $20b3: $7e
 	cp   $07                                         ; $20b4: $fe $07
-	jr   nz, jr_000_2041                             ; $20b6: $20 $89
+	jr   nz, Jump_000_2041                             ; $20b6: $20 $89
 
 	ld   (hl), $00                                   ; $20b8: $36 $00
 	jp   Jump_000_2041                               ; $20ba: $c3 $41 $20
@@ -4012,12 +3975,12 @@ jr_000_20e9:
 	ld   hl, wNumBirds                                   ; $20e9: $21 $08 $c7
 	dec  (hl)                                        ; $20ec: $35
 	push bc                                          ; $20ed: $c5
-	call Call_000_1a76                               ; $20ee: $cd $76 $1a
+	call callCommonSoundFunc2startOfVBlank                               ; $20ee: $cd $76 $1a
 	call waitUntilStartOfVBlankPeriod                               ; $20f1: $cd $e8 $01
 	ld   hl, drawNumBirds                                   ; $20f4: $21 $8f $11
 	call jpHLinBank4                                       ; $20f7: $cd $b5 $61
-	call Call_000_01d6                               ; $20fa: $cd $d6 $01
-	call Call_000_27ff                               ; $20fd: $cd $ff $27
+	call commonSoundFunc2                               ; $20fa: $cd $d6 $01
+	call safeCallCommonSoundFuncs_with20h                               ; $20fd: $cd $ff $27
 	pop  bc                                          ; $2100: $c1
 	dec  c                                           ; $2101: $0d
 	jr   nz, jr_000_20e9                             ; $2102: $20 $e5
@@ -4028,11 +3991,11 @@ jr_000_20e9:
 	call waitUntilStartOfVBlankPeriod                               ; $210c: $cd $e8 $01
 	ld   hl, drawHearts                                   ; $210f: $21 $21 $13
 	call jpHLinBank4                                       ; $2112: $cd $b5 $61
-	call Call_000_01d6                               ; $2115: $cd $d6 $01
+	call commonSoundFunc2                               ; $2115: $cd $d6 $01
 	call waitUntilStartOfVBlankPeriod                               ; $2118: $cd $e8 $01
 	ld   hl, drawSelectableBitems                                   ; $211b: $21 $32 $14
 	call jpHLinBank4                                       ; $211e: $cd $b5 $61
-	call Call_000_01d6                               ; $2121: $cd $d6 $01
+	call commonSoundFunc2                               ; $2121: $cd $d6 $01
 
 jr_000_2124:
 	call Call_000_2712                               ; $2124: $cd $12 $27
@@ -4049,14 +4012,14 @@ jr_000_212d:
 	ld   (hl), a                                     ; $2136: $77
 
 Jump_000_2137:
-	call Call_000_27ff                               ; $2137: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $2137: $cd $ff $27
 	ld   a, $00                                      ; $213a: $3e $00
 	ld   hl, $c6cb                                   ; $213c: $21 $cb $c6
 	ld   (hl), a                                     ; $213f: $77
 	call waitUntilStartOfVBlankPeriod                               ; $2140: $cd $e8 $01
 	ld   hl, drawBitem                                   ; $2143: $21 $83 $13
 	call jpHLinBank4                                       ; $2146: $cd $b5 $61
-	call Call_000_01d6                               ; $2149: $cd $d6 $01
+	call commonSoundFunc2                               ; $2149: $cd $d6 $01
 	jp   Jump_000_1fcf                               ; $214c: $c3 $cf $1f
 
 
@@ -4069,7 +4032,7 @@ jr_000_214f:
 	xor  $ff                                         ; $2157: $ee $ff
 	ld   (hl), a                                     ; $2159: $77
 	call Call_000_2360                               ; $215a: $cd $60 $23
-	call Call_000_27ff                               ; $215d: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $215d: $cd $ff $27
 	jp   Jump_000_1fcf                               ; $2160: $c3 $cf $1f
 
 
@@ -4120,7 +4083,7 @@ jr_000_219a:
 Jump_000_219c:
 	ld   hl, $c04c                                   ; $219c: $21 $4c $c0
 	ld   (hl), a                                     ; $219f: $77
-	call Call_000_27ff                               ; $21a0: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $21a0: $cd $ff $27
 	jp   Jump_000_1fcf                               ; $21a3: $c3 $cf $1f
 
 
@@ -4160,15 +4123,15 @@ jr_000_21c8:
 
 
 jr_000_21d8:
-	call Call_000_27ff                               ; $21d8: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $21d8: $cd $ff $27
 	ld   hl, wPlayerHealth                                   ; $21db: $21 $72 $c0
 	inc  (hl)                                        ; $21de: $34
 	call waitUntilStartOfVBlankPeriod                               ; $21df: $cd $e8 $01
 	ld   hl, drawHearts                                   ; $21e2: $21 $21 $13
 	call jpHLinBank4                                       ; $21e5: $cd $b5 $61
-	call Call_000_01d6                               ; $21e8: $cd $d6 $01
-	call Call_000_1a76                               ; $21eb: $cd $76 $1a
-	call Call_000_1a76                               ; $21ee: $cd $76 $1a
+	call commonSoundFunc2                               ; $21e8: $cd $d6 $01
+	call callCommonSoundFunc2startOfVBlank                               ; $21eb: $cd $76 $1a
+	call callCommonSoundFunc2startOfVBlank                               ; $21ee: $cd $76 $1a
 	ld   hl, wPlayerHealth                                   ; $21f1: $21 $72 $c0
 	ld   a, (hl)                                     ; $21f4: $7e
 	ld   hl, wPlayerMaxHealth                                   ; $21f5: $21 $73 $c0
@@ -4189,13 +4152,13 @@ jr_000_21d8:
 	call waitUntilStartOfVBlankPeriod                               ; $220b: $cd $e8 $01
 	ld   hl, drawSelectableBitems                                   ; $220e: $21 $32 $14
 	call jpHLinBank4                                       ; $2211: $cd $b5 $61
-	call Call_000_01d6                               ; $2214: $cd $d6 $01
+	call commonSoundFunc2                               ; $2214: $cd $d6 $01
 	jp   Jump_000_2041                               ; $2217: $c3 $41 $20
 
 
 _transitionToMapScreen:
 	call turnOffLCDstartOfVBlank                               ; $221a: $cd $0a $02
-	call Call_000_01d6                               ; $221d: $cd $d6 $01
+	call commonSoundFunc2                               ; $221d: $cd $d6 $01
 	call clear_c200_to_c2ff                                       ; $2220: $cd $9e $5b
 	call copyA0hDataToOam                               ; $2223: $cd $99 $1a
 	call loadMapScreen                               ; $2226: $cd $7f $1e
@@ -4234,7 +4197,7 @@ jr_000_2243:
 	call waitUntilStartOfVBlankPeriod                               ; $225e: $cd $e8 $01
 	ld   hl, drawAitem                                   ; $2261: $21 $a8 $13
 	call jpHLinBank4                                       ; $2264: $cd $b5 $61
-	call Call_000_01d6                               ; $2267: $cd $d6 $01
+	call commonSoundFunc2                               ; $2267: $cd $d6 $01
 	jp   Jump_000_204d                               ; $226a: $c3 $4d $20
 
 
@@ -4243,7 +4206,7 @@ jr_000_226d:
 
 Jump_000_2270:
 	call drawInventoryItemDescription                               ; $2270: $cd $f0 $26
-	call Call_000_2831                               ; $2273: $cd $31 $28
+	call safeCallCommonSoundFuncs_with23h                               ; $2273: $cd $31 $28
 	jp   Jump_000_1fcf                               ; $2276: $c3 $cf $1f
 
 
@@ -4308,11 +4271,10 @@ _drawChangingItemDescription:
 
 
 data_22c5:
-	ld   l, h                                        ; $22c5: $6c
-	adc  a                                           ; $22c6: $8f
+	.db $6c $8f
 
 Jump_000_22c7:
-	call Call_000_27ff                               ; $22c7: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $22c7: $cd $ff $27
 	ld   de, text_endGameChoice                                   ; $22ca: $11 $7e $24
 	call drawInventoryItemDescription                               ; $22cd: $cd $f0 $26
 	ld   a, $01                                      ; $22d0: $3e $01
@@ -4342,7 +4304,7 @@ Jump_000_22d6:
 	xor  $01                                         ; $22fa: $ee $01
 	ld   hl, $c711                                   ; $22fc: $21 $11 $c7
 	ld   (hl), a                                     ; $22ff: $77
-	call Call_000_27ff                               ; $2300: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                               ; $2300: $cd $ff $27
 	jp   Jump_000_22d6                               ; $2303: $c3 $d6 $22
 
 
@@ -4360,13 +4322,12 @@ jr_000_2314:
 	ld   hl, $c711                                   ; $2314: $21 $11 $c7
 	ld   a, (hl)                                     ; $2317: $7e
 	cp   $00                                         ; $2318: $fe $00
-	jr   nz, jr_000_2320                             ; $231a: $20 $04
+	jr   nz, Jump_000_2320                             ; $231a: $20 $04
 
 	or   $ff                                         ; $231c: $f6 $ff
 	jr   jr_000_232a                                 ; $231e: $18 $0a
 
 Jump_000_2320:
-jr_000_2320:
 	ld   de, text_space                                   ; $2320: $11 $91 $24
 	call drawInventoryItemDescription                               ; $2323: $cd $f0 $26
 	call clear_c200_to_c2ff                                       ; $2326: $cd $9e $5b
@@ -4409,12 +4370,12 @@ Call_000_2360:
 	call jpHLinBank4                                       ; $2370: $cd $b5 $61
 	ld   hl, $c0a0                                   ; $2373: $21 $a0 $c0
 	bit  3, (hl)                                     ; $2376: $cb $5e
-	jr   z, jr_000_23b4                              ; $2378: $28 $3a
+	jr   z, @done                              ; $2378: $28 $3a
 
 	ld   hl, $c05b                                   ; $237a: $21 $5b $c0
 	ld   a, (hl)                                     ; $237d: $7e
 	cp   $00                                         ; $237e: $fe $00
-	jr   z, jr_000_23b4                              ; $2380: $28 $32
+	jr   z, @done                              ; $2380: $28 $32
 
 	ld   hl, $c21c                                   ; $2382: $21 $1c $c2
 	ld   (hl), $18                                   ; $2385: $36 $18
@@ -4432,17 +4393,17 @@ Call_000_2360:
 	ld   hl, $c05b                                   ; $23a2: $21 $5b $c0
 	ld   a, (hl)                                     ; $23a5: $7e
 	cp   $00                                         ; $23a6: $fe $00
-	jr   z, jr_000_23ac                              ; $23a8: $28 $02
+	jr   z, +                              ; $23a8: $28 $02
 
 	ld   b, $90                                      ; $23aa: $06 $90
 
-jr_000_23ac:
++
 	ld   hl, $c21f                                   ; $23ac: $21 $1f $c2
 	ld   (hl), b                                     ; $23af: $70
 	ld   hl, $c223                                   ; $23b0: $21 $23 $c2
 	ld   (hl), b                                     ; $23b3: $70
 
-jr_000_23b4:
+@done:
 	ret                                              ; $23b4: $c9
 
 
@@ -4454,7 +4415,7 @@ jr_000_23b8:
 	add  hl, bc                                      ; $23bb: $09
 	ld   a, (hl)                                     ; $23bc: $7e
 	cp   $2d                                         ; $23bd: $fe $2d
-	jr   z, jr_000_23c9                              ; $23bf: $28 $08
+	jr   z, @done                              ; $23bf: $28 $08
 
 	inc  bc                                          ; $23c1: $03
 	ld   a, c                                        ; $23c2: $79
@@ -4463,7 +4424,7 @@ jr_000_23b8:
 
 	cp   $2d                                         ; $23c7: $fe $2d
 
-jr_000_23c9:
+@done:
 	ret                                              ; $23c9: $c9
 
 
@@ -4870,7 +4831,7 @@ copyMemoryBC:
 	jr   -
 
 
-Jump_000_2780:
+copyMemoryCinVBlank_callCommonSoundFunc2:
 	push hl                                          ; $2780: $e5
 	call waitUntilNextVBlankPeriod                               ; $2781: $cd $e5 $01
 	pop  hl                                          ; $2784: $e1
@@ -4882,12 +4843,12 @@ Jump_000_2780:
 	dec  c                                           ; $2788: $0d
 	jr   nz, -                             ; $2789: $20 $fa
 
-	call Call_000_01d6                               ; $278b: $cd $d6 $01
+	call commonSoundFunc2                               ; $278b: $cd $d6 $01
 	ret                                              ; $278e: $c9
 
 
-Call_000_278f:
-	call Call_000_14d7                               ; $278f: $cd $d7 $14
+callsCommonSoundFuncs_278f:
+	call callCommonSoundFunc1_3times                               ; $278f: $cd $d7 $14
 	call Call_000_27a4                               ; $2792: $cd $a4 $27
 	ld   a, $00                                      ; $2795: $3e $00
 	ld   hl, $c009                                   ; $2797: $21 $09 $c0
@@ -4895,23 +4856,23 @@ Call_000_278f:
 	ld   a, $00                                      ; $279b: $3e $00
 	ld   hl, $c72a                                   ; $279d: $21 $2a $c7
 	ld   (hl), a                                     ; $27a0: $77
-	jp   Call_000_14bf                               ; $27a1: $c3 $bf $14
+	jp   callCommonSoundFunc0_3times                               ; $27a1: $c3 $bf $14
 
 
 Call_000_27a4:
 	ld   hl, $c4dd                                   ; $27a4: $21 $dd $c4
 	ld   a, (hl)                                     ; $27a7: $7e
 	cp   $00                                         ; $27a8: $fe $00
-	jr   z, jr_000_27ad                              ; $27aa: $28 $01
+	jr   z, @done                              ; $27aa: $28 $01
 
 	pop  hl                                          ; $27ac: $e1
 
-jr_000_27ad:
+@done:
 	ret                                              ; $27ad: $c9
 
 
-Call_000_27ae:
-	call Call_000_14d7                               ; Call_000_27ae: $cd $d7 $14
+callsCommonSoundFuncs_27ae:
+	call callCommonSoundFunc1_3times
 	call Call_000_27a4                               ; $27b1: $cd $a4 $27
 	ld   a, $05                                      ; $27b4: $3e $05
 	ld   hl, $c009                                   ; $27b6: $21 $09 $c0
@@ -4919,11 +4880,11 @@ Call_000_27ae:
 	ld   a, $00                                      ; $27ba: $3e $00
 	ld   hl, $c72a                                   ; $27bc: $21 $2a $c7
 	ld   (hl), a                                     ; $27bf: $77
-	jp   Call_000_14bf                               ; $27c0: $c3 $bf $14
+	jp   callCommonSoundFunc0_3times                               ; $27c0: $c3 $bf $14
 
 
-Call_000_27c3:
-	call Call_000_14d7                               ; $27c3: $cd $d7 $14
+callsCommonSoundFuncs_27c3:
+	call callCommonSoundFunc1_3times                               ; $27c3: $cd $d7 $14
 	call Call_000_27a4                               ; $27c6: $cd $a4 $27
 	ld   a, $01                                      ; $27c9: $3e $01
 	ld   hl, $c009                                   ; $27cb: $21 $09 $c0
@@ -4931,22 +4892,22 @@ Call_000_27c3:
 	ld   a, $00                                      ; $27cf: $3e $00
 	ld   hl, $c72a                                   ; $27d1: $21 $2a $c7
 	ld   (hl), a                                     ; $27d4: $77
-	jp   Call_000_14bf                               ; $27d5: $c3 $bf $14
+	jp   callCommonSoundFunc0_3times                               ; $27d5: $c3 $bf $14
 
 
-Call_000_27d8:
-	call Call_000_14d7                               ; $27d8: $cd $d7 $14
+callsCommonSoundFuncs_27d8:
+	call callCommonSoundFunc1_3times                               ; $27d8: $cd $d7 $14
 	ld   a, $02                                      ; $27db: $3e $02
 	ld   hl, $c009                                   ; $27dd: $21 $09 $c0
 	ld   (hl), a                                     ; $27e0: $77
 	ld   a, $ff                                      ; $27e1: $3e $ff
 	ld   hl, $c72a                                   ; $27e3: $21 $2a $c7
 	ld   (hl), a                                     ; $27e6: $77
-	jp   Call_000_14bf                               ; $27e7: $c3 $bf $14
+	jp   callCommonSoundFunc0_3times                               ; $27e7: $c3 $bf $14
 
 
-Call_000_27ea:
-	call Call_000_14d7                               ; $27ea: $cd $d7 $14
+callsCommonSoundFuncs_27ea:
+	call callCommonSoundFunc1_3times                               ; $27ea: $cd $d7 $14
 	call Call_000_27a4                               ; $27ed: $cd $a4 $27
 	ld   a, $04                                      ; $27f0: $3e $04
 	ld   hl, $c009                                   ; $27f2: $21 $09 $c0
@@ -4954,25 +4915,25 @@ Call_000_27ea:
 	ld   a, $00                                      ; $27f6: $3e $00
 	ld   hl, $c72a                                   ; $27f8: $21 $2a $c7
 	ld   (hl), a                                     ; $27fb: $77
-	jp   Call_000_14bf                               ; $27fc: $c3 $bf $14
+	jp   callCommonSoundFunc0_3times                               ; $27fc: $c3 $bf $14
 
 
-Call_000_27ff:
-	push af                                          ; Call_000_27ff: $f5
+safeCallCommonSoundFuncs_with20h:
+	push af
 	ld   a, $20                                      ; $2800: $3e $20
-	jp   Jump_000_286a                               ; $2802: $c3 $6a $28
+	jp   _safeCallCommonSoundFuncs_286a                               ; $2802: $c3 $6a $28
 
 
-Call_000_2805:
+safeCallCommonSoundFuncs_with12h:
 	push af                                          ; $2805: $f5
 	ld   a, $12                                      ; $2806: $3e $12
-	jp   Jump_000_286a                               ; $2808: $c3 $6a $28
+	jp   _safeCallCommonSoundFuncs_286a                               ; $2808: $c3 $6a $28
 
 
-Call_000_280b:
+safeCallCommonSoundFuncs_with22h:
 	push af                                          ; $280b: $f5
 	ld   a, $22                                      ; $280c: $3e $22
-	jp   Jump_000_286a                               ; $280e: $c3 $6a $28
+	jp   _safeCallCommonSoundFuncs_286a                               ; $280e: $c3 $6a $28
 
 
 Call_000_2811:
@@ -4998,19 +4959,19 @@ Jump_000_2817:
 	pop  af                                          ; $2829: $f1
 	ld   hl, $c009                                   ; $282a: $21 $09 $c0
 	ld   a, (hl)                                     ; $282d: $7e
-	jp   Jump_000_286a                               ; $282e: $c3 $6a $28
+	jp   _safeCallCommonSoundFuncs_286a                               ; $282e: $c3 $6a $28
 
 
-Call_000_2831:
+safeCallCommonSoundFuncs_with23h:
 	push af                                          ; $2831: $f5
 	ld   a, $23                                      ; $2832: $3e $23
-	jp   Jump_000_286a                               ; $2834: $c3 $6a $28
+	jp   _safeCallCommonSoundFuncs_286a                               ; $2834: $c3 $6a $28
 
 
-Call_000_2837:
+safeCallCommonSoundFuncs_with23h2:
 	push af                                          ; $2837: $f5
 	ld   a, $23                                      ; $2838: $3e $23
-	jp   Jump_000_286a                               ; $283a: $c3 $6a $28
+	jp   _safeCallCommonSoundFuncs_286a                               ; $283a: $c3 $6a $28
 
 
 Call_000_283d:
@@ -5022,7 +4983,7 @@ Call_000_283d:
 
 
 func_2846:
-	push af                                          ; func_2846: $f5
+	push af
 	ld   a, $0c                                      ; $2847: $3e $0c
 	push af                                          ; $2849: $f5
 	ld   a, $25                                      ; $284a: $3e $25
@@ -5037,10 +4998,10 @@ Call_000_284f:
 	jp   Jump_000_2817                               ; $2855: $c3 $17 $28
 
 
-Call_000_2858:
+safeCallCommonSoundFuncs_with27h:
 	push af                                          ; $2858: $f5
 	ld   a, $27                                      ; $2859: $3e $27
-	jp   Jump_000_286a                               ; $285b: $c3 $6a $28
+	jp   _safeCallCommonSoundFuncs_286a                               ; $285b: $c3 $6a $28
 
 
 Call_000_285e:
@@ -5051,15 +5012,15 @@ Call_000_285e:
 	jp   Jump_000_2817                               ; $2864: $c3 $17 $28
 
 
-Call_000_2867:
+safeCallCommonSoundFuncs_with29h:
 	push af                                          ; $2867: $f5
 	ld   a, $29                                      ; $2868: $3e $29
 
-Jump_000_286a:
+_safeCallCommonSoundFuncs_286a:
 	push bc                                          ; $286a: $c5
 	push de                                          ; $286b: $d5
 	push hl                                          ; $286c: $e5
-	call Call_000_1507                               ; $286d: $cd $07 $15
+	call callCommonSoundFuncs_1507                               ; $286d: $cd $07 $15
 	pop  hl                                          ; $2870: $e1
 	pop  de                                          ; $2871: $d1
 	pop  bc                                          ; $2872: $c1
@@ -5068,27 +5029,27 @@ Jump_000_286a:
 
 
 Call_000_2875:
-	ld   hl, $c08b                                   ; Call_000_2875: $21 $8b $c0
+	ld   hl, $c08b
 	ld   e, (hl)                                     ; $2878: $5e
 	ld   d, $00                                      ; $2879: $16 $00
 	ld   a, e                                        ; $287b: $7b
 	cp   $00                                         ; $287c: $fe $00
-	jp   nz, Jump_000_2916                           ; $287e: $c2 $16 $29
+	jp   nz, @done                           ; $287e: $c2 $16 $29
 
 	ld   hl, $c023                                   ; $2881: $21 $23 $c0
 	ld   a, (hl)                                     ; $2884: $7e
 	cp   $ff                                         ; $2885: $fe $ff
-	jr   z, jr_000_28eb                              ; $2887: $28 $62
+	jr   z, @afterPlayerDead                              ; $2887: $28 $62
 
 	cp   $80                                         ; $2889: $fe $80
-	jr   nc, jr_000_2896                             ; $288b: $30 $09
+	jr   nc, +                             ; $288b: $30 $09
 
 	ld   hl, $c025                                   ; $288d: $21 $25 $c0
 	ld   a, (hl)                                     ; $2890: $7e
 	cp   $00                                         ; $2891: $fe $00
-	jp   nz, Jump_000_2916                           ; $2893: $c2 $16 $29
+	jp   nz, @done                           ; $2893: $c2 $16 $29
 
-jr_000_2896:
++
 	ld   hl, $c023                                   ; $2896: $21 $23 $c0
 	ld   a, (hl)                                     ; $2899: $7e
 	and  $7f                                         ; $289a: $e6 $7f
@@ -5096,37 +5057,38 @@ jr_000_2896:
 	ld   (hl), a                                     ; $289f: $77
 	ld   hl, wArmorOfGodGotten                                   ; $28a0: $21 $52 $c6
 	ld   a, (hl)                                     ; $28a3: $7e
-	and  $0a                                         ; $28a4: $e6 $0a
-	jr   z, jr_000_28b5                              ; $28a6: $28 $0d
+	and  AOG_SHIELD|AOG_ARMOUR                                         ; $28a4: $e6 $0a
+	jr   z, @takeDamage                              ; $28a6: $28 $0d
 
-	cp   $0a                                         ; $28a8: $fe $0a
-	jr   z, jr_000_28b2                              ; $28aa: $28 $06
+// shield or armor gotten
+	cp   AOG_SHIELD|AOG_ARMOUR                                         ; $28a8: $fe $0a
+	jr   z, @bothShieldAndArmor                              ; $28aa: $28 $06
 
+// 1 of shield or armor gotten
 	call Call_000_2917                               ; $28ac: $cd $17 $29
-	jp   Jump_000_28b5                               ; $28af: $c3 $b5 $28
+	jp   @takeDamage                               ; $28af: $c3 $b5 $28
 
-
-jr_000_28b2:
+@bothShieldAndArmor:
 	call Call_000_2947                               ; $28b2: $cd $47 $29
 
-Jump_000_28b5:
-jr_000_28b5:
+@takeDamage:
+// c0a0 is damage player took
 	ld   hl, wPlayerHealth                                   ; $28b5: $21 $72 $c0
 	ld   a, (hl)                                     ; $28b8: $7e
 	ld   hl, $c0a0                                   ; $28b9: $21 $a0 $c0
 	sub  (hl)                                        ; $28bc: $96
 	ld   hl, wPlayerHealth                                   ; $28bd: $21 $72 $c0
 	ld   (hl), a                                     ; $28c0: $77
-	jr   z, jr_000_28c5                              ; $28c1: $28 $02
 
-	jr   nc, jr_000_28ca                             ; $28c3: $30 $05
+	jr   z, @playerDead                              ; $28c1: $28 $02
 
-jr_000_28c5:
+	jr   nc, @playerAlive                             ; $28c3: $30 $05
+
+@playerDead:
 	ld   (hl), $00                                   ; $28c5: $36 $00
-	jp   Jump_000_28eb                               ; $28c7: $c3 $eb $28
+	jp   @afterPlayerDead                               ; $28c7: $c3 $eb $28
 
-
-jr_000_28ca:
+@playerAlive:
 	ld   (hl), a                                     ; $28ca: $77
 	ld   a, $4b                                      ; $28cb: $3e $4b
 	ld   hl, $c025                                   ; $28cd: $21 $25 $c0
@@ -5137,58 +5099,67 @@ jr_000_28ca:
 	ld   hl, $c026                                   ; $28d7: $21 $26 $c0
 	ld   (hl), a                                     ; $28da: $77
 	cp   $ff                                         ; $28db: $fe $ff
-	jr   z, jr_000_28e4                              ; $28dd: $28 $05
+	jr   z, +                              ; $28dd: $28 $05
 
-	call Call_000_280b                               ; $28df: $cd $0b $28
+	call safeCallCommonSoundFuncs_with22h                               ; $28df: $cd $0b $28
 	ld   e, $08                                      ; $28e2: $1e $08
 
-jr_000_28e4:
++
 	ld   hl, $c027                                   ; $28e4: $21 $27 $c0
 	ld   (hl), e                                     ; $28e7: $73
-	jp   Jump_000_2916                               ; $28e8: $c3 $16 $29
+	jp   @done                               ; $28e8: $c3 $16 $29
 
-
-Jump_000_28eb:
-jr_000_28eb:
+@afterPlayerDead:
 	ld   de, $0013                                   ; $28eb: $11 $13 $00
 	ld   hl, data_09fd                                   ; $28ee: $21 $fd $09
 	add  hl, de                                      ; $28f1: $19
+
+// $06
 	ld   a, (hl)                                     ; $28f2: $7e
 	ld   hl, $c08c                                   ; $28f3: $21 $8c $c0
 	ld   (hl), a                                     ; $28f6: $77
+
+// pointer to $49
 	ld   hl, $c08b                                   ; $28f7: $21 $8b $c0
 	ld   (hl), e                                     ; $28fa: $73
+
+//
 	ld   a, $46                                      ; $28fb: $3e $46
 	ld   hl, $c056                                   ; $28fd: $21 $56 $c0
 	ld   (hl), a                                     ; $2900: $77
+
+//
 	ld   a, $00                                      ; $2901: $3e $00
 	ld   hl, $c057                                   ; $2903: $21 $57 $c0
 	ld   (hl), a                                     ; $2906: $77
+
+//
 	ld   a, $00                                      ; $2907: $3e $00
 	ld   hl, $c055                                   ; $2909: $21 $55 $c0
 	ld   (hl), a                                     ; $290c: $77
+
+//
 	ld   a, $ff                                      ; $290d: $3e $ff
 	ld   hl, $c025                                   ; $290f: $21 $25 $c0
 	ld   (hl), a                                     ; $2912: $77
-	call Call_000_27d8                               ; $2913: $cd $d8 $27
+	call callsCommonSoundFuncs_27d8                               ; $2913: $cd $d8 $27
 
-Jump_000_2916:
+@done:
 	ret                                              ; $2916: $c9
 
 
 Call_000_2917:
-Jump_000_2917:
 	ld   a, $02                                      ; $2917: $3e $02
 	call Call_000_292f                               ; $2919: $cd $2f $29
 	ld   hl, $c0d9                                   ; $291c: $21 $d9 $c0
 	ld   a, (hl)                                     ; $291f: $7e
 	cp   $04                                         ; $2920: $fe $04
-	jr   c, jr_000_2928                              ; $2922: $38 $04
+	jr   c, +                              ; $2922: $38 $04
 
 	ld   hl, $c0a0                                   ; $2924: $21 $a0 $c0
 	inc  (hl)                                        ; $2927: $34
 
-jr_000_2928:
++
 	and  $03                                         ; $2928: $e6 $03
 	ld   hl, $c0d9                                   ; $292a: $21 $d9 $c0
 	ld   (hl), a                                     ; $292d: $77
@@ -5200,7 +5171,7 @@ Call_000_292f:
 	ld   (hl), a                                     ; $2932: $77
 	ld   hl, $c0a0                                   ; $2933: $21 $a0 $c0
 	srl  (hl)                                        ; $2936: $cb $3e
-	jr   nc, jr_000_2946                             ; $2938: $30 $0c
+	jr   nc, @done                             ; $2938: $30 $0c
 
 	ld   hl, $c0d9                                   ; $293a: $21 $d9 $c0
 	ld   a, (hl)                                     ; $293d: $7e
@@ -5209,20 +5180,20 @@ Call_000_292f:
 	ld   hl, $c0d9                                   ; $2942: $21 $d9 $c0
 	ld   (hl), a                                     ; $2945: $77
 
-jr_000_2946:
+@done:
 	ret                                              ; $2946: $c9
 
 
 Call_000_2947:
 	ld   a, $01                                      ; $2947: $3e $01
 	call Call_000_292f                               ; $2949: $cd $2f $29
-	jp   Jump_000_2917                               ; $294c: $c3 $17 $29
+	jp   Call_000_2917                               ; $294c: $c3 $17 $29
 
 
 Call_000_294f:
 	ld   hl, $c08c                                   ; $294f: $21 $8c $c0
 	dec  (hl)                                        ; $2952: $35
-	jr   nz, jr_000_2981                             ; $2953: $20 $2c
+	jr   nz, @done                             ; $2953: $20 $2c
 
 	add  $02                                         ; $2955: $c6 $02
 	ld   hl, $c08b                                   ; $2957: $21 $8b $c0
@@ -5233,28 +5204,27 @@ Call_000_294f:
 	add  hl, de                                      ; $2961: $19
 	ld   a, (hl)                                     ; $2962: $7e
 	cp   $00                                         ; $2963: $fe $00
-	jr   nz, jr_000_2974                             ; $2965: $20 $0d
+	jr   nz, +                             ; $2965: $20 $0d
 
 	ld   hl, $c08b                                   ; $2967: $21 $8b $c0
 	ld   (hl), a                                     ; $296a: $77
 	ld   a, $01                                      ; $296b: $3e $01
 	ld   hl, $c08d                                   ; $296d: $21 $8d $c0
 	ld   (hl), a                                     ; $2970: $77
-	jp   Jump_000_2978                               ; $2971: $c3 $78 $29
+	jp   @next_2978                               ; $2971: $c3 $78 $29
 
-
-jr_000_2974:
++
 	ld   hl, $c08c                                   ; $2974: $21 $8c $c0
 	ld   (hl), a                                     ; $2977: $77
 
-Jump_000_2978:
+@next_2978:
 	ld   hl, data_09fc                                   ; $2978: $21 $fc $09
 	add  hl, de                                      ; $297b: $19
 	ld   a, (hl)                                     ; $297c: $7e
 	ld   hl, $c056                                   ; $297d: $21 $56 $c0
 	ld   (hl), a                                     ; $2980: $77
 
-jr_000_2981:
+@done:
 	ret                                              ; $2981: $c9
 
 
@@ -5480,14 +5450,13 @@ jr_000_2a98:
 jr_000_2aab:
 	ld   hl, $c088                                   ; $2aab: $21 $88 $c0
 	inc  (hl)                                        ; $2aae: $34
-	jr   nz, jr_000_2ab7                             ; $2aaf: $20 $06
+	jr   nz, Jump_000_2ab7                             ; $2aaf: $20 $06
 
 	ld   a, $01                                      ; $2ab1: $3e $01
 	ld   hl, $c088                                   ; $2ab3: $21 $88 $c0
 	ld   (hl), a                                     ; $2ab6: $77
 
 Jump_000_2ab7:
-jr_000_2ab7:
 	ld   hl, wKeysPressed                                   ; $2ab7: $21 $16 $c0
 	ld   a, (hl)                                     ; $2aba: $7e
 	and  PADF_DOWN|PADF_UP|PADF_LEFT|PADF_RIGHT                                         ; $2abb: $e6 $f0
@@ -5503,14 +5472,13 @@ jr_000_2ab7:
 jr_000_2aca:
 	ld   hl, $c089                                   ; $2aca: $21 $89 $c0
 	inc  (hl)                                        ; $2acd: $34
-	jr   nz, jr_000_2ad6                             ; $2ace: $20 $06
+	jr   nz, Jump_000_2ad6                             ; $2ace: $20 $06
 
 	ld   a, $01                                      ; $2ad0: $3e $01
 	ld   hl, $c089                                   ; $2ad2: $21 $89 $c0
 	ld   (hl), a                                     ; $2ad5: $77
 
 Jump_000_2ad6:
-jr_000_2ad6:
 	ld   hl, wKeysPressed                                   ; $2ad6: $21 $16 $c0
 	ld   a, (hl)                                     ; $2ad9: $7e
 	and  PADF_DOWN|PADF_UP|PADF_LEFT|PADF_RIGHT                                         ; $2ada: $e6 $f0
@@ -5582,7 +5550,7 @@ Jump_000_2af5:
 	ret                                              ; $2b3f: $c9
 
 
-func_2b40:
+deEquPlayerYplus_c04a:
 	ld   hl, wPlayerY
 	ld   a, (hl)                                     ; $2b43: $7e
 	ld   hl, $c04a                                   ; $2b44: $21 $4a $c0
@@ -5703,8 +5671,7 @@ jr_000_2be3:
 
 
 data_2bf1:
-	nop                                              ; $2bf1: $00
-	ld   bc, $0200                                   ; $2bf2: $01 $00 $02
+	.db $00 $01 $00 $02
 
 Call_000_2bf5:
 	ld   hl, wPlayerX                                   ; $2bf5: $21 $52 $c0
@@ -5794,7 +5761,7 @@ Call_000_2c6d:
 	ld   hl, $c6cb                                   ; $2c6d: $21 $cb $c6
 	ld   a, (hl)                                     ; $2c70: $7e
 	cp   $00                                         ; $2c71: $fe $00
-	jr   nz, jr_000_2cbe                             ; $2c73: $20 $49
+	jr   nz, @done                             ; $2c73: $20 $49
 
 	ld   hl, $c009                                   ; $2c75: $21 $09 $c0
 	ld   (hl), $00                                   ; $2c78: $36 $00
@@ -5803,7 +5770,7 @@ Call_000_2c6d:
 	ld   hl, $c00b                                   ; $2c7f: $21 $0b $c0
 	ld   (hl), $00                                   ; $2c82: $36 $00
 	call Call_000_2bf5                               ; $2c84: $cd $f5 $2b
-	jr   c, jr_000_2cbe                              ; $2c87: $38 $35
+	jr   c, @done                              ; $2c87: $38 $35
 
 	ld   hl, $c006                                   ; $2c89: $21 $06 $c0
 	ld   a, (hl)                                     ; $2c8c: $7e
@@ -5819,24 +5786,22 @@ Call_000_2c6d:
 	ld   (hl), a                                     ; $2ca0: $77
 	ld   hl, wEquippedBItem                                   ; $2ca1: $21 $49 $c0
 	ld   a, (hl)                                     ; $2ca4: $7e
-	cp   $01                                         ; $2ca5: $fe $01
-	jr   z, jr_000_2cb2                              ; $2ca7: $28 $09
+	cp   EQUIPB_JAWBONE                                         ; $2ca5: $fe $01
+	jr   z, +                              ; $2ca7: $28 $09
 
 	ld   a, $1e                                      ; $2ca9: $3e $1e
 	ld   hl, $c6cb                                   ; $2cab: $21 $cb $c6
 	ld   (hl), a                                     ; $2cae: $77
-	jp   Jump_000_2cbe                               ; $2caf: $c3 $be $2c
+	jp   @done                               ; $2caf: $c3 $be $2c
 
-
-jr_000_2cb2:
++
 	ld   a, $5a                                      ; $2cb2: $3e $5a
 	ld   hl, $c6cb                                   ; $2cb4: $21 $cb $c6
 	ld   (hl), a                                     ; $2cb7: $77
 	ld   de, $1771                                   ; $2cb8: $11 $71 $17
-	call Call_000_1513                               ; $2cbb: $cd $13 $15
+	call callCommonSoundFuncs_1513                               ; $2cbb: $cd $13 $15
 
-Jump_000_2cbe:
-jr_000_2cbe:
+@done:
 	ret                                              ; $2cbe: $c9
 
 
@@ -5923,7 +5888,7 @@ Call_000_2cbf:
 	ld   (hl), a                                     ; $2d39: $77
 	ld   hl, wEquippedBItem                                   ; $2d3a: $21 $49 $c0
 	ld   a, (hl)                                     ; $2d3d: $7e
-	cp   $01                                         ; $2d3e: $fe $01
+	cp   EQUIPB_JAWBONE                                         ; $2d3e: $fe $01
 	jr   z, @next_2d91                              ; $2d40: $28 $4f
 
 	jp   @func_2e40                               ; $2d42: $c3 $40 $2e
@@ -6180,7 +6145,7 @@ jr_000_2e78:
 	ld   (hl), $92                                   ; $2eaa: $36 $92
 	ld   hl, wEquippedBItem                                   ; $2eac: $21 $49 $c0
 	ld   a, (hl)                                     ; $2eaf: $7e
-	cp   $01                                         ; $2eb0: $fe $01
+	cp   EQUIPB_JAWBONE                                         ; $2eb0: $fe $01
 	jr   z, jr_000_2ee8                              ; $2eb2: $28 $34
 
 	ld   hl, $c007                                   ; $2eb4: $21 $07 $c0
@@ -6191,12 +6156,12 @@ jr_000_2e78:
 	ld   a, (hl)                                     ; $2ec1: $7e
 	cp   $00                                         ; $2ec2: $fe $00
 	ld   a, $00                                      ; $2ec4: $3e $00
-	jr   z, jr_000_2ef9                              ; $2ec6: $28 $31
+	jr   z, Jump_000_2ef9                              ; $2ec6: $28 $31
 
 	ld   a, (hl)                                     ; $2ec8: $7e
 	cp   $09                                         ; $2ec9: $fe $09
 	ld   a, $20                                      ; $2ecb: $3e $20
-	jr   z, jr_000_2ef9                              ; $2ecd: $28 $2a
+	jr   z, Jump_000_2ef9                              ; $2ecd: $28 $2a
 
 	ld   hl, $c007                                   ; $2ecf: $21 $07 $c0
 	ld   (hl), $b8                                   ; $2ed2: $36 $b8
@@ -6206,7 +6171,7 @@ jr_000_2e78:
 	ld   a, (hl)                                     ; $2edc: $7e
 	cp   $03                                         ; $2edd: $fe $03
 	ld   a, $00                                      ; $2edf: $3e $00
-	jr   z, jr_000_2ef9                              ; $2ee1: $28 $16
+	jr   z, Jump_000_2ef9                              ; $2ee1: $28 $16
 
 	ld   a, $40                                      ; $2ee3: $3e $40
 	jp   Jump_000_2ef9                               ; $2ee5: $c3 $f9 $2e
@@ -6228,7 +6193,6 @@ jr_000_2ef8:
 	pop  af                                          ; $2ef8: $f1
 
 Jump_000_2ef9:
-jr_000_2ef9:
 	ld   hl, $c203                                   ; $2ef9: $21 $03 $c2
 	add  hl, de                                      ; $2efc: $19
 	ld   (hl), a                                     ; $2efd: $77
@@ -6236,7 +6200,7 @@ jr_000_2ef9:
 	add  hl, de                                      ; $2f01: $19
 	ld   (hl), a                                     ; $2f02: $77
 	and  $20                                         ; $2f03: $e6 $20
-	jr   z, jr_000_2f1c                              ; $2f05: $28 $15
+	jr   z, +                              ; $2f05: $28 $15
 
 	ld   hl, $c008                                   ; $2f07: $21 $08 $c0
 	ld   a, (hl)                                     ; $2f0a: $7e
@@ -6248,10 +6212,9 @@ jr_000_2ef9:
 	ld   hl, $c206                                   ; $2f14: $21 $06 $c2
 	add  hl, de                                      ; $2f17: $19
 	ld   (hl), a                                     ; $2f18: $77
-	jp   Jump_000_2f2e                               ; $2f19: $c3 $2e $2f
+	jp   @done                               ; $2f19: $c3 $2e $2f
 
-
-jr_000_2f1c:
++
 	ld   hl, $c007                                   ; $2f1c: $21 $07 $c0
 	ld   a, (hl)                                     ; $2f1f: $7e
 	ld   hl, $c202                                   ; $2f20: $21 $02 $c2
@@ -6263,10 +6226,11 @@ jr_000_2f1c:
 	add  hl, de                                      ; $2f2c: $19
 	ld   (hl), a                                     ; $2f2d: $77
 
-Jump_000_2f2e:
+@done:
 	ret                                              ; $2f2e: $c9
 
 
+;;
 	ld   de, $0006                                   ; $2f2f: $11 $06 $00
 	ld   hl, $c056                                   ; $2f32: $21 $56 $c0
 	ld   a, (hl)                                     ; $2f35: $7e
@@ -6528,7 +6492,7 @@ Jump_000_3081:
 	add  hl, bc                                      ; $308d: $09
 	ld   a, (hl)                                     ; $308e: $7e
 	and  $40                                         ; $308f: $e6 $40
-	jr   z, jr_000_30f2                              ; $3091: $28 $5f
+	jr   z, Jump_000_30f2                              ; $3091: $28 $5f
 
 	ld   hl, $c014                                   ; $3093: $21 $14 $c0
 	ld   a, (hl)                                     ; $3096: $7e
@@ -6569,7 +6533,7 @@ jr_000_30c3:
 	add  hl, bc                                      ; $30c6: $09
 	ld   a, (hl)                                     ; $30c7: $7e
 	and  $03                                         ; $30c8: $e6 $03
-	jr   z, jr_000_30f2                              ; $30ca: $28 $26
+	jr   z, Jump_000_30f2                              ; $30ca: $28 $26
 
 	cp   $02                                         ; $30cc: $fe $02
 	jr   z, jr_000_30e4                              ; $30ce: $28 $14
@@ -6602,7 +6566,6 @@ jr_000_30e4:
 	inc  (hl)                                        ; $30f1: $34
 
 Jump_000_30f2:
-jr_000_30f2:
 	push bc                                          ; $30f2: $c5
 	ld   a, $00                                      ; $30f3: $3e $00
 	ld   hl, $c5f8                                   ; $30f5: $21 $f8 $c5
@@ -6703,7 +6666,7 @@ Jump_000_3183:
 	ld   hl, $c0e8                                   ; $3185: $21 $e8 $c0
 	add  hl, bc                                      ; $3188: $09
 	ld   (hl), a                                     ; $3189: $77
-	call Call_000_2837                               ; $318a: $cd $37 $28
+	call safeCallCommonSoundFuncs_with23h2                               ; $318a: $cd $37 $28
 
 jr_000_318d:
 	ld   a, c                                        ; $318d: $79
@@ -6783,7 +6746,7 @@ func_31e9:
 	ld   d, $00                                      ; $31f3: $16 $00
 	call Call_000_31f9                               ; $31f5: $cd $f9 $31
 
-jr_000_31f8:
+_ret_31f8:
 	ret                                              ; $31f8: $c9
 
 
@@ -6792,7 +6755,7 @@ Call_000_31f9:
 	ld   hl, $c00c                                   ; $31fc: $21 $0c $c0
 	ld   (hl), c                                     ; $31ff: $71
 	cp   $2f                                         ; $3200: $fe $2f
-	jr   nc, jr_000_31f8                             ; $3202: $30 $f4
+	jr   nc, _ret_31f8                             ; $3202: $30 $f4
 
 	push af                                          ; $3204: $f5
 	cp   $27                                         ; $3205: $fe $27
@@ -7154,7 +7117,7 @@ func_33b1:
 	ld   hl, $c006                                   ; $33de: $21 $06 $c0
 	ld   a, (hl)                                     ; $33e1: $7e
 	cp   $09                                         ; $33e2: $fe $09
-	jr   c, jr_000_33ff                              ; $33e4: $38 $19
+	jr   c, Jump_000_33ff                              ; $33e4: $38 $19
 
 	inc  bc                                          ; $33e6: $03
 	jp   Jump_000_33ff                               ; $33e7: $c3 $ff $33
@@ -7164,7 +7127,7 @@ jr_000_33ea:
 	ld   hl, $c006                                   ; $33ea: $21 $06 $c0
 	ld   a, (hl)                                     ; $33ed: $7e
 	cp   $08                                         ; $33ee: $fe $08
-	jr   c, jr_000_33ff                              ; $33f0: $38 $0d
+	jr   c, Jump_000_33ff                              ; $33f0: $38 $0d
 
 	inc  bc                                          ; $33f2: $03
 	jp   Jump_000_33ff                               ; $33f3: $c3 $ff $33
@@ -7174,12 +7137,11 @@ jr_000_33f6:
 	ld   hl, $c007                                   ; $33f6: $21 $07 $c0
 	ld   a, (hl)                                     ; $33f9: $7e
 	cp   $08                                         ; $33fa: $fe $08
-	jr   c, jr_000_33ff                              ; $33fc: $38 $01
+	jr   c, Jump_000_33ff                              ; $33fc: $38 $01
 
 	inc  de                                          ; $33fe: $13
 
 Jump_000_33ff:
-jr_000_33ff:
 	ld   a, $80                                      ; $33ff: $3e $80
 	ld   hl, $c04b                                   ; $3401: $21 $4b $c0
 	ld   (hl), a                                     ; $3404: $77
@@ -7360,7 +7322,7 @@ jr_000_34dd:
 	add  hl, bc                                      ; $34fd: $09
 	ld   (hl), a                                     ; $34fe: $77
 	bit  7, a                                        ; $34ff: $cb $7f
-	jr   nz, jr_000_3511                             ; $3501: $20 $0e
+	jr   nz, Jump_000_3511                             ; $3501: $20 $0e
 
 	ld   a, $f5                                      ; $3503: $3e $f5
 	ld   hl, $c600                                   ; $3505: $21 $00 $c6
@@ -7371,7 +7333,6 @@ jr_000_34dd:
 	call Call_000_285e                               ; $350e: $cd $5e $28
 
 Jump_000_3511:
-jr_000_3511:
 	ret                                              ; $3511: $c9
 
 
@@ -7505,7 +7466,6 @@ jr_000_35b5:
 	jr   nz, jr_000_35c5                             ; $35bc: $20 $07
 
 Jump_000_35be:
-jr_000_35be:
 	inc  bc                                          ; $35be: $03
 	ld   a, c                                        ; $35bf: $79
 	cp   $18                                         ; $35c0: $fe $18
@@ -7518,7 +7478,7 @@ jr_000_35c5:
 	dec  (hl)                                        ; $35c5: $35
 	ld   a, (hl)                                     ; $35c6: $7e
 	cp   $06                                         ; $35c7: $fe $06
-	jr   nc, jr_000_35be                             ; $35c9: $30 $f3
+	jr   nc, Jump_000_35be                             ; $35c9: $30 $f3
 
 	cp   $05                                         ; $35cb: $fe $05
 	jr   z, jr_000_360f                              ; $35cd: $28 $40
@@ -7527,7 +7487,7 @@ jr_000_35c5:
 	jr   z, jr_000_35f3                              ; $35d1: $28 $20
 
 	cp   $00                                         ; $35d3: $fe $00
-	jr   nz, jr_000_35be                             ; $35d5: $20 $e7
+	jr   nz, Jump_000_35be                             ; $35d5: $20 $e7
 
 	push bc                                          ; $35d7: $c5
 	ld   hl, $c630                                   ; $35d8: $21 $30 $c6
@@ -7603,7 +7563,7 @@ jr_000_363b:
 
 Jump_000_3646:
 	call Call_000_3737                               ; $3646: $cd $37 $37
-	call Call_000_2805                               ; $3649: $cd $05 $28
+	call safeCallCommonSoundFuncs_with12h                               ; $3649: $cd $05 $28
 	pop  bc                                          ; $364c: $c1
 	jp   Jump_000_35be                               ; $364d: $c3 $be $35
 
@@ -7699,15 +7659,15 @@ Call_000_36aa:
 Call_000_36c3:
 	ld   a, c                                        ; $36c3: $79
 	cp   $10                                         ; $36c4: $fe $10
-	jr   nc, jr_000_36e5                             ; $36c6: $30 $1d
+	jr   nc, @done                             ; $36c6: $30 $1d
 
 	ld   a, e                                        ; $36c8: $7b
 	cp   $0b                                         ; $36c9: $fe $0b
-	jr   nc, jr_000_36e5                             ; $36cb: $30 $18
+	jr   nc, @done                             ; $36cb: $30 $18
 
 	call Call_000_3fed                               ; $36cd: $cd $ed $3f
 	cp   $2f                                         ; $36d0: $fe $2f
-	jr   nc, jr_000_36e5                             ; $36d2: $30 $11
+	jr   nc, @done                             ; $36d2: $30 $11
 
 	push af                                          ; $36d4: $f5
 	push bc                                          ; $36d5: $c5
@@ -7723,8 +7683,7 @@ Call_000_36c3:
 	pop  af                                          ; $36e3: $f1
 	jp   hl                                          ; $36e4: $e9
 
-
-jr_000_36e5:
+@done:
 	ret                                              ; $36e5: $c9
 
 
@@ -7750,7 +7709,7 @@ _ret_36fc:
 
 
 func_36fd:
-	call Call_000_3a68                               ; func_36fd: $cd $68 $3a
+	call Call_000_3a68
 	ld   a, $05                                      ; $3700: $3e $05
 	call Call_000_39ea                               ; $3702: $cd $ea $39
 	jp   Jump_000_3733                               ; $3705: $c3 $33 $37
@@ -7797,7 +7756,7 @@ Jump_000_3733:
 	call Call_000_3a0c                               ; $3733: $cd $0c $3a
 
 _ret_3736:
-	ret                                              ; _ret_3736: $c9
+	ret
 
 
 Call_000_3737:
@@ -7857,28 +7816,33 @@ jr_000_3783:
 	cp   $00                                         ; $378b: $fe $00
 	jr   z, jr_000_37c2                              ; $378d: $28 $33
 
+// continue if player y > c0a7
 	ld   hl, wPlayerY                                   ; $378f: $21 $54 $c0
 	ld   a, (hl)                                     ; $3792: $7e
 	ld   hl, $c0a7                                   ; $3793: $21 $a7 $c0
 	cp   (hl)                                        ; $3796: $be
 	jr   c, jr_000_37c2                              ; $3797: $38 $29
 
+// continue if player y < c0a8
 	ld   hl, $c0a8                                   ; $3799: $21 $a8 $c0
 	cp   (hl)                                        ; $379c: $be
 	jr   nc, jr_000_37c2                             ; $379d: $30 $23
 
+// continue if player x > c0a9
 	ld   hl, wPlayerX                                   ; $379f: $21 $52 $c0
 	ld   a, (hl)                                     ; $37a2: $7e
 	ld   hl, $c0a9                                   ; $37a3: $21 $a9 $c0
 	cp   (hl)                                        ; $37a6: $be
 	jr   c, jr_000_37c2                              ; $37a7: $38 $19
 
+// continue if player x < c0aa
 	ld   hl, wPlayerX                                   ; $37a9: $21 $52 $c0
 	ld   a, (hl)                                     ; $37ac: $7e
 	ld   hl, $c0aa                                   ; $37ad: $21 $aa $c0
 	cp   (hl)                                        ; $37b0: $be
 	jr   nc, jr_000_37c2                             ; $37b1: $30 $0f
 
+// player in between above 4 variables
 	ld   a, $84                                      ; $37b3: $3e $84
 	ld   hl, $c023                                   ; $37b5: $21 $23 $c0
 	ld   (hl), a                                     ; $37b8: $77
@@ -8068,7 +8032,7 @@ func_3891:
 	ld   hl, $c006                                   ; $38be: $21 $06 $c0
 	ld   a, (hl)                                     ; $38c1: $7e
 	cp   $09                                         ; $38c2: $fe $09
-	jr   c, jr_000_38df                              ; $38c4: $38 $19
+	jr   c, Jump_000_38df                              ; $38c4: $38 $19
 
 	inc  bc                                          ; $38c6: $03
 	jp   Jump_000_38df                               ; $38c7: $c3 $df $38
@@ -8078,7 +8042,7 @@ jr_000_38ca:
 	ld   hl, $c006                                   ; $38ca: $21 $06 $c0
 	ld   a, (hl)                                     ; $38cd: $7e
 	cp   $08                                         ; $38ce: $fe $08
-	jr   c, jr_000_38df                              ; $38d0: $38 $0d
+	jr   c, Jump_000_38df                              ; $38d0: $38 $0d
 
 	inc  bc                                          ; $38d2: $03
 	jp   Jump_000_38df                               ; $38d3: $c3 $df $38
@@ -8088,12 +8052,11 @@ jr_000_38d6:
 	ld   hl, $c007                                   ; $38d6: $21 $07 $c0
 	ld   a, (hl)                                     ; $38d9: $7e
 	cp   $08                                         ; $38da: $fe $08
-	jr   c, jr_000_38df                              ; $38dc: $38 $01
+	jr   c, Jump_000_38df                              ; $38dc: $38 $01
 
 	inc  de                                          ; $38de: $13
 
 Jump_000_38df:
-jr_000_38df:
 	ld   a, $80                                      ; $38df: $3e $80
 	ld   hl, $c04b                                   ; $38e1: $21 $4b $c0
 	ld   (hl), a                                     ; $38e4: $77
@@ -8149,7 +8112,7 @@ Jump_000_3920:
 	ld   (hl), a                                     ; $3924: $77
 
 Jump_000_3925:
-	jp   Jump_000_37ce                               ; Jump_000_3925: $c3 $ce $37
+	jp   Jump_000_37ce
 
 
 func_3928:
@@ -8259,7 +8222,7 @@ jr_000_3991:
 
 
 Call_000_39b9:
-	ld   a, $00                                      ; Call_000_39b9: $3e $00
+	ld   a, $00
 	ld   hl, $c0b7                                   ; $39bb: $21 $b7 $c0
 	ld   (hl), a                                     ; $39be: $77
 
@@ -8640,6 +8603,8 @@ Call_000_3b7d:
 	sub  $0c                                         ; $3bb6: $d6 $0c
 	ld   hl, $c0cc                                   ; $3bb8: $21 $cc $c0
 	ld   (hl), a                                     ; $3bbb: $77
+
+//
 	ld   hl, $c0c9                                   ; $3bbc: $21 $c9 $c0
 	ld   a, (hl)                                     ; $3bbf: $7e
 	ld   hl, wPlayerY                                   ; $3bc0: $21 $54 $c0
@@ -9016,7 +8981,7 @@ Call_000_3df7:
 	ld   hl, $c66f                                   ; $3df7: $21 $6f $c6
 	add  hl, bc                                      ; $3dfa: $09
 	dec  (hl)                                        ; $3dfb: $35
-	jr   nz, jr_000_3e32                             ; $3dfc: $20 $34
+	jr   nz, @done                             ; $3dfc: $20 $34
 
 	ld   hl, $c66c                                   ; $3dfe: $21 $6c $c6
 	add  hl, bc                                      ; $3e01: $09
@@ -9031,7 +8996,7 @@ Call_000_3df7:
 	add  hl, de                                      ; $3e10: $19
 	ld   a, (hl)                                     ; $3e11: $7e
 	cp   $00                                         ; $3e12: $fe $00
-	jr   nz, jr_000_3e23                             ; $3e14: $20 $0d
+	jr   nz, @func_3e23                             ; $3e14: $20 $0d
 
 	ld   a, $00                                      ; $3e16: $3e $00
 	ld   hl, $c660                                   ; $3e18: $21 $60 $c6
@@ -9042,8 +9007,7 @@ Call_000_3df7:
 	ld   (hl), a                                     ; $3e21: $77
 	ret                                              ; $3e22: $c9
 
-
-jr_000_3e23:
+@func_3e23:
 	ld   hl, $c66f                                   ; $3e23: $21 $6f $c6
 	add  hl, bc                                      ; $3e26: $09
 	ld   (hl), a                                     ; $3e27: $77
@@ -9054,7 +9018,7 @@ jr_000_3e23:
 	add  hl, bc                                      ; $3e30: $09
 	ld   (hl), a                                     ; $3e31: $77
 
-jr_000_3e32:
+@done:
 	ret                                              ; $3e32: $c9
 
 
@@ -9069,7 +9033,6 @@ jr_000_3e36:
 	jr   nz, jr_000_3e4c                             ; $3e3d: $20 $0d
 
 Jump_000_3e3f:
-jr_000_3e3f:
 	inc  bc                                          ; $3e3f: $03
 	ld   a, c                                        ; $3e40: $79
 	cp   $03                                         ; $3e41: $fe $03
@@ -9113,7 +9076,7 @@ jr_000_3e64:
 	ld   hl, $c66f                                   ; $3e72: $21 $6f $c6
 	add  hl, bc                                      ; $3e75: $09
 	dec  (hl)                                        ; $3e76: $35
-	jr   nz, jr_000_3e3f                             ; $3e77: $20 $c6
+	jr   nz, Jump_000_3e3f                             ; $3e77: $20 $c6
 
 	jp   Jump_000_3eb2                               ; $3e79: $c3 $b2 $3e
 
@@ -9129,7 +9092,7 @@ jr_000_3e7c:
 	ld   hl, $c66f                                   ; $3e8a: $21 $6f $c6
 	add  hl, bc                                      ; $3e8d: $09
 	dec  (hl)                                        ; $3e8e: $35
-	jr   nz, jr_000_3e3f                             ; $3e8f: $20 $ae
+	jr   nz, Jump_000_3e3f                             ; $3e8f: $20 $ae
 
 	jp   Jump_000_3eb2                               ; $3e91: $c3 $b2 $3e
 
@@ -9139,7 +9102,7 @@ jr_000_3e94:
 	add  hl, bc                                      ; $3e97: $09
 	ld   a, (hl)                                     ; $3e98: $7e
 	cp   $a0                                         ; $3e99: $fe $a0
-	jr   nc, jr_000_3eb2                             ; $3e9b: $30 $15
+	jr   nc, Jump_000_3eb2                             ; $3e9b: $30 $15
 
 	ld   hl, $c669                                   ; $3e9d: $21 $69 $c6
 	add  hl, bc                                      ; $3ea0: $09
@@ -9154,7 +9117,6 @@ jr_000_3e94:
 	jr   nz, jr_000_3f1d                             ; $3eb0: $20 $6b
 
 Jump_000_3eb2:
-jr_000_3eb2:
 	ld   a, c                                        ; $3eb2: $79
 	push af                                          ; $3eb3: $f5
 	ld   hl, $c66c                                   ; $3eb4: $21 $6c $c6
@@ -9202,16 +9164,16 @@ jr_000_3eb2:
 
 	pop  af                                          ; $3f00: $f1
 	cp   $06                                         ; $3f01: $fe $06
-	jr   nz, jr_000_3f19                             ; $3f03: $20 $14
+	jr   nz, Jump_000_3f19                             ; $3f03: $20 $14
 
 	inc  de                                          ; $3f05: $13
 	call Call_000_3fed                               ; $3f06: $cd $ed $3f
 	cp   $18                                         ; $3f09: $fe $18
-	jr   nz, jr_000_3f19                             ; $3f0b: $20 $0c
+	jr   nz, Jump_000_3f19                             ; $3f0b: $20 $0c
 
 	ld   a, $0d                                      ; $3f0d: $3e $0d
 	call Call_000_3a0c                               ; $3f0f: $cd $0c $3a
-	call Call_000_2858                               ; $3f12: $cd $58 $28
+	call safeCallCommonSoundFuncs_with27h                               ; $3f12: $cd $58 $28
 	jp   Jump_000_3f19                               ; $3f15: $c3 $19 $3f
 
 
@@ -9219,7 +9181,6 @@ jr_000_3f18:
 	pop  af                                          ; $3f18: $f1
 
 Jump_000_3f19:
-jr_000_3f19:
 	pop  af                                          ; $3f19: $f1
 	ld   c, a                                        ; $3f1a: $4f
 	ld   b, $00                                      ; $3f1b: $06 $00
@@ -9233,7 +9194,7 @@ Jump_000_3f20:
 	add  hl, bc                                      ; $3f23: $09
 	ld   a, (hl)                                     ; $3f24: $7e
 	cp   $00                                         ; $3f25: $fe $00
-	jr   z, jr_000_3eb2                              ; $3f27: $28 $89
+	jr   z, Jump_000_3eb2                              ; $3f27: $28 $89
 
 	ld   hl, $c669                                   ; $3f29: $21 $69 $c6
 	add  hl, bc                                      ; $3f2c: $09
@@ -9299,7 +9260,7 @@ Jump_000_3f56:
 Jump_000_3f80:
 	ld   hl, $c00d                                   ; $3f80: $21 $0d $c0
 	cp   (hl)                                        ; $3f83: $be
-	jr   nz, jr_000_3fe2                             ; $3f84: $20 $5c
+	jr   nz, Jump_000_3fe2                             ; $3f84: $20 $5c
 
 	jp   Jump_000_3fb7                               ; $3f86: $c3 $b7 $3f
 
@@ -9308,14 +9269,14 @@ jr_000_3f89:
 	sub  $01                                         ; $3f89: $d6 $01
 	ld   hl, $c00c                                   ; $3f8b: $21 $0c $c0
 	cp   (hl)                                        ; $3f8e: $be
-	jr   nz, jr_000_3fe2                             ; $3f8f: $20 $51
+	jr   nz, Jump_000_3fe2                             ; $3f8f: $20 $51
 
 	ld   hl, $c675                                   ; $3f91: $21 $75 $c6
 	add  hl, bc                                      ; $3f94: $09
 	ld   a, (hl)                                     ; $3f95: $7e
 	ld   hl, $c00d                                   ; $3f96: $21 $0d $c0
 	cp   (hl)                                        ; $3f99: $be
-	jr   z, jr_000_3fb7                              ; $3f9a: $28 $1b
+	jr   z, Jump_000_3fb7                              ; $3f9a: $28 $1b
 
 	add  $01                                         ; $3f9c: $c6 $01
 	jp   Jump_000_3f80                               ; $3f9e: $c3 $80 $3f
@@ -9336,10 +9297,9 @@ jr_000_3fa1:
 Jump_000_3fb1:
 	ld   hl, $c00d                                   ; $3fb1: $21 $0d $c0
 	cp   (hl)                                        ; $3fb4: $be
-	jr   nz, jr_000_3fe2                             ; $3fb5: $20 $2b
+	jr   nz, Jump_000_3fe2                             ; $3fb5: $20 $2b
 
 Jump_000_3fb7:
-jr_000_3fb7:
 	pop  bc                                          ; $3fb7: $c1
 	ld   a, $26                                      ; $3fb8: $3e $26
 	scf                                              ; $3fba: $37
@@ -9350,7 +9310,7 @@ jr_000_3fbc:
 	add  $01                                         ; $3fbc: $c6 $01
 	ld   hl, $c00c                                   ; $3fbe: $21 $0c $c0
 	cp   (hl)                                        ; $3fc1: $be
-	jr   nz, jr_000_3fe2                             ; $3fc2: $20 $1e
+	jr   nz, Jump_000_3fe2                             ; $3fc2: $20 $1e
 
 Jump_000_3fc4:
 	ld   hl, $c675                                   ; $3fc4: $21 $75 $c6
@@ -9358,7 +9318,7 @@ Jump_000_3fc4:
 	ld   a, (hl)                                     ; $3fc8: $7e
 	ld   hl, $c00d                                   ; $3fc9: $21 $0d $c0
 	cp   (hl)                                        ; $3fcc: $be
-	jr   z, jr_000_3fb7                              ; $3fcd: $28 $e8
+	jr   z, Jump_000_3fb7                              ; $3fcd: $28 $e8
 
 	add  $01                                         ; $3fcf: $c6 $01
 	jp   Jump_000_3fb1                               ; $3fd1: $c3 $b1 $3f
@@ -9370,13 +9330,12 @@ jr_000_3fd4:
 	ld   a, (hl)                                     ; $3fd8: $7e
 	ld   hl, $c00c                                   ; $3fd9: $21 $0c $c0
 	cp   (hl)                                        ; $3fdc: $be
-	jr   nz, jr_000_3fe2                             ; $3fdd: $20 $03
+	jr   nz, Jump_000_3fe2                             ; $3fdd: $20 $03
 
 	jp   Jump_000_3fc4                               ; $3fdf: $c3 $c4 $3f
 
 
 Jump_000_3fe2:
-jr_000_3fe2:
 	inc  bc                                          ; $3fe2: $03
 	ld   a, c                                        ; $3fe3: $79
 	cp   $03                                         ; $3fe4: $fe $03
@@ -10228,17 +10187,17 @@ jr_001_44dd:
 	ld   hl, $c06e                                   ; $44dd: $21 $6e $c0
 	ld   a, (hl)                                     ; $44e0: $7e
 	cp   $01                                         ; $44e1: $fe $01
-	jr   nz, jr_001_450e                             ; $44e3: $20 $29
+	jr   nz, Jump_001_450e                             ; $44e3: $20 $29
 
 	ld   hl, $c65e                                   ; $44e5: $21 $5e $c6
 	ld   a, (hl)                                     ; $44e8: $7e
 	and  $02                                         ; $44e9: $e6 $02
-	jr   nz, jr_001_450e                             ; $44eb: $20 $21
+	jr   nz, Jump_001_450e                             ; $44eb: $20 $21
 
 	ld   hl, $c050                                   ; $44ed: $21 $50 $c0
 	ld   a, (hl)                                     ; $44f0: $7e
 	call aDivEqu16                                       ; $44f1: $cd $fa $07
-	jr   z, jr_001_450e                              ; $44f4: $28 $18
+	jr   z, Jump_001_450e                              ; $44f4: $28 $18
 
 	ld   hl, $c050                                   ; $44f6: $21 $50 $c0
 	and  (hl)                                        ; $44f9: $a6
@@ -10264,27 +10223,25 @@ data_44fe:
 	add  hl, bc                                      ; $450d: $09
 
 Jump_001_450e:
-jr_001_450e:
 	call Call_001_4562                               ; $450e: $cd $62 $45
-	jr   c, jr_001_454e                              ; $4511: $38 $3b
+	jr   c, @func_454e                              ; $4511: $38 $3b
 
 	ld   hl, $cba8                                   ; $4513: $21 $a8 $cb
 	add  hl, bc                                      ; $4516: $09
 	dec  (hl)                                        ; $4517: $35
-	jr   z, jr_001_4561                              ; $4518: $28 $47
+	jr   z, @done                              ; $4518: $28 $47
 
 	ld   hl, $c06e                                   ; $451a: $21 $6e $c0
 	dec  (hl)                                        ; $451d: $35
-	jr   nz, jr_001_4521                             ; $451e: $20 $01
+	jr   nz, @func_4521                             ; $451e: $20 $01
 
 	ret                                              ; $4520: $c9
 
-
-jr_001_4521:
+@func_4521:
 	ld   hl, $c050                                   ; $4521: $21 $50 $c0
 	ld   a, (hl)                                     ; $4524: $7e
 	call aDivEqu16                                       ; $4525: $cd $fa $07
-	jr   z, jr_001_450e                              ; $4528: $28 $e4
+	jr   z, Jump_001_450e                              ; $4528: $28 $e4
 
 	ld   hl, $c050                                   ; $452a: $21 $50 $c0
 	ld   e, (hl)                                     ; $452d: $5e
@@ -10297,21 +10254,20 @@ jr_001_4521:
 	pop  af                                          ; $4539: $f1
 	ld   hl, $c050                                   ; $453a: $21 $50 $c0
 	ld   (hl), a                                     ; $453d: $77
-	jr   c, jr_001_454e                              ; $453e: $38 $0e
+	jr   c, @func_454e                              ; $453e: $38 $0e
 
 	ld   hl, $cba8                                   ; $4540: $21 $a8 $cb
 	add  hl, bc                                      ; $4543: $09
 	dec  (hl)                                        ; $4544: $35
-	jr   z, jr_001_4561                              ; $4545: $28 $1a
+	jr   z, @done                              ; $4545: $28 $1a
 
 	ld   hl, $c06e                                   ; $4547: $21 $6e $c0
 	dec  (hl)                                        ; $454a: $35
-	jr   nz, jr_001_450e                             ; $454b: $20 $c1
+	jr   nz, Jump_001_450e                             ; $454b: $20 $c1
 
 	ret                                              ; $454d: $c9
 
-
-jr_001_454e:
+@func_454e:
 	ld   a, $00                                      ; $454e: $3e $00
 	ld   hl, $cba8                                   ; $4550: $21 $a8 $cb
 	add  hl, bc                                      ; $4553: $09
@@ -10324,7 +10280,7 @@ jr_001_454e:
 	add  hl, bc                                      ; $455f: $09
 	ld   (hl), a                                     ; $4560: $77
 
-jr_001_4561:
+@done:
 	ret                                              ; $4561: $c9
 
 
@@ -10421,43 +10377,39 @@ Call_001_45d3:
 	ld   a, (hl)                                     ; $45e2: $7e
 	ld   hl, $c04a                                   ; $45e3: $21 $4a $c0
 	cp   (hl)                                        ; $45e6: $be
-	jr   z, jr_001_45eb                              ; $45e7: $28 $02
+	jr   z, +                              ; $45e7: $28 $02
 
-	jr   nc, jr_001_45f6                             ; $45e9: $30 $0b
+	jr   nc, ++                             ; $45e9: $30 $0b
 
-jr_001_45eb:
++
 	call Call_000_3fed                                       ; $45eb: $cd $ed $3f
 	call Call_001_45cf                               ; $45ee: $cd $cf $45
-	jr   c, jr_001_4614                              ; $45f1: $38 $21
+	jr   c, @retCFset                              ; $45f1: $38 $21
 
-	jp   Jump_001_4611                               ; $45f3: $c3 $11 $46
+	jp   @retCFunset                               ; $45f3: $c3 $11 $46
 
-
-jr_001_45f6:
+++
 	call Call_000_3fed                                       ; $45f6: $cd $ed $3f
 	call Call_001_45cf                               ; $45f9: $cd $cf $45
-	jr   nc, jr_001_4608                             ; $45fc: $30 $0a
+	jr   nc, +                             ; $45fc: $30 $0a
 
 	inc  de                                          ; $45fe: $13
 	call Call_000_3fed                                       ; $45ff: $cd $ed $3f
 	call Call_001_45cf                               ; $4602: $cd $cf $45
-	jp   Jump_001_4614                               ; $4605: $c3 $14 $46
+	jp   @retCFset                               ; $4605: $c3 $14 $46
 
-
-jr_001_4608:
++
 	inc  de                                          ; $4608: $13
 	call Call_000_3fed                                       ; $4609: $cd $ed $3f
 	call Call_001_45cf                               ; $460c: $cd $cf $45
-	jr   c, jr_001_4614                              ; $460f: $38 $03
+	jr   c, @retCFset                              ; $460f: $38 $03
 
-Jump_001_4611:
+@retCFunset:
 	scf                                              ; $4611: $37
 	ccf                                              ; $4612: $3f
 	ret                                              ; $4613: $c9
 
-
-Jump_001_4614:
-jr_001_4614:
+@retCFset:
 	scf                                              ; $4614: $37
 	ret                                              ; $4615: $c9
 
@@ -10472,40 +10424,36 @@ Call_001_4616:
 	ld   hl, $c006                                   ; $4622: $21 $06 $c0
 	ld   a, (hl)                                     ; $4625: $7e
 	cp   $01                                         ; $4626: $fe $01
-	jr   nc, jr_001_4635                             ; $4628: $30 $0b
+	jr   nc, +                             ; $4628: $30 $0b
 
 	call Call_000_3fed                                       ; $462a: $cd $ed $3f
 	call Call_001_45cf                               ; $462d: $cd $cf $45
-	jr   c, jr_001_4653                              ; $4630: $38 $21
+	jr   c, @retCFset                              ; $4630: $38 $21
 
-	jp   Jump_001_4650                               ; $4632: $c3 $50 $46
+	jp   @retCFunset                               ; $4632: $c3 $50 $46
 
-
-jr_001_4635:
++
 	call Call_000_3fed                                       ; $4635: $cd $ed $3f
 	call Call_001_45cf                               ; $4638: $cd $cf $45
-	jr   nc, jr_001_4647                             ; $463b: $30 $0a
+	jr   nc, +                             ; $463b: $30 $0a
 
 	inc  bc                                          ; $463d: $03
 	call Call_000_3fed                                       ; $463e: $cd $ed $3f
 	call Call_001_45cf                               ; $4641: $cd $cf $45
-	jp   Jump_001_4653                               ; $4644: $c3 $53 $46
+	jp   @retCFset                               ; $4644: $c3 $53 $46
 
-
-jr_001_4647:
++
 	inc  bc                                          ; $4647: $03
 	call Call_000_3fed                                       ; $4648: $cd $ed $3f
 	call Call_001_45cf                               ; $464b: $cd $cf $45
-	jr   c, jr_001_4653                              ; $464e: $38 $03
+	jr   c, @retCFset                              ; $464e: $38 $03
 
-Jump_001_4650:
+@retCFunset:
 	scf                                              ; $4650: $37
 	ccf                                              ; $4651: $3f
 	ret                                              ; $4652: $c9
 
-
-Jump_001_4653:
-jr_001_4653:
+@retCFset:
 	scf                                              ; $4653: $37
 	ret                                              ; $4654: $c9
 
@@ -11081,7 +11029,6 @@ jr_001_4953:
 	jr   c, jr_001_49da                              ; $497f: $38 $59
 
 Jump_001_4981:
-jr_001_4981:
 	ld   a, $06                                      ; $4981: $3e $06
 	ld   hl, $c00d                                   ; $4983: $21 $0d $c0
 	ld   (hl), a                                     ; $4986: $77
@@ -11099,7 +11046,7 @@ jr_001_4990:
 	call Call_001_4023                               ; $4994: $cd $23 $40
 	dec  de                                          ; $4997: $1b
 	cp   $00                                         ; $4998: $fe $00
-	jr   nz, jr_001_4981                             ; $499a: $20 $e5
+	jr   nz, Jump_001_4981                             ; $499a: $20 $e5
 
 	pop  af                                          ; $499c: $f1
 	jp   Jump_001_4935                               ; $499d: $c3 $35 $49
@@ -11361,12 +11308,12 @@ jr_001_4acd:
 	ld   hl, $c044                                   ; $4aff: $21 $44 $c0
 	ld   a, (hl)                                     ; $4b02: $7e
 	cp   $00                                         ; $4b03: $fe $00
-	jr   z, jr_001_4b26                              ; $4b05: $28 $1f
+	jr   z, Jump_001_4b26                              ; $4b05: $28 $1f
 
 	ld   hl, $c027                                   ; $4b07: $21 $27 $c0
 	ld   a, (hl)                                     ; $4b0a: $7e
 	cp   $00                                         ; $4b0b: $fe $00
-	jr   nz, jr_001_4b26                             ; $4b0d: $20 $17
+	jr   nz, Jump_001_4b26                             ; $4b0d: $20 $17
 
 	ld   hl, $c024                                   ; $4b0f: $21 $24 $c0
 	ld   a, (hl)                                     ; $4b12: $7e
@@ -11385,7 +11332,6 @@ jr_001_4b22:
 	scf                                              ; $4b25: $37
 
 Jump_001_4b26:
-jr_001_4b26:
 	pop  bc                                          ; $4b26: $c1
 	pop  de                                          ; $4b27: $d1
 	ld   a, $ff                                      ; $4b28: $3e $ff
@@ -11460,25 +11406,25 @@ jr_001_4b81:
 	add  hl, bc                                      ; $4b84: $09
 	ld   a, (hl)                                     ; $4b85: $7e
 	cp   $00                                         ; $4b86: $fe $00
-	jr   z, jr_001_4bb1                              ; $4b88: $28 $27
+	jr   z, Jump_001_4bb1                              ; $4b88: $28 $27
 
 	ld   hl, $c669                                   ; $4b8a: $21 $69 $c6
 	add  hl, bc                                      ; $4b8d: $09
 	ld   a, (hl)                                     ; $4b8e: $7e
 	ld   hl, $c0a7                                   ; $4b8f: $21 $a7 $c0
 	cp   (hl)                                        ; $4b92: $be
-	jr   c, jr_001_4bb1                              ; $4b93: $38 $1c
+	jr   c, Jump_001_4bb1                              ; $4b93: $38 $1c
 
 	ld   hl, $c0a8                                   ; $4b95: $21 $a8 $c0
 	cp   (hl)                                        ; $4b98: $be
-	jr   nc, jr_001_4bb1                             ; $4b99: $30 $16
+	jr   nc, Jump_001_4bb1                             ; $4b99: $30 $16
 
 	ld   hl, $c663                                   ; $4b9b: $21 $63 $c6
 	add  hl, bc                                      ; $4b9e: $09
 	ld   a, (hl)                                     ; $4b9f: $7e
 	ld   hl, $c0a9                                   ; $4ba0: $21 $a9 $c0
 	cp   (hl)                                        ; $4ba3: $be
-	jr   c, jr_001_4bb1                              ; $4ba4: $38 $0b
+	jr   c, Jump_001_4bb1                              ; $4ba4: $38 $0b
 
 	ld   hl, $c663                                   ; $4ba6: $21 $63 $c6
 	add  hl, bc                                      ; $4ba9: $09
@@ -11488,7 +11434,6 @@ jr_001_4b81:
 	jr   c, jr_001_4bba                              ; $4baf: $38 $09
 
 Jump_001_4bb1:
-jr_001_4bb1:
 	inc  bc                                          ; $4bb1: $03
 	ld   a, c                                        ; $4bb2: $79
 	cp   $03                                         ; $4bb3: $fe $03
@@ -11523,7 +11468,7 @@ jr_001_4bd1:
 	ld   a, (hl)                                     ; $4bd5: $7e
 	ld   hl, $c0ad                                   ; $4bd6: $21 $ad $c0
 	cp   (hl)                                        ; $4bd9: $be
-	jr   c, jr_001_4bb1                              ; $4bda: $38 $d5
+	jr   c, Jump_001_4bb1                              ; $4bda: $38 $d5
 
 	ld   hl, $c663                                   ; $4bdc: $21 $63 $c6
 	add  hl, bc                                      ; $4bdf: $09
@@ -11645,7 +11590,7 @@ jr_001_4c79:
 	ld   c, (hl)                                     ; $4c7c: $4e
 	ld   b, $00                                      ; $4c7d: $06 $00
 	dec  bc                                          ; $4c7f: $0b
-	call func_2b40                                       ; $4c80: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4c80: $cd $40 $2b
 	call Call_001_551c                               ; $4c83: $cd $1c $55
 	ld   a, $00                                      ; $4c86: $3e $00
 	ld   hl, $c088                                   ; $4c88: $21 $88 $c0
@@ -11660,26 +11605,26 @@ jr_001_4c79:
 	ld   hl, $c0b2                                   ; $4c9a: $21 $b2 $c0
 	ld   (hl), a                                     ; $4c9d: $77
 	call Call_001_53d8                               ; $4c9e: $cd $d8 $53
-	jr   c, jr_001_4cca                              ; $4ca1: $38 $27
+	jr   c, Jump_001_4cca                              ; $4ca1: $38 $27
 
 	ld   hl, wPlayerX                                   ; $4ca3: $21 $52 $c0
 	ld   c, (hl)                                     ; $4ca6: $4e
 	ld   b, $00                                      ; $4ca7: $06 $00
 	dec  bc                                          ; $4ca9: $0b
-	call func_2b40                                       ; $4caa: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4caa: $cd $40 $2b
 	call Call_001_4b34                               ; $4cad: $cd $34 $4b
 	cp   $20                                         ; $4cb0: $fe $20
 	jr   c, jr_001_4cbb                              ; $4cb2: $38 $07
 
 	cp   $26                                         ; $4cb4: $fe $26
-	jr   nc, jr_001_4cca                             ; $4cb6: $30 $12
+	jr   nc, Jump_001_4cca                             ; $4cb6: $30 $12
 
 	jp   Jump_001_4cca                               ; $4cb8: $c3 $ca $4c
 
 
 jr_001_4cbb:
 	cp   $00                                         ; $4cbb: $fe $00
-	jr   nz, jr_001_4cca                             ; $4cbd: $20 $0b
+	jr   nz, Jump_001_4cca                             ; $4cbd: $20 $0b
 
 	ld   hl, wPlayerX                                   ; $4cbf: $21 $52 $c0
 	dec  (hl)                                        ; $4cc2: $35
@@ -11689,17 +11634,15 @@ jr_001_4cbb:
 
 
 Jump_001_4cca:
-jr_001_4cca:
 	ld   hl, wKeysPressed                                   ; $4cca: $21 $16 $c0
 	ld   a, (hl)                                     ; $4ccd: $7e
 	and  PADF_DOWN|PADF_UP                                         ; $4cce: $e6 $c0
-	jr   z, jr_001_4cd5                              ; $4cd0: $28 $03
+	jr   z, Jump_001_4cd5                              ; $4cd0: $28 $03
 
 	jp   Jump_001_4d69                               ; $4cd2: $c3 $69 $4d
 
 
 Jump_001_4cd5:
-jr_001_4cd5:
 	ld   hl, $c055                                   ; $4cd5: $21 $55 $c0
 	ld   a, (hl)                                     ; $4cd8: $7e
 	or   $20                                         ; $4cd9: $f6 $20
@@ -11732,7 +11675,7 @@ checkTransitioningToRightScreen:
 	add  $10                                         ; $4d00: $c6 $10
 	ld   c, a                                        ; $4d02: $4f
 	ld   b, $00                                      ; $4d03: $06 $00
-	call func_2b40                                       ; $4d05: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4d05: $cd $40 $2b
 	call Call_001_551c                               ; $4d08: $cd $1c $55
 	ld   a, $00                                      ; $4d0b: $3e $00
 	ld   hl, $c087                                   ; $4d0d: $21 $87 $c0
@@ -11754,7 +11697,7 @@ checkTransitioningToRightScreen:
 	add  $01                                         ; $4d2c: $c6 $01
 	ld   c, a                                        ; $4d2e: $4f
 	ld   b, $00                                      ; $4d2f: $06 $00
-	call func_2b40                                       ; $4d31: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4d31: $cd $40 $2b
 	call Call_001_4b34                               ; $4d34: $cd $34 $4b
 	cp   $20                                         ; $4d37: $fe $20
 	jr   c, jr_001_4d42                              ; $4d39: $38 $07
@@ -11841,7 +11784,7 @@ checkTransitioningToAboveScreen:
 	jp   _screenTransition                               ; $4da4: $c3 $87 $4e
 
 @notTransitioningUp:
-	call func_2b40                                       ; $4da7: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4da7: $cd $40 $2b
 	dec  de                                          ; $4daa: $1b
 	ld   hl, wPlayerX                                   ; $4dab: $21 $52 $c0
 	ld   c, (hl)                                     ; $4dae: $4e
@@ -11862,7 +11805,7 @@ checkTransitioningToAboveScreen:
 	call Call_001_549f                               ; $4dcc: $cd $9f $54
 	jr   c, jr_001_4df1                              ; $4dcf: $38 $20
 
-	call func_2b40                                       ; $4dd1: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4dd1: $cd $40 $2b
 	dec  de                                          ; $4dd4: $1b
 	ld   hl, wPlayerX                                   ; $4dd5: $21 $52 $c0
 	ld   c, (hl)                                     ; $4dd8: $4e
@@ -12094,7 +12037,7 @@ func_4f13:
 	ld   c, (hl)                                     ; $4f1e: $4e
 	ld   b, $00                                      ; $4f1f: $06 $00
 	dec  bc                                          ; $4f21: $0b
-	call func_2b40                                       ; $4f22: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4f22: $cd $40 $2b
 	call Call_001_551c                               ; $4f25: $cd $1c $55
 	call Call_001_53d8                               ; $4f28: $cd $d8 $53
 	jr   c, jr_001_4f77                              ; $4f2b: $38 $4a
@@ -12103,7 +12046,7 @@ func_4f13:
 	ld   c, (hl)                                     ; $4f30: $4e
 	ld   b, $00                                      ; $4f31: $06 $00
 	dec  bc                                          ; $4f33: $0b
-	call func_2b40                                       ; $4f34: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4f34: $cd $40 $2b
 	call Call_001_4b34                               ; $4f37: $cd $34 $4b
 	cp   $00                                         ; $4f3a: $fe $00
 	jr   nz, jr_001_4f77                             ; $4f3c: $20 $39
@@ -12124,7 +12067,7 @@ func_4f43:
 	add  $10                                         ; $4f4f: $c6 $10
 	ld   c, a                                        ; $4f51: $4f
 	ld   b, $00                                      ; $4f52: $06 $00
-	call func_2b40                                       ; $4f54: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4f54: $cd $40 $2b
 	call Call_001_551c                               ; $4f57: $cd $1c $55
 	call Call_001_53d8                               ; $4f5a: $cd $d8 $53
 	jr   c, jr_001_4f77                              ; $4f5d: $38 $18
@@ -12134,7 +12077,7 @@ func_4f43:
 	add  $01                                         ; $4f63: $c6 $01
 	ld   c, a                                        ; $4f65: $4f
 	ld   b, $00                                      ; $4f66: $06 $00
-	call func_2b40                                       ; $4f68: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4f68: $cd $40 $2b
 	call Call_001_4b34                               ; $4f6b: $cd $34 $4b
 	cp   $00                                         ; $4f6e: $fe $00
 	jr   nz, jr_001_4f77                             ; $4f70: $20 $05
@@ -12162,7 +12105,7 @@ func_4f87:
 	cp   $00                                         ; $4f8b: $fe $00
 	jr   z, jr_001_4f77                              ; $4f8d: $28 $e8
 
-	call func_2b40                                       ; $4f8f: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4f8f: $cd $40 $2b
 	dec  de                                          ; $4f92: $1b
 	ld   hl, wPlayerX                                   ; $4f93: $21 $52 $c0
 	ld   c, (hl)                                     ; $4f96: $4e
@@ -12171,7 +12114,7 @@ func_4f87:
 	call Call_001_549f                               ; $4f9c: $cd $9f $54
 	jr   c, jr_001_4f77                              ; $4f9f: $38 $d6
 
-	call func_2b40                                       ; $4fa1: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4fa1: $cd $40 $2b
 	dec  de                                          ; $4fa4: $1b
 	ld   hl, wPlayerX                                   ; $4fa5: $21 $52 $c0
 	ld   c, (hl)                                     ; $4fa8: $4e
@@ -12201,7 +12144,7 @@ func_4fb7:
 	call Call_001_549f                               ; $4fcd: $cd $9f $54
 	jr   c, jr_001_4f77                              ; $4fd0: $38 $a5
 
-	call func_2b40                                       ; $4fd2: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4fd2: $cd $40 $2b
 	inc  de                                          ; $4fd5: $13
 	ld   hl, wPlayerX                                   ; $4fd6: $21 $52 $c0
 	ld   c, (hl)                                     ; $4fd9: $4e
@@ -12229,7 +12172,7 @@ jr_001_4ff3:
 	ld   c, (hl)                                     ; $4ff6: $4e
 	ld   b, $00                                      ; $4ff7: $06 $00
 	dec  bc                                          ; $4ff9: $0b
-	call func_2b40                                       ; $4ffa: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $4ffa: $cd $40 $2b
 	call Call_001_551c                               ; $4ffd: $cd $1c $55
 	ld   a, $09                                      ; $5000: $3e $09
 	ld   hl, $c082                                   ; $5002: $21 $82 $c0
@@ -12243,7 +12186,7 @@ jr_001_4ff3:
 	ld   c, (hl)                                     ; $5012: $4e
 	ld   b, $00                                      ; $5013: $06 $00
 	dec  bc                                          ; $5015: $0b
-	call func_2b40                                       ; $5016: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $5016: $cd $40 $2b
 	call Call_001_4b34                               ; $5019: $cd $34 $4b
 	cp   $20                                         ; $501c: $fe $20
 	jr   c, jr_001_5027                              ; $501e: $38 $07
@@ -12286,7 +12229,7 @@ jr_001_503f:
 	add  $10                                         ; $5043: $c6 $10
 	ld   c, a                                        ; $5045: $4f
 	ld   b, $00                                      ; $5046: $06 $00
-	call func_2b40                                       ; $5048: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $5048: $cd $40 $2b
 	call Call_001_551c                               ; $504b: $cd $1c $55
 	ld   a, $00                                      ; $504e: $3e $00
 	ld   hl, $c082                                   ; $5050: $21 $82 $c0
@@ -12301,7 +12244,7 @@ jr_001_503f:
 	add  $01                                         ; $5061: $c6 $01
 	ld   c, a                                        ; $5063: $4f
 	ld   b, $00                                      ; $5064: $06 $00
-	call func_2b40                                       ; $5066: $cd $40 $2b
+	call deEquPlayerYplus_c04a                                       ; $5066: $cd $40 $2b
 	call Call_001_4b34                               ; $5069: $cd $34 $4b
 	cp   $20                                         ; $506c: $fe $20
 	jr   c, jr_001_5077                              ; $506e: $38 $07
@@ -12426,7 +12369,7 @@ Call_001_50bf:
 	sla  a                                           ; $50f8: $cb $27
 	ld   c, a                                        ; $50fa: $4f
 	ld   b, $00                                      ; $50fb: $06 $00
-	ld   hl, table_0b23                                   ; $50fd: $21 $23 $0b
+	ld   hl, collisionsTable                                   ; $50fd: $21 $23 $0b
 	add  hl, bc                                      ; $5100: $09
 	ldi  a, (hl)                                     ; $5101: $2a
 	ld   h, (hl)                                     ; $5102: $66
@@ -12444,13 +12387,13 @@ _ret_5108:
 	ret
 
 
-_table_0b23_01:
-_table_0b23_02:
-_table_0b23_10:
-_table_0b23_11:
-_table_0b23_12:
-_table_0b23_13:
-_table_0b23_17:
+_collisionsTable_01:
+_collisionsTable_02:
+_collisionsTable_10:
+_collisionsTable_11:
+_collisionsTable_12:
+_collisionsTable_13:
+_collisionsTable_17:
 	ld   hl, $c05d                                   ; $5109: $21 $5d $c0
 	ld   a, (hl)                                     ; $510c: $7e
 	cp   $00                                         ; $510d: $fe $00
@@ -12583,14 +12526,14 @@ give5birds:
 	jp   giveBirds                               ; $51cb: $c3 $b1 $51
 
 
-_table_0b23_07:
+_collisionsTable_07:
 	call func_3928                                       ; $51ce: $cd $28 $39
 	call Call_001_58ea                               ; $51d1: $cd $ea $58
 	call Call_000_284f                                       ; $51d4: $cd $4f $28
 	ret                                              ; $51d7: $c9
 
 
-_table_0b23_08:
+_collisionsTable_08:
 	call func_3928                                       ; $51d8: $cd $28 $39
 	call Call_001_58ea                               ; $51db: $cd $ea $58
 	call Call_000_284f                                       ; $51de: $cd $4f $28
@@ -12613,7 +12556,7 @@ data_51e2:
 	nop                                              ; $51f0: $00
 	nop                                              ; $51f1: $00
 	
-_table_0b23_09:
+_collisionsTable_09:
 	call func_3928                                       ; $51f2: $cd $28 $39
 	call Call_001_58ea                               ; $51f5: $cd $ea $58
 	call Call_001_5236                               ; $51f8: $cd $36 $52
@@ -12644,7 +12587,7 @@ data_520c:
 	nop                                              ; $521a: $00
 	nop                                              ; $521b: $00
 	
-_table_0b23_0a:
+_collisionsTable_0a:
 	call func_3928                                       ; $521c: $cd $28 $39
 	call Call_001_58ea                               ; $521f: $cd $ea $58
 	call Call_001_5236                               ; $5222: $cd $36 $52
@@ -12668,21 +12611,21 @@ Call_001_5236:
 	ret                                              ; $523f: $c9
 
 
-_table_0b23_0b:
+_collisionsTable_0b:
 	call func_3928                                       ; $5240: $cd $28 $39
 	call Call_001_58ea                               ; $5243: $cd $ea $58
 	call Call_000_284f                                       ; $5246: $cd $4f $28
 
-Call_001_5249:
+giveHeartContainer:
 	ld   hl, wPlayerMaxHealth                                   ; $5249: $21 $73 $c0
 	ld   a, (hl)                                     ; $524c: $7e
 	add  $02                                         ; $524d: $c6 $02
 	cp   $18                                         ; $524f: $fe $18
-	jr   c, jr_001_5255                              ; $5251: $38 $02
+	jr   c, +                              ; $5251: $38 $02
 
 	ld   a, $18                                      ; $5253: $3e $18
 
-jr_001_5255:
++
 	ld   hl, wPlayerMaxHealth                                   ; $5255: $21 $73 $c0
 	ld   (hl), a                                     ; $5258: $77
 	ret                                              ; $5259: $c9
@@ -12692,13 +12635,13 @@ _ret_525a:
 	ret                                              ; $525a: $c9
 
 
-_table_0b23_0d:
+_collisionsTable_0d:
 	call func_3928                                       ; $525b: $cd $28 $39
 	call Call_001_58ea                               ; $525e: $cd $ea $58
 	ret                                              ; $5261: $c9
 
 
-_table_0b23_0e:
+_collisionsTable_0e:
 	call func_3928                                       ; $5262: $cd $28 $39
 	call Call_001_58ea                               ; $5265: $cd $ea $58
 	call func_2846                                       ; $5268: $cd $46 $28
@@ -12723,12 +12666,12 @@ incAnointingOilsGotten:
 	ret                                              ; $527f: $c9
 
 
-_table_0b23_0f:
+_collisionsTable_0f:
 	call func_3928                                       ; $5280: $cd $28 $39
 	call Call_001_58ea                               ; $5283: $cd $ea $58
 	call Call_000_284f                                       ; $5286: $cd $4f $28
 
-Call_001_5289:
+giveKey:
 	ld   hl, wNumKeys                                   ; $5289: $21 $fa $c5
 	inc  (hl)                                        ; $528c: $34
 	ld   hl, wNumKeys                                   ; $528d: $21 $fa $c5
@@ -12739,7 +12682,7 @@ Call_001_5289:
 	ret                                              ; $5298: $c9
 
 
-_table_0b23_18:
+_collisionsTable_18:
 	call Call_001_58ea                               ; $5299: $cd $ea $58
 	ld   a, $1d                                      ; $529c: $3e $1d
 	call func_39fb                                       ; $529e: $cd $fb $39
@@ -13373,7 +13316,7 @@ jr_001_55ed:
 	jr   z, jr_001_55fd                              ; $55f5: $28 $06
 
 	ld   de, $168e                                   ; $55f7: $11 $8e $16
-	call Call_000_1513                                       ; $55fa: $cd $13 $15
+	call callCommonSoundFuncs_1513                                       ; $55fa: $cd $13 $15
 
 jr_001_55fd:
 	ld   hl, $c04c                                   ; jr_001_55fd: $21 $4c $c0
@@ -13736,24 +13679,24 @@ Call_001_57f1:
 
 
 clear2spritesInOam_1stIdxedE:
-	ld   e, a                                        ; clear2spritesInOam_1stIdxedE: $5f
-	ld   d, $00                                      ; $5801: $16 $00
-	ld   hl, wOam                                   ; $5803: $21 $00 $c2
-	add  hl, de                                      ; $5806: $19
-	ld   (hl), $00                                   ; $5807: $36 $00
-	ld   hl, $c204                                   ; $5809: $21 $04 $c2
-	add  hl, de                                      ; $580c: $19
-	ld   (hl), $00                                   ; $580d: $36 $00
-	ret                                              ; $580f: $c9
+	ld   e, a
+	ld   d, $00
+	ld   hl, wOam
+	add  hl, de
+	ld   (hl), $00
+	ld   hl, wOam+4
+	add  hl, de
+	ld   (hl), $00
+	ret
 
 
 clearWoamOffsetE:
-	ld   e, a                                        ; clearWoamOffsetE: $5f
-	ld   d, $00                                      ; $5811: $16 $00
-	ld   hl, wOam                                   ; $5813: $21 $00 $c2
-	add  hl, de                                      ; $5816: $19
-	ld   (hl), $00                                   ; $5817: $36 $00
-	ret                                              ; $5819: $c9
+	ld   e, a
+	ld   d, $00
+	ld   hl, wOam
+	add  hl, de
+	ld   (hl), $00
+	ret
 
 
 func_581a:
@@ -13826,7 +13769,7 @@ data_5854:
 
 Call_001_586c:
 // c0a1 is bank
-	ld   hl, wTileLayoutDataBank                                   ; Call_001_586c: $21 $5c $c0
+	ld   hl, wTileLayoutDataBank
 	ld   a, (hl)                                     ; $586f: $7e
 	ld   hl, $c0a1                                   ; $5870: $21 $a1 $c0
 	ld   (hl), a                                     ; $5873: $77
@@ -14089,14 +14032,14 @@ Call_001_59f0:
 	add  $08                                         ; $59f4: $c6 $08
 	ld   hl, $cefe                                   ; $59f6: $21 $fe $ce
 	cp   (hl)                                        ; $59f9: $be
-	jr   nz, jr_001_5a08                             ; $59fa: $20 $0c
+	jr   nz, @done                             ; $59fa: $20 $0c
 
 	call waitUntilStartOfVBlankPeriod                                       ; $59fc: $cd $e8 $01
 	call Call_001_5a3b                               ; $59ff: $cd $3b $5a
 	call Call_001_5a3b                               ; $5a02: $cd $3b $5a
 	call Call_001_5a3b                               ; $5a05: $cd $3b $5a
 
-jr_001_5a08:
+@done:
 	ret                                              ; $5a08: $c9
 
 
@@ -14210,14 +14153,14 @@ Call_001_5a7e:
 	call Call_001_5aae                               ; $5a9a: $cd $ae $5a
 	ld   a, (bc)                                     ; $5a9d: $0a
 	cp   $0a                                         ; $5a9e: $fe $0a
-	jr   c, jr_001_5aad                              ; $5aa0: $38 $0b
+	jr   c, @done                              ; $5aa0: $38 $0b
 
 	ld   hl, wPlayerScore                                   ; $5aa2: $21 $2b $c0
 	ld   a, $09                                      ; $5aa5: $3e $09
 	ld   de, $0007                                   ; $5aa7: $11 $07 $00
 	call setAtoHL_deBytes                                       ; $5aaa: $cd $6d $27
 
-jr_001_5aad:
+@done:
 	ret                                              ; $5aad: $c9
 
 
@@ -14298,7 +14241,7 @@ Call_001_5af8:
 	cp   $00                                         ; $5b05: $fe $00
 	jr   z, +                              ; $5b07: $28 $03
 
-	call Call_001_5b21                               ; $5b09: $cd $21 $5b
+	call @drawDigit                               ; $5b09: $cd $21 $5b
 
 +
 	ld   a, b                                        ; $5b0c: $78
@@ -14309,15 +14252,15 @@ Call_001_5af8:
 	ld   a, c                                        ; $5b15: $79
 	ld   hl, $c0a2                                   ; $5b16: $21 $a2 $c0
 	or   (hl)                                        ; $5b19: $b6
-	jr   z, jr_001_5b20                              ; $5b1a: $28 $04
+	jr   z, +                              ; $5b1a: $28 $04
 
 	ld   a, c                                        ; $5b1c: $79
-	call Call_001_5b21                               ; $5b1d: $cd $21 $5b
+	call @drawDigit                               ; $5b1d: $cd $21 $5b
 
-jr_001_5b20:
++
 	ld   a, b                                        ; $5b20: $78
 
-Call_001_5b21:
+@drawDigit:
 	add  $30                                         ; $5b21: $c6 $30
 	ld   (de), a                                     ; $5b23: $12
 	inc  de                                          ; $5b24: $13
@@ -14438,7 +14381,7 @@ clear_c200_to_c2ff:
 	jp   setAtoHL_deBytes                                       ; $5ba6: $c3 $6d $27
 
 
-;;
+data_5ba9:
 	ld   b, b                                        ; $5ba9: $40
 	sub  e                                           ; $5baa: $93
 	jr   nc, -$2f                                    ; $5bab: $30 $d1
@@ -14553,6 +14496,8 @@ jr_001_5c07:
 jr_001_5c0b:
 	xor  c                                           ; $5c0b: $a9
 	ld   e, e                                        ; $5c0c: $5b
+	
+data_5c0d:
 	ld   b, b                                        ; $5c0d: $40
 	adc  h                                           ; $5c0e: $8c
 
@@ -14654,6 +14599,8 @@ jr_001_5c6b:
 jr_001_5c6f:
 	dec  c                                           ; $5c6f: $0d
 	ld   e, h                                        ; $5c70: $5c
+	
+data_5c74:
 	ld   b, b                                        ; $5c71: $40
 	sub  (hl)                                        ; $5c72: $96
 
@@ -14756,6 +14703,9 @@ jr_001_5cb2:
 
 	ld   (hl), c                                     ; $5cd3: $71
 	ld   e, h                                        ; $5cd4: $5c
+
+
+data_5cd9:
 	add  b                                           ; $5cd5: $80
 	sub  h                                           ; $5cd6: $94
 	jr   nc, jr_001_5caa                             ; $5cd7: $30 $d1
@@ -14920,6 +14870,9 @@ jr_001_5d22:
 	nop                                              ; $5d66: $00
 	push de                                          ; $5d67: $d5
 	ld   e, h                                        ; $5d68: $5c
+	
+	
+data_5d69:
 	ld   b, b                                        ; $5d69: $40
 	sub  e                                           ; $5d6a: $93
 	add  b                                           ; $5d6b: $80
@@ -15066,6 +15019,8 @@ jr_001_5dea:
 	nop                                              ; $5dea: $00
 	ld   l, c                                        ; $5deb: $69
 	ld   e, l                                        ; $5dec: $5d
+	
+data_5ded:
 	nop                                              ; $5ded: $00
 	sub  l                                           ; $5dee: $95
 	jr   nc, jr_001_5dc2                             ; $5def: $30 $d1
@@ -15174,6 +15129,8 @@ jr_001_5e1a:
 	nop                                              ; $5e4e: $00
 	.db  $ed                                         ; $5e4f: $ed
 	ld   e, l                                        ; $5e50: $5d
+	
+data_5e51:
 	ret  nz                                          ; $5e51: $c0
 
 	sub  l                                           ; $5e52: $95
@@ -15502,6 +15459,8 @@ data_5f7d:
 
 	ld   a, l                                        ; $5fdf: $7d
 	ld   e, a                                        ; $5fe0: $5f
+	
+data_5fe1:
 	ldh  a, (<$91)                                   ; $5fe1: $f0 $91
 	sub  b                                           ; $5fe3: $90
 	jp   nc, $91f0                                   ; $5fe4: $d2 $f0 $91
@@ -15754,54 +15713,11 @@ jr_001_60ed:
 	ldi  a, (hl)                                     ; $60ed: $2a
 	ld   h, (hl)                                     ; $60ee: $66
 	ld   l, a                                        ; $60ef: $6f
+.rept 16
 	ldi  a, (hl)                                     ; $60f0: $2a
 	ld   (de), a                                     ; $60f1: $12
 	inc  de                                          ; $60f2: $13
-	ldi  a, (hl)                                     ; $60f3: $2a
-	ld   (de), a                                     ; $60f4: $12
-	inc  de                                          ; $60f5: $13
-	ldi  a, (hl)                                     ; $60f6: $2a
-	ld   (de), a                                     ; $60f7: $12
-	inc  de                                          ; $60f8: $13
-	ldi  a, (hl)                                     ; $60f9: $2a
-	ld   (de), a                                     ; $60fa: $12
-	inc  de                                          ; $60fb: $13
-	ldi  a, (hl)                                     ; $60fc: $2a
-	ld   (de), a                                     ; $60fd: $12
-	inc  de                                          ; $60fe: $13
-	ldi  a, (hl)                                     ; $60ff: $2a
-	ld   (de), a                                     ; $6100: $12
-	inc  de                                          ; $6101: $13
-	ldi  a, (hl)                                     ; $6102: $2a
-	ld   (de), a                                     ; $6103: $12
-	inc  de                                          ; $6104: $13
-	ldi  a, (hl)                                     ; $6105: $2a
-	ld   (de), a                                     ; $6106: $12
-	inc  de                                          ; $6107: $13
-	ldi  a, (hl)                                     ; $6108: $2a
-	ld   (de), a                                     ; $6109: $12
-	inc  de                                          ; $610a: $13
-	ldi  a, (hl)                                     ; $610b: $2a
-	ld   (de), a                                     ; $610c: $12
-	inc  de                                          ; $610d: $13
-	ldi  a, (hl)                                     ; $610e: $2a
-	ld   (de), a                                     ; $610f: $12
-	inc  de                                          ; $6110: $13
-	ldi  a, (hl)                                     ; $6111: $2a
-	ld   (de), a                                     ; $6112: $12
-	inc  de                                          ; $6113: $13
-	ldi  a, (hl)                                     ; $6114: $2a
-	ld   (de), a                                     ; $6115: $12
-	inc  de                                          ; $6116: $13
-	ldi  a, (hl)                                     ; $6117: $2a
-	ld   (de), a                                     ; $6118: $12
-	inc  de                                          ; $6119: $13
-	ldi  a, (hl)                                     ; $611a: $2a
-	ld   (de), a                                     ; $611b: $12
-	inc  de                                          ; $611c: $13
-	ldi  a, (hl)                                     ; $611d: $2a
-	ld   (de), a                                     ; $611e: $12
-	inc  de                                          ; $611f: $13
+.endr
 	ld   hl, $d0fc                                   ; $6120: $21 $fc $d0
 	ld   a, (hl)                                     ; $6123: $7e
 	ld   hl, $d0fd                                   ; $6124: $21 $fd $d0
@@ -15810,74 +15726,40 @@ jr_001_60ed:
 
 
 data_6129:
-	xor  c                                           ; $6129: $a9
-	ld   e, e                                        ; $612a: $5b
-	nop                                              ; $612b: $00
-	nop                                              ; $612c: $00
-	nop                                              ; $612d: $00
-	nop                                              ; $612e: $00
-	nop                                              ; $612f: $00
-	nop                                              ; $6130: $00
-	dec  c                                           ; $6131: $0d
-	ld   e, h                                        ; $6132: $5c
-	nop                                              ; $6133: $00
-	nop                                              ; $6134: $00
-	nop                                              ; $6135: $00
-	nop                                              ; $6136: $00
-	nop                                              ; $6137: $00
-	nop                                              ; $6138: $00
-	nop                                              ; $6139: $00
-	nop                                              ; $613a: $00
-	nop                                              ; $613b: $00
-	nop                                              ; $613c: $00
-	xor  c                                           ; $613d: $a9
-	ld   e, e                                        ; $613e: $5b
-	nop                                              ; $613f: $00
-	nop                                              ; $6140: $00
-	ld   (hl), c                                     ; $6141: $71
-	ld   e, h                                        ; $6142: $5c
-	nop                                              ; $6143: $00
-	nop                                              ; $6144: $00
-	nop                                              ; $6145: $00
-	nop                                              ; $6146: $00
-	nop                                              ; $6147: $00
-	nop                                              ; $6148: $00
-	nop                                              ; $6149: $00
-	nop                                              ; $614a: $00
-	nop                                              ; $614b: $00
-	nop                                              ; $614c: $00
-	push de                                          ; $614d: $d5
-	ld   e, h                                        ; $614e: $5c
-	nop                                              ; $614f: $00
-	nop                                              ; $6150: $00
-	nop                                              ; $6151: $00
-	nop                                              ; $6152: $00
-	nop                                              ; $6153: $00
-	nop                                              ; $6154: $00
-	ld   l, c                                        ; $6155: $69
-	ld   e, l                                        ; $6156: $5d
-	nop                                              ; $6157: $00
-	nop                                              ; $6158: $00
-	.db  $ed                                         ; $6159: $ed
-	ld   e, l                                        ; $615a: $5d
-	nop                                              ; $615b: $00
-	nop                                              ; $615c: $00
-	ld   d, c                                        ; $615d: $51
-	ld   e, (hl)                                     ; $615e: $5e
-	nop                                              ; $615f: $00
-	nop                                              ; $6160: $00
-	nop                                              ; $6161: $00
-	nop                                              ; $6162: $00
-	ld   a, l                                        ; $6163: $7d
-	ld   e, a                                        ; $6164: $5f
-	pop  hl                                          ; $6165: $e1
-	ld   e, a                                        ; $6166: $5f
-	nop                                              ; $6167: $00
-	nop                                              ; $6168: $00
-	nop                                              ; $6169: $00
-	nop                                              ; $616a: $00
-	nop                                              ; $616b: $00
-	nop                                              ; $616c: $00
+	.dw data_5ba9
+	.dw $0000
+	.dw $0000
+	.dw $0000
+	.dw data_5c0d
+	.dw $0000
+	.dw $0000
+	.dw $0000
+	.dw $0000
+	.dw $0000
+	.dw data_5ba9
+	.dw $0000
+	.dw data_5c74
+	.dw $0000
+	.dw $0000
+	.dw $0000
+	.dw $0000
+	.dw $0000
+	.dw data_5cd9
+	.dw $0000
+	.dw $0000
+	.dw $0000
+	.dw data_5d69
+	.dw $0000
+	.dw data_5ded
+	.dw $0000
+	.dw data_5e51
+	.dw $0000
+	.dw $0000
+	.dw data_5f7d
+	.dw data_5fe1
+	.dw $0000
+	.dw $0000
+	.dw $0000
 	
 data_616d:
 	ld   ($0101), sp                                 ; $616d: $08 $01 $01
@@ -15920,27 +15802,27 @@ func_618f:
 
 
 jpHLinBank1:
-	ld   c, $01                                      ; $61b0: $0e $01
-	jp   callHLinBankC                                       ; $61b2: $c3 $4e $01
+	ld   c, $01
+	jp   callHLinBankC
 
 
 jpHLinBank4:
 	ld   c, $04
-	jp   callHLinBankC                                       ; $61b7: $c3 $4e $01
+	jp   callHLinBankC
 
 
 aIsMax3fh:
-	cp   $40                                         ; $61ba: $fe $40
-	jr   c, +                              ; $61bc: $38 $02
-	ld   a, $3f                                      ; $61be: $3e $3f
+	cp   $40
+	jr   c, +
+	ld   a, $3f
 +
-	ret                                              ; $61c0: $c9
+	ret
 
 
 aEqu2ahPlus10:
-	sla  a                                           ; $61c1: $cb $27
-	add  $0a                                         ; $61c3: $c6 $0a
-	ret                                              ; $61c5: $c9
+	sla  a
+	add  $0a
+	ret
 
 
 ;;
@@ -16034,7 +15916,7 @@ data_61f0:
 
 	jr   jr_001_6243                                 ; $6225: $18 $1c
 
-	jr   jr_001_624e                                 ; $6227: $18 $25
+	.db $18 $25
 
 	jr   $2e                                         ; $6229: $18 $2e
 
@@ -16069,6 +15951,7 @@ jr_001_6238:
 jr_001_6243:
 	dec  d                                           ; $6243: $15
 
+
 Call_001_6244:
 	push bc                                          ; Call_001_6244: $c5
 	push af                                          ; $6245: $f5
@@ -16076,16 +15959,14 @@ Call_001_6244:
 	ld   (hl), c                                     ; $6249: $71
 	ld   hl, wArmorOfGodGotten                                   ; $624a: $21 $52 $c6
 	ld   a, (hl)                                     ; $624d: $7e
+	and  AOG_HELM                                         ; $624e: $e6 $10
+	jr   z, Jump_001_6257                              ; $6250: $28 $05
 
-jr_001_624e:
-	and  $10                                         ; $624e: $e6 $10
-	jr   z, jr_001_6257                              ; $6250: $28 $05
-
+// helm gotten
 	ld   hl, $c04b                                   ; $6252: $21 $4b $c0
 	ld   (hl), $00                                   ; $6255: $36 $00
 
 Jump_001_6257:
-jr_001_6257:
 	ld   bc, $0000                                   ; $6257: $01 $00 $00
 
 jr_001_625a:
@@ -16126,7 +16007,7 @@ jr_001_626f:
 	ret                                              ; $6289: $c9
 
 
-//-----------------------start of collion? functions
+//-----------------------start of npc code? functions
 Call_001_628a:
 	ld   hl, $c0a6                                   ; $628a: $21 $a6 $c0
 	ld   c, (hl)                                     ; $628d: $4e
@@ -16197,7 +16078,7 @@ Call_001_628a:
 	ld   a, (hl)                                     ; $62f5: $7e
 	ld   hl, $c006                                   ; $62f6: $21 $06 $c0
 	add  (hl)                                        ; $62f9: $86
-// only $68 ... (collisions?)
+// only $68 ... (npc codes?)
 	cp   $68                                         ; $62fa: $fe $68
 	jr   c, +                              ; $62fc: $38 $02
 
@@ -16206,7 +16087,7 @@ Call_001_628a:
 +
 	ld   e, a                                        ; $6300: $5f
 	ld   d, $00                                      ; $6301: $16 $00
-	ld   hl, table_630c                                   ; $6303: $21 $0c $63
+	ld   hl, npcTable                                   ; $6303: $21 $0c $63
 	add  hl, de                                      ; $6306: $19
 	add  hl, de                                      ; $6307: $19
 	ldi  a, (hl)                                     ; $6308: $2a
@@ -16215,7 +16096,7 @@ Call_001_628a:
 	jp   hl                                          ; $630b: $e9
 
 
-table_630c:
+npcTable:
 	.dw removeNPCatOffsetBC
 	.dw func_63e8
 	.dw func_63f1
@@ -16798,12 +16679,12 @@ jr_001_6635:
 
 
 func_6638:
-	call Call_000_27ff                                       ; $6638: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                                       ; $6638: $cd $ff $27
 	jp   Call_001_628a                               ; $663b: $c3 $8a $62
 
 
 func_663e:
-	call Call_001_5249                               ; $663e: $cd $49 $52
+	call giveHeartContainer                               ; $663e: $cd $49 $52
 	jp   Call_001_628a                               ; $6641: $c3 $8a $62
 
 
@@ -16823,7 +16704,7 @@ jr_001_6650:
 
 
 func_6657:
-	call Call_001_5289                               ; $6657: $cd $89 $52
+	call giveKey                               ; $6657: $cd $89 $52
 	jp   Call_001_628a                               ; $665a: $c3 $8a $62
 
 
@@ -17644,7 +17525,7 @@ func_6aed:
 	ld   a, (hl)                                     ; $6af1: $7e
 	ld   hl, $c011                                   ; $6af2: $21 $11 $c0
 	ld   (hl), a                                     ; $6af5: $77
-	call Call_000_1532                                       ; $6af6: $cd $32 $15
+	call callCommonSoundFunc1_withFF                                       ; $6af6: $cd $32 $15
 
 jr_001_6af9:
 	call Call_001_6bc6                               ; $6af9: $cd $c6 $6b
@@ -17659,7 +17540,7 @@ jr_001_6b04:
 	jp   nz, Jump_001_6b15                           ; $6b09: $c2 $15 $6b
 
 	call jr_000_232a                                       ; $6b0c: $cd $2a $23
-	call Call_000_27ae                                       ; $6b0f: $cd $ae $27
+	call callsCommonSoundFuncs_27ae                                       ; $6b0f: $cd $ae $27
 	jp   Call_001_628a                               ; $6b12: $c3 $8a $62
 
 
@@ -17835,7 +17716,7 @@ func_6c01:
 	ld   e, (hl)                                     ; $6c04: $5e
 	ld   hl, $c021                                   ; $6c05: $21 $21 $c0
 	ld   d, (hl)                                     ; $6c08: $56
-	call Call_000_1513                                       ; $6c09: $cd $13 $15
+	call callCommonSoundFuncs_1513                                       ; $6c09: $cd $13 $15
 	jp   Call_001_628a                               ; $6c0c: $c3 $8a $62
 
 
@@ -18077,7 +17958,7 @@ func_6d4d:
 
 
 func_6d6c:
-	call Call_000_14d7                                       ; $6d6c: $cd $d7 $14
+	call callCommonSoundFunc1_3times                                       ; $6d6c: $cd $d7 $14
 	ld   hl, $c020                                   ; $6d6f: $21 $20 $c0
 	ld   a, (hl)                                     ; $6d72: $7e
 	ld   hl, $c009                                   ; $6d73: $21 $09 $c0
@@ -18086,7 +17967,7 @@ func_6d6c:
 	ld   a, (hl)                                     ; $6d7a: $7e
 	ld   hl, $c72a                                   ; $6d7b: $21 $2a $c7
 	ld   (hl), a                                     ; $6d7e: $77
-	call Call_000_14bf                                       ; $6d7f: $cd $bf $14
+	call callCommonSoundFunc0_3times                                       ; $6d7f: $cd $bf $14
 	ld   a, $00                                      ; $6d82: $3e $00
 	ld   hl, $c72a                                   ; $6d84: $21 $2a $c7
 	ld   (hl), a                                     ; $6d87: $77
@@ -18522,7 +18403,7 @@ func_700e:
 	ld   hl, $c0a6                                   ; $700e: $21 $a6 $c0
 	ld   a, (hl)                                     ; $7011: $7e
 	push af                                          ; $7012: $f5
-	call Call_000_1532                                       ; $7013: $cd $32 $15
+	call callCommonSoundFunc1_withFF                                       ; $7013: $cd $32 $15
 	ld   a, $00                                      ; $7016: $3e $00
 	ld   hl, $c061                                   ; $7018: $21 $61 $c0
 	ld   (hl), a                                     ; $701b: $77
@@ -18591,7 +18472,7 @@ func_700e:
 	ld   a, $03                                      ; $70a2: $3e $03
 	ld   hl, $c009                                   ; $70a4: $21 $09 $c0
 	ld   (hl), a                                     ; $70a7: $77
-	call Call_000_14bf                                       ; $70a8: $cd $bf $14
+	call callCommonSoundFunc0_3times                                       ; $70a8: $cd $bf $14
 	ld   a, $00                                      ; $70ab: $3e $00
 	ld   hl, $c72a                                   ; $70ad: $21 $2a $c7
 	ld   (hl), a                                     ; $70b0: $77
@@ -18693,10 +18574,10 @@ func_700e:
 	inc  (hl)                                        ; $714a: $34
 	ld   de, $15e0                                   ; $714b: $11 $e0 $15
 	ld   a, $00                                      ; $714e: $3e $00
-	call Jump_000_01be                                       ; $7150: $cd $be $01
+	call commonSoundFunc0                                       ; $7150: $cd $be $01
 	ld   de, $15e9                                   ; $7153: $11 $e9 $15
 	ld   a, $01                                      ; $7156: $3e $01
-	call Jump_000_01be                                       ; $7158: $cd $be $01
+	call commonSoundFunc0                                       ; $7158: $cd $be $01
 	ld   bc, $0000                                   ; $715b: $01 $00 $00
 	call Call_001_71b4                               ; $715e: $cd $b4 $71
 	call Call_000_1818                                       ; $7161: $cd $18 $18
@@ -18719,7 +18600,7 @@ func_700e:
 @done:
 	call func_180f                                       ; $7187: $cd $0f $18
 	call jr_000_232a                                       ; $718a: $cd $2a $23
-	call Call_000_27ae                                       ; $718d: $cd $ae $27
+	call callsCommonSoundFuncs_27ae                                       ; $718d: $cd $ae $27
 	pop  af                                          ; $7190: $f1
 	ld   hl, $c0a6                                   ; $7191: $21 $a6 $c0
 	ld   (hl), a                                     ; $7194: $77
@@ -18882,7 +18763,7 @@ jr_001_726b:
 	jr   z, jr_001_7278                              ; $726e: $28 $08
 
 	push bc                                          ; $7270: $c5
-	call Call_000_27ff                                       ; $7271: $cd $ff $27
+	call safeCallCommonSoundFuncs_with20h                                       ; $7271: $cd $ff $27
 	pop  bc                                          ; $7274: $c1
 	ld   c, $00                                      ; $7275: $0e $00
 	dec  b                                           ; $7277: $05
@@ -19057,7 +18938,7 @@ Call_001_7350:
 @done:
 	cp   $00                                         ; $7364: $fe $00
 	ret                                              ; $7366: $c9
-//-----------------------end of collion? functions
+//-----------------------end of npc? functions
 
 
 

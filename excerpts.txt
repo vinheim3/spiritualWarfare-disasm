@@ -43,6 +43,14 @@ $04 - could be npc idx
 $83 - the 3 could be direction?
 $66 - upper nybble is x, lower nybble is y
 
+groups of 7 bytes indicate an exit
+byte 1 and 2 - ???
+byte 3 is dest group
+byte 4 is room x
+byte 5 is room y
+byte 6 is player x
+byte 7 is player y
+
 
 # ------- text
 text - debug c062/3 word written $640e
