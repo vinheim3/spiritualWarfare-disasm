@@ -34,9 +34,9 @@ begin:
 	call Call_000_19f8                               ; $098d: $cd $f8 $19
 	call callCommonSoundFunc1_withFF                               ; $0990: $cd $32 $15
 	call clear_c094_c095                                       ; $0993: $cd $a6 $48
-	ld   hl, $c4dd                                   ; $0996: $21 $dd $c4
+	ld   hl, wIsMusicOff                                   ; $0996: $21 $dd $c4
 	ld   (hl), $00                                   ; $0999: $36 $00
-	jp   begin2                               ; $099b: $c3 $58 $0b
+	jp   startTitleScreen                               ; $099b: $c3 $58 $0b
 
 
 text_badPassword:
@@ -288,8 +288,8 @@ collisionsTable:
 reset:
 	ld   sp, wStackTop                                   ; reset: $31 $ff $df
 
-begin2:
-	ld   a, $00                                      ; begin2: $3e $00
+startTitleScreen:
+	ld   a, $00
 	ld   hl, $c029                                   ; $0b5a: $21 $29 $c0
 	ld   (hl), a                                     ; $0b5d: $77
 	ld   hl, $c097                                   ; $0b5e: $21 $97 $c0
@@ -300,6 +300,8 @@ begin2:
 	call turnOffLCDstartOfVBlank                               ; $0b68: $cd $0a $02
 	ld   hl, $0020                                   ; $0b6b: $21 $20 $00
 	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $0b6e: $cd $7a $17
+
+// copy water, etc, animation tiles
 	ld   de, $d100                                   ; $0b71: $11 $00 $d1
 	ld   c, $e8                                      ; $0b74: $0e $e8
 	ld   hl, $8040                                   ; $0b76: $21 $40 $80
@@ -314,9 +316,9 @@ begin2:
 	dec  c                                           ; $0b7f: $0d
 	jr   nz, -                             ; $0b80: $20 $f7
 
+// copy fire tiles on title screen
 	ld   c, $40                                      ; $0b82: $0e $40
 	ld   hl, $87c0                                   ; $0b84: $21 $c0 $87
-
 -
 	ldi  a, (hl)                                     ; $0b87: $2a
 	ld   (de), a                                     ; $0b88: $12
@@ -328,21 +330,21 @@ begin2:
 	ld   hl, rOBP1                                   ; $0b90: $21 $49 $ff
 	ld   (hl), $1b                                   ; $0b93: $36 $1b
 	call setScrollValues                               ; $0b95: $cd $f1 $1d
-	call func_5b8e                                       ; $0b98: $cd $8e $5b
+	call clearScreen0                                       ; $0b98: $cd $8e $5b
 	ld   hl, lyt_03_1815                                   ; $0b9b: $21 $15 $18
 	call copyLayoutFromBank3toScreen0withOffset                               ; $0b9e: $cd $37 $15
 	call Call_000_170b                               ; $0ba1: $cd $0b $17
-	call Call_000_0c50                               ; $0ba4: $cd $50 $0c
+	call changeMusicOnTextAndPlaySound                               ; $0ba4: $cd $50 $0c
 	call clear_c200_to_c2ff                                       ; $0ba7: $cd $9e $5b
 	call copyA0hDataToOam                               ; $0baa: $cd $99 $1a
-	ld   hl, $d0fe                                   ; $0bad: $21 $fe $d0
-	ld   de, data_5f7d                                   ; $0bb0: $11 $7d $5f
+	ld   hl, wCurrTileAnimationAddr                                   ; $0bad: $21 $fe $d0
+	ld   de, titleScreenFlamesAnimation                                   ; $0bb0: $11 $7d $5f
 	ld   (hl), e                                     ; $0bb3: $73
 	inc  hl                                          ; $0bb4: $23
 	ld   (hl), d                                     ; $0bb5: $72
-	ld   hl, $d0fc                                   ; $0bb6: $21 $fc $d0
+	ld   hl, wVBlanksPerTileAnimation                                   ; $0bb6: $21 $fc $d0
 	ld   (hl), $02                                   ; $0bb9: $36 $02
-	ld   hl, $d0fd                                   ; $0bbb: $21 $fd $d0
+	ld   hl, wCurrVBlanksUntilNextTileAnimation                                   ; $0bbb: $21 $fd $d0
 	ld   (hl), $02                                   ; $0bbe: $36 $02
 	ld   a, $01                                      ; $0bc0: $3e $01
 	call setLCDfromValue                               ; $0bc2: $cd $11 $02
@@ -361,7 +363,7 @@ begin2:
 	ld   hl, $c0b1                                   ; $0be4: $21 $b1 $c0
 	ld   (hl), $68                                   ; $0be7: $36 $68
 
-@loop_0be9:
+@titleScreenLoop:
 	ld   a, $3c                                      ; $0be9: $3e $3c
 	ld   hl, $c00b                                   ; $0beb: $21 $0b $c0
 	ld   (hl), a                                     ; $0bee: $77
@@ -375,75 +377,77 @@ begin2:
 	cp   $00                                         ; $0c00: $fe $00
 	jr   nz, +                             ; $0c02: $20 $03
 
-	jp   @loop_0be9                               ; $0c04: $c3 $e9 $0b
+	jp   @titleScreenLoop                               ; $0c04: $c3 $e9 $0b
 
 +
 	call callCommonSoundFunc1_withFF                               ; $0c07: $cd $32 $15
 	ld   a, $00                                      ; $0c0a: $3e $00
 	ld   hl, $c0fb                                   ; $0c0c: $21 $fb $c0
 	ld   (hl), a                                     ; $0c0f: $77
+
 	ld   hl, $c097                                   ; $0c10: $21 $97 $c0
 	ld   a, (hl)                                     ; $0c13: $7e
 	cp   $03                                         ; $0c14: $fe $03
 	jr   nz, +                             ; $0c16: $20 $03
 
-	jp   Jump_000_13a0                               ; $0c18: $c3 $a0 $13
+// selected music test
+	jp   musicTestScreen                               ; $0c18: $c3 $a0 $13
 
 +
 	cp   $02                                         ; $0c1b: $fe $02
 	jr   nz, +                             ; $0c1d: $20 $13
 
-	ld   hl, $c4dd                                   ; $0c1f: $21 $dd $c4
+// flip music on/off
+	ld   hl, wIsMusicOff                                   ; $0c1f: $21 $dd $c4
 	ld   a, (hl)                                     ; $0c22: $7e
 	xor  $ff                                         ; $0c23: $ee $ff
 	ld   (hl), a                                     ; $0c25: $77
 	call safeCallCommonSoundFuncs_with20h                               ; $0c26: $cd $ff $27
-	call Call_000_0c50                               ; $0c29: $cd $50 $0c
+	call changeMusicOnTextAndPlaySound                               ; $0c29: $cd $50 $0c
 	call callsCommonSoundFuncs_278f                               ; $0c2c: $cd $8f $27
-	jp   @loop_0be9                               ; $0c2f: $c3 $e9 $0b
+	jp   @titleScreenLoop                               ; $0c2f: $c3 $e9 $0b
 
 +
 	cp   $01                                         ; $0c32: $fe $01
-	jr   nz, ++                             ; $0c34: $20 $0e
+	jr   nz, @playGame                             ; $0c34: $20 $0e
 
-	call Call_000_0da6                               ; $0c36: $cd $a6 $0d
+// enter password
+	call enterPasswordScreen                               ; $0c36: $cd $a6 $0d
 	jr   z, +                              ; $0c39: $28 $03
 
-	jp   begin2                               ; $0c3b: $c3 $58 $0b
+// incorrect password, go back to title screen
+	jp   startTitleScreen                               ; $0c3b: $c3 $58 $0b
 
 +
-	call Call_000_10d4                               ; $0c3e: $cd $d4 $10
+// correct password
+	call processCorrectPassword                               ; $0c3e: $cd $d4 $10
 	jp   postInitGame                               ; $0c41: $c3 $f3 $15
 
-++
+@playGame:
 	call Call_000_1012                               ; $0c44: $cd $12 $10
 	jp   initGame                               ; $0c47: $c3 $65 $15
 
 
-data_0c4a:
-	jr   c, $2e                                      ; $0c4a: $38 $2e
+text_musicOn:
+	.db $38 $2e $00
 
-	nop                                              ; $0c4c: $00
+text_musicOff:
+	.db $38 $2f $2f
 
-data_0c4d:
-	jr   c, $2f                                      ; $0c4d: $38 $2f
+changeMusicOnTextAndPlaySound:
+	ld   de, $99ca
+	call dPlusEquScreen0displayOffset
+	ld   hl, wIsMusicOff
+	ld   a, (hl)
+	ld   hl, text_musicOn
+	cp   $00
+	jr   z, +
 
-	cpl                                              ; $0c4f: $2f
+	ld   hl, text_musicOff
 
-Call_000_0c50:
-	ld   de, $99ca                                   ; $0c50: $11 $ca $99
-	call dPlusEquScreen0displayOffset                               ; $0c53: $cd $99 $1e
-	ld   hl, $c4dd                                   ; $0c56: $21 $dd $c4
-	ld   a, (hl)                                     ; $0c59: $7e
-	ld   hl, data_0c4a                                   ; $0c5a: $21 $4a $0c
-	cp   $00                                         ; $0c5d: $fe $00
-	jr   z, jr_000_0c64                              ; $0c5f: $28 $03
-
-	ld   hl, data_0c4d                                   ; $0c61: $21 $4d $0c
-
-jr_000_0c64:
-	ld   c, $03                                      ; $0c64: $0e $03
-	jp   copyMemoryCinVBlank_callCommonSoundFunc2                               ; $0c66: $c3 $80 $27
++
+	ld   c, $03
+	jp   copyMemoryCinVBlank_callCommonSoundFunc2
 
 
 Call_000_0c69:
@@ -452,8 +456,6 @@ Call_000_0c69:
 	ld   (hl), a                                     ; $0c6e: $77
 
 Call_000_0c6f:
-Jump_000_0c6f:
-jr_000_0c6f:
 	ld   hl, $c097                                   ; $0c6f: $21 $97 $c0
 	ld   a, (hl)                                     ; $0c72: $7e
 	sla  a                                           ; $0c73: $cb $27
@@ -469,12 +471,11 @@ jr_000_0c6f:
 	ld   hl, $c00c                                   ; $0c88: $21 $0c $c0
 	ld   (hl), a                                     ; $0c8b: $77
 	cp   $00                                         ; $0c8c: $fe $00
-	jr   nz, jr_000_0c91                             ; $0c8e: $20 $01
+	jr   nz, +                             ; $0c8e: $20 $01
 
 	ret                                              ; $0c90: $c9
 
-
-jr_000_0c91:
++
 	cp   $80                                         ; $0c91: $fe $80
 	jr   z, jr_000_0cb7                              ; $0c93: $28 $22
 
@@ -498,7 +499,7 @@ jr_000_0c91:
 jr_000_0cb0:
 	ld   hl, $c097                                   ; $0cb0: $21 $97 $c0
 	dec  (hl)                                        ; $0cb3: $35
-	jp   Jump_000_0c6f                               ; $0cb4: $c3 $6f $0c
+	jp   Call_000_0c6f                               ; $0cb4: $c3 $6f $0c
 
 
 jr_000_0cb7:
@@ -509,17 +510,17 @@ jr_000_0cb7:
 	ld   a, (hl)                                     ; $0cc1: $7e
 	ld   hl, $c098                                   ; $0cc2: $21 $98 $c0
 	cp   (hl)                                        ; $0cc5: $be
-	jr   c, jr_000_0c6f                              ; $0cc6: $38 $a7
+	jr   c, Call_000_0c6f                              ; $0cc6: $38 $a7
 
 	ld   a, $00                                      ; $0cc8: $3e $00
 	ld   hl, $c097                                   ; $0cca: $21 $97 $c0
 	ld   (hl), a                                     ; $0ccd: $77
-	jp   Jump_000_0c6f                               ; $0cce: $c3 $6f $0c
+	jp   Call_000_0c6f                               ; $0cce: $c3 $6f $0c
 
 
 jr_000_0cd1:
 	and  $0b                                         ; $0cd1: $e6 $0b
-	jr   z, jr_000_0c6f                              ; $0cd3: $28 $9a
+	jr   z, Call_000_0c6f                              ; $0cd3: $28 $9a
 
 	ret                                              ; $0cd5: $c9
 
@@ -744,7 +745,7 @@ jr_000_0da1:
 	nop                                              ; $0da4: $00
 	nop                                              ; $0da5: $00
 
-Call_000_0da6:
+enterPasswordScreen:
 	ld   a, $20                                      ; $0da6: $3e $20
 	ld   hl, $c097                                   ; $0da8: $21 $97 $c0
 	ld   (hl), a                                     ; $0dab: $77
@@ -1226,12 +1227,12 @@ jr_000_1038:
 
 data_1051:
 	dec  e                                           ; $1051: $1d
-	jr   z, jr_000_1070                              ; $1052: $28 $1c
+	.db $28 $1c
 
 	scf                                              ; $1054: $37
 	dec  de                                          ; $1055: $1b
 	ldd  (hl), a                                     ; $1056: $32
-	jr   jr_000_1089                                 ; $1057: $18 $30
+	.db $18 $30
 
 Call_000_1059:
 	ld   a, c                                        ; $1059: $79
@@ -1246,8 +1247,6 @@ Call_000_1059:
 	ld   hl, $c215                                   ; $106a: $21 $15 $c2
 	ld   (hl), a                                     ; $106d: $77
 	add  $08                                         ; $106e: $c6 $08
-
-jr_000_1070:
 	ld   hl, $c20d                                   ; $1070: $21 $0d $c2
 	ld   (hl), a                                     ; $1073: $77
 	ld   hl, $c219                                   ; $1074: $21 $19 $c2
@@ -1261,8 +1260,6 @@ jr_000_1070:
 	ld   hl, $c20c                                   ; $1083: $21 $0c $c2
 	ld   (hl), a                                     ; $1086: $77
 	add  $10                                         ; $1087: $c6 $10
-
-jr_000_1089:
 	ld   hl, $c210                                   ; $1089: $21 $10 $c2
 	ld   (hl), a                                     ; $108c: $77
 	ld   hl, $c214                                   ; $108d: $21 $14 $c2
@@ -1303,10 +1300,10 @@ jr_000_1089:
 	ret                                              ; $10d3: $c9
 
 
-Call_000_10d4:
+processCorrectPassword:
 	ld   bc, $0000                                   ; $10d4: $01 $00 $00
 
-jr_000_10d7:
+@loop:
 	ld   a, c                                        ; $10d7: $79
 	sla  a                                           ; $10d8: $cb $27
 	or   $20                                         ; $10da: $f6 $20
@@ -1324,7 +1321,7 @@ jr_000_10d7:
 	inc  bc                                          ; $10ee: $03
 	ld   a, c                                        ; $10ef: $79
 	cp   $08                                         ; $10f0: $fe $08
-	jr   nz, jr_000_10d7                             ; $10f2: $20 $e3
+	jr   nz, @loop                             ; $10f2: $20 $e3
 
 	ld   hl, $c4e8                                   ; $10f4: $21 $e8 $c4
 	ld   a, (hl)                                     ; $10f7: $7e
@@ -1655,117 +1652,44 @@ Call_000_12d1:
 	ret                                              ; $1332: $c9
 
 
-data_1333:
-	ld   hl, $5300                                   ; $1333: $21 $00 $53
-	ld   d, b                                        ; $1336: $50
-	ld   c, c                                        ; $1337: $49
-	ld   d, d                                        ; $1338: $52
-	ld   c, c                                        ; $1339: $49
-	ld   d, h                                        ; $133a: $54
-	ld   d, l                                        ; $133b: $55
-	ld   b, c                                        ; $133c: $41
-	ld   c, h                                        ; $133d: $4c
-	jr   nz, jr_000_1397                             ; $133e: $20 $57
+musicScreenLayout:
+	.dw $9821-_SCRN0
+	.asc "SPIRITUAL WARFARE"
+	.db $ff
 
-	ld   b, c                                        ; $1340: $41
-	ld   d, d                                        ; $1341: $52
-	ld   b, (hl)                                     ; $1342: $46
-	ld   b, c                                        ; $1343: $41
-	ld   d, d                                        ; $1344: $52
-	ld   b, l                                        ; $1345: $45
-	rst  $38                                         ; $1346: $ff
-	ld   h, h                                        ; $1347: $64
-	nop                                              ; $1348: $00
-	ld   c, l                                        ; $1349: $4d
-	ld   d, l                                        ; $134a: $55
-	ld   d, e                                        ; $134b: $53
-	ld   c, c                                        ; $134c: $49
-	ld   b, e                                        ; $134d: $43
-	jr   nz, jr_000_1370                             ; $134e: $20 $20
+	.dw $9864-_SCRN0
+	.asc "MUSIC  TEST"
+	.db $ff
 
-	ld   d, h                                        ; $1350: $54
-	ld   b, l                                        ; $1351: $45
-	ld   d, e                                        ; $1352: $53
-	ld   d, h                                        ; $1353: $54
-	rst  $38                                         ; $1354: $ff
-	ld   ($ff00+c), a                                ; $1355: $e2
-	nop                                              ; $1356: $00
-	ld   b, l                                        ; $1357: $45
-	ld   a, b                                        ; $1358: $78
-	ld   l, c                                        ; $1359: $69
-	ld   (hl), h                                     ; $135a: $74
-	jr   nz, jr_000_13d1                             ; $135b: $20 $74
+	.dw $98e2-_SCRN0
+	.asc "Exit to game menu"
+	.db $ff
 
-	ld   l, a                                        ; $135d: $6f
-	jr   nz, $67                                     ; $135e: $20 $67
+	.dw $9902-_SCRN0
+	.asc "Speed Change"
+	.db $ff
 
-	ld   h, c                                        ; $1360: $61
-	ld   l, l                                        ; $1361: $6d
-	ld   h, l                                        ; $1362: $65
-	jr   nz, $6d                                     ; $1363: $20 $6d
+	.dw $9922-_SCRN0
+	.asc "Song"
+	.db $ff
 
-	ld   h, l                                        ; $1365: $65
-	ld   l, (hl)                                     ; $1366: $6e
-	ld   (hl), l                                     ; $1367: $75
-	rst  $38                                         ; $1368: $ff
-	ld   (bc), a                                     ; $1369: $02
-	ld   bc, $7053                                   ; $136a: $01 $53 $70
-	ld   h, l                                        ; $136d: $65
-	ld   h, l                                        ; $136e: $65
-	ld   h, h                                        ; $136f: $64
+	.dw $9942-_SCRN0
+	.asc "Sound"
+	.db $ff
 
-jr_000_1370:
-	jr   nz, $43                                     ; $1370: $20 $43
+	.dw $99e0-_SCRN0
+	.asc "B to pick, A to hear"
+	.db $ff
 
-	ld   l, b                                        ; $1372: $68
-	ld   h, c                                        ; $1373: $61
-	ld   l, (hl)                                     ; $1374: $6e
-	ld   h, a                                        ; $1375: $67
-	ld   h, l                                        ; $1376: $65
-	rst  $38                                         ; $1377: $ff
-	ldi  (hl), a                                     ; $1378: $22
-	ld   bc, $6f53                                   ; $1379: $01 $53 $6f
-	ld   l, (hl)                                     ; $137c: $6e
-	ld   h, a                                        ; $137d: $67
-	rst  $38                                         ; $137e: $ff
-	ld   b, d                                        ; $137f: $42
-	ld   bc, $6f53                                   ; $1380: $01 $53 $6f
-	ld   (hl), l                                     ; $1383: $75
-	ld   l, (hl)                                     ; $1384: $6e
-	ld   h, h                                        ; $1385: $64
-	rst  $38                                         ; $1386: $ff
-	ldh  (<$01), a                                   ; $1387: $e0 $01
-	ld   b, d                                        ; $1389: $42
-	jr   nz, $74                                     ; $138a: $20 $74
+	.dw $ffff
 
-	ld   l, a                                        ; $138c: $6f
-	jr   nz, $70                                     ; $138d: $20 $70
 
-	ld   l, c                                        ; $138f: $69
-	ld   h, e                                        ; $1390: $63
-	ld   l, e                                        ; $1391: $6b
-	inc  l                                           ; $1392: $2c
-	jr   nz, $41                                     ; $1393: $20 $41
-
-	jr   nz, jr_000_140b                             ; $1395: $20 $74
-
-jr_000_1397:
-	ld   l, a                                        ; $1397: $6f
-	jr   nz, jr_000_1402                             ; $1398: $20 $68
-
-	ld   h, l                                        ; $139a: $65
-	ld   h, c                                        ; $139b: $61
-	ld   (hl), d                                     ; $139c: $72
-	rst  $38                                         ; $139d: $ff
-	rst  $38                                         ; $139e: $ff
-	rst  $38                                         ; $139f: $ff
-
-Jump_000_13a0:
+musicTestScreen:
 	ld   hl, $c0a7                                   ; $13a0: $21 $a7 $c0
 	ld   (hl), $00                                   ; $13a3: $36 $00
 	ld   hl, $c0a9                                   ; $13a5: $21 $a9 $c0
 	ld   (hl), $00                                   ; $13a8: $36 $00
-	call Call_000_1450                               ; $13aa: $cd $50 $14
+	call drawFullMusicTestScreen                               ; $13aa: $cd $50 $14
 	ld   a, $00                                      ; $13ad: $3e $00
 	ld   hl, $c097                                   ; $13af: $21 $97 $c0
 	ld   (hl), a                                     ; $13b2: $77
@@ -1773,10 +1697,10 @@ Jump_000_13a0:
 	ld   (hl), a                                     ; $13b6: $77
 	ld   hl, $c009                                   ; $13b7: $21 $09 $c0
 	ld   (hl), a                                     ; $13ba: $77
-	jp   Jump_000_1411                               ; $13bb: $c3 $11 $14
+	jp   @mainLoop                               ; $13bb: $c3 $11 $14
 
 
-Jump_000_13be:
+@toMainLoop:
 	ld   hl, $c201                                   ; $13be: $21 $01 $c2
 	ld   (hl), $0e                                   ; $13c1: $36 $0e
 	ld   a, $2a                                      ; $13c3: $3e $2a
@@ -1786,8 +1710,6 @@ Jump_000_13be:
 	ld   hl, $c203                                   ; $13cb: $21 $03 $c2
 	ld   (hl), a                                     ; $13ce: $77
 	ld   a, $04                                      ; $13cf: $3e $04
-
-jr_000_13d1:
 	ld   hl, $c098                                   ; $13d1: $21 $98 $c0
 	ld   (hl), a                                     ; $13d4: $77
 	ld   a, $40                                      ; $13d5: $3e $40
@@ -1797,46 +1719,44 @@ jr_000_13d1:
 	ld   hl, $c097                                   ; $13de: $21 $97 $c0
 	ld   a, (hl)                                     ; $13e1: $7e
 	cp   $00                                         ; $13e2: $fe $00
-	jr   nz, jr_000_13e9                             ; $13e4: $20 $03
+	jr   nz, @not0                             ; $13e4: $20 $03
 
-	jp   begin2                               ; $13e6: $c3 $58 $0b
+// exit to game menu
+	jp   startTitleScreen                               ; $13e6: $c3 $58 $0b
 
-
-jr_000_13e9:
+@not0:
 	cp   $01                                         ; $13e9: $fe $01
-	jr   nz, jr_000_13fa                             ; $13eb: $20 $0d
+	jr   nz, @gt1                             ; $13eb: $20 $0d
 
+// speed change
 	ld   hl, $c711                                   ; $13ed: $21 $11 $c7
 	ld   a, (hl)                                     ; $13f0: $7e
 	xor  $ff                                         ; $13f1: $ee $ff
 	ld   hl, $c711                                   ; $13f3: $21 $11 $c7
 	ld   (hl), a                                     ; $13f6: $77
-	jp   Jump_000_1411                               ; $13f7: $c3 $11 $14
+	jp   @mainLoop                               ; $13f7: $c3 $11 $14
 
 
-jr_000_13fa:
+@gt1:
 	cp   $03                                         ; $13fa: $fe $03
-	jr   z, jr_000_142d                              ; $13fc: $28 $2f
+	jr   z, @sound                              ; $13fc: $28 $2f
 
+// song
 	ld   hl, $c00c                                   ; $13fe: $21 $0c $c0
 	ld   a, (hl)                                     ; $1401: $7e
-
-jr_000_1402:
 	cp   $02                                         ; $1402: $fe $02
-	jr   nz, Jump_000_1411                             ; $1404: $20 $0b
+	jr   nz, @mainLoop                             ; $1404: $20 $0b
 
 	ld   hl, $c0a7                                   ; $1406: $21 $a7 $c0
 	inc  (hl)                                        ; $1409: $34
 	ld   a, (hl)                                     ; $140a: $7e
-
-jr_000_140b:
 	cp   $06                                         ; $140b: $fe $06
-	jr   c, Jump_000_1411                              ; $140d: $38 $02
+	jr   c, @mainLoop                              ; $140d: $38 $02
 
 	ld   (hl), $00                                   ; $140f: $36 $00
 
-Jump_000_1411:
-	call Call_000_1450                               ; $1411: $cd $50 $14
+@mainLoop:
+	call drawFullMusicTestScreen                               ; $1411: $cd $50 $14
 	call callCommonSoundFunc1_3times                               ; $1414: $cd $d7 $14
 	ld   hl, $c711                                   ; $1417: $21 $11 $c7
 	ld   a, (hl)                                     ; $141a: $7e
@@ -1847,10 +1767,9 @@ Jump_000_1411:
 	ld   hl, $c009                                   ; $1423: $21 $09 $c0
 	ld   (hl), a                                     ; $1426: $77
 	call callCommonSoundFunc0_3times                               ; $1427: $cd $bf $14
-	jp   Jump_000_13be                               ; $142a: $c3 $be $13
+	jp   @toMainLoop                               ; $142a: $c3 $be $13
 
-
-jr_000_142d:
+@sound:
 	ld   hl, $c00c                                   ; $142d: $21 $0c $c0
 	ld   a, (hl)                                     ; $1430: $7e
 	cp   $02                                         ; $1431: $fe $02
@@ -1866,36 +1785,42 @@ jr_000_142d:
 
 +
 	call callCommonSoundFunc1_3times                               ; $1440: $cd $d7 $14
-	call Call_000_1450                               ; $1443: $cd $50 $14
+	call drawFullMusicTestScreen                               ; $1443: $cd $50 $14
 	ld   hl, $c0a9                                   ; $1446: $21 $a9 $c0
 	ld   a, (hl)                                     ; $1449: $7e
 	call callCommonSoundFuncs_1507                               ; $144a: $cd $07 $15
-	jp   Jump_000_13be                               ; $144d: $c3 $be $13
+	jp   @toMainLoop                               ; $144d: $c3 $be $13
 
 
-Call_000_1450:
-	ld   hl, data_1333                                   ; $1450: $21 $33 $13
-	call Call_000_1475                               ; $1453: $cd $75 $14
+drawFullMusicTestScreen:
+	ld   hl, musicScreenLayout                                   ; $1450: $21 $33 $13
+	call initMusicScreenGfxOamAndLayout                               ; $1453: $cd $75 $14
+
+// song value
 	ld   de, $9927                                   ; $1456: $11 $27 $99
 	call dPlusEquScreen0displayOffset                               ; $1459: $cd $99 $1e
 	ld   hl, $c0a7                                   ; $145c: $21 $a7 $c0
 	ld   a, (hl)                                     ; $145f: $7e
 	call Call_001_5af8                                       ; $1460: $cd $f8 $5a
+
+// sound value
 	ld   de, $9948                                   ; $1463: $11 $48 $99
 	call dPlusEquScreen0displayOffset                               ; $1466: $cd $99 $1e
 	ld   hl, $c0a9                                   ; $1469: $21 $a9 $c0
 	ld   a, (hl)                                     ; $146c: $7e
 	call Call_001_5af8                                       ; $146d: $cd $f8 $5a
+
+//
 	ld   a, $01                                      ; $1470: $3e $01
 	jp   setLCDfromValue                               ; $1472: $c3 $11 $02
 
 
-Call_000_1475:
+initMusicScreenGfxOamAndLayout:
 	push hl                                          ; $1475: $e5
 	call turnOffLCDstartOfVBlank                               ; $1476: $cd $0a $02
 	call clear_c200_to_c2ff                                       ; $1479: $cd $9e $5b
 	call copyA0hDataToOam                               ; $147c: $cd $99 $1a
-	call func_5b8e                                       ; $147f: $cd $8e $5b
+	call clearScreen0                                       ; $147f: $cd $8e $5b
 	ld   hl, $001e                                   ; $1482: $21 $1e $00
 	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $1485: $cd $7a $17
 	pop  hl                                          ; $1488: $e1
@@ -2152,6 +2077,7 @@ initGame:
 	ld   hl, wPlayerHealth                                   ; $15ee: $21 $72 $c0
 	ld   (hl), $06                                   ; $15f1: $36 $06
 
+// straight here from correct password
 postInitGame:
 	call Call_000_241a                               ; $15f3: $cd $1a $24
 	ld   hl, clear_c0fe_c0ff                                   ; $15f6: $21 $4b $09
@@ -2206,7 +2132,7 @@ postInitGame2:
 
 	call setScrollValues                               ; $1653: $cd $f1 $1d
 	call Call_000_16ef                               ; $1656: $cd $ef $16
-	ld   hl, lyt_03_10fe                                   ; $1659: $21 $fe $10
+	ld   hl, lyt_gameOverScreen                                   ; $1659: $21 $fe $10
 	call copyLayoutFromBank3toScreen0withOffset                               ; $165c: $cd $37 $15
 	call func_5abf                                       ; $165f: $cd $bf $5a
 	call Call_000_11d6                               ; $1662: $cd $d6 $11
@@ -2281,7 +2207,7 @@ jr_000_168d:
 	cp   $00                                         ; $16d9: $fe $00
 	jr   z, +                              ; $16db: $28 $03
 
-	jp   begin2                               ; $16dd: $c3 $58 $0b
+	jp   startTitleScreen                               ; $16dd: $c3 $58 $0b
 
 +
 	ld   a, $06                                      ; $16e0: $3e $06
@@ -2298,7 +2224,7 @@ Call_000_16ef:
 	ld   (hl), $1b                                   ; $16f5: $36 $1b
 	ld   hl, rOBP0                                   ; $16f7: $21 $48 $ff
 	ld   (hl), $1b                                   ; $16fa: $36 $1b
-	call func_5b8e                                       ; $16fc: $cd $8e $5b
+	call clearScreen0                                       ; $16fc: $cd $8e $5b
 	call clear_c200_to_c2ff                                       ; $16ff: $cd $9e $5b
 	call copyA0hDataToOam                               ; $1702: $cd $99 $1a
 	ld   hl, $001c                                   ; $1705: $21 $1c $00
@@ -2804,12 +2730,8 @@ getAddrOfCurrGroupDataStruct:
 
 
 setRevivePointInRoomGroup:
-// possibly deals with resetting when a player dies?
-// as it puts player in a specific section in a group
-// and called at some point when previous code sets player health back to 6
-
 // if last row group struct bytes byte 2 is not $ff
-// $c715 is previous room group?
+// $c715 is previous room group? (dont set revive points for inside areas?)
 	ld   hl, $c715                                   ; $1996: $21 $15 $c7
 	ld   a, (hl)                                     ; $1999: $7e
 	ld   hl, wCurrRoomGroup                                   ; $199a: $21 $33 $c0
@@ -2891,7 +2813,7 @@ setRevivePointInRoomGroup:
 	ld   (hl), a                                     ; $19f7: $77
 
 Call_000_19f8:
-	ld   hl, $d002                                   ; Call_000_19f8: $21 $02 $d0
+	ld   hl, $d002
 	ld   (hl), e                                     ; $19fb: $73
 	ld   hl, $d001                                   ; $19fc: $21 $01 $d0
 	ld   a, (hl)                                     ; $19ff: $7e
@@ -2966,14 +2888,14 @@ jr_000_1a4b:
 	call Call_000_19f8                               ; $1a4d: $cd $f8 $19
 	jr   nz, @done                             ; $1a50: $20 $05
 
-	call Call_000_1a58                               ; $1a52: $cd $58 $1a
+	call clear_d001                               ; $1a52: $cd $58 $1a
 	jr   jr_000_1a4b                                 ; $1a55: $18 $f4
 
 @done:
 	ret                                              ; $1a57: $c9
 
 
-Call_000_1a58:
+clear_d001:
 	ld   hl, $d001                                   ; $1a58: $21 $01 $d0
 	ld   (hl), $00                                   ; $1a5b: $36 $00
 	ret                                              ; $1a5d: $c9
@@ -2988,7 +2910,7 @@ Call_000_1a5e:
 	cp   $00                                         ; $1a6b: $fe $00
 	jr   z, +                              ; $1a6d: $28 $03
 
-	call func_60b5                                       ; $1a6f: $cd $b5 $60
+	call animateTile                                       ; $1a6f: $cd $b5 $60
 
 +
 	call commonSoundFunc2                               ; $1a72: $cd $d6 $01
@@ -3204,7 +3126,7 @@ jr_000_1c3a:
 	call Call_001_5a3b                                       ; $1c3a: $cd $3b $5a
 	call Call_001_5a3b                                       ; $1c3d: $cd $3b $5a
 	call displayNextTextCharacter                                       ; $1c40: $cd $2b $74
-	call func_60b5                                       ; $1c43: $cd $b5 $60
+	call animateTile                                       ; $1c43: $cd $b5 $60
 
 jr_000_1c46:
 	call commonSoundFunc2                               ; $1c46: $cd $d6 $01
@@ -3505,7 +3427,7 @@ Call_000_1e06:
 	ld   hl, $c05b                                   ; Call_000_1e06: $21 $5b $c0
 	ld   a, (hl)                                     ; $1e09: $7e
 	cp   $00                                         ; $1e0a: $fe $00
-	jr   nz, jr_000_1e1f                             ; $1e0c: $20 $11
+	jr   nz, +                             ; $1e0c: $20 $11
 
 	ld   hl, wRoomStructWord_whenFirstByteBit7set_1                                   ; $1e0e: $21 $f0 $c5
 	ld   a, (hl)                                     ; $1e11: $7e
@@ -3517,8 +3439,7 @@ Call_000_1e06:
 	ld   (hl), a                                     ; $1e1d: $77
 	ret                                              ; $1e1e: $c9
 
-
-jr_000_1e1f:
++
 	ld   hl, wRoomStructWord_whenFirstByteBit7set_2                                   ; $1e1f: $21 $f4 $c5
 	ld   a, (hl)                                     ; $1e22: $7e
 	ld   hl, rBGP                                   ; $1e23: $21 $47 $ff
@@ -3539,8 +3460,8 @@ setNormalBGP_OBP0vals:
 
 
 loadGameScreenTilesOntoScreen:
-	ld   de, $9800                                   ; $1e3b: $11 $00 $98
-	call dPlusEquValIn_c6de                               ; $1e3e: $cd $a2 $1e
+	ld   de, $9800
+	call dPlusEquValIn_c6de
 
 copyGameScreenTilesOntoDE:
 	ld   hl, wGameScreenTiles
@@ -3548,19 +3469,19 @@ copyGameScreenTilesOntoDE:
 	jp   copyMemoryBC
 
 
-Call_000_1e4a:
-	ld   hl, wTilesetIdx                                   ; $1e4a: $21 $ff $c5
-	ld   l, (hl)                                     ; $1e4d: $6e
-	ld   h, $00                                      ; $1e4e: $26 $00
-	push hl                                          ; $1e50: $e5
-	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $1e51: $cd $7a $17
-	pop  hl                                          ; $1e54: $e1
-	inc  hl                                          ; $1e55: $23
+loadAllVramTilesAndConversionTableDataForTileset:
+	ld   hl, wTilesetIdx
+	ld   l, (hl)
+	ld   h, $00
+	push hl
+	call loadTilesetAndVramTileConversionTable_idxedHL
+	pop  hl
+	inc  hl
 	jp   loadFirst800hVramTilesAndVramTileConversionTable                               ; $1e56: $c3 $a4 $17
 
 
 ;;
-	ld   de, $9800                                   ; $1e59: $11 $00 $98
+	ld   de, $9800
 	call dPlusEquValIn_c6de                               ; $1e5c: $cd $a2 $1e
 	ld   a, d                                        ; $1e5f: $7a
 	xor  $04                                         ; $1e60: $ee $04
@@ -3701,8 +3622,8 @@ TODOloadsRoomData:
 	ld   de, $0018                                   ; $1f4d: $11 $18 $00
 	call setAtoHL_deBytes                               ; $1f50: $cd $6d $27
 	call loadRoomStructData                               ; $1f53: $cd $50 $02
-	call Call_000_1e4a                               ; $1f56: $cd $4a $1e
-	call func_618f                                       ; $1f59: $cd $8f $61
+	call loadAllVramTilesAndConversionTableDataForTileset                               ; $1f56: $cd $4a $1e
+	call loadAnimationParametersForTileset                                       ; $1f59: $cd $8f $61
 
 //
 	ld   hl, w2x2gameScreenTiles                                   ; $1f5c: $21 $b0 $c3
@@ -4343,7 +4264,7 @@ jr_000_232a:
 	call Call_000_2e67                               ; $233a: $cd $67 $2e
 	call Call_000_3b11                               ; $233d: $cd $11 $3b
 	call copyA0hDataToOam                               ; $2340: $cd $99 $1a
-	call Call_000_1e4a                               ; $2343: $cd $4a $1e
+	call loadAllVramTilesAndConversionTableDataForTileset                               ; $2343: $cd $4a $1e
 	ld   hl, wLCDCvalue                                   ; $2346: $21 $00 $d0
 	ld   a, $87                                      ; $2349: $3e $87
 	ld   (hl), a                                     ; $234b: $77
@@ -4443,7 +4364,7 @@ func_23ca:
 	ld   (hl), a                                     ; $23de: $77
 	pop  af                                          ; $23df: $f1
 	and  $01                                         ; $23e0: $e6 $01
-	jr   z, jr_000_23f8                              ; $23e2: $28 $14
+	jr   z, +                              ; $23e2: $28 $14
 
 	ld   hl, $c007                                   ; $23e4: $21 $07 $c0
 	sla  (hl)                                        ; $23e7: $cb $26
@@ -4456,7 +4377,7 @@ func_23ca:
 	ld   hl, $c006                                   ; $23f4: $21 $06 $c0
 	ld   (hl), a                                     ; $23f7: $77
 
-jr_000_23f8:
++
 	ld   hl, $c006                                   ; $23f8: $21 $06 $c0
 	ld   a, (hl)                                     ; $23fb: $7e
 	ld   hl, $c007                                   ; $23fc: $21 $07 $c0
@@ -4467,36 +4388,30 @@ jr_000_23f8:
 	ret                                              ; $2405: $c9
 
 
+// indexed by current fruit
 data_2406:
-	inc  bc                                          ; $2406: $03
-	dec  b                                           ; $2407: $05
-	ld   ($1009), sp                                 ; $2408: $08 $09 $10
-	
+	.db $03 $05 $08 $09 $10
+
 data_240b:
-	ld   (bc), a                                     ; $240b: $02
-	ld   (bc), a                                     ; $240c: $02
-	ld   bc, $0403                                   ; $240d: $01 $03 $04
-	ld   sp, hl                                      ; $2410: $f9
-	.db  $fd                                         ; $2411: $fd
-	ei                                               ; $2412: $fb
-	rst  $38                                         ; $2413: $ff
-	rst  $30                                         ; $2414: $f7
+	.db $02 $02 $01 $03 $04
+
+data_2410:
+	.db $f9 $fd $fb $ff $f7
 	
 data_2415:
-	nop                                              ; $2415: $00
-	ret  nz                                          ; $2416: $c0
-
-	.db  $10                                         ; $2417: $10
-	and  b                                           ; $2418: $a0
-	add  b                                           ; $2419: $80
+	.db $00 $c0 $10 $a0 $80
 
 Call_000_241a:
-	ld   hl, wFruitEquipped                                   ; Call_000_241a: $21 $0c $c7
+	ld   hl, wFruitEquipped
 	ld   e, (hl)                                     ; $241d: $5e
 	ld   hl, getFruitAmountFromWram                                   ; $241e: $21 $fe $13
 	call jpHLinBank4                                       ; $2421: $cd $b5 $61
+
+// store here the fruit amount of current fruit
 	ld   hl, $c046                                   ; $2424: $21 $46 $c0
 	ld   (hl), e                                     ; $2427: $73
+
+//
 	ld   hl, wFruitEquipped                                   ; $2428: $21 $0c $c7
 	ld   c, (hl)                                     ; $242b: $4e
 	ld   b, $00                                      ; $242c: $06 $00
@@ -4505,6 +4420,8 @@ Call_000_241a:
 	ld   a, (hl)                                     ; $2432: $7e
 	ld   hl, $c048                                   ; $2433: $21 $48 $c0
 	ld   (hl), a                                     ; $2436: $77
+
+//
 	ld   hl, data_2406                                   ; $2437: $21 $06 $24
 	add  hl, bc                                      ; $243a: $09
 	ld   e, (hl)                                     ; $243b: $5e
@@ -4518,14 +4435,18 @@ Call_000_241a:
 	call bcDivA_divInC_modInAB                               ; $244a: $cd $44 $08
 	ld   hl, $c045                                   ; $244d: $21 $45 $c0
 	ld   (hl), c                                     ; $2450: $71
+
+//
 	ld   hl, wFruitEquipped                                   ; $2451: $21 $0c $c7
 	ld   c, (hl)                                     ; $2454: $4e
 	ld   b, $00                                      ; $2455: $06 $00
-	ld   hl, $2410                                   ; $2457: $21 $10 $24
+	ld   hl, data_2410                                   ; $2457: $21 $10 $24
 	add  hl, bc                                      ; $245a: $09
 	ld   a, (hl)                                     ; $245b: $7e
 	ld   hl, $c70f                                   ; $245c: $21 $0f $c7
 	ld   (hl), a                                     ; $245f: $77
+
+//
 	ld   hl, data_2415                                   ; $2460: $21 $15 $24
 	add  hl, bc                                      ; $2463: $09
 	ld   a, (hl)                                     ; $2464: $7e
@@ -4860,7 +4781,7 @@ callsCommonSoundFuncs_278f:
 
 
 Call_000_27a4:
-	ld   hl, $c4dd                                   ; $27a4: $21 $dd $c4
+	ld   hl, wIsMusicOff                                   ; $27a4: $21 $dd $c4
 	ld   a, (hl)                                     ; $27a7: $7e
 	cp   $00                                         ; $27a8: $fe $00
 	jr   z, @done                              ; $27aa: $28 $01
@@ -4945,7 +4866,7 @@ Call_000_2811:
 Jump_000_2817:
 	ld   hl, $c009                                   ; $2817: $21 $09 $c0
 	ld   (hl), a                                     ; $281a: $77
-	ld   hl, $c4dd                                   ; $281b: $21 $dd $c4
+	ld   hl, wIsMusicOff                                   ; $281b: $21 $dd $c4
 	ld   a, (hl)                                     ; $281e: $7e
 	cp   $00                                         ; $281f: $fe $00
 	jr   z, +                              ; $2821: $28 $06
@@ -5539,14 +5460,15 @@ Jump_000_2af5:
 	ld   a, $00                                      ; $2b27: $3e $00
 	ld   hl, $c711                                   ; $2b29: $21 $11 $c7
 	ld   (hl), a                                     ; $2b2c: $77
+
 	ld   hl, wPlayerX                                   ; $2b2d: $21 $52 $c0
 	ld   c, (hl)                                     ; $2b30: $4e
 	ld   b, $00                                      ; $2b31: $06 $00
 	ld   hl, wPlayerY                                   ; $2b33: $21 $54 $c0
 	ld   e, (hl)                                     ; $2b36: $5e
 	ld   d, $00                                      ; $2b37: $16 $00
-	call Call_001_551c                                       ; $2b39: $cd $1c $55
-	call func_509d                                       ; $2b3c: $cd $9d $50
+	call splitCEintoItsNybbles                                       ; $2b39: $cd $1c $55
+	call getTileCoordsPlayerIsOnAndCheckCollision                                       ; $2b3c: $cd $9d $50
 	ret                                              ; $2b3f: $c9
 
 
@@ -5979,8 +5901,8 @@ Call_000_2cbf:
 	ld   hl, $c6cd                                   ; $2da9: $21 $cd $c6
 	ld   e, (hl)                                     ; $2dac: $5e
 	ld   d, $00                                      ; $2dad: $16 $00
-	call Call_001_551c                                       ; $2daf: $cd $1c $55
-	call func_509d                                       ; $2db2: $cd $9d $50
+	call splitCEintoItsNybbles                                       ; $2daf: $cd $1c $55
+	call getTileCoordsPlayerIsOnAndCheckCollision                                       ; $2db2: $cd $9d $50
 	ld   hl, $c6cd                                   ; $2db5: $21 $cd $c6
 	ld   a, (hl)                                     ; $2db8: $7e
 	sub  $0e                                         ; $2db9: $d6 $0e
@@ -6592,7 +6514,7 @@ Jump_000_30f2:
 	ld   hl, $c00c                                   ; $311b: $21 $0c $c0
 	ld   c, (hl)                                     ; $311e: $4e
 	ld   b, $00                                      ; $311f: $06 $00
-	call Call_001_551c                                       ; $3121: $cd $1c $55
+	call splitCEintoItsNybbles                                       ; $3121: $cd $1c $55
 	call func_31e9                                       ; $3124: $cd $e9 $31
 	pop  bc                                          ; $3127: $c1
 	push bc                                          ; $3128: $c5
@@ -7101,7 +7023,7 @@ func_33b1:
 	ld   a, (hl)                                     ; $33c4: $7e
 	ld   c, a                                        ; $33c5: $4f
 	ld   b, $00                                      ; $33c6: $06 $00
-	call Call_001_551c                                       ; $33c8: $cd $1c $55
+	call splitCEintoItsNybbles                                       ; $33c8: $cd $1c $55
 	ld   hl, $c008                                   ; $33cb: $21 $08 $c0
 	ld   c, (hl)                                     ; $33ce: $4e
 	ld   b, $00                                      ; $33cf: $06 $00
@@ -7244,7 +7166,7 @@ jr_000_3467:
 	ld   d, $00                                      ; $3487: $16 $00
 
 jr_000_3489:
-	call Call_001_551c                                       ; $3489: $cd $1c $55
+	call splitCEintoItsNybbles                                       ; $3489: $cd $1c $55
 	ld   hl, $c008                                   ; $348c: $21 $08 $c0
 	ld   c, (hl)                                     ; $348f: $4e
 	ld   b, $00                                      ; $3490: $06 $00
@@ -8016,7 +7938,7 @@ func_3891:
 	ld   a, (hl)                                     ; $38a4: $7e
 	ld   c, a                                        ; $38a5: $4f
 	ld   b, $00                                      ; $38a6: $06 $00
-	call Call_001_551c                                       ; $38a8: $cd $1c $55
+	call splitCEintoItsNybbles                                       ; $38a8: $cd $1c $55
 	ld   hl, $c008                                   ; $38ab: $21 $08 $c0
 	ld   c, (hl)                                     ; $38ae: $4e
 	ld   b, $00                                      ; $38af: $06 $00
@@ -8158,7 +8080,7 @@ func_3928:
 	ld   a, (hl)                                     ; $395f: $7e
 	ld   hl, $c0fc                                   ; $3960: $21 $fc $c0
 	ld   (hl), a                                     ; $3963: $77
-	ld   hl, func_01_09de                                   ; $3964: $21 $de $09
+	ld   hl, setRoomFlag                                   ; $3964: $21 $de $09
 	call jpHLinBank1                                       ; $3967: $cd $b0 $61
 
 @done:
@@ -9144,7 +9066,7 @@ Jump_000_3eb2:
 	ld   a, (hl)                                     ; $3ed8: $7e
 	ld   c, a                                        ; $3ed9: $4f
 	ld   b, $00                                      ; $3eda: $06 $00
-	call Call_001_551c                                       ; $3edc: $cd $1c $55
+	call splitCEintoItsNybbles                                       ; $3edc: $cd $1c $55
 	ld   hl, $c008                                   ; $3edf: $21 $08 $c0
 	ld   c, (hl)                                     ; $3ee2: $4e
 	ld   b, $00                                      ; $3ee3: $06 $00
@@ -9347,6 +9269,8 @@ Jump_000_3fe2:
 	ret                                              ; $3fec: $c9
 
 
+// looks to be many purposes
+// including returning in A the tile the player is on for collisions
 Call_000_3fed:
 	push de
 	call Call_001_400c                                       ; $3fee: $cd $0c $40
@@ -10481,7 +10405,7 @@ Call_001_4655:
 	jr   nz, jr_001_46a3                             ; $4677: $20 $2a
 
 	call Call_001_46bb                               ; $4679: $cd $bb $46
-	call Call_001_551c                               ; $467c: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $467c: $cd $1c $55
 	call Call_001_45d3                               ; $467f: $cd $d3 $45
 	jr   c, jr_001_46b2                              ; $4682: $38 $2e
 
@@ -10564,7 +10488,7 @@ Call_001_46c4:
 	ld   c, a                                        ; $46eb: $4f
 	ld   b, $00                                      ; $46ec: $06 $00
 	call Call_001_46bb                               ; $46ee: $cd $bb $46
-	call Call_001_551c                               ; $46f1: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $46f1: $cd $1c $55
 	call Call_001_45d3                               ; $46f4: $cd $d3 $45
 	jr   c, jr_001_4728                              ; $46f7: $38 $2f
 
@@ -10629,7 +10553,7 @@ Call_001_472a:
 	jr   nz, jr_001_4779                             ; $474d: $20 $2a
 
 	call Call_001_46bb                               ; $474f: $cd $bb $46
-	call Call_001_551c                               ; $4752: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4752: $cd $1c $55
 	call Call_001_4616                               ; $4755: $cd $16 $46
 	jr   c, jr_001_4788                              ; $4758: $38 $2e
 
@@ -10697,7 +10621,7 @@ Call_001_478a:
 	add  $0f                                         ; $47b0: $c6 $0f
 	ld   e, a                                        ; $47b2: $5f
 	ld   d, $00                                      ; $47b3: $16 $00
-	call Call_001_551c                               ; $47b5: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $47b5: $cd $1c $55
 	call Call_001_4616                               ; $47b8: $cd $16 $46
 	jr   c, jr_001_47eb                              ; $47bb: $38 $2e
 
@@ -10761,7 +10685,7 @@ func_47ed:
 	call Call_001_4aa7                               ; $480a: $cd $a7 $4a
 	call Call_001_438c                               ; $480d: $cd $8c $43
 	call Call_001_46bb                               ; $4810: $cd $bb $46
-	call Call_001_551c                               ; $4813: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4813: $cd $1c $55
 	call Call_001_45d3                               ; $4816: $cd $d3 $45
 	jr   c, jr_001_4847                              ; $4819: $38 $2c
 
@@ -10820,7 +10744,7 @@ func_4849:
 	ld   c, a                                        ; $4868: $4f
 	ld   b, $00                                      ; $4869: $06 $00
 	call Call_001_46bb                               ; $486b: $cd $bb $46
-	call Call_001_551c                               ; $486e: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $486e: $cd $1c $55
 	call Call_001_45d3                               ; $4871: $cd $d3 $45
 	jr   c, jr_001_48a4                              ; $4874: $38 $2e
 
@@ -11591,7 +11515,7 @@ jr_001_4c79:
 	ld   b, $00                                      ; $4c7d: $06 $00
 	dec  bc                                          ; $4c7f: $0b
 	call deEquPlayerYplus_c04a                                       ; $4c80: $cd $40 $2b
-	call Call_001_551c                               ; $4c83: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4c83: $cd $1c $55
 	ld   a, $00                                      ; $4c86: $3e $00
 	ld   hl, $c088                                   ; $4c88: $21 $88 $c0
 	ld   (hl), a                                     ; $4c8b: $77
@@ -11676,7 +11600,7 @@ checkTransitioningToRightScreen:
 	ld   c, a                                        ; $4d02: $4f
 	ld   b, $00                                      ; $4d03: $06 $00
 	call deEquPlayerYplus_c04a                                       ; $4d05: $cd $40 $2b
-	call Call_001_551c                               ; $4d08: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4d08: $cd $1c $55
 	ld   a, $00                                      ; $4d0b: $3e $00
 	ld   hl, $c087                                   ; $4d0d: $21 $87 $c0
 	ld   (hl), a                                     ; $4d10: $77
@@ -11789,7 +11713,7 @@ checkTransitioningToAboveScreen:
 	ld   hl, wPlayerX                                   ; $4dab: $21 $52 $c0
 	ld   c, (hl)                                     ; $4dae: $4e
 	ld   b, $00                                      ; $4daf: $06 $00
-	call Call_001_551c                               ; $4db1: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4db1: $cd $1c $55
 	ld   a, $00                                      ; $4db4: $3e $00
 	ld   hl, $c087                                   ; $4db6: $21 $87 $c0
 	ld   (hl), a                                     ; $4db9: $77
@@ -11875,7 +11799,7 @@ checkTransitioningToBelowScreen:
 	ld   hl, wPlayerX                                   ; $4e2f: $21 $52 $c0
 	ld   c, (hl)                                     ; $4e32: $4e
 	ld   b, $00                                      ; $4e33: $06 $00
-	call Call_001_551c                               ; $4e35: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4e35: $cd $1c $55
 	ld   a, $00                                      ; $4e38: $3e $00
 	ld   hl, $c087                                   ; $4e3a: $21 $87 $c0
 	ld   (hl), a                                     ; $4e3d: $77
@@ -12038,7 +11962,7 @@ func_4f13:
 	ld   b, $00                                      ; $4f1f: $06 $00
 	dec  bc                                          ; $4f21: $0b
 	call deEquPlayerYplus_c04a                                       ; $4f22: $cd $40 $2b
-	call Call_001_551c                               ; $4f25: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4f25: $cd $1c $55
 	call Call_001_53d8                               ; $4f28: $cd $d8 $53
 	jr   c, jr_001_4f77                              ; $4f2b: $38 $4a
 
@@ -12068,7 +11992,7 @@ func_4f43:
 	ld   c, a                                        ; $4f51: $4f
 	ld   b, $00                                      ; $4f52: $06 $00
 	call deEquPlayerYplus_c04a                                       ; $4f54: $cd $40 $2b
-	call Call_001_551c                               ; $4f57: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4f57: $cd $1c $55
 	call Call_001_53d8                               ; $4f5a: $cd $d8 $53
 	jr   c, jr_001_4f77                              ; $4f5d: $38 $18
 
@@ -12110,7 +12034,7 @@ func_4f87:
 	ld   hl, wPlayerX                                   ; $4f93: $21 $52 $c0
 	ld   c, (hl)                                     ; $4f96: $4e
 	ld   b, $00                                      ; $4f97: $06 $00
-	call Call_001_551c                               ; $4f99: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4f99: $cd $1c $55
 	call Call_001_549f                               ; $4f9c: $cd $9f $54
 	jr   c, jr_001_4f77                              ; $4f9f: $38 $d6
 
@@ -12140,7 +12064,7 @@ func_4fb7:
 	ld   hl, wPlayerX                                   ; $4fc4: $21 $52 $c0
 	ld   c, (hl)                                     ; $4fc7: $4e
 	ld   b, $00                                      ; $4fc8: $06 $00
-	call Call_001_551c                               ; $4fca: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4fca: $cd $1c $55
 	call Call_001_549f                               ; $4fcd: $cd $9f $54
 	jr   c, jr_001_4f77                              ; $4fd0: $38 $a5
 
@@ -12173,7 +12097,7 @@ jr_001_4ff3:
 	ld   b, $00                                      ; $4ff7: $06 $00
 	dec  bc                                          ; $4ff9: $0b
 	call deEquPlayerYplus_c04a                                       ; $4ffa: $cd $40 $2b
-	call Call_001_551c                               ; $4ffd: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $4ffd: $cd $1c $55
 	ld   a, $09                                      ; $5000: $3e $09
 	ld   hl, $c082                                   ; $5002: $21 $82 $c0
 	ld   (hl), a                                     ; $5005: $77
@@ -12230,7 +12154,7 @@ jr_001_503f:
 	ld   c, a                                        ; $5045: $4f
 	ld   b, $00                                      ; $5046: $06 $00
 	call deEquPlayerYplus_c04a                                       ; $5048: $cd $40 $2b
-	call Call_001_551c                               ; $504b: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $504b: $cd $1c $55
 	ld   a, $00                                      ; $504e: $3e $00
 	ld   hl, $c082                                   ; $5050: $21 $82 $c0
 	ld   (hl), a                                     ; $5053: $77
@@ -12296,13 +12220,18 @@ jr_001_5098:
 	ret                                              ; $509c: $c9
 
 
-func_509d:
+getTileCoordsPlayerIsOnAndCheckCollision:
+// if bc was player x and de was player y
+// c008 = player x high nybble, c009 = player y high nybble
 	ld   hl, $c008                                   ; $509d: $21 $08 $c0
 	ld   c, (hl)                                     ; $50a0: $4e
 	ld   b, $00                                      ; $50a1: $06 $00
 	ld   hl, $c009                                   ; $50a3: $21 $09 $c0
 	ld   e, (hl)                                     ; $50a6: $5e
 	ld   d, $00                                      ; $50a7: $16 $00
+
+// c006 would be player x low nybble
+// if > 8, consider the tile to the right of player
 	ld   hl, $c006                                   ; $50a9: $21 $06 $c0
 	ld   a, (hl)                                     ; $50ac: $7e
 	cp   $08                                         ; $50ad: $fe $08
@@ -12311,6 +12240,7 @@ func_509d:
 	inc  bc                                          ; $50b1: $03
 
 +
+// same with c007 (player y low nybble)
 	ld   hl, $c007                                   ; $50b2: $21 $07 $c0
 	ld   a, (hl)                                     ; $50b5: $7e
 	cp   $08                                         ; $50b6: $fe $08
@@ -12319,11 +12249,13 @@ func_509d:
 	inc  de                                          ; $50ba: $13
 
 +
-	call Call_001_50bf                               ; $50bb: $cd $bf $50
+	call processPlayerCollision                               ; $50bb: $cd $bf $50
 	ret                                              ; $50be: $c9
 
 
-Call_001_50bf:
+processPlayerCollision:
+// eg bc = x coord of tile player is considered on
+// and de = y coord of tile player is considered on
 	ld   hl, $c05d                                   ; $50bf: $21 $5d $c0
 	ld   a, (hl)                                     ; $50c2: $7e
 	cp   $00                                         ; $50c3: $fe $00
@@ -13145,19 +13077,26 @@ jr_001_551a:
 	ret                                              ; $551b: $c9
 
 
-Call_001_551c:
+splitCEintoItsNybbles:
+// c high nybble in c008
 	ld   a, c
 	call aDivEqu16                                       ; $551d: $cd $fa $07
 	ld   hl, $c008                                   ; $5520: $21 $08 $c0
 	ld   (hl), a                                     ; $5523: $77
+
+// c low nybble in c006
 	ld   a, c                                        ; $5524: $79
 	and  $0f                                         ; $5525: $e6 $0f
 	ld   hl, $c006                                   ; $5527: $21 $06 $c0
 	ld   (hl), a                                     ; $552a: $77
+
+// e high nybble in c009
 	ld   a, e                                        ; $552b: $7b
 	call aDivEqu16                                       ; $552c: $cd $fa $07
 	ld   hl, $c009                                   ; $552f: $21 $09 $c0
 	ld   (hl), a                                     ; $5532: $77
+
+// e low nybble in c007
 	ld   a, e                                        ; $5533: $7b
 	and  $0f                                         ; $5534: $e6 $0f
 	ld   hl, $c007                                   ; $5536: $21 $07 $c0
@@ -13293,7 +13232,7 @@ func_55a9:
 	add  $0f                                         ; $55cc: $c6 $0f
 	ld   e, a                                        ; $55ce: $5f
 	ld   d, $00                                      ; $55cf: $16 $00
-	call Call_001_551c                               ; $55d1: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $55d1: $cd $1c $55
 	ld   hl, $c008                                   ; $55d4: $21 $08 $c0
 	ld   c, (hl)                                     ; $55d7: $4e
 	ld   b, $00                                      ; $55d8: $06 $00
@@ -14359,19 +14298,19 @@ jr_001_5b7c:
 ;;
 	ld   de, $9800                                   ; $5b85: $11 $00 $98
 	call dEquDoffsetInScreen1                                       ; $5b88: $cd $a8 $1e
-	jp   Jump_001_5b94                               ; $5b8b: $c3 $94 $5b
+	jp   +                               ; $5b8b: $c3 $94 $5b
 
 
-func_5b8e:
-	ld   de, $9800                                   ; func_5b8e: $11 $00 $98
-	call dPlusEquScreen0displayOffset                                       ; $5b91: $cd $99 $1e
+clearScreen0:
+	ld   de, $9800
+	call dPlusEquScreen0displayOffset
 
-Jump_001_5b94:
-	push de                                          ; $5b94: $d5
-	pop  hl                                          ; $5b95: $e1
-	ld   de, $0400                                   ; $5b96: $11 $00 $04
-	ld   a, $00                                      ; $5b99: $3e $00
-	jp   setAtoHL_deBytes                                       ; $5b9b: $c3 $6d $27
++
+	push de
+	pop  hl
+	ld   de, $0400
+	ld   a, $00
+	jp   setAtoHL_deBytes
 
 
 clear_c200_to_c2ff:
@@ -14381,1424 +14320,890 @@ clear_c200_to_c2ff:
 	jp   setAtoHL_deBytes                                       ; $5ba6: $c3 $6d $27
 
 
-data_5ba9:
-	ld   b, b                                        ; $5ba9: $40
-	sub  e                                           ; $5baa: $93
-	jr   nc, -$2f                                    ; $5bab: $30 $d1
-
-	ld   b, b                                        ; $5bad: $40
-
-jr_001_5bae:
-	sub  e                                           ; $5bae: $93
-	nop                                              ; $5baf: $00
-	pop  de                                          ; $5bb0: $d1
-	ld   b, b                                        ; $5bb1: $40
-	sub  e                                           ; $5bb2: $93
-	jr   nz, -$2f                                    ; $5bb3: $20 $d1
-
-	ld   b, b                                        ; $5bb5: $40
-
-jr_001_5bb6:
-	sub  e                                           ; $5bb6: $93
-	.db  $10                                         ; $5bb7: $10
-	pop  de                                          ; $5bb8: $d1
-	ld   b, b                                        ; $5bb9: $40
-	sub  e                                           ; $5bba: $93
-	ld   d, b                                        ; $5bbb: $50
-	pop  de                                          ; $5bbc: $d1
-	ld   b, b                                        ; $5bbd: $40
-	sub  e                                           ; $5bbe: $93
-	ld   h, b                                        ; $5bbf: $60
-	pop  de                                          ; $5bc0: $d1
-	ld   b, b                                        ; $5bc1: $40
-	sub  e                                           ; $5bc2: $93
-	ld   b, b                                        ; $5bc3: $40
-	pop  de                                          ; $5bc4: $d1
-	ld   b, b                                        ; $5bc5: $40
-	sub  e                                           ; $5bc6: $93
-	ld   (hl), b                                     ; $5bc7: $70
-	pop  de                                          ; $5bc8: $d1
-	ld   d, b                                        ; $5bc9: $50
-	sub  e                                           ; $5bca: $93
-	jr   nc, clear_c200_to_c2ff                             ; $5bcb: $30 $d1
-
-	ld   d, b                                        ; $5bcd: $50
-
-jr_001_5bce:
-	sub  e                                           ; $5bce: $93
-	nop                                              ; $5bcf: $00
-	pop  de                                          ; $5bd0: $d1
-	ld   d, b                                        ; $5bd1: $50
-	sub  e                                           ; $5bd2: $93
-	.db $20 $d1
-
-	ld   d, b                                        ; $5bd5: $50
-
-jr_001_5bd6:
-	sub  e                                           ; $5bd6: $93
-	nop                                              ; $5bd7: $00
-	pop  de                                          ; $5bd8: $d1
-	ld   (hl), b                                     ; $5bd9: $70
-	sub  e                                           ; $5bda: $93
-	jr   nc, jr_001_5bae                             ; $5bdb: $30 $d1
-
-	ld   (hl), b                                     ; $5bdd: $70
-	sub  e                                           ; $5bde: $93
-	nop                                              ; $5bdf: $00
-	pop  de                                          ; $5be0: $d1
-	ld   (hl), b                                     ; $5be1: $70
-	sub  e                                           ; $5be2: $93
-	jr   nz, jr_001_5bb6                             ; $5be3: $20 $d1
-
-	ld   (hl), b                                     ; $5be5: $70
-	sub  e                                           ; $5be6: $93
-	.db  $10                                         ; $5be7: $10
-	pop  de                                          ; $5be8: $d1
-	ld   (hl), b                                     ; $5be9: $70
-	sub  e                                           ; $5bea: $93
-	ld   d, b                                        ; $5beb: $50
-	pop  de                                          ; $5bec: $d1
-	ld   (hl), b                                     ; $5bed: $70
-	sub  e                                           ; $5bee: $93
-	ld   h, b                                        ; $5bef: $60
-	pop  de                                          ; $5bf0: $d1
-	ld   (hl), b                                     ; $5bf1: $70
-	sub  e                                           ; $5bf2: $93
-	ld   b, b                                        ; $5bf3: $40
-	pop  de                                          ; $5bf4: $d1
-	ld   (hl), b                                     ; $5bf5: $70
-	sub  e                                           ; $5bf6: $93
-	ld   (hl), b                                     ; $5bf7: $70
-	pop  de                                          ; $5bf8: $d1
-	ld   h, b                                        ; $5bf9: $60
-	sub  e                                           ; $5bfa: $93
-	jr   nc, jr_001_5bce                             ; $5bfb: $30 $d1
-
-	ld   h, b                                        ; $5bfd: $60
-	sub  e                                           ; $5bfe: $93
-	nop                                              ; $5bff: $00
-	pop  de                                          ; $5c00: $d1
-	ld   h, b                                        ; $5c01: $60
-	sub  e                                           ; $5c02: $93
-
-jr_001_5c03:
-	jr   nz, jr_001_5bd6                             ; $5c03: $20 $d1
-
-	ld   h, b                                        ; $5c05: $60
-	sub  e                                           ; $5c06: $93
-
-jr_001_5c07:
-	nop                                              ; $5c07: $00
-	pop  de                                          ; $5c08: $d1
-	nop                                              ; $5c09: $00
-	nop                                              ; $5c0a: $00
-
-jr_001_5c0b:
-	xor  c                                           ; $5c0b: $a9
-	ld   e, e                                        ; $5c0c: $5b
-	
-data_5c0d:
-	ld   b, b                                        ; $5c0d: $40
-	adc  h                                           ; $5c0e: $8c
-
-jr_001_5c0f:
-	nop                                              ; $5c0f: $00
-	jp   nc, $8c50                                   ; $5c10: $d2 $50 $8c
-
-jr_001_5c13:
-	nop                                              ; $5c13: $00
-	jp   nc, $8c60                                   ; $5c14: $d2 $60 $8c
-
-jr_001_5c17:
-	nop                                              ; $5c17: $00
-	jp   nc, $8c70                                   ; $5c18: $d2 $70 $8c
-
-jr_001_5c1b:
-	nop                                              ; $5c1b: $00
-	jp   nc, $8c40                                   ; $5c1c: $d2 $40 $8c
-
-jr_001_5c1f:
-	.db  $10                                         ; $5c1f: $10
-	jp   nc, $8c50                                   ; $5c20: $d2 $50 $8c
-
-jr_001_5c23:
-	.db  $10                                         ; $5c23: $10
-	jp   nc, $8c60                                   ; $5c24: $d2 $60 $8c
-
-jr_001_5c27:
-	.db  $10                                         ; $5c27: $10
-	jp   nc, $8c70                                   ; $5c28: $d2 $70 $8c
-
-jr_001_5c2b:
-	.db  $10                                         ; $5c2b: $10
-	jp   nc, $8c40                                   ; $5c2c: $d2 $40 $8c
-
-jr_001_5c2f:
-	jr   nz, jr_001_5c03                             ; $5c2f: $20 $d2
-
-	ld   d, b                                        ; $5c31: $50
-	adc  h                                           ; $5c32: $8c
-	jr   nz, jr_001_5c07                             ; $5c33: $20 $d2
-
-	ld   h, b                                        ; $5c35: $60
-	adc  h                                           ; $5c36: $8c
-	jr   nz, jr_001_5c0b                             ; $5c37: $20 $d2
-
-	ld   (hl), b                                     ; $5c39: $70
-	adc  h                                           ; $5c3a: $8c
-	jr   nz, jr_001_5c0f                             ; $5c3b: $20 $d2
-
-	ld   b, b                                        ; $5c3d: $40
-	adc  h                                           ; $5c3e: $8c
-	jr   nc, jr_001_5c13                             ; $5c3f: $30 $d2
-
-	ld   d, b                                        ; $5c41: $50
-	adc  h                                           ; $5c42: $8c
-	jr   nc, jr_001_5c17                             ; $5c43: $30 $d2
-
-	ld   h, b                                        ; $5c45: $60
-	adc  h                                           ; $5c46: $8c
-	jr   nc, jr_001_5c1b                             ; $5c47: $30 $d2
-
-	ld   (hl), b                                     ; $5c49: $70
-	adc  h                                           ; $5c4a: $8c
-	jr   nc, jr_001_5c1f                             ; $5c4b: $30 $d2
-
-	ld   b, b                                        ; $5c4d: $40
-	adc  h                                           ; $5c4e: $8c
-	jr   nz, jr_001_5c23                             ; $5c4f: $20 $d2
-
-	ld   d, b                                        ; $5c51: $50
-	adc  h                                           ; $5c52: $8c
-	jr   nz, jr_001_5c27                             ; $5c53: $20 $d2
-
-	ld   h, b                                        ; $5c55: $60
-	adc  h                                           ; $5c56: $8c
-	jr   nz, jr_001_5c2b                             ; $5c57: $20 $d2
-
-	ld   (hl), b                                     ; $5c59: $70
-	adc  h                                           ; $5c5a: $8c
-	jr   nz, jr_001_5c2f                             ; $5c5b: $20 $d2
-
-	ld   b, b                                        ; $5c5d: $40
-	adc  h                                           ; $5c5e: $8c
-	.db  $10                                         ; $5c5f: $10
-	jp   nc, $8c50                                   ; $5c60: $d2 $50 $8c
-
-	.db  $10                                         ; $5c63: $10
-	jp   nc, $8c60                                   ; $5c64: $d2 $60 $8c
-
-jr_001_5c67:
-	.db  $10                                         ; $5c67: $10
-	jp   nc, $8c70                                   ; $5c68: $d2 $70 $8c
-
-jr_001_5c6b:
-	.db  $10                                         ; $5c6b: $10
-	jp   nc, $0000                                  ; $5c6c: $d2 $00 $00
-
-jr_001_5c6f:
-	dec  c                                           ; $5c6f: $0d
-	ld   e, h                                        ; $5c70: $5c
-	
-data_5c74:
-	ld   b, b                                        ; $5c71: $40
-	sub  (hl)                                        ; $5c72: $96
-
-jr_001_5c73:
-	nop                                              ; $5c73: $00
-	jp   nc, $9650                                   ; $5c74: $d2 $50 $96
-
-jr_001_5c77:
-	nop                                              ; $5c77: $00
-	jp   nc, $9660                                   ; $5c78: $d2 $60 $96
-
-jr_001_5c7b:
-	nop                                              ; $5c7b: $00
-	jp   nc, $9670                                   ; $5c7c: $d2 $70 $96
-
-jr_001_5c7f:
-	nop                                              ; $5c7f: $00
-	jp   nc, $9640                                   ; $5c80: $d2 $40 $96
-
-jr_001_5c83:
-	.db  $10                                         ; $5c83: $10
-	jp   nc, $9650                                   ; $5c84: $d2 $50 $96
-
-jr_001_5c87:
-	.db  $10                                         ; $5c87: $10
-	jp   nc, $9660                                   ; $5c88: $d2 $60 $96
-
-jr_001_5c8b:
-	.db  $10                                         ; $5c8b: $10
-	jp   nc, $9670                                   ; $5c8c: $d2 $70 $96
-
-jr_001_5c8f:
-	.db  $10                                         ; $5c8f: $10
-	jp   nc, $9640                                   ; $5c90: $d2 $40 $96
-
-jr_001_5c93:
-	jr   nz, jr_001_5c67                             ; $5c93: $20 $d2
-
-	ld   d, b                                        ; $5c95: $50
-	sub  (hl)                                        ; $5c96: $96
-	jr   nz, jr_001_5c6b                             ; $5c97: $20 $d2
-
-	ld   h, b                                        ; $5c99: $60
-	sub  (hl)                                        ; $5c9a: $96
-	jr   nz, jr_001_5c6f                             ; $5c9b: $20 $d2
-
-	ld   (hl), b                                     ; $5c9d: $70
-	sub  (hl)                                        ; $5c9e: $96
-	jr   nz, jr_001_5c73                             ; $5c9f: $20 $d2
-
-	ld   b, b                                        ; $5ca1: $40
-	sub  (hl)                                        ; $5ca2: $96
-	jr   nc, jr_001_5c77                             ; $5ca3: $30 $d2
-
-	ld   d, b                                        ; $5ca5: $50
-	sub  (hl)                                        ; $5ca6: $96
-	jr   nc, jr_001_5c7b                             ; $5ca7: $30 $d2
-
-	ld   h, b                                        ; $5ca9: $60
-
-jr_001_5caa:
-	sub  (hl)                                        ; $5caa: $96
-	jr   nc, jr_001_5c7f                             ; $5cab: $30 $d2
-
-	ld   (hl), b                                     ; $5cad: $70
-	sub  (hl)                                        ; $5cae: $96
-	jr   nc, jr_001_5c83                             ; $5caf: $30 $d2
-
-	ld   b, b                                        ; $5cb1: $40
-
-jr_001_5cb2:
-	sub  (hl)                                        ; $5cb2: $96
-	jr   nz, jr_001_5c87                             ; $5cb3: $20 $d2
-
-	ld   d, b                                        ; $5cb5: $50
-	sub  (hl)                                        ; $5cb6: $96
-	jr   nz, jr_001_5c8b                             ; $5cb7: $20 $d2
-
-	ld   h, b                                        ; $5cb9: $60
-	sub  (hl)                                        ; $5cba: $96
-	jr   nz, jr_001_5c8f                             ; $5cbb: $20 $d2
-
-	ld   (hl), b                                     ; $5cbd: $70
-	sub  (hl)                                        ; $5cbe: $96
-	jr   nz, jr_001_5c93                             ; $5cbf: $20 $d2
-
-	ld   b, b                                        ; $5cc1: $40
-	sub  (hl)                                        ; $5cc2: $96
-	.db  $10                                         ; $5cc3: $10
-	jp   nc, $9650                                   ; $5cc4: $d2 $50 $96
-
-	.db  $10                                         ; $5cc7: $10
-	jp   nc, $9660                                   ; $5cc8: $d2 $60 $96
-
-	.db  $10                                         ; $5ccb: $10
-	jp   nc, $9670                                   ; $5ccc: $d2 $70 $96
-
-	.db  $10                                         ; $5ccf: $10
-	jp   nc, $0000                                  ; $5cd0: $d2 $00 $00
-
-	ld   (hl), c                                     ; $5cd3: $71
-	ld   e, h                                        ; $5cd4: $5c
-
-
-data_5cd9:
-	add  b                                           ; $5cd5: $80
-	sub  h                                           ; $5cd6: $94
-	jr   nc, jr_001_5caa                             ; $5cd7: $30 $d1
-
-	add  b                                           ; $5cd9: $80
-
-jr_001_5cda:
-	sub  h                                           ; $5cda: $94
-	nop                                              ; $5cdb: $00
-	pop  de                                          ; $5cdc: $d1
-	add  b                                           ; $5cdd: $80
-	sub  h                                           ; $5cde: $94
-	jr   nz, jr_001_5cb2                             ; $5cdf: $20 $d1
-
-	add  b                                           ; $5ce1: $80
-
-jr_001_5ce2:
-	sub  h                                           ; $5ce2: $94
-	.db  $10                                         ; $5ce3: $10
-	pop  de                                          ; $5ce4: $d1
-	add  b                                           ; $5ce5: $80
-	sub  h                                           ; $5ce6: $94
-	ld   d, b                                        ; $5ce7: $50
-	pop  de                                          ; $5ce8: $d1
-	add  b                                           ; $5ce9: $80
-
-jr_001_5cea:
-	sub  h                                           ; $5cea: $94
-	ld   h, b                                        ; $5ceb: $60
-	pop  de                                          ; $5cec: $d1
-	add  b                                           ; $5ced: $80
-	sub  h                                           ; $5cee: $94
-	ld   b, b                                        ; $5cef: $40
-	pop  de                                          ; $5cf0: $d1
-	add  b                                           ; $5cf1: $80
-
-jr_001_5cf2:
-	sub  h                                           ; $5cf2: $94
-	ld   (hl), b                                     ; $5cf3: $70
-	pop  de                                          ; $5cf4: $d1
-	sub  b                                           ; $5cf5: $90
-	sub  h                                           ; $5cf6: $94
-	jr   nc, -$2f                                    ; $5cf7: $30 $d1
-
-	sub  b                                           ; $5cf9: $90
-	sub  h                                           ; $5cfa: $94
-	nop                                              ; $5cfb: $00
-	pop  de                                          ; $5cfc: $d1
-	sub  b                                           ; $5cfd: $90
-	sub  h                                           ; $5cfe: $94
-	jr   nz, -$2f                                    ; $5cff: $20 $d1
-
-	sub  b                                           ; $5d01: $90
-	sub  h                                           ; $5d02: $94
-	nop                                              ; $5d03: $00
-	pop  de                                          ; $5d04: $d1
-	ldh  a, (<$96)                                   ; $5d05: $f0 $96
-	jr   nc, jr_001_5cda                             ; $5d07: $30 $d1
-
-	ldh  a, (<$96)                                   ; $5d09: $f0 $96
-	nop                                              ; $5d0b: $00
-	pop  de                                          ; $5d0c: $d1
-	ldh  a, (<$96)                                   ; $5d0d: $f0 $96
-	jr   nz, jr_001_5ce2                             ; $5d0f: $20 $d1
-
-	ldh  a, (<$96)                                   ; $5d11: $f0 $96
-	nop                                              ; $5d13: $00
-	pop  de                                          ; $5d14: $d1
-	and  b                                           ; $5d15: $a0
-	sub  h                                           ; $5d16: $94
-	jr   nc, jr_001_5cea                             ; $5d17: $30 $d1
-
-	and  b                                           ; $5d19: $a0
-
-jr_001_5d1a:
-	sub  h                                           ; $5d1a: $94
-	nop                                              ; $5d1b: $00
-	pop  de                                          ; $5d1c: $d1
-	and  b                                           ; $5d1d: $a0
-	sub  h                                           ; $5d1e: $94
-	jr   nz, jr_001_5cf2                             ; $5d1f: $20 $d1
-
-	and  b                                           ; $5d21: $a0
-
-jr_001_5d22:
-	sub  h                                           ; $5d22: $94
-	.db  $10                                         ; $5d23: $10
-	pop  de                                          ; $5d24: $d1
-	and  b                                           ; $5d25: $a0
-	sub  h                                           ; $5d26: $94
-	ld   d, b                                        ; $5d27: $50
-	pop  de                                          ; $5d28: $d1
-	and  b                                           ; $5d29: $a0
-	sub  h                                           ; $5d2a: $94
-	ld   h, b                                        ; $5d2b: $60
-	pop  de                                          ; $5d2c: $d1
-	and  b                                           ; $5d2d: $a0
-	sub  h                                           ; $5d2e: $94
-	ld   b, b                                        ; $5d2f: $40
-	pop  de                                          ; $5d30: $d1
-	and  b                                           ; $5d31: $a0
-	sub  h                                           ; $5d32: $94
-	ld   (hl), b                                     ; $5d33: $70
-	pop  de                                          ; $5d34: $d1
-	or   b                                           ; $5d35: $b0
-	sub  h                                           ; $5d36: $94
-	jr   nc, -$2f                                    ; $5d37: $30 $d1
-
-	or   b                                           ; $5d39: $b0
-	sub  h                                           ; $5d3a: $94
-	nop                                              ; $5d3b: $00
-	pop  de                                          ; $5d3c: $d1
-	or   b                                           ; $5d3d: $b0
-	sub  h                                           ; $5d3e: $94
-	jr   nz, -$2f                                    ; $5d3f: $20 $d1
-
-	or   b                                           ; $5d41: $b0
-	sub  h                                           ; $5d42: $94
-	nop                                              ; $5d43: $00
-	pop  de                                          ; $5d44: $d1
-	ret  nc                                          ; $5d45: $d0
-
-	sub  (hl)                                        ; $5d46: $96
-	jr   nc, jr_001_5d1a                             ; $5d47: $30 $d1
-
-	ret  nc                                          ; $5d49: $d0
-
-	sub  (hl)                                        ; $5d4a: $96
-	nop                                              ; $5d4b: $00
-	pop  de                                          ; $5d4c: $d1
-	ret  nc                                          ; $5d4d: $d0
-
-	sub  (hl)                                        ; $5d4e: $96
-	jr   nz, jr_001_5d22                             ; $5d4f: $20 $d1
-
-	ret  nc                                          ; $5d51: $d0
-
-	sub  (hl)                                        ; $5d52: $96
-	.db  $10                                         ; $5d53: $10
-	pop  de                                          ; $5d54: $d1
-	ret  nc                                          ; $5d55: $d0
-
-	sub  (hl)                                        ; $5d56: $96
-	ld   d, b                                        ; $5d57: $50
-	pop  de                                          ; $5d58: $d1
-	ret  nc                                          ; $5d59: $d0
-
-	sub  (hl)                                        ; $5d5a: $96
-	ld   h, b                                        ; $5d5b: $60
-	pop  de                                          ; $5d5c: $d1
-	ret  nc                                          ; $5d5d: $d0
-
-	sub  (hl)                                        ; $5d5e: $96
-	ld   b, b                                        ; $5d5f: $40
-	pop  de                                          ; $5d60: $d1
-	ret  nc                                          ; $5d61: $d0
-
-	sub  (hl)                                        ; $5d62: $96
-	ld   (hl), b                                     ; $5d63: $70
-	pop  de                                          ; $5d64: $d1
-	nop                                              ; $5d65: $00
-	nop                                              ; $5d66: $00
-	push de                                          ; $5d67: $d5
-	ld   e, h                                        ; $5d68: $5c
-	
-	
-data_5d69:
-	ld   b, b                                        ; $5d69: $40
-	sub  e                                           ; $5d6a: $93
-	add  b                                           ; $5d6b: $80
-	pop  de                                          ; $5d6c: $d1
-	ld   d, b                                        ; $5d6d: $50
-	sub  e                                           ; $5d6e: $93
-	add  b                                           ; $5d6f: $80
-	pop  de                                          ; $5d70: $d1
-	ld   h, b                                        ; $5d71: $60
-	sub  e                                           ; $5d72: $93
-	add  b                                           ; $5d73: $80
-	pop  de                                          ; $5d74: $d1
-	ld   (hl), b                                     ; $5d75: $70
-	sub  e                                           ; $5d76: $93
-	add  b                                           ; $5d77: $80
-	pop  de                                          ; $5d78: $d1
-	ld   b, b                                        ; $5d79: $40
-	sub  e                                           ; $5d7a: $93
-	sub  b                                           ; $5d7b: $90
-	pop  de                                          ; $5d7c: $d1
-	ld   d, b                                        ; $5d7d: $50
-	sub  e                                           ; $5d7e: $93
-	sub  b                                           ; $5d7f: $90
-	pop  de                                          ; $5d80: $d1
-	ld   h, b                                        ; $5d81: $60
-	sub  e                                           ; $5d82: $93
-	sub  b                                           ; $5d83: $90
-	pop  de                                          ; $5d84: $d1
-	ld   (hl), b                                     ; $5d85: $70
-	sub  e                                           ; $5d86: $93
-	sub  b                                           ; $5d87: $90
-	pop  de                                          ; $5d88: $d1
-	ld   b, b                                        ; $5d89: $40
-	sub  e                                           ; $5d8a: $93
-	and  b                                           ; $5d8b: $a0
-	pop  de                                          ; $5d8c: $d1
-	ld   d, b                                        ; $5d8d: $50
-	sub  e                                           ; $5d8e: $93
-	and  b                                           ; $5d8f: $a0
-	pop  de                                          ; $5d90: $d1
-	ld   h, b                                        ; $5d91: $60
-	sub  e                                           ; $5d92: $93
-	and  b                                           ; $5d93: $a0
-	pop  de                                          ; $5d94: $d1
-	ld   (hl), b                                     ; $5d95: $70
-	sub  e                                           ; $5d96: $93
-	and  b                                           ; $5d97: $a0
-	pop  de                                          ; $5d98: $d1
-	ld   b, b                                        ; $5d99: $40
-	sub  e                                           ; $5d9a: $93
-	or   b                                           ; $5d9b: $b0
-	pop  de                                          ; $5d9c: $d1
-	ld   d, b                                        ; $5d9d: $50
-	sub  e                                           ; $5d9e: $93
-	or   b                                           ; $5d9f: $b0
-	pop  de                                          ; $5da0: $d1
-	ld   h, b                                        ; $5da1: $60
-	sub  e                                           ; $5da2: $93
-	or   b                                           ; $5da3: $b0
-	pop  de                                          ; $5da4: $d1
-	ld   (hl), b                                     ; $5da5: $70
-	sub  e                                           ; $5da6: $93
-	or   b                                           ; $5da7: $b0
-	pop  de                                          ; $5da8: $d1
-	ld   b, b                                        ; $5da9: $40
-	sub  e                                           ; $5daa: $93
-	ret  nz                                          ; $5dab: $c0
-
-	pop  de                                          ; $5dac: $d1
-	ld   d, b                                        ; $5dad: $50
-	sub  e                                           ; $5dae: $93
-	ret  nz                                          ; $5daf: $c0
-
-	pop  de                                          ; $5db0: $d1
-	ld   h, b                                        ; $5db1: $60
-	sub  e                                           ; $5db2: $93
-	ret  nz                                          ; $5db3: $c0
-
-jr_001_5db4:
-	pop  de                                          ; $5db4: $d1
-	ld   (hl), b                                     ; $5db5: $70
-	sub  e                                           ; $5db6: $93
-	ret  nz                                          ; $5db7: $c0
-
-jr_001_5db8:
-	pop  de                                          ; $5db8: $d1
-	ld   b, b                                        ; $5db9: $40
-	sub  e                                           ; $5dba: $93
-	ret  nc                                          ; $5dbb: $d0
-
-jr_001_5dbc:
-	pop  de                                          ; $5dbc: $d1
-	ld   d, b                                        ; $5dbd: $50
-	sub  e                                           ; $5dbe: $93
-	ret  nc                                          ; $5dbf: $d0
-
-jr_001_5dc0:
-	pop  de                                          ; $5dc0: $d1
-	ld   h, b                                        ; $5dc1: $60
-
-jr_001_5dc2:
-	sub  e                                           ; $5dc2: $93
-	ret  nc                                          ; $5dc3: $d0
-
-jr_001_5dc4:
-	pop  de                                          ; $5dc4: $d1
-	ld   (hl), b                                     ; $5dc5: $70
-	sub  e                                           ; $5dc6: $93
-	ret  nc                                          ; $5dc7: $d0
-
-jr_001_5dc8:
-	pop  de                                          ; $5dc8: $d1
-	ld   b, b                                        ; $5dc9: $40
-
-jr_001_5dca:
-	sub  e                                           ; $5dca: $93
-	ldh  (<$d1), a                                   ; $5dcb: $e0 $d1
-	ld   d, b                                        ; $5dcd: $50
-	sub  e                                           ; $5dce: $93
-	ldh  (<$d1), a                                   ; $5dcf: $e0 $d1
-	ld   h, b                                        ; $5dd1: $60
-	sub  e                                           ; $5dd2: $93
-	ldh  (<$d1), a                                   ; $5dd3: $e0 $d1
-	ld   (hl), b                                     ; $5dd5: $70
-	sub  e                                           ; $5dd6: $93
-	ldh  (<$d1), a                                   ; $5dd7: $e0 $d1
-	ld   b, b                                        ; $5dd9: $40
-	sub  e                                           ; $5dda: $93
-	ldh  a, (<$d1)                                   ; $5ddb: $f0 $d1
-	ld   d, b                                        ; $5ddd: $50
-	sub  e                                           ; $5dde: $93
-	ldh  a, (<$d1)                                   ; $5ddf: $f0 $d1
-	ld   h, b                                        ; $5de1: $60
-
-jr_001_5de2:
-	sub  e                                           ; $5de2: $93
-	ldh  a, (<$d1)                                   ; $5de3: $f0 $d1
-	ld   (hl), b                                     ; $5de5: $70
-	sub  e                                           ; $5de6: $93
-	ldh  a, (<$d1)                                   ; $5de7: $f0 $d1
-	nop                                              ; $5de9: $00
-
-jr_001_5dea:
-	nop                                              ; $5dea: $00
-	ld   l, c                                        ; $5deb: $69
-	ld   e, l                                        ; $5dec: $5d
-	
-data_5ded:
-	nop                                              ; $5ded: $00
-	sub  l                                           ; $5dee: $95
-	jr   nc, jr_001_5dc2                             ; $5def: $30 $d1
-
-	nop                                              ; $5df1: $00
-
-jr_001_5df2:
-	sub  l                                           ; $5df2: $95
-	nop                                              ; $5df3: $00
-	pop  de                                          ; $5df4: $d1
-	nop                                              ; $5df5: $00
-	sub  l                                           ; $5df6: $95
-	jr   nz, jr_001_5dca                             ; $5df7: $20 $d1
-
-	nop                                              ; $5df9: $00
-
-jr_001_5dfa:
-	sub  l                                           ; $5dfa: $95
-	.db  $10                                         ; $5dfb: $10
-	pop  de                                          ; $5dfc: $d1
-	nop                                              ; $5dfd: $00
-	sub  l                                           ; $5dfe: $95
-	ld   d, b                                        ; $5dff: $50
-	pop  de                                          ; $5e00: $d1
-	nop                                              ; $5e01: $00
-	sub  l                                           ; $5e02: $95
-	ld   h, b                                        ; $5e03: $60
-	pop  de                                          ; $5e04: $d1
-	nop                                              ; $5e05: $00
-	sub  l                                           ; $5e06: $95
-	ld   b, b                                        ; $5e07: $40
-	pop  de                                          ; $5e08: $d1
-	nop                                              ; $5e09: $00
-	sub  l                                           ; $5e0a: $95
-	ld   (hl), b                                     ; $5e0b: $70
-	pop  de                                          ; $5e0c: $d1
-	.db  $10                                         ; $5e0d: $10
-	sub  l                                           ; $5e0e: $95
-	jr   nc, jr_001_5de2                             ; $5e0f: $30 $d1
-
-	.db  $10                                         ; $5e11: $10
-
-jr_001_5e12:
-	sub  l                                           ; $5e12: $95
-	nop                                              ; $5e13: $00
-	pop  de                                          ; $5e14: $d1
-	.db  $10                                         ; $5e15: $10
-	sub  l                                           ; $5e16: $95
-	jr   nz, jr_001_5dea                             ; $5e17: $20 $d1
-
-	.db  $10                                         ; $5e19: $10
-
-jr_001_5e1a:
-	sub  l                                           ; $5e1a: $95
-	nop                                              ; $5e1b: $00
-	pop  de                                          ; $5e1c: $d1
-	jr   nz, jr_001_5db4                             ; $5e1d: $20 $95
-
-	jr   nc, jr_001_5df2                             ; $5e1f: $30 $d1
-
-	jr   nz, jr_001_5db8                             ; $5e21: $20 $95
-
-	nop                                              ; $5e23: $00
-	pop  de                                          ; $5e24: $d1
-	jr   nz, jr_001_5dbc                             ; $5e25: $20 $95
-
-	jr   nz, jr_001_5dfa                             ; $5e27: $20 $d1
-
-	jr   nz, jr_001_5dc0                             ; $5e29: $20 $95
-
-	.db  $10                                         ; $5e2b: $10
-	pop  de                                          ; $5e2c: $d1
-	jr   nz, jr_001_5dc4                             ; $5e2d: $20 $95
-
-	ld   d, b                                        ; $5e2f: $50
-	pop  de                                          ; $5e30: $d1
-	jr   nz, jr_001_5dc8                             ; $5e31: $20 $95
-
-	ld   h, b                                        ; $5e33: $60
-	pop  de                                          ; $5e34: $d1
-	jr   nz, -$6b                                    ; $5e35: $20 $95
-
-	ld   b, b                                        ; $5e37: $40
-	pop  de                                          ; $5e38: $d1
-	jr   nz, -$6b                                    ; $5e39: $20 $95
-
-	ld   (hl), b                                     ; $5e3b: $70
-	pop  de                                          ; $5e3c: $d1
-	jr   nc, -$6b                                    ; $5e3d: $30 $95
-
-	jr   nc, jr_001_5e12                             ; $5e3f: $30 $d1
-
-	jr   nc, -$6b                                    ; $5e41: $30 $95
-
-	nop                                              ; $5e43: $00
-	pop  de                                          ; $5e44: $d1
-	jr   nc, -$6b                                    ; $5e45: $30 $95
-
-	jr   nz, jr_001_5e1a                             ; $5e47: $20 $d1
-
-	jr   nc, -$6b                                    ; $5e49: $30 $95
-
-	nop                                              ; $5e4b: $00
-	pop  de                                          ; $5e4c: $d1
-	nop                                              ; $5e4d: $00
-	nop                                              ; $5e4e: $00
-	.db  $ed                                         ; $5e4f: $ed
-	ld   e, l                                        ; $5e50: $5d
-	
-data_5e51:
-	ret  nz                                          ; $5e51: $c0
-
-	sub  l                                           ; $5e52: $95
-	ld   b, b                                        ; $5e53: $40
-	jp   nc, $95c0                                   ; $5e54: $d2 $c0 $95
-
-	ld   d, b                                        ; $5e57: $50
-	jp   nc, $95c0                                   ; $5e58: $d2 $c0 $95
-
-	ld   h, b                                        ; $5e5b: $60
-	jp   nc, $95c0                                   ; $5e5c: $d2 $c0 $95
-
-	ld   (hl), b                                     ; $5e5f: $70
-	jp   nc, $95c0                                   ; $5e60: $d2 $c0 $95
-
-	ld   h, b                                        ; $5e63: $60
-	jp   nc, $95c0                                   ; $5e64: $d2 $c0 $95
-
-	ld   d, b                                        ; $5e67: $50
-	jp   nc, $95c0                                   ; $5e68: $d2 $c0 $95
-
-	ld   b, b                                        ; $5e6b: $40
-	jp   nc, $95d0                                   ; $5e6c: $d2 $d0 $95
-
-	add  b                                           ; $5e6f: $80
-	jp   nc, $95d0                                   ; $5e70: $d2 $d0 $95
-
-	ld   b, b                                        ; $5e73: $40
-	jp   nc, $95d0                                   ; $5e74: $d2 $d0 $95
-
-	ld   d, b                                        ; $5e77: $50
-	jp   nc, $95d0                                   ; $5e78: $d2 $d0 $95
-
-	ld   h, b                                        ; $5e7b: $60
-	jp   nc, $95d0                                   ; $5e7c: $d2 $d0 $95
-
-	ld   (hl), b                                     ; $5e7f: $70
-	jp   nc, $95d0                                   ; $5e80: $d2 $d0 $95
-
-	ld   h, b                                        ; $5e83: $60
-	jp   nc, $95d0                                   ; $5e84: $d2 $d0 $95
-
-	ld   d, b                                        ; $5e87: $50
-	jp   nc, $95d0                                   ; $5e88: $d2 $d0 $95
-
-	ld   b, b                                        ; $5e8b: $40
-	jp   nc, $95d0                                   ; $5e8c: $d2 $d0 $95
-
-	add  b                                           ; $5e8f: $80
-	jp   nc, $9650                                   ; $5e90: $d2 $50 $96
-
-	sub  b                                           ; $5e93: $90
-	jp   nc, $9650                                   ; $5e94: $d2 $50 $96
-
-	and  b                                           ; $5e97: $a0
-	jp   nc, $9650                                   ; $5e98: $d2 $50 $96
-
-	or   b                                           ; $5e9b: $b0
-	jp   nc, $9650                                   ; $5e9c: $d2 $50 $96
-
-	sub  b                                           ; $5e9f: $90
-	jp   nc, $9620                                   ; $5ea0: $d2 $20 $96
-
-	ld   b, b                                        ; $5ea3: $40
-	jp   nc, $9620                                   ; $5ea4: $d2 $20 $96
-
-	sub  b                                           ; $5ea7: $90
-	jp   nc, $9620                                   ; $5ea8: $d2 $20 $96
-
-	and  b                                           ; $5eab: $a0
-	jp   nc, $9620                                   ; $5eac: $d2 $20 $96
-
-	or   b                                           ; $5eaf: $b0
-	jp   nc, $9620                                   ; $5eb0: $d2 $20 $96
-
-	and  b                                           ; $5eb3: $a0
-	jp   nc, $9620                                   ; $5eb4: $d2 $20 $96
-
-	sub  b                                           ; $5eb7: $90
-	jp   nc, $9620                                   ; $5eb8: $d2 $20 $96
-
-	ld   b, b                                        ; $5ebb: $40
-	jp   nc, $95e0                                   ; $5ebc: $d2 $e0 $95
-
-	ld   b, b                                        ; $5ebf: $40
-	jp   nc, $95e0                                   ; $5ec0: $d2 $e0 $95
-
-	sub  b                                           ; $5ec3: $90
-	jp   nc, $95e0                                   ; $5ec4: $d2 $e0 $95
-
-	and  b                                           ; $5ec7: $a0
-	jp   nc, $95e0                                   ; $5ec8: $d2 $e0 $95
-
-	or   b                                           ; $5ecb: $b0
-	jp   nc, $95e0                                   ; $5ecc: $d2 $e0 $95
-
-	and  b                                           ; $5ecf: $a0
-	jp   nc, $95e0                                   ; $5ed0: $d2 $e0 $95
-
-	sub  b                                           ; $5ed3: $90
-	jp   nc, $95e0                                   ; $5ed4: $d2 $e0 $95
-
-	ld   b, b                                        ; $5ed7: $40
-	jp   nc, $95e0                                   ; $5ed8: $d2 $e0 $95
-
-	add  b                                           ; $5edb: $80
-	jp   nc, $9670                                   ; $5edc: $d2 $70 $96
-
-	ld   b, b                                        ; $5edf: $40
-	jp   nc, $9670                                   ; $5ee0: $d2 $70 $96
-
-	sub  b                                           ; $5ee3: $90
-	jp   nc, $9670                                   ; $5ee4: $d2 $70 $96
-
-	and  b                                           ; $5ee7: $a0
-	jp   nc, $9670                                   ; $5ee8: $d2 $70 $96
-
-	or   b                                           ; $5eeb: $b0
-	jp   nc, $9670                                   ; $5eec: $d2 $70 $96
-
-	and  b                                           ; $5eef: $a0
-	jp   nc, $9670                                   ; $5ef0: $d2 $70 $96
-
-	sub  b                                           ; $5ef3: $90
-	jp   nc, $9670                                   ; $5ef4: $d2 $70 $96
-
-	ld   b, b                                        ; $5ef7: $40
-	jp   nc, $95f0                                   ; $5ef8: $d2 $f0 $95
-
-	ld   b, b                                        ; $5efb: $40
-	jp   nc, $95f0                                   ; $5efc: $d2 $f0 $95
-
-	sub  b                                           ; $5eff: $90
-	jp   nc, $95f0                                   ; $5f00: $d2 $f0 $95
-
-	and  b                                           ; $5f03: $a0
-	jp   nc, $95f0                                   ; $5f04: $d2 $f0 $95
-
-	or   b                                           ; $5f07: $b0
-	jp   nc, $95f0                                   ; $5f08: $d2 $f0 $95
-
-	and  b                                           ; $5f0b: $a0
-	jp   nc, $95f0                                   ; $5f0c: $d2 $f0 $95
-
-	sub  b                                           ; $5f0f: $90
-	jp   nc, $95f0                                   ; $5f10: $d2 $f0 $95
-
-	ld   b, b                                        ; $5f13: $40
-	jp   nc, $9600                                   ; $5f14: $d2 $00 $96
-
-jr_001_5f17:
-	add  b                                           ; $5f17: $80
-	jp   nc, $9600                                   ; $5f18: $d2 $00 $96
-
-	ld   b, b                                        ; $5f1b: $40
-	jp   nc, $9600                                   ; $5f1c: $d2 $00 $96
-
-jr_001_5f1f:
-	ld   d, b                                        ; $5f1f: $50
-	jp   nc, $9600                                   ; $5f20: $d2 $00 $96
-
-	ld   h, b                                        ; $5f23: $60
-	jp   nc, $9600                                   ; $5f24: $d2 $00 $96
-
-	ld   (hl), b                                     ; $5f27: $70
-	jp   nc, $9600                                   ; $5f28: $d2 $00 $96
-
-	ld   h, b                                        ; $5f2b: $60
-	jp   nc, $9600                                   ; $5f2c: $d2 $00 $96
-
-	ld   d, b                                        ; $5f2f: $50
-	jp   nc, $9600                                   ; $5f30: $d2 $00 $96
-
-	ld   b, b                                        ; $5f33: $40
-	jp   nc, $9600                                   ; $5f34: $d2 $00 $96
-
-jr_001_5f37:
-	add  b                                           ; $5f37: $80
-	jp   nc, $9620                                   ; $5f38: $d2 $20 $96
-
-jr_001_5f3b:
-	ld   b, b                                        ; $5f3b: $40
-	jp   nc, $9620                                   ; $5f3c: $d2 $20 $96
-
-jr_001_5f3f:
-	sub  b                                           ; $5f3f: $90
-	jp   nc, $9620                                   ; $5f40: $d2 $20 $96
-
-jr_001_5f43:
-	and  b                                           ; $5f43: $a0
-	jp   nc, $9620                                   ; $5f44: $d2 $20 $96
-
-	or   b                                           ; $5f47: $b0
-	jp   nc, $9620                                   ; $5f48: $d2 $20 $96
-
-	and  b                                           ; $5f4b: $a0
-	jp   nc, $9620                                   ; $5f4c: $d2 $20 $96
-
-	sub  b                                           ; $5f4f: $90
-	jp   nc, $9620                                   ; $5f50: $d2 $20 $96
-
-	ld   b, b                                        ; $5f53: $40
-	jp   nc, $9640                                   ; $5f54: $d2 $40 $96
-
-	add  b                                           ; $5f57: $80
-	jp   nc, $9640                                   ; $5f58: $d2 $40 $96
-
-	ld   b, b                                        ; $5f5b: $40
-	jp   nc, $9640                                   ; $5f5c: $d2 $40 $96
-
-	ld   d, b                                        ; $5f5f: $50
-	jp   nc, $9640                                   ; $5f60: $d2 $40 $96
-
-	ld   h, b                                        ; $5f63: $60
-	jp   nc, $9640                                   ; $5f64: $d2 $40 $96
-
-	ld   (hl), b                                     ; $5f67: $70
-	jp   nc, $9640                                   ; $5f68: $d2 $40 $96
-
-	ld   h, b                                        ; $5f6b: $60
-	jp   nc, $9640                                   ; $5f6c: $d2 $40 $96
-
-	ld   d, b                                        ; $5f6f: $50
-	jp   nc, $9640                                   ; $5f70: $d2 $40 $96
-
-	ld   b, b                                        ; $5f73: $40
-	jp   nc, $9640                                   ; $5f74: $d2 $40 $96
-
-	add  b                                           ; $5f77: $80
-	jp   nc, $0000                                  ; $5f78: $d2 $00 $00
-
-	ld   d, c                                        ; $5f7b: $51
-	ld   e, (hl)                                     ; $5f7c: $5e
-
-
-data_5f7d:
-	nop                                              ; $5f7d: $00
-	adc  b                                           ; $5f7e: $88
-	ret  nc                                          ; $5f7f: $d0
-
-	jp   nc, $8800                                   ; $5f80: $d2 $00 $88
-
-	ldh  (<$d2), a                                   ; $5f83: $e0 $d2
-	.db  $10                                         ; $5f85: $10
-	adc  b                                           ; $5f86: $88
-	ret  nc                                          ; $5f87: $d0
-
-	jp   nc, $8810                                   ; $5f88: $d2 $10 $88
-
-	ldh  (<$d2), a                                   ; $5f8b: $e0 $d2
-	jr   nz, jr_001_5f17                             ; $5f8d: $20 $88
-
-	ret  nc                                          ; $5f8f: $d0
-
-	jp   nc, $8820                                   ; $5f90: $d2 $20 $88
-
-	ldh  (<$d2), a                                   ; $5f93: $e0 $d2
-	jr   nc, jr_001_5f1f                             ; $5f95: $30 $88
-
-	ret  nc                                          ; $5f97: $d0
-
-	jp   nc, $8830                                   ; $5f98: $d2 $30 $88
-
-	ldh  (<$d2), a                                   ; $5f9b: $e0 $d2
-	nop                                              ; $5f9d: $00
-	adc  b                                           ; $5f9e: $88
-	ldh  a, (<$d2)                                   ; $5f9f: $f0 $d2
-	nop                                              ; $5fa1: $00
-	adc  b                                           ; $5fa2: $88
-	nop                                              ; $5fa3: $00
-	.db  $d3                                         ; $5fa4: $d3
-	.db  $10                                         ; $5fa5: $10
-	adc  b                                           ; $5fa6: $88
-	ldh  a, (<$d2)                                   ; $5fa7: $f0 $d2
-	.db  $10                                         ; $5fa9: $10
-	adc  b                                           ; $5faa: $88
-	nop                                              ; $5fab: $00
-	.db  $d3                                         ; $5fac: $d3
-	jr   nz, jr_001_5f37                             ; $5fad: $20 $88
-
-	ldh  a, (<$d2)                                   ; $5faf: $f0 $d2
-	jr   nz, jr_001_5f3b                             ; $5fb1: $20 $88
-
-	nop                                              ; $5fb3: $00
-	.db  $d3                                         ; $5fb4: $d3
-	jr   nc, jr_001_5f3f                             ; $5fb5: $30 $88
-
-	ldh  a, (<$d2)                                   ; $5fb7: $f0 $d2
-	jr   nc, jr_001_5f43                             ; $5fb9: $30 $88
-
-	nop                                              ; $5fbb: $00
-	.db  $d3                                         ; $5fbc: $d3
-	nop                                              ; $5fbd: $00
-	adc  b                                           ; $5fbe: $88
-	ret  nc                                          ; $5fbf: $d0
-
-	jp   nc, $8800                                   ; $5fc0: $d2 $00 $88
-
-	ret  nz                                          ; $5fc3: $c0
-
-	jp   nc, $8810                                   ; $5fc4: $d2 $10 $88
-
-	ret  nc                                          ; $5fc7: $d0
-
-	jp   nc, $8810                                   ; $5fc8: $d2 $10 $88
-
-	ret  nz                                          ; $5fcb: $c0
-
-	jp   nc, $8820                                   ; $5fcc: $d2 $20 $88
-
-	ret  nc                                          ; $5fcf: $d0
-
-	jp   nc, $8820                                   ; $5fd0: $d2 $20 $88
-
-	ret  nz                                          ; $5fd3: $c0
-
-	jp   nc, $8830                                   ; $5fd4: $d2 $30 $88
-
-	ret  nc                                          ; $5fd7: $d0
-
-	jp   nc, $8830                                   ; $5fd8: $d2 $30 $88
-
-	ret  nz                                          ; $5fdb: $c0
-
-	jp   nc, $0000                                  ; $5fdc: $d2 $00 $00
-
-	ld   a, l                                        ; $5fdf: $7d
-	ld   e, a                                        ; $5fe0: $5f
-	
-data_5fe1:
-	ldh  a, (<$91)                                   ; $5fe1: $f0 $91
-	sub  b                                           ; $5fe3: $90
-	jp   nc, $91f0                                   ; $5fe4: $d2 $f0 $91
-
-	and  b                                           ; $5fe7: $a0
-	jp   nc, $91f0                                   ; $5fe8: $d2 $f0 $91
-
-	or   b                                           ; $5feb: $b0
-	jp   nc, $91f0                                   ; $5fec: $d2 $f0 $91
-
-	sub  b                                           ; $5fef: $90
-	jp   nc, $8940                                   ; $5ff0: $d2 $40 $89
-
-	jr   nc, -$2f                                    ; $5ff3: $30 $d1
-
-	ld   b, b                                        ; $5ff5: $40
-	adc  c                                           ; $5ff6: $89
-	nop                                              ; $5ff7: $00
-	pop  de                                          ; $5ff8: $d1
-	ld   b, b                                        ; $5ff9: $40
-	adc  c                                           ; $5ffa: $89
-	jr   nz, -$2f                                    ; $5ffb: $20 $d1
-
-	ld   b, b                                        ; $5ffd: $40
-	adc  c                                           ; $5ffe: $89
-	.db  $10                                         ; $5fff: $10
-	pop  de                                          ; $6000: $d1
-	ld   b, b                                        ; $6001: $40
-	adc  c                                           ; $6002: $89
-	ld   d, b                                        ; $6003: $50
-	pop  de                                          ; $6004: $d1
-	ld   b, b                                        ; $6005: $40
-	adc  c                                           ; $6006: $89
-	ld   h, b                                        ; $6007: $60
-	pop  de                                          ; $6008: $d1
-	ld   b, b                                        ; $6009: $40
-
-jr_001_600a:
-	adc  c                                           ; $600a: $89
-	ld   b, b                                        ; $600b: $40
-	pop  de                                          ; $600c: $d1
-	ld   b, b                                        ; $600d: $40
-	adc  c                                           ; $600e: $89
-	ld   (hl), b                                     ; $600f: $70
-	pop  de                                          ; $6010: $d1
-	ret  nc                                          ; $6011: $d0
-
-jr_001_6012:
-	sub  c                                           ; $6012: $91
-	add  b                                           ; $6013: $80
-	jp   nc, $91d0                                   ; $6014: $d2 $d0 $91
-
-	ld   b, b                                        ; $6017: $40
-	jp   nc, $91d0                                   ; $6018: $d2 $d0 $91
-
-	ld   d, b                                        ; $601b: $50
-	jp   nc, $91d0                                   ; $601c: $d2 $d0 $91
-
-	ld   h, b                                        ; $601f: $60
-	jp   nc, $91d0                                   ; $6020: $d2 $d0 $91
-
-	ld   (hl), b                                     ; $6023: $70
-	jp   nc, $91d0                                   ; $6024: $d2 $d0 $91
-
-	ld   h, b                                        ; $6027: $60
-	jp   nc, $91d0                                   ; $6028: $d2 $d0 $91
-
-	ld   d, b                                        ; $602b: $50
-	jp   nc, $91d0                                   ; $602c: $d2 $d0 $91
-
-	ld   b, b                                        ; $602f: $40
-	jp   nc, $91d0                                   ; $6030: $d2 $d0 $91
-
-	add  b                                           ; $6033: $80
-	jp   nc, $8950                                   ; $6034: $d2 $50 $89
-
-	jr   nc, jr_001_600a                             ; $6037: $30 $d1
-
-	ld   d, b                                        ; $6039: $50
-	adc  c                                           ; $603a: $89
-	nop                                              ; $603b: $00
-	pop  de                                          ; $603c: $d1
-	ld   d, b                                        ; $603d: $50
-
-jr_001_603e:
-	adc  c                                           ; $603e: $89
-	jr   nz, jr_001_6012                             ; $603f: $20 $d1
-
-	ld   d, b                                        ; $6041: $50
-	adc  c                                           ; $6042: $89
-	nop                                              ; $6043: $00
-	pop  de                                          ; $6044: $d1
-	ret  nz                                          ; $6045: $c0
-
-	sub  c                                           ; $6046: $91
-	ld   b, b                                        ; $6047: $40
-	jp   nc, $91c0                                   ; $6048: $d2 $c0 $91
-
-	ld   d, b                                        ; $604b: $50
-	jp   nc, $91c0                                   ; $604c: $d2 $c0 $91
-
-	ld   h, b                                        ; $604f: $60
-	jp   nc, $91c0                                   ; $6050: $d2 $c0 $91
-
-	ld   (hl), b                                     ; $6053: $70
-	jp   nc, $91c0                                   ; $6054: $d2 $c0 $91
-
-	ld   h, b                                        ; $6057: $60
-	jp   nc, $91c0                                   ; $6058: $d2 $c0 $91
-
-	ld   d, b                                        ; $605b: $50
-	jp   nc, $91c0                                   ; $605c: $d2 $c0 $91
-
-	ld   b, b                                        ; $605f: $40
-	jp   nc, $8970                                   ; $6060: $d2 $70 $89
-
-	jr   nc, -$2f                                    ; $6063: $30 $d1
-
-	ld   (hl), b                                     ; $6065: $70
-	adc  c                                           ; $6066: $89
-	nop                                              ; $6067: $00
-	pop  de                                          ; $6068: $d1
-	ld   (hl), b                                     ; $6069: $70
-	adc  c                                           ; $606a: $89
-	jr   nz, jr_001_603e                             ; $606b: $20 $d1
-
-	ld   (hl), b                                     ; $606d: $70
-	adc  c                                           ; $606e: $89
-	.db  $10                                         ; $606f: $10
-	pop  de                                          ; $6070: $d1
-	ld   (hl), b                                     ; $6071: $70
-	adc  c                                           ; $6072: $89
-	ld   d, b                                        ; $6073: $50
-	pop  de                                          ; $6074: $d1
-	ld   (hl), b                                     ; $6075: $70
-
-jr_001_6076:
-	adc  c                                           ; $6076: $89
-	ld   h, b                                        ; $6077: $60
-	pop  de                                          ; $6078: $d1
-	ld   (hl), b                                     ; $6079: $70
-	adc  c                                           ; $607a: $89
-	ld   b, b                                        ; $607b: $40
-	pop  de                                          ; $607c: $d1
-	ld   (hl), b                                     ; $607d: $70
-
-jr_001_607e:
-	adc  c                                           ; $607e: $89
-	ld   (hl), b                                     ; $607f: $70
-	pop  de                                          ; $6080: $d1
-	ldh  (<$91), a                                   ; $6081: $e0 $91
-	ld   b, b                                        ; $6083: $40
-	jp   nc, $91e0                                   ; $6084: $d2 $e0 $91
-
-	sub  b                                           ; $6087: $90
-	jp   nc, $91e0                                   ; $6088: $d2 $e0 $91
-
-	and  b                                           ; $608b: $a0
-	jp   nc, $91e0                                   ; $608c: $d2 $e0 $91
-
-	or   b                                           ; $608f: $b0
-	jp   nc, $91e0                                   ; $6090: $d2 $e0 $91
-
-	and  b                                           ; $6093: $a0
-	jp   nc, $91e0                                   ; $6094: $d2 $e0 $91
-
-	sub  b                                           ; $6097: $90
-	jp   nc, $91e0                                   ; $6098: $d2 $e0 $91
-
-	ld   b, b                                        ; $609b: $40
-	jp   nc, $91e0                                   ; $609c: $d2 $e0 $91
-
-	add  b                                           ; $609f: $80
-	jp   nc, $8960                                   ; $60a0: $d2 $60 $89
-
-	jr   nc, jr_001_6076                             ; $60a3: $30 $d1
-
-	ld   h, b                                        ; $60a5: $60
-	adc  c                                           ; $60a6: $89
-	nop                                              ; $60a7: $00
-	pop  de                                          ; $60a8: $d1
-	ld   h, b                                        ; $60a9: $60
-	adc  c                                           ; $60aa: $89
-	jr   nz, jr_001_607e                             ; $60ab: $20 $d1
-
-	ld   h, b                                        ; $60ad: $60
-	adc  c                                           ; $60ae: $89
-	nop                                              ; $60af: $00
-	pop  de                                          ; $60b0: $d1
-	nop                                              ; $60b1: $00
-	nop                                              ; $60b2: $00
-	pop  hl                                          ; $60b3: $e1
-	ld   e, a                                        ; $60b4: $5f
-	
-	
-func_60b5:
-	ld   hl, $d0fd                                   ; func_60b5: $21 $fd $d0
-	dec  (hl)                                        ; $60b8: $35
-	jr   z, jr_001_60bc                              ; $60b9: $28 $01
-
-	ret                                              ; $60bb: $c9
-
-
-jr_001_60bc:
-	ld   hl, rLY                                   ; $60bc: $21 $44 $ff
-	ld   a, (hl)                                     ; $60bf: $7e
-	cp   $98                                         ; $60c0: $fe $98
-	jr   c, jr_001_60c9                              ; $60c2: $38 $05
-
-	ld   hl, $d0fd                                   ; $60c4: $21 $fd $d0
-	inc  (hl)                                        ; $60c7: $34
-	ret                                              ; $60c8: $c9
-
-
-jr_001_60c9:
-	ld   hl, $d0fe                                   ; $60c9: $21 $fe $d0
-	ldi  a, (hl)                                     ; $60cc: $2a
-	ld   h, (hl)                                     ; $60cd: $66
-	ld   l, a                                        ; $60ce: $6f
-	or   h                                           ; $60cf: $b4
-	jr   nz, jr_001_60d3                             ; $60d0: $20 $01
-
-	ret                                              ; $60d2: $c9
-
-
-jr_001_60d3:
-	push hl                                          ; $60d3: $e5
-	ld   bc, $0004                                   ; $60d4: $01 $04 $00
-	add  hl, bc                                      ; $60d7: $09
-	push hl                                          ; $60d8: $e5
-	pop  bc                                          ; $60d9: $c1
-	ld   hl, $d0fe                                   ; $60da: $21 $fe $d0
-	ld   (hl), c                                     ; $60dd: $71
-	inc  hl                                          ; $60de: $23
-	ld   (hl), b                                     ; $60df: $70
-	pop  hl                                          ; $60e0: $e1
-	ldi  a, (hl)                                     ; $60e1: $2a
-	ld   e, a                                        ; $60e2: $5f
-	ld   d, (hl)                                     ; $60e3: $56
-	inc  hl                                          ; $60e4: $23
-	or   d                                           ; $60e5: $b2
-	jr   nz, jr_001_60ed                             ; $60e6: $20 $05
-
-	ldi  a, (hl)                                     ; $60e8: $2a
-	ld   h, (hl)                                     ; $60e9: $66
-	ld   l, a                                        ; $60ea: $6f
-	jr   jr_001_60d3                                 ; $60eb: $18 $e6
-
-jr_001_60ed:
-	ldi  a, (hl)                                     ; $60ed: $2a
-	ld   h, (hl)                                     ; $60ee: $66
-	ld   l, a                                        ; $60ef: $6f
+animationData_5ba9:
+	.dw $9340
+	.dw $d130
+	.dw $9340
+	.dw $d100
+	.dw $9340
+	.dw $d120
+	.dw $9340
+	.dw $d110
+	.dw $9340
+	.dw $d150
+	.dw $9340
+	.dw $d160
+	.dw $9340
+	.dw $d140
+	.dw $9340
+	.dw $d170
+
+	.dw $9350
+	.dw $d130
+	.dw $9350
+	.dw $d100
+	.dw $9350
+	.dw $d120
+	.dw $9350
+	.dw $d100
+
+	.dw $9370
+	.dw $d130
+	.dw $9370
+	.dw $d100
+	.dw $9370
+	.dw $d120
+	.dw $9370
+	.dw $d110
+	.dw $9370
+	.dw $d150
+	.dw $9370
+	.dw $d160
+	.dw $9370
+	.dw $d140
+	.dw $9370
+	.dw $d170
+
+	.dw $9360
+	.dw $d130
+	.dw $9360
+	.dw $d100
+	.dw $9360
+	.dw $d120
+	.dw $9360
+	.dw $d100
+	.dw $0000
+	.dw animationData_5ba9
+
+
+animationData_5c0d:
+	.dw $8c40
+	.dw $d200
+	.dw $8c50
+	.dw $d200
+	.dw $8c60
+	.dw $d200
+	.dw $8c70
+	.dw $d200
+
+	.dw $8c40
+	.dw $d210
+	.dw $8c50
+	.dw $d210
+	.dw $8c60
+	.dw $d210
+	.dw $8c70
+	.dw $d210
+
+	.dw $8c40
+	.dw $d220
+	.dw $8c50
+	.dw $d220
+	.dw $8c60
+	.dw $d220
+	.dw $8c70
+	.dw $d220
+
+	.dw $8c40
+	.dw $d230
+	.dw $8c50
+	.dw $d230
+	.dw $8c60
+	.dw $d230
+	.dw $8c70
+	.dw $d230
+
+	.dw $8c40
+	.dw $d220
+	.dw $8c50
+	.dw $d220
+	.dw $8c60
+	.dw $d220
+	.dw $8c70
+	.dw $d220
+
+	.dw $8c40
+	.dw $d210
+	.dw $8c50
+	.dw $d210
+	.dw $8c60
+	.dw $d210
+	.dw $8c70
+	.dw $d210
+
+	.dw $0000
+	.dw animationData_5c0d
+
+
+animationData_5c71:
+	.dw $9640
+	.dw $d200
+	.dw $9650
+	.dw $d200
+	.dw $9660
+	.dw $d200
+	.dw $9670
+	.dw $d200
+
+	.dw $9640
+	.dw $d210
+	.dw $9650
+	.dw $d210
+	.dw $9660
+	.dw $d210
+	.dw $9670
+	.dw $d210
+
+	.dw $9640
+	.dw $d220
+	.dw $9650
+	.dw $d220
+	.dw $9660
+	.dw $d220
+	.dw $9670
+	.dw $d220
+
+	.dw $9640
+	.dw $d230
+	.dw $9650
+	.dw $d230
+	.dw $9660
+	.dw $d230
+	.dw $9670
+	.dw $d230
+
+	.dw $9640
+	.dw $d220
+	.dw $9650
+	.dw $d220
+	.dw $9660
+	.dw $d220
+	.dw $9670
+	.dw $d220
+
+	.dw $9640
+	.dw $d210
+	.dw $9650
+	.dw $d210
+	.dw $9660
+	.dw $d210
+	.dw $9670
+	.dw $d210
+
+	.dw $0000
+	.dw animationData_5c71
+
+
+animationData_5cd5:
+	.dw $9480
+	.dw $d130
+	.dw $9480
+	.dw $d100
+	.dw $9480
+	.dw $d120
+	.dw $9480
+	.dw $d110
+	.dw $9480
+	.dw $d150
+	.dw $9480
+	.dw $d160
+	.dw $9480
+	.dw $d140
+	.dw $9480
+	.dw $d170
+
+	.dw $9490
+	.dw $d130
+	.dw $9490
+	.dw $d100
+	.dw $9490
+	.dw $d120
+	.dw $9490
+	.dw $d100
+
+	.dw $96f0
+	.dw $d130
+	.dw $96f0
+	.dw $d100
+	.dw $96f0
+	.dw $d120
+	.dw $96f0
+	.dw $d100
+
+	.dw $94a0
+	.dw $d130
+	.dw $94a0
+	.dw $d100
+	.dw $94a0
+	.dw $d120
+	.dw $94a0
+	.dw $d110
+	.dw $94a0
+	.dw $d150
+	.dw $94a0
+	.dw $d160
+	.dw $94a0
+	.dw $d140
+	.dw $94a0
+	.dw $d170
+
+	.dw $94b0
+	.dw $d130
+	.dw $94b0
+	.dw $d100
+	.dw $94b0
+	.dw $d120
+	.dw $94b0
+	.dw $d100
+
+	.dw $96d0
+	.dw $d130
+	.dw $96d0
+	.dw $d100
+	.dw $96d0
+	.dw $d120
+	.dw $96d0
+	.dw $d110
+	.dw $96d0
+	.dw $d150
+	.dw $96d0
+	.dw $d160
+	.dw $96d0
+	.dw $d140
+	.dw $96d0
+	.dw $d170
+
+	.dw $0000
+	.dw animationData_5cd5
+
+
+animationData_5d69:
+	.dw $9340
+	.dw $d180
+	.dw $9350
+	.dw $d180
+	.dw $9360
+	.dw $d180
+	.dw $9370
+	.dw $d180
+
+	.dw $9340
+	.dw $d190
+	.dw $9350
+	.dw $d190
+	.dw $9360
+	.dw $d190
+	.dw $9370
+	.dw $d190
+
+	.dw $9340
+	.dw $d1a0
+	.dw $9350
+	.dw $d1a0
+	.dw $9360
+	.dw $d1a0
+	.dw $9370
+	.dw $d1a0
+
+	.dw $9340
+	.dw $d1b0
+	.dw $9350
+	.dw $d1b0
+	.dw $9360
+	.dw $d1b0
+	.dw $9370
+	.dw $d1b0
+
+	.dw $9340
+	.dw $d1c0
+	.dw $9350
+	.dw $d1c0
+	.dw $9360
+	.dw $d1c0
+	.dw $9370
+	.dw $d1c0
+
+	.dw $9340
+	.dw $d1d0
+	.dw $9350
+	.dw $d1d0
+	.dw $9360
+	.dw $d1d0
+	.dw $9370
+	.dw $d1d0
+
+	.dw $9340
+	.dw $d1e0
+	.dw $9350
+	.dw $d1e0
+	.dw $9360
+	.dw $d1e0
+	.dw $9370
+	.dw $d1e0
+
+	.dw $9340
+	.dw $d1f0
+	.dw $9350
+	.dw $d1f0
+	.dw $9360
+	.dw $d1f0
+	.dw $9370
+	.dw $d1f0
+
+	.dw $0000
+	.dw animationData_5d69
+
+
+animationData_5ded:
+	.dw $9500
+	.dw $d130
+	.dw $9500
+	.dw $d100
+	.dw $9500
+	.dw $d120
+	.dw $9500
+	.dw $d110
+	.dw $9500
+	.dw $d150
+	.dw $9500
+	.dw $d160
+	.dw $9500
+	.dw $d140
+	.dw $9500
+	.dw $d170
+
+	.dw $9510
+	.dw $d130
+	.dw $9510
+	.dw $d100
+	.dw $9510
+	.dw $d120
+	.dw $9510
+	.dw $d100
+
+	.dw $9520
+	.dw $d130
+	.dw $9520
+	.dw $d100
+	.dw $9520
+	.dw $d120
+	.dw $9520
+	.dw $d110
+	.dw $9520
+	.dw $d150
+	.dw $9520
+	.dw $d160
+	.dw $9520
+	.dw $d140
+	.dw $9520
+	.dw $d170
+
+	.dw $9530
+	.dw $d130
+	.dw $9530
+	.dw $d100
+	.dw $9530
+	.dw $d120
+	.dw $9530
+	.dw $d100
+
+	.dw $0000
+	.dw animationData_5ded
+
+
+animationData_5e51:
+	.dw $95c0
+	.dw $d240
+	.dw $95c0
+	.dw $d250
+	.dw $95c0
+	.dw $d260
+	.dw $95c0
+	.dw $d270
+	.dw $95c0
+	.dw $d260
+	.dw $95c0
+	.dw $d250
+	.dw $95c0
+	.dw $d240
+	.dw $95d0
+	.dw $d280
+	.dw $95d0
+	.dw $d240
+	.dw $95d0
+	.dw $d250
+	.dw $95d0
+	.dw $d260
+	.dw $95d0
+	.dw $d270
+	.dw $95d0
+	.dw $d260
+	.dw $95d0
+	.dw $d250
+	.dw $95d0
+	.dw $d240
+	.dw $95d0
+	.dw $d280
+	.dw $9650
+	.dw $d290
+	.dw $9650
+	.dw $d2a0
+	.dw $9650
+	.dw $d2b0
+	.dw $9650
+	.dw $d290
+	.dw $9620
+	.dw $d240
+	.dw $9620
+	.dw $d290
+	.dw $9620
+	.dw $d2a0
+	.dw $9620
+	.dw $d2b0
+	.dw $9620
+	.dw $d2a0
+	.dw $9620
+	.dw $d290
+	.dw $9620
+	.dw $d240
+	.dw $95e0
+	.dw $d240
+	.dw $95e0
+	.dw $d290
+	.dw $95e0
+	.dw $d2a0
+	.dw $95e0
+	.dw $d2b0
+	.dw $95e0
+	.dw $d2a0
+	.dw $95e0
+	.dw $d290
+	.dw $95e0
+	.dw $d240
+	.dw $95e0
+	.dw $d280
+	.dw $9670
+	.dw $d240
+	.dw $9670
+	.dw $d290
+	.dw $9670
+	.dw $d2a0
+	.dw $9670
+	.dw $d2b0
+	.dw $9670
+	.dw $d2a0
+	.dw $9670
+	.dw $d290
+	.dw $9670
+	.dw $d240
+	.dw $95f0
+	.dw $d240
+	.dw $95f0
+	.dw $d290
+	.dw $95f0
+	.dw $d2a0
+	.dw $95f0
+	.dw $d2b0
+	.dw $95f0
+	.dw $d2a0
+	.dw $95f0
+	.dw $d290
+	.dw $95f0
+	.dw $d240
+	.dw $9600
+	.dw $d280
+	.dw $9600
+	.dw $d240
+	.dw $9600
+	.dw $d250
+	.dw $9600
+	.dw $d260
+	.dw $9600
+	.dw $d270
+	.dw $9600
+	.dw $d260
+	.dw $9600
+	.dw $d250
+	.dw $9600
+	.dw $d240
+	.dw $9600
+	.dw $d280
+	.dw $9620
+	.dw $d240
+	.dw $9620
+	.dw $d290
+	.dw $9620
+	.dw $d2a0
+	.dw $9620
+	.dw $d2b0
+	.dw $9620
+	.dw $d2a0
+	.dw $9620
+	.dw $d290
+	.dw $9620
+	.dw $d240
+	.dw $9640
+	.dw $d280
+	.dw $9640
+	.dw $d240
+	.dw $9640
+	.dw $d250
+	.dw $9640
+	.dw $d260
+	.dw $9640
+	.dw $d270
+	.dw $9640
+	.dw $d260
+	.dw $9640
+	.dw $d250
+	.dw $9640
+	.dw $d240
+	.dw $9640
+	.dw $d280
+	.dw $0000
+	.dw animationData_5e51
+
+
+titleScreenFlamesAnimation:
+	.dw $8800
+	.dw $d2d0
+	.dw $8800
+	.dw $d2e0
+
+	.dw $8810
+	.dw $d2d0
+	.dw $8810
+	.dw $d2e0
+
+	.dw $8820
+	.dw $d2d0
+	.dw $8820
+	.dw $d2e0
+
+	.dw $8830
+	.dw $d2d0
+	.dw $8830
+	.dw $d2e0
+
+	.dw $8800
+	.dw $d2f0
+	.dw $8800
+	.dw $d300
+
+	.dw $8810
+	.dw $d2f0
+	.dw $8810
+	.dw $d300
+
+	.dw $8820
+	.dw $d2f0
+	.dw $8820
+	.dw $d300
+
+	.dw $8830
+	.dw $d2f0
+	.dw $8830
+	.dw $d300
+
+	.dw $8800
+	.dw $d2d0
+	.dw $8800
+	.dw $d2c0
+
+	.dw $8810
+	.dw $d2d0
+	.dw $8810
+	.dw $d2c0
+
+	.dw $8820
+	.dw $d2d0
+	.dw $8820
+	.dw $d2c0
+
+	.dw $8830
+	.dw $d2d0
+	.dw $8830
+	.dw $d2c0
+
+	.dw $0000
+	.dw titleScreenFlamesAnimation
+
+
+animationData_5fe1:
+	.dw $91f0
+	.dw $d290
+	.dw $91f0
+	.dw $d2a0
+	.dw $91f0
+	.dw $d2b0
+	.dw $91f0
+	.dw $d290
+
+	.dw $8940
+	.dw $d130
+	.dw $8940
+	.dw $d100
+	.dw $8940
+	.dw $d120
+	.dw $8940
+	.dw $d110
+	.dw $8940
+	.dw $d150
+	.dw $8940
+	.dw $d160
+	.dw $8940
+	.dw $d140
+	.dw $8940
+	.dw $d170
+
+	.dw $91d0
+	.dw $d280
+	.dw $91d0
+	.dw $d240
+	.dw $91d0
+	.dw $d250
+	.dw $91d0
+	.dw $d260
+	.dw $91d0
+	.dw $d270
+	.dw $91d0
+	.dw $d260
+	.dw $91d0
+	.dw $d250
+	.dw $91d0
+	.dw $d240
+	.dw $91d0
+	.dw $d280
+
+	.dw $8950
+	.dw $d130
+	.dw $8950
+	.dw $d100
+	.dw $8950
+	.dw $d120
+	.dw $8950
+	.dw $d100
+
+	.dw $91c0
+	.dw $d240
+	.dw $91c0
+	.dw $d250
+	.dw $91c0
+	.dw $d260
+	.dw $91c0
+	.dw $d270
+	.dw $91c0
+	.dw $d260
+	.dw $91c0
+	.dw $d250
+	.dw $91c0
+	.dw $d240
+
+	.dw $8970
+	.dw $d130
+	.dw $8970
+	.dw $d100
+	.dw $8970
+	.dw $d120
+	.dw $8970
+	.dw $d110
+	.dw $8970
+	.dw $d150
+	.dw $8970
+	.dw $d160
+	.dw $8970
+	.dw $d140
+	.dw $8970
+	.dw $d170
+
+	.dw $91e0
+	.dw $d240
+	.dw $91e0
+	.dw $d290
+	.dw $91e0
+	.dw $d2a0
+	.dw $91e0
+	.dw $d2b0
+	.dw $91e0
+	.dw $d2a0
+	.dw $91e0
+	.dw $d290
+	.dw $91e0
+	.dw $d240
+	.dw $91e0
+	.dw $d280
+
+	.dw $8960
+	.dw $d130
+	.dw $8960
+	.dw $d100
+	.dw $8960
+	.dw $d120
+	.dw $8960
+	.dw $d100
+
+	.dw $0000
+	.dw animationData_5fe1
+
+
+animateTile:
+	ld   hl, wCurrVBlanksUntilNextTileAnimation
+	dec  (hl)
+	jr   z, +
+
+	ret
+
++
+	ld   hl, rLY
+	ld   a, (hl)
+	cp   $98
+	jr   c, @notLateVBlank
+
+	ld   hl, wCurrVBlanksUntilNextTileAnimation
+	inc  (hl)
+	ret
+
+@notLateVBlank:
+	ld   hl, wCurrTileAnimationAddr
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	or   h
+	jr   nz, @readNextAnimationDataAddr
+
+	ret
+
+@readNextAnimationDataAddr:
+	push hl
+
+// bc = hl + 4
+	ld   bc, $0004
+	add  hl, bc
+	push hl
+	pop  bc
+
+// store in d0fe/d0ff (next word to process in this loop)
+	ld   hl, wCurrTileAnimationAddr
+	ld   (hl), c
+	inc  hl
+	ld   (hl), b
+
+// orig word to process into de
+	pop  hl
+	ldi  a, (hl)
+	ld   e, a
+	ld   d, (hl)
+	inc  hl
+	or   d
+	jr   nz, +
+
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	jr   @readNextAnimationDataAddr
+
++
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+
+// copy to tile
 .rept 16
-	ldi  a, (hl)                                     ; $60f0: $2a
-	ld   (de), a                                     ; $60f1: $12
-	inc  de                                          ; $60f2: $13
+	ldi  a, (hl)
+	ld   (de), a
+	inc  de
 .endr
-	ld   hl, $d0fc                                   ; $6120: $21 $fc $d0
-	ld   a, (hl)                                     ; $6123: $7e
-	ld   hl, $d0fd                                   ; $6124: $21 $fd $d0
-	ld   (hl), a                                     ; $6127: $77
-	ret                                              ; $6128: $c9
+	ld   hl, wVBlanksPerTileAnimation
+	ld   a, (hl)
+	ld   hl, wCurrVBlanksUntilNextTileAnimation
+	ld   (hl), a
+	ret
 
 
-data_6129:
-	.dw data_5ba9
+animationData:
+	.dw animationData_5ba9
 	.dw $0000
 	.dw $0000
 	.dw $0000
-	.dw data_5c0d
-	.dw $0000
-	.dw $0000
-	.dw $0000
-	.dw $0000
-	.dw $0000
-	.dw data_5ba9
-	.dw $0000
-	.dw data_5c74
+	.dw animationData_5c0d
 	.dw $0000
 	.dw $0000
 	.dw $0000
 	.dw $0000
 	.dw $0000
-	.dw data_5cd9
+	.dw animationData_5ba9
+	.dw $0000
+	.dw animationData_5c71
 	.dw $0000
 	.dw $0000
 	.dw $0000
-	.dw data_5d69
-	.dw $0000
-	.dw data_5ded
-	.dw $0000
-	.dw data_5e51
 	.dw $0000
 	.dw $0000
-	.dw data_5f7d
-	.dw data_5fe1
+	.dw animationData_5cd5
 	.dw $0000
 	.dw $0000
 	.dw $0000
-	
-data_616d:
-	ld   ($0101), sp                                 ; $616d: $08 $01 $01
-	ld   bc, $0101                                   ; $6170: $01 $01 $01
-	ld   bc, $0101                                   ; $6173: $01 $01 $01
-	ld   bc, $0106                                   ; $6176: $01 $06 $01
-	ld   bc, $0101                                   ; $6179: $01 $01 $01
-	ld   bc, $0101                                   ; $617c: $01 $01 $01
-	dec  b                                           ; $617f: $05
-	ld   bc, $0101                                   ; $6180: $01 $01 $01
-	ld   (bc), a                                     ; $6183: $02
-	ld   bc, $0108                                   ; $6184: $01 $08 $01
-	ld   (bc), a                                     ; $6187: $02
-	ld   bc, $0401                                   ; $6188: $01 $01 $04
-	ld   b, $01                                      ; $618b: $06 $01
+	.dw animationData_5d69
+	.dw $0000
+	.dw animationData_5ded
+	.dw $0000
+	.dw animationData_5e51
+	.dw $0000
+	.dw $0000
+	.dw titleScreenFlamesAnimation
+	.dw animationData_5fe1
+	.dw $0000
+	.dw $0000
+	.dw $0000
+
+// indexed by tileset idx
+// byte 1 - how many vblanks until new animation
+// byte 2 - initial time for vblank animation
+tileAnimationParameters:
+	.db $08 $01
+	.db $01 $01
+	.db $01 $01
+	.db $01 $01
+	.db $01 $01
+	.db $06 $01
+	.db $01 $01
+	.db $01 $01
+	.db $01 $01
+	.db $05 $01
+	.db $01 $01
+	.db $02 $01
+	.db $08 $01
+	.db $02 $01
+	.db $01 $04
+	.db $06 $01
 	.db $01 $01
 
 
-func_618f:
+loadAnimationParametersForTileset:
 	ld   hl, wTilesetIdx
-	ld   e, (hl)                                     ; $6192: $5e
-	ld   d, $00                                      ; $6193: $16 $00
-	ld   hl, data_6129                                   ; $6195: $21 $29 $61
-	add  hl, de                                      ; $6198: $19
-	add  hl, de                                      ; $6199: $19
-	ld   bc, $d0fe                                   ; $619a: $01 $fe $d0
-	ldi  a, (hl)                                     ; $619d: $2a
-	ld   (bc), a                                     ; $619e: $02
-	inc  bc                                          ; $619f: $03
-	ldi  a, (hl)                                     ; $61a0: $2a
-	ld   (bc), a                                     ; $61a1: $02
-	ld   hl, data_616d                                   ; $61a2: $21 $6d $61
-	add  hl, de                                      ; $61a5: $19
-	ld   a, (hl)                                     ; $61a6: $7e
-	ld   hl, $d0fc                                   ; $61a7: $21 $fc $d0
-	ld   (hl), a                                     ; $61aa: $77
-	ld   hl, $d0fd                                   ; $61ab: $21 $fd $d0
-	ld   (hl), a                                     ; $61ae: $77
-	ret                                              ; $61af: $c9
+	ld   e, (hl)
+	ld   d, $00
+	ld   hl, animationData
+	add  hl, de
+	add  hl, de
+
+// start of animation in d0fe/d0ff
+	ld   bc, wCurrTileAnimationAddr
+	ldi  a, (hl)
+	ld   (bc), a
+	inc  bc
+	ldi  a, (hl)
+	ld   (bc), a
+
+// load time parameters
+	ld   hl, tileAnimationParameters
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wVBlanksPerTileAnimation
+	ld   (hl), a
+	ld   hl, wCurrVBlanksUntilNextTileAnimation
+	ld   (hl), a
+	ret
 
 
 jpHLinBank1:
@@ -16393,7 +15798,7 @@ jr_001_64be:
 	ld   b, $00                                      ; $64d3: $06 $00
 
 Jump_001_64d5:
-	call Call_001_551c                               ; $64d5: $cd $1c $55
+	call splitCEintoItsNybbles                               ; $64d5: $cd $1c $55
 	ld   hl, $c008                                   ; $64d8: $21 $08 $c0
 	ld   c, (hl)                                     ; $64db: $4e
 	ld   b, $00                                      ; $64dc: $06 $00
@@ -16863,7 +16268,7 @@ func_6722:
 
 	ld   hl, $c0fc                                   ; $672b: $21 $fc $c0
 	ld   (hl), a                                     ; $672e: $77
-	ld   hl, func_01_09de                                   ; $672f: $21 $de $09
+	ld   hl, setRoomFlag                                   ; $672f: $21 $de $09
 	call jpHLinBank1                               ; $6732: $cd $b0 $61
 
 jr_001_6735:
@@ -16908,7 +16313,7 @@ func_6748:
 
 
 func_6770:
-	jp   begin2                                       ; $6770: $c3 $58 $0b
+	jp   startTitleScreen                                       ; $6770: $c3 $58 $0b
 
 
 func_6773:

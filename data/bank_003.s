@@ -1857,7 +1857,7 @@ jr_006_4e68:
 
 	ld   bc, $1214                                   ; $50fb: $01 $14 $12
 
-	m_LayoutData lyt_03_10fe
+	m_LayoutData lyt_gameOverScreen
 
 	ld   bc, $1214                                   ; $5266: $01 $14 $12
 

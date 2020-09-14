@@ -14,7 +14,7 @@ if ':' in start_address:
     bank, addr = start_address.split(':')
     bank = conv(bank)
     addr = conv(addr)
-    start_address = (bank-1)*0x4000+addr
+    start_address = bank*0x8000+addr
 else:
     start_address = conv(start_address)
 

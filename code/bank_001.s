@@ -15,6 +15,7 @@ clear_c0fe_c0ff:
 	ret                                              ; $4955: $c9
 
 
+//------------------ the following few functions have to do with room flags?
 getRoomIdxWithinAllRooms:
 // save the following 2
 	ld   hl, wCurrRoomGroupWidth
@@ -98,7 +99,6 @@ addECtoTotalRoomsFromRoom0:
 	ret
 
 
-//------------------ the following few functions have to do with room flags?
 func_01_09d3:
 	call func_01_09ea                                       ; $49d3: $cd $ea $09
 	jr   z, +                              ; $49d6: $28 $03
@@ -111,20 +111,20 @@ func_01_09d3:
 	ret                                              ; $49dd: $c9
 
 
-func_01_09de:
-	push bc                                          ; $49de: $c5
-	call Call_000_0749                                       ; $49df: $cd $49 $07
-	ld   hl, wRoomFlags                                   ; $49e2: $21 $00 $c1
-	add  hl, bc                                      ; $49e5: $09
-	or   (hl)                                        ; $49e6: $b6
-	ld   (hl), a                                     ; $49e7: $77
-	pop  bc                                          ; $49e8: $c1
-	ret                                              ; $49e9: $c9
+setRoomFlag:
+	push bc
+	call getRoomFlagByteAndAddrOffsetInABC
+	ld   hl, wRoomFlags
+	add  hl, bc
+	or   (hl)
+	ld   (hl), a
+	pop  bc
+	ret
 
 
 func_01_09ea:
 	ld   bc, $0000                                   ; $49ea: $01 $00 $00
-@bigLoop_09ed:
+@bigLoop:
 	ld   hl, $c0ff                                   ; $49ed: $21 $ff $c0
 	ld   a, c                                        ; $49f0: $79
 	cp   (hl)                                        ; $49f1: $be
@@ -166,7 +166,7 @@ func_01_09ea:
 	adc  (hl)                                        ; $4a21: $8e
 	ld   c, a                                        ; $4a22: $4f
 	ld   b, $00                                      ; $4a23: $06 $00
-	jp   @bigLoop_09ed                                       ; $4a25: $c3 $ed $09
+	jp   @bigLoop                                       ; $4a25: $c3 $ed $09
 
 
 func_01_0a28:
@@ -184,7 +184,7 @@ func_01_0a28:
 	cp   $0a                                         ; $4a3c: $fe $0a
 	jr   c, @func_0a77                              ; $4a3e: $38 $37
 
-@loop_0a40:
+@smallLoop:
 	ld   hl, $c101                                   ; $4a40: $21 $01 $c1
 	ld   a, (hl)                                     ; $4a43: $7e
 	call aDivEqu16                                       ; $4a44: $cd $fa $07
@@ -223,14 +223,14 @@ func_01_0a28:
 	ld   a, $40                                      ; $4a77: $3e $40
 	ld   hl, $c0ff                                   ; $4a79: $21 $ff $c0
 	sub  (hl)                                        ; $4a7c: $96
-	jr   c, @loop_0a40                              ; $4a7d: $38 $c1
+	jr   c, @smallLoop                              ; $4a7d: $38 $c1
 
 	sbc  $02                                         ; $4a7f: $de $02
-	jr   c, @loop_0a40                              ; $4a81: $38 $bd
+	jr   c, @smallLoop                              ; $4a81: $38 $bd
 
 	ld   hl, $c00b                                   ; $4a83: $21 $0b $c0
 	sbc  (hl)                                        ; $4a86: $9e
-	jr   c, @loop_0a40                              ; $4a87: $38 $b7
+	jr   c, @smallLoop                              ; $4a87: $38 $b7
 
 	ld   hl, $c0ff                                   ; $4a89: $21 $ff $c0
 	ld   c, (hl)                                     ; $4a8c: $4e
@@ -287,17 +287,9 @@ func_01_0a28:
 
 
 //------------------ quiz/text-related stuf
-data_01_0ad4:
-	ld   d, h                                        ; $4ad4: $54
-	ld   (hl), d                                     ; $4ad5: $72
-	ld   (hl), l                                     ; $4ad6: $75
-	ld   h, l                                        ; $4ad7: $65
-	ld   b, (hl)                                     ; $4ad8: $46
-	ld   h, c                                        ; $4ad9: $61
-	ld   l, h                                        ; $4ada: $6c
-	ld   (hl), e                                     ; $4adb: $73
-	ld   h, l                                        ; $4adc: $65
-	
+text_trueFalse:
+	.asc "TrueFalse"
+
 
 text_questionNum:
 	.dw $9821
@@ -585,7 +577,7 @@ func_01_0bed:
 	ld   bc, $0000                                   ; $4c5f: $01 $00 $00
 
 -
-	ld   hl, data_01_0ad4                                   ; $4c62: $21 $d4 $0a
+	ld   hl, text_trueFalse                                   ; $4c62: $21 $d4 $0a
 	add  hl, bc                                      ; $4c65: $09
 	ld   a, (hl)                                     ; $4c66: $7e
 	ld   (de), a                                     ; $4c67: $12

@@ -602,7 +602,7 @@ loadRoomStructData:
 	ld   h, (hl)                                     ; $040a: $66
 	ld   l, a                                        ; $040b: $6f
 	add  hl, de                                      ; $040c: $19
-// upper 6 bits into $c028
+// upper 6 bits into c028
 	ld   a, (hl)                                     ; $040d: $7e
 	and  $fc                                         ; $040e: $e6 $fc
 	ld   hl, $c028                                   ; $0410: $21 $28 $c0
@@ -635,7 +635,7 @@ loadRoomStructData:
 	ld   e, (hl)                                     ; $0437: $5e
 	ld   d, $00                                      ; $0438: $16 $00
 -
-// $c028 is current tile considered in decompression?
+// c028 is current tile considered in decompression?
 	ld   hl, $c028                                   ; $043a: $21 $28 $c0
 	ld   a, (hl)                                     ; $043d: $7e
 	ld   hl, w2x2gameScreenTiles                                   ; $043e: $21 $b0 $c3
@@ -893,7 +893,7 @@ loadRoomStructData:
 	cp   $ff                                         ; $0595: $fe $ff
 	jr   z, @next_05d7                              ; $0597: $28 $3e
 
-	call Call_000_072c                               ; $0599: $cd $2c $07
+	call retCFifRoomFlagSet                               ; $0599: $cd $2c $07
 	jr   c, @skip_05cf                              ; $059c: $38 $31
 
 	ld   hl, $c006                                   ; $059e: $21 $06 $c0
@@ -971,7 +971,7 @@ loadRoomStructData:
 	cp   $0c                                         ; $0601: $fe $0c
 	jp   nc, @next_06a0                           ; $0603: $d2 $a0 $06
 
-	call Call_000_072c                               ; $0606: $cd $2c $07
+	call retCFifRoomFlagSet                               ; $0606: $cd $2c $07
 	jr   nc, ++                             ; $0609: $30 $13
 
 	inc  de                                          ; $060b: $13
@@ -1151,7 +1151,7 @@ loadRoomStructData:
 	jr   c, @next_070a                              ; $06db: $38 $2d
 
 	push af                                          ; $06dd: $f5
-	call Call_000_072c                               ; $06de: $cd $2c $07
+	call retCFifRoomFlagSet                               ; $06de: $cd $2c $07
 	jr   nc, +                             ; $06e1: $30 $20
 
 // deals with clearing tiles, eg bombs if bombs gotten
@@ -1211,17 +1211,17 @@ loadRoomStructData:
 	ret                                              ; $072b: $c9
 
 
-//----------------- seems to be room flags-related
-Call_000_072c:
-	push bc                                          ; $072c: $c5
-	call Call_000_0749                               ; $072d: $cd $49 $07
-	ld   hl, wRoomFlags                                   ; $0730: $21 $00 $c1
-	add  hl, bc                                      ; $0733: $09
-	and  (hl)                                        ; $0734: $a6
-	cp   $01                                         ; $0735: $fe $01
-	ccf                                              ; $0737: $3f
-	pop  bc                                          ; $0738: $c1
-	ret                                              ; $0739: $c9
+retCFifRoomFlagSet:
+	push bc
+	call getRoomFlagByteAndAddrOffsetInABC
+	ld   hl, wRoomFlags
+	add  hl, bc
+	and  (hl)
+	cp   $01
+// room flag not set, carry flag is set
+	ccf
+	pop  bc
+	ret
 
 
 inc_c0fc_wrap127to0:
@@ -1235,7 +1235,7 @@ bitTable:
 	.db $01 $02 $04 $08 $10 $20 $40 $80
 
 
-Call_000_0749:
+getRoomFlagByteAndAddrOffsetInABC:
 // low 3 bits of c0fc go into returned a
 // (value to check against room flags?)
 	ld   hl, $c0fc                                   ; $0749: $21 $fc $c0
@@ -1246,6 +1246,7 @@ Call_000_0749:
 	ld   hl, bitTable                                   ; $0752: $21 $41 $07
 	add  hl, bc                                      ; $0755: $09
 	ld   a, (hl)                                     ; $0756: $7e
+
 	push af                                          ; $0757: $f5
 // upper 5 bits of c0fc, add to (c0fd), put into c
 // byte checked against above, to see if room flag set?
@@ -1267,7 +1268,7 @@ convertCurrTileUsingTable_02_4acd:
 // bank 2
 	ld   hl, $0002                                   ; $076c: $21 $02 $00
 	ld   (hl), a                                     ; $076f: $77
-// de = ($c028 - address of layout data) // 4
+// de = (c028 - address of layout data) // 4
 	ld   hl, $c028                                   ; $0770: $21 $28 $c0
 	ld   a, (hl)                                     ; $0773: $7e
 	srl  a                                           ; $0774: $cb $3f
@@ -1383,53 +1384,53 @@ aDivEqu16:
 ecEquEtimesC:
 // c0a0/2 into ec
 // clear $c0a1
-	ld   hl, $c0a0                                   ; $0803: $21 $a0 $c0
-	ld   (hl), e                                     ; $0806: $73
-	ld   hl, $c0a2                                   ; $0807: $21 $a2 $c0
-	ld   (hl), c                                     ; $080a: $71
-	ld   a, $00                                      ; $080b: $3e $00
-	ld   hl, $c0a1                                   ; $080d: $21 $a1 $c0
-	ld   (hl), a                                     ; $0810: $77
+	ld   hl, wEbits
+	ld   (hl), e
+	ld   hl, wOrigC
+	ld   (hl), c
+	ld   a, $00
+	ld   hl, wHighByteOfProduct
+	ld   (hl), a
 
-	ld   bc, $0008                                   ; $0811: $01 $08 $00
+	ld   bc, $0008
 @loop:
 // shift left word, $c0a1 / a
-	sla  a                                           ; $0814: $cb $27
-	ld   hl, $c0a1                                   ; $0816: $21 $a1 $c0
-	rl   (hl)                                        ; $0819: $cb $16
+	sla  a
+	ld   hl, wHighByteOfProduct
+	rl   (hl)
 
 // if bit set in $c0a0 (orig e)...
-	ld   hl, $c0a0                                   ; $081b: $21 $a0 $c0
-	sla  (hl)                                        ; $081e: $cb $26
-	jr   nc, +                             ; $0820: $30 $0a
+	ld   hl, wEbits
+	sla  (hl)
+	jr   nc, +
 
 // a += orig c
-	ld   hl, $c0a2                                   ; $0822: $21 $a2 $c0
-	add  (hl)                                        ; $0825: $86
-	jr   nc, +                             ; $0826: $30 $04
+	ld   hl, wOrigC
+	add  (hl)
+	jr   nc, +
 
 // because it's a word, if a carry found, $c0a1 += 1
-	ld   hl, $c0a1                                   ; $0828: $21 $a1 $c0
-	inc  (hl)                                        ; $082b: $34
+	ld   hl, wHighByteOfProduct
+	inc  (hl)
 
 +
 // loop bc, preserve a
-	ld   l, a                                        ; $082c: $6f
-	dec  bc                                          ; $082d: $0b
-	ld   a, c                                        ; $082e: $79
-	or   b                                           ; $082f: $b0
-	ld   a, l                                        ; $0830: $7d
-	jr   nz, @loop                             ; $0831: $20 $e1
+	ld   l, a
+	dec  bc
+	ld   a, c
+	or   b
+	ld   a, l
+	jr   nz, @loop
 
 // c from a is part of algo bits shifting in
 // e is $c0a1
 // ec is the word $c0a1/a (e*c)
-	ld   c, a                                        ; $0833: $4f
-	ld   b, $00                                      ; $0834: $06 $00
-	ld   hl, $c0a1                                   ; $0836: $21 $a1 $c0
-	ld   e, (hl)                                     ; $0839: $5e
-	ld   d, $00                                      ; $083a: $16 $00
-	ret                                              ; $083c: $c9
+	ld   c, a
+	ld   b, $00
+	ld   hl, wHighByteOfProduct
+	ld   e, (hl)
+	ld   d, $00
+	ret
 
 
 ecPlusEquA:

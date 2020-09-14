@@ -138,7 +138,29 @@ wAddrOfRooms40hTableAt_02_4acd: ; $c091
 	dw
 
 wc093:
-	dsb $b5-$93
+	dsb $a0-$93
+
+.union
+	wSpecialItemsGottenByte: ; $c0a0
+		db
+.nextu
+	// so when max health loop ends, it can fill the rest with 0's
+	wCurrentHeartDrawn: ; $c0a0
+		db
+.nextu
+	// for ecEquEtimesC
+	wEbits: ; $c0a0
+		db
+
+	wHighByteOfProduct: ; $c0a1
+		db
+
+	wOrigC: ; $c0a2
+		db
+.endu
+
+wc0a3:
+	dsb $b5-$a3
 
 wBytePatternInRoomStructAfterlayoutAddr: ; $c0b5
 	dw
@@ -150,19 +172,7 @@ wCurrGroupMapVRamOffset: ; $c0da
 	dw
 
 wc0dc:
-	dsb $a0-$dc
-
-.union
-	wSpecialItemsGottenByte: ; $c0a0
-		db
-.nextu
-	// so when max health loop ends, it can fill the rest with 0's
-	wCurrentHeartDrawn: ; $c0a0
-		db
-.endu
-
-wc0a1:
-	dsb $100-$a1
+	dsb $100-$dc
 
 // TODO: unknown size, could be global flags
 wRoomFlags: ; $c100
@@ -181,7 +191,14 @@ w2x2gameScreenTiles: ; $c3b0
 	dsb $b0
 
 wc460:
-	dsb $5e0-$460
+	dsb $dd-$60
+
+// $ff if off
+wIsMusicOff: ; $c4dd
+	db
+
+wc4de:
+	dsb $5e0-$4de
 
 wOffsetIntoCompressedRoomLayoutPerScreenRow: ; $c5e0
 	dsb $b
@@ -370,7 +387,19 @@ wVramTileConversionTables: ; $d046
 	dsb $40
 
 wd086:
-	dsb $fff-$86
+	dsb $fc-$86
+
+wVBlanksPerTileAnimation: ; $d0fc
+	db
+
+wCurrVBlanksUntilNextTileAnimation: ; $d0fd
+	db
+
+wCurrTileAnimationAddr: ; $d0fe
+	dw
+
+wd100:
+	dsb $fff-$100
 
 wStackTop: ; $dfff
 	db
