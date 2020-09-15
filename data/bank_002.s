@@ -575,6 +575,9 @@ Jump_005_5110:
 	ld   d, d                                        ; $5118: $52
 	rst  $38                                         ; $5119: $ff
 	ld   a, a                                        ; $511a: $7f
+
+
+npc6a_scripts:
 	rra                                              ; $511b: $1f
 	add  e                                           ; $511c: $83
 	sub  h                                           ; $511d: $94

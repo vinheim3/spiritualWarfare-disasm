@@ -20,6 +20,7 @@
 
 	.include "code/common.s"
 	.include "code/bank_000.s"
+	.include "code/scripting.s"
 	.include "data/roomGroupStructs.s"
 
 
@@ -49,7 +50,10 @@
 .org $0
 
 	.incbin "code/common.bin"
+	.include "data/entityStructs.s"
+	.include "data/basicLayouts.s"
 	.include "data/bank_003.s"
+	.include "scripts/bank3.s"
 
 	m_GfxDataCompressed spr_03_6b0f
 

@@ -17,6 +17,9 @@ wc000:
 .nextu
 	wCurrRoomStructPointer: ; $c006
 		dw
+.nextu
+	wScriptCmdIdxOffset: ; $c006
+		db
 .endu
 
 .union

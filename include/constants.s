@@ -23,5 +23,6 @@
 .define SPECIALB_RAFT		$04
 .define SPECIALB_RR_TICKET	$08
 
-//
+// misc
 .define NUM_NPCS	$0c
+.define MIN_HEALTH	$06
