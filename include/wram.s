@@ -28,7 +28,13 @@ wc000:
 .endu
 
 wc00b:
-	dsb $16-$b
+	dsb $11-$b
+
+wNPCTextBank: ; $c011
+	db
+
+wc012:
+	dsb 6-2
 
 wKeysPressed: ; $c016
 	db
@@ -40,10 +46,27 @@ wNewKeysPressed: ; $c018
 	db
 
 wc019:
-	dsb $2b-$19
+	dsb $f-$9
+
+wNPCScriptOpcode: ; $c01f
+	db
+
+wNPCScriptParam1: ; $c020
+	db
+
+wNPCScriptParam2: ; $c021
+	db
+
+wNPCScriptParam3: ; $c022
+	db
+
+wc023:
+	dsb $b-3
 
 wPlayerScore: ; $c02b
-	dsb 7
+	dsb 6
+wPlayerScoreLastDigit: ; $c031
+	db
 
 wc032:
 	db
@@ -99,14 +122,36 @@ wPlayerY: ; $c054
 	db
 
 wc055:
-	dsb $c-5
+	dsb $b-5
+
+// $ff if on
+wIsLampOn: ; $c05b
+	db
 
 wTileLayoutDataBank: ; $c05c
 	db
 
 // c05d - ff when transitioning out of room group (screen transition)
 wc05d:
-	dsb $72-$5d
+	dsb $61-$5d
+
+wScrollingTextByteDone: ; $c061
+	db
+
+wScrollingTextByteAddr: ; $c062
+	dw
+
+wScrollingTextVramOffset: ; $c064
+	dw
+
+wc066:
+	dsb 8-6
+
+wScrollingTextBytesBank: ; $c068
+	db
+
+wc069:
+	dsb $72-$69
 
 // every 2 health is a heart
 wPlayerHealth: ; $c072
@@ -138,7 +183,15 @@ wAddrOfRooms40hTableAt_02_4acd: ; $c091
 	dw
 
 wc093:
-	dsb $a0-$93
+	dsb $a-$3
+
+.union
+	wCommonByteCopyFuncSrc: ; $c09a
+		dw
+.endu
+
+wc09c:
+	dsb $a0-$9c
 
 .union
 	wSpecialItemsGottenByte: ; $c0a0
@@ -157,10 +210,24 @@ wc093:
 
 	wOrigC: ; $c0a2
 		db
+.nextu
+	// for common byte copy function
+	wCommonByteCopyFuncNumBytes: ; $c0a0
+		db
+
+	// for common byte copy function
+	wCommonByteCopyFuncBank: ; $c0a1
+		db
 .endu
 
 wc0a3:
-	dsb $b5-$a3
+	dsb 6-3
+
+wCurrNpcIdx: ; $c0a6
+	db
+
+wc0a7:
+	dsb $b5-$a7
 
 wBytePatternInRoomStructAfterlayoutAddr: ; $c0b5
 	dw
@@ -172,7 +239,13 @@ wCurrGroupMapVRamOffset: ; $c0da
 	dw
 
 wc0dc:
-	dsb $100-$dc
+	dsb $f9-$dc
+
+wScrollingTextCurrRowVramStart: ; $c0f9
+	dw
+
+wc0fb:
+	dsb $100-$fb
 
 // TODO: unknown size, could be global flags
 wRoomFlags: ; $c100
@@ -206,6 +279,7 @@ wOffsetIntoCompressedRoomLayoutPerScreenRow: ; $c5e0
 wc5eb:
 	dsb $f0-$eb
 
+// these 4 "words" seem to store palettes, eg for dark rooms
 wRoomStructWord_whenFirstByteBit7set_1: ; $c5f0
 	dw
 
@@ -265,8 +339,12 @@ wArmorOfGodGotten: ; $c652
 wSpecialBitemsGotten: ; $c653
 	db
 
-wc654:
-	dsb $dc-$54
+// TODO: unknown size
+wItemsGotten:
+	dsb $d0-$54
+
+wCommonByteCopyDestBytes: ; $c6d0
+	dsb $c
 
 // seems to always be 0
 wScreen0displayOffset: ; $c6dc
@@ -314,6 +392,12 @@ wCurrGroupStructByte1bh: ; $c728
 wc729:
 	dsb $b-9
 
+// bit 7 set - load stuff into c5f0/1/4/5
+// bit 6 set - load stuff into c5f2/3/6/7
+// bit 5 set - no entrances?
+// bit 4 set - TODO - checked twice
+// bit 3 set - room flag related? - checked twice (2nd time, if 0, load NPCs?)
+// bit 2 loaded into c079, if set, next 2 bytes is a word, get data from it into c079
 wFirstRoomStructByte: ; $c72b
 	db
 
@@ -348,23 +432,66 @@ wSCXvalue: ; $cb10
 wSCYvalue: ; $cb11
 	db
 
+// unused?
 wcb12:
 	dsb $30-$12
 
-wNPC1stBytes: ; $cb30
-	dsb $0c
+// NPC ID
+wNPCBytes_ID: ; $cb30
+	dsb NUM_NPCS
 
 wNPC3rdBytesOrXCoords: ; $cb3c
-	dsb $0c
+	dsb NUM_NPCS
 
 wNPC4thBytesOrYCoords: ; $cb48
-	dsb $0c
+	dsb NUM_NPCS
 
-wcb54:
-	dsb $84-$54
+wNPCBytes_cb54: ; $cb54
+	dsb NUM_NPCS
 
+wNPCBytes_cb60: ; $cb60
+	dsb NUM_NPCS
+
+wNPCBytes_cb6c: ; $cb6c
+	dsb NUM_NPCS
+
+wNPCBytes_cb78: ; $cb78
+	dsb NUM_NPCS
+
+// this whole byte uses upper nybble for some controls
+// lower nybble is mostly direction
 wNPC2ndByteLower6Bits: ; $cb84
-	dsb $0c
+	dsb NUM_NPCS
+
+// the following combine to a word that contains the next script opcode
+wNPCScriptPointerLowByte: ; $cb90
+	dsb NUM_NPCS
+wNPCScriptPointerHighByte: ; $cb9c
+	dsb NUM_NPCS
+
+wNPCBytes_cba8: ; $cba8
+	dsb NUM_NPCS
+
+wNPCBytes_scriptLoopCounter: ; $cbb4
+	dsb NUM_NPCS
+
+wNPCBytes_newID: ; $cbc0
+	dsb NUM_NPCS
+
+// used as a return point
+wNPCScriptPointerReturnLowByte: ; $cbcc
+	dsb NUM_NPCS
+wNPCScriptPointerReturnHighByte: ; $cbd8
+	dsb NUM_NPCS
+
+wNPCBytes_cbe4: ; $cbe4
+	dsb NUM_NPCS
+
+wNPCBytes_cbf0: ; $cbf0
+	dsb NUM_NPCS
+
+wNPCScriptBytesBank: ; $cbfc
+	dsb NUM_NPCS
 
 .ends
 

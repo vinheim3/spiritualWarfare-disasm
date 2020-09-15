@@ -12,6 +12,7 @@
 .include "include/wram.s"
 .include "include/hram.s"
 .include "include/macros.s"
+.include "include/npcScriptMacros.s"
 
 
 .bank $000 slot 0

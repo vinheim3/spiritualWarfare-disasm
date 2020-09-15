@@ -6,6 +6,7 @@
 ; https://github.com/vinheim3
 
 
+//------------------ the following few functions have to do with room flags?
 clear_c0fe_c0ff:
 	ld   a, $00                                      ; $494b: $3e $00
 	ld   hl, $c0ff                                   ; $494d: $21 $ff $c0
@@ -15,7 +16,6 @@ clear_c0fe_c0ff:
 	ret                                              ; $4955: $c9
 
 
-//------------------ the following few functions have to do with room flags?
 getRoomIdxWithinAllRooms:
 // save the following 2
 	ld   hl, wCurrRoomGroupWidth
@@ -181,9 +181,10 @@ func_01_0a28:
 	ld   (hl), a                                     ; $4a37: $77
 	ld   hl, $c0fe                                   ; $4a38: $21 $fe $c0
 	ld   a, (hl)                                     ; $4a3b: $7e
-	cp   $0a                                         ; $4a3c: $fe $0a
+	cp   10                                         ; $4a3c: $fe $0a
 	jr   c, @func_0a77                              ; $4a3e: $38 $37
 
+// once visited 10 unique rooms...
 @smallLoop:
 	ld   hl, $c101                                   ; $4a40: $21 $01 $c1
 	ld   a, (hl)                                     ; $4a43: $7e
@@ -372,7 +373,7 @@ data_01_0b23:
 
 
 func_01_0b29:
-	ld   hl, $c020                                   ; $4b29: $21 $20 $c0
+	ld   hl, wNPCScriptParam1                                   ; $4b29: $21 $20 $c0
 	ld   a, (hl)                                     ; $4b2c: $7e
 	ld   hl, $c00a                                   ; $4b2d: $21 $0a $c0
 	ld   (hl), a                                     ; $4b30: $77
@@ -420,27 +421,27 @@ func_01_0b29:
 	ld   hl, data_01_0b23                                   ; $4b76: $21 $23 $0b
 	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b79: $cd $dd $0b
 
-	ld   hl, $c021                                   ; $4b7c: $21 $21 $c0
+	ld   hl, wNPCScriptParam2                                   ; $4b7c: $21 $21 $c0
 	ld   a, (hl)                                     ; $4b7f: $7e
 	cp   $01                                         ; $4b80: $fe $01
 	jr   nz, @next_0b9a                             ; $4b82: $20 $16
 
-	ld   hl, $c022                                   ; $4b84: $21 $22 $c0
+	ld   hl, wNPCScriptParam3                                   ; $4b84: $21 $22 $c0
 	ld   a, (hl)                                     ; $4b87: $7e
 	bit  7, a                                        ; $4b88: $cb $7f
 	jr   nz, @next_0b9a                             ; $4b8a: $20 $0e
 
-	ld   hl, $c01f                                   ; $4b8c: $21 $1f $c0
+	ld   hl, wNPCScriptOpcode                                   ; $4b8c: $21 $1f $c0
 	ld   a, (hl)                                     ; $4b8f: $7e
 	cp   $00                                         ; $4b90: $fe $00
 	jr   nz, @next_0b9a                             ; $4b92: $20 $06
 
 	ld   a, $03                                      ; $4b94: $3e $03
-	ld   hl, $c022                                   ; $4b96: $21 $22 $c0
+	ld   hl, wNPCScriptParam3                                   ; $4b96: $21 $22 $c0
 	ld   (hl), a                                     ; $4b99: $77
 
 @next_0b9a:
-	ld   hl, $c022                                   ; $4b9a: $21 $22 $c0
+	ld   hl, wNPCScriptParam3                                   ; $4b9a: $21 $22 $c0
 	ld   a, (hl)                                     ; $4b9d: $7e
 	bit  7, a                                        ; $4b9e: $cb $7f
 	jr   nz, ++                             ; $4ba0: $20 $2a

@@ -2,19 +2,6 @@
 \$[0-7][0-9a-f]{3}.*;
 
 
-bank 4 - audio?
-
-0:5194 - increases bombs function
-
-
-# ------ room loading
-Call_000_1909
-- looks in structure 74a1 for word (offset $12) $7bcb
-- loads $3d23 into ec (immediately put into $c038/9)
-as part of TODOloads... function, this goes into general-purpose wram $c006/7
-which is then used as part of the decompression algo in common.s
-
-
 # ------ constants
 0:4ea6 - transitioning up - c=3
 0:4ee2 - transitioning down - c=6
@@ -39,12 +26,13 @@ group00room0estruct:
 	.dw group00room0elayout
 	.db $55 $8c $09 $00 $02 $10 $80 $ff $04 $83 $66 $ff
 after the 1st $ff, $04 $83 $66 $ff
-$04 - could be npc idx
+$04 - npc ID
 $83 - the 3 could be direction?
 $66 - upper nybble is x, lower nybble is y
 
 groups of 7 bytes indicate an exit
-byte 1 and 2 - ???
+byte 1 - high nybble is x coord (2x2 tile), and low nybble is y coord
+byte 2 - the tile that will cause the transition based on c3b0
 byte 3 is dest group
 byte 4 is room x
 byte 5 is room y
@@ -54,7 +42,6 @@ byte 7 is player y
 
 # ------- text
 text - debug c062/3 word written $640e
-bank 1 code - deals with room flags/alterations
 
 
 # ------- room generation duplicates
@@ -64,3 +51,5 @@ repeated wall enclosure - group 15
 check ignored on 1b to 1e
 
 
+# ------- npc bytes
+cbc0 - processed as part of func_4272 (calls a func that changes the npc's ID)

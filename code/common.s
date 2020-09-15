@@ -147,30 +147,30 @@ copyMemoryInBankA:
 
 // sound-related functions
 commonSoundFunc0:
-	ld   hl, :soundEngineFunc0                                   ; $01be: $21 $04 $00
-	ld   (hl), a                                     ; $01c1: $77
-	call soundEngineFunc0                               ; $01c2: $cd $c2 $1f
-	ld   hl, $0000                                   ; $01c5: $21 $00 $00
-	ld   (hl), a                                     ; $01c8: $77
-	ret                                              ; $01c9: $c9
+	ld   hl, :soundEngineFunc0
+	ld   (hl), a
+	call soundEngineFunc0
+	ld   hl, $0000
+	ld   (hl), a
+	ret
 
 
 commonSoundFunc1:
-	ld   hl, :soundEngineFunc1                                   ; $01ca: $21 $04 $00
-	ld   (hl), a                                     ; $01cd: $77
-	call soundEngineFunc1                                       ; $01ce: $cd $0a $20
-	ld   hl, $0000                                   ; $01d1: $21 $00 $00
-	ld   (hl), a                                     ; $01d4: $77
-	ret                                              ; $01d5: $c9
+	ld   hl, :soundEngineFunc1
+	ld   (hl), a
+	call soundEngineFunc1
+	ld   hl, $0000
+	ld   (hl), a
+	ret
 
 
 commonSoundFunc2:
-	ld   hl, :soundEngineFunc2                                   ; $01d6: $21 $04 $00
-	ld   (hl), a                                     ; $01d9: $77
-	call soundEngineFunc2                                       ; $01da: $cd $92 $20
-	ld   hl, $0000                                   ; $01dd: $21 $00 $00
-	ld   (hl), a                                     ; $01e0: $77
-	ret                                              ; $01e1: $c9
+	ld   hl, :soundEngineFunc2
+	ld   (hl), a
+	call soundEngineFunc2
+	ld   hl, $0000
+	ld   (hl), a
+	ret
 
 
 ;;
@@ -215,7 +215,7 @@ turnOffLCD:
 	ld   a, $7f
 	jr   +
 
-setLCDfromValue:
+setLCDfromValue_c015equA:
 	push hl
 	ld   hl, $c015
 	ld   (hl), a
@@ -232,38 +232,38 @@ setLCDfromValue:
 	ret
 
 
-func_0224:
+copyBytesFromAnotherBankInto_c6d0:
 // c0a1 is bank
-	ld   hl, $c0a1                                   ; $0224: $21 $a1 $c0
-	ld   l, (hl)                                     ; $0227: $6e
-	ld   h, $00                                      ; $0228: $26 $00
-	ld   (hl), a                                     ; $022a: $77
+	ld   hl, wCommonByteCopyFuncBank
+	ld   l, (hl)
+	ld   h, $00
+	ld   (hl), a
 
 // c0a0 is number of bytes
-	ld   hl, $c0a0                                   ; $022b: $21 $a0 $c0
-	ld   e, (hl)                                     ; $022e: $5e
+	ld   hl, wCommonByteCopyFuncNumBytes
+	ld   e, (hl)
 
 // c09a/b is source of bytes to copy
-	ld   hl, $c09a                                   ; $022f: $21 $9a $c0
-	ldi  a, (hl)                                     ; $0232: $2a
-	ld   h, (hl)                                     ; $0233: $66
-	ld   l, a                                        ; $0234: $6f
+	ld   hl, wCommonByteCopyFuncSrc
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
 
 // dest is c6d0
-	push bc                                          ; $0235: $c5
-	ld   bc, $c6d0                                   ; $0236: $01 $d0 $c6
+	push bc
+	ld   bc, wCommonByteCopyDestBytes
 
 -
-	ldi  a, (hl)                                     ; $0239: $2a
-	ld   (bc), a                                     ; $023a: $02
-	inc  bc                                          ; $023b: $03
-	dec  e                                           ; $023c: $1d
-	jr   nz, -                             ; $023d: $20 $fa
+	ldi  a, (hl)
+	ld   (bc), a
+	inc  bc
+	dec  e
+	jr   nz, -
 
-	pop  bc                                          ; $023f: $c1
-	ld   hl, $0000                                   ; $0240: $21 $00 $00
-	ld   (hl), a                                     ; $0243: $77
-	ret                                              ; $0244: $c9
+	pop  bc
+	ld   hl, $0000
+	ld   (hl), a
+	ret
 
 
 call_b0_getCurrRoomGroupsWidthAndHeight:
@@ -278,10 +278,10 @@ loadRoomStructData:
 // $c006 currently points to a room struct
 
 // wTileLayoutDataBank is the bank to get data from
-	ld   hl, wTileLayoutDataBank                                   ; $0250: $21 $5c $c0
-	ld   l, (hl)                                     ; $0253: $6e
-	ld   h, $00                                      ; $0254: $26 $00
-	ld   (hl), a                                     ; $0256: $77
+	ld   hl, wTileLayoutDataBank
+	ld   l, (hl)
+	ld   h, $00
+	ld   (hl), a
 
 // get 1st room struct byte and store in c72b
 	ld   de, $0000                                   ; $0257: $11 $00 $00
@@ -1006,7 +1006,7 @@ loadRoomStructData:
 
 +
 // store NPC 1st byte into cb30
-	ld   hl, wNPC1stBytes                                   ; $062c: $21 $30 $cb
+	ld   hl, wNPCBytes_ID                                   ; $062c: $21 $30 $cb
 	add  hl, bc                                      ; $062f: $09
 	ld   (hl), a                                     ; $0630: $77
 	inc  de                                          ; $0631: $13
@@ -1096,7 +1096,7 @@ loadRoomStructData:
 +
 	ld   hl, $c0fc                                   ; $0690: $21 $fc $c0
 	ld   a, (hl)                                     ; $0693: $7e
-	ld   hl, $cbf0                                   ; $0694: $21 $f0 $cb
+	ld   hl, wNPCBytes_cbf0                                   ; $0694: $21 $f0 $cb
 	add  hl, bc                                      ; $0697: $09
 	ld   (hl), a                                     ; $0698: $77
 	inc  bc                                          ; $0699: $03
@@ -1112,7 +1112,7 @@ loadRoomStructData:
 	cp   $0c                                         ; $06a1: $fe $0c
 	jp   nc, +                           ; $06a3: $d2 $b0 $06
 
-	ld   hl, wNPC1stBytes                                   ; $06a6: $21 $30 $cb
+	ld   hl, wNPCBytes_ID                                   ; $06a6: $21 $30 $cb
 	add  hl, bc                                      ; $06a9: $09
 	ld   (hl), $ff                                   ; $06aa: $36 $ff
 	inc  bc                                          ; $06ac: $03
@@ -1211,6 +1211,7 @@ loadRoomStructData:
 	ret                                              ; $072b: $c9
 
 
+// called from above room struct loading function
 retCFifRoomFlagSet:
 	push bc
 	call getRoomFlagByteAndAddrOffsetInABC
@@ -1639,7 +1640,7 @@ store16ePlusCin_c01e:
 	ret                                              ; $091e: $c9
 
 
-	ld   hl, $c068                                   ; $091f: $21 $68 $c0
+	ld   hl, wScrollingTextBytesBank                                   ; $091f: $21 $68 $c0
 	ld   a, (hl)                                     ; $0922: $7e
 	ld   l, a                                        ; $0923: $6f
 	ld   h, $00                                      ; $0924: $26 $00
@@ -1647,7 +1648,7 @@ store16ePlusCin_c01e:
 	ld   de, $0000                                   ; $0927: $11 $00 $00
 
 -
-	ld   hl, $c062                                   ; $092a: $21 $62 $c0
+	ld   hl, wScrollingTextByteAddr                                   ; $092a: $21 $62 $c0
 	ldi  a, (hl)                                     ; $092d: $2a
 	ld   h, (hl)                                     ; $092e: $66
 	ld   l, a                                        ; $092f: $6f

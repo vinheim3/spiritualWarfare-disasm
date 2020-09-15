@@ -2,20 +2,6 @@
 ; Code macros
 ; =======================================================================================
 
-; Call from bank 0
-// TODO: replace with below if not used
-.macro callLowRomBankFunc
-	.if nargs == 1
-		ld   c, :\1
-		ld   hl, \1
-    	call lowRomBankFunc
-	.else
-		ld   c, \1
-		ld   hl, \2
-    	call lowRomBankFunc
-	.endif
-.endm
-
 .macro ldbc
 	ld bc, (\1<<8)|\2
 .endm
@@ -52,11 +38,6 @@
 	\1End:
 .endm
 
-.macro m_GfxData
-	\1: .incbin "gfx/\1.bin"
-	\1End:
-.endm
-
 .macro m_GfxDataCompressed
 	\1: .incbin "gfx/\1.cmp"
 	\1End:
@@ -77,4 +58,10 @@
 		.fail
 	.endif
 	.dw \1 | (\2<<5) | (\3<<10)
+.endm
+
+.macro m_NPCData
+	.db \1 \2
+	.dw \3
+	.db \4 \5 \6 \7
 .endm
