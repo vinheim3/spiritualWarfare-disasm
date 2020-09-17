@@ -186,7 +186,16 @@ wAddrOfRooms40hTableAt_02_4acd: ; $c091
 	dw
 
 wc093:
-	dsb $a-$3
+	db
+
+wRandomNumberTableIdx: ; $c094
+	dw
+
+wRandomNumber: ; $c096
+	db
+
+wc097:
+	dsb $a-7
 
 .union
 	wCommonByteCopyFuncSrc: ; $c09a
@@ -236,7 +245,25 @@ wBytePatternInRoomStructAfterlayoutAddr: ; $c0b5
 	dw
 
 wc0b7:
-	dsb $da-$b7
+	dsb $b-$7
+
+wScriptTeleGroup: ; $c0bb
+	db
+
+wScriptTeleRoomX: ; $c0bc
+	db
+
+wScriptTeleRoomY: ; $c0bd
+	db
+
+wScriptTelePlayerX: ; $c0be
+	db
+
+wScriptTelePlayerY: ; $c0bf
+	db
+
+wc0c0:
+	dsb $da-$c0
 
 wCurrGroupMapVRamOffset: ; $c0da
 	dw

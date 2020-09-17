@@ -19,11 +19,13 @@ def convertToAscii(start, end):
     special_chars = [
         0x20,  # space
         0x21,  # !
+        0x26,  # &
         0x27,  # '
         0x2c,  # ,
         0x2d,  # -
         0x2e,  # .
         0x2f,  # /
+        0x3f,  # ?
     ]
     def is_ascii(ch):
         return ord('a') <= ch <= ord('z') or \

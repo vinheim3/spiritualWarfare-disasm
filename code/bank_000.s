@@ -10756,9 +10756,9 @@ jr_001_48a4:
 
 
 clear_c094_c095:
-	ld   hl, $c094                                   ; $48a6: $21 $94 $c0
+	ld   hl, wRandomNumberTableIdx                                   ; $48a6: $21 $94 $c0
 	ld   (hl), $00                                   ; $48a9: $36 $00
-	ld   hl, $c095                                   ; $48ab: $21 $95 $c0
+	ld   hl, wRandomNumberTableIdx+1                                   ; $48ab: $21 $95 $c0
 	ld   (hl), $00                                   ; $48ae: $36 $00
 	ret                                              ; $48b0: $c9
 
@@ -10767,38 +10767,38 @@ clear_c094_c095:
 	ret                                              ; $48b1: $c9
 
 
-Call_001_48b2:
+getNextRandomNumber:
 // c0a1 is bank
 	ld   hl, wCommonByteCopyFuncBank                                   ; $48b2: $21 $a1 $c0
-	ld   (hl), $06                                   ; $48b5: $36 $06
+	ld   (hl), :randomNumberTable                                   ; $48b5: $36 $06
 
 // number of bytes
 	ld   hl, wCommonByteCopyFuncNumBytes                                   ; $48b7: $21 $a0 $c0
 	ld   (hl), $01                                   ; $48ba: $36 $01
 
-//
-	ld   hl, $c094                                   ; $48bc: $21 $94 $c0
+// get next number
+	ld   hl, wRandomNumberTableIdx                                   ; $48bc: $21 $94 $c0
 	ld   e, (hl)                                     ; $48bf: $5e
-	ld   hl, $c095                                   ; $48c0: $21 $95 $c0
+	ld   hl, wRandomNumberTableIdx+1                                   ; $48c0: $21 $95 $c0
 	ld   d, (hl)                                     ; $48c3: $56
 	inc  de                                          ; $48c4: $13
 
-//
+// loop $400 bytes from 094b to 0d4a
 	bit  2, d                                        ; $48c5: $cb $52
 	jr   z, +                              ; $48c7: $28 $03
 	ld   de, $0000                                   ; $48c9: $11 $00 $00
 +
 	ld   (hl), d                                     ; $48cc: $72
-	ld   hl, $c094                                   ; $48cd: $21 $94 $c0
+	ld   hl, wRandomNumberTableIdx                                   ; $48cd: $21 $94 $c0
 	ld   (hl), e                                     ; $48d0: $73
 
 //
-	ld   hl, data_06_094b                                   ; $48d1: $21 $4b $09
+	ld   hl, randomNumberTable                                   ; $48d1: $21 $4b $09
 	add  hl, de                                      ; $48d4: $19
 	push hl                                          ; $48d5: $e5
 	pop  de                                          ; $48d6: $d1
 
-// copy from offset in data_06_094b
+// copy from offset in randomNumberTable
 	ld   hl, wCommonByteCopyFuncSrc                                   ; $48d7: $21 $9a $c0
 	ld   (hl), e                                     ; $48da: $73
 	ld   hl, wCommonByteCopyFuncSrc+1                                   ; $48db: $21 $9b $c0
@@ -10807,10 +10807,10 @@ Call_001_48b2:
 // copy bytes
 	call copyBytesFromAnotherBankInto_c6d0                                       ; $48df: $cd $24 $02
 
-//
+// c096 is the byte copied
 	ld   hl, wCommonByteCopyDestBytes                                   ; $48e2: $21 $d0 $c6
 	ld   a, (hl)                                     ; $48e5: $7e
-	ld   hl, $c096                                   ; $48e6: $21 $96 $c0
+	ld   hl, wRandomNumber                                   ; $48e6: $21 $96 $c0
 	ld   (hl), a                                     ; $48e9: $77
 	ret                                              ; $48ea: $c9
 
@@ -12315,15 +12315,17 @@ _collisionsTable_17:
 	call Call_001_5488                               ; $511e: $cd $88 $54
 	jr   nz, _ret_5108                             ; $5121: $20 $e5
 
-Jump_001_5123:
+teleportPlayer:
 	ld   a, $ff                                      ; $5123: $3e $ff
 	ld   hl, $c05d                                   ; $5125: $21 $5d $c0
 	ld   (hl), a                                     ; $5128: $77
-	ld   hl, $c0bb                                   ; $5129: $21 $bb $c0
+
+	ld   hl, wScriptTeleGroup                                   ; $5129: $21 $bb $c0
 	ld   a, (hl)                                     ; $512c: $7e
 	cp   $fe                                         ; $512d: $fe $fe
-	jr   nz, jr_001_5161                             ; $512f: $20 $30
+	jr   nz, +                             ; $512f: $20 $30
 
+// TODO: tele group is $fe - set different vars
 	ld   hl, $c05d                                   ; $5131: $21 $5d $c0
 	ld   (hl), a                                     ; $5134: $77
 	ld   hl, $c05e                                   ; $5135: $21 $5e $c0
@@ -12331,52 +12333,56 @@ Jump_001_5123:
 	ld   a, $3c                                      ; $513a: $3e $3c
 	ld   hl, $c57f                                   ; $513c: $21 $7f $c5
 	ld   (hl), a                                     ; $513f: $77
-	ld   hl, $c0bc                                   ; $5140: $21 $bc $c0
+	ld   hl, wScriptTeleRoomX                                   ; $5140: $21 $bc $c0
 	ld   a, (hl)                                     ; $5143: $7e
 	ld   hl, $c6d8                                   ; $5144: $21 $d8 $c6
 	ld   (hl), a                                     ; $5147: $77
-	ld   hl, $c0bd                                   ; $5148: $21 $bd $c0
+	ld   hl, wScriptTeleRoomY                                   ; $5148: $21 $bd $c0
 	ld   a, (hl)                                     ; $514b: $7e
 	ld   hl, $c6d9                                   ; $514c: $21 $d9 $c6
 	ld   (hl), a                                     ; $514f: $77
-	ld   hl, $c0be                                   ; $5150: $21 $be $c0
+	ld   hl, wScriptTelePlayerX                                   ; $5150: $21 $be $c0
 	ld   a, (hl)                                     ; $5153: $7e
 	ld   hl, $c6da                                   ; $5154: $21 $da $c6
 	ld   (hl), a                                     ; $5157: $77
-	ld   hl, $c0bf                                   ; $5158: $21 $bf $c0
+	ld   hl, wScriptTelePlayerY                                   ; $5158: $21 $bf $c0
 	ld   a, (hl)                                     ; $515b: $7e
 	ld   hl, $c6db                                   ; $515c: $21 $db $c6
 	ld   (hl), a                                     ; $515f: $77
 	ret                                              ; $5160: $c9
 
-
-jr_001_5161:
++
 	cp   $ff                                         ; $5161: $fe $ff
 	jr   z, +                              ; $5163: $28 $04
 
+// if ff, dont change group
 	ld   hl, wCurrRoomGroup                                   ; $5165: $21 $33 $c0
 	ld   (hl), a                                     ; $5168: $77
 
 +
-	ld   hl, $c0bc                                   ; $5169: $21 $bc $c0
+	ld   hl, wScriptTeleRoomX                                   ; $5169: $21 $bc $c0
 	ld   a, (hl)                                     ; $516c: $7e
 	ld   hl, wCurrRoomX                                   ; $516d: $21 $34 $c0
 	ld   (hl), a                                     ; $5170: $77
-	ld   hl, $c0bd                                   ; $5171: $21 $bd $c0
+
+	ld   hl, wScriptTeleRoomY                                   ; $5171: $21 $bd $c0
 	ld   a, (hl)                                     ; $5174: $7e
 	ld   hl, wCurrRoomY                                   ; $5175: $21 $35 $c0
 	ld   (hl), a                                     ; $5178: $77
-	ld   hl, $c0be                                   ; $5179: $21 $be $c0
+
+	ld   hl, wScriptTelePlayerX                                   ; $5179: $21 $be $c0
 	ld   a, (hl)                                     ; $517c: $7e
 	ld   hl, wPlayerX                                   ; $517d: $21 $52 $c0
 	ld   (hl), a                                     ; $5180: $77
-	ld   hl, $c0bf                                   ; $5181: $21 $bf $c0
+
+	ld   hl, wScriptTelePlayerY                                   ; $5181: $21 $bf $c0
 	ld   a, (hl)                                     ; $5184: $7e
 	ld   hl, wPlayerY                                   ; $5185: $21 $54 $c0
 	ld   (hl), a                                     ; $5188: $77
+
 	call loadRoomGroupStruct                                       ; $5189: $cd $3b $18
 	ld   hl, wRoomTransitionType                                   ; $518c: $21 $3a $c0
-	ld   (hl), $0c                                   ; $518f: $36 $0c
+	ld   (hl), RTT_DIFF_GROUP                                   ; $518f: $36 $0c
 	ret                                              ; $5191: $c9
 
 
@@ -13725,23 +13731,23 @@ Call_001_586c:
 	ld   (hl), a                                     ; $58ba: $77
 	ld   hl, wCommonByteCopyDestBytes+2                                   ; $58bb: $21 $d2 $c6
 	ld   a, (hl)                                     ; $58be: $7e
-	ld   hl, $c0bb                                   ; $58bf: $21 $bb $c0
+	ld   hl, wScriptTeleGroup                                   ; $58bf: $21 $bb $c0
 	ld   (hl), a                                     ; $58c2: $77
 	ld   hl, wCommonByteCopyDestBytes+3                                   ; $58c3: $21 $d3 $c6
 	ld   a, (hl)                                     ; $58c6: $7e
-	ld   hl, $c0bc                                   ; $58c7: $21 $bc $c0
+	ld   hl, wScriptTeleRoomX                                   ; $58c7: $21 $bc $c0
 	ld   (hl), a                                     ; $58ca: $77
 	ld   hl, wCommonByteCopyDestBytes+4                                   ; $58cb: $21 $d4 $c6
 	ld   a, (hl)                                     ; $58ce: $7e
-	ld   hl, $c0bd                                   ; $58cf: $21 $bd $c0
+	ld   hl, wScriptTeleRoomY                                   ; $58cf: $21 $bd $c0
 	ld   (hl), a                                     ; $58d2: $77
 	ld   hl, wCommonByteCopyDestBytes+5                                   ; $58d3: $21 $d5 $c6
 	ld   a, (hl)                                     ; $58d6: $7e
-	ld   hl, $c0be                                   ; $58d7: $21 $be $c0
+	ld   hl, wScriptTelePlayerX                                   ; $58d7: $21 $be $c0
 	ld   (hl), a                                     ; $58da: $77
 	ld   hl, wCommonByteCopyDestBytes+6                                   ; $58db: $21 $d6 $c6
 	ld   a, (hl)                                     ; $58de: $7e
-	ld   hl, $c0bf                                   ; $58df: $21 $bf $c0
+	ld   hl, wScriptTelePlayerY                                   ; $58df: $21 $bf $c0
 	ld   (hl), a                                     ; $58e2: $77
 
 jr_001_58e3:

@@ -14,6 +14,22 @@
 	.db $03
 .endm
 
+.macro npc_faceUp
+	.db $05
+.endm
+
+.macro npc_faceDown
+	.db $06
+.endm
+
+.macro npc_faceRight
+	.db $07
+.endm
+
+.macro npc_faceLeft
+	.db $08
+.endm
+
 .macro npc_set6_cb60_reset_cb6c
 	.db $09
 .endm
@@ -22,12 +38,40 @@
 	.db $0c
 .endm
 
+.macro npc_turnBackwards
+	.db $0f
+.endm
+
+.macro npc_moveHorizontallyToPlayer
+	.db $10
+.endm
+
+.macro npc_set3_cb60
+	.db $14
+.endm
+
 .macro npc_ret
 	.db $24
 .endm
 
+.macro npc_incAnointingOilsGotten
+	.db $25
+.endm
+
 .macro npc_set2_cbe4
 	.db $27
+.endm
+
+.macro npc_setRoomFlagFrom_cbf0
+	.db $28
+.endm
+
+.macro npc_loadInto_cba8
+	.db $40 \1
+.endm
+
+.macro npc_lowNybbleOf_cb54_equParamMinus1
+	.db $41 \1
 .endm
 
 .macro npc_loadParamInto_cb78
@@ -38,16 +82,40 @@
 	.db $43 \1
 .endm
 
+.macro npc_paramLowNybbleIs_cb54_highNybble
+	.db $44 \1
+.endm
+
 .macro npc_increaseScore
 	.db $45 \1
+.endm
+
+.macro npc_cb60_low2bitsEquParamMinus1
+	.db $47 \1
+.endm
+
+.macro npc_giveArmorOfGod
+	.db $48 \1
 .endm
 
 .macro npc_takeArmorOfGod
 	.db $49 \1
 .endm
 
+.macro npc_giveSpecialBItem
+	.db $4a \1
+.endm
+
+.macro npc_addToPlayerHealth
+	.db $4c \1
+.endm
+
 .macro npc_giveNumBirds
 	.db $4e \1
+.endm
+
+.macro npc_giveItem
+	.db $50 \1
 .endm
 
 .macro npc_giveFruit
@@ -71,8 +139,18 @@
 	.dw \1
 .endm
 
+.macro npc_resetBit5ofNPC2ndByte_jumpIfNZ
+	.db $82
+	.dw \1
+.endm
+
 .macro npc_startScrollingText
 	.db $83
+	.dw \1
+.endm
+
+.macro npc_jumpIfAtLeast1key
+	.db $84
 	.dw \1
 .endm
 
@@ -91,8 +169,28 @@
 	.dw \1
 .endm
 
+.macro npc_jumpIfLampOn
+	.db $88
+	.dw \1
+.endm
+
 .macro npc_callCommonSoundFuncs_6c01
 	.db $89 \1 \2
+.endm
+
+.macro npc_resetNPC2ndByteBit5_jumpIfOrigSet
+	.db $8a
+	.dw \1
+.endm
+
+.macro npc_jumpIfPlayerIsFullHealth
+	.db $8b
+	.dw \1
+.endm
+
+.macro npc_flipBit4ofNPC2ndByte_jumpIfNZ
+	.db $8c
+	.dw \1
 .endm
 
 .macro npc_addParamsToXthenYCoords
@@ -103,6 +201,13 @@
 	.db $91 \1 \2
 .endm
 
+.macro npc_teleportPlayer
+	.db $92
+	.dw \1
+.endm
+
+// c0
+
 .macro npc_spawnNPC
 	.db $c1
 	.db \1 \2 \3
@@ -110,6 +215,12 @@
 
 .macro npc_loopAboveParamTimes
 	.db $c2
+	.db \1
+	.dw \2
+.endm
+
+.macro npc_jumpIfRandomNumLTparam
+	.db $c3
 	.db \1
 	.dw \2
 .endm
@@ -132,8 +243,34 @@
 	.dw \2
 .endm
 
+// c7
+
 .macro npc_jumpIfItemGotten
 	.db $c8
+	.db \1
+	.dw \2
+.endm
+
+.macro npc_jumpIfAtTile
+	.db $c9
+	.db \1
+	.dw \2
+.endm
+
+.macro npc_jumpIfMoreThanNumBombsGotten
+	.db $ca
+	.db \1
+	.dw \2
+.endm
+
+.macro npc_moveNPC_jumpIfCant
+	.db $ce
+	.db \1
+	.dw \2
+.endm
+
+.macro npc_jumpIfFacingDirection
+	.db $d0
 	.db \1
 	.dw \2
 .endm

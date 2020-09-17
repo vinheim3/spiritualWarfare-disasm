@@ -88,7 +88,7 @@ executeNPCScriptCode:
 	add  (hl)
 
 // only $68 script commands
-	cp   (npcTableEnd-npcTable)/2
+	cp   (scriptCmdTableEnd-scriptCmdTable)/2
 	jr   c, +
 
 	ld   a, $00
@@ -96,7 +96,7 @@ executeNPCScriptCode:
 +
 	ld   e, a
 	ld   d, $00
-	ld   hl, npcTable
+	ld   hl, scriptCmdTable
 	add  hl, de
 	add  hl, de
 	ldi  a, (hl)
@@ -105,7 +105,7 @@ executeNPCScriptCode:
 	jp   hl
 
 
-npcTable:
+scriptCmdTable:
 // 0 params
 	.dw _scriptCmd_end
 	.dw _scriptCmd_set5_cb60
@@ -147,7 +147,7 @@ npcTable:
 	.dw _scriptCmd_incAnointingOilsGotten
 	.dw _scriptCmd_set7_npc2ndByteLower6Bits
 	.dw _scriptCmd_set2_cbe4
-	.dw _scriptCmd_6722
+	.dw _scriptCmd_setRoomFlagFrom_cbf0
 	.dw _scriptCmd_set3_cbe4
 	.dw _scriptCmd_6748
 	.dw _scriptCmd_gotoStartTitleScreen
@@ -156,13 +156,13 @@ npcTable:
 
 // 1 param
 	.dw _scriptCmd_loadInto_cba8
-	.dw _scriptCmd_67a4
+	.dw _scriptCmd_lowNybbleOf_cb54_equParamMinus1
 	.dw _scriptCmd_loadParamInto_cb78
 	.dw _scriptCmd_setNewNpcID
-	.dw _scriptCmd_67d3
+	.dw _scriptCmd_paramLowNybbleIs_cb54_highNybble
 	.dw _scriptCmd_increaseScore
 	.dw _scriptCmd_6811
-	.dw _scriptCmd_682c
+	.dw _scriptCmd_cb60_low2bitsEquParamMinus1
 	.dw _scriptCmd_giveArmorOfGod
 	.dw _scriptCmd_takeArmorOfGod
 	.dw _scriptCmd_giveSpecialBItem
@@ -181,7 +181,7 @@ npcTable:
 // 2 params
 	.dw _scriptCmd_setCoords // $44
 	.dw _scriptCmd_jump
-	.dw _scriptCmd_69b3
+	.dw _scriptCmd_resetBit5ofNPC2ndByte_jumpIfNZ
 	.dw _scriptCmd_startScrollingText
 	.dw _scriptCmd_jumpIfAtLeast1key
 	.dw _scriptCmd_call
@@ -189,35 +189,35 @@ npcTable:
 	.dw _scriptCmd_displayTextScreen
 	.dw _scriptCmd_jumpIfLampOn
 	.dw _scriptCmd_callCommonSoundFuncs_6c01
-	.dw _scriptCmd_6c0f
+	.dw _scriptCmd_resetNPC2ndByteBit5_jumpIfOrigSet
 	.dw _scriptCmd_jumpIfPlayerIsFullHealth
-	.dw _scriptCmd_6c35
+	.dw _scriptCmd_flipBit4ofNPC2ndByte_jumpIfNZ
 	.dw _scriptCmd_6cd6
 	.dw _scriptCmd_6d11
 	.dw _scriptCmd_6d2f
 	.dw _scriptCmd_addParamsToXthenYCoords
 	.dw _scriptCmd_callCommonSoundFuncs_6d6c
-	.dw _scriptCmd_6d8b
+	.dw _scriptCmd_teleportPlayer
 
 // 3 params
 	.dw _scriptCmd_6dd8 // $57
 	.dw _scriptCmd_spawnNPC
 	.dw _scriptCmd_loopAboveParamTimes
-	.dw _scriptCmd_6e94
+	.dw _scriptCmd_jumpIfRandomNumLTparam
 	.dw _scriptCmd_jumpIfArmorOfGodGotten
 	.dw _scriptCmd_jumpIfSpecialBitemGotten
 	.dw _scriptCmd_jumpIfNumBirdsGotten
 	.dw _scriptCmd_6ed7
 	.dw _scriptCmd_jumpIfItemGotten
-	.dw _scriptCmd_6f99
+	.dw _scriptCmd_jumpIfAtTile
 	.dw _scriptCmd_jumpIfMoreThanNumBombsGotten
 	.dw _scriptCmd_jumpIfMoreThanNumOilsGotten
 	.dw _scriptCmd_jumpIfMoreThanParam1HealthGotten
 	.dw _scriptCmd_jumpIfButtonsPressed
-	.dw _scriptCmd_7006
+	.dw _scriptCmd_moveNPC_jumpIfCant
 	.dw _scriptCmd_700e
 	.dw _scriptCmd_jumpIfFacingDirection
-npcTableEnd:
+scriptCmdTableEnd:
 
 
 scriptCmd_paramOffsets:
@@ -856,7 +856,7 @@ npcHelper_orAwith_cbe4:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_6722:
+_scriptCmd_setRoomFlagFrom_cbf0:
 	ld   hl, wNPCBytes_cbf0                                   ; $6722: $21 $f0 $cb
 	add  hl, bc                                      ; $6725: $09
 	ld   a, (hl)                                     ; $6726: $7e
@@ -962,8 +962,8 @@ _scriptCmd_loadInto_cba8:
 	ret
 
 
-_scriptCmd_67a4:
-// keep lower nybble of param
+_scriptCmd_lowNybbleOf_cb54_equParamMinus1:
+// keep lower nybble of param-1
 	ld   hl, wNPCScriptParam1                                   ; $67a4: $21 $20 $c0
 	dec  (hl)                                        ; $67a7: $35
 	ld   a, (hl)                                     ; $67a8: $7e
@@ -1003,12 +1003,15 @@ _scriptCmd_setNewNpcID:
 	ret
 
 
-_scriptCmd_67d3:
+_scriptCmd_paramLowNybbleIs_cb54_highNybble:
+// move param1's lower nybble to upper nybble
 	ld   hl, wNPCScriptParam1                                   ; $67d3: $21 $20 $c0
 	sla  (hl)                                        ; $67d6: $cb $26
 	sla  (hl)                                        ; $67d8: $cb $26
 	sla  (hl)                                        ; $67da: $cb $26
 	sla  (hl)                                        ; $67dc: $cb $26
+
+// or with cb54 and put back in
 	ld   hl, wNPCBytes_cb54                                   ; $67de: $21 $54 $cb
 	add  hl, bc                                      ; $67e1: $09
 	ld   a, (hl)                                     ; $67e2: $7e
@@ -1070,12 +1073,15 @@ _scriptCmd_6811:
 	jp   _scriptCmd_6dd8                               ; $6829: $c3 $d8 $6d
 
 
-_scriptCmd_682c:
+_scriptCmd_cb60_low2bitsEquParamMinus1:
+// param -= 1 and keep low 2 bits
 	ld   hl, wNPCScriptParam1                                   ; $682c: $21 $20 $c0
 	dec  (hl)                                        ; $682f: $35
 	ld   a, (hl)                                     ; $6830: $7e
 	and  $03                                         ; $6831: $e6 $03
 	ld   (hl), a                                     ; $6833: $77
+
+// or it with cb60, and put back in cb60
 	ld   hl, wNPCBytes_cb60                                   ; $6834: $21 $60 $cb
 	add  hl, bc                                      ; $6837: $09
 	ld   a, (hl)                                     ; $6838: $7e
@@ -1356,7 +1362,7 @@ _scriptCmd_jump:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_69b3:
+_scriptCmd_resetBit5ofNPC2ndByte_jumpIfNZ:
 	call npcHelper_resetBit5OfNPC2ndByteLower6Bits
 	jr   nz, _scriptCmd_jump                             ; $69b6: $20 $e6
 
@@ -1797,7 +1803,7 @@ _scriptCmd_callCommonSoundFuncs_6c01:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_6c0f:
+_scriptCmd_resetNPC2ndByteBit5_jumpIfOrigSet:
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $6c0f: $21 $84 $cb
 	add  hl, bc                                      ; $6c12: $09
 	ld   a, (hl)                                     ; $6c13: $7e
@@ -1829,7 +1835,7 @@ _scriptCmd_jumpIfPlayerIsFullHealth:
 	jp   _scriptCmd_jump
 
 
-_scriptCmd_6c35:
+_scriptCmd_flipBit4ofNPC2ndByte_jumpIfNZ:
 	call npcHelper_resetBit4OfNPC2ndByteLower6Bits                               ; $6c35: $cd $3d $6c
 	jr   nz, -                             ; $6c38: $20 $f8
 
@@ -1955,12 +1961,12 @@ loadScrollingTextByteIdxedE:
 
 
 _scriptCmd_6cd6:
-	call Call_001_48b2                               ; $6cd6: $cd $b2 $48
+	call getNextRandomNumber                               ; $6cd6: $cd $b2 $48
 	ld   hl, wNPCScriptParam2                                   ; $6cd9: $21 $21 $c0
 	ld   a, (hl)                                     ; $6cdc: $7e
 	ld   hl, wNPCScriptParam1                                   ; $6cdd: $21 $20 $c0
 	sub  (hl)                                        ; $6ce0: $96
-	ld   hl, $c096                                   ; $6ce1: $21 $96 $c0
+	ld   hl, wRandomNumber                                   ; $6ce1: $21 $96 $c0
 	ld   c, (hl)                                     ; $6ce4: $4e
 	ld   b, $00                                      ; $6ce5: $06 $00
 	call bcDivA_divInC_modInAB                                       ; $6ce7: $cd $44 $08
@@ -1979,7 +1985,7 @@ _scriptCmd_6cd6:
 	cp   (hl)                                        ; $6d01: $be
 	jr   nz, @done                             ; $6d02: $20 $0c
 
-	call Call_001_48b2                               ; $6d04: $cd $b2 $48
+	call getNextRandomNumber                               ; $6d04: $cd $b2 $48
 	and  $01                                         ; $6d07: $e6 $01
 	jr   z, @done                              ; $6d09: $28 $05
 
@@ -2063,7 +2069,7 @@ _scriptCmd_callCommonSoundFuncs_6d6c:
 	jp   executeNPCScriptCode                               ; $6d88: $c3 $8a $62
 
 
-_scriptCmd_6d8b:
+_scriptCmd_teleportPlayer:
 // copy 5 bytes
 	ld   a, $05                                      ; $6d8b: $3e $05
 	ld   hl, wCommonByteCopyFuncNumBytes                                   ; $6d8d: $21 $a0 $c0
@@ -2092,26 +2098,26 @@ _scriptCmd_6d8b:
 // load those 5 bytes into c0bb to c0bf
 	ld   hl, wCommonByteCopyDestBytes                                   ; $6dad: $21 $d0 $c6
 	ld   a, (hl)                                     ; $6db0: $7e
-	ld   hl, $c0bb                                   ; $6db1: $21 $bb $c0
+	ld   hl, wScriptTeleGroup                                   ; $6db1: $21 $bb $c0
 	ld   (hl), a                                     ; $6db4: $77
 	ld   hl, wCommonByteCopyDestBytes+1                                   ; $6db5: $21 $d1 $c6
 	ld   a, (hl)                                     ; $6db8: $7e
-	ld   hl, $c0bc                                   ; $6db9: $21 $bc $c0
+	ld   hl, wScriptTeleRoomX                                   ; $6db9: $21 $bc $c0
 	ld   (hl), a                                     ; $6dbc: $77
 	ld   hl, wCommonByteCopyDestBytes+2                                   ; $6dbd: $21 $d2 $c6
 	ld   a, (hl)                                     ; $6dc0: $7e
-	ld   hl, $c0bd                                   ; $6dc1: $21 $bd $c0
+	ld   hl, wScriptTeleRoomY                                   ; $6dc1: $21 $bd $c0
 	ld   (hl), a                                     ; $6dc4: $77
 	ld   hl, wCommonByteCopyDestBytes+3                                   ; $6dc5: $21 $d3 $c6
 	ld   a, (hl)                                     ; $6dc8: $7e
-	ld   hl, $c0be                                   ; $6dc9: $21 $be $c0
+	ld   hl, wScriptTelePlayerX                                   ; $6dc9: $21 $be $c0
 	ld   (hl), a                                     ; $6dcc: $77
 	ld   hl, wCommonByteCopyDestBytes+4                                   ; $6dcd: $21 $d4 $c6
 	ld   a, (hl)                                     ; $6dd0: $7e
-	ld   hl, $c0bf                                   ; $6dd1: $21 $bf $c0
+	ld   hl, wScriptTelePlayerY                                   ; $6dd1: $21 $bf $c0
 	ld   (hl), a                                     ; $6dd4: $77
 
-	jp   Jump_001_5123                               ; $6dd5: $c3 $23 $51
+	jp   teleportPlayer                               ; $6dd5: $c3 $23 $51
 
 
 _scriptCmd_6dd8:
@@ -2255,11 +2261,11 @@ _scriptCmd_loopAboveParamTimes:
 	jp   @loop
 
 
-_scriptCmd_6e94:
-	call Call_001_48b2                               ; $6e94: $cd $b2 $48
+_scriptCmd_jumpIfRandomNumLTparam:
+	call getNextRandomNumber                               ; $6e94: $cd $b2 $48
 	ld   hl, wNPCScriptParam1                                   ; $6e97: $21 $20 $c0
 	ld   a, (hl)                                     ; $6e9a: $7e
-	ld   hl, $c096                                   ; $6e9b: $21 $96 $c0
+	ld   hl, wRandomNumber                                   ; $6e9b: $21 $96 $c0
 	cp   (hl)                                        ; $6e9e: $be
 	jr   nc, npcHelper_jump                             ; $6e9f: $30 $0d
 
@@ -2313,6 +2319,7 @@ _scriptCmd_6ed7:
 	bit  7, a                                        ; $6edb: $cb $7f
 	jr   z, +                              ; $6edd: $28 $1d
 
+// c006 is tile y npc is on (idxed by 1x1)
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $6edf: $21 $48 $cb
 	add  hl, bc                                      ; $6ee2: $09
 	ld   a, (hl)                                     ; $6ee3: $7e
@@ -2323,6 +2330,8 @@ _scriptCmd_6ed7:
 	srl  a                                           ; $6eec: $cb $3f
 	ld   hl, $c006                                   ; $6eee: $21 $06 $c0
 	ld   (hl), a                                     ; $6ef1: $77
+
+// offset c006 with param 3 removing the upper nybble with bit 7 set
 	ld   hl, wNPCScriptParam3                                   ; $6ef2: $21 $22 $c0
 	ld   a, (hl)                                     ; $6ef5: $7e
 	ld   hl, $c006                                   ; $6ef6: $21 $06 $c0
@@ -2330,6 +2339,7 @@ _scriptCmd_6ed7:
 	and  $0f                                         ; $6efa: $e6 $0f
 
 +
+// c007's upper nybble is param 3's low nybble
 	ld   hl, wNPCScriptParam3                                   ; $6efc: $21 $22 $c0
 	ld   (hl), a                                     ; $6eff: $77
 	sla  a                                           ; $6f00: $cb $27
@@ -2338,6 +2348,8 @@ _scriptCmd_6ed7:
 	sla  a                                           ; $6f06: $cb $27
 	ld   hl, $c007                                   ; $6f08: $21 $07 $c0
 	ld   (hl), a                                     ; $6f0b: $77
+
+// bc is curr npc idx
 	ld   hl, wCurrNpcIdx                                   ; $6f0c: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6f0f: $4e
 	ld   b, $00                                      ; $6f10: $06 $00
@@ -2422,7 +2434,7 @@ _scriptCmd_jumpIfItemGotten:
 	jp   npcHelper_checkItemGotten                               ; $6f96: $c3 $a8 $6e
 
 
-_scriptCmd_6f99:
+_scriptCmd_jumpIfAtTile:
 	ld   hl, wNPC4thBytesOrYCoords                                   ; $6f99: $21 $48 $cb
 	add  hl, bc                                      ; $6f9c: $09
 	ld   a, (hl)                                     ; $6f9d: $7e
@@ -2500,7 +2512,7 @@ _executeNPCScriptCode_7003:
 	jp   executeNPCScriptCode                               ; $7003: $c3 $8a $62
 
 
-_scriptCmd_7006:
+_scriptCmd_moveNPC_jumpIfCant:
 	call npcHelper_offsetNPCCoordsByScriptByte1                               ; $7006: $cd $68 $64
 	jr   nc, _executeNPCScriptCode_7003                             ; $7009: $30 $f8
 
