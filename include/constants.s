@@ -26,3 +26,5 @@
 // misc
 .define NUM_NPCS	$0c
 .define MIN_HEALTH	$06
+.define MAX_ROOMS_IN_ROOM_FLAGS		10
+.define MAX_BYTES_FOR_ROOM_FLAGS	$40

@@ -7,13 +7,13 @@
 
 
 //------------------ the following few functions have to do with room flags?
-clear_c0fe_c0ff:
-	ld   a, $00                                      ; $494b: $3e $00
-	ld   hl, $c0ff                                   ; $494d: $21 $ff $c0
-	ld   (hl), a                                     ; $4950: $77
-	ld   hl, $c0fe                                   ; $4951: $21 $fe $c0
-	ld   (hl), a                                     ; $4954: $77
-	ret                                              ; $4955: $c9
+resetRoomFlagData:
+	ld   a, $00
+	ld   hl, wLastRoomFlagsIdxPlus1
+	ld   (hl), a
+	ld   hl, wNumberOfRoomsInRoomFlags
+	ld   (hl), a
+	ret
 
 
 getRoomIdxWithinAllRooms:
@@ -31,9 +31,9 @@ getRoomIdxWithinAllRooms:
 	ld   (hl), a
 // clear c008 and c009
 	ld   a, $00
-	ld   hl, wTotalRoomsFromGroup0beforeCurrRoomIdx
+	ld   hl, wRoomIdxFromGroup0
 	ld   (hl), a
-	ld   hl, wTotalRoomsFromGroup0beforeCurrRoomIdx+1
+	ld   hl, wRoomIdxFromGroup0+1
 	ld   (hl), a
 
 // start at room group 0
@@ -89,26 +89,27 @@ getRoomIdxWithinAllRooms:
 
 addECtoTotalRoomsFromRoom0:
 	ld   a, c
-	ld   hl, wTotalRoomsFromGroup0beforeCurrRoomIdx
+	ld   hl, wRoomIdxFromGroup0
 	add  (hl)
 	ld   (hl), a
 	ld   a, e
-	ld   hl, wTotalRoomsFromGroup0beforeCurrRoomIdx+1
+	ld   hl, wRoomIdxFromGroup0+1
 	adc  (hl)
 	ld   (hl), a
 	ret
 
 
-func_01_09d3:
-	call func_01_09ea                                       ; $49d3: $cd $ea $09
-	jr   z, +                              ; $49d6: $28 $03
+createEntryForRoomInRoomFlagsIfNeeded:
+	call checkRoomCurrentlyInRoomFlags
+	jr   z, +
 
-	call func_01_0a28                                       ; $49d8: $cd $28 $0a
+	call setupNewRoomInRoomFlagsStruct
 
 +
-	inc  bc                                          ; $49db: $03
-	inc  bc                                          ; $49dc: $03
-	ret                                              ; $49dd: $c9
+// point to data byte
+	inc  bc
+	inc  bc
+	ret
 
 
 setRoomFlag:
@@ -122,166 +123,204 @@ setRoomFlag:
 	ret
 
 
-func_01_09ea:
-	ld   bc, $0000                                   ; $49ea: $01 $00 $00
+checkRoomCurrentlyInRoomFlags:
+// c008/9 is room idx within all rooms
+	ld   bc, $0000
 @bigLoop:
-	ld   hl, $c0ff                                   ; $49ed: $21 $ff $c0
-	ld   a, c                                        ; $49f0: $79
-	cp   (hl)                                        ; $49f1: $be
-	jr   z, @clearZflag                              ; $49f2: $28 $19
+// c0ff - idx of last recorded room flags
+	ld   hl, wLastRoomFlagsIdxPlus1
+	ld   a, c
+	cp   (hl)
+	jr   z, @clearZflag
 
-	ld   hl, wRoomFlags                                   ; $49f4: $21 $00 $c1
-	add  hl, bc                                      ; $49f7: $09
-	ld   a, (hl)                                     ; $49f8: $7e
-	ld   hl, $c008                                   ; $49f9: $21 $08 $c0
-	cp   (hl)                                        ; $49fc: $be
-	jr   nz, @func_0a12                             ; $49fd: $20 $13
+// compare c008/9 with each block of 3 bytes from c100
+// the 3rd byte has the room flags
+	ld   hl, wRoomFlags
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wRoomIdxFromGroup0
+	cp   (hl)
+	jr   nz, @notCurrentRoom
 
-	ld   hl, $c101                                   ; $49ff: $21 $01 $c1
-	add  hl, bc                                      ; $4a02: $09
-	ld   a, (hl)                                     ; $4a03: $7e
-	and  $0f                                         ; $4a04: $e6 $0f
-	ld   hl, $c009                                   ; $4a06: $21 $09 $c0
-	cp   (hl)                                        ; $4a09: $be
-	jr   nz, @func_0a12                             ; $4a0a: $20 $06
+	ld   hl, wRoomFlags+1
+	add  hl, bc
+	ld   a, (hl)
+	and  $0f
+	ld   hl, wRoomIdxFromGroup0+1
+	cp   (hl)
+	jr   nz, @notCurrentRoom
 
 // set z flag
-	ret                                              ; $4a0c: $c9
+	ret
 
 @clearZflag:
-	ld   a, $ff                                      ; $4a0d: $3e $ff
-	cp   $00                                         ; $4a0f: $fe $00
-	ret                                              ; $4a11: $c9
+	ld   a, $ff
+	cp   $00
+	ret
 
-@func_0a12:
-	ld   hl, $c101                                   ; $4a12: $21 $01 $c1
-	add  hl, bc                                      ; $4a15: $09
-	ld   a, (hl)                                     ; $4a16: $7e
-	call aDivEqu16                                       ; $4a17: $cd $fa $07
-	ld   hl, $c00b                                   ; $4a1a: $21 $0b $c0
-	ld   (hl), a                                     ; $4a1d: $77
-	inc  (hl)                                        ; $4a1e: $34
-	scf                                              ; $4a1f: $37
-	ld   a, c                                        ; $4a20: $79
-	adc  (hl)                                        ; $4a21: $8e
-	ld   c, a                                        ; $4a22: $4f
-	ld   b, $00                                      ; $4a23: $06 $00
-	jp   @bigLoop                                       ; $4a25: $c3 $ed $09
+@notCurrentRoom:
+// get higher nybble of room flags+1, previously ignored
+	ld   hl, wRoomFlags+1
+	add  hl, bc
+	ld   a, (hl)
+	call aDivEqu16
+
+// bc is current index into c100
+// c00b = upper nybble + 1
+	ld   hl, wNumDataBytesForCurrRoomsFlags
+	ld   (hl), a
+	inc  (hl)
+// bc += (upper nybble + 1) + 1 (start of next set of bytes)
+	scf
+	ld   a, c
+	adc  (hl)
+	ld   c, a
+	ld   b, $00
+	jp   @bigLoop
 
 
-func_01_0a28:
+setupNewRoomInRoomFlagsStruct:
 @bigLoop:
-	ld   hl, $c0fc                                   ; $4a28: $21 $fc $c0
-	ld   a, (hl)                                     ; $4a2b: $7e
-	add  $07                                         ; $4a2c: $c6 $07
-	srl  a                                           ; $4a2e: $cb $3f
-	srl  a                                           ; $4a30: $cb $3f
-	srl  a                                           ; $4a32: $cb $3f
-	ld   hl, $c00b                                   ; $4a34: $21 $0b $c0
-	ld   (hl), a                                     ; $4a37: $77
-	ld   hl, $c0fe                                   ; $4a38: $21 $fe $c0
-	ld   a, (hl)                                     ; $4a3b: $7e
-	cp   10                                         ; $4a3c: $fe $0a
-	jr   c, @func_0a77                              ; $4a3e: $38 $37
+// round up to nearest multiple of 8 and divide by 8, store in c00b
+	ld   hl, wNumRoomFlagObjects
+	ld   a, (hl)
+	add  $07
+	srl  a
+	srl  a
+	srl  a
+	ld   hl, wNumDataBytesForCurrRoomsFlags
+	ld   (hl), a
+
+// check number of unique rooms
+	ld   hl, wNumberOfRoomsInRoomFlags
+	ld   a, (hl)
+	cp   MAX_ROOMS_IN_ROOM_FLAGS
+	jr   c, @createEntryInRoomFlags
 
 // once visited 10 unique rooms...
-@smallLoop:
-	ld   hl, $c101                                   ; $4a40: $21 $01 $c1
-	ld   a, (hl)                                     ; $4a43: $7e
-	call aDivEqu16                                       ; $4a44: $cd $fa $07
-	add  $02                                         ; $4a47: $c6 $02
-	ld   e, a                                        ; $4a49: $5f
-	ld   d, $00                                      ; $4a4a: $16 $00
-	ld   bc, $0000                                   ; $4a4c: $01 $00 $00
--
-	ld   hl, $c0ff                                   ; $4a4f: $21 $ff $c0
-	ld   a, e                                        ; $4a52: $7b
-	cp   (hl)                                        ; $4a53: $be
-	jr   nc, +                             ; $4a54: $30 $0f
+@shiftStructBackToMakeSpaceForNewRoom:
+// get number of bytes of data the 1st store room takes up
+	ld   hl, wRoomFlags+1
+	ld   a, (hl)
+	call aDivEqu16
 
-	ld   hl, wRoomFlags                                   ; $4a56: $21 $00 $c1
-	add  hl, de                                      ; $4a59: $19
-	ld   a, (hl)                                     ; $4a5a: $7e
-	ld   hl, wRoomFlags                                   ; $4a5b: $21 $00 $c1
-	add  hl, bc                                      ; $4a5e: $09
-	ld   (hl), a                                     ; $4a5f: $77
-	inc  bc                                          ; $4a60: $03
-	inc  de                                          ; $4a61: $13
-	jp   -                                       ; $4a62: $c3 $4f $0a
+// de is that number + 2
+	add  $02
+	ld   e, a
+	ld   d, $00
+
+// move everything back to make space for next room
+	ld   bc, $0000
+-
+	ld   hl, wLastRoomFlagsIdxPlus1
+	ld   a, e
+	cp   (hl)
+	jr   nc, +
+
+	ld   hl, wRoomFlags
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wRoomFlags
+	add  hl, bc
+	ld   (hl), a
+	inc  bc
+	inc  de
+	jp   -
 
 +
-	ld   hl, $c0ff                                   ; $4a65: $21 $ff $c0
-	ld   (hl), c                                     ; $4a68: $71
-	ld   hl, $c0fe                                   ; $4a69: $21 $fe $c0
-	dec  (hl)                                        ; $4a6c: $35
-	bit  7, (hl)                                     ; $4a6d: $cb $7e
-	jr   z, @bigLoop                              ; $4a6f: $28 $b7
+// num rooms used -= 1 now that we've cleared the 1st one off
+	ld   hl, wLastRoomFlagsIdxPlus1
+	ld   (hl), c
+	ld   hl, wNumberOfRoomsInRoomFlags
+	dec  (hl)
 
-	call clear_c0fe_c0ff                                       ; $4a71: $cd $4b $09
-	jp   @bigLoop                                       ; $4a74: $c3 $28 $0a
+// sanity checks?
+// big loop to create new entry in wRoomFlags
+	bit  7, (hl)
+	jr   z, @bigLoop
 
-@func_0a77:
-	ld   a, $40                                      ; $4a77: $3e $40
-	ld   hl, $c0ff                                   ; $4a79: $21 $ff $c0
-	sub  (hl)                                        ; $4a7c: $96
-	jr   c, @smallLoop                              ; $4a7d: $38 $c1
+	call resetRoomFlagData
+	jp   @bigLoop
 
-	sbc  $02                                         ; $4a7f: $de $02
-	jr   c, @smallLoop                              ; $4a81: $38 $bd
+@createEntryInRoomFlags:
+	ld   a, MAX_BYTES_FOR_ROOM_FLAGS
+	ld   hl, wLastRoomFlagsIdxPlus1
+	sub  (hl)
+	jr   c, @shiftStructBackToMakeSpaceForNewRoom
 
-	ld   hl, $c00b                                   ; $4a83: $21 $0b $c0
-	sbc  (hl)                                        ; $4a86: $9e
-	jr   c, @smallLoop                              ; $4a87: $38 $b7
+// continue here if next room flags idx to be used is <= $40
+	sbc  $02
+	jr   c, @shiftStructBackToMakeSpaceForNewRoom
 
-	ld   hl, $c0ff                                   ; $4a89: $21 $ff $c0
-	ld   c, (hl)                                     ; $4a8c: $4e
-	ld   b, $00                                      ; $4a8d: $06 $00
-	ld   hl, $c008                                   ; $4a8f: $21 $08 $c0
-	ld   a, (hl)                                     ; $4a92: $7e
-	ld   hl, wRoomFlags                                   ; $4a93: $21 $00 $c1
-	add  hl, bc                                      ; $4a96: $09
-	ld   (hl), a                                     ; $4a97: $77
-	ld   hl, $c00b                                   ; $4a98: $21 $0b $c0
-	ld   a, (hl)                                     ; $4a9b: $7e
-	sla  a                                           ; $4a9c: $cb $27
-	sla  a                                           ; $4a9e: $cb $27
-	sla  a                                           ; $4aa0: $cb $27
-	sla  a                                           ; $4aa2: $cb $27
-	ld   hl, $c009                                   ; $4aa4: $21 $09 $c0
-	or   (hl)                                        ; $4aa7: $b6
-	ld   hl, $c101                                   ; $4aa8: $21 $01 $c1
-	add  hl, bc                                      ; $4aab: $09
-	ld   (hl), a                                     ; $4aac: $77
-	inc  bc                                          ; $4aad: $03
-	inc  bc                                          ; $4aae: $03
-	ld   hl, $c00b                                   ; $4aaf: $21 $0b $c0
-	ld   e, (hl)                                     ; $4ab2: $5e
-	ld   d, $00                                      ; $4ab3: $16 $00
-	ld   a, e                                        ; $4ab5: $7b
-	cp   $00                                         ; $4ab6: $fe $00
-	jr   z, +                              ; $4ab8: $28 $0d
+// continue here if next room flags idx to be used is <= $3e
+	ld   hl, wNumDataBytesForCurrRoomsFlags
+	sbc  (hl)
+	jr   c, @shiftStructBackToMakeSpaceForNewRoom
 
-	ld   a, $00                                      ; $4aba: $3e $00
+// continue here if next room flags idx to be used is
+// <= $3e-(number of 8's the total interactible tiles can fit in)
 
+// bc is next room flags idx to be used
+	ld   hl, wLastRoomFlagsIdxPlus1
+	ld   c, (hl)
+	ld   b, $00
+
+// store room idx into next idx (as a key for lookup later)
+	ld   hl, wRoomIdxFromGroup0
+	ld   a, (hl)
+	ld   hl, wRoomFlags
+	add  hl, bc
+	ld   (hl), a
+
+// next byte contains num bytes of flags as upper nybble, and upper byte of room idx as low nybble
+	ld   hl, wNumDataBytesForCurrRoomsFlags
+	ld   a, (hl)
+	sla  a
+	sla  a
+	sla  a
+	sla  a
+	ld   hl, wRoomIdxFromGroup0+1
+	or   (hl)
+	ld   hl, wRoomFlags+1
+	add  hl, bc
+	ld   (hl), a
+
+// bc at byte containing data for room
+	inc  bc
+	inc  bc
+
+// de = number of bytes of data this takes up
+	ld   hl, wNumDataBytesForCurrRoomsFlags
+	ld   e, (hl)
+	ld   d, $00
+	ld   a, e
+	cp   $00
+	jr   z, +
+
+// clear room flags de, starting offset bc (reserving space for this current room)
+	ld   a, $00
 -
-	ld   hl, wRoomFlags                                   ; $4abc: $21 $00 $c1
-	add  hl, bc                                      ; $4abf: $09
-	ld   (hl), a                                     ; $4ac0: $77
-	inc  bc                                          ; $4ac1: $03
-	dec  de                                          ; $4ac2: $1b
-	ld   a, e                                        ; $4ac3: $7b
-	or   d                                           ; $4ac4: $b2
-	jr   nz, -                             ; $4ac5: $20 $f5
+	ld   hl, wRoomFlags
+	add  hl, bc
+	ld   (hl), a
+	inc  bc
+	dec  de
+	ld   a, e
+	or   d
+	jr   nz, -
 
 +
-	ld   a, c                                        ; $4ac7: $79
-	ld   hl, $c0ff                                   ; $4ac8: $21 $ff $c0
-	ld   c, (hl)                                     ; $4acb: $4e
-	ld   b, $00                                      ; $4acc: $06 $00
-	ld   (hl), a                                     ; $4ace: $77
-	ld   hl, $c0fe                                   ; $4acf: $21 $fe $c0
-	inc  (hl)                                        ; $4ad2: $34
-	ret                                              ; $4ad3: $c9
+// update last room flags idx
+	ld   a, c
+	ld   hl, wLastRoomFlagsIdxPlus1
+	ld   c, (hl)
+	ld   b, $00
+	ld   (hl), a
+
+// inc c0fe
+	ld   hl, wNumberOfRoomsInRoomFlags
+	inc  (hl)
+	ret
 //------------------ end of what seems to be room flags-related code
 
 

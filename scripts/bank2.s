@@ -78,7 +78,7 @@ _npc_end_02_502c:
 
 
 npcb4_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 	npc_giveArmorOfGod $01
@@ -93,7 +93,7 @@ npcb4_scripts:
 
 
 npcb5_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 	npc_giveSpecialBItem $01
@@ -104,7 +104,7 @@ npcb5_scripts:
 
 
 npcb6_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 -
@@ -122,7 +122,7 @@ npcb6_scripts:
 
 
 npcb7_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 -
@@ -137,8 +137,8 @@ npcb7_scripts:
 
 npcb8_scripts:
 	npc_set6_cb60_reset_cb6c
-	.db $47 $04
-	.db $1f
+	npc_cb60_low2bitsEquParamMinus1 $04
+	npc_c02a_equFF
 	npc_set2_cbe4
 	npc_res4_cb60
 -
@@ -213,7 +213,7 @@ npcText_02_5094:
 
 
 npc6a_scripts:
-	.db $1f
+	npc_c02a_equFF
 	npc_startScrollingText npcText_02_5094
 	npc_end
 
@@ -427,7 +427,7 @@ func_02_52bc:
 
 
 npc6b_scripts:
-	.db $1f
+	npc_c02a_equFF
 	npc_set6_cb60_reset_cb6c
 	npc_set2_cbe4
 	npc_res4_cb60
@@ -501,7 +501,7 @@ npc6e_scripts:
 	npc_set3_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
-	.db $1d
+	npc_set2_cb60
 	npc_set5_cb60
 	npc_lowNybbleOf_cb54_equParamMinus1 $02
 	npc_faceLeft
@@ -527,7 +527,7 @@ npc73_scripts:
 	npc_set3_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
-	.db $1d
+	npc_set2_cb60
 	npc_set5_cb60
 	npc_loadInto_cba8 $10
 	npc_faceDown
@@ -907,21 +907,21 @@ npc76_scripts:
 
 
 npc92_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_paramLowNybbleIs_cb54_highNybble $02
 	npc_lowNybbleOf_cb54_equParamMinus1 $03
 	npc_res4_cb60
 --
 	npc_loadInto_cba8 $10
-	.db $0e
+	npc_turnRight
 	npc_moveNPC_jumpIfCant $10, +
 -
-	.db $0b
-	.db $0b
-	.db $0b
+	npc_offsetNPCCoordsBy1_turnLeft
+	npc_offsetNPCCoordsBy1_turnLeft
+	npc_offsetNPCCoordsBy1_turnLeft
 	npc_jump --
 +
-	.db $0d
+	npc_turnLeft
 	npc_jump -
 
 
@@ -1169,7 +1169,7 @@ npc78_scripts:
 	npc_call func_02_58cc
 	npc_set6_cb60_reset_cb6c
 	npc_loadParamInto_cb78 $08
-	.db $46 $79
+	npc_spawnNPCinFrontOfSelf $79
 	.db $16
 	npc_call func_02_58d0
 	npc_jump -
@@ -1181,7 +1181,7 @@ npc7a_scripts:
 	npc_call func_02_58cc
 	npc_set6_cb60_reset_cb6c
 	npc_loadParamInto_cb78 $08
-	.db $46 $7b
+	npc_spawnNPCinFrontOfSelf $7b
 	.db $16
 	npc_call func_02_58d0
 	npc_jump -
@@ -1191,7 +1191,7 @@ func_02_58c4:
 	npc_set6_cb60_reset_cb6c
 	npc_paramLowNybbleIs_cb54_highNybble $01
 	.db $16
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
 	npc_ret
 
@@ -1222,7 +1222,7 @@ npc7b_scripts:
 
 npc7c_scripts:
 	npc_set3_cb60
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set2_cbe4
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -1232,8 +1232,8 @@ npc7c_scripts:
 
 npc7d_scripts:
 	npc_set6_cb60_reset_cb6c
-	.db $47 $04
-	.db $1f
+	npc_cb60_low2bitsEquParamMinus1 $04
+	npc_c02a_equFF
 	npc_set2_cbe4
 	npc_res4_cb60
 	npc_groupRoomXYjumpTable @table
@@ -1560,7 +1560,7 @@ npc7d_scripts:
 
 npc6c_scripts:
 	npc_set6_cb60_reset_cb6c
-	.db $1f
+	npc_c02a_equFF
 	npc_set2_cbe4
 	npc_res4_cb60
 	npc_jumpIfArmorOfGodGotten $01, +
@@ -1685,7 +1685,7 @@ npc7e_scripts:
 
 npc7f_scripts:
 	npc_set5_cb60
-	.db $47 $04
+	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_lowNybbleOf_cb54_equParamMinus1 $02
 	npc_paramLowNybbleIs_cb54_highNybble $08
 	npc_res4_cb60
@@ -1697,13 +1697,13 @@ npc7f_scripts:
 
 npcac_scripts:
 	npc_set5_cb60
-	.db $47 $04
+	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_lowNybbleOf_cb54_equParamMinus1 $02
 	npc_paramLowNybbleIs_cb54_highNybble $08
 	npc_res4_cb60
 -
 	npc_loadInto_cba8 $60
-	.db $0e
+	npc_turnRight
 	npc_jump -
 
 
@@ -1731,7 +1731,7 @@ npc90_scripts:
 
 
 npc80_scripts:
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set3_cb60
 	npc_call func_02_4fea
 -
@@ -1746,7 +1746,7 @@ func_02_602e:
 
 
 npc81_scripts:
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_call func_02_4fea
 -
 	npc_call func_02_5010
@@ -2121,7 +2121,7 @@ func_02_6618:
 	npc_faceUp
 @func_663d:
 	npc_set6_cb60_reset_cb6c
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set5_cb60
 	npc_set2_cbe4
 	npc_res4_cb60
@@ -2138,10 +2138,10 @@ func_02_6618:
 +
 	npc_jumpIfRandomNumLTparam $40, @func_6662
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $0e
+	npc_turnRight
 	npc_jump @func_6662
 +
-	.db $0d
+	npc_turnLeft
 @func_6662:
 	npc_resetBit5ofNPC2ndByte_jumpIfNZ @done
 	npc_loopAboveParamTimes $5a, @func_6645
@@ -2181,7 +2181,7 @@ npc87_scripts:
 
 func_02_6697:
 	npc_res4_cb60
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_paramLowNybbleIs_cb54_highNybble $02
 	npc_ret
 
@@ -2192,7 +2192,7 @@ func_02_669d:
 	.db $0a
 	npc_jump @func_66ae
 +
-	.db $0b
+	npc_offsetNPCCoordsBy1_turnLeft
 	npc_jump @func_66ae
 ++
 	npc_turnBackwards
@@ -2210,7 +2210,7 @@ func_02_669d:
 
 
 npc88_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set5_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_set2_cbe4
@@ -2222,7 +2222,7 @@ npc88_scripts:
 
 
 npc89_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set2_cbe4
 	npc_res4_cb60
 @loop:
@@ -2273,7 +2273,7 @@ npc8a_scripts:
 
 
 npc8b_scripts:
-	.db $1f
+	npc_c02a_equFF
 	npc_startScrollingText @text
 	npc_end
 
@@ -2330,7 +2330,7 @@ npc8b_scripts:
 
 
 npc8c_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
 	npc_paramLowNybbleIs_cb54_highNybble $02
 	npc_lowNybbleOf_cb54_equParamMinus1 $03
@@ -2345,39 +2345,39 @@ npc8c_scripts:
 	.db $0a
 	npc_jump -
 +
-	.db $0b
+	npc_offsetNPCCoordsBy1_turnLeft
 	npc_jump -
 
 
 npc8d_scripts:
-	.db $47 $02
-	.db $03
+	npc_cb60_low2bitsEquParamMinus1 $02
+	npc_set7_cb60
 	npc_res4_cb60
 	npc_paramLowNybbleIs_cb54_highNybble $03
 	npc_lowNybbleOf_cb54_equParamMinus1 $03
 -
 	npc_loadInto_cba8 $40
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $0d
+	npc_turnLeft
 	npc_jump -
 +
-	.db $0e
+	npc_turnRight
 	npc_jump -
 
 
 npc8e_scripts:
-	.db $47 $04
+	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_res4_cb60
 	npc_paramLowNybbleIs_cb54_highNybble $03
 	npc_lowNybbleOf_cb54_equParamMinus1 $02
-	.db $03
+	npc_set7_cb60
 	.db $8d $05 $0a
 @loop:
 	npc_loadInto_cba8 $10
 	npc_flipBit4ofNPC2ndByte_jumpIfNZ +
 	npc_jump @loop
 +
-	.db $46 $8f
+	npc_spawnNPCinFrontOfSelf $8f
 	npc_loadParamInto_cb78 $02
 	npc_loadInto_cba8 $10
 	npc_flipBit4ofNPC2ndByte_jumpIfNZ +
@@ -2391,12 +2391,12 @@ npc8e_scripts:
 	.db $0a
 	npc_jump @loop
 +
-	.db $0b
+	npc_offsetNPCCoordsBy1_turnLeft
 	npc_jump @loop
 
 
 npc8f_scripts:
-	.db $c9 $48 $43 $68
+	npc_jumpIfAtTile $48, +
 	npc_lowNybbleOf_cb54_equParamMinus1 $10
 	npc_set5_cb60
 	npc_turnBackwards
@@ -2419,7 +2419,7 @@ npc8f_scripts:
 
 npc91_scripts:
 	npc_paramLowNybbleIs_cb54_highNybble $02
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_res4_cb60
 -
 	npc_call func_02_6866
@@ -2455,10 +2455,10 @@ func_02_6886:
 	npc_jumpIfRandomNumLTparam $40, _npc_end_02_6897
 	npc_jumpIfRandomNumLTparam $55, func_02_6896
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $0d
+	npc_turnLeft
 	npc_ret
 +
-	.db $0e
+	npc_turnRight
 	npc_ret
 
 func_02_6896:
@@ -2486,18 +2486,18 @@ npc93_scripts:
 +
 	npc_jumpIfRandomNumLTparam $80, @func_68d6
 	npc_jumpIfRandomNumLTparam $80, ++
-	.db $0e
+	npc_turnRight
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jump @loop
 +
-	.db $0e
+	npc_turnRight
 	npc_jump @loop
 ++
-	.db $0d
+	npc_turnLeft
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jump @loop
 +
-	.db $0d
+	npc_turnLeft
 	npc_jump @loop
 
 @func_68d6:
@@ -2519,7 +2519,7 @@ npc94_scripts:
 	npc_jumpIfRandomNumLTparam $80, @func_690f
 	npc_moveNPC_jumpIfCant $10, @func_690f
 	.db $8d $08 $10
-	.db $46 $95
+	npc_spawnNPCinFrontOfSelf $95
 	npc_jump @func_68ea
 @loop:
 	npc_jumpIfRandomNumLTparam $80, +
@@ -2532,23 +2532,23 @@ npc94_scripts:
 	npc_jump @func_68ea
 @func_690f:
 	npc_jumpIfRandomNumLTparam $80, ++
-	.db $0d
+	npc_turnLeft
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jump @loop
 +
-	.db $0d
+	npc_turnLeft
 	npc_jump @loop
 ++
-	.db $0e
+	npc_turnRight
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jump @loop
 +
-	.db $0e
+	npc_turnRight
 	npc_jump @loop
 
 
 npc95_scripts:
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set6_cb60_reset_cb6c
 	npc_set3_cb60
 	npc_set5_cb60
@@ -2560,7 +2560,7 @@ npc95_scripts:
 
 
 npc96_scripts:
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_lowNybbleOf_cb54_equParamMinus1 $02
 	npc_paramLowNybbleIs_cb54_highNybble $03
 	npc_res4_cb60
@@ -2575,11 +2575,11 @@ npc96_scripts:
 +
 	npc_jumpIfRandomNumLTparam $10, @func_6977
 	npc_jumpIfRandomNumLTparam $80, ++
-	.db $0b
+	npc_offsetNPCCoordsBy1_turnLeft
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jump @loop
 +
-	.db $0b
+	npc_offsetNPCCoordsBy1_turnLeft
 	npc_jump @loop
 ++
 	.db $0a
@@ -2638,7 +2638,7 @@ func_02_69b6:
 
 
 func_02_69c0:
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set6_cb60_reset_cb6c
 	npc_paramLowNybbleIs_cb54_highNybble $03
 	npc_res4_cb60
@@ -2650,7 +2650,7 @@ func_02_69c0:
 
 
 npca7_scripts:
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_res4_cb60
 	npc_paramLowNybbleIs_cb54_highNybble $02
 	npc_loadParamInto_cb78 $0a
@@ -2667,7 +2667,7 @@ npca7_scripts:
 
 
 npca8_scripts:
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_res4_cb60
 	npc_paramLowNybbleIs_cb54_highNybble $02
 	npc_loadParamInto_cb78 $0a
@@ -2679,7 +2679,7 @@ npca8_scripts:
 
 
 npca9_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
 	npc_paramLowNybbleIs_cb54_highNybble $02
 	npc_loadParamInto_cb78 $0a
@@ -2697,7 +2697,7 @@ npca9_scripts:
 
 
 npcaa_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
 	npc_paramLowNybbleIs_cb54_highNybble $04
 	npc_loadParamInto_cb78 $0a
@@ -2710,13 +2710,13 @@ npcaa_scripts:
 	npc_turnBackwards
 	npc_jump @loop
 ++
-	.db $46 $ab
+	npc_spawnNPCinFrontOfSelf $ab
 	npc_jump @loop
 
 
 npcab_scripts:
 	npc_set6_cb60_reset_cb6c
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_lowNybbleOf_cb54_equParamMinus1 $04
 	npc_moveHorizontallyToPlayer
 	npc_res4_cb60
@@ -2731,18 +2731,18 @@ npc99_scripts:
 	npc_loadInto_cba8 $10
 	npc_call @func_6a62
 	npc_loopAboveParamTimes $0f, @loop
-	.db $0e
+	npc_turnRight
 	npc_loadInto_cba8 $10
 	npc_flipBit4ofNPC2ndByte_jumpIfNZ @end
-	.db $0e
+	npc_turnRight
 -
 	npc_loadInto_cba8 $10
 	npc_call @func_6a62
 	npc_loopAboveParamTimes $0f, -
-	.db $0d
+	npc_turnLeft
 	npc_loadInto_cba8 $10
 	npc_flipBit4ofNPC2ndByte_jumpIfNZ @end
-	.db $0d
+	npc_turnLeft
 	npc_jump @loop
 @end:
 	npc_end
@@ -2772,36 +2772,26 @@ npc99_scripts:
 	.db $ff $ff $ff
 
 @entry0:
-	.db $c9 $1c
-	.dw @gotoTable2
-	.db $c9 $48
-	.dw @gotoTable2
-	.db $c9 $44
-	.dw @gotoTable2
-	.db $c9 $4c
-	.dw @gotoTable2
+	npc_jumpIfAtTile $1c, @gotoTable2
+	npc_jumpIfAtTile $48, @gotoTable2
+	npc_jumpIfAtTile $44, @gotoTable2
+	npc_jumpIfAtTile $4c, @gotoTable2
 	npc_ret
 
 @entry1:
-	.db $c9 $48
-	.dw @gotoTable2
-	.db $c9 $54
-	.dw @gotoTable2
+	npc_jumpIfAtTile $48, @gotoTable2
+	npc_jumpIfAtTile $54, @gotoTable2
 	npc_ret
 
 @entry2:
 @entry3:
-	.db $c9 $48
-	.dw @gotoTable2
-	.db $c9 $e4
-	.dw @gotoTable2
+	npc_jumpIfAtTile $48, @gotoTable2
+	npc_jumpIfAtTile $e4, @gotoTable2
 	npc_ret
 
 @entry4:
-	.db $c9 $4c
-	.dw @gotoTable2
-	.db $c9 $80
-	.dw @gotoTable2
+	npc_jumpIfAtTile $4c, @gotoTable2
+	npc_jumpIfAtTile $80, @gotoTable2
 	npc_ret
 
 @gotoTable2:
@@ -2829,36 +2819,29 @@ npc99_scripts:
 @2entry0:
 -
 	npc_loadParamInto_cb78 $01
-	.db $c9 $00
-	.dw @next_6b08
-	.db $c9 $68
-	.dw @next_6b08
+	npc_jumpIfAtTile $00, @next_6b08
+	npc_jumpIfAtTile $68, @next_6b08
 	npc_jump -
 
 @2entry1:
 -
 	npc_loadParamInto_cb78 $01
-	.db $c9 $00
-	.dw @next_6b08
-	.db $c9 $dc
-	.dw @next_6b08
+	npc_jumpIfAtTile $00, @next_6b08
+	npc_jumpIfAtTile $dc, @next_6b08
 	npc_jump -
 
 @2entry2:
 @2entry3:
 -
 	npc_loadParamInto_cb78 $01
-	.db $c9 $00
-	.dw @next_6b08
+	npc_jumpIfAtTile $00, @next_6b08
 	npc_jump -
 
 @2entry4:
 -
 	npc_loadParamInto_cb78 $01
-	.db $c9 $b8
-	.dw @next_6b03
-	.db $c9 $94
-	.dw @next_6b03
+	npc_jumpIfAtTile $b8, @next_6b03
+	npc_jumpIfAtTile $94, @next_6b03
 	npc_jump -
 
 @next_6b03:
@@ -2915,7 +2898,7 @@ npc9b_scripts:
 	npc_resetBit5ofNPC2ndByte_jumpIfNZ @innerLoop
 	.db $c7 $86 $80 $80
 	npc_loadParamInto_cb78 $08
-	.db $c0 $9c $00 $00
+	npc_spawnNPCAtOffset $9c $00 $00
 	npc_loadParamInto_cb78 $38
 	.db $c7 $c2 $80 $80
 	npc_jump @loop
@@ -2927,7 +2910,7 @@ npc9c_scripts:
 	npc_loadParamInto_cb78 $0c
 	npc_set6_cb60_reset_cb6c
 	npc_loadParamInto_cb78 $08
-	.db $46 $a4
+	npc_spawnNPCinFrontOfSelf $a4
 	npc_loadParamInto_cb78 $1e
 	npc_end
 
@@ -2949,14 +2932,14 @@ npca5_scripts:
 	npc_call func_02_58cc
 	npc_set6_cb60_reset_cb6c
 	npc_loadParamInto_cb78 $08
-	.db $46 $a4
+	npc_spawnNPCinFrontOfSelf $a4
 	.db $16
 	.db $8d $0c $18
 	npc_jump -
 
 
 npca6_scripts:
-	.db $47 $02
+	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_res4_cb60
 	npc_paramLowNybbleIs_cb54_highNybble $02
 -
@@ -2987,7 +2970,7 @@ npc9d_scripts:
 	npc_loadInto_cba8 $10
 	npc_faceDown
 	npc_loadInto_cba8 $10
-	.db $1d
+	npc_set2_cb60
 	npc_lowNybbleOf_cb54_equParamMinus1 $01
 	npc_faceUp
 	npc_loadInto_cba8 $20
@@ -3008,7 +2991,7 @@ npca1_scripts:
 ;;
 	.db $51 $31 // 6bde
 	npc_set6_cb60_reset_cb6c // 6be0
-	.db $47 $04 // 6be1
+	npc_cb60_low2bitsEquParamMinus1 $04 // 6be1
 	npc_paramLowNybbleIs_cb54_highNybble $04 // 6be3
 	npc_res4_cb60 // 6be5
 	npc_call $6c14 // 6be6
@@ -3029,7 +3012,7 @@ npca1_scripts:
 
 // 6c14
 	npc_loadParamInto_cb78 $0c // 6c14
-	.db $c0 $a1 $00 $f8 // 6c16
+	npc_spawnNPCAtOffset $a1 $00 $f8 // 6c16
 	.db $51 $30 // 6c1a
 	npc_loadParamInto_cb78 $03 // 6c1c
 	npc_jumpIfItemGotten $30, $6c1a // 6c1e
@@ -3045,7 +3028,7 @@ npca1_scripts:
 	npc_jump $6c2b // 6c31
 	npc_end // 6c34
 	npc_set6_cb60_reset_cb6c // 6c35
-	.db $47 $04 // 6c36
+	npc_cb60_low2bitsEquParamMinus1 $04 // 6c36
 	npc_paramLowNybbleIs_cb54_highNybble $04 // 6c38
 	npc_set3_cb60 // 6c3a
 	npc_res4_cb60 // 6c3b
@@ -3130,7 +3113,7 @@ npca3_scripts:
 @func_6cb0:
 	npc_increaseScore $14
 +
-	.db $47 $04
+	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_set2_cbe4
 	npc_set6_cb60_reset_cb6c
 	npc_set3_cb60
@@ -3263,7 +3246,7 @@ npcad_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set2_cbe4
 	npc_set3_cb60
-	.db $47 $04
+	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_res4_cb60
 @loop:
 	.db $55 $9e
@@ -3277,7 +3260,7 @@ npcad_scripts:
 +
 	npc_jumpIfRandomNumLTparam $fb, @loop
 	npc_set6_cb60_reset_cb6c
-	.db $c0 $b3 $00 $0c
+	npc_spawnNPCAtOffset $b3 $00 $0c
 	npc_jump @loop
 
 
@@ -3285,7 +3268,7 @@ npcae_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set2_cbe4
 	npc_set3_cb60
-	.db $47 $04
+	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_res4_cb60
 @loop:
 	.db $55 $9e
@@ -3299,7 +3282,7 @@ npcae_scripts:
 +
 	npc_jumpIfRandomNumLTparam $fb, @loop
 	npc_set6_cb60_reset_cb6c
-	.db $c0 $b3 $00 $0c
+	npc_spawnNPCAtOffset $b3 $00 $0c
 	npc_jump @loop
 
 
@@ -3307,7 +3290,7 @@ npcaf_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set3_cb60
 	npc_res4_cb60
-	.db $1d
+	npc_set2_cb60
 	npc_set5_cb60
 	npc_lowNybbleOf_cb54_equParamMinus1 $02
 @loop:
@@ -3409,7 +3392,7 @@ _npc_end_02_6ebd:
 
 
 npcb9_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 	npc_call func_02_6f2a
@@ -3417,7 +3400,7 @@ npcb9_scripts:
 
 
 npcba_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 	npc_call func_02_6f2a
@@ -3427,7 +3410,7 @@ npcba_scripts:
 
 
 npcbb_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 	npc_call func_02_6f2a
@@ -3439,7 +3422,7 @@ npcbb_scripts:
 
 
 npcbc_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 	npc_call func_02_6f2a
@@ -3452,7 +3435,7 @@ npcbc_scripts:
 
 
 npcbd_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 	npc_call func_02_6f2a
@@ -3466,7 +3449,7 @@ npcbd_scripts:
 
 
 npcbe_scripts:
-	.db $47 $03
+	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	.db $18
 	npc_call func_02_6f2a

@@ -222,11 +222,12 @@ jr_007_4d0a:
 	ld   bc, $01d4                                   ; $4d77: $01 $d4 $01
 	call c, $e001                                    ; $4d7a: $dc $01 $e0
 	ld   bc, $01e4                                   ; $4d7d: $01 $e4 $01
-	ldh  a, (<$f0)                                   ; $4d80: $f0 $f0
-	ldh  a, (<$f0)                                   ; $4d82: $f0 $f0
-	ret  c                                           ; $4d84: $d8
 
-	ld   bc, $ece8                                   ; $4d85: $01 $e8 $ec
+npc00_word0data:
+	.db $f0 $f0 $f0 $f0 $d8 $01
+
+
+	.db $e8 $ec ; $4d86
 	add  sp, -$18                                    ; $4d88: $e8 $e8
 	.db  $ec                                         ; $4d8a: $ec
 	add  sp, -$18                                    ; $4d8b: $e8 $e8
@@ -235,7 +236,11 @@ jr_007_4d0a:
 	cp   l                                           ; $4d90: $bd
 	ld   a, l                                        ; $4d91: $7d
 	ld   a, l                                        ; $4d92: $7d
-	ld   bc, $e0e0                                   ; $4d93: $01 $e0 $e0
+	.db $01
+
+
+npc04_word0data:
+	.db $e0 $e0
 	ldh  (<$e2), a                                   ; $4d96: $e0 $e2
 	ld   ($ff00+c), a                                ; $4d98: $e2
 	ld   ($ff00+c), a                                ; $4d99: $e2

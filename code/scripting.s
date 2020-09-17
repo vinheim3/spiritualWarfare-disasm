@@ -161,14 +161,14 @@ scriptCmdTable:
 	.dw _scriptCmd_setNewNpcID
 	.dw _scriptCmd_paramLowNybbleIs_cb54_highNybble
 	.dw _scriptCmd_increaseScore
-	.dw _scriptCmd_6811
+	.dw _scriptCmd_spawnNPCinFrontOfSelf
 	.dw _scriptCmd_cb60_low2bitsEquParamMinus1
 	.dw _scriptCmd_giveArmorOfGod
 	.dw _scriptCmd_takeArmorOfGod
 	.dw _scriptCmd_giveSpecialBItem
 	.dw _scriptCmd_takeSpecialBItem
 	.dw _scriptCmd_addToPlayerHealth
-	.dw _scriptCmd_688f
+	.dw _scriptCmd_dealPlayerDamage
 	.dw _scriptCmd_giveNumBirds
 	.dw _scriptCmd_takeNumBirds
 	.dw _scriptCmd_giveItem
@@ -193,14 +193,14 @@ scriptCmdTable:
 	.dw _scriptCmd_jumpIfPlayerIsFullHealth
 	.dw _scriptCmd_flipBit4ofNPC2ndByte_jumpIfNZ
 	.dw _scriptCmd_6cd6
-	.dw _scriptCmd_6d11
-	.dw _scriptCmd_6d2f
+	.dw _scriptCmd_lampOnOrOffSameBGP
+	.dw _scriptCmd_lampOnOrOffSameOBP0
 	.dw _scriptCmd_addParamsToXthenYCoords
 	.dw _scriptCmd_callCommonSoundFuncs_6d6c
 	.dw _scriptCmd_teleportPlayer
 
 // 3 params
-	.dw _scriptCmd_6dd8 // $57
+	.dw _scriptCmd_spawnNPCAtOffset // $57
 	.dw _scriptCmd_spawnNPC
 	.dw _scriptCmd_loopAboveParamTimes
 	.dw _scriptCmd_jumpIfRandomNumLTparam
@@ -300,12 +300,12 @@ _scriptCmd_faceLeft:
 
 
 _scriptCmd_set6_cb60_reset_cb6c:
-	ld   hl, wNPCBytes_cb60                                   ; $6443: $21 $60 $cb
-	add  hl, bc                                      ; $6446: $09
-	set  6, (hl)                                     ; $6447: $cb $f6
-	ld   hl, wNPCBytes_cb6c                                   ; $6449: $21 $6c $cb
-	add  hl, bc                                      ; $644c: $09
-	ld   (hl), $00                                   ; $644d: $36 $00
+	ld   hl, wNPCBytes_cb60
+	add  hl, bc
+	set  6, (hl)
+	ld   hl, wNPCBytes_cb6c
+	add  hl, bc
+	ld   (hl), $00
 
 _executeNPCScriptCode_644f:
 	jp   executeNPCScriptCode
@@ -336,7 +336,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 	jr   nz, +
 
 // up
-	ld   hl, wNPC4thBytesOrYCoords
+	ld   hl, wNPC_yCoord
 	add  hl, bc
 	ld   a, (hl)
 	ld   hl, wNPCScriptParam1
@@ -353,7 +353,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 	jr   nz, @horiz
 
 // down
-	ld   hl, wNPC4thBytesOrYCoords
+	ld   hl, wNPC_yCoord
 	add  hl, bc
 	ld   a, (hl)
 	ld   hl, wNPCScriptParam1
@@ -368,7 +368,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 	ld   d, $00                                      ; $6499: $16 $00
 
 @afterUpDown:
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $649b: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $649b: $21 $3c $cb
 	add  hl, bc                                      ; $649e: $09
 	ld   a, (hl)                                     ; $649f: $7e
 	ld   c, a                                        ; $64a0: $4f
@@ -381,7 +381,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 
 // left
 	call Call_001_46b4                               ; $64aa: $cd $b4 $46
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $64ad: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $64ad: $21 $3c $cb
 	add  hl, bc                                      ; $64b0: $09
 	ld   a, (hl)                                     ; $64b1: $7e
 	ld   hl, wNPCScriptParam1                                   ; $64b2: $21 $20 $c0
@@ -395,7 +395,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 +
 // right
 	call Call_001_46b4                               ; $64be: $cd $b4 $46
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $64c1: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $64c1: $21 $3c $cb
 	add  hl, bc                                      ; $64c4: $09
 	ld   a, (hl)                                     ; $64c5: $7e
 	ld   hl, wNPCScriptParam1                                   ; $64c6: $21 $20 $c0
@@ -520,7 +520,7 @@ _scriptCmd_moveHorizontallyToPlayer:
 	ld   de, DIR_RIGHT
 	ld   hl, wPlayerX
 	ld   a, (hl)
-	ld   hl, wNPC3rdBytesOrXCoords
+	ld   hl, wNPC_xCoord
 	add  hl, bc
 	sub  (hl)
 	jr   nc, npcHelper_setNPCdirectionBits
@@ -537,41 +537,42 @@ npcHelper_setNPCdirectionBits:
 
 
 _scriptCmd_moveVerticallyToPlayer:
-	call npcHelper_res3_cbe4                               ; $6588: $cd $41 $67
-	call keepUpperNybbleOfNPC2ndByteLower6Bits                               ; $658b: $cd $da $65
-	ld   de, DIR_DOWN                                   ; $658e: $11 $06 $00
-	ld   hl, wPlayerY                                   ; $6591: $21 $54 $c0
-	ld   a, (hl)                                     ; $6594: $7e
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6595: $21 $48 $cb
-	add  hl, bc                                      ; $6598: $09
-	sub  (hl)                                        ; $6599: $96
-	jr   nc, npcHelper_setNPCdirectionBits                             ; $659a: $30 $e4
+	call npcHelper_res3_cbe4
+	call keepUpperNybbleOfNPC2ndByteLower6Bits
+	ld   de, DIR_DOWN
+	ld   hl, wPlayerY
+	ld   a, (hl)
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	sub  (hl)
+	jr   nc, npcHelper_setNPCdirectionBits
 
-	ld   de, DIR_UP                                   ; $659c: $11 $03 $00
-	jp   npcHelper_setNPCdirectionBits                               ; $659f: $c3 $80 $65
+	ld   de, DIR_UP
+	jp   npcHelper_setNPCdirectionBits
 
 
 _scriptCmd_65a2:
 	ld   hl, wPlayerX                                   ; $65a2: $21 $52 $c0
 	ld   a, (hl)                                     ; $65a5: $7e
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $65a6: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $65a6: $21 $3c $cb
 	add  hl, bc                                      ; $65a9: $09
 	cp   (hl)                                        ; $65aa: $be
 	jr   c, +                              ; $65ab: $38 $04
 
 // player x is >= npc's x
-// sub npc's x (move away from player)
+// get player x - npc x
 	sub  (hl)                                        ; $65ad: $96
-	jp   Jump_001_65b6                               ; $65ae: $c3 $b6 $65
+	jp   ++                               ; $65ae: $c3 $b6 $65
 
 +
 // player's x < npc's
-// sub player's x (push back player)
+// get npc x - player x
 	ld   a, (hl)                                     ; $65b1: $7e
 	ld   hl, wPlayerX                                   ; $65b2: $21 $52 $c0
 	sub  (hl)                                        ; $65b5: $96
 
-Jump_001_65b6:
+++
+// cba8 is x distance between player x and npc x
 	ld   hl, wNPCBytes_cba8                                   ; $65b6: $21 $a8 $cb
 	add  hl, bc                                      ; $65b9: $09
 	ld   (hl), a                                     ; $65ba: $77
@@ -581,7 +582,7 @@ Jump_001_65b6:
 _scriptCmd_65be:
 	ld   hl, wPlayerY                                   ; $65be: $21 $54 $c0
 	ld   a, (hl)                                     ; $65c1: $7e
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $65c2: $21 $48 $cb
+	ld   hl, wNPC_yCoord                                   ; $65c2: $21 $48 $cb
 	add  hl, bc                                      ; $65c5: $09
 	cp   (hl)                                        ; $65c6: $be
 	jr   c, jr_001_65cd                              ; $65c7: $38 $04
@@ -603,12 +604,12 @@ Jump_001_65d2:
 
 
 keepUpperNybbleOfNPC2ndByteLower6Bits:
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $65da: $21 $84 $cb
-	add  hl, bc                                      ; $65dd: $09
-	ld   a, (hl)                                     ; $65de: $7e
-	and  $f0                                         ; $65df: $e6 $f0
-	ld   (hl), a                                     ; $65e1: $77
-	ret                                              ; $65e2: $c9
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
+	ld   a, (hl)
+	and  $f0
+	ld   (hl), a
+	ret
 
 
 getCurrNpcDirection:
@@ -761,7 +762,7 @@ _executeNPCScriptCode_6698:
 
 
 Call_001_669b:
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $669b: $21 $48 $cb
+	ld   hl, wNPC_yCoord                                   ; $669b: $21 $48 $cb
 	add  hl, bc                                      ; $669e: $09
 	ld   a, (hl)                                     ; $669f: $7e
 	srl  a                                           ; $66a0: $cb $3f
@@ -770,7 +771,7 @@ Call_001_669b:
 	srl  a                                           ; $66a6: $cb $3f
 	ld   e, a                                        ; $66a8: $5f
 	ld   d, $00                                      ; $66a9: $16 $00
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $66ab: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $66ab: $21 $3c $cb
 	add  hl, bc                                      ; $66ae: $09
 	ld   a, (hl)                                     ; $66af: $7e
 	srl  a                                           ; $66b0: $cb $3f
@@ -863,7 +864,7 @@ _scriptCmd_setRoomFlagFrom_cbf0:
 	cp   $ff                                         ; $6727: $fe $ff
 	jr   z, +                              ; $6729: $28 $0a
 
-	ld   hl, $c0fc                                   ; $672b: $21 $fc $c0
+	ld   hl, wRoomFlagIdxToCheck                                   ; $672b: $21 $fc $c0
 	ld   (hl), a                                     ; $672e: $77
 	ld   hl, setRoomFlag                                   ; $672f: $21 $de $09
 	call jpHLinBank1                               ; $6732: $cd $b0 $61
@@ -888,7 +889,7 @@ npcHelper_res3_cbe4:
 
 _scriptCmd_6748:
 // de is y coords of tile npc is on (idxed by 2x2 tile)
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6748: $21 $48 $cb
+	ld   hl, wNPC_yCoord                                   ; $6748: $21 $48 $cb
 	add  hl, bc                                      ; $674b: $09
 	ld   a, (hl)                                     ; $674c: $7e
 	add  $08                                         ; $674d: $c6 $08
@@ -897,7 +898,7 @@ _scriptCmd_6748:
 	ld   d, $00                                      ; $6753: $16 $00
 
 // bc is x coords of tile npc is on (idxed by 2x2 tile)
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6755: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $6755: $21 $3c $cb
 	add  hl, bc                                      ; $6758: $09
 	ld   a, (hl)                                     ; $6759: $7e
 	add  $08                                         ; $675a: $c6 $08
@@ -964,25 +965,25 @@ _scriptCmd_loadInto_cba8:
 
 _scriptCmd_lowNybbleOf_cb54_equParamMinus1:
 // keep lower nybble of param-1
-	ld   hl, wNPCScriptParam1                                   ; $67a4: $21 $20 $c0
-	dec  (hl)                                        ; $67a7: $35
-	ld   a, (hl)                                     ; $67a8: $7e
-	and  $0f                                         ; $67a9: $e6 $0f
-	ld   (hl), a                                     ; $67ab: $77
+	ld   hl, wNPCScriptParam1
+	dec  (hl)
+	ld   a, (hl)
+	and  $0f
+	ld   (hl), a
 
 // or with higher nybble of cb54
-	ld   hl, wNPCBytes_cb54                                   ; $67ac: $21 $54 $cb
-	add  hl, bc                                      ; $67af: $09
-	ld   a, (hl)                                     ; $67b0: $7e
-	and  $f0                                         ; $67b1: $e6 $f0
-	ld   hl, wNPCScriptParam1                                   ; $67b3: $21 $20 $c0
-	or   (hl)                                        ; $67b6: $b6
+	ld   hl, wNPCBytes_cb54
+	add  hl, bc
+	ld   a, (hl)
+	and  $f0
+	ld   hl, wNPCScriptParam1
+	or   (hl)
 
 // put back into cb54
-	ld   hl, wNPCBytes_cb54                                   ; $67b7: $21 $54 $cb
-	add  hl, bc                                      ; $67ba: $09
-	ld   (hl), a                                     ; $67bb: $77
-	jp   executeNPCScriptCode                               ; $67bc: $c3 $8a $62
+	ld   hl, wNPCBytes_cb54
+	add  hl, bc
+	ld   (hl), a
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_loadParamInto_cb78:
@@ -1005,23 +1006,23 @@ _scriptCmd_setNewNpcID:
 
 _scriptCmd_paramLowNybbleIs_cb54_highNybble:
 // move param1's lower nybble to upper nybble
-	ld   hl, wNPCScriptParam1                                   ; $67d3: $21 $20 $c0
-	sla  (hl)                                        ; $67d6: $cb $26
-	sla  (hl)                                        ; $67d8: $cb $26
-	sla  (hl)                                        ; $67da: $cb $26
-	sla  (hl)                                        ; $67dc: $cb $26
+	ld   hl, wNPCScriptParam1
+	sla  (hl)
+	sla  (hl)
+	sla  (hl)
+	sla  (hl)
 
 // or with cb54 and put back in
-	ld   hl, wNPCBytes_cb54                                   ; $67de: $21 $54 $cb
-	add  hl, bc                                      ; $67e1: $09
-	ld   a, (hl)                                     ; $67e2: $7e
-	and  $0f                                         ; $67e3: $e6 $0f
-	ld   hl, wNPCScriptParam1                                   ; $67e5: $21 $20 $c0
-	or   (hl)                                        ; $67e8: $b6
-	ld   hl, wNPCBytes_cb54                                   ; $67e9: $21 $54 $cb
-	add  hl, bc                                      ; $67ec: $09
-	ld   (hl), a                                     ; $67ed: $77
-	jp   executeNPCScriptCode                               ; $67ee: $c3 $8a $62
+	ld   hl, wNPCBytes_cb54
+	add  hl, bc
+	ld   a, (hl)
+	and  $0f
+	ld   hl, wNPCScriptParam1
+	or   (hl)
+	ld   hl, wNPCBytes_cb54
+	add  hl, bc
+	ld   (hl), a
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_increaseScore:
@@ -1032,66 +1033,58 @@ _scriptCmd_increaseScore:
 	jp   executeNPCScriptCode
 
 
-data_67fd:
-	ld   de, $0000                                   ; $67fd: $11 $00 $00
-	nop                                              ; $6800: $00
-	nop                                              ; $6801: $00
-	nop                                              ; $6802: $00
-	nop                                              ; $6803: $00
-	nop                                              ; $6804: $00
-	nop                                              ; $6805: $00
-	rst  $28                                         ; $6806: $ef
+horiz11hOffsetData:
+	.db $11 $00 $00
+	.db $00 $00 $00
+	.db $00 $00 $00
+	.db $ef
 
 
-data_6807:
-	nop                                              ; $6807: $00
-	nop                                              ; $6808: $00
-	nop                                              ; $6809: $00
-	rst  $28                                         ; $680a: $ef
-	nop                                              ; $680b: $00
-	nop                                              ; $680c: $00
-	ld   de, $0000                                   ; $680d: $11 $00 $00
-	nop                                              ; $6810: $00
+vert11hOffsetData:
+	.db $00 $00 $00
+	.db $ef $00 $00
+	.db $11 $00 $00
+	.db $00
 
 
-_scriptCmd_6811:
-	call getCurrNpcDirection                               ; $6811: $cd $e3 $65
+_scriptCmd_spawnNPCinFrontOfSelf:
+	call getCurrNpcDirection
 // de is curr npc direction
-	ld   e, a                                        ; $6814: $5f
-	ld   d, $00                                      ; $6815: $16 $00
-	ld   hl, data_67fd                                   ; $6817: $21 $fd $67
-	add  hl, de                                      ; $681a: $19
-	ld   a, (hl)                                     ; $681b: $7e
-	ld   hl, wNPCScriptParam2                                   ; $681c: $21 $21 $c0
-	ld   (hl), a                                     ; $681f: $77
+	ld   e, a
+	ld   d, $00
+	ld   hl, horiz11hOffsetData
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wNPCScriptParam2
+	ld   (hl), a
 
-	ld   hl, data_6807                                   ; $6820: $21 $07 $68
-	add  hl, de                                      ; $6823: $19
-	ld   a, (hl)                                     ; $6824: $7e
-	ld   hl, wNPCScriptParam3                                   ; $6825: $21 $22 $c0
-	ld   (hl), a                                     ; $6828: $77
-	jp   _scriptCmd_6dd8                               ; $6829: $c3 $d8 $6d
+	ld   hl, vert11hOffsetData
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wNPCScriptParam3
+	ld   (hl), a
+	jp   _scriptCmd_spawnNPCAtOffset
 
 
 _scriptCmd_cb60_low2bitsEquParamMinus1:
 // param -= 1 and keep low 2 bits
-	ld   hl, wNPCScriptParam1                                   ; $682c: $21 $20 $c0
-	dec  (hl)                                        ; $682f: $35
-	ld   a, (hl)                                     ; $6830: $7e
-	and  $03                                         ; $6831: $e6 $03
-	ld   (hl), a                                     ; $6833: $77
+	ld   hl, wNPCScriptParam1
+	dec  (hl)
+	ld   a, (hl)
+	and  $03
+	ld   (hl), a
 
 // or it with cb60, and put back in cb60
-	ld   hl, wNPCBytes_cb60                                   ; $6834: $21 $60 $cb
-	add  hl, bc                                      ; $6837: $09
-	ld   a, (hl)                                     ; $6838: $7e
-	and  $fc                                         ; $6839: $e6 $fc
-	ld   hl, wNPCScriptParam1                                   ; $683b: $21 $20 $c0
-	or   (hl)                                        ; $683e: $b6
-	ld   hl, wNPCBytes_cb60                                   ; $683f: $21 $60 $cb
-	add  hl, bc                                      ; $6842: $09
-	ld   (hl), a                                     ; $6843: $77
-	jp   executeNPCScriptCode                               ; $6844: $c3 $8a $62
+	ld   hl, wNPCBytes_cb60
+	add  hl, bc
+	ld   a, (hl)
+	and  $fc
+	ld   hl, wNPCScriptParam1
+	or   (hl)
+	ld   hl, wNPCBytes_cb60
+	add  hl, bc
+	ld   (hl), a
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_giveArmorOfGod:
@@ -1144,15 +1137,15 @@ _scriptCmd_addToPlayerHealth:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_688f:
+_scriptCmd_dealPlayerDamage:
 	ld   hl, wNPCScriptParam1                                   ; $688f: $21 $20 $c0
 	ld   a, (hl)                                     ; $6892: $7e
-	ld   hl, $c023                                   ; $6893: $21 $23 $c0
+	ld   hl, wBaseDamageTaken                                   ; $6893: $21 $23 $c0
 	ld   (hl), a                                     ; $6896: $77
 	ld   a, $ff                                      ; $6897: $3e $ff
 	ld   hl, $c024                                   ; $6899: $21 $24 $c0
 	ld   (hl), a                                     ; $689c: $77
-	call Call_000_2875                                       ; $689d: $cd $75 $28
+	call playerTakeDamage                                       ; $689d: $cd $75 $28
 	jp   executeNPCScriptCode                               ; $68a0: $c3 $8a $62
 
 
@@ -1242,7 +1235,7 @@ _scriptCmd_giveFruit:
 	inc  de                                          ; $6911: $13
 	ld   hl, wNPCScriptParam1                                   ; $6912: $21 $20 $c0
 	ld   a, (hl)                                     ; $6915: $7e
-	call func_23ca                                       ; $6916: $cd $ca $23
+	call setFruitAsAmountToE                                       ; $6916: $cd $ca $23
 	call Call_000_241a                                       ; $6919: $cd $1a $24
 
 +
@@ -1301,17 +1294,17 @@ _scriptCmd_getSimilarNPCsToCurrLocationDir:
 // de is caller's Idx
 // npc is not the one calling
 // copy over current npc's x and y
-	ld   hl, wNPC3rdBytesOrXCoords
+	ld   hl, wNPC_xCoord
 	add  hl, de
 	ld   a, (hl)
-	ld   hl, wNPC3rdBytesOrXCoords
+	ld   hl, wNPC_xCoord
 	add  hl, bc
 	ld   (hl), a
 
-	ld   hl, wNPC4thBytesOrYCoords
+	ld   hl, wNPC_yCoord
 	add  hl, de
 	ld   a, (hl)
-	ld   hl, wNPC4thBytesOrYCoords
+	ld   hl, wNPC_yCoord
 	add  hl, bc
 	ld   (hl), a
 
@@ -1337,12 +1330,12 @@ _scriptCmd_getSimilarNPCsToCurrLocationDir:
 _scriptCmd_setCoords:
 	ld   hl, wNPCScriptParam1
 	ld   a, (hl)
-	ld   hl, wNPC3rdBytesOrXCoords
+	ld   hl, wNPC_xCoord
 	add  hl, bc
 	ld   (hl), a
 	ld   hl, wNPCScriptParam2
 	ld   a, (hl)
-	ld   hl, wNPC4thBytesOrYCoords
+	ld   hl, wNPC_yCoord
 	add  hl, bc
 	ld   (hl), a
 	jp   executeNPCScriptCode
@@ -1364,9 +1357,9 @@ _scriptCmd_jump:
 
 _scriptCmd_resetBit5ofNPC2ndByte_jumpIfNZ:
 	call npcHelper_resetBit5OfNPC2ndByteLower6Bits
-	jr   nz, _scriptCmd_jump                             ; $69b6: $20 $e6
+	jr   nz, _scriptCmd_jump
 
-	jp   executeNPCScriptCode                               ; $69b8: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_startScrollingText:
@@ -1392,7 +1385,7 @@ _scriptCmd_startScrollingText:
 	ld   (hl), a
 
 //
-	ld   hl, wNPC3rdBytesOrXCoords
+	ld   hl, wNPC_xCoord
 	add  hl, bc                                      ; $69da: $09
 	ld   a, (hl)                                     ; $69db: $7e
 	add  $08                                         ; $69dc: $c6 $08
@@ -1401,7 +1394,7 @@ _scriptCmd_startScrollingText:
 	srl  a                                           ; $69e2: $cb $3f
 	ld   hl, $c067                                   ; $69e4: $21 $67 $c0
 	ld   (hl), a                                     ; $69e7: $77
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $69e8: $21 $48 $cb
+	ld   hl, wNPC_yCoord                                   ; $69e8: $21 $48 $cb
 	add  hl, bc                                      ; $69eb: $09
 	ld   a, (hl)                                     ; $69ec: $7e
 	adc  $08                                         ; $69ed: $ce $08
@@ -1468,7 +1461,7 @@ _scriptCmd_groupRoomXYjumpTable:
 	ld   hl, wCurrNpcIdx                                   ; $6a43: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6a46: $4e
 	ld   b, $00                                      ; $6a47: $06 $00
-	call copyByteFromParamWordPlusEinto_c009                               ; $6a49: $cd $fb $73
+	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6a49: $cd $fb $73
 	ld   hl, $c009                                   ; $6a4c: $21 $09 $c0
 	ld   a, (hl)                                     ; $6a4f: $7e
 	cp   $ff                                         ; $6a50: $fe $ff
@@ -1487,7 +1480,7 @@ _scriptCmd_groupRoomXYjumpTable:
 	ld   hl, wCurrNpcIdx                                   ; $6a5f: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6a62: $4e
 	ld   b, $00                                      ; $6a63: $06 $00
-	call copyByteFromParamWordPlusEinto_c009                               ; $6a65: $cd $fb $73
+	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6a65: $cd $fb $73
 	ld   hl, $c009                                   ; $6a68: $21 $09 $c0
 	ld   a, (hl)                                     ; $6a6b: $7e
 	cp   $ff                                         ; $6a6c: $fe $ff
@@ -1506,7 +1499,7 @@ _scriptCmd_groupRoomXYjumpTable:
 	ld   hl, wCurrNpcIdx                                   ; $6a7b: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6a7e: $4e
 	ld   b, $00                                      ; $6a7f: $06 $00
-	call copyByteFromParamWordPlusEinto_c009                               ; $6a81: $cd $fb $73
+	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6a81: $cd $fb $73
 	ld   hl, $c009                                   ; $6a84: $21 $09 $c0
 	ld   a, (hl)                                     ; $6a87: $7e
 	cp   $ff                                         ; $6a88: $fe $ff
@@ -1529,7 +1522,7 @@ _scriptCmd_groupRoomXYjumpTable:
 	ld   hl, wCurrNpcIdx                                   ; $6a9f: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6aa2: $4e
 	ld   b, $00                                      ; $6aa3: $06 $00
-	call copyByteFromParamWordPlusEinto_c009                               ; $6aa5: $cd $fb $73
+	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6aa5: $cd $fb $73
 
 	ld   hl, wCurrNpcIdx                                   ; $6aa8: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6aab: $4e
@@ -1545,7 +1538,7 @@ _scriptCmd_groupRoomXYjumpTable:
 	ld   hl, wCurrNpcIdx                                   ; $6ab8: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6abb: $4e
 	ld   b, $00                                      ; $6abc: $06 $00
-	call copyByteFromParamWordPlusEinto_c009                               ; $6abe: $cd $fb $73
+	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6abe: $cd $fb $73
 	ld   hl, wCurrNpcIdx                                   ; $6ac1: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6ac4: $4e
 	ld   b, $00                                      ; $6ac5: $06 $00
@@ -1804,20 +1797,20 @@ _scriptCmd_callCommonSoundFuncs_6c01:
 
 
 _scriptCmd_resetNPC2ndByteBit5_jumpIfOrigSet:
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $6c0f: $21 $84 $cb
-	add  hl, bc                                      ; $6c12: $09
-	ld   a, (hl)                                     ; $6c13: $7e
-	and  $40                                         ; $6c14: $e6 $40
-	push af                                          ; $6c16: $f5
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $6c17: $21 $84 $cb
-	add  hl, bc                                      ; $6c1a: $09
-	xor  (hl)                                        ; $6c1b: $ae
-	ld   (hl), a                                     ; $6c1c: $77
-	pop  af                                          ; $6c1d: $f1
-	cp   $00                                         ; $6c1e: $fe $00
-	jr   z, _executeNPCScriptCode_6c25                              ; $6c20: $28 $03
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
+	ld   a, (hl)
+	and  $40
+	push af
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
+	xor  (hl)
+	ld   (hl), a
+	pop  af
+	cp   $00
+	jr   z, _executeNPCScriptCode_6c25
 
-	jp   _scriptCmd_jump                               ; $6c22: $c3 $9e $69
+	jp   _scriptCmd_jump
 
 
 _executeNPCScriptCode_6c25:
@@ -1836,31 +1829,31 @@ _scriptCmd_jumpIfPlayerIsFullHealth:
 
 
 _scriptCmd_flipBit4ofNPC2ndByte_jumpIfNZ:
-	call npcHelper_resetBit4OfNPC2ndByteLower6Bits                               ; $6c35: $cd $3d $6c
-	jr   nz, -                             ; $6c38: $20 $f8
+	call npcHelper_resetBit4OfNPC2ndByteLower6Bits
+	jr   nz, -
 
-	jp   executeNPCScriptCode                               ; $6c3a: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 npcHelper_resetBit4OfNPC2ndByteLower6Bits:
-	ld   a, $10                                      ; $6c3d: $3e $10
+	ld   a, $10
 
 npcHelper_resetBitOfNPC2ndByteLower6Bits:
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $6c3f: $21 $84 $cb
-	add  hl, bc                                      ; $6c42: $09
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
 // a = just bit 4 or 5 of lower 6 bits
-	and  (hl)                                        ; $6c43: $a6
+	and  (hl)
 // reset that bit of the lower 6 bits
-	push af                                          ; $6c44: $f5
-	xor  (hl)                                        ; $6c45: $ae
-	ld   (hl), a                                     ; $6c46: $77
-	pop  af                                          ; $6c47: $f1
-	ret                                              ; $6c48: $c9
+	push af
+	xor  (hl)
+	ld   (hl), a
+	pop  af
+	ret
 
 
 scrollingTextProcessControlBytes:
 // row byte
-	ld   de, $0001                                   ; $6c49: $11 $01 $00
+	ld   de, $0001
 	call loadScrollingTextByteIdxedE                               ; $6c4c: $cd $ab $6c
 	ld   a, e                                        ; $6c4f: $7b
 	bit  7, a                                        ; $6c50: $cb $7f
@@ -1997,59 +1990,63 @@ _scriptCmd_6cd6:
 	ret                                              ; $6d10: $c9
 
 
-_scriptCmd_6d11:
-	ld   hl, wNPCScriptParam1                                   ; $6d11: $21 $20 $c0
-	ld   a, (hl)                                     ; $6d14: $7e
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_1                                   ; $6d15: $21 $f0 $c5
-	ld   (hl), a                                     ; $6d18: $77
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_2                                   ; $6d19: $21 $f4 $c5
-	ld   (hl), a                                     ; $6d1c: $77
-	ld   hl, wNPCScriptParam2                                   ; $6d1d: $21 $21 $c0
-	ld   a, (hl)                                     ; $6d20: $7e
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_1+1                                   ; $6d21: $21 $f1 $c5
-	ld   (hl), a                                     ; $6d24: $77
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_2+1                                   ; $6d25: $21 $f5 $c5
-	ld   (hl), a                                     ; $6d28: $77
-	call Call_000_1e06                                       ; $6d29: $cd $06 $1e
-	jp   executeNPCScriptCode                               ; $6d2c: $c3 $8a $62
+_scriptCmd_lampOnOrOffSameBGP:
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, wBGPwhenLampOff
+	ld   (hl), a
+	ld   hl, wBGPwhenLampOn
+	ld   (hl), a
+
+	ld   hl, wNPCScriptParam2
+	ld   a, (hl)
+	ld   hl, wBGPwhenLampOff+1
+	ld   (hl), a
+	ld   hl, wBGPwhenLampOn+1
+	ld   (hl), a
+
+	call applyPalettesBasedOnLamp
+	jp   executeNPCScriptCode
 
 
-_scriptCmd_6d2f:
-	ld   hl, wNPCScriptParam1                                   ; $6d2f: $21 $20 $c0
-	ld   a, (hl)                                     ; $6d32: $7e
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_1                                   ; $6d33: $21 $f2 $c5
-	ld   (hl), a                                     ; $6d36: $77
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_2                                   ; $6d37: $21 $f6 $c5
-	ld   (hl), a                                     ; $6d3a: $77
-	ld   hl, wNPCScriptParam2                                   ; $6d3b: $21 $21 $c0
-	ld   a, (hl)                                     ; $6d3e: $7e
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_1+1                                   ; $6d3f: $21 $f3 $c5
-	ld   (hl), a                                     ; $6d42: $77
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_2+1                                   ; $6d43: $21 $f7 $c5
-	ld   (hl), a                                     ; $6d46: $77
-	call Call_000_1e06                                       ; $6d47: $cd $06 $1e
-	jp   executeNPCScriptCode                               ; $6d4a: $c3 $8a $62
+_scriptCmd_lampOnOrOffSameOBP0:
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, wOBP0whenLampOff
+	ld   (hl), a
+	ld   hl, wOBP0whenLampOn
+	ld   (hl), a
+
+	ld   hl, wNPCScriptParam2
+	ld   a, (hl)
+	ld   hl, wOBP0whenLampOff+1
+	ld   (hl), a
+	ld   hl, wOBP0whenLampOn+1
+	ld   (hl), a
+
+	call applyPalettesBasedOnLamp
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_addParamsToXthenYCoords:
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6d4d: $21 $3c $cb
-	add  hl, bc                                      ; $6d50: $09
-	ld   a, (hl)                                     ; $6d51: $7e
-	ld   hl, wNPCScriptParam1                                   ; $6d52: $21 $20 $c0
-	add  (hl)                                        ; $6d55: $86
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6d56: $21 $3c $cb
-	add  hl, bc                                      ; $6d59: $09
-	ld   (hl), a                                     ; $6d5a: $77
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wNPCScriptParam1
+	add  (hl)
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   (hl), a
 
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6d5b: $21 $48 $cb
-	add  hl, bc                                      ; $6d5e: $09
-	ld   a, (hl)                                     ; $6d5f: $7e
-	ld   hl, wNPCScriptParam2                                   ; $6d60: $21 $21 $c0
-	add  (hl)                                        ; $6d63: $86
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6d64: $21 $48 $cb
-	add  hl, bc                                      ; $6d67: $09
-	ld   (hl), a                                     ; $6d68: $77
-	jp   executeNPCScriptCode                               ; $6d69: $c3 $8a $62
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wNPCScriptParam2
+	add  (hl)
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	ld   (hl), a
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_callCommonSoundFuncs_6d6c:
@@ -2071,56 +2068,57 @@ _scriptCmd_callCommonSoundFuncs_6d6c:
 
 _scriptCmd_teleportPlayer:
 // copy 5 bytes
-	ld   a, $05                                      ; $6d8b: $3e $05
-	ld   hl, wCommonByteCopyFuncNumBytes                                   ; $6d8d: $21 $a0 $c0
-	ld   (hl), a                                     ; $6d90: $77
+	ld   a, $05
+	ld   hl, wCommonByteCopyFuncNumBytes
+	ld   (hl), a
 
 // bank to copy from based of cbfc
-	ld   hl, wNPCScriptBytesBank                                   ; $6d91: $21 $fc $cb
-	add  hl, bc                                      ; $6d94: $09
-	ld   a, (hl)                                     ; $6d95: $7e
-	ld   hl, wCommonByteCopyFuncBank                                   ; $6d96: $21 $a1 $c0
-	ld   (hl), a                                     ; $6d99: $77
+	ld   hl, wNPCScriptBytesBank
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wCommonByteCopyFuncBank
+	ld   (hl), a
 
 // 2 params into src addr
-	ld   hl, wNPCScriptParam1                                   ; $6d9a: $21 $20 $c0
-	ld   a, (hl)                                     ; $6d9d: $7e
-	ld   hl, wCommonByteCopyFuncSrc                                   ; $6d9e: $21 $9a $c0
-	ld   (hl), a                                     ; $6da1: $77
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, wCommonByteCopyFuncSrc
+	ld   (hl), a
 
-	ld   hl, wNPCScriptParam2                                   ; $6da2: $21 $21 $c0
-	ld   a, (hl)                                     ; $6da5: $7e
-	ld   hl, wCommonByteCopyFuncSrc+1                                   ; $6da6: $21 $9b $c0
-	ld   (hl), a                                     ; $6da9: $77
+	ld   hl, wNPCScriptParam2
+	ld   a, (hl)
+	ld   hl, wCommonByteCopyFuncSrc+1
+	ld   (hl), a
 
-	call copyBytesFromAnotherBankInto_c6d0                                       ; $6daa: $cd $24 $02
+	call copyBytesFromAnotherBankInto_c6d0
 
 // load those 5 bytes into c0bb to c0bf
-	ld   hl, wCommonByteCopyDestBytes                                   ; $6dad: $21 $d0 $c6
-	ld   a, (hl)                                     ; $6db0: $7e
-	ld   hl, wScriptTeleGroup                                   ; $6db1: $21 $bb $c0
-	ld   (hl), a                                     ; $6db4: $77
-	ld   hl, wCommonByteCopyDestBytes+1                                   ; $6db5: $21 $d1 $c6
-	ld   a, (hl)                                     ; $6db8: $7e
-	ld   hl, wScriptTeleRoomX                                   ; $6db9: $21 $bc $c0
-	ld   (hl), a                                     ; $6dbc: $77
-	ld   hl, wCommonByteCopyDestBytes+2                                   ; $6dbd: $21 $d2 $c6
-	ld   a, (hl)                                     ; $6dc0: $7e
-	ld   hl, wScriptTeleRoomY                                   ; $6dc1: $21 $bd $c0
-	ld   (hl), a                                     ; $6dc4: $77
-	ld   hl, wCommonByteCopyDestBytes+3                                   ; $6dc5: $21 $d3 $c6
-	ld   a, (hl)                                     ; $6dc8: $7e
-	ld   hl, wScriptTelePlayerX                                   ; $6dc9: $21 $be $c0
-	ld   (hl), a                                     ; $6dcc: $77
-	ld   hl, wCommonByteCopyDestBytes+4                                   ; $6dcd: $21 $d4 $c6
-	ld   a, (hl)                                     ; $6dd0: $7e
-	ld   hl, wScriptTelePlayerY                                   ; $6dd1: $21 $bf $c0
-	ld   (hl), a                                     ; $6dd4: $77
+	ld   hl, wCommonByteCopyDestBytes
+	ld   a, (hl)
+	ld   hl, wScriptTeleGroup
+	ld   (hl), a
+	ld   hl, wCommonByteCopyDestBytes+1
+	ld   a, (hl)
+	ld   hl, wScriptTeleRoomX
+	ld   (hl), a
+	ld   hl, wCommonByteCopyDestBytes+2
+	ld   a, (hl)
+	ld   hl, wScriptTeleRoomY
+	ld   (hl), a
+	ld   hl, wCommonByteCopyDestBytes+3
+	ld   a, (hl)
+	ld   hl, wScriptTelePlayerX
+	ld   (hl), a
+	ld   hl, wCommonByteCopyDestBytes+4
+	ld   a, (hl)
+	ld   hl, wScriptTelePlayerY
+	ld   (hl), a
 
-	jp   teleportPlayer                               ; $6dd5: $c3 $23 $51
+	jp   teleportPlayer
 
 
-_scriptCmd_6dd8:
+// seems to not spawn if the new npc would be out of bounds
+_scriptCmd_spawnNPCAtOffset:
 	call retZifAll12NPCslotsUsed                               ; $6dd8: $cd $50 $73
 	jr   z, _executeNPCScriptCode_6e40                              ; $6ddb: $28 $63
 
@@ -2130,18 +2128,20 @@ _scriptCmd_6dd8:
 	ld   hl, $c006                                   ; $6de1: $21 $06 $c0
 	ld   (hl), a                                     ; $6de4: $77
 
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6de5: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $6de5: $21 $3c $cb
 	add  hl, bc                                      ; $6de8: $09
 	ld   a, (hl)                                     ; $6de9: $7e
 	ld   hl, $c007                                   ; $6dea: $21 $07 $c0
 	ld   (hl), a                                     ; $6ded: $77
+
+//
 	call Call_001_6e43                               ; $6dee: $cd $43 $6e
 	jr   c, _executeNPCScriptCode_6e40                              ; $6df1: $38 $4d
 
 	cp   $f1                                         ; $6df3: $fe $f1
 	jr   nc, _executeNPCScriptCode_6e40                             ; $6df5: $30 $49
 
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6df7: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $6df7: $21 $3c $cb
 	add  hl, de                                      ; $6dfa: $19
 	ld   (hl), a                                     ; $6dfb: $77
 
@@ -2149,7 +2149,9 @@ _scriptCmd_6dd8:
 	ld   a, (hl)                                     ; $6dff: $7e
 	ld   hl, $c006                                   ; $6e00: $21 $06 $c0
 	ld   (hl), a                                     ; $6e03: $77
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6e04: $21 $48 $cb
+	
+//
+	ld   hl, wNPC_yCoord                                   ; $6e04: $21 $48 $cb
 	add  hl, bc                                      ; $6e07: $09
 	ld   a, (hl)                                     ; $6e08: $7e
 	ld   hl, $c007                                   ; $6e09: $21 $07 $c0
@@ -2161,40 +2163,40 @@ _scriptCmd_6dd8:
 	cp   $a1                                         ; $6e12: $fe $a1
 	jr   nc, _executeNPCScriptCode_6e40                             ; $6e14: $30 $2a
 
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6e16: $21 $48 $cb
+	ld   hl, wNPC_yCoord                                   ; $6e16: $21 $48 $cb
 	add  hl, de                                      ; $6e19: $19
 	ld   (hl), a                                     ; $6e1a: $77
 
 npcHelper_spawnNPC:
-	ld   hl, wNPCScriptParam1                                   ; $6e1b: $21 $20 $c0
-	ld   a, (hl)                                     ; $6e1e: $7e
-	ld   hl, wNPCBytes_ID                                   ; $6e1f: $21 $30 $cb
-	add  hl, de                                      ; $6e22: $19
-	ld   (hl), a                                     ; $6e23: $77
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, wNPCBytes_ID
+	add  hl, de
+	ld   (hl), a
 
 // bc is idx of new npc
-	ld   a, e                                        ; $6e24: $7b
-	ld   c, a                                        ; $6e25: $4f
-	ld   b, $00                                      ; $6e26: $06 $00
-	call initNPCscriptBytes_set_cbf0_toFF                               ; $6e28: $cd $fd $72
-	call loadNPCScriptPointer                               ; $6e2b: $cd $b0 $72
+	ld   a, e
+	ld   c, a
+	ld   b, $00
+	call initNPCscriptBytes_set_cbf0_toFF
+	call loadNPCScriptPointer
 
 // de is idx of new npc - save it
-	ld   a, c                                        ; $6e2e: $79
-	ld   e, a                                        ; $6e2f: $5f
-	ld   d, $00                                      ; $6e30: $16 $00
-	ld   hl, wCurrNpcIdx                                   ; $6e32: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6e35: $4e
-	ld   b, $00                                      ; $6e36: $06 $00
+	ld   a, c
+	ld   e, a
+	ld   d, $00
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
 
 // set direction to same as caller
-	call getCurrNpcDirection                               ; $6e38: $cd $e3 $65
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $6e3b: $21 $84 $cb
-	add  hl, de                                      ; $6e3e: $19
-	ld   (hl), a                                     ; $6e3f: $77
+	call getCurrNpcDirection
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, de
+	ld   (hl), a
 
 _executeNPCScriptCode_6e40:
-	jp   executeNPCScriptCode                               ; $6e40: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 Call_001_6e43:
@@ -2204,6 +2206,7 @@ Call_001_6e43:
 	jp   nz, +                           ; $6e49: $c2 $51 $6e
 
 // add (c006) into (c007) if bit 7 of c006 unset
+// set cf if overflow
 	ld   hl, $c007                                   ; $6e4c: $21 $07 $c0
 	add  (hl)                                        ; $6e4f: $86
 	ret                                              ; $6e50: $c9
@@ -2220,21 +2223,21 @@ Call_001_6e43:
 
 
 _scriptCmd_spawnNPC:
-	call retZifAll12NPCslotsUsed                               ; $6e5b: $cd $50 $73
-	jr   z, _executeNPCScriptCode_6e40                              ; $6e5e: $28 $e0
+	call retZifAll12NPCslotsUsed
+	jr   z, _executeNPCScriptCode_6e40
 
 // param 2 and 3 are x and y of new spawned things
-	ld   hl, wNPCScriptParam2                                   ; $6e60: $21 $21 $c0
-	ld   a, (hl)                                     ; $6e63: $7e
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6e64: $21 $3c $cb
-	add  hl, de                                      ; $6e67: $19
-	ld   (hl), a                                     ; $6e68: $77
-	ld   hl, wNPCScriptParam3                                   ; $6e69: $21 $22 $c0
-	ld   a, (hl)                                     ; $6e6c: $7e
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6e6d: $21 $48 $cb
-	add  hl, de                                      ; $6e70: $19
-	ld   (hl), a                                     ; $6e71: $77
-	jp   npcHelper_spawnNPC                               ; $6e72: $c3 $1b $6e
+	ld   hl, wNPCScriptParam2
+	ld   a, (hl)
+	ld   hl, wNPC_xCoord
+	add  hl, de
+	ld   (hl), a
+	ld   hl, wNPCScriptParam3
+	ld   a, (hl)
+	ld   hl, wNPC_yCoord
+	add  hl, de
+	ld   (hl), a
+	jp   npcHelper_spawnNPC
 
 
 _scriptCmd_loopAboveParamTimes:
@@ -2262,14 +2265,14 @@ _scriptCmd_loopAboveParamTimes:
 
 
 _scriptCmd_jumpIfRandomNumLTparam:
-	call getNextRandomNumber                               ; $6e94: $cd $b2 $48
-	ld   hl, wNPCScriptParam1                                   ; $6e97: $21 $20 $c0
-	ld   a, (hl)                                     ; $6e9a: $7e
-	ld   hl, wRandomNumber                                   ; $6e9b: $21 $96 $c0
-	cp   (hl)                                        ; $6e9e: $be
-	jr   nc, npcHelper_jump                             ; $6e9f: $30 $0d
+	call getNextRandomNumber
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, wRandomNumber
+	cp   (hl)
+	jr   nc, npcHelper_jump
 
-	jp   executeNPCScriptCode                               ; $6ea1: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_jumpIfArmorOfGodGotten:
@@ -2320,7 +2323,7 @@ _scriptCmd_6ed7:
 	jr   z, +                              ; $6edd: $28 $1d
 
 // c006 is tile y npc is on (idxed by 1x1)
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6edf: $21 $48 $cb
+	ld   hl, wNPC_yCoord                                   ; $6edf: $21 $48 $cb
 	add  hl, bc                                      ; $6ee2: $09
 	ld   a, (hl)                                     ; $6ee3: $7e
 	add  $08                                         ; $6ee4: $c6 $08
@@ -2358,7 +2361,7 @@ _scriptCmd_6ed7:
 	bit  7, a                                        ; $6f16: $cb $7f
 	jr   z, +                              ; $6f18: $28 $1d
 
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6f1a: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $6f1a: $21 $3c $cb
 	add  hl, bc                                      ; $6f1d: $09
 	ld   a, (hl)                                     ; $6f1e: $7e
 	add  $08                                         ; $6f1f: $c6 $08
@@ -2421,21 +2424,21 @@ _scriptCmd_6ed7:
 
 
 _scriptCmd_jumpIfItemGotten:
-	call getItemsGottenByteAndBitToCheckForItem                               ; $6f84: $cd $e9 $68
-	ld   hl, wNPCScriptParam1                                   ; $6f87: $21 $20 $c0
-	ld   (hl), a                                     ; $6f8a: $77
-	ld   hl, wItemsGotten                                   ; $6f8b: $21 $54 $c6
-	add  hl, bc                                      ; $6f8e: $09
-	ld   a, (hl)                                     ; $6f8f: $7e
+	call getItemsGottenByteAndBitToCheckForItem
+	ld   hl, wNPCScriptParam1
+	ld   (hl), a
+	ld   hl, wItemsGotten
+	add  hl, bc
+	ld   a, (hl)
 
-	ld   hl, wCurrNpcIdx                                   ; $6f90: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6f93: $4e
-	ld   b, $00                                      ; $6f94: $06 $00
-	jp   npcHelper_checkItemGotten                               ; $6f96: $c3 $a8 $6e
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	jp   npcHelper_checkItemGotten
 
 
 _scriptCmd_jumpIfAtTile:
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $6f99: $21 $48 $cb
+	ld   hl, wNPC_yCoord                                   ; $6f99: $21 $48 $cb
 	add  hl, bc                                      ; $6f9c: $09
 	ld   a, (hl)                                     ; $6f9d: $7e
 	add  $08                                         ; $6f9e: $c6 $08
@@ -2445,7 +2448,7 @@ _scriptCmd_jumpIfAtTile:
 	srl  a                                           ; $6fa6: $cb $3f
 	ld   e, a                                        ; $6fa8: $5f
 	ld   d, $00                                      ; $6fa9: $16 $00
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $6fab: $21 $3c $cb
+	ld   hl, wNPC_xCoord                                   ; $6fab: $21 $3c $cb
 	add  hl, bc                                      ; $6fae: $09
 	ld   a, (hl)                                     ; $6faf: $7e
 	add  $08                                         ; $6fb0: $c6 $08
@@ -2467,41 +2470,41 @@ _scriptCmd_jumpIfAtTile:
 	jr   nz, +                             ; $6fd0: $20 $03
 
 npcHelper_jump_6fd2:
-	jp   npcHelper_jump                               ; $6fd2: $c3 $ae $6e
+	jp   npcHelper_jump
 
 +
-	jp   executeNPCScriptCode                               ; $6fd5: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_jumpIfMoreThanNumBombsGotten:
-	ld   hl, wNumBombs                                   ; $6fd8: $21 $3b $c0
-	ld   a, (hl)                                     ; $6fdb: $7e
+	ld   hl, wNumBombs
+	ld   a, (hl)
 
 npcHelper_jumpIfAtLeastParam1gotten:
-	ld   hl, wNPCScriptParam1                                   ; $6fdc: $21 $20 $c0
-	cp   (hl)                                        ; $6fdf: $be
-	jr   nc, npcHelper_jump_6fd2                             ; $6fe0: $30 $f0
+	ld   hl, wNPCScriptParam1
+	cp   (hl)
+	jr   nc, npcHelper_jump_6fd2
 
-	jp   executeNPCScriptCode                               ; $6fe2: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_jumpIfMoreThanNumOilsGotten:
-	ld   hl, wAnointingOilsGotten                                   ; $6fe5: $21 $51 $c6
-	ld   a, (hl)                                     ; $6fe8: $7e
-	jp   npcHelper_jumpIfAtLeastParam1gotten                               ; $6fe9: $c3 $dc $6f
+	ld   hl, wAnointingOilsGotten
+	ld   a, (hl)
+	jp   npcHelper_jumpIfAtLeastParam1gotten
 
 
 _scriptCmd_jumpIfMoreThanParam1HealthGotten:
-	ld   hl, wPlayerHealth                                   ; $6fec: $21 $72 $c0
-	ld   a, (hl)                                     ; $6fef: $7e
-	jp   npcHelper_jumpIfAtLeastParam1gotten                               ; $6ff0: $c3 $dc $6f
+	ld   hl, wPlayerHealth
+	ld   a, (hl)
+	jp   npcHelper_jumpIfAtLeastParam1gotten
 
 
 _scriptCmd_jumpIfButtonsPressed:
 	call pollInput
 	ld   hl, wKeysPressed
 	ld   a, (hl)
-	ld   hl, wNPCScriptParam1                                   ; $6ffa: $21 $20 $c0
+	ld   hl, wNPCScriptParam1
 	and  (hl)
 	jr   z, _executeNPCScriptCode_7003
 
@@ -2509,14 +2512,14 @@ _scriptCmd_jumpIfButtonsPressed:
 
 
 _executeNPCScriptCode_7003:
-	jp   executeNPCScriptCode                               ; $7003: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_moveNPC_jumpIfCant:
-	call npcHelper_offsetNPCCoordsByScriptByte1                               ; $7006: $cd $68 $64
-	jr   nc, _executeNPCScriptCode_7003                             ; $7009: $30 $f8
+	call npcHelper_offsetNPCCoordsByScriptByte1
+	jr   nc, _executeNPCScriptCode_7003
 
-	jp   npcHelper_jump                               ; $700b: $c3 $ae $6e
+	jp   npcHelper_jump
 
 
 _scriptCmd_700e:
@@ -3122,69 +3125,75 @@ Call_001_738a:
 	ld   de, $c007                                   ; $7396: $11 $07 $c0
 	ld   (de), a                                     ; $7399: $12
 
-//
+// de = cb6c
 	ld   hl, wNPCBytes_cb6c                                   ; $739a: $21 $6c $cb
 	add  hl, bc                                      ; $739d: $09
 	ld   e, (hl)                                     ; $739e: $5e
 	ld   d, $00                                      ; $739f: $16 $00
+
+// clear c008 ($20 if facing left)
 	ld   a, $00                                      ; $73a1: $3e $00
 	ld   hl, $c008                                   ; $73a3: $21 $08 $c0
 	ld   (hl), a                                     ; $73a6: $77
 	call getBit6ofNPCBytes_cb60                               ; $73a7: $cd $82 $73
-	jr   z, jr_001_73b2                              ; $73aa: $28 $06
+	jr   z, @checkVertDirs                              ; $73aa: $28 $06
 
 	call getCurrNpcDirection                               ; $73ac: $cd $e3 $65
-	jp   Jump_001_73bd                               ; $73af: $c3 $bd $73
+	jp   +                               ; $73af: $c3 $bd $73
 
 
-jr_001_73b2:
+@checkVertDirs:
 	call getCurrNpcDirection                               ; $73b2: $cd $e3 $65
 	cp   DIR_DOWN                                         ; $73b5: $fe $06
-	jr   z, jr_001_73d2                              ; $73b7: $28 $19
+	jr   z, @facingDown                              ; $73b7: $28 $19
 
 	cp   DIR_UP                                         ; $73b9: $fe $03
-	jr   z, jr_001_73c9                              ; $73bb: $28 $0c
+	jr   z, @facingUp                              ; $73bb: $28 $0c
 
-Jump_001_73bd:
++
 	cp   DIR_LEFT                                         ; $73bd: $fe $09
-	jr   nz, Jump_001_73d8                             ; $73bf: $20 $17
+	jr   nz, @next                             ; $73bf: $20 $17
 
+// left
 	ld   hl, $c008                                   ; $73c1: $21 $08 $c0
 	ld   (hl), $20                                   ; $73c4: $36 $20
-	jp   Jump_001_73d8                               ; $73c6: $c3 $d8 $73
+	jp   @next                               ; $73c6: $c3 $d8 $73
 
-
-jr_001_73c9:
+@facingUp:
 	ld   a, e                                        ; $73c9: $7b
 	add  $03                                         ; $73ca: $c6 $03
 	ld   e, a                                        ; $73cc: $5f
 	ld   d, $00                                      ; $73cd: $16 $00
-	jp   Jump_001_73d8                               ; $73cf: $c3 $d8 $73
+	jp   @next                               ; $73cf: $c3 $d8 $73
 
-
-jr_001_73d2:
+@facingDown:
 	ld   a, e                                        ; $73d2: $7b
 	add  $06                                         ; $73d3: $c6 $06
 	ld   e, a                                        ; $73d5: $5f
 	ld   d, $00                                      ; $73d6: $16 $00
 
-Jump_001_73d8:
-	call copyByteFromParamWordPlusEinto_c009                               ; $73d8: $cd $fb $73
+@next:
+	call copyByteFrom_c006_WordPlusEinto_c009                               ; $73d8: $cd $fb $73
+// upper 6 bits into c006
 	ld   hl, $c009                                   ; $73db: $21 $09 $c0
 	ld   a, (hl)                                     ; $73de: $7e
 	and  $fc                                         ; $73df: $e6 $fc
 	ld   hl, $c006                                   ; $73e1: $21 $06 $c0
 	ld   (hl), a                                     ; $73e4: $77
+
+// bit 3 of cb60 unset..
 	ld   hl, wNPCBytes_cb60                                   ; $73e5: $21 $60 $cb
 	add  hl, bc                                      ; $73e8: $09
 	ld   a, (hl)                                     ; $73e9: $7e
 	and  $08                                         ; $73ea: $e6 $08
-	jr   nz, jr_001_73f2                             ; $73ec: $20 $04
+	jr   nz, +                             ; $73ec: $20 $04
 
+// inc c006
 	ld   hl, $c006                                   ; $73ee: $21 $06 $c0
 	inc  (hl)                                        ; $73f1: $34
 
-jr_001_73f2:
++
+// copy c008 to c007
 	ld   hl, $c008                                   ; $73f2: $21 $08 $c0
 	ld   a, (hl)                                     ; $73f5: $7e
 	ld   hl, $c007                                   ; $73f6: $21 $07 $c0
@@ -3192,19 +3201,19 @@ jr_001_73f2:
 	ret                                              ; $73fa: $c9
 
 
-copyByteFromParamWordPlusEinto_c009:
+copyByteFrom_c006_WordPlusEinto_c009:
 	ld   hl, wNPCScriptBytesBank                                   ; $73fb: $21 $fc $cb
 	add  hl, bc                                      ; $73fe: $09
-// bank based of cbfc
 	ld   a, (hl)                                     ; $73ff: $7e
 	ld   hl, wCommonByteCopyFuncBank                                   ; $7400: $21 $a1 $c0
 	ld   (hl), a                                     ; $7403: $77
+
 // copy 1 byte
 	ld   a, $01                                      ; $7404: $3e $01
 	ld   hl, wCommonByteCopyFuncNumBytes                                   ; $7406: $21 $a0 $c0
 	ld   (hl), a                                     ; $7409: $77
 
-// addr to copy from is param word + e
+// addr to copy from is param word (1st npc struct word) + e
 	ld   a, e                                        ; $740a: $7b
 	push de                                          ; $740b: $d5
 	ld   hl, $c006                                   ; $740c: $21 $06 $c0
@@ -3216,6 +3225,7 @@ copyByteFromParamWordPlusEinto_c009:
 	adc  $00                                         ; $7418: $ce $00
 	ld   hl, wCommonByteCopyFuncSrc+1                                   ; $741a: $21 $9b $c0
 	ld   (hl), a                                     ; $741d: $77
+
 	call copyBytesFromAnotherBankInto_c6d0                                       ; $741e: $cd $24 $02
 	ld   hl, wCommonByteCopyDestBytes                                   ; $7421: $21 $d0 $c6
 	ld   a, (hl)                                     ; $7424: $7e

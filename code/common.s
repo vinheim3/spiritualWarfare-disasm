@@ -284,78 +284,87 @@ loadRoomStructData:
 	ld   (hl), a
 
 // get 1st room struct byte and store in c72b
-	ld   de, $0000                                   ; $0257: $11 $00 $00
-	ld   hl, $c006                                   ; $025a: $21 $06 $c0
-	ldi  a, (hl)                                     ; $025d: $2a
-	ld   h, (hl)                                     ; $025e: $66
-	ld   l, a                                        ; $025f: $6f
-	ld   a, (hl)                                     ; $0260: $7e
-	ld   hl, wFirstRoomStructByte                                   ; $0261: $21 $2b $c7
-	ld   (hl), a                                     ; $0264: $77
+	ld   de, $0000
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	ld   a, (hl)
+	ld   hl, wFirstRoomStructByte
+	ld   (hl), a
 
-	inc  de                                          ; $0265: $13
-	and  $80                                         ; $0266: $e6 $80
-	jr   z, @after1stByteBit7check                              ; $0268: $28 $22
+// pointing at 2nd byte now
+	inc  de
+	and  $80
+	jr   z, @afterBGPpalettes
 
-// bit 7 set of 1st struct byte
-	ld   hl, $c006                                   ; $026a: $21 $06 $c0
-	ldi  a, (hl)                                     ; $026d: $2a
-	ld   h, (hl)                                     ; $026e: $66
-	ld   l, a                                        ; $026f: $6f
-	add  hl, de                                      ; $0270: $19
-	ld   a, (hl)                                     ; $0271: $7e
+// if bit 7 set of 1st struct byte, set lamp BGP values
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+
 // next byte into c5f0 and c5f4
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_1                                   ; $0272: $21 $f0 $c5
-	ld   (hl), a                                     ; $0275: $77
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_2                                   ; $0276: $21 $f4 $c5
-	ld   (hl), a                                     ; $0279: $77
-	inc  de                                          ; $027a: $13
-	ld   hl, $c006                                   ; $027b: $21 $06 $c0
-	add  hl, de                                      ; $027e: $19
-	ldi  a, (hl)                                     ; $027f: $2a
-	ld   h, (hl)                                     ; $0280: $66
-	ld   l, a                                        ; $0281: $6f
-	ld   a, (hl)                                     ; $0282: $7e
-// next byte into c5f1 and c5f5
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_1+1                                   ; $0283: $21 $f1 $c5
-	ld   (hl), a                                     ; $0286: $77
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_2+1                                   ; $0287: $21 $f5 $c5
-	ld   (hl), a                                     ; $028a: $77
-	inc  de                                          ; $028b: $13
+	ld   hl, wBGPwhenLampOff
+	ld   (hl), a
+	ld   hl, wBGPwhenLampOn
+	ld   (hl), a
 
-@after1stByteBit7check:
-	ld   hl, wFirstRoomStructByte                                   ; $028c: $21 $2b $c7
-	ld   a, (hl)                                     ; $028f: $7e
-	and  $40                                         ; $0290: $e6 $40
-	jr   z, @after1stByteBit6check                              ; $0292: $28 $22
+// pointing at 3rd byte
+	inc  de
+	ld   hl, wCurrRoomStructPointer
+	add  hl, de
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	ld   a, (hl)
 
-// bit 6 set of 1st struct byte
-	ld   hl, $c006                                   ; $0294: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0297: $2a
-	ld   h, (hl)                                     ; $0298: $66
-	ld   l, a                                        ; $0299: $6f
-	add  hl, de                                      ; $029a: $19
-	ld   a, (hl)                                     ; $029b: $7e
+// next byte into c5f1 and c5f5 (unused?)
+	ld   hl, wBGPwhenLampOff+1
+	ld   (hl), a
+	ld   hl, wBGPwhenLampOn+1
+	ld   (hl), a
+	inc  de
+
+@afterBGPpalettes:
+	ld   hl, wFirstRoomStructByte
+	ld   a, (hl)
+	and  $40
+	jr   z, @afterOBP0palettes
+
+// bit 6 set of 1st struct byte, set lamp OBP0 values
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+
 // next byte into c5f2 and c5f6
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_1                                   ; $029c: $21 $f2 $c5
-	ld   (hl), a                                     ; $029f: $77
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_2                                   ; $02a0: $21 $f6 $c5
-	ld   (hl), a                                     ; $02a3: $77
-	inc  de                                          ; $02a4: $13
-	ld   hl, $c006                                   ; $02a5: $21 $06 $c0
-	ldi  a, (hl)                                     ; $02a8: $2a
-	ld   h, (hl)                                     ; $02a9: $66
-	ld   l, a                                        ; $02aa: $6f
-	add  hl, de                                      ; $02ab: $19
-	ld   a, (hl)                                     ; $02ac: $7e
-// next byte into c5f3 and c5f7
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_1+1                                   ; $02ad: $21 $f3 $c5
-	ld   (hl), a                                     ; $02b0: $77
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_2+1                                   ; $02b1: $21 $f7 $c5
-	ld   (hl), a                                     ; $02b4: $77
-	inc  de                                          ; $02b5: $13
+	ld   hl, wOBP0whenLampOff
+	ld   (hl), a
+	ld   hl, wOBP0whenLampOn
+	ld   (hl), a
 
-@after1stByteBit6check:
+// pointing at 2nd unused byte
+	inc  de
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+
+// next byte into c5f3 and c5f7 (unused?)
+	ld   hl, wOBP0whenLampOff+1
+	ld   (hl), a
+	ld   hl, wOBP0whenLampOn+1
+	ld   (hl), a
+	inc  de
+
+@afterOBP0palettes:
 // $c079 is 1st struct byte's bit 2
 	ld   hl, wFirstRoomStructByte                                   ; $02b6: $21 $2b $c7
 	ld   a, (hl)                                     ; $02b9: $7e
@@ -366,7 +375,7 @@ loadRoomStructData:
 	jr   z, @after1stByteBit2check                              ; $02c2: $28 $0d
 
 // run the follow if the above bit 2 is set
-	ld   hl, $c006                                   ; $02c4: $21 $06 $c0
+	ld   hl, wCurrRoomStructPointer                                   ; $02c4: $21 $06 $c0
 	ldi  a, (hl)                                     ; $02c7: $2a
 	ld   h, (hl)                                     ; $02c8: $66
 	ld   l, a                                        ; $02c9: $6f
@@ -378,7 +387,7 @@ loadRoomStructData:
 
 @after1stByteBit2check:
 // 2nd/next struct byte
-	ld   hl, $c006                                   ; $02d1: $21 $06 $c0
+	ld   hl, wCurrRoomStructPointer                                   ; $02d1: $21 $06 $c0
 	ldi  a, (hl)                                     ; $02d4: $2a
 	ld   h, (hl)                                     ; $02d5: $66
 	ld   l, a                                        ; $02d6: $6f
@@ -390,6 +399,7 @@ loadRoomStructData:
 	ld   hl, wSecondRoomStructByte                                   ; $02da: $21 $2c $c7
 	ld   (hl), a                                     ; $02dd: $77
 	and  $80                                         ; $02de: $e6 $80
+
 // store its bit 7 in $c5fe
 	ld   hl, wSecondRoomStructByteBit7                                   ; $02e0: $21 $fe $c5
 	ld   (hl), a                                     ; $02e3: $77
@@ -399,6 +409,7 @@ loadRoomStructData:
 	jr   z, +                              ; $02ea: $28 $06
 
 // TODO: run the following if 2nd byte's bit 6 is set
+// c04a seems to be a Y offset for both player and NPCs (0 or 8 in some cases)
 	ld   a, $00                                      ; $02ec: $3e $00
 	ld   hl, $c04a                                   ; $02ee: $21 $4a $c0
 	ld   (hl), a                                     ; $02f1: $77
@@ -408,6 +419,7 @@ loadRoomStructData:
 	ld   hl, wSecondRoomStructByte                                   ; $02f2: $21 $2c $c7
 	ld   a, (hl)                                     ; $02f5: $7e
 	and  $10                                         ; $02f6: $e6 $10
+// has to do with oam
 	ld   hl, wSecondRoomStructByteBit4                                   ; $02f8: $21 $90 $c0
 	ld   (hl), a                                     ; $02fb: $77
 
@@ -437,466 +449,488 @@ loadRoomStructData:
 	ld   hl, wSecondRoomStructByte                                   ; $032b: $21 $2c $c7
 	ld   a, (hl)                                     ; $032e: $7e
 	and  $20                                         ; $032f: $e6 $20
-	jr   z, @after2ndByteBit5check                              ; $0331: $28 $34
+	jr   z, @afterLampOnPalettes                              ; $0331: $28 $34
 
 // 2nd byte's bit 5 is set
-	ld   hl, $c006                                   ; $0333: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0336: $2a
-	ld   h, (hl)                                     ; $0337: $66
-	ld   l, a                                        ; $0338: $6f
-	add  hl, de                                      ; $0339: $19
-	ld   a, (hl)                                     ; $033a: $7e
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_2                                   ; $033b: $21 $f4 $c5
-	ld   (hl), a                                     ; $033e: $77
-	inc  de                                          ; $033f: $13
-	ld   hl, $c006                                   ; $0340: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0343: $2a
-	ld   h, (hl)                                     ; $0344: $66
-	ld   l, a                                        ; $0345: $6f
-	add  hl, de                                      ; $0346: $19
-	ld   a, (hl)                                     ; $0347: $7e
-	ld   hl, wRoomStructWord_whenFirstByteBit7set_2+1                                   ; $0348: $21 $f5 $c5
-	ld   (hl), a                                     ; $034b: $77
-	inc  de                                          ; $034c: $13
-	ld   hl, $c006                                   ; $034d: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0350: $2a
-	ld   h, (hl)                                     ; $0351: $66
-	ld   l, a                                        ; $0352: $6f
-	add  hl, de                                      ; $0353: $19
-	ld   a, (hl)                                     ; $0354: $7e
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_2                                   ; $0355: $21 $f6 $c5
-	ld   (hl), a                                     ; $0358: $77
-	inc  de                                          ; $0359: $13
-	ld   hl, $c006                                   ; $035a: $21 $06 $c0
-	ldi  a, (hl)                                     ; $035d: $2a
-	ld   h, (hl)                                     ; $035e: $66
-	ld   l, a                                        ; $035f: $6f
-	add  hl, de                                      ; $0360: $19
-	ld   a, (hl)                                     ; $0361: $7e
-	ld   hl, wRoomStructWord_whenFirstByteBit6set_2+1                                   ; $0362: $21 $f7 $c5
-	ld   (hl), a                                     ; $0365: $77
-	inc  de                                          ; $0366: $13
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wBGPwhenLampOn
+	ld   (hl), a
 
-@after2ndByteBit5check:
+	inc  de
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wBGPwhenLampOn+1
+	ld   (hl), a
+
+	inc  de
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wOBP0whenLampOn
+	ld   (hl), a
+
+	inc  de
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wOBP0whenLampOn+1
+	ld   (hl), a
+	inc  de
+
+@afterLampOnPalettes:
 // (word in $c006) + de -> $c075 and $c008
-	ld   hl, $c006                                   ; $0367: $21 $06 $c0
-	ldi  a, (hl)                                     ; $036a: $2a
-	ld   h, (hl)                                     ; $036b: $66
-	ld   l, a                                        ; $036c: $6f
-	add  hl, de                                      ; $036d: $19
-	ld   a, (hl)                                     ; $036e: $7e
-	ld   hl, wRoomCompressedLayoutAddr                                   ; $036f: $21 $75 $c0
-	ld   (hl), a                                     ; $0372: $77
-	ld   hl, $c008                                   ; $0373: $21 $08 $c0
-	ld   (hl), a                                     ; $0376: $77
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wRoomCompressedLayoutAddr
+	ld   (hl), a
+	ld   hl, wCompressedLayoutCurrByteAddr
+	ld   (hl), a
 
 // (word in $c006) + de + 1 -> $c076 and $c009
-	inc  de                                          ; $0377: $13
-	ld   hl, $c006                                   ; $0378: $21 $06 $c0
-	ldi  a, (hl)                                     ; $037b: $2a
-	ld   h, (hl)                                     ; $037c: $66
-	ld   l, a                                        ; $037d: $6f
-	add  hl, de                                      ; $037e: $19
-	ld   a, (hl)                                     ; $037f: $7e
-	ld   hl, wRoomCompressedLayoutAddr+1                                   ; $0380: $21 $76 $c0
-	ld   (hl), a                                     ; $0383: $77
-	ld   hl, $c009                                   ; $0384: $21 $09 $c0
-	ld   (hl), a                                     ; $0387: $77
+	inc  de
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wRoomCompressedLayoutAddr+1
+	ld   (hl), a
+	ld   hl, wCompressedLayoutCurrByteAddr+1
+	ld   (hl), a
 
 // c007/6 and c0b6/5 = current addr in room struct
-	inc  de                                          ; $0388: $13
-	ld   a, e                                        ; $0389: $7b
-	ld   hl, $c006                                   ; $038a: $21 $06 $c0
-	add  (hl)                                        ; $038d: $86
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $038e: $21 $b5 $c0
-	ld   (hl), a                                     ; $0391: $77
-	ld   hl, $c006                                   ; $0392: $21 $06 $c0
-	ld   (hl), a                                     ; $0395: $77
-	ld   hl, $c007                                   ; $0396: $21 $07 $c0
-	ld   a, (hl)                                     ; $0399: $7e
-	adc  $00                                         ; $039a: $ce $00
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1                                   ; $039c: $21 $b6 $c0
-	ld   (hl), a                                     ; $039f: $77
-	ld   hl, $c007                                   ; $03a0: $21 $07 $c0
-	ld   (hl), a                                     ; $03a3: $77
+	inc  de
+	ld   a, e
+	ld   hl, wCurrRoomStructPointer
+	add  (hl)
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr
+	ld   (hl), a
+	ld   hl, wCurrRoomStructPointerAfterCompressedLayout
+	ld   (hl), a
+	ld   hl, wCurrRoomStructPointerAfterCompressedLayout+1
+	ld   a, (hl)
+	adc  $00
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1
+	ld   (hl), a
+	ld   hl, wCurrRoomStructPointerAfterCompressedLayout+1
+	ld   (hl), a
 
 // offset back to 0
-	ld   de, $0000                                   ; $03a4: $11 $00 $00
-	ld   hl, wFirstRoomStructByte                                   ; $03a7: $21 $2b $c7
-	ld   a, (hl)                                     ; $03aa: $7e
-	and  $20                                         ; $03ab: $e6 $20
-	jr   z, @after1stByteBit5check                              ; $03ad: $28 $10
+	ld   de, $0000
+	ld   hl, wFirstRoomStructByte
+	ld   a, (hl)
+	and  $20
+	jr   z, @after1stByteBit5check
 
 // first struct byte bit 5 set
-	ld   a, <@terminator                                      ; $03af: $3e $be
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $03b1: $21 $b5 $c0
-	ld   (hl), a                                     ; $03b4: $77
-	ld   a, >@terminator                                      ; $03b5: $3e $03
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1                                   ; $03b7: $21 $b6 $c0
-	ld   (hl), a                                     ; $03ba: $77
-	jp   @afterBytePattern                               ; $03bb: $c3 $e6 $03
+	ld   a, <@terminator
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr
+	ld   (hl), a
+	ld   a, >@terminator
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1
+	ld   (hl), a
+	jp   @afterBytePattern
 
 @terminator:
-	.db $ff  // no byte pattern to process
+	.db $ff  // no entrances to process
 
 @after1stByteBit5check:
 // first struct byte bit 5 not set
 -
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $03bf: $21 $b5 $c0
-	ldi  a, (hl)                                     ; $03c2: $2a
-	ld   h, (hl)                                     ; $03c3: $66
-	ld   l, a                                        ; $03c4: $6f
-	add  hl, de                                      ; $03c5: $19
-	ld   a, (hl)                                     ; $03c6: $7e
-	cp   $ff                                         ; $03c7: $fe $ff
-	jr   z, +                              ; $03c9: $28 $07
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	cp   $ff
+	jr   z, @noMoreEntrances
 
-	ld   a, e                                        ; $03cb: $7b
-	add  $07                                         ; $03cc: $c6 $07
-	ld   e, a                                        ; $03ce: $5f
-	jp   -                               ; $03cf: $c3 $bf $03
+	ld   a, e
+	add  $07
+	ld   e, a
+	jp   -
 
-+
+@noMoreEntrances:
 // c006/7 now at byte after previous byte pattern
-	inc  de                                          ; $03d2: $13
-	ld   a, e                                        ; $03d3: $7b
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $03d4: $21 $b5 $c0
-	add  (hl)                                        ; $03d7: $86
-	ld   hl, $c006                                   ; $03d8: $21 $06 $c0
-	ld   (hl), a                                     ; $03db: $77
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1                                   ; $03dc: $21 $b6 $c0
-	ld   a, (hl)                                     ; $03df: $7e
-	adc  $00                                         ; $03e0: $ce $00
-	ld   hl, $c007                                   ; $03e2: $21 $07 $c0
-	ld   (hl), a                                     ; $03e5: $77
+// store pointer to npc data
+	inc  de
+	ld   a, e
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr
+	add  (hl)
+	ld   hl, wCurrRoomStructPointerNPCData
+	ld   (hl), a
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1
+	ld   a, (hl)
+	adc  $00
+	ld   hl, wCurrRoomStructPointerNPCData+1
+	ld   (hl), a
 
 @afterBytePattern:
-	ld   bc, $0000                                   ; $03e6: $01 $00 $00
+	ld   bc, $0000
 
 @keepFilling2x2TileData:
-	ld   a, c                                        ; $03e9: $79
-	and  $0f                                         ; $03ea: $e6 $0f
-	jr   nz, +                             ; $03ec: $20 $06
+// if at next row, set current compressed byte to $ff
+	ld   a, c
+	and  $0f
+	jr   nz, +
 
-	ld   a, $ff                                      ; $03ee: $3e $ff
-	ld   hl, $c00a                                   ; $03f0: $21 $0a $c0
-	ld   (hl), a                                     ; $03f3: $77
+	ld   a, $ff
+	ld   hl, wCurrCompressedByteProcessed
+	ld   (hl), a
 
 +
 // looking at bank 2 for the 1st screen
-	ld   de, $0000                                   ; $03f4: $11 $00 $00
-	ld   hl, $c008                                   ; $03f7: $21 $08 $c0
-	ldi  a, (hl)                                     ; $03fa: $2a
-	ld   h, (hl)                                     ; $03fb: $66
-	ld   l, a                                        ; $03fc: $6f
-	add  hl, de                                      ; $03fd: $19
+	ld   de, $0000
+	ld   hl, wCompressedLayoutCurrByteAddr
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
 // lower 2 bytes+1 into $c00e
-	ld   a, (hl)                                     ; $03fe: $7e
-	and  $03                                         ; $03ff: $e6 $03
-	ld   hl, $c00e                                   ; $0401: $21 $0e $c0
-	ld   (hl), a                                     ; $0404: $77
-	inc  (hl)                                        ; $0405: $34
+	ld   a, (hl)
+	and  $03
+	ld   hl, wTimesToCopyDecompressedTile
+	ld   (hl), a
+	inc  (hl)
 // $c008 is word location of tile to decompress
-	ld   hl, $c008                                   ; $0406: $21 $08 $c0
-	ldi  a, (hl)                                     ; $0409: $2a
-	ld   h, (hl)                                     ; $040a: $66
-	ld   l, a                                        ; $040b: $6f
-	add  hl, de                                      ; $040c: $19
+	ld   hl, wCompressedLayoutCurrByteAddr
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
 // upper 6 bits into c028
-	ld   a, (hl)                                     ; $040d: $7e
-	and  $fc                                         ; $040e: $e6 $fc
-	ld   hl, $c028                                   ; $0410: $21 $28 $c0
-	ld   (hl), a                                     ; $0413: $77
+	ld   a, (hl)
+	and  $fc
+	ld   hl, wCurrDecompressedTile
+	ld   (hl), a
 
-	ld   hl, wTileLayoutDataBank                                   ; $0414: $21 $5c $c0
-	ld   a, (hl)                                     ; $0417: $7e
-	call convertCurrTileUsingTable_02_4acd                               ; $0418: $cd $6b $07
+	ld   hl, wTileLayoutDataBank
+	ld   a, (hl)
+	call convertCurrTileUsingTable_02_4acd
 
-	ld   hl, $c00b                                   ; $041b: $21 $0b $c0
-	ld   (hl), e                                     ; $041e: $73
-	ld   hl, $c028                                   ; $041f: $21 $28 $c0
-	ld   a, (hl)                                     ; $0422: $7e
+	ld   hl, wByteForOther2x2block
+	ld   (hl), e
+	ld   hl, wCurrDecompressedTile
+	ld   a, (hl)
 
 // is byte we are decompressing, same as last?
-	ld   hl, $c00a                                   ; $0423: $21 $0a $c0
-	cp   (hl)                                        ; $0426: $be
-	jr   nz, +                             ; $0427: $20 $07
+	ld   hl, wCurrCompressedByteProcessed
+	cp   (hl)
+	jr   nz, +
 
-	ld   hl, $c00e                                   ; $0429: $21 $0e $c0
-	sla  (hl)                                        ; $042c: $cb $26
-	sla  (hl)                                        ; $042e: $cb $26
+// if so, lay out 4 times the normal count
+	ld   hl, wTimesToCopyDecompressedTile
+	sla  (hl)
+	sla  (hl)
 
 +
-	ld   hl, $c00a                                   ; $0430: $21 $0a $c0
-	ld   (hl), a                                     ; $0433: $77
+// either way, set this as the current byte being processed
+	ld   hl, wCurrCompressedByteProcessed
+	ld   (hl), a
 
 // loop below is $c00e times
-	ld   hl, $c00e                                   ; $0434: $21 $0e $c0
-	ld   e, (hl)                                     ; $0437: $5e
-	ld   d, $00                                      ; $0438: $16 $00
+	ld   hl, wTimesToCopyDecompressedTile
+	ld   e, (hl)
+	ld   d, $00
 -
 // c028 is current tile considered in decompression?
-	ld   hl, $c028                                   ; $043a: $21 $28 $c0
-	ld   a, (hl)                                     ; $043d: $7e
-	ld   hl, w2x2gameScreenTiles                                   ; $043e: $21 $b0 $c3
-	add  hl, bc                                      ; $0441: $09
-	ld   (hl), a                                     ; $0442: $77
-	ld   hl, $c00b                                   ; $0443: $21 $0b $c0
-	ld   a, (hl)                                     ; $0446: $7e
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $0447: $21 $00 $c3
-	add  hl, bc                                      ; $044a: $09
-	ld   (hl), a                                     ; $044b: $77
-	inc  bc                                          ; $044c: $03
+	ld   hl, wCurrDecompressedTile
+	ld   a, (hl)
+	ld   hl, w2x2gameScreenTiles
+	add  hl, bc
+	ld   (hl), a
+	ld   hl, wByteForOther2x2block
+	ld   a, (hl)
+	ld   hl, wAnother2x2blockForGameScreenTilesTODO
+	add  hl, bc
+	ld   (hl), a
+	inc  bc
 
-	dec  de                                          ; $044d: $1b
-	ld   a, e                                        ; $044e: $7b
-	or   d                                           ; $044f: $b2
-	jr   nz, -                             ; $0450: $20 $e8
+	dec  de
+	ld   a, e
+	or   d
+	jr   nz, -
 
 // $c009/$c008 += 1
-	ld   hl, $c008                                   ; $0452: $21 $08 $c0
-	ld   a, (hl)                                     ; $0455: $7e
-	add  $01                                         ; $0456: $c6 $01
-	ld   (hl), a                                     ; $0458: $77
-	ld   hl, $c009                                   ; $0459: $21 $09 $c0
-	ld   a, (hl)                                     ; $045c: $7e
-	adc  $00                                         ; $045d: $ce $00
-	ld   (hl), a                                     ; $045f: $77
+	ld   hl, wCompressedLayoutCurrByteAddr
+	ld   a, (hl)
+	add  <$0001
+	ld   (hl), a
+	ld   hl, wCompressedLayoutCurrByteAddr+1
+	ld   a, (hl)
+	adc  >$0001
+	ld   (hl), a
 
-	ld   a, c                                        ; $0460: $79
-	cp   $b0                                         ; $0461: $fe $b0
-	jp   c, @keepFilling2x2TileData                            ; $0463: $da $e9 $03
+	ld   a, c
+	cp   $b0
+	jp   c, @keepFilling2x2TileData
 
 // after loading compressed layout data
-// store that address in c009/c008
-	ld   hl, wRoomCompressedLayoutAddr                                   ; $0466: $21 $75 $c0
-	ld   a, (hl)                                     ; $0469: $7e
-	ld   hl, $c008                                   ; $046a: $21 $08 $c0
-	ld   (hl), a                                     ; $046d: $77
-	ld   hl, wRoomCompressedLayoutAddr+1                                   ; $046e: $21 $76 $c0
-	ld   a, (hl)                                     ; $0471: $7e
-	ld   hl, $c009                                   ; $0472: $21 $09 $c0
-	ld   (hl), a                                     ; $0475: $77
+// store that address in c009/c008 again
+	ld   hl, wRoomCompressedLayoutAddr
+	ld   a, (hl)
+	ld   hl, wCompressedLayoutCurrByteAddr
+	ld   (hl), a
+	ld   hl, wRoomCompressedLayoutAddr+1
+	ld   a, (hl)
+	ld   hl, wCompressedLayoutCurrByteAddr+1
+	ld   (hl), a
 
 // similar to loading the compressed room layout data
-	ld   de, $0000                                   ; $0476: $11 $00 $00
-	ld   bc, $0000                                   ; $0479: $01 $00 $00
+	ld   de, $0000
+	ld   bc, $0000
 
 @checkNextCompressedRowOffset:
 // store offset of 1st compressed byte per row
-	ld   hl, wOffsetIntoCompressedRoomLayoutPerScreenRow                                   ; $047c: $21 $e0 $c5
-	add  hl, bc                                      ; $047f: $09
-	ld   (hl), e                                     ; $0480: $73
-	inc  bc                                          ; $0481: $03
-	ld   a, c                                        ; $0482: $79
-	cp   $0b                                         ; $0483: $fe $0b
-	jr   z, @afterStoringCompressedRowOffsets                              ; $0485: $28 $49
+	ld   hl, wOffsetIntoCompressedRoomLayoutPerScreenRow
+	add  hl, bc
+	ld   (hl), e
+	inc  bc
+	ld   a, c
+	cp   $0b
+	jr   z, @afterStoringCompressedRowOffsets
 
-	ld   a, $ff                                      ; $0487: $3e $ff
-	ld   hl, $c00a                                   ; $0489: $21 $0a $c0
-	ld   (hl), a                                     ; $048c: $77
-	ld   a, $00                                      ; $048d: $3e $00
-	ld   hl, wOffsetIntoCompressedRoomLayoutPerScreenRow                                   ; $048f: $21 $e0 $c5
-	add  hl, bc                                      ; $0492: $09
-	ld   (hl), a                                     ; $0493: $77
+	ld   a, $ff
+	ld   hl, wCurrCompressedByteProcessed
+	ld   (hl), a
+	ld   a, $00
+	ld   hl, wOffsetIntoCompressedRoomLayoutPerScreenRow
+	add  hl, bc
+	ld   (hl), a
 
 @stillCheckingCurrentRow:
 // low 2 bits of compressed byte into $c00b and + 1
-	ld   hl, $c008                                   ; $0494: $21 $08 $c0
-	ldi  a, (hl)                                     ; $0497: $2a
-	ld   h, (hl)                                     ; $0498: $66
-	ld   l, a                                        ; $0499: $6f
-	add  hl, de                                      ; $049a: $19
-	ld   a, (hl)                                     ; $049b: $7e
-	and  $03                                         ; $049c: $e6 $03
-	ld   hl, $c00b                                   ; $049e: $21 $0b $c0
-	ld   (hl), a                                     ; $04a1: $77
-	inc  (hl)                                        ; $04a2: $34
+	ld   hl, wCompressedLayoutCurrByteAddr
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	and  $03
+	ld   hl, wCountByteForCurrCompressedByte
+	ld   (hl), a
+	inc  (hl)
 
 // check upper 6 bits are equal to upper 6 bits
-	ld   hl, $c008                                   ; $04a3: $21 $08 $c0
-	ldi  a, (hl)                                     ; $04a6: $2a
-	ld   h, (hl)                                     ; $04a7: $66
-	ld   l, a                                        ; $04a8: $6f
-	add  hl, de                                      ; $04a9: $19
-	ld   a, (hl)                                     ; $04aa: $7e
-	inc  de                                          ; $04ab: $13
-	and  $fc                                         ; $04ac: $e6 $fc
-	ld   hl, $c00a                                   ; $04ae: $21 $0a $c0
-	cp   (hl)                                        ; $04b1: $be
-	jr   nz, +                             ; $04b2: $20 $07
+	ld   hl, wCompressedLayoutCurrByteAddr
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	inc  de
+	and  $fc
+	ld   hl, wCurrCompressedByteProcessed
+	cp   (hl)
+	jr   nz, +
 
 // if same, multiply c00b by 4
-	ld   hl, $c00b                                   ; $04b4: $21 $0b $c0
-	sla  (hl)                                        ; $04b7: $cb $26
-	sla  (hl)                                        ; $04b9: $cb $26
+	ld   hl, wCountByteForCurrCompressedByte
+	sla  (hl)
+	sla  (hl)
 
 +
 // set curr byte
-	ld   hl, $c00a                                   ; $04bb: $21 $0a $c0
-	ld   (hl), a                                     ; $04be: $77
+	ld   hl, wCurrCompressedByteProcessed
+	ld   (hl), a
 
 // add the count byte (reuse $c5e0, it is re-written over at bigLoop)
-	ld   hl, $c00b                                   ; $04bf: $21 $0b $c0
-	ld   a, (hl)                                     ; $04c2: $7e
-	ld   hl, wOffsetIntoCompressedRoomLayoutPerScreenRow                                   ; $04c3: $21 $e0 $c5
+	ld   hl, wCountByteForCurrCompressedByte
+	ld   a, (hl)
+	ld   hl, wOffsetIntoCompressedRoomLayoutPerScreenRow
 // bc inc'ed every big loop (when on new row)
-	add  hl, bc                                      ; $04c6: $09
-	add  (hl)                                        ; $04c7: $86
-	ld   (hl), a                                     ; $04c8: $77
-	cp   $10                                         ; $04c9: $fe $10
-	jr   c, @stillCheckingCurrentRow                              ; $04cb: $38 $c7
+	add  hl, bc
+	add  (hl)
+	ld   (hl), a
+	cp   $10
+	jr   c, @stillCheckingCurrentRow
 
-	jp   @checkNextCompressedRowOffset                               ; $04cd: $c3 $7c $04
+	jp   @checkNextCompressedRowOffset
 
-//
 @afterStoringCompressedRowOffsets:
-// save c007/6 (pointing at byte pattern after address to compressed tiles)
-	ld   hl, $c007                                   ; $04d0: $21 $07 $c0
-	ld   a, (hl)                                     ; $04d3: $7e
-	push af                                          ; $04d4: $f5
-	ld   hl, $c006                                   ; $04d5: $21 $06 $c0
-	ld   a, (hl)                                     ; $04d8: $7e
-	push af                                          ; $04d9: $f5
+// save c007/6 (pointing at npc byte pattern after address to compressed tiles)
+	ld   hl, wCurrRoomStructPointerNPCData+1
+	ld   a, (hl)
+	push af
+	ld   hl, wCurrRoomStructPointerNPCData
+	ld   a, (hl)
+	push af
 
 // c0fc to be count of values between 3 and 9 in other 2x2 block
-	ld   bc, $0000                                   ; $04da: $01 $00 $00
-	ld   hl, $c0fc                                   ; $04dd: $21 $fc $c0
-	ld   (hl), c                                     ; $04e0: $71
+	ld   bc, $0000
+	ld   hl, wNumRoomFlagObjects
+	ld   (hl), c
 
-@loop_04e1:
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $04e1: $21 $00 $c3
-	add  hl, bc                                      ; $04e4: $09
-	ld   a, (hl)                                     ; $04e5: $7e
-	cp   $10                                         ; $04e6: $fe $10
-	jr   nc, +                             ; $04e8: $30 $07
+@loopCountingRoomFlagObjects:
+	ld   hl, wAnother2x2blockForGameScreenTilesTODO
+	add  hl, bc
+	ld   a, (hl)
+	cp   $10
+	jr   nc, +
 
-	cp   $03                                         ; $04ea: $fe $03
-	jr   c, +                              ; $04ec: $38 $03
+	cp   $03
+	jr   c, +
 
 // other 2x2 block value is between 3 and 9
-	call inc_c0fc_wrap127to0                               ; $04ee: $cd $3a $07
+	call incPositiveNumRoomFlagObjects
 
 +
-	inc  bc                                          ; $04f1: $03
-	ld   a, c                                        ; $04f2: $79
-	cp   $b0                                         ; $04f3: $fe $b0
-	jr   nz, @loop_04e1                             ; $04f5: $20 $ea
+	inc  bc
+	ld   a, c
+	cp   $b0
+	jr   nz, @loopCountingRoomFlagObjects
 
-// TODO:
-	ld   de, $0000                                   ; $04f7: $11 $00 $00
-	ld   hl, $c00a                                   ; $04fa: $21 $0a $c0
-	ld   (hl), e                                     ; $04fd: $73
-	ld   hl, wFirstRoomStructByte                                   ; $04fe: $21 $2b $c7
-	ld   a, (hl)                                     ; $0501: $7e
-	and  $10                                         ; $0502: $e6 $10
-	jr   nz, @func_054d                             ; $0504: $20 $47
+// count up the number of room flag objects, pushable or npcs
+	ld   de, $0000
+	ld   hl, wDoneProcessingPushableObjects
+	ld   (hl), e
+	ld   hl, wFirstRoomStructByte
+	ld   a, (hl)
+	and  $10
+	jr   nz, @checkDone
 
-@bigLoop_0506:
-	ld   hl, $c006                                   ; $0506: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0509: $2a
-	ld   h, (hl)                                     ; $050a: $66
-	ld   l, a                                        ; $050b: $6f
-	add  hl, de                                      ; $050c: $19
-	ld   a, (hl)                                     ; $050d: $7e
-	cp   $ff                                         ; $050e: $fe $ff
-	jr   z, @func_054c                              ; $0510: $28 $3a
+@loopCheckForMoreRoomFlagObjects:
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	cp   $ff
+	jr   z, @nextByteCheckDone
 
-	call inc_c0fc_wrap127to0                               ; $0512: $cd $3a $07
-	ld   a, $02                                      ; $0515: $3e $02
-	ld   hl, $c0a0                                   ; $0517: $21 $a0 $c0
-	ld   (hl), a                                     ; $051a: $77
-	ld   hl, $c00a                                   ; $051b: $21 $0a $c0
-	ld   a, (hl)                                     ; $051e: $7e
-	cp   $00                                         ; $051f: $fe $00
-	jr   z, @next_053b                              ; $0521: $28 $18
+	call incPositiveNumRoomFlagObjects
+	ld   a, $02
+	ld   hl, wNumBytesForRoomFlagEntity
+	ld   (hl), a
+	ld   hl, wDoneProcessingPushableObjects
+	ld   a, (hl)
+	cp   $00
+	jr   z, @next_053b
 
-	ld   hl, $c0a0                                   ; $0523: $21 $a0 $c0
-	inc  (hl)                                        ; $0526: $34
-	inc  de                                          ; $0527: $13
-	ld   hl, $c006                                   ; $0528: $21 $06 $c0
-	ldi  a, (hl)                                     ; $052b: $2a
-	ld   h, (hl)                                     ; $052c: $66
-	ld   l, a                                        ; $052d: $6f
-	add  hl, de                                      ; $052e: $19
-	ld   a, (hl)                                     ; $052f: $7e
-	dec  de                                          ; $0530: $1b
-	and  $80                                         ; $0531: $e6 $80
-	bit  7, a                                        ; $0533: $cb $7f
-	jr   nz, @next_053b                             ; $0535: $20 $04
+// 3 bytes per npc
+	ld   hl, wNumBytesForRoomFlagEntity
+	inc  (hl)
 
-	ld   hl, $c0a0                                   ; $0537: $21 $a0 $c0
+// check 2nd byte of npc (normally bit 7 is set)
+	inc  de
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	dec  de
+	and  $80
+	bit  7, a
+	jr   nz, @next_053b
+
+// 4 bytes for something??
+	ld   hl, wNumBytesForRoomFlagEntity                                   ; $0537: $21 $a0 $c0
 	inc  (hl)                                        ; $053a: $34
 
 @next_053b:
-	ld   a, e                                        ; $053b: $7b
-	ld   hl, $c0a0                                   ; $053c: $21 $a0 $c0
-	add  (hl)                                        ; $053f: $86
-	ld   e, a                                        ; $0540: $5f
-	ld   d, $00                                      ; $0541: $16 $00
-	jr   nc, @bigLoop_0506                             ; $0543: $30 $c1
+// de = e + val in c0a0
+	ld   a, e
+	ld   hl, wNumBytesForRoomFlagEntity
+	add  (hl)
+	ld   e, a
+	ld   d, $00
+	jr   nc, @loopCheckForMoreRoomFlagObjects
 
+// bug: never executed, would not work if it did
 	ld   hl, $c007                                   ; $0545: $21 $07 $c0
 	inc  (hl)                                        ; $0548: $34
-	jp   @bigLoop_0506                               ; $0549: $c3 $06 $05
+	jp   @loopCheckForMoreRoomFlagObjects                               ; $0549: $c3 $06 $05
 
-@func_054c:
-	inc  de                                          ; $054c: $13
+@nextByteCheckDone:
+	inc  de
 
-@func_054d:
-	ld   hl, $c00a                                   ; $054d: $21 $0a $c0
-	ld   a, (hl)                                     ; $0550: $7e
-	cp   $00                                         ; $0551: $fe $00
-	jr   nz, +                             ; $0553: $20 $0a
+@checkDone:
+	ld   hl, wDoneProcessingPushableObjects
+	ld   a, (hl)
+	cp   $00
+	jr   nz, +
 
-	ld   (hl), $01                                   ; $0555: $36 $01
-	ld   hl, wFirstRoomStructByte                                   ; $0557: $21 $2b $c7
-	ld   a, (hl)                                     ; $055a: $7e
-	and  $08                                         ; $055b: $e6 $08
-	jr   z, @bigLoop_0506                              ; $055d: $28 $a7
+	ld   (hl), $01
+	ld   hl, wFirstRoomStructByte
+	ld   a, (hl)
+	and  $08
+	jr   z, @loopCheckForMoreRoomFlagObjects
 
 +
-	ld   hl, $0001                                   ; $055f: $21 $01 $00
-	ld   (hl), a                                     ; $0562: $77
-	call getRoomIdxWithinAllRooms                                       ; $0563: $cd $56 $09
-	call func_01_09d3                                       ; $0566: $cd $d3 $09
-	ld   hl, $c0fd                                   ; $0569: $21 $fd $c0
-	ld   (hl), c                                     ; $056c: $71
-// back to tile layout data bank
-	ld   hl, wTileLayoutDataBank                                   ; $056d: $21 $5c $c0
-	ld   l, (hl)                                     ; $0570: $6e
-	ld   h, $00                                      ; $0571: $26 $00
-	ld   (hl), a                                     ; $0573: $77
 
-// c007/6 back to address pointing to byte pattern after addr to compressed layout
-	pop  af                                          ; $0574: $f1
-	ld   hl, $c006                                   ; $0575: $21 $06 $c0
-	ld   (hl), a                                     ; $0578: $77
-	pop  af                                          ; $0579: $f1
-	ld   hl, $c007                                   ; $057a: $21 $07 $c0
-	ld   (hl), a                                     ; $057d: $77
-	ld   de, $0000                                   ; $057e: $11 $00 $00
-	ld   hl, $c0fc                                   ; $0581: $21 $fc $c0
+// func is in bank 1
+	ld   hl, $0001
+	ld   (hl), a
+
+// save the entry of curr room's flags, and repurpose c0fc from here on
+	call getRoomIdxWithinAllRooms
+	call createEntryForRoomInRoomFlagsIfNeeded
+	ld   hl, wCurrRoomFlagDataByte
+	ld   (hl), c
+
+// back to tile layout data bank
+	ld   hl, wTileLayoutDataBank
+	ld   l, (hl)
+	ld   h, $00
+	ld   (hl), a
+
+// c007/6 back to address pointing to npc bytes
+	pop  af
+	ld   hl, wCurrRoomStructPointerNPCData
+	ld   (hl), a
+	pop  af
+	ld   hl, wCurrRoomStructPointerNPCData+1
+	ld   (hl), a
+
+// TODO: process npc data again
+	ld   de, $0000
+	ld   hl, wRoomFlagIdxToCheck                                   ; $0581: $21 $fc $c0
 	ld   (hl), e                                     ; $0584: $73
 	ld   hl, wFirstRoomStructByte                                   ; $0585: $21 $2b $c7
 	ld   a, (hl)                                     ; $0588: $7e
 	and  $10                                         ; $0589: $e6 $10
-	jr   nz, @next_05d8                             ; $058b: $20 $4b
+// jump if no pushable objects
+	jr   nz, @noPushableObjects                             ; $058b: $20 $4b
 
-@bigLoop_058d:
-	ld   hl, $c006                                   ; $058d: $21 $06 $c0
+@nextNPC:
+	ld   hl, wCurrRoomStructPointerNPCData                                   ; $058d: $21 $06 $c0
 	ldi  a, (hl)                                     ; $0590: $2a
 	ld   h, (hl)                                     ; $0591: $66
 	ld   l, a                                        ; $0592: $6f
 	add  hl, de                                      ; $0593: $19
 	ld   a, (hl)                                     ; $0594: $7e
 	cp   $ff                                         ; $0595: $fe $ff
-	jr   z, @next_05d7                              ; $0597: $28 $3e
+	jr   z, @noMoreNPCs                              ; $0597: $28 $3e
 
 	call retCFifRoomFlagSet                               ; $0599: $cd $2c $07
-	jr   c, @skip_05cf                              ; $059c: $38 $31
+	jr   c, @skipNPC                              ; $059c: $38 $31
 
-	ld   hl, $c006                                   ; $059e: $21 $06 $c0
+// npc should be present
+// c00c is npc ID
+	ld   hl, wCurrRoomStructPointerNPCData                                   ; $059e: $21 $06 $c0
 	ldi  a, (hl)                                     ; $05a1: $2a
 	ld   h, (hl)                                     ; $05a2: $66
 	ld   l, a                                        ; $05a3: $6f
@@ -904,9 +938,11 @@ loadRoomStructData:
 	ld   a, (hl)                                     ; $05a5: $7e
 	ld   hl, $c00c                                   ; $05a6: $21 $0c $c0
 	ld   (hl), a                                     ; $05a9: $77
+
 	push de                                          ; $05aa: $d5
+// bc is upper nybble of 2nd npc byte
 	inc  de                                          ; $05ab: $13
-	ld   hl, $c006                                   ; $05ac: $21 $06 $c0
+	ld   hl, wCurrRoomStructPointerNPCData                                   ; $05ac: $21 $06 $c0
 	ldi  a, (hl)                                     ; $05af: $2a
 	ld   h, (hl)                                     ; $05b0: $66
 	ld   l, a                                        ; $05b1: $6f
@@ -915,7 +951,9 @@ loadRoomStructData:
 	call aDivEqu16                               ; $05b4: $cd $fa $07
 	ld   c, a                                        ; $05b7: $4f
 	ld   b, $00                                      ; $05b8: $06 $00
-	ld   hl, $c006                                   ; $05ba: $21 $06 $c0
+
+// de is lower nybble of 2nd npc byte (direction)
+	ld   hl, wCurrRoomStructPointerNPCData                                   ; $05ba: $21 $06 $c0
 	ldi  a, (hl)                                     ; $05bd: $2a
 	ld   h, (hl)                                     ; $05be: $66
 	ld   l, a                                        ; $05bf: $6f
@@ -924,21 +962,23 @@ loadRoomStructData:
 	and  $0f                                         ; $05c2: $e6 $0f
 	ld   e, a                                        ; $05c4: $5f
 	ld   d, $00                                      ; $05c5: $16 $00
+
+// a is npc ID
 	ld   hl, $c00c                                   ; $05c7: $21 $0c $c0
 	ld   a, (hl)                                     ; $05ca: $7e
 	call Call_000_085c                               ; $05cb: $cd $5c $08
 	pop  de                                          ; $05ce: $d1
 
-@skip_05cf:
+@skipNPC:
 	inc  de                                          ; $05cf: $13
 	inc  de                                          ; $05d0: $13
-	call inc_c0fc_wrap127to0                               ; $05d1: $cd $3a $07
-	jp   @bigLoop_058d                               ; $05d4: $c3 $8d $05
+	call incPositiveNumRoomFlagObjects                               ; $05d1: $cd $3a $07
+	jp   @nextNPC                               ; $05d4: $c3 $8d $05
 
-@next_05d7:
+@noMoreNPCs:
 	inc  de                                          ; $05d7: $13
 
-@next_05d8:
+@noPushableObjects:
 	ld   a, e                                        ; $05d8: $7b
 	ld   hl, $c006                                   ; $05d9: $21 $06 $c0
 	add  (hl)                                        ; $05dc: $86
@@ -949,149 +989,152 @@ loadRoomStructData:
 	inc  (hl)                                        ; $05e3: $34
 
 +
-	ld   de, $0000                                   ; $05e4: $11 $00 $00
-	ld   bc, $0000                                   ; $05e7: $01 $00 $00
-	ld   hl, wFirstRoomStructByte                                   ; $05ea: $21 $2b $c7
-	ld   a, (hl)                                     ; $05ed: $7e
-	and  $08                                         ; $05ee: $e6 $08
-	jp   nz, @next_06a0                           ; $05f0: $c2 $a0 $06
 
-@bigLoop_05f3:
-	ld   hl, $c006                                   ; $05f3: $21 $06 $c0
-	ldi  a, (hl)                                     ; $05f6: $2a
-	ld   h, (hl)                                     ; $05f7: $66
-	ld   l, a                                        ; $05f8: $6f
-	add  hl, de                                      ; $05f9: $19
-	ld   a, (hl)                                     ; $05fa: $7e
-	cp   $ff                                         ; $05fb: $fe $ff
-	jp   z, @next_06a0                            ; $05fd: $ca $a0 $06
+// actually load the npcs
+	ld   de, $0000
+	ld   bc, $0000
+	ld   hl, wFirstRoomStructByte
+	ld   a, (hl)
+	and  $08
+	jp   nz, @noNPCsToLoad
 
-// only load up to 12 npcs?
-	ld   a, c                                        ; $0600: $79
-	cp   $0c                                         ; $0601: $fe $0c
-	jp   nc, @next_06a0                           ; $0603: $d2 $a0 $06
+@nextNPCtoLoad:
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	cp   $ff
+	jp   z, @noNPCsToLoad
 
-	call retCFifRoomFlagSet                               ; $0606: $cd $2c $07
-	jr   nc, ++                             ; $0609: $30 $13
+// only load up to 12 npcs
+	ld   a, c
+	cp   NUM_NPCS
+	jp   nc, @noNPCsToLoad
 
-	inc  de                                          ; $060b: $13
-	ld   hl, $c006                                   ; $060c: $21 $06 $c0
-	ldi  a, (hl)                                     ; $060f: $2a
-	ld   h, (hl)                                     ; $0610: $66
-	ld   l, a                                        ; $0611: $6f
-	add  hl, de                                      ; $0612: $19
-	ld   a, (hl)                                     ; $0613: $7e
-	bit  7, a                                        ; $0614: $cb $7f
-	jr   nz, +                             ; $0616: $20 $01
+	call retCFifRoomFlagSet
+	jr   nc, ++
 
-	inc  de                                          ; $0618: $13
+// room flag set (so dont load?)
+	inc  de
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	bit  7, a
+	jr   nz, +
+
+	inc  de
 
 +
-	inc  de                                          ; $0619: $13
-	inc  de                                          ; $061a: $13
-	jp   @next_069a                               ; $061b: $c3 $9a $06
+	inc  de
+	inc  de
+	jp   @gotoNextNPCtoLoad
 
 ++
 // npc 1st byte is max $f5
-	ld   hl, $c006                                   ; $061e: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0621: $2a
-	ld   h, (hl)                                     ; $0622: $66
-	ld   l, a                                        ; $0623: $6f
-	add  hl, de                                      ; $0624: $19
-	ld   a, (hl)                                     ; $0625: $7e
-	cp   $f6                                         ; $0626: $fe $f6
-	jr   c, +                              ; $0628: $38 $02
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	cp   $f6
+	jr   c, +
 
-	ld   a, $00                                      ; $062a: $3e $00
+	ld   a, $00
 
 +
 // store NPC 1st byte into cb30
-	ld   hl, wNPCBytes_ID                                   ; $062c: $21 $30 $cb
-	add  hl, bc                                      ; $062f: $09
-	ld   (hl), a                                     ; $0630: $77
-	inc  de                                          ; $0631: $13
+	ld   hl, wNPCBytes_ID
+	add  hl, bc
+	ld   (hl), a
+	inc  de
 
 // get 2nd byte
-	ld   hl, $c006                                   ; $0632: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0635: $2a
-	ld   h, (hl)                                     ; $0636: $66
-	ld   l, a                                        ; $0637: $6f
-	add  hl, de                                      ; $0638: $19
-	ld   a, (hl)                                     ; $0639: $7e
-	inc  de                                          ; $063a: $13
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	inc  de
 
 // lower 6 bits into cb84 region
-	push af                                          ; $063b: $f5
-	and  $3f                                         ; $063c: $e6 $3f
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $063e: $21 $84 $cb
-	add  hl, bc                                      ; $0641: $09
-	ld   (hl), a                                     ; $0642: $77
+	push af
+	and  $3f
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
+	ld   (hl), a
 
 // 3rd byte into cb3c region
-	ld   hl, $c006                                   ; $0643: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0646: $2a
-	ld   h, (hl)                                     ; $0647: $66
-	ld   l, a                                        ; $0648: $6f
-	add  hl, de                                      ; $0649: $19
-	ld   a, (hl)                                     ; $064a: $7e
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $064b: $21 $3c $cb
-	add  hl, bc                                      ; $064e: $09
-	ld   (hl), a                                     ; $064f: $77
-	inc  de                                          ; $0650: $13
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   (hl), a
+	inc  de
 
 // 4th byte into cb48 region
-	ld   hl, $c006                                   ; $0651: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0654: $2a
-	ld   h, (hl)                                     ; $0655: $66
-	ld   l, a                                        ; $0656: $6f
-	add  hl, de                                      ; $0657: $19
-	ld   a, (hl)                                     ; $0658: $7e
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $0659: $21 $48 $cb
-	add  hl, bc                                      ; $065c: $09
-	ld   (hl), a                                     ; $065d: $77
-	inc  de                                          ; $065e: $13
-	pop  af                                          ; $065f: $f1
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	ld   (hl), a
+	inc  de
+	pop  af
 
 // check 2nd NPC byte bit 7
-// if not set, have DE inc'ed
-	push af                                          ; $0660: $f5
-	bit  7, a                                        ; $0661: $cb $7f
-	jr   z, +                              ; $0663: $28 $1e
+// if not set, this is a 3 byte NPC, with 3rd byte containing x/y in nybbles
+	push af
+	bit  7, a
+	jr   z, +
 
 // get npc 3rd byte
-	dec  de                                          ; $0665: $1b
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $0666: $21 $3c $cb
-	add  hl, bc                                      ; $0669: $09
-	ld   a, (hl)                                     ; $066a: $7e
-	push af                                          ; $066b: $f5
+	dec  de
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   a, (hl)
+	push af
 // put lower nybble in upper nybble, and store in cb48
-	and  $0f                                         ; $066c: $e6 $0f
-	sla  a                                           ; $066e: $cb $27
-	sla  a                                           ; $0670: $cb $27
-	sla  a                                           ; $0672: $cb $27
-	sla  a                                           ; $0674: $cb $27
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $0676: $21 $48 $cb
-	add  hl, bc                                      ; $0679: $09
-	ld   (hl), a                                     ; $067a: $77
+	and  $0f
+	sla  a
+	sla  a
+	sla  a
+	sla  a
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	ld   (hl), a
 // put upper nybble in cb3c
-	pop  af                                          ; $067b: $f1
-	and  $f0                                         ; $067c: $e6 $f0
-	ld   hl, wNPC3rdBytesOrXCoords                                   ; $067e: $21 $3c $cb
-	add  hl, bc                                      ; $0681: $09
-	ld   (hl), a                                     ; $0682: $77
+	pop  af
+	and  $f0
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   (hl), a
 
 +
 // check NPC 2nd byte bit 6
-	pop  af                                          ; $0683: $f1
-	and  $40                                         ; $0684: $e6 $40
-	jr   z, +                              ; $0686: $28 $08
+	pop  af
+	and  $40
+	jr   z, +
 
 // if set, adjust cb48 by 8 (lower NPC by 8 pixels down?)
-	ld   hl, wNPC4thBytesOrYCoords                                   ; $0688: $21 $48 $cb
-	add  hl, bc                                      ; $068b: $09
-	ld   a, (hl)                                     ; $068c: $7e
-	add  $08                                         ; $068d: $c6 $08
-	ld   (hl), a                                     ; $068f: $77
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	ld   a, (hl)
+	add  $08
+	ld   (hl), a
 
 +
 	ld   hl, $c0fc                                   ; $0690: $21 $fc $c0
@@ -1101,25 +1144,26 @@ loadRoomStructData:
 	ld   (hl), a                                     ; $0698: $77
 	inc  bc                                          ; $0699: $03
 
-@next_069a:
-	call inc_c0fc_wrap127to0                               ; $069a: $cd $3a $07
-	jp   @bigLoop_05f3                               ; $069d: $c3 $f3 $05
+@gotoNextNPCtoLoad:
+	call incPositiveNumRoomFlagObjects
+	jp   @nextNPCtoLoad
 
-@next_06a0:
+@noNPCsToLoad:
 // fill the rest of npc 1st byte with $ff to not process them
 -
-	ld   a, c                                        ; $06a0: $79
-	cp   $0c                                         ; $06a1: $fe $0c
-	jp   nc, +                           ; $06a3: $d2 $b0 $06
+	ld   a, c
+	cp   NUM_NPCS
+	jp   nc, +
 
-	ld   hl, wNPCBytes_ID                                   ; $06a6: $21 $30 $cb
-	add  hl, bc                                      ; $06a9: $09
-	ld   (hl), $ff                                   ; $06aa: $36 $ff
-	inc  bc                                          ; $06ac: $03
-	jp   -                               ; $06ad: $c3 $a0 $06
+	ld   hl, wNPCBytes_ID
+	add  hl, bc
+	ld   (hl), $ff
+	inc  bc
+	jp   -
 
 +
-//
+
+// TODO: clears tiles based on room flags set
 	ld   de, $0000                                   ; $06b0: $11 $00 $00
 
 @bigLoop_06b3:
@@ -1180,7 +1224,7 @@ loadRoomStructData:
 	call Call_000_085c                               ; $0704: $cd $5c $08
 
 @next_0707:
-	call inc_c0fc_wrap127to0                               ; $0707: $cd $3a $07
+	call incPositiveNumRoomFlagObjects                               ; $0707: $cd $3a $07
 
 @next_070a:
 	inc  bc                                          ; $070a: $03
@@ -1225,11 +1269,11 @@ retCFifRoomFlagSet:
 	ret
 
 
-inc_c0fc_wrap127to0:
-	ld   hl, $c0fc                                   ; $073a: $21 $fc $c0
-	inc  (hl)                                        ; $073d: $34
-	res  7, (hl)                                     ; $073e: $cb $be
-	ret                                              ; $0740: $c9
+incPositiveNumRoomFlagObjects:
+	ld   hl, wNumRoomFlagObjects
+	inc  (hl)
+	res  7, (hl)
+	ret
 
 
 bitTable:
@@ -1239,56 +1283,56 @@ bitTable:
 getRoomFlagByteAndAddrOffsetInABC:
 // low 3 bits of c0fc go into returned a
 // (value to check against room flags?)
-	ld   hl, $c0fc                                   ; $0749: $21 $fc $c0
-	ld   a, (hl)                                     ; $074c: $7e
-	and  $07                                         ; $074d: $e6 $07
-	ld   c, a                                        ; $074f: $4f
-	ld   b, $00                                      ; $0750: $06 $00
-	ld   hl, bitTable                                   ; $0752: $21 $41 $07
-	add  hl, bc                                      ; $0755: $09
-	ld   a, (hl)                                     ; $0756: $7e
+	ld   hl, wRoomFlagIdxToCheck
+	ld   a, (hl)
+	and  $07
+	ld   c, a
+	ld   b, $00
+	ld   hl, bitTable
+	add  hl, bc
+	ld   a, (hl)
 
-	push af                                          ; $0757: $f5
+	push af
 // upper 5 bits of c0fc, add to (c0fd), put into c
 // byte checked against above, to see if room flag set?
-	ld   hl, $c0fc                                   ; $0758: $21 $fc $c0
-	ld   a, (hl)                                     ; $075b: $7e
-	srl  a                                           ; $075c: $cb $3f
-	srl  a                                           ; $075e: $cb $3f
-	srl  a                                           ; $0760: $cb $3f
-	ld   hl, $c0fd                                   ; $0762: $21 $fd $c0
-	add  (hl)                                        ; $0765: $86
-	ld   c, a                                        ; $0766: $4f
-	ld   b, $00                                      ; $0767: $06 $00
-	pop  af                                          ; $0769: $f1
-	ret                                              ; $076a: $c9
+	ld   hl, wRoomFlagIdxToCheck
+	ld   a, (hl)
+	srl  a
+	srl  a
+	srl  a
+	ld   hl, wCurrRoomFlagDataByte
+	add  (hl)
+	ld   c, a
+	ld   b, $00
+	pop  af
+	ret
 
 
 convertCurrTileUsingTable_02_4acd:
-	push af                                          ; $076b: $f5
+	push af
 // bank 2
-	ld   hl, $0002                                   ; $076c: $21 $02 $00
-	ld   (hl), a                                     ; $076f: $77
+	ld   hl, $0002
+	ld   (hl), a
 // de = (c028 - address of layout data) // 4
-	ld   hl, $c028                                   ; $0770: $21 $28 $c0
-	ld   a, (hl)                                     ; $0773: $7e
-	srl  a                                           ; $0774: $cb $3f
-	srl  a                                           ; $0776: $cb $3f
-	ld   e, a                                        ; $0778: $5f
-	ld   d, $00                                      ; $0779: $16 $00
+	ld   hl, wCurrDecompressedTile
+	ld   a, (hl)
+	srl  a
+	srl  a
+	ld   e, a
+	ld   d, $00
 // word in $c091 + layout data byte in de, store in
-	ld   hl, wAddrOfRooms40hTableAt_02_4acd                                   ; $077b: $21 $91 $c0
-	ldi  a, (hl)                                     ; $077e: $2a
-	ld   h, (hl)                                     ; $077f: $66
-	ld   l, a                                        ; $0780: $6f
-	add  hl, de                                      ; $0781: $19
-	ld   e, (hl)                                     ; $0782: $5e
-	ld   d, $00                                      ; $0783: $16 $00
-	pop  af                                          ; $0785: $f1
-	ld   l, a                                        ; $0786: $6f
-	ld   h, $00                                      ; $0787: $26 $00
-	ld   (hl), a                                     ; $0789: $77
-	ret                                              ; $078a: $c9
+	ld   hl, wAddrOfRooms40hTableAt_02_4acd
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   e, (hl)
+	ld   d, $00
+	pop  af
+	ld   l, a
+	ld   h, $00
+	ld   (hl), a
+	ret
 
 
 Call_000_078b:
@@ -1367,6 +1411,7 @@ Call_000_078b:
 	ld   (hl), a                                     ; $07f2: $77
 
 +
+// back to bank 0
 	ld   hl, $0000                                   ; $07f3: $21 $00 $00
 	ld   (hl), a                                     ; $07f6: $77
 	pop  bc                                          ; $07f7: $c1
@@ -1479,8 +1524,9 @@ Call_000_085c:
 	push af                                          ; $085c: $f5
 	ld   hl, $c00c                                   ; $085d: $21 $0c $c0
 	ld   (hl), c                                     ; $0860: $71
-	ld   bc, $0000                                   ; $0861: $01 $00 $00
 
+//
+	ld   bc, $0000                                   ; $0861: $01 $00 $00
 -
 	ld   hl, $c496                                   ; $0864: $21 $96 $c4
 	add  hl, bc                                      ; $0867: $09
@@ -1490,7 +1536,7 @@ Call_000_085c:
 
 	inc  bc                                          ; $086d: $03
 	ld   a, c                                        ; $086e: $79
-	cp   $0c                                         ; $086f: $fe $0c
+	cp   NUM_NPCS                                         ; $086f: $fe $0c
 	jr   c, -                              ; $0871: $38 $f1
 
 	pop  af                                          ; $0873: $f1
@@ -1501,31 +1547,37 @@ Call_000_085c:
 	ld   hl, $c496                                   ; $0878: $21 $96 $c4
 	add  hl, bc                                      ; $087b: $09
 	ld   (hl), a                                     ; $087c: $77
+
 	call Call_000_08fc                               ; $087d: $cd $fc $08
 	ld   hl, $c028                                   ; $0880: $21 $28 $c0
 	ld   a, (hl)                                     ; $0883: $7e
 	ld   hl, $c4ba                                   ; $0884: $21 $ba $c4
 	add  hl, bc                                      ; $0887: $09
 	ld   (hl), a                                     ; $0888: $77
+
 	ld   hl, $c00c                                   ; $0889: $21 $0c $c0
 	ld   a, (hl)                                     ; $088c: $7e
 	ld   hl, $c4a2                                   ; $088d: $21 $a2 $c4
 	add  hl, bc                                      ; $0890: $09
 	ld   (hl), a                                     ; $0891: $77
+
 	ld   a, e                                        ; $0892: $7b
 	ld   hl, $c4ae                                   ; $0893: $21 $ae $c4
 	add  hl, bc                                      ; $0896: $09
 	ld   (hl), a                                     ; $0897: $77
+
 	ld   hl, $c0fc                                   ; $0898: $21 $fc $c0
 	ld   a, (hl)                                     ; $089b: $7e
 	ld   hl, $c4c6                                   ; $089c: $21 $c6 $c4
 	add  hl, bc                                      ; $089f: $09
 	ld   (hl), a                                     ; $08a0: $77
+
 	inc  bc                                          ; $08a1: $03
 	ld   hl, $c57e                                   ; $08a2: $21 $7e $c5
 	ld   (hl), c                                     ; $08a5: $71
 
 @done:
+// bc is npc ID
 	ld   hl, $c00c                                   ; $08a6: $21 $0c $c0
 	ld   c, (hl)                                     ; $08a9: $4e
 	ld   b, $00                                      ; $08aa: $06 $00
@@ -1533,80 +1585,14 @@ Call_000_085c:
 
 
 data_08ad:
-	nop                                              ; $08ad: $00
-	rst  $38                                         ; $08ae: $ff
-	rst  $38                                         ; $08af: $ff
-	sbc  b                                           ; $08b0: $98
-	ret  c                                           ; $08b1: $d8
-
-	call nc, $80c4                                   ; $08b2: $d4 $c4 $80
-	rst  $38                                         ; $08b5: $ff
-	ret  nc                                          ; $08b6: $d0
-
-	ld   b, b                                        ; $08b7: $40
-	call c, $ffff                                    ; $08b8: $dc $ff $ff
-	.db  $e4                                         ; $08bb: $e4
-	ret  nz                                          ; $08bc: $c0
-
-	ld   a, h                                        ; $08bd: $7c
-	ld   a, h                                        ; $08be: $7c
-	rst  $38                                         ; $08bf: $ff
-	rst  $38                                         ; $08c0: $ff
-	.db  $fc                                         ; $08c1: $fc
-	ld   a, h                                        ; $08c2: $7c
-	ld   a, h                                        ; $08c3: $7c
-	.db  $fc                                         ; $08c4: $fc
-	ldh  (<$ff), a                                   ; $08c5: $e0 $ff
-	rst  $38                                         ; $08c7: $ff
-	rst  $38                                         ; $08c8: $ff
-	rst  $38                                         ; $08c9: $ff
-	rst  $38                                         ; $08ca: $ff
-	rst  $38                                         ; $08cb: $ff
-	rst  $38                                         ; $08cc: $ff
-	rst  $38                                         ; $08cd: $ff
-	rst  $38                                         ; $08ce: $ff
-	rst  $38                                         ; $08cf: $ff
-	rst  $38                                         ; $08d0: $ff
-	rst  $38                                         ; $08d1: $ff
-	rst  $38                                         ; $08d2: $ff
-	rst  $38                                         ; $08d3: $ff
-	ret  z                                           ; $08d4: $c8
-
-	rst  $38                                         ; $08d5: $ff
-	rst  $38                                         ; $08d6: $ff
-	rst  $38                                         ; $08d7: $ff
-	jr   z, -$01                                      ; $08d8: $28 $ff
-
-	rst  $38                                         ; $08da: $ff
-	rst  $38                                         ; $08db: $ff
-	rst  $38                                         ; $08dc: $ff
-	rst  $38                                         ; $08dd: $ff
-	rst  $38                                         ; $08de: $ff
-	rst  $38                                         ; $08df: $ff
-	rst  $38                                         ; $08e0: $ff
-	rst  $38                                         ; $08e1: $ff
-	rst  $38                                         ; $08e2: $ff
-	rst  $38                                         ; $08e3: $ff
-	rst  $38                                         ; $08e4: $ff
-	rst  $38                                         ; $08e5: $ff
-	rst  $38                                         ; $08e6: $ff
-	rst  $38                                         ; $08e7: $ff
-	rst  $38                                         ; $08e8: $ff
-	rst  $38                                         ; $08e9: $ff
-	rst  $38                                         ; $08ea: $ff
-	rst  $38                                         ; $08eb: $ff
-	rst  $38                                         ; $08ec: $ff
-	ld   bc, $0905                                   ; $08ed: $01 $05 $09
-	dec  c                                           ; $08f0: $0d
-	ld   de, $1915                                   ; $08f1: $11 $15 $19
-	dec  e                                           ; $08f4: $1d
-	ld   hl, $b9b5                                   ; $08f5: $21 $b5 $b9
-	cp   l                                           ; $08f8: $bd
-	sub  c                                           ; $08f9: $91
-	sub  l                                           ; $08fa: $95
-	sbc  c                                           ; $08fb: $99
+	.db $00 $ff $ff $98 $d8 $d4 $c4 $80 $ff $d0 $40 $dc $ff $ff $e4 $c0
+	.db $7c $7c $ff $ff $fc $7c $7c $fc $e0 $ff $ff $ff $ff $ff $ff $ff
+	.db $ff $ff $ff $ff $ff $ff $ff $c8 $ff $ff $ff $28 $ff $ff $ff $ff
+	.db $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff
+	.db $01 $05 $09 $0d $11 $15 $19 $1d $21 $b5 $b9 $bd $91 $95 $99
 
 Call_000_08fc:
+// should be npc ID
 	push bc                                          ; $08fc: $c5
 	push af                                          ; $08fd: $f5
 	ld   c, a                                        ; $08fe: $4f

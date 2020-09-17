@@ -8,6 +8,7 @@
 0:4ee2 - transitioning down - c=6
 0:4ef9 - transitioning to left screen - c=9
 0:4f0f - transitioning right
+TODO: score constants
 
 
 # ------- room structs
@@ -28,7 +29,10 @@ group00room0estruct:
 	.db $55 $8c $09 $00 $02 $10 $80 $ff $04 $83 $66 $ff
 after the 1st $ff, $04 $83 $66 $ff
 $04 - npc ID
-$83 - the 3 could be direction?
+$83 - 7th bit unset means it is a 4 byte NPC, with 3rd and 4th being more specific coords
+    - 6th bit set means its y should be lowered by 8
+	- bit 5/4 (control bits?)
+	- lower 4 bits is direction
 $66 - upper nybble is x, lower nybble is y
 
 groups of 7 bytes indicate an exit

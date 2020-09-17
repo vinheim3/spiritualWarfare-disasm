@@ -18,20 +18,65 @@ wc000:
 	wCurrRoomStructPointer: ; $c006
 		dw
 .nextu
+	wCurrRoomStructPointerAfterCompressedLayout: ; $c006
+		dw
+.nextu
+	wCurrRoomStructPointerNPCData: ; $c006
+		dw
+.nextu
 	wScriptCmdIdxOffset: ; $c006
+		db
+.nextu
+	wCurrFruitWramVarAmount: ; $c006
+		db
+
+	wNewFruitsAmount: ; $c007
 		db
 .endu
 
 .union
-	wTotalRoomsFromGroup0beforeCurrRoomIdx: ; $c008
+	wRoomIdxFromGroup0: ; $c008
 		dw
 
 	wActualRoomGroup: ; $c00a
 		db
+.nextu
+	wCompressedLayoutCurrByteAddr: ; $c008
+		dw
+
+	wCurrCompressedByteProcessed: ; $c00a
+		db
+
+	wByteForOther2x2block: ; $c00b
+		db
+
+	wc00c:
+		dsb $e-$c
+
+	wTimesToCopyDecompressedTile: ; $c00e
+		db
+.nextu
+	wc008_2:
+		dsb $b-8
+
+	wCountByteForCurrCompressedByte: ; $c00b
+		db
+.nextu
+	wc008_3:
+		dsb $a-8
+
+	wDoneProcessingPushableObjects: ; $c00a
+		db
+.nextu
+	wc008_4:
+		dsb $b-8
+
+	wNumDataBytesForCurrRoomsFlags: ; $c00b
+		db
 .endu
 
-wc00b:
-	dsb $11-$b
+wc00f:
+	dsb $11-$f
 
 wNPCTextBank: ; $c011
 	db
@@ -63,8 +108,20 @@ wNPCScriptParam2: ; $c021
 wNPCScriptParam3: ; $c022
 	db
 
-wc023:
-	dsb $b-3
+// bit 7 set means...
+wBaseDamageTaken: ; $c023
+	db
+
+wc024:
+	dsb 8-4
+
+.union
+	wCurrDecompressedTile: ; $c028
+		db
+.endu
+
+wc029:
+	dsb $b-9
 
 wPlayerScore: ; $c02b
 	dsb 6
@@ -230,6 +287,15 @@ wc09c:
 	// for common byte copy function
 	wCommonByteCopyFuncBank: ; $c0a1
 		db
+.nextu
+	wModifiedDamageTaken: ; $c0a0
+		db
+
+	wDamageModifierParam: ; $c0a1
+		db
+.nextu
+	wNumBytesForRoomFlagEntity: ; $c0a0
+		db
 .endu
 
 wc0a3:
@@ -263,7 +329,10 @@ wScriptTelePlayerY: ; $c0bf
 	db
 
 wc0c0:
-	dsb $da-$c0
+	dsb $d9-$c0
+
+wCounterSo2ArmorIsAThirdDamageTaken: ; $c0d9
+	db
 
 wCurrGroupMapVRamOffset: ; $c0da
 	dw
@@ -275,7 +344,25 @@ wScrollingTextCurrRowVramStart: ; $c0f9
 	dw
 
 wc0fb:
-	dsb $100-$fb
+	db
+
+// used for other purposes?
+.union
+	wNumRoomFlagObjects: ; $c0fc
+		db
+.nextu
+	wRoomFlagIdxToCheck: ; $c0fc
+		db
+.endu
+
+wCurrRoomFlagDataByte: ; $c0fd
+	db
+
+wNumberOfRoomsInRoomFlags: ; $c0fe
+	db
+
+wLastRoomFlagsIdxPlus1: ; $c0ff
+	db
 
 // TODO: unknown size, could be global flags
 wRoomFlags: ; $c100
@@ -310,18 +397,18 @@ wc5eb:
 	dsb $f0-$eb
 
 // these 4 "words" seem to store palettes, eg for dark rooms
-wRoomStructWord_whenFirstByteBit7set_1: ; $c5f0
+wBGPwhenLampOff: ; $c5f0
 	dw
 
-wRoomStructWord_whenFirstByteBit6set_1: ; $c5f2
+wOBP0whenLampOff: ; $c5f2
 	dw
 
 // if 2nd byte's bit 5 is set, this is overridden with the word after it
-wRoomStructWord_whenFirstByteBit7set_2: ; $c5f4
+wBGPwhenLampOn: ; $c5f4
 	dw
 
 // if 2nd byte's bit 5 is set, this is overridden with the word after above
-wRoomStructWord_whenFirstByteBit6set_2: ; $c5f6
+wOBP0whenLampOn: ; $c5f6
 	dw
 
 wc5f8:
@@ -422,15 +509,16 @@ wCurrGroupStructByte1bh: ; $c728
 wc729:
 	dsb $b-9
 
-// bit 7 set - load stuff into c5f0/1/4/5
-// bit 6 set - load stuff into c5f2/3/6/7
-// bit 5 set - no entrances?
-// bit 4 set - TODO - checked twice
-// bit 3 set - room flag related? - checked twice (2nd time, if 0, load NPCs?)
+// bit 7 set - load BGP vals
+// bit 6 set - load OBP0 vals
+// bit 5 set - no entrances
+// bit 4 set - no pushable objects
+// bit 3 set - no npcs
 // bit 2 loaded into c079, if set, next 2 bytes is a word, get data from it into c079
 wFirstRoomStructByte: ; $c72b
 	db
 
+// bit 5 set - set palettes when lamp is on
 wSecondRoomStructByte: ; $c72c
 	db
 
@@ -470,10 +558,10 @@ wcb12:
 wNPCBytes_ID: ; $cb30
 	dsb NUM_NPCS
 
-wNPC3rdBytesOrXCoords: ; $cb3c
+wNPC_xCoord: ; $cb3c
 	dsb NUM_NPCS
 
-wNPC4thBytesOrYCoords: ; $cb48
+wNPC_yCoord: ; $cb48
 	dsb NUM_NPCS
 
 wNPCBytes_cb54: ; $cb54

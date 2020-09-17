@@ -34,8 +34,20 @@
 	.db $09
 .endm
 
+.macro npc_offsetNPCCoordsBy1_turnLeft
+	.db $0b
+.endm
+
 .macro npc_res4_cb60
 	.db $0c
+.endm
+
+.macro npc_turnLeft
+	.db $0d
+.endm
+
+.macro npc_turnRight
+	.db $0e
 .endm
 
 .macro npc_turnBackwards
@@ -48,6 +60,16 @@
 
 .macro npc_set3_cb60
 	.db $14
+.endm
+
+// 16
+
+.macro npc_set2_cb60
+	.db $1d
+.endm
+
+.macro npc_c02a_equFF
+	.db $1f
 .endm
 
 .macro npc_ret
@@ -88,6 +110,10 @@
 
 .macro npc_increaseScore
 	.db $45 \1
+.endm
+
+.macro npc_spawnNPCinFrontOfSelf
+	.db $46 \1
 .endm
 
 .macro npc_cb60_low2bitsEquParamMinus1
@@ -193,6 +219,8 @@
 	.dw \1
 .endm
 
+// 8d
+
 .macro npc_addParamsToXthenYCoords
 	.db $90 \1 \2
 .endm
@@ -206,7 +234,10 @@
 	.dw \1
 .endm
 
-// c0
+.macro npc_spawnNPCAtOffset
+	.db $c0
+	.db \1 \2 \3
+.endm
 
 .macro npc_spawnNPC
 	.db $c1

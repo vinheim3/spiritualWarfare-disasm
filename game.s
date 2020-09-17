@@ -97,6 +97,7 @@
 	.incbin "code/common.bin"
 	.include "data/randomNumbers.s"
 	.include "data/bank_006.s"
+	.include "scripts/bank6.s"
 
 	m_GfxDataCompressed spr_06_1bfd
 	m_GfxDataCompressed spr_06_2a45
