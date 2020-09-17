@@ -255,119 +255,196 @@ group06room00struct:
 	.db $a2
 	.db $03
 	.dw group06room00layout
-	.db $01 $11 $00 $05 $00 $e0 $08 $ff $bf $83 $c8 $bf $83 $89 $c2 $86 $26 $ff
+	.db $01 $11 $00 $05 $00 $e0 $08
+	.db $ff
+	.db $bf $83 $c8
+	.db $bf $83 $89
+	.db $c2 $86 $26
+	.db $ff
 
 group06room01struct:
 	.db $14
 	.db $a2
 	.db $03
 	.dw group06room01layout
-	.db $46 $95 $11 $00 $00 $10 $88 $ff $c2 $80 $58 $c2 $80 $97 $c2 $80 $27 $ff
+	.db $46 $95 $11 $00 $00 $10 $88
+	.db $ff
+	.db $c2 $80 $58
+	.db $c2 $80 $97
+	.db $c2 $80 $27
+	.db $ff
 
 group06room02struct:
 	.db $14
 	.db $a2
 	.db $03
 	.dw group06room02layout
-	.db $57 $69 $11 $02 $01 $d0 $68 $41 $11 $fe $10 $00 $70 $08 $71 $11 $fe $f0 $00 $40 $08 $ff $bf $86 $98 $ff
+	.db $57 $69 $11 $02 $01 $d0 $68
+	.db $41 $11 $fe $10 $00 $70 $08
+	.db $71 $11 $fe $f0 $00 $40 $08
+	.db $ff
+	.db $bf $86 $98
+	.db $ff
 
 group06room03struct:
 	.db $14
 	.db $a2
 	.db $03
 	.dw group06room03layout
-	.db $77 $81 $0f $03 $02 $20 $08 $ff $bf $89 $46 $bf $89 $59 $bf $80 $a9 $ff
+	.db $77 $81 $0f $03 $02 $20 $08
+	.db $ff
+	.db $bf $89 $46
+	.db $bf $89 $59
+	.db $bf $80 $a9
+	.db $ff
 
 group06room04struct:
 	.db $14
 	.db $a2
 	.db $03
 	.dw group06room04layout
-	.db $76 $69 $1c $01 $06 $78 $88 $f1 $11 $02 $00 $00 $10 $08 $ff $c2 $86 $d6 $c2 $86 $89 $c2 $86 $37 $ff
+	.db $76 $69 $1c $01 $06 $78 $88
+	.db $f1 $11 $02 $00 $00 $10 $08
+	.db $ff
+	.db $c2 $86 $d6
+	.db $c2 $86 $89
+	.db $c2 $86 $37
+	.db $ff
 
 group06room05struct:
 	.db $34
 	.db $a2
 	.db $03
 	.dw group06room05layout
-	.db $c2 $86 $26 $c2 $86 $a6 $c5 $86 $54 $ff
+	.db $c2 $86 $26
+	.db $c2 $86 $a6
+	.db $c5 $86 $54
+	.db $ff
 
 group06room06struct:
 	.db $34
 	.db $a2
 	.db $03
 	.dw group06room06layout
-	.db $bf $83 $49 $c5 $83 $53 $bf $83 $a7 $ff
+	.db $bf $83 $49
+	.db $c5 $83 $53
+	.db $bf $83 $a7
+	.db $ff
 
 group06room07struct:
 	.db $14
 	.db $69
 	.db $03
 	.dw group06room07layout
-	.db $d6 $69 $11 $01 $01 $30 $68 $ff $c2 $86 $39 $c5 $86 $99 $c2 $86 $c8 $ff
+	.db $d6 $69 $11 $01 $01 $30 $68
+	.db $ff
+	.db $c2 $86 $39
+	.db $c5 $86 $99
+	.db $c2 $86 $c8
+	.db $ff
 
 group06room08struct:
 	.db $34
 	.db $a2
 	.db $03
 	.dw group06room08layout
-	.db $bf $83 $37 $bf $89 $b4 $bf $89 $b3 $ff
+	.db $bf $83 $37
+	.db $bf $89 $b4
+	.db $bf $89 $b3
+	.db $ff
 
 group06room09struct:
 	.db $14
 	.db $a2
 	.db $03
 	.dw group06room09layout
-	.db $f1 $00 $02 $00 $01 $10 $08 $f4 $00 $02 $00 $01 $10 $38 $f5 $00 $02 $00 $01 $10 $48 $ff $c5 $86 $96 $c5 $86 $66 $ff
+	.db $f1 $00 $02 $00 $01 $10 $08
+	.db $f4 $00 $02 $00 $01 $10 $38
+	.db $f5 $00 $02 $00 $01 $10 $48
+	.db $ff
+	.db $c5 $86 $96
+	.db $c5 $86 $66
+	.db $ff
 
 group06room0astruct:
 	.db $14
 	.db $a2
 	.db $03
 	.dw group06room0alayout
-	.db $47 $95 $11 $02 $00 $e0 $20 $ff $c2 $83 $69 $c5 $86 $26 $c2 $86 $b4 $ff
+	.db $47 $95 $11 $02 $00 $e0 $20
+	.db $ff
+	.db $c2 $83 $69
+	.db $c5 $86 $26
+	.db $c2 $86 $b4
+	.db $ff
 
 group06room0bstruct:
 	.db $14
 	.db $f1
 	.db $03
 	.dw group06room0blayout
-	.db $38 $95 $11 $03 $01 $60 $70 $88 $95 $11 $03 $01 $a0 $70 $d8 $95 $11 $03 $01 $e0 $70 $ff $bf $83 $63 $bf $89 $a5 $bf $89 $69 $e4 $86 $d2 $e4 $86 $32 $ff
+	.db $38 $95 $11 $03 $01 $60 $70
+	.db $88 $95 $11 $03 $01 $a0 $70
+	.db $d8 $95 $11 $03 $01 $e0 $70
+	.db $ff
+	.db $bf $83 $63
+	.db $bf $89 $a5
+	.db $bf $89 $69
+	.db $e4 $86 $d2
+	.db $e4 $86 $32
+	.db $ff
 
 group06room0cstruct:
 	.db $34
 	.db $a2
 	.db $03
 	.dw group06room0clayout
-	.db $c2 $83 $37 $c5 $89 $37 $c2 $86 $c7 $ff
+	.db $c2 $83 $37
+	.db $c5 $89 $37
+	.db $c2 $86 $c7
+	.db $ff
 
 group06room0dstruct:
 	.db $34
 	.db $a2
 	.db $03
 	.dw group06room0dlayout
-	.db $bf $89 $63 $bf $89 $a5 $bf $89 $48 $ff
+	.db $bf $89 $63
+	.db $bf $89 $a5
+	.db $bf $89 $48
+	.db $ff
 
 group06room0estruct:
 	.db $34
 	.db $a2
 	.db $03
 	.dw group06room0elayout
-	.db $bf $83 $79 $c5 $86 $35 $c5 $86 $c5 $ff
+	.db $bf $83 $79
+	.db $c5 $86 $35
+	.db $c5 $86 $c5
+	.db $ff
 
 group11room05struct:
 	.db $14
 	.db $f0
 	.db $03
 	.dw group11room05layout
-	.db $36 $69 $06 $02 $01 $d0 $78 $ff $e4 $86 $d3 $bf $83 $b7 $bf $86 $89 $ff
+	.db $36 $69 $06 $02 $01 $d0 $78
+	.db $ff
+	.db $e4 $86 $d3
+	.db $bf $83 $b7
+	.db $bf $86 $89
+	.db $ff
 
 group11room06struct:
 	.db $14
 	.db $f0
 	.db $03
 	.dw group11room06layout
-	.db $d6 $69 $06 $02 $00 $50 $80 $ff $bf $83 $67 $ff
+	.db $d6 $69 $06 $02 $00 $50 $80
+	.db $ff
+	.db $bf $83 $67
+	.db $ff
 
 group11room02struct:
 	.db $98
@@ -375,7 +452,13 @@ group11room02struct:
 	.db $6c
 	.db $1b $00 $1b $00
 	.dw group11room02layout
-	.db $f1 $10 $06 $00 $02 $40 $80 $09 $10 $fe $00 $f4 $50 $40 $54 $10 $fe $0a $00 $00 $90 $5a $10 $fe $f6 $00 $f0 $50 $f5 $10 $fe $00 $f6 $50 $a0 $03 $10 $ff $01 $00 $e0 $10 $ff
+	.db $f1 $10 $06 $00 $02 $40 $80
+	.db $09 $10 $fe $00 $f4 $50 $40
+	.db $54 $10 $fe $0a $00 $00 $90
+	.db $5a $10 $fe $f6 $00 $f0 $50
+	.db $f5 $10 $fe $00 $f6 $50 $a0
+	.db $03 $10 $ff $01 $00 $e0 $10
+	.db $ff
 
 group11room03struct:
 group23room00struct:
@@ -384,40 +467,72 @@ group23room00struct:
 	.db $1b $00
 	.db $cb
 	.dw shared_04_486alayout
-	.db $f9 $85 $0d $01 $00 $70 $78 $c9 $85 $1c $00 $05 $70 $90 $ff $e6 $86 $a7 $ff
+	.db $f9 $85 $0d $01 $00 $70 $78
+	.db $c9 $85 $1c $00 $05 $70 $90
+	.db $ff
+	.db $e6 $86 $a7
+	.db $ff
 
 group11room04struct:
 	.db $14
 	.db $9c
 	.db $db
 	.dw group11room04layout
-	.db $12 $85 $1c $00 $06 $78 $90 $ff $6d $89 $a9 $ff
+	.db $12 $85 $1c $00 $06 $78 $90
+	.db $ff
+	.db $6d $89 $a9
+	.db $ff
 
 group11room00struct:
 	.db $1c
 	.db $9c
 	.db $5b
 	.dw group11room00layout
-	.db $09 $89 $06 $01 $00 $40 $70 $ff
+	.db $09 $89 $06 $01 $00 $40 $70
+	.db $ff
 
 group11room07struct:
 	.db $10
 	.db $4c
 	.dw group11room07layout
-	.db $69 $8d $06 $01 $02 $30 $90 $a9 $8d $06 $01 $02 $80 $90 $e9 $8d $06 $01 $02 $d0 $90 $e5 $8d $ff $01 $00 $b0 $90 $29 $8d $ff $01 $00 $60 $70 $12 $8d $15 $00 $00 $20 $40 $ff $da $89 $b4 $d9 $80 $92 $ff
+	.db $69 $8d $06 $01 $02 $30 $90
+	.db $a9 $8d $06 $01 $02 $80 $90
+	.db $e9 $8d $06 $01 $02 $d0 $90
+	.db $e5 $8d $ff $01 $00 $b0 $90
+	.db $29 $8d $ff $01 $00 $60 $70
+	.db $12 $8d $15 $00 $00 $20 $40
+	.db $ff
+	.db $da $89 $b4
+	.db $d9 $80 $92
+	.db $ff
 
 group11room01struct:
 	.db $18
 	.db $4c
 	.dw group11room01layout
-	.db $f7 $8d $fe $00 $f8 $80 $96 $8a $8d $fe $f8 $00 $e8 $70 $68 $8d $ff $03 $01 $20 $80 $f1 $8d $ff $02 $00 $10 $30 $a9 $8d $ff $03 $01 $e0 $40 $ff
+	.db $f7 $8d $fe $00 $f8 $80 $96
+	.db $8a $8d $fe $f8 $00 $e8 $70
+	.db $68 $8d $ff $03 $01 $20 $80
+	.db $f1 $8d $ff $02 $00 $10 $30
+	.db $a9 $8d $ff $03 $01 $e0 $40
+	.db $ff
 
 group22room00struct:
 	.db $14
 	.db $9f
 	.db $5b
 	.dw group22room00layout
-	.db $09 $84 $07 $02 $05 $d0 $49 $02 $84 $1e $01 $00 $78 $90 $ff $ea $80 $12 $3e $80 $13 $3e $80 $14 $3e $80 $15 $3e $80 $16 $3e $80 $17 $3e $80 $18 $ff
+	.db $09 $84 $07 $02 $05 $d0 $49
+	.db $02 $84 $1e $01 $00 $78 $90
+	.db $ff
+	.db $ea $80 $12
+	.db $3e $80 $13
+	.db $3e $80 $14
+	.db $3e $80 $15
+	.db $3e $80 $16
+	.db $3e $80 $17
+	.db $3e $80 $18
+	.db $ff
 
 group15room00struct:
 group16room00struct:
@@ -435,98 +550,135 @@ group18room00struct:
 	.db $18
 	.db $0d
 	.dw shared_04_4927layout
-	.db $23 $00 $11 $03 $01 $10 $10 $ff
+	.db $23 $00 $11 $03 $01 $10 $10
+	.db $ff
 
 group15room01struct:
 	.db $10
 	.db $0d
 	.dw group15room01layout
-	.db $75 $00 $16 $01 $02 $80 $90 $13 $86 $fe $10 $00 $d0 $30 $d3 $86 $fe $f0 $00 $10 $30 $ff $d4 $89 $45 $ff
+	.db $75 $00 $16 $01 $02 $80 $90
+	.db $13 $86 $fe $10 $00 $d0 $30
+	.db $d3 $86 $fe $f0 $00 $10 $30
+	.db $ff
+	.db $d4 $89 $45
+	.db $ff
 
 group15room02struct:
 	.db $30
 	.db $0d
 	.dw group15room02layout
-	.db $c9 $89 $45 $d4 $89 $a7 $ff
+	.db $c9 $89 $45
+	.db $d4 $89 $a7
+	.db $ff
 
 group15room03struct:
 	.db $30
 	.db $0d
 	.dw group15room03layout
-	.db $c6 $89 $43 $d4 $89 $48 $ff
+	.db $c6 $89 $43
+	.db $d4 $89 $48
+	.db $ff
 
 group15room04struct:
 	.db $18
 	.db $0d
 	.dw group15room04layout
-	.db $94 $8d $16 $02 $00 $70 $30 $ff
+	.db $94 $8d $16 $02 $00 $70 $30
+	.db $ff
 
 group15room05struct:
 	.db $30
 	.db $0d
 	.dw group15room05layout
-	.db $c6 $89 $43 $d4 $89 $b5 $ff
+	.db $c6 $89 $43
+	.db $d4 $89 $b5
+	.db $ff
 
 group15room06struct:
 	.db $18
 	.db $0d
 	.dw group15room06layout
-	.db $b9 $8d $18 $01 $00 $10 $60 $ff
+	.db $b9 $8d $18 $01 $00 $10 $60
+	.db $ff
 
 group15room07struct:
 	.db $30
 	.db $0d
 	.dw group15room07layout
-	.db $c9 $89 $45 $ff
+	.db $c9 $89 $45
+	.db $ff
 
 group15room08struct:
 	.db $30
 	.db $0d
 	.dw group15room08layout
-	.db $c6 $89 $43 $d4 $89 $45 $ff
+	.db $c6 $89 $43
+	.db $d4 $89 $45
+	.db $ff
 
 group15room09struct:
 	.db $10
 	.db $0d
 	.dw group15room09layout
-	.db $91 $8d $16 $03 $04 $70 $90 $ff $c7 $89 $b5 $d4 $89 $45 $ff
+	.db $91 $8d $16 $03 $04 $70 $90
+	.db $ff
+	.db $c7 $89 $b5
+	.db $d4 $89 $45
+	.db $ff
 
 group15room0astruct:
 	.db $30
 	.db $0d
 	.dw group15room0alayout
-	.db $c7 $89 $b5 $d4 $89 $44 $ff
+	.db $c7 $89 $b5
+	.db $d4 $89 $44
+	.db $ff
 
 group15room0bstruct:
 	.db $10
 	.db $0d
 	.dw group15room0blayout
-	.db $a5 $8d $16 $00 $05 $50 $30 $ff $c7 $89 $b5 $d4 $89 $48 $ff
+	.db $a5 $8d $16 $00 $05 $50 $30
+	.db $ff
+	.db $c7 $89 $b5
+	.db $d4 $89 $48
+	.db $ff
 
 group16room14struct:
 	.db $10
 	.db $0d
 	.dw group16room14layout
-	.db $52 $00 $15 $02 $03 $90 $50 $ff $d6 $89 $53 $d6 $89 $54 $ff
+	.db $52 $00 $15 $02 $03 $90 $50
+	.db $ff
+	.db $d6 $89 $53
+	.db $d6 $89 $54
+	.db $ff
 
 group16room15struct:
 	.db $30
 	.db $0d
 	.dw group16room15layout
-	.db $d8 $89 $44 $ff
+	.db $d8 $89 $44
+	.db $ff
 
 group16room16struct:
 	.db $10
 	.db $0d
 	.dw group16room16layout
-	.db $63 $8d $17 $00 $00 $20 $20 $ff $d4 $89 $44 $ff
+	.db $63 $8d $17 $00 $00 $20 $20
+	.db $ff
+	.db $d4 $89 $44
+	.db $ff
 
 group16room17struct:
 	.db $34
 	.db $86
 	.db $0d
 	.dw group16room17layout
-	.db $d4 $89 $b8 $dc $83 $a3 $ff
+	.db $d4 $89 $b8
+	.db $dc $83 $a3
+	.db $ff
 
 group16room12struct:
 	.db $38
@@ -537,164 +689,259 @@ group16room13struct:
 	.db $18
 	.db $0d
 	.dw group16room13layout
-	.db $78 $00 $15 $00 $03 $80 $10 $ff
+	.db $78 $00 $15 $00 $03 $80 $10
+	.db $ff
 
 group16room0estruct:
 	.db $30
 	.db $0d
 	.dw group16room0elayout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group16room0fstruct:
 	.db $30
 	.db $0d
 	.dw group16room0flayout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group16room0astruct:
 	.db $30
 	.db $0d
 	.dw group16room0alayout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group16room0bstruct:
 	.db $30
 	.db $0d
 	.dw group16room0blayout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group16room06struct:
 	.db $30
 	.db $0d
 	.dw group16room06layout
-	.db $d6 $89 $70 $d6 $89 $71 $ff
+	.db $d6 $89 $70
+	.db $d6 $89 $71
+	.db $ff
 
 group16room07struct:
 	.db $30
 	.db $0d
 	.dw group16room07layout
-	.db $db $89 $84 $d1 $89 $86 $ff
+	.db $db $89 $84
+	.db $d1 $89 $86
+	.db $ff
 
 group16room02struct:
 	.db $14
 	.db $86
 	.db $0d
 	.dw group16room02layout
-	.db $72 $00 $15 $01 $01 $90 $30 $ff $d4 $89 $44 $ff
+	.db $72 $00 $15 $01 $01 $90 $30
+	.db $ff
+	.db $d4 $89 $44
+	.db $ff
 
 group16room03struct:
 	.db $30
 	.db $0d
 	.dw group16room03layout
-	.db $d4 $89 $44 $ff
+	.db $d4 $89 $44
+	.db $ff
 
 group16room09struct:
 	.db $90
 	.db $1b $00
 	.db $0d
 	.dw group16room09layout
-	.db $22 $ac $25 $00 $00 $70 $90 $8a $86 $15 $01 $00 $70 $60 $e3 $8d $17 $01 $00 $70 $60 $ff $db $89 $34 $db $89 $55 $db $83 $b4 $db $89 $66 $db $89 $97 $db $83 $48 $f5 $06 $10 $28 $ff
+	.db $22 $ac $25 $00 $00 $70 $90
+	.db $8a $86 $15 $01 $00 $70 $60
+	.db $e3 $8d $17 $01 $00 $70 $60
+	.db $ff
+	.db $db $89 $34
+	.db $db $89 $55
+	.db $db $83 $b4
+	.db $db $89 $66
+	.db $db $89 $97
+	.db $db $83 $48
+	.db $f5 $06 $10 $28
+	.db $ff
 
 group17room00struct:
 	.db $10
 	.db $0d
 	.dw group17room00layout
-	.db $21 $00 $16 $02 $05 $50 $30 $00 $7a $fe $10 $00 $40 $00 $40 $3a $fe $00 $10 $00 $00 $35 $3a $fe $10 $00 $70 $50 $75 $3a $fe $f0 $00 $30 $50 $ff $cf $89 $e6 $cf $89 $40 $cf $83 $06 $ff
+	.db $21 $00 $16 $02 $05 $50 $30
+	.db $00 $7a $fe $10 $00 $40 $00
+	.db $40 $3a $fe $00 $10 $00 $00
+	.db $35 $3a $fe $10 $00 $70 $50
+	.db $75 $3a $fe $f0 $00 $30 $50
+	.db $ff
+	.db $cf $89 $e6
+	.db $cf $89 $40
+	.db $cf $83 $06
+	.db $ff
 
 group17room01struct:
 	.db $10
 	.db $0d
 	.dw group17room01layout
-	.db $75 $00 $16 $01 $02 $e0 $40 $20 $3a $fe $10 $00 $c0 $00 $c0 $3a $fe $f0 $00 $20 $00 $ff $ff
+	.db $75 $00 $16 $01 $02 $e0 $40
+	.db $20 $3a $fe $10 $00 $c0 $00
+	.db $c0 $3a $fe $f0 $00 $20 $00
+	.db $ff
+	.db $ff
 
 group17room02struct:
 	.db $10
 	.db $0d
 	.dw group17room02layout
-	.db $57 $3a $fe $10 $00 $90 $70 $97 $3a $fe $f0 $00 $50 $70 $ff $cf $80 $c5 $cf $86 $75 $cf $83 $36 $ff
+	.db $57 $3a $fe $10 $00 $90 $70
+	.db $97 $3a $fe $f0 $00 $50 $70
+	.db $ff
+	.db $cf $80 $c5
+	.db $cf $86 $75
+	.db $cf $83 $36
+	.db $ff
 
 group17room04struct:
 	.db $10
 	.db $0d
 	.dw group17room04layout
-	.db $c1 $72 $fe $00 $10 $c0 $50 $c5 $72 $fe $00 $f0 $c0 $10 $ff $cf $86 $06 $cf $83 $25 $cf $89 $83 $cf $86 $c7 $ff
+	.db $c1 $72 $fe $00 $10 $c0 $50
+	.db $c5 $72 $fe $00 $f0 $c0 $10
+	.db $ff
+	.db $cf $86 $06
+	.db $cf $83 $25
+	.db $cf $89 $83
+	.db $cf $86 $c7
+	.db $ff
 
 group17room05struct:
 	.db $10
 	.db $0d
 	.dw group17room05layout
-	.db $91 $72 $fe $00 $10 $90 $50 $95 $72 $fe $00 $f0 $90 $10 $78 $3a $fe $10 $00 $b0 $80 $b8 $3a $fe $f0 $00 $70 $80 $ff $cf $80 $b3 $cf $83 $34 $cf $89 $48 $ff
+	.db $91 $72 $fe $00 $10 $90 $50
+	.db $95 $72 $fe $00 $f0 $90 $10
+	.db $78 $3a $fe $10 $00 $b0 $80
+	.db $b8 $3a $fe $f0 $00 $70 $80
+	.db $ff
+	.db $cf $80 $b3
+	.db $cf $83 $34
+	.db $cf $89 $48
+	.db $ff
 
 group17room06struct:
 	.db $10
 	.db $0d
 	.dw group17room06layout
-	.db $38 $3a $fe $10 $00 $70 $80 $78 $3a $fe $f0 $00 $30 $80 $ff $cf $86 $c7 $cf $80 $a3 $cf $86 $e5 $cf $89 $32 $ff
+	.db $38 $3a $fe $10 $00 $70 $80
+	.db $78 $3a $fe $f0 $00 $30 $80
+	.db $ff
+	.db $cf $86 $c7
+	.db $cf $80 $a3
+	.db $cf $86 $e5
+	.db $cf $89 $32
+	.db $ff
 
 group17room08struct:
 	.db $10
 	.db $0d
 	.dw group17room08layout
-	.db $74 $72 $fe $00 $10 $70 $80 $78 $72 $fe $00 $f0 $70 $40 $ff $cf $89 $a9 $cf $80 $96 $cf $86 $04 $ff
+	.db $74 $72 $fe $00 $10 $70 $80
+	.db $78 $72 $fe $00 $f0 $70 $40
+	.db $ff
+	.db $cf $89 $a9
+	.db $cf $80 $96
+	.db $cf $86 $04
+	.db $ff
 
 group17room09struct:
 	.db $30
 	.db $0d
 	.dw group17room09layout
-	.db $cf $80 $85 $cf $80 $b9 $cf $89 $49 $ff
+	.db $cf $80 $85
+	.db $cf $80 $b9
+	.db $cf $89 $49
+	.db $ff
 
 group17room0astruct:
 	.db $10
 	.db $0d
 	.dw group17room0alayout
-	.db $56 $3a $fe $10 $00 $90 $60 $96 $3a $fe $f0 $00 $50 $60 $ff $cf $89 $36 $cf $80 $d9 $cf $83 $74 $ff
+	.db $56 $3a $fe $10 $00 $90 $60
+	.db $96 $3a $fe $f0 $00 $50 $60
+	.db $ff
+	.db $cf $89 $36
+	.db $cf $80 $d9
+	.db $cf $83 $74
+	.db $ff
 
 group17room03struct:
 	.db $10
 	.db $0d
 	.dw group17room03layout
-	.db $94 $00 $19 $00 $00 $50 $60 $ff $ff
+	.db $94 $00 $19 $00 $00 $50 $60
+	.db $ff
+	.db $ff
 
 group18room01struct:
 	.db $10
 	.db $0d
 	.dw group18room01layout
-	.db $15 $00 $15 $00 $02 $a0 $90 $ff $db $89 $74 $db $89 $a7 $ff
+	.db $15 $00 $15 $00 $02 $a0 $90
+	.db $ff
+	.db $db $89 $74
+	.db $db $89 $a7
+	.db $ff
 
 group18room02struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group18room02layout
-	.db $db $89 $a4 $db $83 $58 $ff
+	.db $db $89 $a4
+	.db $db $83 $58
+	.db $ff
 
 group18room05struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group18room05layout
-	.db $db $89 $b4 $db $86 $36 $ff
+	.db $db $89 $b4
+	.db $db $86 $36
+	.db $ff
 
 group18room08struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group18room08layout
-	.db $db $89 $b6 $db $89 $64 $ff
+	.db $db $89 $b6
+	.db $db $89 $64
+	.db $ff
 
 group18room07struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group18room07layout
-	.db $db $89 $a5 $db $89 $53 $ff
+	.db $db $89 $a5
+	.db $db $89 $53
+	.db $ff
 
 group18room06struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group18room06layout
-	.db $db $89 $74 $ff
+	.db $db $89 $74
+	.db $ff
 
 group18room03struct:
 	.db $34
@@ -702,474 +949,728 @@ group18room03struct:
 	.db $2d
 	.db $1b $00 $1b $00
 	.dw group18room03layout
-	.db $db $89 $75 $d1 $89 $86 $e2 $83 $69 $ff
+	.db $db $89 $75
+	.db $d1 $89 $86
+	.db $e2 $83 $69
+	.db $ff
 
 group18room04struct:
 	.db $10
 	.db $0d
 	.dw group18room04layout
-	.db $95 $8d $19 $03 $04 $70 $80 $ff $db $89 $74 $d1 $89 $a8 $ff
+	.db $95 $8d $19 $03 $04 $70 $80
+	.db $ff
+	.db $db $89 $74
+	.db $d1 $89 $a8
+	.db $ff
 
 group25room00struct:
 	.db $10
 	.db $43
 	.dw group25room00layout
-	.db $7a $e6 $16 $01 $02 $20 $28 $69 $95 $1c $01 $07 $78 $90 $ff $f0 $86 $82 $f1 $80 $44 $ef $80 $3b $ff
+	.db $7a $e6 $16 $01 $02 $20 $28
+	.db $69 $95 $1c $01 $07 $78 $90
+	.db $ff
+	.db $f0 $86 $82
+	.db $f1 $80 $44
+	.db $ef $80 $3b
+	.db $ff
 
 group1aroom00struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom00layout
-	.db $d4 $89 $44 $d5 $89 $51 $d6 $89 $b4 $d6 $89 $57 $ff
+	.db $d4 $89 $44
+	.db $d5 $89 $51
+	.db $d6 $89 $b4
+	.db $d6 $89 $57
+	.db $ff
 
 group1aroom01struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom01layout
-	.db $d1 $89 $58 $d1 $89 $c6 $d1 $89 $92 $ff
+	.db $d1 $89 $58
+	.db $d1 $89 $c6
+	.db $d1 $89 $92
+	.db $ff
 
 group1aroom02struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom02layout
-	.db $d1 $89 $58 $d1 $89 $c6 $d1 $89 $92 $ff
+	.db $d1 $89 $58
+	.db $d1 $89 $c6
+	.db $d1 $89 $92
+	.db $ff
 
 group1aroom03struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom03layout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group1aroom04struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom04layout
-	.db $d1 $89 $58 $d1 $89 $c6 $d1 $89 $92 $ff
+	.db $d1 $89 $58
+	.db $d1 $89 $c6
+	.db $d1 $89 $92
+	.db $ff
 
 group1aroom05struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom05layout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group1aroom06struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom06layout
-	.db $d4 $89 $44 $ff
+	.db $d4 $89 $44
+	.db $ff
 
 group1aroom07struct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group1aroom07layout
-	.db $e8 $00 $fe $10 $00 $20 $40 $24 $8d $fe $00 $10 $e0 $80 $ff $d5 $80 $94 $d6 $89 $56 $ff
+	.db $e8 $00 $fe $10 $00 $20 $40
+	.db $24 $8d $fe $00 $10 $e0 $80
+	.db $ff
+	.db $d5 $80 $94
+	.db $d6 $89 $56
+	.db $ff
 
 group1aroom08struct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group1aroom08layout
-	.db $a6 $a5 $fe $00 $02 $40 $30 $53 $8d $fe $00 $02 $a0 $70 $ff $d5 $80 $92 $d6 $89 $c5 $d6 $89 $38 $ff
+	.db $a6 $a5 $fe $00 $02 $40 $30
+	.db $53 $8d $fe $00 $02 $a0 $70
+	.db $ff
+	.db $d5 $80 $92
+	.db $d6 $89 $c5
+	.db $d6 $89 $38
+	.db $ff
 
 group1aroom09struct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group1aroom09layout
-	.db $15 $86 $fe $10 $00 $e0 $50 $e5 $86 $fe $f0 $00 $10 $50 $ff $d5 $83 $54 $d5 $83 $c9 $d6 $89 $85 $ff
+	.db $15 $86 $fe $10 $00 $e0 $50
+	.db $e5 $86 $fe $f0 $00 $10 $50
+	.db $ff
+	.db $d5 $83 $54
+	.db $d5 $83 $c9
+	.db $d6 $89 $85
+	.db $ff
 
 group1aroom0astruct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group1aroom0alayout
-	.db $64 $3c $fe $00 $02 $40 $80 $47 $3c $fe $00 $02 $60 $50 $ff $d4 $89 $44 $d6 $89 $b8 $74 $80 $64 $ff
+	.db $64 $3c $fe $00 $02 $40 $80
+	.db $47 $3c $fe $00 $02 $60 $50
+	.db $ff
+	.db $d4 $89 $44
+	.db $d6 $89 $b8
+	.db $74 $80 $64
+	.db $ff
 
 group1aroom0bstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom0blayout
-	.db $d4 $89 $b8 $d6 $89 $75 $d6 $89 $78 $ff
+	.db $d4 $89 $b8
+	.db $d6 $89 $75
+	.db $d6 $89 $78
+	.db $ff
 
 group1aroom0cstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom0clayout
-	.db $d4 $89 $44 $ff
+	.db $d4 $89 $44
+	.db $ff
 
 group1aroom0dstruct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group1aroom0dlayout
-	.db $94 $8d $fe $10 $00 $c0 $60 $c6 $86 $fe $f0 $00 $90 $40 $38 $a5 $26 $00 $00 $78 $94 $ff $d5 $89 $44 $d4 $89 $b8 $f5 $06 $40 $88 $ff
+	.db $94 $8d $fe $10 $00 $c0 $60
+	.db $c6 $86 $fe $f0 $00 $90 $40
+	.db $38 $a5 $26 $00 $00 $78 $94
+	.db $ff
+	.db $d5 $89 $44
+	.db $d4 $89 $b8
+	.db $f5 $06 $40 $88
+	.db $ff
 
 group1aroom0estruct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group1aroom0elayout
-	.db $a5 $86 $fe $00 $f0 $a0 $20 $a2 $86 $fe $00 $10 $a0 $50 $ff $d4 $89 $44 $d5 $89 $66 $d6 $89 $34 $ff
+	.db $a5 $86 $fe $00 $f0 $a0 $20
+	.db $a2 $86 $fe $00 $10 $a0 $50
+	.db $ff
+	.db $d4 $89 $44
+	.db $d5 $89 $66
+	.db $d6 $89 $34
+	.db $ff
 
 group1aroom0fstruct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group1aroom0flayout
-	.db $98 $8d $fe $00 $08 $20 $80 $28 $8d $fe $08 $00 $98 $80 $ff $d5 $83 $46 $d5 $80 $a4 $d6 $89 $c3 $d6 $89 $76 $ff
+	.db $98 $8d $fe $00 $08 $20 $80
+	.db $28 $8d $fe $08 $00 $98 $80
+	.db $ff
+	.db $d5 $83 $46
+	.db $d5 $80 $a4
+	.db $d6 $89 $c3
+	.db $d6 $89 $76
+	.db $ff
 
 group1aroom10struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom10layout
-	.db $d4 $89 $b8 $d5 $80 $89 $d6 $89 $b3 $d6 $89 $b6 $ff
+	.db $d4 $89 $b8
+	.db $d5 $80 $89
+	.db $d6 $89 $b3
+	.db $d6 $89 $b6
+	.db $ff
 
 group1aroom11struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom11layout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group1aroom12struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom12layout
-	.db $d5 $86 $c4 $d5 $89 $49 $ff
+	.db $d5 $86 $c4
+	.db $d5 $89 $49
+	.db $ff
 
 group1aroom13struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom13layout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group1aroom14struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom14layout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group1aroom15struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom15layout
-	.db $d4 $89 $44 $ff
+	.db $d4 $89 $44
+	.db $ff
 
 group1aroom16struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group1aroom16layout
-	.db $d4 $89 $b8 $ff
+	.db $d4 $89 $b8
+	.db $ff
 
 group1aroom17struct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group1aroom17layout
-	.db $d8 $8d $19 $06 $07 $b0 $60 $ff $d5 $86 $35 $d5 $80 $91 $ff
+	.db $d8 $8d $19 $06 $07 $b0 $60
+	.db $ff
+	.db $d5 $86 $35
+	.db $d5 $80 $91
+	.db $ff
 
 group19room00struct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group19room00layout
-	.db $46 $8d $17 $03 $00 $90 $50 $ff $d4 $89 $38 $cd $89 $a4 $c7 $89 $a4 $d1 $89 $a6 $ff
+	.db $46 $8d $17 $03 $00 $90 $50
+	.db $ff
+	.db $d4 $89 $38
+	.db $cd $89 $a4
+	.db $c7 $89 $a4
+	.db $d1 $89 $a6
+	.db $ff
 
 group19room01struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room01layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room02struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room02layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room03struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room03layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room04struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room04layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room05struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room05layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room06struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room06layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room07struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room07layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room08struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room08layout
-	.db $cd $89 $38 $cd $89 $94 $ff
+	.db $cd $89 $38
+	.db $cd $89 $94
+	.db $ff
 
 group19room09struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room09layout
-	.db $cd $89 $67 $cd $89 $b4 $ff
+	.db $cd $89 $67
+	.db $cd $89 $b4
+	.db $ff
 
 group19room0astruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room0alayout
-	.db $cd $89 $58 $cd $89 $a4 $ff
+	.db $cd $89 $58
+	.db $cd $89 $a4
+	.db $ff
 
 group19room0bstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room0blayout
-	.db $cd $89 $69 $cd $89 $b3 $ff
+	.db $cd $89 $69
+	.db $cd $89 $b3
+	.db $ff
 
 group19room0cstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room0clayout
-	.db $cd $89 $67 $cd $89 $b4 $ff
+	.db $cd $89 $67
+	.db $cd $89 $b4
+	.db $ff
 
 group19room0dstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room0dlayout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room0estruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room0elayout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room0fstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room0flayout
-	.db $cd $89 $67 $cd $89 $b4 $ff
+	.db $cd $89 $67
+	.db $cd $89 $b4
+	.db $ff
 
 group19room10struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room10layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room11struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room11layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room12struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room12layout
-	.db $cd $89 $69 $cd $89 $b3 $ff
+	.db $cd $89 $69
+	.db $cd $89 $b3
+	.db $ff
 
 group19room13struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room13layout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room14struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room14layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room15struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room15layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room16struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room16layout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room17struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room17layout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room18struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room18layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room19struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room19layout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room1astruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room1alayout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room1bstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room1blayout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room1cstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room1clayout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room1dstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room1dlayout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room1estruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room1elayout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room1fstruct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group19room1flayout
-	.db $77 $00 $18 $01 $01 $90 $60 $ff $d6 $89 $78 $d1 $89 $74 $d1 $89 $84 $d1 $89 $95 $d1 $89 $47 $ff
+	.db $77 $00 $18 $01 $01 $90 $60
+	.db $ff
+	.db $d6 $89 $78
+	.db $d1 $89 $74
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $47
+	.db $ff
 
 group19room20struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room20layout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room21struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room21layout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room22struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room22layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room23struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room23layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room24struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room24layout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room25struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room25layout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room26struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room26layout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room27struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room27layout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room28struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room28layout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room29struct:
 	.db $3c
@@ -1182,95 +1683,162 @@ group19room2astruct:
 	.db $a2
 	.db $0d
 	.dw group19room2alayout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room2bstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room2blayout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room2cstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room2clayout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room2dstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room2dlayout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room2estruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room2elayout
-	.db $cd $89 $46 $cd $89 $a4 $ff
+	.db $cd $89 $46
+	.db $cd $89 $a4
+	.db $ff
 
 group19room2fstruct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room2flayout
-	.db $cd $89 $48 $cd $89 $83 $ff
+	.db $cd $89 $48
+	.db $cd $89 $83
+	.db $ff
 
 group19room30struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room30layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room31struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room31layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room32struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room32layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $f5 $06 $20 $88 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $f5 $06 $20 $88
+	.db $ff
 
 group19room33struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room33layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room34struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room34layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room35struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room35layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room36struct:
 	.db $34
 	.db $a2
 	.db $0d
 	.dw group19room36layout
-	.db $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff
 
 group19room37struct:
 	.db $14
 	.db $a2
 	.db $0d
 	.dw group19room37layout
-	.db $c6 $8d $1a $05 $03 $c0 $80 $ff $d1 $89 $66 $d1 $89 $75 $d1 $89 $84 $d1 $89 $95 $d1 $89 $87 $d1 $89 $96 $ff
+	.db $c6 $8d $1a $05 $03 $c0 $80
+	.db $ff
+	.db $d1 $89 $66
+	.db $d1 $89 $75
+	.db $d1 $89 $84
+	.db $d1 $89 $95
+	.db $d1 $89 $87
+	.db $d1 $89 $96
+	.db $ff

@@ -518,7 +518,10 @@ wc729:
 wFirstRoomStructByte: ; $c72b
 	db
 
+// bit 7 set
+// bit 6 set
 // bit 5 set - set palettes when lamp is on
+// bit 4 set
 wSecondRoomStructByte: ; $c72c
 	db
 

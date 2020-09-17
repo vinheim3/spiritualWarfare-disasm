@@ -79,10 +79,38 @@ for idx, addr in enumerate(sorted_addrs[:-1]):
 
     next_addr = sorted_addrs[idx+1]
     bytes_to_convert = data[addr+offset:next_addr]
+    # conv_bytes = " ".join(f'${byte:02x}' for byte in bytes_to_convert) + f"{byte1:02x}"
+    # print(conv_bytes)
 
     if bytes_to_convert:
-        conv_bytes = " ".join(f'${byte:02x}' for byte in bytes_to_convert)
-        comps.append(f'\t.db {conv_bytes}')
+        new_offset = 0
+        # if bit 5 unset - 7 bytes per entrance
+        if not (byte1 & 0x20):
+            while bytes_to_convert[new_offset] != 0xff:
+                conv_bytes = " ".join(f'${byte:02x}' for byte in bytes_to_convert[new_offset:new_offset+7])
+                comps.append(f'\t.db {conv_bytes}')
+                new_offset += 7
+            comps.append('\t.db $ff')
+            new_offset += 1
+
+        # if bit 4 unset - 2 bytes per pushable object
+        if not (byte1 & 0x10):
+            while bytes_to_convert[new_offset] != 0xff:
+                conv_bytes = " ".join(f'${byte:02x}' for byte in bytes_to_convert[new_offset:new_offset+2])
+                comps.append(f'\t.db {conv_bytes}')
+                new_offset += 2
+            comps.append('\t.db $ff')
+            new_offset += 1
+
+        # if bit 3 unset - 3 bytes per npc, 4 bytes if byte2 bit 7 is unset
+        if not (byte1 & 0x08):
+            while bytes_to_convert[new_offset] != 0xff:
+                length = 3 if (bytes_to_convert[new_offset+1] & 0x80) else 4
+                conv_bytes = " ".join(f'${byte:02x}' for byte in bytes_to_convert[new_offset:new_offset+length])
+                comps.append(f'\t.db {conv_bytes}')
+                new_offset += length
+            comps.append('\t.db $ff')
+            new_offset += 1
     comps.append('')
 
 final_str = '\n'.join(comps)

@@ -28,7 +28,8 @@
 .org $0
 
 	.incbin "code/common.bin"
-	.include "code/bank_001.s"
+	.include "code/roomFlags.s"
+	.include "code/quizzes.s"
 	.include "data/bank1_textCollection.s"
 
 	m_GfxDataCompressed spr_01_56a7
@@ -54,6 +55,8 @@
 	.incbin "code/common.bin"
 	.include "data/entityStructs.s"
 	.include "data/basicLayouts.s"
+	.include "garbage/bank3.s"
+	.include "data/b3_roomStructsAndLayouts.s"
 	.include "data/bank_003.s"
 	.include "scripts/bank3.s"
 
