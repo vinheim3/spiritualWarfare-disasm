@@ -41,7 +41,9 @@
 
 	.incbin "code/common.bin"
 	.include "data/b2_roomStructsAndLayouts.s"
+	.include "data/data_02_4acd.s"
 	.include "data/bank_002.s"
+	.include "scripts/bank2.s"
 
 	m_GfxDataCompressed spr_02_6f53
 
@@ -93,6 +95,7 @@
 .org $0
 
 	.incbin "code/common.bin"
+	.include "data/randomNumbers.s"
 	.include "data/bank_006.s"
 
 	m_GfxDataCompressed spr_06_1bfd

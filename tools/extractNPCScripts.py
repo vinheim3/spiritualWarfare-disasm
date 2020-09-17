@@ -3,10 +3,10 @@ import clipboard
 with open('OR', 'rb') as f:
     data = f.read()
 
-start_addr = 0x6f2a
-bank = 2
+start_addr = 0xd4b
+bank = 6
 start = bank*0x8000+start_addr
-end = bank*0x8000+0x6f53
+end = bank*0x8000+0xdf6
 
 offset = 0
 
