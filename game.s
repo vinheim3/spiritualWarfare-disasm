@@ -43,7 +43,7 @@
 	.incbin "code/common.bin"
 	.include "data/b2_roomStructsAndLayouts.s"
 	.include "data/data_02_4acd.s"
-	.include "data/bank_002.s"
+	.include "data/b2_oamData.s"
 	.include "scripts/bank2.s"
 
 	m_GfxDataCompressed spr_02_6f53
@@ -57,7 +57,7 @@
 	.include "data/basicLayouts.s"
 	.include "garbage/bank3.s"
 	.include "data/b3_roomStructsAndLayouts.s"
-	.include "data/bank_003.s"
+	.include "data/b3_oamData.s"
 	.include "scripts/bank3.s"
 
 	m_GfxDataCompressed spr_03_6b0f
@@ -99,7 +99,7 @@
 
 	.incbin "code/common.bin"
 	.include "data/randomNumbers.s"
-	.include "data/bank_006.s"
+	.include "data/b6_oamData.s"
 	.include "scripts/bank6.s"
 
 	m_GfxDataCompressed spr_06_1bfd
