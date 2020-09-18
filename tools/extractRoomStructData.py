@@ -93,7 +93,7 @@ for idx, addr in enumerate(sorted_addrs[:-1]):
             comps.append('\t.db $ff')
             new_offset += 1
 
-        # if bit 4 unset - 2 bytes per pushable object
+        # if bit 4 unset - 2 bytes per hidden item
         if not (byte1 & 0x10):
             while bytes_to_convert[new_offset] != 0xff:
                 conv_bytes = " ".join(f'${byte:02x}' for byte in bytes_to_convert[new_offset:new_offset+2])

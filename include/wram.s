@@ -65,7 +65,7 @@ wc000:
 	wc008_3:
 		dsb $a-8
 
-	wDoneProcessingPushableObjects: ; $c00a
+	wDoneProcessingHiddenItems: ; $c00a
 		db
 .nextu
 	wc008_4:
@@ -515,7 +515,7 @@ wc729:
 // bit 7 set - load BGP vals
 // bit 6 set - load OBP0 vals
 // bit 5 set - no entrances
-// bit 4 set - no pushable objects
+// bit 4 set - no hidden items
 // bit 3 set - no npcs
 // bit 2 loaded into c079, if set, next 2 bytes is a word, get data from it into c079
 wFirstRoomStructByte: ; $c72b

@@ -801,9 +801,9 @@ loadRoomStructData:
 	cp   $b0
 	jr   nz, @loopCountingRoomFlagObjects
 
-// count up the number of room flag objects, pushable or npcs
+// count up the number of room flag objects, hidden items or npcs
 	ld   de, $0000
-	ld   hl, wDoneProcessingPushableObjects
+	ld   hl, wDoneProcessingHiddenItems
 	ld   (hl), e
 	ld   hl, wFirstRoomStructByte
 	ld   a, (hl)
@@ -824,7 +824,7 @@ loadRoomStructData:
 	ld   a, $02
 	ld   hl, wNumBytesForRoomFlagEntity
 	ld   (hl), a
-	ld   hl, wDoneProcessingPushableObjects
+	ld   hl, wDoneProcessingHiddenItems
 	ld   a, (hl)
 	cp   $00
 	jr   z, @next_053b
@@ -868,7 +868,7 @@ loadRoomStructData:
 	inc  de
 
 @checkDone:
-	ld   hl, wDoneProcessingPushableObjects
+	ld   hl, wDoneProcessingHiddenItems
 	ld   a, (hl)
 	cp   $00
 	jr   nz, +
@@ -912,8 +912,8 @@ loadRoomStructData:
 	ld   hl, wFirstRoomStructByte                                   ; $0585: $21 $2b $c7
 	ld   a, (hl)                                     ; $0588: $7e
 	and  $10                                         ; $0589: $e6 $10
-// jump if no pushable objects
-	jr   nz, @noPushableObjects                             ; $058b: $20 $4b
+// jump if no hidden items
+	jr   nz, @noHiddenItems                             ; $058b: $20 $4b
 
 @nextNPC:
 	ld   hl, wCurrRoomStructPointerNPCData                                   ; $058d: $21 $06 $c0
@@ -978,7 +978,7 @@ loadRoomStructData:
 @noMoreNPCs:
 	inc  de                                          ; $05d7: $13
 
-@noPushableObjects:
+@noHiddenItems:
 	ld   a, e                                        ; $05d8: $7b
 	ld   hl, $c006                                   ; $05d9: $21 $06 $c0
 	add  (hl)                                        ; $05dc: $86
