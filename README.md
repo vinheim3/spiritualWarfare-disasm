@@ -22,8 +22,6 @@ of each bank, so when you swap within that section, you are still executing pred
 Only stuff that may not be immediately obvious
 * `code` - all the code, maybe a little bit of data
     * `bank_000.s` - core engine stuff
-    * `bank_001.s` - very short file that seem to be around room transitions, 
-    room flags, and a long collection of text, mostly quizzes?
     * `common.*` - the shared 'bank 0'-like code
 * `data`
     * `*_roomStructsAndLayouts.s` - contains variable-sized structs for rooms,
@@ -34,10 +32,12 @@ Only stuff that may not be immediately obvious
     * `vramTileConversionTables.s` - for each of the $20 tilesets, each value
     in a tile layout is checked against here to turn into its actual tile idx,
     eg an invisible wall is converted to a black tile
+* `garbage` - left over, converted NES code, talking to NES ports
 * `gfx` - compressed graphics and pngs of the graphics
 * `include` - ram definitions, macros, etc
 * `json` - intermediary structures for working with the scripts
 * `layouts` - as in vram bg/window layouts
 * `roomGroup_gfx` - pngs of grouped rooms laid out based on a group's width and height
+* `scripts` - scripting language used for entities
 * `tools` - various python files for extracting data, laying out data, etc.
 May (Does) contain questionable os.system calls out of want to pump out nice roomGroup_gfx

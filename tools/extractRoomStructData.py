@@ -30,8 +30,8 @@ compressed_addr_map = {}
 comps = []
 sorted_addrs = sorted(addr_label_map.keys())
 sorted_addrs.append({
-    2: 0x4aa2,
-    3: 0x4cf2,
+    2: 0x4ecd,
+    3: 0x4d3e,
     4: 0x5201,
 }[curr_bank])
 for idx, addr in enumerate(sorted_addrs[:-1]):

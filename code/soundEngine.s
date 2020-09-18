@@ -1,11 +1,3 @@
-; Disassembly of "OR"
-; This file was created with:
-; mgbdis v1.4 - Game Boy ROM disassembler by Matt Currie and contributors.
-; With some edits by vinheim3 to make it compilable using wla-gb
-; https://github.com/mattcurrie/mgbdis
-; https://github.com/vinheim3
-
-
 soundEngineFunc0:
 // 13 bytes for each audio channel, and 5th thing
 	call getChannelRamOffsetFromAandRetZ                                       ; $5fc2: $cd $bb $23

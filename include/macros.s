@@ -61,7 +61,6 @@
 .endm
 
 .macro m_NPCData
-	.db \1 \2
-	.dw \3
-	.db \4 \5 \6 \7
+	.dw \1 \2
+	.db \3 \4 \5 \6
 .endm

@@ -2,253 +2,253 @@ npcStructs:
 // npc script bytes in bank 3
 
 // ?? - ?? - word for script ptr - cbc0 -
-	m_NPCData $80 $4d npc00_scripts $ff $ff $ff $ff
-	m_NPCData $86 $4d npc01_scripts $02 $ff $02 $7c
-	m_NPCData $8f $4d npc02_scripts $ff $ff $ff $ff
-	m_NPCData $8f $4d npcScript_end $ff $ff $ff $ff
-	m_NPCData $94 $4d npc04_scripts $ff $ff $ff $ff
-	m_NPCData $bf $4d npc05_scripts $00 $05 $00 $05
-	m_NPCData $da $4d npc06_scripts $00 $06 $00 $06
-	m_NPCData $e3 $4d npc07_scripts $00 $07 $00 $07
-	m_NPCData $c8 $4d npc08_scripts $00 $08 $00 $08
-	m_NPCData $d1 $4d npc09_scripts $00 $09 $00 $09
-	m_NPCData $ec $4d npc0a_scripts $00 $0a $00 $0a
-	m_NPCData $ad $4d npc0b_scripts $ff $ff $ff $ff
-	m_NPCData $9d $4d npc0c_scripts $ff $ff $ff $ff
-	m_NPCData $a1 $4d npc0d_scripts $ff $ff $ff $ff
-	m_NPCData $a5 $4d npc0e_scripts $ff $ff $ff $ff
-	m_NPCData $a9 $4d npc0f_scripts $ff $ff $ff $ff
-	m_NPCData $da $4d npc10_scripts $00 $10 $00 $10
-	m_NPCData $fe $4d npc11_scripts $00 $11 $00 $11
-	m_NPCData $f5 $4d npc12_scripts $ff $ff $ff $20
-	m_NPCData $e3 $4d npc13_scripts $ff $13 $00 $13
-	m_NPCData $05 $4e npc14_scripts $ff $ff $ff $ff
-	m_NPCData $6a $4d npc15_scripts $ff $ff $ff $ff
-	m_NPCData $76 $4d npc16_scripts $ff $ff $ff $ff
-	m_NPCData $78 $4d npc17_scripts $ff $ff $ff $ff
-	m_NPCData $7c $4d npc18_scripts $ff $ff $ff $ff
-	m_NPCData $b6 $4d npc19_scripts $00 $19 $00 $19
-	m_NPCData $d1 $4d npc1a_scripts $00 $1a $00 $1a
-	m_NPCData $ec $4d npc1b_scripts $ff $ff $ff $1b
-	m_NPCData $ad $4d npc1c_scripts $ff $ff $ff $ff
-	m_NPCData $bf $4d npc1d_scripts $00 $1d $00 $1d
-	m_NPCData $0c $4e npc1e_scripts $ff $ff $ff $ff
-	m_NPCData $bf $4d npc1f_scripts $00 $1f $00 $1f
-	m_NPCData $ad $4d npcScript_end $ff $ff $ff $ff
-	m_NPCData $d1 $4d npc21_scripts $69 $ff $ff $21
-	m_NPCData $bf $4d npc22_scripts $00 $ff $00 $ff
-	m_NPCData $bf $4d npc23_scripts $00 $23 $00 $23
-	m_NPCData $da $4d npc24_scripts $00 $24 $00 $24
-	m_NPCData $e3 $4d npc25_scripts $ff $ff $ff $25
-	m_NPCData $10 $4e npc26_scripts $ff $ff $ff $20
-	m_NPCData $1d $4e npc27_scripts $00 $27 $00 $ff
-	m_NPCData $da $4d npc28_scripts $00 $28 $00 $28
-	m_NPCData $ec $4d npc29_scripts $00 $29 $00 $29
-	m_NPCData $19 $4e npc2a_scripts $ff $ff $ff $ff
-	m_NPCData $1b $4e npc2b_scripts $ff $ff $ff $ff
-	m_NPCData $da $4d npc2c_scripts $00 $2c $00 $2c
-	m_NPCData $40 $4d npc2d_scripts $ff $ff $ff $ff
-	m_NPCData $47 $4d npc2e_scripts $ff $ff $ff $ff
-	m_NPCData $4b $4d npc2f_scripts $ff $ff $ff $ff
-	m_NPCData $49 $4d npc30_scripts $ff $ff $ff $ff
-	m_NPCData $4d $4d npc31_scripts $ff $ff $ff $ff
-	m_NPCData $45 $4d npc32_scripts $ff $ff $ff $ff
-	m_NPCData $6c $4d npc33_scripts $ff $ff $ff $ff
-	m_NPCData $51 $4d npc34_scripts $ff $ff $ff $ff
-	m_NPCData $53 $4d npc35_scripts $ff $ff $ff $ff
-	m_NPCData $55 $4d npc36_scripts $ff $ff $ff $ff
-	m_NPCData $57 $4d npc37_scripts $ff $ff $ff $ff
-	m_NPCData $59 $4d npc38_scripts $ff $ff $ff $ff
-	m_NPCData $5b $4d npc39_scripts $ff $ff $ff $ff
-	m_NPCData $70 $4d npc3a_scripts $ff $ff $ff $ff
-	m_NPCData $74 $4d npc3b_scripts $ff $ff $ff $ff
-	m_NPCData $6e $4d npc3c_scripts $ff $ff $ff $ff
-	m_NPCData $72 $4d npc3d_scripts $ff $ff $ff $ff
-	m_NPCData $78 $4d npc3e_scripts $ff $ff $ff $ff
-	m_NPCData $7a $4d npc3f_scripts $ff $ff $ff $ff
-	m_NPCData $7e $4d npc40_scripts $ff $ff $ff $ff
-	m_NPCData $4f $4d npc41_scripts $ff $ff $ff $ff
-	m_NPCData $ec $4d npc42_scripts $ff $ff $ff $ff
-	m_NPCData $21 $4e npc43_scripts $00 $43 $00 $43
-	m_NPCData $26 $4e npc44_scripts $00 $44 $00 $44
-	m_NPCData $5d $4d npc45_scripts $46 $ff $46 $ff
-	m_NPCData $5f $4d npc46_scripts $ff $ff $ff $ff
-	m_NPCData $61 $4d npc47_scripts $ff $ff $ff $ff
-	m_NPCData $72 $4d npc48_scripts $ff $ff $ff $ff
-	m_NPCData $c8 $4d npc49_scripts $00 $49 $00 $49
-	m_NPCData $2b $4e npc4a_scripts $ff $ff $ff $ff
-	m_NPCData $38 $4e npc4b_scripts $00 $4b $00 $4b
-	m_NPCData $3d $4e npc4c_scripts $00 $08 $00 $08
-	m_NPCData $3d $4e npc4d_scripts $00 $08 $00 $08
-	m_NPCData $41 $4e npc4e_scripts $ff $ff $03 $4e
-	m_NPCData $45 $4e npc4f_scripts $00 $00 $00 $4f
-	m_NPCData $49 $4e npc50_scripts $ff $ff $ff $ff
-	m_NPCData $4e $4e npc51_scripts $ff $ff $ff $ff
-	m_NPCData $51 $4e npc52_scripts $ff $ff $ff $ff
-	m_NPCData $5b $4d npc53_scripts $ff $ff $ff $ff
-	m_NPCData $5b $4d npc54_scripts $ff $ff $ff $ff
-	m_NPCData $5b $4d npc55_scripts $ff $ff $ff $ff
-	m_NPCData $53 $4d npc56_scripts $ff $ff $ff $ff
-	m_NPCData $51 $4d npc57_scripts $ff $ff $ff $ff
-	m_NPCData $5d $4d npc58_scripts $5a $ff $5a $ff
-	m_NPCData $54 $4e npc59_scripts $ff $ff $ff $ff
-	m_NPCData $63 $4e npc5a_scripts $ff $ff $ff $ff
-	m_NPCData $5f $4d npc5b_scripts $ff $ff $ff $ff
-	m_NPCData $5f $4e npc5c_scripts $ff $ff $ff $ff
-	m_NPCData $56 $4e npc5d_scripts $5f $ff $ff $ff
-	m_NPCData $5f $4e npc5e_scripts $ff $ff $ff $ff
-	m_NPCData $8f $4d npc5f_scripts $ff $ff $ff $ff
-	m_NPCData $5f $4e npc60_scripts $ff $ff $ff $ff
-	m_NPCData $c8 $4d npc61_scripts $ff $ff $61 $ff
-	m_NPCData $c8 $4d npc62_scripts $ff $65 $ff $ff
-	m_NPCData $d1 $4d npc63_scripts $ff $ff $63 $ff
-	m_NPCData $61 $4e npc64_scripts $ff $ff $ff $5a
-	m_NPCData $8f $4d npc65_scripts $ff $ff $ff $ff
-	m_NPCData $3e $4d npc66_scripts $ff $ff $ff $ff
-	m_NPCData $b2 $6a npc67_scripts $ff $ff $ff $ff
-	m_NPCData $b2 $6a npc68_scripts $ff $ff $ff $ff
-	m_NPCData $78 $4d npc69_scripts $ff $ff $ff $ff
+	m_NPCData npc00_oamData npc00_scripts $ff $ff $ff $ff
+	m_NPCData npc01_oamData npc01_scripts $02 $ff $02 $7c
+	m_NPCData npc02_oamData npc02_scripts $ff $ff $ff $ff
+	m_NPCData npc03_oamData npcScript_end $ff $ff $ff $ff
+	m_NPCData npc04_oamdata npc04_scripts $ff $ff $ff $ff
+	m_NPCData npc05_oamData npc05_scripts $00 $05 $00 $05
+	m_NPCData npc06_oamData npc06_scripts $00 $06 $00 $06
+	m_NPCData npc07_oamData npc07_scripts $00 $07 $00 $07
+	m_NPCData npc08_oamData npc08_scripts $00 $08 $00 $08
+	m_NPCData npc09_oamData npc09_scripts $00 $09 $00 $09
+	m_NPCData npc0a_oamData npc0a_scripts $00 $0a $00 $0a
+	m_NPCData npc0b_oamData npc0b_scripts $ff $ff $ff $ff
+	m_NPCData npc0c_oamData npc0c_scripts $ff $ff $ff $ff
+	m_NPCData npc0d_oamData npc0d_scripts $ff $ff $ff $ff
+	m_NPCData npc0e_oamData npc0e_scripts $ff $ff $ff $ff
+	m_NPCData npc0f_oamData npc0f_scripts $ff $ff $ff $ff
+	m_NPCData npc10_oamData npc10_scripts $00 $10 $00 $10
+	m_NPCData npc11_oamData npc11_scripts $00 $11 $00 $11
+	m_NPCData npc12_oamData npc12_scripts $ff $ff $ff $20
+	m_NPCData npc13_oamData npc13_scripts $ff $13 $00 $13
+	m_NPCData npc14_oamData npc14_scripts $ff $ff $ff $ff
+	m_NPCData npc15_oamData npc15_scripts $ff $ff $ff $ff
+	m_NPCData npc16_oamData npc16_scripts $ff $ff $ff $ff
+	m_NPCData npc17_oamData npc17_scripts $ff $ff $ff $ff
+	m_NPCData npc18_oamData npc18_scripts $ff $ff $ff $ff
+	m_NPCData npc19_oamData npc19_scripts $00 $19 $00 $19
+	m_NPCData npc1a_oamData npc1a_scripts $00 $1a $00 $1a
+	m_NPCData npc1b_oamData npc1b_scripts $ff $ff $ff $1b
+	m_NPCData npc1c_oamData npc1c_scripts $ff $ff $ff $ff
+	m_NPCData npc1d_oamData npc1d_scripts $00 $1d $00 $1d
+	m_NPCData npc1e_oamData npc1e_scripts $ff $ff $ff $ff
+	m_NPCData npc1f_oamData npc1f_scripts $00 $1f $00 $1f
+	m_NPCData npc20_oamData npcScript_end $ff $ff $ff $ff
+	m_NPCData npc21_oamData npc21_scripts $69 $ff $ff $21
+	m_NPCData npc22_oamData npc22_scripts $00 $ff $00 $ff
+	m_NPCData npc23_oamData npc23_scripts $00 $23 $00 $23
+	m_NPCData npc24_oamData npc24_scripts $00 $24 $00 $24
+	m_NPCData npc25_oamData npc25_scripts $ff $ff $ff $25
+	m_NPCData npc26_oamData npc26_scripts $ff $ff $ff $20
+	m_NPCData npc27_oamData npc27_scripts $00 $27 $00 $ff
+	m_NPCData npc28_oamData npc28_scripts $00 $28 $00 $28
+	m_NPCData npc29_oamData npc29_scripts $00 $29 $00 $29
+	m_NPCData npc2a_oamData npc2a_scripts $ff $ff $ff $ff
+	m_NPCData npc2b_oamData npc2b_scripts $ff $ff $ff $ff
+	m_NPCData npc2c_oamData npc2c_scripts $00 $2c $00 $2c
+	m_NPCData npc2d_oamData npc2d_scripts $ff $ff $ff $ff
+	m_NPCData npc2e_oamData npc2e_scripts $ff $ff $ff $ff
+	m_NPCData npc2f_oamData npc2f_scripts $ff $ff $ff $ff
+	m_NPCData npc30_oamData npc30_scripts $ff $ff $ff $ff
+	m_NPCData npc31_oamData npc31_scripts $ff $ff $ff $ff
+	m_NPCData npc32_oamData npc32_scripts $ff $ff $ff $ff
+	m_NPCData npc33_oamData npc33_scripts $ff $ff $ff $ff
+	m_NPCData npc34_oamData npc34_scripts $ff $ff $ff $ff
+	m_NPCData npc35_oamData npc35_scripts $ff $ff $ff $ff
+	m_NPCData npc36_oamData npc36_scripts $ff $ff $ff $ff
+	m_NPCData npc37_oamData npc37_scripts $ff $ff $ff $ff
+	m_NPCData npc38_oamData npc38_scripts $ff $ff $ff $ff
+	m_NPCData npc39_oamData npc39_scripts $ff $ff $ff $ff
+	m_NPCData npc3a_oamData npc3a_scripts $ff $ff $ff $ff
+	m_NPCData npc3b_oamData npc3b_scripts $ff $ff $ff $ff
+	m_NPCData npc3c_oamData npc3c_scripts $ff $ff $ff $ff
+	m_NPCData npc3d_oamData npc3d_scripts $ff $ff $ff $ff
+	m_NPCData npc3e_oamData npc3e_scripts $ff $ff $ff $ff
+	m_NPCData npc3f_oamData npc3f_scripts $ff $ff $ff $ff
+	m_NPCData npc40_oamData npc40_scripts $ff $ff $ff $ff
+	m_NPCData npc41_oamData npc41_scripts $ff $ff $ff $ff
+	m_NPCData npc42_oamData npc42_scripts $ff $ff $ff $ff
+	m_NPCData npc43_oamData npc43_scripts $00 $43 $00 $43
+	m_NPCData npc44_oamData npc44_scripts $00 $44 $00 $44
+	m_NPCData npc45_oamData npc45_scripts $46 $ff $46 $ff
+	m_NPCData npc46_oamData npc46_scripts $ff $ff $ff $ff
+	m_NPCData npc47_oamData npc47_scripts $ff $ff $ff $ff
+	m_NPCData npc48_oamData npc48_scripts $ff $ff $ff $ff
+	m_NPCData npc49_oamData npc49_scripts $00 $49 $00 $49
+	m_NPCData npc4a_oamData npc4a_scripts $ff $ff $ff $ff
+	m_NPCData npc4b_oamData npc4b_scripts $00 $4b $00 $4b
+	m_NPCData npc4c_oamData npc4c_scripts $00 $08 $00 $08
+	m_NPCData npc4d_oamData npc4d_scripts $00 $08 $00 $08
+	m_NPCData npc4e_oamData npc4e_scripts $ff $ff $03 $4e
+	m_NPCData npc4f_oamData npc4f_scripts $00 $00 $00 $4f
+	m_NPCData npc50_oamData npc50_scripts $ff $ff $ff $ff
+	m_NPCData npc51_oamData npc51_scripts $ff $ff $ff $ff
+	m_NPCData npc52_oamData npc52_scripts $ff $ff $ff $ff
+	m_NPCData npc53_oamData npc53_scripts $ff $ff $ff $ff
+	m_NPCData npc54_oamData npc54_scripts $ff $ff $ff $ff
+	m_NPCData npc55_oamData npc55_scripts $ff $ff $ff $ff
+	m_NPCData npc56_oamData npc56_scripts $ff $ff $ff $ff
+	m_NPCData npc57_oamData npc57_scripts $ff $ff $ff $ff
+	m_NPCData npc58_oamData npc58_scripts $5a $ff $5a $ff
+	m_NPCData npc59_oamData npc59_scripts $ff $ff $ff $ff
+	m_NPCData npc5a_oamData npc5a_scripts $ff $ff $ff $ff
+	m_NPCData npc5b_oamData npc5b_scripts $ff $ff $ff $ff
+	m_NPCData npc5c_oamData npc5c_scripts $ff $ff $ff $ff
+	m_NPCData npc5d_oamData npc5d_scripts $5f $ff $ff $ff
+	m_NPCData npc5e_oamData npc5e_scripts $ff $ff $ff $ff
+	m_NPCData npc5f_oamData npc5f_scripts $ff $ff $ff $ff
+	m_NPCData npc60_oamData npc60_scripts $ff $ff $ff $ff
+	m_NPCData npc61_oamData npc61_scripts $ff $ff $61 $ff
+	m_NPCData npc62_oamData npc62_scripts $ff $65 $ff $ff
+	m_NPCData npc63_oamData npc63_scripts $ff $ff $63 $ff
+	m_NPCData npc64_oamData npc64_scripts $ff $ff $ff $5a
+	m_NPCData npc65_oamData npc65_scripts $ff $ff $ff $ff
+	m_NPCData npc66_oamData npc66_scripts $ff $ff $ff $ff
+	m_NPCData npc67_oamData npc67_scripts $ff $ff $ff $ff
+	m_NPCData npc68_oamData npc68_scripts $ff $ff $ff $ff
+	m_NPCData npc69_oamData npc69_scripts $ff $ff $ff $ff
 
 // npc script bytes in bank 2
-	m_NPCData $cd $4e npc6a_scripts $ff $ff $ff $ff // $6a
-	m_NPCData $d1 $4e npc6b_scripts $ff $ff $ff $ff
-	m_NPCData $d7 $4e npc6c_scripts $ff $ff $ff $ff
-	m_NPCData $d5 $4e npc6d_scripts $ff $ff $ff $ff
-	m_NPCData $d3 $4e npc6e_scripts $ff $ff $ff $ff
-	m_NPCData $d3 $4e npc6f_scripts $ff $ff $ff $ff
-	m_NPCData $d3 $4e npc70_scripts $ff $ff $ff $ff
-	m_NPCData $d3 $4e npc71_scripts $ff $ff $ff $ff
-	m_NPCData $d3 $4e npc72_scripts $ff $ff $ff $ff
-	m_NPCData $d3 $4e npc73_scripts $ff $ff $ff $ff
-	m_NPCData $cd $4e npc74_scripts $ff $ff $ff $ff
-	m_NPCData $d9 $4e npc75_scripts $ff $ff $ff $ff
-	m_NPCData $d9 $4e npc76_scripts $ff $ff $ff $ff
-	m_NPCData $ff $4e npc77_scripts $ff $ff $ff $ff
-	m_NPCData $45 $4f npc78_scripts $00 $ff $00 $ff
-	m_NPCData $51 $4f npc79_scripts $ff $ff $ff $7c
-	m_NPCData $4b $4f npc7a_scripts $00 $ff $00 $ff
-	m_NPCData $53 $4f npc7b_scripts $ff $ff $ff $7c
-	m_NPCData $55 $4f npc7c_scripts $ff $ff $ff $ff
-	m_NPCData $de $4e npc7d_scripts $ff $ff $ff $ff
-	m_NPCData $cf $4e npc7e_scripts $ff $ff $ff $ff
-	m_NPCData $0d $4f npc7f_scripts $ff $ff $ff $ff
-	m_NPCData $e3 $4e npc80_scripts $ff $ff $ff $ff
-	m_NPCData $e7 $4e npc81_scripts $ff $ff $ff $ff
-	m_NPCData $cd $4e npc82_scripts $ff $ff $ff $ff
-	m_NPCData $cd $4e npc83_scripts $ff $ff $ff $ff
-	m_NPCData $3c $4f npc84_scripts $ff $ff $ff $ff
-	m_NPCData $16 $4f npc85_scripts $86 $86 $87 $ff
-	m_NPCData $16 $4f npc86_scripts $ff $86 $87 $ff
-	m_NPCData $16 $4f npc87_scripts $ff $ff $ff $ff
-	m_NPCData $db $4e npc88_scripts $ff $ff $ff $ff
-	m_NPCData $08 $4f npc89_scripts $ff $ff $ff $ff
-	m_NPCData $cd $4e npc8a_scripts $ff $ff $ff $ff
-	m_NPCData $cd $4e npc8b_scripts $ff $ff $ff $ff
-	m_NPCData $1f $4f npc8c_scripts $00 $8c $00 $ff
-	m_NPCData $28 $4f npc8d_scripts $ff $8d $00 $ff
-	m_NPCData $31 $4f npc8e_scripts $ff $8e $00 $ff
-	m_NPCData $3a $4f npc8f_scripts $ff $ff $ff $ff
-	m_NPCData $cd $4e npc90_scripts $ff $ff $ff $ff
-	m_NPCData $5a $4f npc91_scripts $00 $91 $00 $ff
-	m_NPCData $c7 $4f npc92_scripts $00 $92 $00 $ff
-	m_NPCData $63 $4f npc93_scripts $00 $93 $00 $ff
-	m_NPCData $6c $4f npc94_scripts $00 $94 $00 $ff
-	m_NPCData $75 $4f npc95_scripts $ff $ff $ff $ff
-	m_NPCData $7a $4f npc96_scripts $00 $96 $00 $ff
-	m_NPCData $83 $4f npc97_scripts $00 $96 $00 $ff
-	m_NPCData $83 $4f npc98_scripts $00 $96 $00 $ff
-	m_NPCData $cd $4e npc99_scripts $ff $ff $ff $ff
-	m_NPCData $86 $4f npc9a_scripts $ff $ff $ff $ff
-	m_NPCData $cd $4e npc9b_scripts $ff $ff $ff $ff
-	m_NPCData $45 $4f npc9c_scripts $00 $ff $00 $ff
-	m_NPCData $cd $4e npc9d_scripts $ff $ff $00 $ff
-	m_NPCData $94 $4f npc9e_scripts $ff $ff $ff $ff
-	m_NPCData $96 $4f npc9f_scripts $ff $ff $ff $ff
-	m_NPCData $96 $4f npca0_scripts $ff $ff $ff $ff
-	m_NPCData $cd $4e npca1_scripts $ff $ff $20 $ff
-	m_NPCData $cd $4e npca2_scripts $a3 $ff $a3 $a3
-	m_NPCData $55 $4f npca3_scripts $ff $ff $ff $ff
-	m_NPCData $51 $4f npca4_scripts $ff $ff $ff $7c
-	m_NPCData $4b $4f npca5_scripts $00 $ff $00 $ff
-	m_NPCData $88 $4f npca6_scripts $00 $ff $00 $ff
-	m_NPCData $9e $4f npca7_scripts $00 $ff $00 $a7
-	m_NPCData $a7 $4f npca8_scripts $00 $ff $00 $a8
-	m_NPCData $b0 $4f npca9_scripts $00 $ff $00 $a9
-	m_NPCData $b9 $4f npcaa_scripts $00 $ff $00 $aa
-	m_NPCData $c2 $4f npcab_scripts $7c $ff $7c $ff
-	m_NPCData $0d $4f npcac_scripts $ff $ff $ff $ff
-	m_NPCData $98 $4f npcad_scripts $ff $ff $ff $ff
-	m_NPCData $98 $4f npcae_scripts $ff $ff $ff $ff
-	m_NPCData $d0 $4f npcaf_scripts $ff $ff $ff $ff
-	m_NPCData $9b $4f npcb0_scripts $b2 $ff $ff $ff
-	m_NPCData $91 $4f npcb1_scripts $ff $ff $ff $ff
-	m_NPCData $91 $4f npcb2_scripts $ff $ff $ff $ff
-	m_NPCData $d2 $4f npcb3_scripts $7c $ff $7c $7c
-	m_NPCData $eb $4e npcb4_scripts $ff $ff $ff $ff
-	m_NPCData $f0 $4e npcb5_scripts $ff $ff $ff $ff
-	m_NPCData $f5 $4e npcb6_scripts $ff $ff $ff $ff
-	m_NPCData $fa $4e npcb7_scripts $ff $ff $ff $ff
-	m_NPCData $de $4e npcb8_scripts $ff $ff $ff $ff
-	m_NPCData $eb $4e npcb9_scripts $ff $ff $ff $ff
-	m_NPCData $eb $4e npcba_scripts $ff $ff $ff $ff
-	m_NPCData $eb $4e npcbb_scripts $ff $ff $ff $ff
-	m_NPCData $eb $4e npcbc_scripts $ff $ff $ff $ff
-	m_NPCData $eb $4e npcbd_scripts $ff $ff $ff $ff
-	m_NPCData $eb $4e npcbe_scripts $ff $ff $ff $ff
+	m_NPCData npc6a_oamData npc6a_scripts $ff $ff $ff $ff // $6a
+	m_NPCData npc6b_oamData npc6b_scripts $ff $ff $ff $ff
+	m_NPCData npc6c_oamData npc6c_scripts $ff $ff $ff $ff
+	m_NPCData npc6d_oamData npc6d_scripts $ff $ff $ff $ff
+	m_NPCData npc6e_oamData npc6e_scripts $ff $ff $ff $ff
+	m_NPCData npc6f_oamData npc6f_scripts $ff $ff $ff $ff
+	m_NPCData npc70_oamData npc70_scripts $ff $ff $ff $ff
+	m_NPCData npc71_oamData npc71_scripts $ff $ff $ff $ff
+	m_NPCData npc72_oamData npc72_scripts $ff $ff $ff $ff
+	m_NPCData npc73_oamData npc73_scripts $ff $ff $ff $ff
+	m_NPCData npc74_oamData npc74_scripts $ff $ff $ff $ff
+	m_NPCData npc75_oamData npc75_scripts $ff $ff $ff $ff
+	m_NPCData npc76_oamData npc76_scripts $ff $ff $ff $ff
+	m_NPCData npc77_oamData npc77_scripts $ff $ff $ff $ff
+	m_NPCData npc78_oamData npc78_scripts $00 $ff $00 $ff
+	m_NPCData npc79_oamData npc79_scripts $ff $ff $ff $7c
+	m_NPCData npc7a_oamData npc7a_scripts $00 $ff $00 $ff
+	m_NPCData npc7b_oamData npc7b_scripts $ff $ff $ff $7c
+	m_NPCData npc7c_oamData npc7c_scripts $ff $ff $ff $ff
+	m_NPCData npc7d_oamData npc7d_scripts $ff $ff $ff $ff
+	m_NPCData npc7e_oamData npc7e_scripts $ff $ff $ff $ff
+	m_NPCData npc7f_oamData npc7f_scripts $ff $ff $ff $ff
+	m_NPCData npc80_oamData npc80_scripts $ff $ff $ff $ff
+	m_NPCData npc81_oamData npc81_scripts $ff $ff $ff $ff
+	m_NPCData npc82_oamData npc82_scripts $ff $ff $ff $ff
+	m_NPCData npc83_oamData npc83_scripts $ff $ff $ff $ff
+	m_NPCData npc84_oamData npc84_scripts $ff $ff $ff $ff
+	m_NPCData npc85_oamData npc85_scripts $86 $86 $87 $ff
+	m_NPCData npc86_oamData npc86_scripts $ff $86 $87 $ff
+	m_NPCData npc87_oamData npc87_scripts $ff $ff $ff $ff
+	m_NPCData npc88_oamData npc88_scripts $ff $ff $ff $ff
+	m_NPCData npc89_oamData npc89_scripts $ff $ff $ff $ff
+	m_NPCData npc8a_oamData npc8a_scripts $ff $ff $ff $ff
+	m_NPCData npc8b_oamData npc8b_scripts $ff $ff $ff $ff
+	m_NPCData npc8c_oamData npc8c_scripts $00 $8c $00 $ff
+	m_NPCData npc8d_oamData npc8d_scripts $ff $8d $00 $ff
+	m_NPCData npc8e_oamData npc8e_scripts $ff $8e $00 $ff
+	m_NPCData npc8f_oamData npc8f_scripts $ff $ff $ff $ff
+	m_NPCData npc90_oamData npc90_scripts $ff $ff $ff $ff
+	m_NPCData npc91_oamData npc91_scripts $00 $91 $00 $ff
+	m_NPCData npc92_oamData npc92_scripts $00 $92 $00 $ff
+	m_NPCData npc93_oamData npc93_scripts $00 $93 $00 $ff
+	m_NPCData npc94_oamData npc94_scripts $00 $94 $00 $ff
+	m_NPCData npc95_oamData npc95_scripts $ff $ff $ff $ff
+	m_NPCData npc96_oamData npc96_scripts $00 $96 $00 $ff
+	m_NPCData npc97_oamData npc97_scripts $00 $96 $00 $ff
+	m_NPCData npc98_oamData npc98_scripts $00 $96 $00 $ff
+	m_NPCData npc99_oamData npc99_scripts $ff $ff $ff $ff
+	m_NPCData npc9a_oamData npc9a_scripts $ff $ff $ff $ff
+	m_NPCData npc9b_oamData npc9b_scripts $ff $ff $ff $ff
+	m_NPCData npc9c_oamData npc9c_scripts $00 $ff $00 $ff
+	m_NPCData npc9d_oamData npc9d_scripts $ff $ff $00 $ff
+	m_NPCData npc9e_oamData npc9e_scripts $ff $ff $ff $ff
+	m_NPCData npc9f_oamData npc9f_scripts $ff $ff $ff $ff
+	m_NPCData npca0_oamData npca0_scripts $ff $ff $ff $ff
+	m_NPCData npca1_oamData npca1_scripts $ff $ff $20 $ff
+	m_NPCData npca2_oamData npca2_scripts $a3 $ff $a3 $a3
+	m_NPCData npca3_oamData npca3_scripts $ff $ff $ff $ff
+	m_NPCData npca4_oamData npca4_scripts $ff $ff $ff $7c
+	m_NPCData npca5_oamData npca5_scripts $00 $ff $00 $ff
+	m_NPCData npca6_oamData npca6_scripts $00 $ff $00 $ff
+	m_NPCData npca7_oamData npca7_scripts $00 $ff $00 $a7
+	m_NPCData npca8_oamData npca8_scripts $00 $ff $00 $a8
+	m_NPCData npca9_oamData npca9_scripts $00 $ff $00 $a9
+	m_NPCData npcaa_oamData npcaa_scripts $00 $ff $00 $aa
+	m_NPCData npcab_oamData npcab_scripts $7c $ff $7c $ff
+	m_NPCData npcac_oamData npcac_scripts $ff $ff $ff $ff
+	m_NPCData npcad_oamData npcad_scripts $ff $ff $ff $ff
+	m_NPCData npcae_oamData npcae_scripts $ff $ff $ff $ff
+	m_NPCData npcaf_oamData npcaf_scripts $ff $ff $ff $ff
+	m_NPCData npcb0_oamData npcb0_scripts $b2 $ff $ff $ff
+	m_NPCData npcb1_oamData npcb1_scripts $ff $ff $ff $ff
+	m_NPCData npcb2_oamData npcb2_scripts $ff $ff $ff $ff
+	m_NPCData npcb3_oamData npcb3_scripts $7c $ff $7c $7c
+	m_NPCData npcb4_oamData npcb4_scripts $ff $ff $ff $ff
+	m_NPCData npcb5_oamData npcb5_scripts $ff $ff $ff $ff
+	m_NPCData npcb6_oamData npcb6_scripts $ff $ff $ff $ff
+	m_NPCData npcb7_oamData npcb7_scripts $ff $ff $ff $ff
+	m_NPCData npcb8_oamData npcb8_scripts $ff $ff $ff $ff
+	m_NPCData npcb9_oamData npcb9_scripts $ff $ff $ff $ff
+	m_NPCData npcba_oamData npcba_scripts $ff $ff $ff $ff
+	m_NPCData npcbb_oamData npcbb_scripts $ff $ff $ff $ff
+	m_NPCData npcbc_oamData npcbc_scripts $ff $ff $ff $ff
+	m_NPCData npcbd_oamData npcbd_scripts $ff $ff $ff $ff
+	m_NPCData npcbe_oamData npcbe_scripts $ff $ff $ff $ff
 
 // npc script bytes in bank 6
-	m_NPCData $6f $0d npcbf_scripts $c0 $ff $00 $bf // $bf
-	m_NPCData $66 $0d npcc0_scripts $ff $ff $ff $ff
-	m_NPCData $5d $0d npcc1_scripts $00 $ff $00 $c1
-	m_NPCData $54 $0d npcc2_scripts $c3 $ff $00 $c2
-	m_NPCData $4b $0d npcc3_scripts $ff $ff $ff $ff
-	m_NPCData $54 $0d npcc4_scripts $00 $ff $00 $c4
-	m_NPCData $78 $0d npcc5_scripts $c5 $ff $ff $c5
-	m_NPCData $4b $0d npcc6_scripts $ca $ff $e0 $ff
-	m_NPCData $4b $0d npcc7_scripts $cb $ff $e0 $ff
-	m_NPCData $a8 $0d npcc8_scripts $ff $ff $ff $ff
-	m_NPCData $4b $0d npcc9_scripts $cc $ff $e0 $ff
-	m_NPCData $4b $0d npcca_scripts $e0 $ff $e0 $ff
-	m_NPCData $4b $0d npccb_scripts $e0 $ff $e0 $ff
-	m_NPCData $4b $0d npccc_scripts $e0 $ff $e0 $ff
-	m_NPCData $d9 $0d npccd_scripts $ff $ff $e0 $ff
-	m_NPCData $c5 $0d npcce_scripts $ff $ff $ff $ff
-	m_NPCData $78 $0d npccf_scripts $ff $ff $e0 $ff
-	m_NPCData $ce $0d npcd0_scripts $03 $ff $03 $03
-	m_NPCData $b1 $0d npcd1_scripts $e1 $ff $e1 $d1
-	m_NPCData $ce $0d npcd2_scripts $03 $ff $03 $03
-	m_NPCData $a8 $0d npcd3_scripts $03 $ff $03 $ff
-	m_NPCData $d9 $0d npcd4_scripts $ff $ff $ff $ff
-	m_NPCData $d9 $0d npcd5_scripts $ff $ff $e0 $ff
-	m_NPCData $d9 $0d npcd6_scripts $ff $ff $ff $ff
-	m_NPCData $db $0d npcd7_scripts $ff $ff $ff $ff
-	m_NPCData $4b $0d npcd8_scripts $ff $ff $ff $ff
-	m_NPCData $b4 $0d npcd9_scripts $ff $ff $ff $ff
-	m_NPCData $b4 $0d npcda_scripts $ff $ff $ff $ff
-	m_NPCData $5d $0d npcdb_scripts $ff $ff $e0 $ff
-	m_NPCData $d9 $0d npcdc_scripts $ff $ff $ff $ff
-	m_NPCData $de $0d npcdd_scripts $ff $ff $e0 $ff
-	m_NPCData $81 $0d npcde_scripts $ff $ff $e0 $ff
-	m_NPCData $e3 $0d npcdf_scripts $ff $ff $e0 $ff
-	m_NPCData $e8 $0d npce0_scripts $ff $ff $ff $ff
-	m_NPCData $e8 $0d npce1_scripts $ff $ff $ff $ff
-	m_NPCData $d9 $0d npce2_scripts $ff $ff $ff $ff
-	m_NPCData $6f $0d npce3_scripts $00 $ff $00 $ff
-	m_NPCData $d9 $0d npce4_scripts $ff $ff $e5 $ff
-	m_NPCData $d9 $0d npce5_scripts $ff $ff $ff $ff
-	m_NPCData $54 $0d npce6_scripts $ff $ff $ff $ff
-	m_NPCData $90 $0d npce7_scripts $ff $ff $ff $ff
-	m_NPCData $9c $0d npce8_scripts $ff $ff $ff $ff
-	m_NPCData $9c $0d npce9_scripts $ff $ff $ff $ff
-	m_NPCData $4b $0d npcea_scripts $ff $ff $00 $ff
-	m_NPCData $d7 $0d npceb_scripts $ff $ff $ec $ff
-	m_NPCData $e8 $0d npcec_scripts $ff $ff $ff $ff
-	m_NPCData $92 $0d npced_scripts $ff $ff $ff $ff
-	m_NPCData $99 $0d npcee_scripts $ff $ff $ff $ff
-	m_NPCData $94 $0d npcef_scripts $ff $ff $f3 $ff
-	m_NPCData $a3 $0d npcf0_scripts $ff $ff $ff $ff
-	m_NPCData $b4 $0d npcf1_scripts $ff $ff $ff $ff
-	m_NPCData $ba $0d npcf2_scripts $ff $ff $f4 $ff
-	m_NPCData $94 $0d npcf3_scripts $ff $ff $ec $ff
-	m_NPCData $e8 $0d npcf4_scripts $ff $ff $ff $ff
-	m_NPCData $ed $0d npcf5_scripts $ff $ff $ff $ff
+	m_NPCData npcbf_oamData npcbf_scripts $c0 $ff $00 $bf // $bf
+	m_NPCData npcc0_oamData npcc0_scripts $ff $ff $ff $ff
+	m_NPCData npcc1_oamData npcc1_scripts $00 $ff $00 $c1
+	m_NPCData npcc2_oamData npcc2_scripts $c3 $ff $00 $c2
+	m_NPCData npcc3_oamData npcc3_scripts $ff $ff $ff $ff
+	m_NPCData npcc4_oamData npcc4_scripts $00 $ff $00 $c4
+	m_NPCData npcc5_oamData npcc5_scripts $c5 $ff $ff $c5
+	m_NPCData npcc6_oamData npcc6_scripts $ca $ff $e0 $ff
+	m_NPCData npcc7_oamData npcc7_scripts $cb $ff $e0 $ff
+	m_NPCData npcc8_oamData npcc8_scripts $ff $ff $ff $ff
+	m_NPCData npcc9_oamData npcc9_scripts $cc $ff $e0 $ff
+	m_NPCData npcca_oamData npcca_scripts $e0 $ff $e0 $ff
+	m_NPCData npccb_oamData npccb_scripts $e0 $ff $e0 $ff
+	m_NPCData npccc_oamData npccc_scripts $e0 $ff $e0 $ff
+	m_NPCData npccd_oamData npccd_scripts $ff $ff $e0 $ff
+	m_NPCData npcce_oamData npcce_scripts $ff $ff $ff $ff
+	m_NPCData npccf_oamData npccf_scripts $ff $ff $e0 $ff
+	m_NPCData npcd0_oamData npcd0_scripts $03 $ff $03 $03
+	m_NPCData npcd1_oamData npcd1_scripts $e1 $ff $e1 $d1
+	m_NPCData npcd2_oamData npcd2_scripts $03 $ff $03 $03
+	m_NPCData npcd3_oamData npcd3_scripts $03 $ff $03 $ff
+	m_NPCData npcd4_oamData npcd4_scripts $ff $ff $ff $ff
+	m_NPCData npcd5_oamData npcd5_scripts $ff $ff $e0 $ff
+	m_NPCData npcd6_oamData npcd6_scripts $ff $ff $ff $ff
+	m_NPCData npcd7_oamData npcd7_scripts $ff $ff $ff $ff
+	m_NPCData npcd8_oamData npcd8_scripts $ff $ff $ff $ff
+	m_NPCData npcd9_oamData npcd9_scripts $ff $ff $ff $ff
+	m_NPCData npcda_oamData npcda_scripts $ff $ff $ff $ff
+	m_NPCData npcdb_oamData npcdb_scripts $ff $ff $e0 $ff
+	m_NPCData npcdc_oamData npcdc_scripts $ff $ff $ff $ff
+	m_NPCData npcdd_oamData npcdd_scripts $ff $ff $e0 $ff
+	m_NPCData npcde_oamData npcde_scripts $ff $ff $e0 $ff
+	m_NPCData npcdf_oamData npcdf_scripts $ff $ff $e0 $ff
+	m_NPCData npce0_oamData npce0_scripts $ff $ff $ff $ff
+	m_NPCData npce1_oamData npce1_scripts $ff $ff $ff $ff
+	m_NPCData npce2_oamData npce2_scripts $ff $ff $ff $ff
+	m_NPCData npce3_oamData npce3_scripts $00 $ff $00 $ff
+	m_NPCData npce4_oamData npce4_scripts $ff $ff $e5 $ff
+	m_NPCData npce5_oamData npce5_scripts $ff $ff $ff $ff
+	m_NPCData npce6_oamData npce6_scripts $ff $ff $ff $ff
+	m_NPCData npce7_oamData npce7_scripts $ff $ff $ff $ff
+	m_NPCData npce8_oamData npce8_scripts $ff $ff $ff $ff
+	m_NPCData npce9_oamData npce9_scripts $ff $ff $ff $ff
+	m_NPCData npcea_oamData npcea_scripts $ff $ff $00 $ff
+	m_NPCData npceb_oamData npceb_scripts $ff $ff $ec $ff
+	m_NPCData npcec_oamData npcec_scripts $ff $ff $ff $ff
+	m_NPCData npced_oamData npced_scripts $ff $ff $ff $ff
+	m_NPCData npcee_oamData npcee_scripts $ff $ff $ff $ff
+	m_NPCData npcef_oamData npcef_scripts $ff $ff $f3 $ff
+	m_NPCData npcf0_oamData npcf0_scripts $ff $ff $ff $ff
+	m_NPCData npcf1_oamData npcf1_scripts $ff $ff $ff $ff
+	m_NPCData npcf2_oamData npcf2_scripts $ff $ff $f4 $ff
+	m_NPCData npcf3_oamData npcf3_scripts $ff $ff $ec $ff
+	m_NPCData npcf4_oamData npcf4_scripts $ff $ff $ff $ff
+	m_NPCData npcf5_oamData npcf5_scripts $ff $ff $ff $ff

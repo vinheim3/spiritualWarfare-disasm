@@ -1,4 +1,4 @@
-; Disassembly of "OR"
+; Disassembly of "Spiritual Warfare (USA) (Unl).gb"
 ; This file was created with:
 ; mgbdis v1.4 - Game Boy ROM disassembler by Matt Currie and contributors.
 ; With some edits by vinheim3 to make it compilable using wla-gb

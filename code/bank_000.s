@@ -1,9 +1,3 @@
-; Disassembly of "OR"
-; This file was created with:
-; mgbdis v1.4 - Game Boy ROM disassembler by Matt Currie and contributors.
-; With some edits by vinheim3 to make it compilable using wla-gb
-; https://github.com/mattcurrie/mgbdis
-; https://github.com/vinheim3
 
 begin:
 	ld   sp, wStackTop
@@ -2349,8 +2343,8 @@ convert2x2tileValueToTopLeftVramTileValue:
 
 
 func_17dd:
-	bit  0, a                                        ; func_17dd: $cb $47
-	jp   nz, Jump_000_17ec                           ; $17df: $c2 $ec $17
+	bit  0, a
+	jp   nz, +                           ; $17df: $c2 $ec $17
 
 	call convert2x2tileValueToTopLeftVramTileValue                               ; $17e2: $cd $c4 $17
 	push hl                                          ; $17e5: $e5
@@ -2359,21 +2353,20 @@ func_17dd:
 	pop  hl                                          ; $17ea: $e1
 	ret                                              ; $17eb: $c9
 
-
-Jump_000_17ec:
++
 	push hl                                          ; $17ec: $e5
 	and  $fc                                         ; $17ed: $e6 $fc
 	push af                                          ; $17ef: $f5
 	srl  a                                           ; $17f0: $cb $3f
 	srl  a                                           ; $17f2: $cb $3f
-	add  $46                                         ; $17f4: $c6 $46
+	add  <$d046                                         ; $17f4: $c6 $46
 	ld   l, a                                        ; $17f6: $6f
 	ld   a, $00                                      ; $17f7: $3e $00
-	adc  $d0                                         ; $17f9: $ce $d0
+	adc  >$d046                                         ; $17f9: $ce $d0
 	ld   h, a                                        ; $17fb: $67
 	ld   a, (hl)                                     ; $17fc: $7e
 	cp   $ff                                         ; $17fd: $fe $ff
-	jr   nz, jr_000_1808                             ; $17ff: $20 $07
+	jr   nz, +                             ; $17ff: $20 $07
 
 	pop  af                                          ; $1801: $f1
 	ld   hl, $c017                                   ; $1802: $21 $17 $c0
@@ -2381,8 +2374,7 @@ Jump_000_17ec:
 	pop  hl                                          ; $1806: $e1
 	ret                                              ; $1807: $c9
 
-
-jr_000_1808:
++
 	pop  hl                                          ; $1808: $e1
 	ld   hl, $c017                                   ; $1809: $21 $17 $c0
 	ld   (hl), a                                     ; $180c: $77
@@ -3355,7 +3347,7 @@ jr_000_1dc7:
 
 Jump_000_1dca:
 	call updateNPCs                                       ; $1dca: $cd $72 $42
-	call func_41bd                                       ; $1dcd: $cd $bd $41
+	call loadNpcOamDataToWram                                       ; $1dcd: $cd $bd $41
 	call func_56aa                                       ; $1dd0: $cd $aa $56
 	call Call_000_3aa4                               ; $1dd3: $cd $a4 $3a
 	call Call_000_2f50                               ; $1dd6: $cd $50 $2f
@@ -4224,7 +4216,7 @@ jr_000_232a:
 	call applyPalettesBasedOnLamp                               ; $232e: $cd $06 $1e
 	call func_56aa                                       ; $2331: $cd $aa $56
 	call func_55a9                                       ; $2334: $cd $a9 $55
-	call func_41bd                                       ; $2337: $cd $bd $41
+	call loadNpcOamDataToWram                                       ; $2337: $cd $bd $41
 	call Call_000_2e67                               ; $233a: $cd $67 $2e
 	call Call_000_3b11                               ; $233d: $cd $11 $3b
 	call copyA0hDataToOam                               ; $2340: $cd $99 $1a
@@ -9540,15 +9532,17 @@ Call_001_4198:
 	jp   Jump_001_414c                               ; $41ba: $c3 $4c $41
 
 
-func_41bd:
+loadNpcOamDataToWram:
 	ld   bc, $0000
 
 @checkNextNPC:
+// $1e is last idx of npcs
 	ld   a, $1e                                      ; $41c0: $3e $1e
 	sub  c                                           ; $41c2: $91
 	sub  c                                           ; $41c3: $91
 	call Call_001_57f1                               ; $41c4: $cd $f1 $57
 	call clear2spritesInOam_1stIdxedE                               ; $41c7: $cd $00 $58
+
 	ld   hl, wNPCBytes_ID                                   ; $41ca: $21 $30 $cb
 	add  hl, bc                                      ; $41cd: $09
 	ld   a, (hl)                                     ; $41ce: $7e
@@ -9572,6 +9566,7 @@ func_41bd:
 	and  $20                                         ; $41ec: $e6 $20
 	jr   z, @func_420a                              ; $41ee: $28 $1a
 
+// facing left
 	ld   hl, $c006                                   ; $41f0: $21 $06 $c0
 	ld   a, (hl)                                     ; $41f3: $7e
 	call func_17dd                                       ; $41f4: $cd $dd $17
@@ -9596,6 +9591,7 @@ func_41bd:
 	jr   nz, @loop_41fb                             ; $4213: $20 $e6
 
 @func_4215:
+// load tile chosen
 	ld   hl, wOam+2                                   ; $4215: $21 $02 $c2
 	add  hl, de                                      ; $4218: $19
 	ld   (hl), a                                     ; $4219: $77
@@ -9654,7 +9650,7 @@ func_41bd:
 @gotoCheckNextNPC:
 	inc  bc                                          ; $4268: $03
 	ld   a, c                                        ; $4269: $79
-	cp   $0c                                         ; $426a: $fe $0c
+	cp   NUM_NPCS                                         ; $426a: $fe $0c
 	jr   nc, @done                             ; $426c: $30 $03
 
 	jp   @checkNextNPC                               ; $426e: $c3 $c0 $41
@@ -13605,7 +13601,7 @@ jr_001_57c3:
 
 
 Call_001_57f1:
-	ld   hl, $c04e                                   ; Call_001_57f1: $21 $4e $c0
+	ld   hl, $c04e
 	add  (hl)                                        ; $57f4: $86
 	cp   $28                                         ; $57f5: $fe $28
 	jr   c, +                              ; $57f7: $38 $02

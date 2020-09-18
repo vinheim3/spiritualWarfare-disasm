@@ -364,9 +364,11 @@ wNumberOfRoomsInRoomFlags: ; $c0fe
 wLastRoomFlagsIdxPlus1: ; $c0ff
 	db
 
-// TODO: unknown size, could be global flags
 wRoomFlags: ; $c100
-	dsb $100
+	dsb $40
+
+wc140:
+	dsb $200-$140
 
 wOam: ; $c200
 	dsb $a0
@@ -396,18 +398,15 @@ wOffsetIntoCompressedRoomLayoutPerScreenRow: ; $c5e0
 wc5eb:
 	dsb $f0-$eb
 
-// these 4 "words" seem to store palettes, eg for dark rooms
 wBGPwhenLampOff: ; $c5f0
 	dw
 
 wOBP0whenLampOff: ; $c5f2
 	dw
 
-// if 2nd byte's bit 5 is set, this is overridden with the word after it
 wBGPwhenLampOn: ; $c5f4
 	dw
 
-// if 2nd byte's bit 5 is set, this is overridden with the word after above
 wOBP0whenLampOn: ; $c5f6
 	dw
 

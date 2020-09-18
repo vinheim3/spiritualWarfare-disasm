@@ -3294,7 +3294,8 @@ npc66_scripts:
 	.db $ff $7f
 
 
-;; // 6ab2
+npc67_oamData:
+npc68_oamData:
 	.db $7b $3b $3f $02
 
 
