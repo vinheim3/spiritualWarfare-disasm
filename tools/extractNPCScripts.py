@@ -77,15 +77,15 @@ while start + offset < end:
     elif opcode == 0x28:
         comps.append(f'\tnpc_setRoomFlagFrom_cbf0')
     elif opcode == 0x40:
-        comps.append(f'\tnpc_loadInto_cba8 {next_byte}')
+        comps.append(f'\tnpc_moveByParamPixels {next_byte}')
     elif opcode == 0x41:
-        comps.append(f'\tnpc_lowNybbleOf_cb54_equParamMinus1 {next_byte}')
+        comps.append(f'\tnpc_setMovementSpeed {next_byte}')
     elif opcode == 0x42:
-        comps.append(f'\tnpc_loadParamInto_cb78 {next_byte}')
+        comps.append(f'\tnpc_wait {next_byte}')
     elif opcode == 0x43:
         comps.append(f'\tnpc_setNewNpcID {next_byte}')
     elif opcode == 0x44:
-        comps.append(f'\tnpc_paramLowNybbleIs_cb54_highNybble {next_byte}')
+        comps.append(f'\tnpc_setDamageTaken {next_byte}')
     elif opcode == 0x45:
         comps.append(f'\tnpc_increaseScore {next_byte}')
     elif opcode == 0x48:

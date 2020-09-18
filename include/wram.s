@@ -570,7 +570,9 @@ wNPC_xCoord: ; $cb3c
 wNPC_yCoord: ; $cb48
 	dsb NUM_NPCS
 
-wNPCBytes_cb54: ; $cb54
+// high nybble - damage
+// low nybble - movement speed
+wNPCBytes_damageAndMovementSpeed: ; $cb54
 	dsb NUM_NPCS
 
 wNPCBytes_cb60: ; $cb60
@@ -579,7 +581,7 @@ wNPCBytes_cb60: ; $cb60
 wNPCBytes_cb6c: ; $cb6c
 	dsb NUM_NPCS
 
-wNPCBytes_cb78: ; $cb78
+wNPCBytes_timeToWait: ; $cb78
 	dsb NUM_NPCS
 
 // this whole byte uses upper nybble for some controls
@@ -593,7 +595,7 @@ wNPCScriptPointerLowByte: ; $cb90
 wNPCScriptPointerHighByte: ; $cb9c
 	dsb NUM_NPCS
 
-wNPCBytes_cba8: ; $cba8
+wNPCBytes_pixelsToMove: ; $cba8
 	dsb NUM_NPCS
 
 wNPCBytes_scriptLoopCounter: ; $cbb4

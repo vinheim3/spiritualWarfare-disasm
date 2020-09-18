@@ -155,11 +155,11 @@ scriptCmdTable:
 	.dw _scriptCmd_set1_cbe4
 
 // 1 param
-	.dw _scriptCmd_loadInto_cba8
-	.dw _scriptCmd_lowNybbleOf_cb54_equParamMinus1
-	.dw _scriptCmd_loadParamInto_cb78
+	.dw _scriptCmd_moveByParamPixels
+	.dw _scriptCmd_setMovementSpeed
+	.dw _scriptCmd_wait
 	.dw _scriptCmd_setNewNpcID
-	.dw _scriptCmd_paramLowNybbleIs_cb54_highNybble
+	.dw _scriptCmd_setDamageTaken
 	.dw _scriptCmd_increaseScore
 	.dw _scriptCmd_spawnNPCinFrontOfSelf
 	.dw _scriptCmd_cb60_low2bitsEquParamMinus1
@@ -573,7 +573,7 @@ _scriptCmd_65a2:
 
 ++
 // cba8 is x distance between player x and npc x
-	ld   hl, wNPCBytes_cba8                                   ; $65b6: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $65b6: $21 $a8 $cb
 	add  hl, bc                                      ; $65b9: $09
 	ld   (hl), a                                     ; $65ba: $77
 	jp   _scriptCmd_moveHorizontallyToPlayer                               ; $65bb: $c3 $69 $65
@@ -597,7 +597,7 @@ jr_001_65cd:
 	sub  (hl)                                        ; $65d1: $96
 
 Jump_001_65d2:
-	ld   hl, wNPCBytes_cba8                                   ; $65d2: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $65d2: $21 $a8 $cb
 	add  hl, bc                                      ; $65d5: $09
 	ld   (hl), a                                     ; $65d6: $77
 	jp   _scriptCmd_moveVerticallyToPlayer                               ; $65d7: $c3 $88 $65
@@ -954,16 +954,16 @@ _scriptCmd_set1_cbe4:
 	jp   npcHelper_orAwith_cbe4
 
 
-_scriptCmd_loadInto_cba8:
+_scriptCmd_moveByParamPixels:
 	ld   hl, wNPCScriptParam1
 	ld   a, (hl)
-	ld   hl, wNPCBytes_cba8
+	ld   hl, wNPCBytes_pixelsToMove
 	add  hl, bc
 	ld   (hl), a
 	ret
 
 
-_scriptCmd_lowNybbleOf_cb54_equParamMinus1:
+_scriptCmd_setMovementSpeed:
 // keep lower nybble of param-1
 	ld   hl, wNPCScriptParam1
 	dec  (hl)
@@ -972,7 +972,7 @@ _scriptCmd_lowNybbleOf_cb54_equParamMinus1:
 	ld   (hl), a
 
 // or with higher nybble of cb54
-	ld   hl, wNPCBytes_cb54
+	ld   hl, wNPCBytes_damageAndMovementSpeed
 	add  hl, bc
 	ld   a, (hl)
 	and  $f0
@@ -980,16 +980,16 @@ _scriptCmd_lowNybbleOf_cb54_equParamMinus1:
 	or   (hl)
 
 // put back into cb54
-	ld   hl, wNPCBytes_cb54
+	ld   hl, wNPCBytes_damageAndMovementSpeed
 	add  hl, bc
 	ld   (hl), a
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_loadParamInto_cb78:
+_scriptCmd_wait:
 	ld   hl, wNPCScriptParam1
 	ld   a, (hl)
-	ld   hl, wNPCBytes_cb78
+	ld   hl, wNPCBytes_timeToWait
 	add  hl, bc
 	ld   (hl), a
 	ret
@@ -1004,7 +1004,7 @@ _scriptCmd_setNewNpcID:
 	ret
 
 
-_scriptCmd_paramLowNybbleIs_cb54_highNybble:
+_scriptCmd_setDamageTaken:
 // move param1's lower nybble to upper nybble
 	ld   hl, wNPCScriptParam1
 	sla  (hl)
@@ -1013,13 +1013,13 @@ _scriptCmd_paramLowNybbleIs_cb54_highNybble:
 	sla  (hl)
 
 // or with cb54 and put back in
-	ld   hl, wNPCBytes_cb54
+	ld   hl, wNPCBytes_damageAndMovementSpeed
 	add  hl, bc
 	ld   a, (hl)
 	and  $0f
 	ld   hl, wNPCScriptParam1
 	or   (hl)
-	ld   hl, wNPCBytes_cb54
+	ld   hl, wNPCBytes_damageAndMovementSpeed
 	add  hl, bc
 	ld   (hl), a
 	jp   executeNPCScriptCode
@@ -1969,7 +1969,7 @@ _scriptCmd_6cd6:
 	ld   hl, wCurrNpcIdx                                   ; $6cef: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6cf2: $4e
 	ld   b, $00                                      ; $6cf3: $06 $00
-	ld   hl, wNPCBytes_cb78                                   ; $6cf5: $21 $78 $cb
+	ld   hl, wNPCBytes_timeToWait                                   ; $6cf5: $21 $78 $cb
 	add  hl, bc                                      ; $6cf8: $09
 	ld   (hl), a                                     ; $6cf9: $77
 	ld   hl, wNPCScriptParam2                                   ; $6cfa: $21 $21 $c0
@@ -1982,7 +1982,7 @@ _scriptCmd_6cd6:
 	and  $01                                         ; $6d07: $e6 $01
 	jr   z, @done                              ; $6d09: $28 $05
 
-	ld   hl, wNPCBytes_cb78                                   ; $6d0b: $21 $78 $cb
+	ld   hl, wNPCBytes_timeToWait                                   ; $6d0b: $21 $78 $cb
 	add  hl, bc                                      ; $6d0e: $09
 	inc  (hl)                                        ; $6d0f: $34
 
@@ -3005,12 +3005,12 @@ initNPCscriptBytes:
 	ld   (hl), a                                     ; $7311: $77
 
 //
-	ld   hl, wNPCBytes_cb78                                   ; $7312: $21 $78 $cb
+	ld   hl, wNPCBytes_timeToWait                                   ; $7312: $21 $78 $cb
 	add  hl, bc                                      ; $7315: $09
 	ld   (hl), a                                     ; $7316: $77
 
 //
-	ld   hl, wNPCBytes_cba8                                   ; $7317: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $7317: $21 $a8 $cb
 	add  hl, bc                                      ; $731a: $09
 	ld   (hl), a                                     ; $731b: $77
 
@@ -3020,7 +3020,7 @@ initNPCscriptBytes:
 	ld   (hl), a                                     ; $7320: $77
 
 //
-	ld   hl, wNPCBytes_cb54                                   ; $7321: $21 $54 $cb
+	ld   hl, wNPCBytes_damageAndMovementSpeed                                   ; $7321: $21 $54 $cb
 	add  hl, bc                                      ; $7324: $09
 	ld   (hl), a                                     ; $7325: $77
 

@@ -9706,12 +9706,13 @@ updateNPCs:
 	call getBit6ofNPCBytes_cb60                               ; $42a5: $cd $82 $73
 	jr   nz, +                             ; $42a8: $20 $1a
 
-	ld   hl, wNPCBytes_cba8                                   ; $42aa: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $42aa: $21 $a8 $cb
 	add  hl, bc                                      ; $42ad: $09
 	ld   a, (hl)                                     ; $42ae: $7e
 	cp   $00                                         ; $42af: $fe $00
 	jr   z, @next_42e7                              ; $42b1: $28 $34
 
+// npc still has pixels to move
 	ld   hl, wNPCBytes_cb6c                                   ; $42b3: $21 $6c $cb
 	add  hl, bc                                      ; $42b6: $09
 	inc  (hl)                                        ; $42b7: $34
@@ -9751,26 +9752,26 @@ updateNPCs:
 -
 // if cb78 or cba8 are non-zero, before or after executing opcodes
 // jump to their relevant function
-	ld   hl, wNPCBytes_cb78                                   ; $42e7: $21 $78 $cb
+	ld   hl, wNPCBytes_timeToWait                                   ; $42e7: $21 $78 $cb
 	add  hl, bc                                      ; $42ea: $09
 	ld   a, (hl)                                     ; $42eb: $7e
 	cp   $00                                         ; $42ec: $fe $00
-	jr   nz, @bytes78_nz                             ; $42ee: $20 $24
+	jr   nz, @needToWait                             ; $42ee: $20 $24
 
-	ld   hl, wNPCBytes_cba8                                   ; $42f0: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $42f0: $21 $a8 $cb
 	add  hl, bc                                      ; $42f3: $09
 	ld   a, (hl)                                     ; $42f4: $7e
 	cp   $00                                         ; $42f5: $fe $00
-	jr   nz, @bytesa8_nz                             ; $42f7: $20 $21
+	jr   nz, @stillHasPixelsToMove                             ; $42f7: $20 $21
 
 	call executeNPCScriptCode                               ; $42f9: $cd $8a $62
 	ld   hl, wCurrNpcIdx                                   ; $42fc: $21 $a6 $c0
 	ld   c, (hl)                                     ; $42ff: $4e
 	ld   b, $00                                      ; $4300: $06 $00
-	ld   hl, wNPCBytes_cb78                                   ; $4302: $21 $78 $cb
+	ld   hl, wNPCBytes_timeToWait                                   ; $4302: $21 $78 $cb
 	add  hl, bc                                      ; $4305: $09
 	ld   a, (hl)                                     ; $4306: $7e
-	ld   hl, wNPCBytes_cba8                                   ; $4307: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $4307: $21 $a8 $cb
 	add  hl, bc                                      ; $430a: $09
 	or   (hl)                                        ; $430b: $b6
 	jr   nz, -                             ; $430c: $20 $d9
@@ -9779,12 +9780,12 @@ updateNPCs:
 	call Call_001_4346                               ; $430e: $cd $46 $43
 	jp   @gotoCheckNextNPC                               ; $4311: $c3 $88 $42
 
-@bytes78_nz:
-	call Call_001_433d                               ; $4314: $cd $3d $43
+@needToWait:
+	call npcWaitFunc                               ; $4314: $cd $3d $43
 	jp   @gotoCheckNextNPC                               ; $4317: $c3 $88 $42
 
-@bytesa8_nz:
-	call Call_001_43d5                               ; $431a: $cd $d5 $43
+@stillHasPixelsToMove:
+	call npcMovePixelFunc                               ; $431a: $cd $d5 $43
 	jp   @gotoCheckNextNPC                               ; $431d: $c3 $88 $42
 
 
@@ -9812,9 +9813,9 @@ Call_001_4324:
 	ret                                              ; $433c: $c9
 
 
-Call_001_433d:
+npcWaitFunc:
 	call Call_001_4346                               ; $433d: $cd $46 $43
-	ld   hl, wNPCBytes_cb78                                   ; $4340: $21 $78 $cb
+	ld   hl, wNPCBytes_timeToWait                                   ; $4340: $21 $78 $cb
 	add  hl, bc                                      ; $4343: $09
 	dec  (hl)                                        ; $4344: $35
 	ret                                              ; $4345: $c9
@@ -9834,7 +9835,7 @@ Call_001_4346:
 	ld   (hl), a                                     ; $4354: $77
 
 //
-	ld   hl, wNPCBytes_cb54                                   ; $4355: $21 $54 $cb
+	ld   hl, wNPCBytes_damageAndMovementSpeed                                   ; $4355: $21 $54 $cb
 	add  hl, bc                                      ; $4358: $09
 	ld   a, (hl)                                     ; $4359: $7e
 	call aDivEqu16                                       ; $435a: $cd $fa $07
@@ -9926,7 +9927,7 @@ jr_001_43d4:
 	ret                                              ; $43d4: $c9
 
 
-Call_001_43d5:
+npcMovePixelFunc:
 // reset bit 4
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $43d5: $21 $84 $cb
 	add  hl, bc                                      ; $43d8: $09
@@ -9940,7 +9941,7 @@ Call_001_43d5:
 	ld   (hl), a                                     ; $43e2: $77
 
 // cb54 upper nybble into players damage taken
-	ld   hl, wNPCBytes_cb54                                   ; $43e3: $21 $54 $cb
+	ld   hl, wNPCBytes_damageAndMovementSpeed                                   ; $43e3: $21 $54 $cb
 	add  hl, bc                                      ; $43e6: $09
 	ld   a, (hl)                                     ; $43e7: $7e
 	call aDivEqu16                                       ; $43e8: $cd $fa $07
@@ -9948,7 +9949,7 @@ Call_001_43d5:
 	ld   (hl), a                                     ; $43ee: $77
 
 // cb54 low nybble+1 into c06e
-	ld   hl, wNPCBytes_cb54                                   ; $43ef: $21 $54 $cb
+	ld   hl, wNPCBytes_damageAndMovementSpeed                                   ; $43ef: $21 $54 $cb
 	add  hl, bc                                      ; $43f2: $09
 	ld   a, (hl)                                     ; $43f3: $7e
 	and  $0f                                         ; $43f4: $e6 $0f
@@ -10149,7 +10150,7 @@ Jump_001_450e:
 	call Call_001_4562                               ; $450e: $cd $62 $45
 	jr   c, @func_454e                              ; $4511: $38 $3b
 
-	ld   hl, wNPCBytes_cba8                                   ; $4513: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $4513: $21 $a8 $cb
 	add  hl, bc                                      ; $4516: $09
 	dec  (hl)                                        ; $4517: $35
 	jr   z, @done                              ; $4518: $28 $47
@@ -10179,7 +10180,7 @@ Jump_001_450e:
 	ld   (hl), a                                     ; $453d: $77
 	jr   c, @func_454e                              ; $453e: $38 $0e
 
-	ld   hl, wNPCBytes_cba8                                   ; $4540: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $4540: $21 $a8 $cb
 	add  hl, bc                                      ; $4543: $09
 	dec  (hl)                                        ; $4544: $35
 	jr   z, @done                              ; $4545: $28 $1a
@@ -10192,7 +10193,7 @@ Jump_001_450e:
 
 @func_454e:
 	ld   a, $00                                      ; $454e: $3e $00
-	ld   hl, wNPCBytes_cba8                                   ; $4550: $21 $a8 $cb
+	ld   hl, wNPCBytes_pixelsToMove                                   ; $4550: $21 $a8 $cb
 	add  hl, bc                                      ; $4553: $09
 	ld   (hl), a                                     ; $4554: $77
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $4555: $21 $84 $cb

@@ -92,15 +92,19 @@
 	.db $28
 .endm
 
-.macro npc_loadInto_cba8
+.macro npc_set3_cbe4
+	.db $29
+.endm
+
+.macro npc_moveByParamPixels
 	.db $40 \1
 .endm
 
-.macro npc_lowNybbleOf_cb54_equParamMinus1
+.macro npc_setMovementSpeed
 	.db $41 \1
 .endm
 
-.macro npc_loadParamInto_cb78
+.macro npc_wait
 	.db $42 \1
 .endm
 
@@ -108,7 +112,7 @@
 	.db $43 \1
 .endm
 
-.macro npc_paramLowNybbleIs_cb54_highNybble
+.macro npc_setDamageTaken
 	.db $44 \1
 .endm
 
@@ -162,6 +166,10 @@
 
 .macro npc_set_c059
 	.db $54 \1
+.endm
+
+.macro npc_getSimilarNPCsToCurrLocationDir
+	.db $55 \1
 .endm
 
 .macro npc_setCoords
@@ -282,7 +290,7 @@
 	.dw \2
 .endm
 
-// c7
+// c7 - todo with replacing tiles (1st param is tile to replace)
 
 .macro npc_jumpIfItemGotten
 	.db $c8
