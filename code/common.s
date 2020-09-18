@@ -437,11 +437,11 @@ loadRoomStructData:
 	rl   b                                           ; $030d: $cb $10
 .endr
 // lower nybble * $40
-	ld   hl, data_02_4acd                                   ; $031f: $21 $cd $4a
+	ld   hl, tileTypeConversionTable                                   ; $031f: $21 $cd $4a
 	add  hl, bc                                      ; $0322: $09
 	push hl                                          ; $0323: $e5
 	pop  bc                                          ; $0324: $c1
-	ld   hl, wAddrOfRooms40hTableAt_02_4acd                                   ; $0325: $21 $91 $c0
+	ld   hl, wAddrOfRooms40hTileTypeConversionTable                                   ; $0325: $21 $91 $c0
 	ld   (hl), c                                     ; $0328: $71
 	inc  hl                                          ; $0329: $23
 	ld   (hl), b                                     ; $032a: $70
@@ -662,7 +662,7 @@ loadRoomStructData:
 	ld   (hl), a
 	ld   hl, wByteForOther2x2block
 	ld   a, (hl)
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO
+	ld   hl, w2x2tileTypes
 	add  hl, bc
 	ld   (hl), a
 	inc  bc
@@ -783,7 +783,7 @@ loadRoomStructData:
 	ld   (hl), c
 
 @loopCountingRoomFlagObjects:
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO
+	ld   hl, w2x2tileTypes
 	add  hl, bc
 	ld   a, (hl)
 	cp   $10
@@ -1176,7 +1176,7 @@ loadRoomStructData:
 	ld   hl, $c01e                                   ; $06bd: $21 $1e $c0
 	ld   c, (hl)                                     ; $06c0: $4e
 	ld   b, $00                                      ; $06c1: $06 $00
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $06c3: $21 $00 $c3
+	ld   hl, w2x2tileTypes                                   ; $06c3: $21 $00 $c3
 	add  hl, bc                                      ; $06c6: $09
 	ld   a, (hl)                                     ; $06c7: $7e
 	ld   hl, $c0a0                                   ; $06c8: $21 $a0 $c0
@@ -1206,7 +1206,7 @@ loadRoomStructData:
 	ld   c, (hl)                                     ; $06e9: $4e
 	ld   b, $00                                      ; $06ea: $06 $00
 	ld   a, $00                                      ; $06ec: $3e $00
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $06ee: $21 $00 $c3
+	ld   hl, w2x2tileTypes                                   ; $06ee: $21 $00 $c3
 	add  hl, bc                                      ; $06f1: $09
 	ld   (hl), a                                     ; $06f2: $77
 	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $06f3: $21 $79 $c0
@@ -1321,7 +1321,7 @@ convertCurrTileUsingTable_02_4acd:
 	ld   e, a
 	ld   d, $00
 // word in $c091 + layout data byte in de, store in
-	ld   hl, wAddrOfRooms40hTableAt_02_4acd
+	ld   hl, wAddrOfRooms40hTileTypeConversionTable
 	ldi  a, (hl)
 	ld   h, (hl)
 	ld   l, a

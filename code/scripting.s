@@ -2404,7 +2404,7 @@ _scriptCmd_6ed7:
 	ld   c, a                                        ; $6f61: $4f
 	ld   b, $00                                      ; $6f62: $06 $00
 	ld   a, e                                        ; $6f64: $7b
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $6f65: $21 $00 $c3
+	ld   hl, w2x2tileTypes                                   ; $6f65: $21 $00 $c3
 	add  hl, bc                                      ; $6f68: $09
 	ld   (hl), a                                     ; $6f69: $77
 	ld   hl, wNPCScriptParam2                                   ; $6f6a: $21 $21 $c0

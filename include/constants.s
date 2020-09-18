@@ -1,3 +1,6 @@
+.include "constants/item_ids.s"
+.include "constants/entity_ids.s"
+
 // armour of God
 .define AOG_BELT	$01
 .define AOG_ARMOUR	$02
@@ -13,15 +16,29 @@
 .define DIR_LEFT		$09
 .define RTT_DIFF_GROUP	$0c
 
-// b items
+// b items - wEquippedBItem
 .define EQUIPB_BOMBS	$00
 .define EQUIPB_JAWBONE	$01
 .define EQUIPB_SWORD	$02
 
+// b items - wSpecialBitemsGotten
 .define SPECIALB_LAMP		$01
 .define SPECIALB_JAWBONE	$02
 .define SPECIALB_RAFT		$04
 .define SPECIALB_RR_TICKET	$08
+
+// fruits
+.define FRUIT_PEAR		$00
+
+// score
+.define SCORE_10		$04
+.define SCORE_100		$08
+.define SCORE_200		$0c
+.define SCORE_400		$10
+.define SCORE_500		$14
+.define SCORE_800		$18
+.define SCORE_1500		$20
+.define SCORE_5000		$2c
 
 // misc
 .define NUM_NPCS	$0c

@@ -2,6 +2,9 @@ npcScript_end:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_ITEM_ROOM_FAIRY
+; ==============================================================================
 npc2e_scripts:
 	npc_call data_03_6994
 	npc_groupRoomXYjumpTable @initialScripts
@@ -33,27 +36,27 @@ npc2e_scripts:
 	.db $ff $ff $ff
 
 @initialScript_1c_00_00:
-	npc_giveFruit $00
-	npc_giveItem $00
+	npc_giveFruit FRUIT_PEAR
+	npc_giveItem ITEMID_PEAR_FIRST_SCREEN
 	npc_callCommonSoundFuncs_6d6c $03 $ff
-	npc_call data_03_69c8
+	npc_call npcHelper_increaseScoreBy40
 	npc_end
 
 @scriptAfterFruitGiven_1c_02_00:
-	npc_giveItem $01
-	npc_call data_03_69c0
+	npc_giveItem ITEMID_01
+	npc_call npcHelper_increaseScoreBy80
 	npc_end
 
 @scriptAfterFruitGiven_1c_02_07:
-	npc_giveItem $02
-	npc_increaseScore $08
-	npc_call data_03_69c4
+	npc_giveItem ITEMID_02
+	npc_increaseScore SCORE_100
+	npc_call npcHelper_increaseScoreBy60
 	npc_end
 
 @scriptAfterFruitGiven_1c_02_03:
-	npc_giveItem $03
-	npc_call data_03_69dd
-	npc_call data_03_69cc
+	npc_giveItem ITEMID_03
+	npc_call npcHelper_increaseScoreBy300
+	npc_call npcHelper_increaseScoreBy20
 	npc_end
 
 
@@ -82,26 +85,26 @@ npc2f_scripts:
 	.dw @script_1c_01_04
 
 @script_1b_02_01:
-	npc_giveItem $04
-	npc_call data_03_69c4
+	npc_giveItem ITEMID_04
+	npc_call npcHelper_increaseScoreBy60
 	npc_end
 
 @script_1c_02_02:
-	npc_giveItem $05
-	npc_increaseScore $08
-	npc_call data_03_69cc
+	npc_giveItem ITEMID_05
+	npc_increaseScore SCORE_100
+	npc_call npcHelper_increaseScoreBy20
 	npc_end
 
 @script_1b_02_02:
-	npc_giveItem $06
-	npc_increaseScore $0c
-	npc_call data_03_69c8
+	npc_giveItem ITEMID_06
+	npc_increaseScore SCORE_200
+	npc_call npcHelper_increaseScoreBy40
 	npc_end
 
 @script_1c_01_04:
-	npc_giveItem $07
-	npc_increaseScore $10
-	npc_call data_03_69c0
+	npc_giveItem ITEMID_07
+	npc_increaseScore SCORE_400
+	npc_call npcHelper_increaseScoreBy80
 	npc_end
 
 
@@ -132,26 +135,26 @@ npc30_scripts:
 	.db $ff $ff $ff
 
 @script_1c_01_00:
-	npc_giveItem $08
-	npc_call data_03_69c0
+	npc_giveItem ITEMID_08
+	npc_call npcHelper_increaseScoreBy80
 	npc_end
 
 @script_1c_02_01:
-	npc_giveItem $09
-	npc_increaseScore $08
-	npc_call data_03_69c4
+	npc_giveItem ITEMID_09
+	npc_increaseScore SCORE_100
+	npc_call npcHelper_increaseScoreBy60
 	npc_end
 
 @script_1e_00_00:
-	npc_giveItem $0a
-	npc_call data_03_69dd
-	npc_call data_03_69cc
+	npc_giveItem ITEMID_0a
+	npc_call npcHelper_increaseScoreBy300
+	npc_call npcHelper_increaseScoreBy20
 	npc_end
 
 @script_1c_00_04:
-	npc_giveItem $0b
-	npc_call data_03_69d5
-	npc_call data_03_69cc
+	npc_giveItem ITEMID_0b
+	npc_call npcHelper_increaseScoreBy700
+	npc_call npcHelper_increaseScoreBy20
 	npc_end
 
 
@@ -182,26 +185,26 @@ npc31_scripts:
 	.db $ff $ff $ff
 
 @entry0:
-	npc_giveItem $0c
-	npc_call data_03_69be
+	npc_giveItem ITEMID_0c
+	npc_call npcHelper_increaseScoreBy90
 	npc_end
 
 @entry1:
-	npc_giveItem $0d
-	npc_increaseScore $08
-	npc_call data_03_69c0
+	npc_giveItem ITEMID_0d
+	npc_increaseScore SCORE_100
+	npc_call npcHelper_increaseScoreBy80
 	npc_end
 
 @entry2:
-	npc_giveItem $0e
-	npc_call data_03_69dd
-	npc_call data_03_69c4
+	npc_giveItem ITEMID_0e
+	npc_call npcHelper_increaseScoreBy300
+	npc_call npcHelper_increaseScoreBy60
 	npc_end
 
 @entry3:
-	npc_giveItem $0f
-	npc_call data_03_69d5
-	npc_call data_03_69cc
+	npc_giveItem ITEMID_0f
+	npc_call npcHelper_increaseScoreBy700
+	npc_call npcHelper_increaseScoreBy20
 	npc_end
 
 
@@ -232,23 +235,23 @@ npc32_scripts:
 	.db $ff $ff $ff
 
 @entry0:
-	npc_giveItem $10
-	npc_increaseScore $08
+	npc_giveItem ITEMID_10
+	npc_increaseScore SCORE_100
 	npc_end
 
 @entry1:
-	npc_giveItem $11
-	npc_increaseScore $0c
+	npc_giveItem ITEMID_11
+	npc_increaseScore SCORE_200
 	npc_end
 
 @entry2:
-	npc_giveItem $12
-	npc_increaseScore $10
+	npc_giveItem ITEMID_12
+	npc_increaseScore SCORE_400
 	npc_end
 
 @entry3:
-	npc_giveItem $13
-	npc_increaseScore $18
+	npc_giveItem ITEMID_13
+	npc_increaseScore SCORE_800
 	npc_end
 
 
@@ -363,8 +366,8 @@ npc34_scripts:
 	npc_call func_03_50c0
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_BELT
-	npc_increaseScore $20
-	npc_giveItem $14
+	npc_increaseScore SCORE_1500
+	npc_giveItem ITEMID_BELT
 	npc_set_c059 $00
 	npc_end
 
@@ -400,8 +403,8 @@ npc35_scripts:
 	npc_call func_03_50c0
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_ARMOUR
-	npc_increaseScore $20
-	npc_giveItem $15
+	npc_increaseScore SCORE_1500
+	npc_giveItem ITEMID_ARMOUR
 	npc_set_c059 $00
 	npc_end
 
@@ -426,7 +429,7 @@ npc36_scripts:
 	npc_call func_03_50c0
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_BOOTS
-	npc_increaseScore $20
+	npc_increaseScore SCORE_1500
 	npc_set_c059 $00
 	npc_end
 
@@ -437,7 +440,7 @@ npc38_scripts:
 	npc_call func_03_50c0
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_HELM
-	npc_increaseScore $20
+	npc_increaseScore SCORE_1500
 	npc_set_c059 $00
 	npc_end
 
@@ -448,7 +451,7 @@ npc37_scripts:
 	npc_call func_03_50c0
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_SHIELD
-	npc_increaseScore $20
+	npc_increaseScore SCORE_1500
 	npc_set_c059 $00
 	npc_end
 
@@ -459,7 +462,7 @@ npc39_scripts:
 	npc_call func_03_50c0
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_SWORD
-	npc_increaseScore $20
+	npc_increaseScore SCORE_1500
 	npc_set_c059 $00
 	npc_end
 
@@ -491,7 +494,7 @@ npc40_scripts:
 	npc_jump data_03_4fde
 +
 	npc_giveSpecialBItem SPECIALB_JAWBONE
-	npc_increaseScore $18
+	npc_increaseScore SCORE_800
 	npc_call data_03_5276
 	npc_end
 
@@ -502,8 +505,8 @@ npc41_scripts:
 	.db $c7 $00 $80 $80
 	npc_call func_03_6986
 	npc_giveSpecialBItem SPECIALB_RAFT
-	npc_call data_03_69d5
-	npc_call data_03_69c6
+	npc_call npcHelper_increaseScoreBy700
+	npc_call npcHelper_increaseScoreBy50
 	npc_callCommonSoundFuncs_6c01 $6a $16
 	.db $c7 $37 $80 $80
 @end:
@@ -519,7 +522,7 @@ npc00_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set6_cb60_reset_cb6c
 	npc_callCommonSoundFuncs_6c01 $7c $16
-	npc_increaseScore $04
+	npc_increaseScore SCORE_10
 	npc_spawnNPCAtOffset $84 $00 $00
 	npc_loadParamInto_cb78 $05
 	npc_jumpIfRandomNumLTparam $aa, +
@@ -563,7 +566,6 @@ npc01_scripts:
 	npc_paramLowNybbleIs_cb54_highNybble $04
 	npc_jump @finally
 
-;;
 @finally:
 -
 	npc_loadInto_cba8 $04
@@ -617,7 +619,7 @@ npc02_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_callCommonSoundFuncs_6c01 $37 $18
 	.db $16
-	npc_call $69ca
+	npc_call npcHelper_increaseScoreBy30
 	npc_loadParamInto_cb78 $02
 	.db $04
 	npc_jumpIfRandomNumLTparam $a0, +
@@ -668,7 +670,7 @@ npc15_scripts:
 	npc_call data_03_6994
 	npc_displayTextScreen npcText_03_529b
 	npc_call data_03_699f
-	npc_increaseScore $14
+	npc_increaseScore SCORE_500
 	npc_giveSpecialBItem SPECIALB_RR_TICKET
 	npc_callCommonSoundFuncs_6c01 $85 $16
 
@@ -699,8 +701,8 @@ npc3c_scripts:
 	npc_loopAboveParamTimes $96, -
 +
 	npc_set_c059 $00
-	npc_giveItem $21
-	npc_increaseScore $18
+	npc_giveItem ITEMID_21
+	npc_increaseScore SCORE_800
 	npc_end
 
 
@@ -716,8 +718,8 @@ npc3d_scripts:
 	npc_loopAboveParamTimes $4b, -
 +
 	npc_set_c059 $00
-	npc_giveItem $21
-	npc_increaseScore $18
+	npc_giveItem ITEMID_21
+	npc_increaseScore SCORE_800
 	npc_end
 
 
@@ -2246,8 +2248,8 @@ npc4a_scripts:
 npc5d_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_BELT, _npc_end_03_5f56
 	npc_lowNybbleOf_cb54_equParamMinus1 $03
-	.db $51 $31
-	npc_giveItem $30
+	npc_takeItem $31
+	npc_giveItem ITEMID_30
 	npc_jump ++
 @loop:
 	npc_loadInto_cba8 $20
@@ -2263,14 +2265,14 @@ npc5d_scripts:
 ++
 	npc_set5_cb60
 	npc_res4_cb60
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	npc_faceUp
 	npc_loadInto_cba8 $08
 	npc_faceDown
 	npc_loadParamInto_cb78 $0a
 	npc_faceDown
 	npc_loadInto_cba8 $08
-	.db $51 $30
+	npc_takeItem $30
 	.db $04
 	.db $02
 	npc_jump @loop
@@ -2311,7 +2313,7 @@ npc5f_scripts:
 	npc_set3_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
-	npc_giveItem $31
+	npc_giveItem ITEMID_31
 	.db $16
 	npc_loadParamInto_cb78 $05
 	.db $04
@@ -2321,8 +2323,8 @@ npc5f_scripts:
 
 
 npc60_scripts:
-	.db $51 $30
-	.db $51 $31
+	npc_takeItem $30
+	npc_takeItem $31
 	npc_set5_cb60
 	npc_jumpIfArmorOfGodGotten AOG_ARMOUR, @func_5fc1
 	npc_lowNybbleOf_cb54_equParamMinus1 $10
@@ -2366,18 +2368,18 @@ npc61_scripts:
 	npc_loadParamInto_cb78 $0a
 	npc_jumpIfItemGotten $30, +
 	npc_jumpIfItemGotten $31, ++
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	npc_jump @func_600d
 
 +
 	npc_jumpIfItemGotten $31, +++
-	.db $51 $30
-	npc_giveItem $31
+	npc_takeItem ITEMID_30
+	npc_giveItem ITEMID_31
 	npc_callCommonSoundFuncs_6c01 $d7 $15
 	npc_jump @func_600d
 
 ++
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	npc_callCommonSoundFuncs_6c01 $d7 $15
 	npc_jump @func_600d
 
@@ -2440,16 +2442,16 @@ npc63_scripts:
 	npc_loadParamInto_cb78 $0a
 	npc_jumpIfItemGotten $30, +
 	npc_jumpIfItemGotten $31, ++
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	npc_jump @func_60c9
 +
 	npc_jumpIfItemGotten $31, +++
-	.db $51 $30
-	npc_giveItem $31
+	npc_takeItem ITEMID_30
+	npc_giveItem ITEMID_31
 	npc_callCommonSoundFuncs_6c01 $d7 $15
 	npc_jump @func_609d
 ++
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	npc_callCommonSoundFuncs_6c01 $d7 $15
 	npc_jump @func_609d
 +++
@@ -2528,8 +2530,8 @@ npc65_scripts:
 
 
 npc62_scripts:
-	.db $51 $30
-	.db $51 $31
+	npc_takeItem $30
+	npc_takeItem $31
 	npc_jumpIfArmorOfGodGotten AOG_SWORD, npcScript_end
 	npc_res4_cb60
 	npc_lowNybbleOf_cb54_equParamMinus1 $03
@@ -2577,7 +2579,9 @@ npc62_scripts:
 	npc_jump @loop
 
 
-// scrolling text rooms
+; ==============================================================================
+; ENTID_ITEM_ROOM
+; ==============================================================================
 npc2d_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_cb60_low2bitsEquParamMinus1 $04
@@ -2585,12 +2589,12 @@ npc2d_scripts:
 	npc_set2_cbe4
 	npc_res4_cb60
 	npc_groupRoomXYjumpTable @table
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_end
 
 @table:
 	.db $1c $00 $00
-	.dw @entry0
+	.dw @pearFirstScreen
 
 	.db $1c $01 $00
 	.dw @entry1
@@ -2663,13 +2667,13 @@ npc2d_scripts:
 
 	.db $ff $ff $ff
 
-@entry0:
-	npc_jumpIfItemGotten $00 _showText_roomEmpty_clear_c059
+@pearFirstScreen:
+	npc_jumpIfItemGotten ITEMID_PEAR_FIRST_SCREEN _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
-	npc_startScrollingText text_03_63ab
-	npc_startScrollingText text_03_63aa
-	npc_spawnNPC $2e $78 $5c
-	npc_jump @func_639d
+	npc_startScrollingText text_firstPear
+	npc_startScrollingText text_7f_03_63aa
+	npc_spawnNPC ENTID_ITEM_ROOM_FAIRY, $78 $5c
+	npc_jump @emptyRoom
 
 @entry1:
 	npc_jumpIfItemGotten $08 _showText_roomEmpty_clear_c059
@@ -2677,24 +2681,24 @@ npc2d_scripts:
 @func_6219:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6423
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $30 $7a $64
 	npc_spawnNPC $33 $70 $54
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry2:
 	npc_jumpIfItemGotten $14 _showText_roomEmpty_clear_c059
 	npc_jumpIfArmorOfGodGotten AOG_BELT _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6497
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $34 $7a $64
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry3:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_64fe
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_jumpIfItemGotten $01, +
 	npc_startScrollingText text_03_6551
 	npc_spawnNPC $2e $7a $64
@@ -2707,16 +2711,16 @@ npc2d_scripts:
 	npc_spawnNPC $33 $38 $54
 	npc_spawnNPC $3b $b2 $64
 	npc_spawnNPC $33 $a8 $54
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry4:
 	npc_jumpIfItemGotten $21, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6566
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $3d $50 $64
 	npc_spawnNPC $3c $a0 $64
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry5:
 	npc_jumpIfItemGotten $09, _showText_roomEmpty_clear_c059
@@ -2726,9 +2730,9 @@ npc2d_scripts:
 	npc_jumpIfArmorOfGodGotten $02, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_65c3
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $35 $7a $64
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry7:
 	npc_jumpIfItemGotten $0c, _showText_roomEmpty_clear_c059
@@ -2736,10 +2740,10 @@ npc2d_scripts:
 @func_62a8:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6621
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $31 $7a $64
 	npc_spawnNPC $33 $70 $54
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry8:
 	npc_jumpIfItemGotten $05, _showText_roomEmpty_clear_c059
@@ -2747,10 +2751,10 @@ npc2d_scripts:
 @func_62bf:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_666e
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $2f $7a $64
 	npc_spawnNPC $33 $70 $54
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry9:
 	npc_jumpIfItemGotten $0d, _showText_roomEmpty_clear_c059
@@ -2762,10 +2766,10 @@ npc2d_scripts:
 @func_62dd:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_66d5
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $32 $7a $64
 	npc_spawnNPC $33 $70 $54
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entryB:
 	npc_jumpIfItemGotten $03, _showText_roomEmpty_clear_c059
@@ -2773,21 +2777,21 @@ npc2d_scripts:
 @func_62f4:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_672f
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $2e $7a $64
 	npc_spawnNPC $33 $70 $54
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entryC:
 	npc_jumpIfArmorOfGodGotten $10, +
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6789
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $38 $78 $6c
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 +
 	npc_startScrollingText text_03_6832
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entryD:
 	npc_jumpIfItemGotten $0b, _showText_roomEmpty_clear_c059
@@ -2805,10 +2809,10 @@ npc2d_scripts:
 	npc_jumpIfSpecialBitemGotten $02, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_67ca
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $40 $7a $64
 	npc_spawnNPC $33 $70 $54
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry11:
 	npc_jumpIfItemGotten $13, _showText_roomEmpty_clear_c059
@@ -2821,26 +2825,26 @@ npc2d_scripts:
 @entry13:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6849
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $57 $88 $90
 	npc_takeArmorOfGod AOG_BELT
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry14:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_68bb
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $56 $88 $90
 	npc_takeArmorOfGod AOG_ARMOUR
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry15:
 	npc_jumpIfArmorOfGodGotten $08, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6930
-	npc_startScrollingText text_03_63aa
+	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $37 $7a $64
-	npc_jump @func_639d
+	npc_jump @emptyRoom
 
 @entry16:
 	npc_jumpIfItemGotten $02, _showText_roomEmpty_clear_c059
@@ -2850,7 +2854,7 @@ npc2d_scripts:
 	npc_jumpIfItemGotten $0e, _showText_roomEmpty_clear_c059
 	npc_jump @func_62a8
 
-@func_639d:
+@emptyRoom:
 --
 	npc_set_c059 $00
 
@@ -2864,11 +2868,11 @@ _showText_roomEmpty_clear_c059:
 	npc_jump --
 
 
-text_03_63aa:
+text_7f_03_63aa:
 	.db $7f
 
 
-text_03_63ab:
+text_firstPear:
 	.db $04 $03
 	.asc "You have found the"
 	.db $01
@@ -3192,30 +3196,28 @@ func_03_69b4:
 	npc_ret
 
 
-data_03_69be:
-	npc_increaseScore $04
+npcHelper_increaseScoreBy90:
+	npc_increaseScore SCORE_10
 
+npcHelper_increaseScoreBy80:
+	npc_increaseScore SCORE_10
+	npc_increaseScore SCORE_10
 
-data_03_69c0:
-	npc_increaseScore $04
-	npc_increaseScore $04
+npcHelper_increaseScoreBy60:
+	npc_increaseScore SCORE_10
 
+npcHelper_increaseScoreBy50:
+	npc_increaseScore SCORE_10
 
-data_03_69c4:
-	npc_increaseScore $04
+npcHelper_increaseScoreBy40:
+	npc_increaseScore SCORE_10
 
-data_03_69c6:
-	npc_increaseScore $04
+npcHelper_increaseScoreBy30:
+	npc_increaseScore SCORE_10
 
-
-data_03_69c8:
-	npc_increaseScore $04
-	npc_increaseScore $04
-
-
-data_03_69cc:
-	npc_increaseScore $04
-	npc_increaseScore $04
+npcHelper_increaseScoreBy20:
+	npc_increaseScore SCORE_10
+	npc_increaseScore SCORE_10
 	npc_ret
 
 
@@ -3224,17 +3226,17 @@ data_03_69cc:
 	ld   ($0845), sp                                 ; $69d2: $08 $45 $08
 
 
-data_03_69d5:
-	npc_increaseScore $08
-	npc_increaseScore $08
-	npc_increaseScore $08
-	npc_increaseScore $08
+npcHelper_increaseScoreBy700:
+	npc_increaseScore SCORE_100
+	npc_increaseScore SCORE_100
+	npc_increaseScore SCORE_100
+	npc_increaseScore SCORE_100
 
 
-data_03_69dd:
-	npc_increaseScore $08
-	npc_increaseScore $08
-	npc_increaseScore $08
+npcHelper_increaseScoreBy300:
+	npc_increaseScore SCORE_100
+	npc_increaseScore SCORE_100
+	npc_increaseScore SCORE_100
 	npc_ret
 
 

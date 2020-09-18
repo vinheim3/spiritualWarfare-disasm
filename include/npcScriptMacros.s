@@ -64,6 +64,10 @@
 
 // 16
 
+.macro npc_callCommonSoundFuncs6638
+	.db $18
+.endm
+
 .macro npc_set2_cb60
 	.db $1d
 .endm
@@ -142,6 +146,10 @@
 
 .macro npc_giveItem
 	.db $50 \1
+.endm
+
+.macro npc_takeItem
+	.db $51 \1
 .endm
 
 .macro npc_giveFruit

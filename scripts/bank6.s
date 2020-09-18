@@ -60,7 +60,7 @@ npce5_scripts:
 npce6_scripts:
 	npc_jumpIfArmorOfGodGotten $10, @armorGotten
 	npc_res4_cb60
-	.db $51 $30
+	npc_takeItem $30
 	npc_loadParamInto_cb78 $0a
 @loop:
 	npc_lowNybbleOf_cb54_equParamMinus1 $03
@@ -82,14 +82,14 @@ npce6_scripts:
 	npc_moveNPC_jumpIfCant $06, +
 	npc_jump @couldMove
 +
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	npc_spawnNPCAtOffset $e7 $f0 $00
 	.db $c7 $00 $06 $09
 	npc_set5_cb60
 	npc_lowNybbleOf_cb54_equParamMinus1 $04
 	npc_faceRight
 	npc_loadInto_cba8 $10
-	.db $02
+	npc_res5_cb60
 	npc_loadParamInto_cb78 $03
 	npc_faceUp
 	npc_loadInto_cba8 $30
@@ -100,7 +100,7 @@ npce6_scripts:
 	.db $13
 	npc_faceRight
 	npc_loadParamInto_cb78 $03
-	.db $51 $30
+	npc_takeItem $30
 	.db $c7 $30 $06 $00
 	npc_jump @loop
 @couldMove:
@@ -162,7 +162,7 @@ npce7_scripts:
 	npc_faceLeft
 	npc_lowNybbleOf_cb54_equParamMinus1 $08
 	npc_loadInto_cba8 $20
-	.db $02
+	npc_res5_cb60
 	npc_loadInto_cba8 $ff
 	npc_loadParamInto_cb78 $05
 	.db $2a
@@ -174,7 +174,7 @@ npcec_scripts:
 	npc_res4_cb60
 	npc_set6_cb60_reset_cb6c
 	.db $16
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 	npc_end
 
 
@@ -192,19 +192,19 @@ npceb_scripts:
 	npc_jumpIfAtTile $00, +++
 	npc_jump -
 +
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	npc_loadParamInto_cb78 $03
 	npc_end
 ++
-	npc_giveItem $31
+	npc_giveItem ITEMID_31
 	npc_loadParamInto_cb78 $03
 	npc_end
 +++
 	.db $11
-	.db $02
+	npc_res5_cb60
 	npc_loadInto_cba8 $10
 	.db $2a
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 	npc_end
 ++++
 	.db $29
@@ -214,7 +214,7 @@ npceb_scripts:
 	.db $11
 	npc_loadInto_cba8 $04
 	.db $2a
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 	npc_end
 
 
@@ -226,9 +226,9 @@ npcea_scripts:
 	npc_faceLeft
 	npc_loadInto_cba8 $10
 @loop:
-	.db $51 $30
-	.db $51 $31
-	.db $51 $2a
+	npc_takeItem ITEMID_30
+	npc_takeItem ITEMID_31
+	npc_takeItem ITEMID_2a
 	.db $04
 	npc_set5_cb60
 	npc_loadParamInto_cb78 $14
@@ -249,7 +249,7 @@ npcea_scripts:
 	npc_jump ++
 +
 	npc_spawnNPCAtOffset $e8 $00 $00
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $40 $40
 	npc_jump @func_0ff4
@@ -260,7 +260,7 @@ npcea_scripts:
 	npc_jump ++
 +
 	npc_spawnNPCAtOffset $e8 $00 $00
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $90 $70
 	npc_jump @func_0ff4
@@ -271,7 +271,7 @@ npcea_scripts:
 	npc_jump ++
 +
 	npc_spawnNPCAtOffset $e8 $00 $00
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $30 $40
 	npc_jump @func_0ff4
@@ -282,7 +282,7 @@ npcea_scripts:
 	npc_jump ++
 +
 	npc_spawnNPCAtOffset $e8 $00 $00
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $d0 $40
 	npc_jump @func_0ff4
@@ -293,7 +293,7 @@ npcea_scripts:
 	npc_jump ++
 +
 	npc_spawnNPCAtOffset $e8 $00 $00
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $50 $70
 	npc_jump @func_0ff4
@@ -304,7 +304,7 @@ npcea_scripts:
 	npc_jump ++
 +
 	npc_spawnNPCAtOffset $e8 $00 $00
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $20 $60
 	npc_jump @func_0ff4
@@ -313,7 +313,7 @@ npcea_scripts:
 	npc_jumpIfAtTile $1c, +
 	npc_jump ++
 +
-	.db $51 $2a
+	npc_takeItem $2a
 	npc_spawnNPCAtOffset $e9 $00 $00
 	npc_jump @func_100b
 ++
@@ -324,11 +324,11 @@ npcea_scripts:
 	npc_setCoords $10 $20
 	npc_faceRight
 	npc_res4_cb60
-	.db $02
+	npc_res5_cb60
 	.db $12
-	.db $51 $30
-	.db $51 $31
-	.db $51 $2a
+	npc_takeItem $30
+	npc_takeItem $31
+	npc_takeItem $2a
 	npc_spawnNPCAtOffset $eb $00 $00
 -
 	npc_loadParamInto_cb78 $0a
@@ -536,8 +536,8 @@ npcf0_scripts:
 	npc_jumpIfArmorOfGodGotten $08, @end
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_lowNybbleOf_cb54_equParamMinus1 $02
-	.db $51 $30
-	.db $51 $31
+	npc_takeItem $30
+	npc_takeItem $31
 	npc_set7_cb60
 	npc_faceLeft
 @loop:
@@ -599,7 +599,7 @@ npcf4_scripts:
 	npc_set6_cb60_reset_cb6c
 	.db $c7 $95 $06 $09
 	npc_callCommonSoundFuncs_6c01 $d7 $15
-	npc_giveItem $31
+	npc_giveItem ITEMID_31
 	npc_loadParamInto_cb78 $05
 	npc_callCommonSoundFuncs_6c01 $d7 $15
 	npc_loadParamInto_cb78 $05
@@ -1010,7 +1010,7 @@ npcd0_scripts:
 	npc_jumpIfArmorOfGodGotten $08, +
 	npc_paramLowNybbleIs_cb54_highNybble $04
 	npc_lowNybbleOf_cb54_equParamMinus1 $00
-	.db $02
+	npc_res5_cb60
 	npc_end
 -
 	npc_flipBit4ofNPC2ndByte_jumpIfNZ @done
@@ -1058,7 +1058,7 @@ npcdc_scripts:
 	npc_loadParamInto_cb78 $01
 	npc_jump -
 +
-	npc_giveItem $2a
+	npc_giveItem ITEMID_2a
 ++
 	npc_call func_06_14b5
 	npc_end
@@ -1077,7 +1077,7 @@ npce2_scripts:
 	npc_loadParamInto_cb78 $01
 	npc_jump -
 +
-	npc_giveItem $2b
+	npc_giveItem ITEMID_2b
 ++
 	npc_call func_06_14b5
 	npc_end

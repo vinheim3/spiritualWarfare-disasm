@@ -239,7 +239,7 @@ wc07a:
 wSecondRoomStructByteBit4: ; $c090
 	db
 
-wAddrOfRooms40hTableAt_02_4acd: ; $c091
+wAddrOfRooms40hTileTypeConversionTable: ; $c091
 	dw
 
 wc093:
@@ -376,7 +376,7 @@ wOam: ; $c200
 wc2a0:
 	dsb $300-$2a0
 
-wAnother2x2blockForGameScreenTilesTODO: ; $c300
+w2x2tileTypes: ; $c300
 	dsb $b0
 
 w2x2gameScreenTiles: ; $c3b0
@@ -455,9 +455,13 @@ wArmorOfGodGotten: ; $c652
 wSpecialBitemsGotten: ; $c653
 	db
 
-// TODO: unknown size
-wItemsGotten:
-	dsb $d0-$54
+// eg cause you cant tell which fruits you've already gotten
+// from just the amounts variable
+wItemsGotten: ; $c654
+	dsb $a
+
+wc65e:
+	dsb $d0-$5e
 
 wCommonByteCopyDestBytes: ; $c6d0
 	dsb $c

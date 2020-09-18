@@ -44,7 +44,7 @@ npc82_scripts:
 func_02_5008:
 	npc_set_c059 $ff
 	npc_giveNumBombs $01
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_loadParamInto_cb78 $01
 	npc_ret
 
@@ -52,7 +52,7 @@ func_02_5008:
 func_02_5010:
 	npc_set_c059 $ff
 	npc_giveNumBirds $01
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_loadParamInto_cb78 $01
 	npc_ret
 
@@ -80,11 +80,11 @@ _npc_end_02_502c:
 npcb4_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_giveArmorOfGod $01
-	npc_giveItem $14
+	npc_giveItem ITEMID_BELT
 	npc_giveArmorOfGod $02
-	npc_giveItem $15
+	npc_giveItem ITEMID_ARMOUR
 	npc_giveArmorOfGod $04
 	npc_giveArmorOfGod $08
 	npc_giveArmorOfGod $10
@@ -95,7 +95,7 @@ npcb4_scripts:
 npcb5_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_giveSpecialBItem $01
 	npc_giveSpecialBItem $02
 	npc_giveSpecialBItem $04
@@ -106,7 +106,7 @@ npcb5_scripts:
 npcb6_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 -
 	.db $19
 	npc_loopAboveParamTimes $0c, -
@@ -124,7 +124,7 @@ npcb6_scripts:
 npcb7_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 -
 	npc_giveFruit $04
 	npc_giveFruit $03
@@ -568,7 +568,7 @@ npc74_scripts:
 	npc_jump -
 +
 	npc_call func_02_53ac
-	.db $18
+	npc_callCommonSoundFuncs6638
 	.db $1c
 	npc_jump func_02_545b
 
@@ -608,44 +608,44 @@ func_02_53ac:
 	.db $ff $ff $ff
 
 @entry0:
-	npc_giveItem $1f
+	npc_giveItem ITEMID_1f
 	npc_ret
 
 @entry1:
-	npc_giveItem $22
+	npc_giveItem ITEMID_22
 	npc_ret
 
 @entry2:
 	npc_ret
 
 @entry3:
-	npc_giveItem $23
+	npc_giveItem ITEMID_23
 	npc_ret
 
 @entry4:
-	npc_giveItem $03
+	npc_giveItem ITEMID_03
 	npc_ret
 
 @entry5:
-	npc_giveItem $25
+	npc_giveItem ITEMID_25
 	npc_ret
 
 @entry6:
-	npc_giveItem $29
+	npc_giveItem ITEMID_29
 	npc_ret
 
 @entry7:
-	npc_giveItem $28
+	npc_giveItem ITEMID_28
 	npc_ret
 
 @entry8:
-	npc_giveItem $2c
+	npc_giveItem ITEMID_2c
 	npc_ret
 
 
 func_02_53f9:
 	npc_groupRoomXYjumpTable @table
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_end
 
 @table:
@@ -746,7 +746,7 @@ npcText_02_5470:
 npc6d_scripts:
 	npc_set5_cb60
 	npc_groupRoomXYjumpTable @table
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_end
 
 @table:
@@ -798,27 +798,27 @@ npc6d_scripts:
 	npc_jump @func_54e6
 +
 	npc_set_c059 $00
-	npc_increaseScore $18
+	npc_increaseScore SCORE_800
 	npc_ret
 
 @entry0:
 	npc_jumpIfItemGotten $16, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $16
+	npc_giveItem ITEMID_16
 	npc_call @func_54de
 	npc_end
 
 @entry1:
 	npc_jumpIfItemGotten $17, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $17
+	npc_giveItem ITEMID_17
 	npc_call @func_54de
 	npc_end
 
 @entry2:
 	npc_jumpIfItemGotten $18, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $18
+	npc_giveItem ITEMID_18
 	npc_call @func_54de
 	.db $c7 $6c $80 $80
 	npc_end
@@ -826,21 +826,21 @@ npc6d_scripts:
 @entry3:
 	npc_jumpIfItemGotten $19, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $19
+	npc_giveItem ITEMID_19
 	npc_call @func_54de
 	npc_end
 
 @entry4:
 	npc_jumpIfItemGotten $1a, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $1a
+	npc_giveItem ITEMID_1a
 	npc_call @func_54de
 	npc_end
 
 @entry5:
 	npc_jumpIfItemGotten $1b, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $1b
+	npc_giveItem ITEMID_1b
 	npc_call @func_54de
 	.db $c7 $b4 $80 $80
 	npc_end
@@ -848,14 +848,14 @@ npc6d_scripts:
 @entry6:
 	npc_jumpIfItemGotten $1c, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $1c
+	npc_giveItem ITEMID_1c
 	npc_call @func_54de
 	npc_end
 
 @entry7:
 	npc_jumpIfItemGotten $1d, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $1d
+	npc_giveItem ITEMID_1d
 	npc_call @func_54de
 	.db $c7 $b8 $80 $80
 	npc_end
@@ -863,7 +863,7 @@ npc6d_scripts:
 @entry8:
 	npc_jumpIfItemGotten $1e, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem $1e
+	npc_giveItem ITEMID_1e
 	npc_call @func_54de
 	npc_end
 
@@ -1237,7 +1237,7 @@ npc7d_scripts:
 	npc_set2_cbe4
 	npc_res4_cb60
 	npc_groupRoomXYjumpTable @table
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_end
 
 @table:
@@ -1740,7 +1740,7 @@ npc80_scripts:
 	npc_jump -
 
 func_02_602e:
-	npc_giveItem $24
+	npc_giveItem ITEMID_24
 	npc_set_c059 $00
 	npc_end
 
@@ -2873,7 +2873,7 @@ npc9a_scripts:
 	npc_call func_02_4fea
 	.db $1b
 	npc_callCommonSoundFuncs_6c01 $85 $16
-	npc_giveItem $27
+	npc_giveItem ITEMID_27
 	npc_end
 
 
@@ -2983,13 +2983,13 @@ npca1_scripts:
 	npc_res4_cb60
 	.db $2d
 -
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	npc_loadParamInto_cb78 $01
 	npc_jump -
 
 
 ;;
-	.db $51 $31 // 6bde
+	npc_takeItem $31 // 6bde
 	npc_set6_cb60_reset_cb6c // 6be0
 	npc_cb60_low2bitsEquParamMinus1 $04 // 6be1
 	npc_paramLowNybbleIs_cb54_highNybble $04 // 6be3
@@ -2998,7 +2998,7 @@ npca1_scripts:
 	npc_callCommonSoundFuncs_6c01 $26 $16 // 6be9
 	npc_loadParamInto_cb78 $0a // 6bec
 	npc_loopAboveParamTimes $0a, $6be6 // 6bee
-	npc_giveItem $31 // 6bf2
+	npc_giveItem ITEMID_31 // 6bf2
 	npc_set_c059 $ff // 6bf4
 	npc_callCommonSoundFuncs_6d6c $03 $ff // 6bf6
 	.db $c7 $00 $ff $81 // 6bf9
@@ -3013,7 +3013,7 @@ npca1_scripts:
 // 6c14
 	npc_loadParamInto_cb78 $0c // 6c14
 	npc_spawnNPCAtOffset $a1 $00 $f8 // 6c16
-	.db $51 $30 // 6c1a
+	npc_takeItem $30 // 6c1a
 	npc_loadParamInto_cb78 $03 // 6c1c
 	npc_jumpIfItemGotten $30, $6c1a // 6c1e
 	npc_ret // 6c22
@@ -3077,7 +3077,7 @@ npca2_scripts:
 	npc_loadParamInto_cb78 $01
 	npc_jump -
 +
-	npc_increaseScore $0c
+	npc_increaseScore SCORE_200
 	npc_groupRoomXYjumpTable @table2
 	npc_jump @func_6c9f
 
@@ -3111,7 +3111,7 @@ npca3_scripts:
 	npc_jump +
 
 @func_6cb0:
-	npc_increaseScore $14
+	npc_increaseScore SCORE_500
 +
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_set2_cbe4
@@ -3134,15 +3134,15 @@ npca3_scripts:
 	.db $ff $ff $ff
 
 @entry0:
-	npc_giveItem $2d
+	npc_giveItem ITEMID_2d
 	npc_jump @func_6cb0
 
 @entry1:
-	npc_giveItem $2e
+	npc_giveItem ITEMID_2e
 	npc_jump @func_6cb0
 
 @entry2:
-	npc_giveItem $2f
+	npc_giveItem ITEMID_2f
 	npc_jump @func_6cb0
 
 
@@ -3153,9 +3153,9 @@ npc9e_scripts:
 	npc_set5_cb60
 	npc_lowNybbleOf_cb54_equParamMinus1 $10
 -
-	npc_giveItem $30
+	npc_giveItem ITEMID_30
 	.db $8d $03 $06
-	.db $51 $30
+	npc_takeItem $30
 	npc_jumpIfRandomNumLTparam $0a, @setID_b0
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_call @func_6cfc
@@ -3305,10 +3305,10 @@ npcaf_scripts:
 
 
 npcb1_scripts:
-	.db $51 $30
-	.db $51 $31
-	.db $51 $32
-	.db $51 $33
+	npc_takeItem $30
+	npc_takeItem $31
+	npc_takeItem $32
+	npc_takeItem $33
 @loop:
 	npc_jumpIfItemGotten $32, +
 	npc_loadParamInto_cb78 $01
@@ -3316,7 +3316,7 @@ npcb1_scripts:
 +
 	npc_loadParamInto_cb78 $0a
 	npc_loopAboveParamTimes $07, @loop
-	npc_giveItem $33
+	npc_giveItem ITEMID_33
 	npc_end
 
 
@@ -3326,7 +3326,7 @@ npcb2_scripts:
 	npc_res4_cb60
 	npc_set5_cb60
 	npc_callCommonSoundFuncs_6c01 $26 $16
-	npc_increaseScore $2c
+	npc_increaseScore SCORE_5000
 	.db $c7 $a7 $ff $81
 	.db $c7 $e7 $ff $82
 	.db $c7 $cf $ff $83
@@ -3337,10 +3337,10 @@ npcb2_scripts:
 	npc_callCommonSoundFuncs_6c01 $26 $16
 	npc_loadParamInto_cb78 $0a
 	npc_loopAboveParamTimes $06, -
-	npc_giveItem $32
+	npc_giveItem ITEMID_32
 	npc_loadParamInto_cb78 $05
 	npc_callCommonSoundFuncs_6c01 $26 $16
-	.db $51 $32
+	npc_takeItem $32
 	npc_callCommonSoundFuncs_6c01 $26 $16
 	npc_loadParamInto_cb78 $0a
 	npc_callCommonSoundFuncs_6c01 $26 $16
@@ -3394,7 +3394,7 @@ _npc_end_02_6ebd:
 npcb9_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_call func_02_6f2a
 	npc_end
 
@@ -3402,34 +3402,34 @@ npcb9_scripts:
 npcba_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod $01
-	npc_giveItem $14
+	npc_giveItem ITEMID_BELT
 	npc_end
 
 
 npcbb_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod $01
-	npc_giveItem $14
+	npc_giveItem ITEMID_BELT
 	npc_giveArmorOfGod $02
-	npc_giveItem $15
+	npc_giveItem ITEMID_ARMOUR
 	npc_end
 
 
 npcbc_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod $01
-	npc_giveItem $14
+	npc_giveItem ITEMID_BELT
 	npc_giveArmorOfGod $02
-	npc_giveItem $15
+	npc_giveItem ITEMID_ARMOUR
 	npc_giveArmorOfGod $04
 	npc_end
 
@@ -3437,12 +3437,12 @@ npcbc_scripts:
 npcbd_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod $01
-	npc_giveItem $14
+	npc_giveItem ITEMID_BELT
 	npc_giveArmorOfGod $02
-	npc_giveItem $15
+	npc_giveItem ITEMID_ARMOUR
 	npc_giveArmorOfGod $04
 	npc_giveArmorOfGod $10
 	npc_end
@@ -3451,12 +3451,12 @@ npcbd_scripts:
 npcbe_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	.db $18
+	npc_callCommonSoundFuncs6638
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod $01
-	npc_giveItem $14
+	npc_giveItem ITEMID_BELT
 	npc_giveArmorOfGod $02
-	npc_giveItem $15
+	npc_giveItem ITEMID_ARMOUR
 	npc_giveArmorOfGod $04
 	npc_giveArmorOfGod $20
 	npc_giveArmorOfGod $10

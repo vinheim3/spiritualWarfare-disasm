@@ -45,25 +45,25 @@ text_blankRow:
 	.db $ff
 
 
-// last 2 bytes unused
+// last 2 bytes unused (used as part of next table)
 increaseScore0bytes:
 	.db $00 $00 $00
 
 
 // idx determines the rightmost of 4 bytes to add to score
 increaseScoreAdditions:
-	.db $01 $00 $00 $01
+	.db $01
 	.db $00 $00 $01 $00
-	.db $00 $00 $02 $00
-	.db $00 $00 $04 $00
-	.db $00 $00 $05 $00
-	.db $00 $00 $08 $00
 	.db $00 $01 $00 $00
-	.db $00 $01 $05 $00
 	.db $00 $02 $00 $00
-	.db $00 $03 $00 $00
+	.db $00 $04 $00 $00
 	.db $00 $05 $00 $00
-	.db $00
+	.db $00 $08 $00 $00
+	.db $01 $00 $00 $00
+	.db $01 $05 $00 $00
+	.db $02 $00 $00 $00
+	.db $03 $00 $00 $00
+	.db $05 $00 $00 $00
 	
 
 data_09fc:
@@ -1405,7 +1405,7 @@ Call_000_11b0:
 	ret                                              ; $11d5: $c9
 
 
-Call_000_11d6:
+generatePassword:
 	ld   bc, $0000                                   ; $11d6: $01 $00 $00
 
 jr_000_11d9:
@@ -2016,8 +2016,9 @@ initGame:
 	ld   (hl), a                                     ; $15d5: $77
 	ld   hl, $c4df                                   ; $15d6: $21 $df $c4
 	ld   (hl), a                                     ; $15d9: $77
-	ld   bc, $0000                                   ; $15da: $01 $00 $00
 
+//
+	ld   bc, $0000                                   ; $15da: $01 $00 $00
 -
 	ld   hl, wItemsGotten                                   ; $15dd: $21 $54 $c6
 	add  hl, bc                                      ; $15e0: $09
@@ -2090,7 +2091,7 @@ postInitGame2:
 	ld   hl, lyt_gameOverScreen                                   ; $1659: $21 $fe $10
 	call copyLayoutFromBank3toScreen0withOffset                               ; $165c: $cd $37 $15
 	call func_5abf                                       ; $165f: $cd $bf $5a
-	call Call_000_11d6                               ; $1662: $cd $d6 $11
+	call generatePassword                               ; $1662: $cd $d6 $11
 
 //
 	ld   de, $9962                                   ; $1665: $11 $62 $99
@@ -4289,7 +4290,7 @@ Call_000_23b5:
 	ld   bc, $0000                                   ; $23b5: $01 $00 $00
 
 jr_000_23b8:
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $23b8: $21 $00 $c3
+	ld   hl, w2x2tileTypes                                   ; $23b8: $21 $00 $c3
 	add  hl, bc                                      ; $23bb: $09
 	ld   a, (hl)                                     ; $23bc: $7e
 	cp   $2d                                         ; $23bd: $fe $2d
@@ -9246,7 +9247,7 @@ Call_000_3fed:
 	ld   hl, $c01e                                   ; $3ff1: $21 $1e $c0
 	ld   e, (hl)                                     ; $3ff4: $5e
 	ld   d, $00                                      ; $3ff5: $16 $00
-	ld   hl, wAnother2x2blockForGameScreenTilesTODO                                   ; $3ff7: $21 $00 $c3
+	ld   hl, w2x2tileTypes                                   ; $3ff7: $21 $00 $c3
 	add  hl, de                                      ; $3ffa: $19
 	push hl                                          ; $3ffb: $e5
 	pop  de                                          ; $3ffc: $d1

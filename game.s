@@ -42,7 +42,7 @@
 
 	.incbin "code/common.bin"
 	.include "data/b2_roomStructsAndLayouts.s"
-	.include "data/data_02_4acd.s"
+	.include "data/tileTypeConversionTable.s"
 	.include "data/b2_oamData.s"
 	.include "scripts/bank2.s"
 
