@@ -3,7 +3,7 @@ npcScript_end:
 
 
 ; ==============================================================================
-; ENTID_ITEM_ROOM_FAIRY
+; ENTID_PEAR
 ; ==============================================================================
 npc2e_scripts:
 	npc_call data_03_6994
@@ -11,39 +11,39 @@ npc2e_scripts:
 	npc_jumpIfNumBirdsGotten 25, +
 	npc_jump data_03_4fde
 +
-	npc_call data_03_5256
+	npc_call shopTake25birds
 	npc_callCommonSoundFuncs_6d6c $03 $ff
-	npc_giveFruit $00
+	npc_giveFruit FRUIT_PEAR
 	npc_groupRoomXYjumpTable @scriptsAfterFruitGiven
 	npc_end
 
 @initialScripts:
 	.db $1c $00 $00
-	.dw @initialScript_1c_00_00
+	.dw @initialScript_1stPear
 	
 	.db $ff $ff $ff
 
 @scriptsAfterFruitGiven:
 	.db $1c $02 $00
-	.dw @scriptAfterFruitGiven_1c_02_00
+	.dw @scriptAfterFruitGiven_topleftCity
 
 	.db $1c $02 $07
 	.dw @scriptAfterFruitGiven_1c_02_07
 
 	.db $1c $02 $03
-	.dw @scriptAfterFruitGiven_1c_02_03
+	.dw @scriptAfterFruitGiven_portBottomLeft
 
 	.db $ff $ff $ff
 
-@initialScript_1c_00_00:
+@initialScript_1stPear:
 	npc_giveFruit FRUIT_PEAR
 	npc_giveItem ITEMID_PEAR_FIRST_SCREEN
 	npc_callCommonSoundFuncs_6d6c $03 $ff
 	npc_call npcHelper_increaseScoreBy40
 	npc_end
 
-@scriptAfterFruitGiven_1c_02_00:
-	npc_giveItem ITEMID_01
+@scriptAfterFruitGiven_topleftCity:
+	npc_giveItem ITEMID_PEAR_TOPLEFT_CITY
 	npc_call npcHelper_increaseScoreBy80
 	npc_end
 
@@ -53,8 +53,8 @@ npc2e_scripts:
 	npc_call npcHelper_increaseScoreBy60
 	npc_end
 
-@scriptAfterFruitGiven_1c_02_03:
-	npc_giveItem ITEMID_03
+@scriptAfterFruitGiven_portBottomLeft:
+	npc_giveItem ITEMID_PORT_BOTTOM_LEFT_PEAR
 	npc_call npcHelper_increaseScoreBy300
 	npc_call npcHelper_increaseScoreBy20
 	npc_end
@@ -66,7 +66,7 @@ npc2f_scripts:
 	npc_jump data_03_4fde
 +
 	npc_giveFruit $01
-	npc_call data_03_5262
+	npc_call shopTake60birds
 	npc_callCommonSoundFuncs_6d6c $03 $ff
 	npc_groupRoomXYjumpTable @table
 	npc_end
@@ -114,7 +114,7 @@ npc30_scripts:
 	npc_jump data_03_4fde
 +
 	npc_giveFruit $02
-	npc_call data_03_525a
+	npc_call shopTake40birds
 	npc_callCommonSoundFuncs_6d6c $03 $ff
 	npc_groupRoomXYjumpTable @table
 	npc_end
@@ -164,7 +164,7 @@ npc31_scripts:
 	npc_jump data_03_4fde
 +
 	npc_giveFruit $03
-	npc_call data_03_5266
+	npc_call shopTake75birds
 	npc_callCommonSoundFuncs_6d6c $03 $ff
 	npc_groupRoomXYjumpTable @table
 	npc_end
@@ -214,7 +214,7 @@ npc32_scripts:
 	npc_jump data_03_4fde
 +
 	npc_giveFruit $04
-	npc_call data_03_526a
+	npc_call shopTake90birds
 	npc_callCommonSoundFuncs_6d6c $03 $ff
 	npc_groupRoomXYjumpTable @table
 	npc_end
@@ -339,6 +339,9 @@ npc18_scripts:
 	npc_jump data_03_5031
 
 
+; ==============================================================================
+; ENTID_PRICE_BIRD
+; ==============================================================================
 npc33_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set2_cbe4
@@ -359,6 +362,9 @@ func_03_5082:
 	npc_ret
 
 
+; ==============================================================================
+; ENTID_BELT_OF_TRUTH
+; ==============================================================================
 npc34_scripts:
 	npc_call data_03_6994
 	npc_groupRoomXYjumpTable @table
@@ -371,17 +377,17 @@ npc34_scripts:
 	npc_set_c059 $00
 	npc_end
 
-@entry0:
+@pawnShop:
 	npc_jumpIfNumBirdsGotten $96, +
 	npc_jump data_03_4fde
 +
 	npc_giveArmorOfGod AOG_BELT
-	npc_call data_03_526e
+	npc_call shopTake150birds
 	npc_end
 
 @table:
 	.db $1b $00 $01
-	.dw @entry0
+	.dw @pawnShop
 
 	.db $ff $ff $ff
 
@@ -396,6 +402,9 @@ func_03_50c0:
 	npc_ret
 
 
+; ==============================================================================
+; ENTID_BREASTPLATE_OF_RIGHTEOUSNESS
+; ==============================================================================
 npc35_scripts:
 	npc_call data_03_6994
 	npc_groupRoomXYjumpTable @table
@@ -408,17 +417,17 @@ npc35_scripts:
 	npc_set_c059 $00
 	npc_end
 
-@entry0:
+@pawnShop:
 	npc_jumpIfNumBirdsGotten $c8, +
 	npc_jump data_03_4fde
 +
 	npc_giveArmorOfGod AOG_ARMOUR
-	npc_call data_03_527a
+	npc_call shopTake200birds
 	npc_end
 
 @table:
 	.db $1b $00 $01
-	.dw @entry0
+	.dw @pawnShop
 
 	.db $ff $ff $ff
 
@@ -467,23 +476,29 @@ npc39_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_SHOP_7_VIALS
+; ==============================================================================
 npc3a_scripts:
 	npc_call data_03_6994
 	npc_jumpIfNumBirdsGotten $14, +
 	npc_jump data_03_4fde
 +
 	npc_giveNumBombs $07
-	npc_call func_03_5248
+	npc_call shopTake20birds
 	npc_end
 
 
+; ==============================================================================
+; ENTID_SHOP_OIL
+; ==============================================================================
 npc3b_scripts:
 	npc_call data_03_6994
 	npc_jumpIfNumBirdsGotten $4b, +
 	npc_jump data_03_4fde
 +
 	npc_incAnointingOilsGotten
-	npc_call data_03_5266
+	npc_call shopTake75birds
 	npc_end
 
 
@@ -495,7 +510,7 @@ npc40_scripts:
 +
 	npc_giveSpecialBItem SPECIALB_JAWBONE
 	npc_increaseScore SCORE_800
-	npc_call data_03_5276
+	npc_call shopTake195birds
 	npc_end
 
 
@@ -505,20 +520,20 @@ npc40_scripts:
 npc41_scripts:
 	npc_jumpIfSpecialBitemGotten SPECIALB_RAFT, @end
 	npc_set3_cb60
-	.db $c7 $00 $80 $80
+	npc_placeTile $00 $80 $80
 	npc_call func_03_6986
 	npc_giveSpecialBItem SPECIALB_RAFT
 	npc_call npcHelper_increaseScoreBy700
 	npc_call npcHelper_increaseScoreBy50
 	npc_callCommonSoundFuncs_6c01 $6a $16
-	.db $c7 $37 $80 $80
+	npc_placeTile $37 $80 $80
 @end:
 	npc_end
 
 
 npc00_scripts:
 	npc_setRoomFlagFrom_cbf0
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 	npc_turnBackwards
 	npc_res4_cb60
 	npc_set2_cbe4
@@ -631,16 +646,17 @@ npc02_scripts:
 	npc_end
 +
 	npc_jumpIfRandomNumLTparam $55, +
-	.db $43 $16
+	npc_setNewNpcID $16
 +
 	npc_jumpIfRandomNumLTparam $19, +
-	.db $43 $17
+	npc_setNewNpcID $17
 +
-	.db $43 $3f
+	npc_setNewNpcID $3f
 
-func_03_5248:
+
+shopTake20birds:
 -
-	.db $4f $05
+	npc_takeNumBirds $05
 	npc_set_c059 $0a
 	npc_callCommonSoundFuncs_6c01 $73 $16
 	npc_wait $02
@@ -648,23 +664,23 @@ func_03_5248:
 	npc_ret
 
 
-data_03_5256:
+shopTake25birds:
 	npc_loopAboveParamTimes $06, -
-data_03_525a:
+shopTake40birds:
 	npc_loopAboveParamTimes $09, -
 	npc_loopAboveParamTimes $0b, - // $525e
-data_03_5262:
+shopTake60birds:
 	npc_loopAboveParamTimes $0d, -
-data_03_5266:
+shopTake75birds:
 	npc_loopAboveParamTimes $10, -
-data_03_526a:
+shopTake90birds:
 	npc_loopAboveParamTimes $13, -
-data_03_526e:
+shopTake150birds:
 	npc_loopAboveParamTimes $1f, -
 	npc_loopAboveParamTimes $24, - // $5272
-data_03_5276:
+shopTake195birds:
 	npc_loopAboveParamTimes $28, -
-data_03_527a:
+shopTake200birds:
 	npc_loopAboveParamTimes $29, -
 	npc_loopAboveParamTimes $2e, - // $527e
 	npc_loopAboveParamTimes $33, - // $5282
@@ -680,7 +696,7 @@ npc15_scripts:
 	npc_callCommonSoundFuncs_6c01 $85 $16
 
 _npc_end_03_529a:
-	.db $00
+	npc_end
 
 npcText_03_529b:
 	.db $03 $01
@@ -698,32 +714,37 @@ npcText_03_529b:
 	.db $ff $42 $3c $fe $7f
 
 
+; ==============================================================================
+; ENTID_BIRDS_HIDDEN_ROOM_NEAR_BOSS_1
+; ==============================================================================
 npc3c_scripts:
 	npc_call data_03_6994
 -
 	npc_jumpIfNumBirdsGotten $ff, +
 	npc_call func_03_69b4
-	npc_loopAboveParamTimes $96, -
+	npc_loopAboveParamTimes 150, -
 +
 	npc_set_c059 $00
-	npc_giveItem ITEMID_21
+	npc_giveItem ITEMID_VIALBIRD_HIDDEN_ROOM_NEAR_BOSS_1
 	npc_increaseScore SCORE_800
 	npc_end
 
 
+; ==============================================================================
+; ENTID_VIALS_HIDDEN_ROOM_NEAR_BOSS_1
+; ==============================================================================
 npc3d_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set3_cb60
 	npc_res4_cb60
 	npc_call b3_waitUntilPlayerContact
 -
-	.db $ca $ff
-	.dw +
+	npc_jumpIfMoreThanNumBombsGotten $ff, +
 	npc_call func_03_69aa
-	npc_loopAboveParamTimes $4b, -
+	npc_loopAboveParamTimes 75, -
 +
 	npc_set_c059 $00
-	npc_giveItem ITEMID_21
+	npc_giveItem ITEMID_VIALBIRD_HIDDEN_ROOM_NEAR_BOSS_1
 	npc_increaseScore SCORE_800
 	npc_end
 
@@ -793,7 +814,7 @@ npc04_scripts:
 
 @@byHotelCasino:
 	npc_jumpIfArmorOfGodGotten AOG_ARMOUR @afterInitialScript
-	.db $c7 $18 $05 $08
+	npc_placeTile $18 $05 $08
 	npc_end
 
 @@byCityBar:
@@ -1122,7 +1143,7 @@ npc3e_scripts:
 	npc_end
 
 @remove:
-	.db $c7 $00 $80 $80
+	npc_placeTile $00 $80 $80
 	npc_end
 
 @table:
@@ -1167,12 +1188,12 @@ npc3e_scripts:
 +
 	npc_end
 ++
-	.db $c7 $82 $80 $80
+	npc_placeTile $82 $80 $80
 	npc_end
 
 @entry4:
 	npc_jumpIfArmorOfGodGotten AOG_BELT, +
-	.db $c7 $de $80 $80
+	npc_placeTile $de $80 $80
 +
 	npc_end
 
@@ -1180,14 +1201,14 @@ npc3e_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_SWORD, +
 	npc_end
 +
-	.db $c7 $9c $80 $80
+	npc_placeTile $9c $80 $80
 	npc_end
 
 @entry6:
 	npc_jumpIfArmorOfGodGotten AOG_BOOTS, +
 	npc_end
 +
-	.db $c7 $9c $80 $80
+	npc_placeTile $9c $80 $80
 	npc_end
 
 
@@ -1305,7 +1326,7 @@ npc50_scripts:
 	npc_set2_cbe4
 	npc_wait $0a
 @bigLoop:
-	.db $8d $01 $0a
+	npc_waitRandomValBetween2ParamsInclusive $01 $0a
 // 08 - left, d0 - right, 5c - below
 	npc_jumpIfAtTile $d0, @shootingFromSide
 	npc_jumpIfAtTile $08, @shootingFromSide
@@ -1495,17 +1516,17 @@ npc08_scripts:
 	npc_wait $0a
 	.db $11
 	npc_moveByParamPixels $40
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 --
 	npc_moveByParamPixels $10
-	.db $8d $03 $0a
+	npc_waitRandomValBetween2ParamsInclusive $03 $0a
 	npc_jumpIfAtTile $b4, @func_5a6d
 	npc_jumpIfAtTile $b8, @func_5a6f
 	npc_loopAboveParamTimes $03, --
 	.db $12
 -
 	npc_moveByParamPixels $10
-	.db $8d $03 $0a
+	npc_waitRandomValBetween2ParamsInclusive $03 $0a
 	npc_jumpIfAtTile $b4, @func_5a6d
 	npc_jumpIfAtTile $b8, @func_5a6f
 	npc_loopAboveParamTimes $03, -
@@ -1524,14 +1545,14 @@ npc4c_scripts:
 	.db $16
 	npc_callCommonSoundFuncs_6c01 $47 $16
 	npc_jumpIfRandomNumLTparam $aa, +
-	.db $c7 $98 $80 $80
+	npc_placeTile $98 $80 $80
 	npc_setNewNpcID $08
 +
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $c7 $98 $80 $80
+	npc_placeTile $98 $80 $80
 	npc_setNewNpcID $08
 +
-	.db $c7 $98 $80 $80
+	npc_placeTile $98 $80 $80
 	npc_setNewNpcID $08
 
 
@@ -1542,14 +1563,14 @@ npc4d_scripts:
 	.db $16
 	npc_callCommonSoundFuncs_6c01 $47 $16
 	npc_jumpIfRandomNumLTparam $aa, +
-	.db $c7 $50 $80 $80
+	npc_placeTile $50 $80 $80
 	npc_setNewNpcID $08
 +
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $c7 $50 $80 $80
+	npc_placeTile $50 $80 $80
 	npc_setNewNpcID $08
 +
-	.db $c7 $50 $80 $80
+	npc_placeTile $50 $80 $80
 	npc_setNewNpcID $08
 
 
@@ -1602,7 +1623,7 @@ npc0b_scripts:
 -
 	npc_wait $0f
 	npc_jumpIfRandomNumLTparam $80, -
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 	npc_jumpIfRandomNumLTparam $c0, +
 	npc_spawnNPCAtOffset $0c $00 $00
 	npc_jump -
@@ -1658,7 +1679,7 @@ func_03_5b39:
 	npc_faceUp
 	npc_moveByParamPixels $10
 ++
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_setDamageTaken $01
@@ -1694,7 +1715,7 @@ npc10_scripts:
 	npc_res4_cb60
 	.db $11
 	npc_moveByParamPixels $10
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 	npc_moveByParamPixels $10
 	npc_setNewNpcID $11
 
@@ -1733,7 +1754,7 @@ npc4e_scripts:
 	npc_callCommonSoundFuncs_6c01 $0d $16
 	npc_wait $28
 -
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 	npc_moveByParamPixels $04
 	.db $11
 	npc_moveByParamPixels $04
@@ -1790,6 +1811,9 @@ npc1f_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_RUNNING_CITY_GUY
+; ==============================================================================
 npc19_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -1798,7 +1822,7 @@ npc19_scripts:
 	npc_setDamageTaken $01
 -
 	npc_moveByParamPixels $ff
-	.db $17
+	npc_moveNPCturnBackIfCant
 	npc_wait $01
 	npc_jump -
 
@@ -1818,6 +1842,9 @@ npc1c_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_SLOW_CITY_GUY
+; ==============================================================================
 npc1d_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -1834,30 +1861,36 @@ npc1d_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_BLOCKAGE_BUILDER
+; ==============================================================================
 npc1a_scripts:
 	npc_setMovementSpeed $02
 	npc_call func_03_5c91
 -
-	.db $c7 $4c $80 $80
+	npc_placeTile $4c $80 $80
 	npc_callCommonSoundFuncs_6c01 $1d $16
 	npc_wait $03
 	npc_moveByParamPixels $10
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jump -
 +
-	.db $c7 $4c $80 $80
+	npc_placeTile $4c $80 $80
 	npc_callCommonSoundFuncs_6c01 $1d $16
 -
-	.db $0a
+	npc_offsetNPCCoordsBy1_turnRight
 	npc_moveByParamPixels $ff
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_DYNAMITE_BUILDER
+; ==============================================================================
 npc21_scripts:
 	npc_setMovementSpeed $03
 	npc_call func_03_5c91
 -
-	.db $c7 $cc $80 $80
+	npc_placeTile $cc $80 $80
 	npc_callCommonSoundFuncs_6c01 $1d $16
 	npc_wait $02
 	npc_moveByParamPixels $10
@@ -1915,12 +1948,12 @@ npc23_scripts:
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $02
 -
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 	npc_moveByParamPixels $20
 	.db $11
 	npc_moveByParamPixels $20
 	npc_jumpIfRandomNumLTparam $80, +
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 +
 	npc_spawnNPCinFrontOfSelf $26
 	npc_callCommonSoundFuncs_6c01 $61 $16
@@ -2038,7 +2071,7 @@ npc27_scripts:
 	.db $11
 	npc_resetBit5ofNPC2ndByte_jumpIfNZ +
 	npc_moveByParamPixels $18
-	npc_moveHorizontallyToPlayer
+	npc_facePlayerHorizontally
 	npc_resetBit5ofNPC2ndByte_jumpIfNZ +
 	npc_moveByParamPixels $18
 	npc_jump -
@@ -2057,7 +2090,7 @@ npc2a_scripts:
 	npc_wait $ff
 	npc_loopAboveParamTimes $03, -
 	npc_res4_cb60
-	.db $c7 $8d $80 $80
+	npc_placeTile $8d $80 $80
 func_03_5d9d:
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $02
@@ -2074,12 +2107,12 @@ npc2b_scripts:
 	npc_wait $ff
 	npc_loopAboveParamTimes $03, -
 	npc_res4_cb60
-	.db $c7 $00 $80 $80
+	npc_placeTile $00 $80 $80
 	npc_jump func_03_5d9d
 
 
 func_03_5db9:
-	.db $c7 $00 $80 $80
+	npc_placeTile $00 $80 $80
 	npc_end
 
 
@@ -2122,6 +2155,10 @@ npc29_scripts:
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_CITY_PLUMBER_1
+; ENTID_CITY_PLUMBER_2
+; ==============================================================================
 npc22_scripts:
 npc49_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
@@ -2209,7 +2246,7 @@ npc46_scripts:
 	npc_res4_cb60
 	npc_callCommonSoundFuncs_6c01 $58 $16
 	npc_wait $05
-	.db $c7 $00 $80 $80
+	npc_placeTile $00 $80 $80
 	npc_end
 
 
@@ -2263,7 +2300,7 @@ npc4a_scripts:
 	npc_set2_cb60
 	npc_set5_cb60
 	npc_res4_cb60
-	.db $8d $01 $1e
+	npc_waitRandomValBetween2ParamsInclusive $01 $1e
 	npc_set6_cb60_reset_cb6c
 -
 	npc_faceUp
@@ -2296,24 +2333,31 @@ npc4a_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_BOSS_1
+; ==============================================================================
 npc5d_scripts:
-	npc_jumpIfArmorOfGodGotten AOG_BELT, _npc_end_03_5f56
+	npc_jumpIfArmorOfGodGotten AOG_BELT, npc5e_scripts@end
 	npc_setMovementSpeed $03
-	npc_takeItem $31
+	npc_takeItem ITEMID_31
 	npc_giveItem ITEMID_30
-	npc_jump ++
-@loop:
+	npc_jump @popUp
+
+@loopMoveThenAction:
 	npc_moveByParamPixels $20
-	npc_jumpIfRandomNumLTparam $20, @func_5f2a
-@loop2:
-	npc_jumpIfRandomNumLTparam $20, ++
+	npc_jumpIfRandomNumLTparam $20, @spawnEnemy
+
+@performAction:
+	npc_jumpIfRandomNumLTparam $20, @popUp
 	npc_jumpIfRandomNumLTparam $80, +
+// 50/50 to turn left or right
 	npc_turnLeft
-	npc_jump @loop
+	npc_jump @loopMoveThenAction
 +
 	npc_turnRight
-	npc_jump @loop
-++
+	npc_jump @loopMoveThenAction
+	
+@popUp:
 	npc_set5_cb60
 	npc_res4_cb60
 	npc_giveItem ITEMID_30
@@ -2323,40 +2367,46 @@ npc5d_scripts:
 	npc_wait $0a
 	npc_faceDown
 	npc_moveByParamPixels $08
-	npc_takeItem $30
-	.db $04
-	.db $02
-	npc_jump @loop
-@func_5f2a:
-	npc_spawnNPCAtOffset $01 $00 $00
-	npc_jump @loop2
+	npc_takeItem ITEMID_30
+	npc_set4_cb60
+	npc_res5_cb60
+	npc_jump @loopMoveThenAction
+
+@spawnEnemy:
+	npc_spawnNPCAtOffset ENTID_DEVIL_SPAWN $00 $00
+	npc_jump @performAction
 
 
+; ==============================================================================
+; ENTID_BOSS_1_CTRLER
+; ==============================================================================
 npc5c_scripts:
 npc5e_scripts:
-	npc_jumpIfArmorOfGodGotten AOG_BELT, data_03_5f57
+	npc_jumpIfArmorOfGodGotten AOG_BELT, @placeTile
 	npc_set3_cb60
 	npc_set2_cb60
 	npc_set7_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
+
 @loop:
-	.db $55 $5d
+	npc_getSimilarNPCsToCurrLocationDir ENTID_BOSS_1
 	npc_wait $01
-	npc_jumpIfItemGotten $30, @func_5f49
-	npc_jumpIfItemGotten $31, _npc_end_03_5f56
+	npc_jumpIfItemGotten ITEMID_30, @func_5f49
+	npc_jumpIfItemGotten ITEMID_31, @end
 	npc_jump @loop
+
 @func_5f49:
 	npc_wait $01
-	npc_jumpIfItemGotten $31, _npc_end_03_5f56
-	npc_jumpIfItemGotten $30, @func_5f49
+	npc_jumpIfItemGotten ITEMID_31, @end
+	npc_jumpIfItemGotten ITEMID_30, @func_5f49
 	npc_jump @loop
 
-_npc_end_03_5f56:
+@end:
 	npc_end
 
-data_03_5f57:
-	.db $c7 $85 $08 $02
+@placeTile:
+	npc_placeTile $85 $08 $02
 	npc_end
 
 
@@ -2368,14 +2418,17 @@ npc5f_scripts:
 	.db $16
 	npc_wait $05
 	.db $04
-	.db $c7 $85 $08 $02
+	npc_placeTile $85 $08 $02
 	npc_callCommonSoundFuncs_6c01 $d7 $15
 	npc_end
 
 
+; ==============================================================================
+; ENTID_CITY_BOSS_HELPER
+; ==============================================================================
 npc60_scripts:
-	npc_takeItem $30
-	npc_takeItem $31
+	npc_takeItem ITEMID_30
+	npc_takeItem ITEMID_31
 	npc_set5_cb60
 	npc_jumpIfArmorOfGodGotten AOG_ARMOUR, @func_5fc1
 	npc_setMovementSpeed $10
@@ -2395,35 +2448,38 @@ npc60_scripts:
 	npc_jumpIfRandomNumLTparam $33, +
 	npc_jump @func_5f85
 +
-	.db $c7 $14 $80 $80
+	npc_placeTile $14 $80 $80
 	npc_callCommonSoundFuncs_6c01 $5f $17
-	.db $8d $50 $78
-	.db $c7 $00 $80 $80
+	npc_waitRandomValBetween2ParamsInclusive $50 $78
+	npc_placeTile $00 $80 $80
 	npc_jump @loop
 @func_5fa9:
 	npc_jumpIfRandomNumLTparam $33, +
 	npc_jump @func_5f85
 +
-	.db $c7 $14 $80 $80
+	npc_placeTile $14 $80 $80
 	npc_callCommonSoundFuncs_6c01 $5f $17
-	.db $8d $50 $78
-	.db $c7 $9d $80 $80
+	npc_waitRandomValBetween2ParamsInclusive $50 $78
+	npc_placeTile $9d $80 $80
 	npc_jump @loop
 @func_5fc1:
-	.db $c7 $84 $0c $01
+	npc_placeTile $84 $0c $01
 	npc_end
 
 
+; ==============================================================================
+; ENTID_CITY_BOSS
+; ==============================================================================
 npc61_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_ARMOUR, npcScript_end
 	npc_wait $0a
-	npc_jumpIfItemGotten $30, +
-	npc_jumpIfItemGotten $31, ++
+	npc_jumpIfItemGotten ITEMID_30, +
+	npc_jumpIfItemGotten ITEMID_31, ++
 	npc_giveItem ITEMID_30
 	npc_jump @func_600d
 
 +
-	npc_jumpIfItemGotten $31, +++
+	npc_jumpIfItemGotten ITEMID_31, +++
 	npc_takeItem ITEMID_30
 	npc_giveItem ITEMID_31
 	npc_callCommonSoundFuncs_6c01 $d7 $15
@@ -2436,10 +2492,10 @@ npc61_scripts:
 
 +++
 	npc_callCommonSoundFuncs_6c01 $d7 $15
-	.db $04
+	npc_set4_cb60
 	npc_spawnNPCAtOffset $03 $80 $80
 	npc_wait $0f
-	.db $c7 $84 $0c $01
+	npc_placeTile $84 $0c $01
 	npc_callCommonSoundFuncs_6c01 $85 $16
 	npc_wait $02
 	npc_callCommonSoundFuncs_6c01 $85 $16
@@ -2449,7 +2505,7 @@ npc61_scripts:
 	npc_end
 
 @func_600d:
-	.db $04
+	npc_set4_cb60
 	npc_jumpIfRandomNumLTparam $c0, +
 	npc_setCoords $30 $10
 	npc_jump @func_602f
@@ -2510,7 +2566,7 @@ npc63_scripts:
 	.db $04
 	npc_spawnNPCAtOffset $03 $80 $80
 	npc_wait $0f
-	.db $c7 $84 $0e $01
+	npc_placeTile $84 $0e $01
 	npc_callCommonSoundFuncs_6c01 $85 $16
 	npc_wait $02
 	npc_callCommonSoundFuncs_6c01 $85 $16
@@ -2520,7 +2576,7 @@ npc63_scripts:
 	npc_end
 
 @func_6098:
-	.db $c7 $84 $0e $01
+	npc_placeTile $84 $0e $01
 	npc_end
 
 @func_609d:
@@ -2555,7 +2611,7 @@ npc63_scripts:
 	npc_jump -
 +
 	npc_spawnNPCAtOffset $64 $00 $08
-	.db $8d $05 $0a
+	npc_waitRandomValBetween2ParamsInclusive $05 $0a
 ++
 	npc_turnBackwards
 	npc_jump -
@@ -2598,32 +2654,32 @@ npc62_scripts:
 	npc_moveNPC_jumpIfCant $10, @loop
 	npc_callCommonSoundFuncs_6c01 $ec $16
 	npc_jumpIfFacingDirection $09, +
-	.db $c7 $45 $81 $80
+	npc_placeTile $45 $81 $80
 	npc_wait $01
-	.db $c7 $45 $82 $80
+	npc_placeTile $45 $82 $80
 	npc_wait $01
-	.db $c7 $45 $83 $80
-	.db $8d $03 $0a
-	.db $c7 $00 $83 $80
+	npc_placeTile $45 $83 $80
+	npc_waitRandomValBetween2ParamsInclusive $03 $0a
+	npc_placeTile $00 $83 $80
 	npc_wait $01
-	.db $c7 $00 $82 $80
+	npc_placeTile $00 $82 $80
 	npc_wait $01
-	.db $c7 $00 $81 $80
-	.db $8d $04 $08
+	npc_placeTile $00 $81 $80
+	npc_waitRandomValBetween2ParamsInclusive $04 $08
 	npc_jump @loop
 +
-	.db $c7 $45 $ff $80
+	npc_placeTile $45 $ff $80
 	npc_wait $01
-	.db $c7 $45 $fe $80
+	npc_placeTile $45 $fe $80
 	npc_wait $01
-	.db $c7 $45 $fd $80
-	.db $8d $03 $0a
-	.db $c7 $00 $fd $80
+	npc_placeTile $45 $fd $80
+	npc_waitRandomValBetween2ParamsInclusive $03 $0a
+	npc_placeTile $00 $fd $80
 	npc_wait $01
-	.db $c7 $00 $fe $80
+	npc_placeTile $00 $fe $80
 	npc_wait $01
-	.db $c7 $00 $ff $80
-	.db $8d $04 $08
+	npc_placeTile $00 $ff $80
+	npc_waitRandomValBetween2ParamsInclusive $04 $08
 	npc_jump @loop
 @func_6178:
 	npc_turnBackwards
@@ -2631,7 +2687,7 @@ npc62_scripts:
 
 
 ; ==============================================================================
-; ENTID_ITEM_ROOM
+; ENTID_ITEM_ROOM_ANGEL
 ; ==============================================================================
 npc2d_scripts:
 	npc_set6_cb60_reset_cb6c
@@ -2651,19 +2707,19 @@ npc2d_scripts:
 	.dw @entry1
 
 	.db $1c $00 $01
-	.dw @entry2
+	.dw @afterBoss1
 
 	.db $1c $02 $00
-	.dw @entry3
+	.dw @cityTopLeft
 
 	.db $1c $01 $01
-	.dw @entry4
+	.dw @hiddenRoomNearBoss1
 
 	.db $1c $02 $01
 	.dw @entry5
 
 	.db $1c $00 $02
-	.dw @entry6
+	.dw @cityBoss
 
 	.db $1c $01 $02
 	.dw @entry7
@@ -2678,7 +2734,7 @@ npc2d_scripts:
 	.dw @entryA
 
 	.db $1c $02 $03
-	.dw @entryB
+	.dw @portBottomLeftWithPear
 
 	.db $1c $00 $05
 	.dw @entryC
@@ -2723,7 +2779,7 @@ npc2d_scripts:
 	npc_set_c059 $ff
 	npc_startScrollingText text_firstPear
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC ENTID_ITEM_ROOM_FAIRY, $78 $5c
+	npc_spawnNPC ENTID_PEAR, $78 $5c
 	npc_jump @emptyRoom
 
 @entry1:
@@ -2737,52 +2793,53 @@ npc2d_scripts:
 	npc_spawnNPC $33 $70 $54
 	npc_jump @emptyRoom
 
-@entry2:
-	npc_jumpIfItemGotten $14 _showText_roomEmpty_clear_c059
+@afterBoss1:
+	npc_jumpIfItemGotten ITEMID_BELT _showText_roomEmpty_clear_c059
 	npc_jumpIfArmorOfGodGotten AOG_BELT _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6497
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC $34 $7a $64
+	npc_spawnNPC ENTID_BELT_OF_TRUTH $7a $64
 	npc_jump @emptyRoom
 
-@entry3:
+@cityTopLeft:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_64fe
 	npc_startScrollingText text_7f_03_63aa
-	npc_jumpIfItemGotten $01, +
+	npc_jumpIfItemGotten ITEMID_PEAR_TOPLEFT_CITY, +
 	npc_startScrollingText text_03_6551
-	npc_spawnNPC $2e $7a $64
-	npc_spawnNPC $33 $70 $54
+	npc_spawnNPC ENTID_PEAR $7a $64
+	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump ++
 +
 	npc_startScrollingText text_03_6482
 ++
-	npc_spawnNPC $3a $42 $64
-	npc_spawnNPC $33 $38 $54
-	npc_spawnNPC $3b $b2 $64
-	npc_spawnNPC $33 $a8 $54
+	npc_spawnNPC ENTID_SHOP_7_VIALS $42 $64
+	npc_spawnNPC ENTID_PRICE_BIRD $38 $54
+	npc_spawnNPC ENTID_SHOP_OIL $b2 $64
+	npc_spawnNPC ENTID_PRICE_BIRD $a8 $54
 	npc_jump @emptyRoom
 
-@entry4:
-	npc_jumpIfItemGotten $21, _showText_roomEmpty_clear_c059
+@hiddenRoomNearBoss1:
+	npc_jumpIfItemGotten ITEMID_VIALBIRD_HIDDEN_ROOM_NEAR_BOSS_1, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
+// 75 vials, 150 spirit points
 	npc_startScrollingText text_03_6566
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC $3d $50 $64
-	npc_spawnNPC $3c $a0 $64
+	npc_spawnNPC ENTID_VIALS_HIDDEN_ROOM_NEAR_BOSS_1 $50 $64
+	npc_spawnNPC ENTID_BIRDS_HIDDEN_ROOM_NEAR_BOSS_1 $a0 $64
 	npc_jump @emptyRoom
 
 @entry5:
 	npc_jumpIfItemGotten $09, _showText_roomEmpty_clear_c059
 	npc_jump @func_6219
 
-@entry6:
-	npc_jumpIfArmorOfGodGotten $02, _showText_roomEmpty_clear_c059
+@cityBoss:
+	npc_jumpIfArmorOfGodGotten AOG_ARMOUR, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_65c3
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC $35 $7a $64
+	npc_spawnNPC ENTID_BREASTPLATE_OF_RIGHTEOUSNESS $7a $64
 	npc_jump @emptyRoom
 
 @entry7:
@@ -2822,19 +2879,19 @@ npc2d_scripts:
 	npc_spawnNPC $33 $70 $54
 	npc_jump @emptyRoom
 
-@entryB:
-	npc_jumpIfItemGotten $03, _showText_roomEmpty_clear_c059
+@portBottomLeftWithPear:
+	npc_jumpIfItemGotten ITEMID_PORT_BOTTOM_LEFT_PEAR, _showText_roomEmpty_clear_c059
 
 @func_62f4:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_672f
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC $2e $7a $64
-	npc_spawnNPC $33 $70 $54
+	npc_spawnNPC ENTID_PEAR $7a $64
+	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump @emptyRoom
 
 @entryC:
-	npc_jumpIfArmorOfGodGotten $10, +
+	npc_jumpIfArmorOfGodGotten AOG_HELM, +
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6789
 	npc_startScrollingText text_7f_03_63aa
@@ -2890,7 +2947,7 @@ npc2d_scripts:
 	npc_jump @emptyRoom
 
 @entry15:
-	npc_jumpIfArmorOfGodGotten $08, _showText_roomEmpty_clear_c059
+	npc_jumpIfArmorOfGodGotten AOG_SHIELD, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6930
 	npc_startScrollingText text_7f_03_63aa
@@ -3311,14 +3368,14 @@ npc66_scripts:
 @func_6a09:
 -
 	npc_set_c059 $80
-	.db $c7 $d8 $80 $80
+	npc_placeTile $d8 $80 $80
 	npc_addParamsToXthenYCoords $10 $00
 	npc_loopAboveParamTimes $08, -
 	npc_addParamsToXthenYCoords $c0 $00
 	npc_addParamsToXthenYCoords $c0 $00
 	npc_wait $04
 	npc_set_c059 $80
-	.db $c7 $9c $80 $80
+	npc_placeTile $9c $80 $80
 	npc_addParamsToXthenYCoords $10 $00
 	npc_loopAboveParamTimes $08, $6a1e
 	npc_addParamsToXthenYCoords $c0 $00

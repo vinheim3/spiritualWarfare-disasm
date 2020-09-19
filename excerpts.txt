@@ -5,15 +5,6 @@
 ; ENTID
 ; ==============================================================================
 
-
-# ------ constants
-0:4ea6 - transitioning up - c=3
-0:4ee2 - transitioning down - c=6
-0:4ef9 - transitioning to left screen - c=9
-0:4f0f - transitioning right
-TODO: score constants
-
-
 # ------- room structs
 byte 2 lower nybble x2 - tileset idx
 
@@ -47,17 +38,19 @@ byte 5 is room y
 byte 6 is player x
 byte 7 is player y
 
-
-# ------- text
-text - debug c062/3 word written $640e
-
-
 # ------- room generation duplicates
 repeated car gfx - group 2
 repeated forest cave gfx - group d
 repeated wall enclosure - group 15
 check ignored on 1b to 1e
 
+# ------- using items
+Call_000_2982 - fruit
+if c05d is nz, dont use fruit
+if c0b0 is nz, dont use fruit
 
-# ------- npc bytes
-cbc0 - processed as part of func_4272 (calls a func that changes the npc's ID)
+if c02a nz, dont use sword
+if c6cb nz, dont use jawbone or sword
+
+# ------- misc
+c059 - ff player cant move, 00 player can move

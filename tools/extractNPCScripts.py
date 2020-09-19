@@ -65,7 +65,7 @@ while start + offset < end:
     elif opcode == 0x0f:
         comps.append(f'\tnpc_turnBackwards')
     elif opcode == 0x10:
-        comps.append(f'\tnpc_moveHorizontallyToPlayer')
+        comps.append(f'\tnpc_facePlayerHorizontally')
     elif opcode == 0x14:
         comps.append(f'\tnpc_set3_cb60')
     elif opcode == 0x24:

@@ -64,8 +64,8 @@ for group in range(0x27):
 
     img_height = 176
 
-    total_width = 256 * width
-    total_height = img_height * height
+    total_width = 256 * width + (width-1)
+    total_height = img_height * height + (height-1)
 
     new_im = Image.new('RGB', (total_width, total_height))
 
@@ -74,7 +74,7 @@ for group in range(0x27):
         y = int(fname[3])
         if (y, x) in ignore_list:
             continue
-        new_im.paste(img, (x*256,y*img_height))
+        new_im.paste(img, (x*256+x,y*img_height+y))
 
     new_im.save(f'roomGroup_gfx/group{group:02x}.png')
     os.system('rm -rf roomGroup_pieces')

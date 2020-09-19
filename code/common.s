@@ -627,7 +627,7 @@ loadRoomStructData:
 
 	ld   hl, wTileLayoutDataBank
 	ld   a, (hl)
-	call convertCurrTileUsingTable_02_4acd
+	call convertCurrTileToTileType
 
 	ld   hl, wByteForOther2x2block
 	ld   (hl), e
@@ -1308,7 +1308,7 @@ getRoomFlagByteAndAddrOffsetInABC:
 	ret
 
 
-convertCurrTileUsingTable_02_4acd:
+convertCurrTileToTileType:
 	push af
 // bank 2
 	ld   hl, $0002
@@ -1400,7 +1400,7 @@ Call_000_078b:
 	ld   hl, $c028                                   ; $07dd: $21 $28 $c0
 	ld   (hl), a                                     ; $07e0: $77
 	ld   a, $00                                      ; $07e1: $3e $00
-	call convertCurrTileUsingTable_02_4acd                               ; $07e3: $cd $6b $07
+	call convertCurrTileToTileType                               ; $07e3: $cd $6b $07
 	ld   a, e                                        ; $07e6: $7b
 	cp   $00                                         ; $07e7: $fe $00
 	jr   z, +                              ; $07e9: $28 $08

@@ -323,7 +323,7 @@ group02room03struct:
 	.dw group02room03layout
 	.db $46 $84 $03 $00 $00 $b0 $90
 	.db $ff
-	.db $74 $80 $46
+	.db ENTID_KEYLOCK $80 $46
 	.db $99 $80 $04
 	.db $85 $80 $28
 	.db $85 $86 $84
@@ -958,7 +958,7 @@ group0broom16struct:
 	.dw group0broom16layout
 	.db $7a $37 $1d $03 $00 $70 $09
 	.db $ff
-	.db $6d $80 $75
+	.db ENTID_HEART_CONTAINER $80 $75
 	.db $ac $80 $42
 	.db $ac $86 $a2
 	.db $ac $89 $a8
@@ -998,8 +998,8 @@ group0broom19struct:
 	.dw group0broom19layout
 	.db $84 $f4 $13 $00 $00 $80 $80
 	.db $ff
-	.db $74 $80 $84
-	.db $04 $c3 $23
+	.db ENTID_KEYLOCK $80 $84
+	.db ENTID_BALLOON_GUY $c3 $23
 	.db $7f $83 $c5
 	.db $7f $80 $79
 	.db $ff
@@ -1025,7 +1025,7 @@ group0broom1bstruct:
 	.db $ff
 	.db $99 $80 $04
 	.db $8d $c9 $b4
-	.db $f5 $86 $d7
+	.db ENTID_GUY_BEFORE_BOSSES $86 $d7
 	.db $ff
 
 group13room00struct:
@@ -1058,7 +1058,7 @@ group13room02struct:
 	.db $36 $88 $1b $01 $00 $78 $94
 	.db $ff
 	.db $88 $89 $71
-	.db $22 $80 $56
+	.db ENTID_CITY_PLUMBER_1 $80 $56
 	.db $ff
 
 group13room03struct:
@@ -1066,9 +1066,9 @@ group13room03struct:
 	.db $5b
 	.dw group13room03layout
 	.db $88 $80 $42
-	.db $4b $83 $84
-	.db $4b $86 $56
-	.db $4b $83 $18
+	.db ENTID_LADDER_CLIMBER $83 $84
+	.db ENTID_LADDER_CLIMBER $86 $56
+	.db ENTID_LADDER_CLIMBER $83 $18
 	.db $ff
 
 group07room00struct:
@@ -1240,11 +1240,11 @@ group07room11struct:
 	.dw group07room11layout
 	.db $d4 $84 $22 $00 $00 $10 $90
 	.db $ff
-	.db $74 $80 $d4
+	.db ENTID_KEYLOCK $80 $d4
 	.db $96 $83 $e8
 	.db $96 $86 $87
 	.db $93 $89 $66
-	.db $f5 $06 $c0 $48
+	.db ENTID_GUY_BEFORE_BOSSES $06 $c0 $48
 	.db $ff
 
 group07room12struct:
@@ -1478,7 +1478,7 @@ group14room00struct:
 	.db $7a $00 $02 $01 $00 $a0 $78
 	.db $8a $00 $02 $01 $00 $a0 $78
 	.db $ff
-	.db $6b $06 $78 $70
+	.db ENTID_TRAIN_GUY $06 $78 $70
 	.db $ff
 
 group14room01struct:
@@ -1492,7 +1492,7 @@ group14room01struct:
 	.db $7a $00 $07 $00 $04 $60 $48
 	.db $8a $00 $07 $00 $04 $60 $48
 	.db $ff
-	.db $6b $06 $78 $70
+	.db ENTID_TRAIN_GUY $06 $78 $70
 	.db $ff
 
 group14room02struct:
@@ -1506,7 +1506,7 @@ group14room02struct:
 	.db $7a $00 $0c $01 $04 $e0 $18
 	.db $8a $00 $0c $01 $04 $e0 $18
 	.db $ff
-	.db $6b $06 $78 $70
+	.db ENTID_TRAIN_GUY $06 $78 $70
 	.db $ff
 
 group14room03struct:
@@ -1521,7 +1521,7 @@ group14room03struct:
 	.db $7a $00 $00 $01 $00 $a0 $58
 	.db $8a $00 $00 $01 $00 $a0 $58
 	.db $ff
-	.db $6b $06 $78 $70
+	.db ENTID_TRAIN_GUY $06 $78 $70
 	.db $ff
 
 group14room04struct:
@@ -1535,7 +1535,7 @@ group14room04struct:
 	.db $7a $00 $0a $04 $01 $80 $58
 	.db $8a $00 $0a $04 $01 $80 $58
 	.db $ff
-	.db $6b $06 $78 $70
+	.db ENTID_TRAIN_GUY $06 $78 $70
 	.db $ff
 
 group10room03struct:
@@ -1546,7 +1546,7 @@ group10room03struct:
 	.dw group10room03layout
 	.db $a7 $84 $05 $00 $02 $d0 $09
 	.db $ff
-	.db $6d $80 $94
+	.db ENTID_HEART_CONTAINER $80 $94
 	.db $ff
 
 group1droom1dstruct:
@@ -1556,7 +1556,7 @@ group1droom1dstruct:
 	.dw group1droom1dlayout
 	.db $79 $f4 $1b $01 $01 $78 $94
 	.db $ff
-	.db $74 $80 $79
+	.db ENTID_KEYLOCK $80 $79
 	.db $ff
 
 group1droom00struct:
@@ -1745,7 +1745,7 @@ group1eroom08struct:
 	.dw group1eroom08layout
 	.db $aa $84 $07 $01 $00 $b0 $49
 	.db $ff
-	.db $6d $00 $78 $10
+	.db ENTID_HEART_CONTAINER $00 $78 $10
 	.db $a5 $80 $51
 	.db $a5 $80 $27
 	.db $a6 $89 $35

@@ -123,10 +123,10 @@ scriptCmdTable:
 	.dw _scriptCmd_turnLeft
 	.dw _scriptCmd_turnRight
 	.dw _scriptCmd_turnBackwards
-	.dw _scriptCmd_moveHorizontallyToPlayer
-	.dw _scriptCmd_moveVerticallyToPlayer
-	.dw _scriptCmd_65a2
-	.dw _scriptCmd_65be
+	.dw _scriptCmd_facePlayerHorizontally
+	.dw _scriptCmd_facePlayerVertically
+	.dw _scriptCmd_moveToPlayersXandFacePlayerHorizontally
+	.dw _scriptCmd_moveToPlayersYandFacePlayerVertically
 	.dw _scriptCmd_set3_cb60
 	.dw _scriptCmd_res3_cb60
 	.dw _scriptCmd_65fd
@@ -192,7 +192,7 @@ scriptCmdTable:
 	.dw _scriptCmd_resetNPC2ndByteBit5_jumpIfOrigSet
 	.dw _scriptCmd_jumpIfPlayerIsFullHealth
 	.dw _scriptCmd_flipBit4ofNPC2ndByte_jumpIfNZ
-	.dw _scriptCmd_6cd6
+	.dw _scriptCmd_waitRandomValBetween2ParamsInclusive
 	.dw _scriptCmd_lampOnOrOffSameBGP
 	.dw _scriptCmd_lampOnOrOffSameOBP0
 	.dw _scriptCmd_addParamsToXthenYCoords
@@ -207,7 +207,7 @@ scriptCmdTable:
 	.dw _scriptCmd_jumpIfArmorOfGodGotten
 	.dw _scriptCmd_jumpIfSpecialBitemGotten
 	.dw _scriptCmd_jumpIfNumBirdsGotten
-	.dw _scriptCmd_6ed7
+	.dw _scriptCmd_placeTile
 	.dw _scriptCmd_jumpIfItemGotten
 	.dw _scriptCmd_jumpIfAtTile
 	.dw _scriptCmd_jumpIfMoreThanNumBombsGotten
@@ -215,7 +215,7 @@ scriptCmdTable:
 	.dw _scriptCmd_jumpIfMoreThanParam1HealthGotten
 	.dw _scriptCmd_jumpIfButtonsPressed
 	.dw _scriptCmd_moveNPC_jumpIfCant
-	.dw _scriptCmd_700e
+	.dw _scriptCmd_quiz
 	.dw _scriptCmd_jumpIfFacingDirection
 scriptCmdTableEnd:
 
@@ -514,7 +514,7 @@ _scriptCmd_turnBackwards:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_moveHorizontallyToPlayer:
+_scriptCmd_facePlayerHorizontally:
 	call npcHelper_res3_cbe4
 	call keepUpperNybbleOfNPC2ndByteLower6Bits
 	ld   de, DIR_RIGHT
@@ -536,7 +536,7 @@ npcHelper_setNPCdirectionBits:
 	ret
 
 
-_scriptCmd_moveVerticallyToPlayer:
+_scriptCmd_facePlayerVertically:
 	call npcHelper_res3_cbe4
 	call keepUpperNybbleOfNPC2ndByteLower6Bits
 	ld   de, DIR_DOWN
@@ -551,7 +551,7 @@ _scriptCmd_moveVerticallyToPlayer:
 	jp   npcHelper_setNPCdirectionBits
 
 
-_scriptCmd_65a2:
+_scriptCmd_moveToPlayersXandFacePlayerHorizontally:
 	ld   hl, wPlayerX                                   ; $65a2: $21 $52 $c0
 	ld   a, (hl)                                     ; $65a5: $7e
 	ld   hl, wNPC_xCoord                                   ; $65a6: $21 $3c $cb
@@ -576,10 +576,10 @@ _scriptCmd_65a2:
 	ld   hl, wNPCBytes_pixelsToMove                                   ; $65b6: $21 $a8 $cb
 	add  hl, bc                                      ; $65b9: $09
 	ld   (hl), a                                     ; $65ba: $77
-	jp   _scriptCmd_moveHorizontallyToPlayer                               ; $65bb: $c3 $69 $65
+	jp   _scriptCmd_facePlayerHorizontally                               ; $65bb: $c3 $69 $65
 
 
-_scriptCmd_65be:
+_scriptCmd_moveToPlayersYandFacePlayerVertically:
 	ld   hl, wPlayerY                                   ; $65be: $21 $54 $c0
 	ld   a, (hl)                                     ; $65c1: $7e
 	ld   hl, wNPC_yCoord                                   ; $65c2: $21 $48 $cb
@@ -600,7 +600,7 @@ Jump_001_65d2:
 	ld   hl, wNPCBytes_pixelsToMove                                   ; $65d2: $21 $a8 $cb
 	add  hl, bc                                      ; $65d5: $09
 	ld   (hl), a                                     ; $65d6: $77
-	jp   _scriptCmd_moveVerticallyToPlayer                               ; $65d7: $c3 $88 $65
+	jp   _scriptCmd_facePlayerVertically                               ; $65d7: $c3 $88 $65
 
 
 keepUpperNybbleOfNPC2ndByteLower6Bits:
@@ -1953,41 +1953,52 @@ loadScrollingTextByteIdxedE:
 	ret
 
 
-_scriptCmd_6cd6:
-	call getNextRandomNumber                               ; $6cd6: $cd $b2 $48
-	ld   hl, wNPCScriptParam2                                   ; $6cd9: $21 $21 $c0
-	ld   a, (hl)                                     ; $6cdc: $7e
-	ld   hl, wNPCScriptParam1                                   ; $6cdd: $21 $20 $c0
-	sub  (hl)                                        ; $6ce0: $96
-	ld   hl, wRandomNumber                                   ; $6ce1: $21 $96 $c0
-	ld   c, (hl)                                     ; $6ce4: $4e
-	ld   b, $00                                      ; $6ce5: $06 $00
-	call bcDivA_divInC_modInAB                                       ; $6ce7: $cd $44 $08
-	ld   a, b                                        ; $6cea: $78
-	ld   hl, wNPCScriptParam1                                   ; $6ceb: $21 $20 $c0
-	add  (hl)                                        ; $6cee: $86
-	ld   hl, wCurrNpcIdx                                   ; $6cef: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6cf2: $4e
-	ld   b, $00                                      ; $6cf3: $06 $00
-	ld   hl, wNPCBytes_timeToWait                                   ; $6cf5: $21 $78 $cb
-	add  hl, bc                                      ; $6cf8: $09
-	ld   (hl), a                                     ; $6cf9: $77
-	ld   hl, wNPCScriptParam2                                   ; $6cfa: $21 $21 $c0
-	dec  (hl)                                        ; $6cfd: $35
-	ld   hl, wNPCScriptParam2                                   ; $6cfe: $21 $21 $c0
-	cp   (hl)                                        ; $6d01: $be
-	jr   nz, @done                             ; $6d02: $20 $0c
+_scriptCmd_waitRandomValBetween2ParamsInclusive:
+	call getNextRandomNumber
 
-	call getNextRandomNumber                               ; $6d04: $cd $b2 $48
-	and  $01                                         ; $6d07: $e6 $01
-	jr   z, @done                              ; $6d09: $28 $05
+// a is param2 - param1
+	ld   hl, wNPCScriptParam2
+	ld   a, (hl)
+	ld   hl, wNPCScriptParam1
+	sub  (hl)
 
-	ld   hl, wNPCBytes_timeToWait                                   ; $6d0b: $21 $78 $cb
-	add  hl, bc                                      ; $6d0e: $09
-	inc  (hl)                                        ; $6d0f: $34
+// random num / above range
+	ld   hl, wRandomNumber
+	ld   c, (hl)
+	ld   b, $00
+	call bcDivA_divInC_modInAB
+
+// mod in a and b, add to lowest number (param1)
+	ld   a, b
+	ld   hl, wNPCScriptParam1
+	add  (hl)
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+
+// set wait to that random val
+	ld   hl, wNPCBytes_timeToWait
+	add  hl, bc
+	ld   (hl), a
+
+// if num is 1 less than upper bound
+	ld   hl, wNPCScriptParam2
+	dec  (hl)
+	ld   hl, wNPCScriptParam2
+	cp   (hl)
+	jr   nz, @done
+
+// randomly choose to use that higher val
+	call getNextRandomNumber
+	and  $01
+	jr   z, @done
+
+	ld   hl, wNPCBytes_timeToWait
+	add  hl, bc
+	inc  (hl)
 
 @done:
-	ret                                              ; $6d10: $c9
+	ret
 
 
 _scriptCmd_lampOnOrOffSameBGP:
@@ -2119,8 +2130,8 @@ _scriptCmd_teleportPlayer:
 
 // seems to not spawn if the new npc would be out of bounds
 _scriptCmd_spawnNPCAtOffset:
-	call retZifAll12NPCslotsUsed                               ; $6dd8: $cd $50 $73
-	jr   z, _executeNPCScriptCode_6e40                              ; $6ddb: $28 $63
+	call retZifAll12NPCslotsUsed
+	jr   z, _executeNPCScriptCode_6e40
 
 // can spawn
 	ld   hl, wNPCScriptParam2                                   ; $6ddd: $21 $21 $c0
@@ -2316,13 +2327,14 @@ _scriptCmd_jumpIfNumBirdsGotten:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_6ed7:
-	ld   hl, wNPCScriptParam3                                   ; $6ed7: $21 $22 $c0
-	ld   a, (hl)                                     ; $6eda: $7e
-	bit  7, a                                        ; $6edb: $cb $7f
-	jr   z, +                              ; $6edd: $28 $1d
+_scriptCmd_placeTile:
+	ld   hl, wNPCScriptParam3
+	ld   a, (hl)
+	bit  7, a
+	jr   z, +
 
-// c006 is tile y npc is on (idxed by 1x1)
+// if bit 7 set, divide npc's Y by 16 and round up, for c006
+// add to param3 later (so bit 7 set means offset, unset means absolute)
 	ld   hl, wNPC_yCoord                                   ; $6edf: $21 $48 $cb
 	add  hl, bc                                      ; $6ee2: $09
 	ld   a, (hl)                                     ; $6ee3: $7e
@@ -2334,7 +2346,7 @@ _scriptCmd_6ed7:
 	ld   hl, $c006                                   ; $6eee: $21 $06 $c0
 	ld   (hl), a                                     ; $6ef1: $77
 
-// offset c006 with param 3 removing the upper nybble with bit 7 set
+// offset c006 with param 3 and move to lower nybble
 	ld   hl, wNPCScriptParam3                                   ; $6ef2: $21 $22 $c0
 	ld   a, (hl)                                     ; $6ef5: $7e
 	ld   hl, $c006                                   ; $6ef6: $21 $06 $c0
@@ -2342,7 +2354,7 @@ _scriptCmd_6ed7:
 	and  $0f                                         ; $6efa: $e6 $0f
 
 +
-// c007's upper nybble is param 3's low nybble
+// if bit 7 not set, c007 is a 2x2 tile y
 	ld   hl, wNPCScriptParam3                                   ; $6efc: $21 $22 $c0
 	ld   (hl), a                                     ; $6eff: $77
 	sla  a                                           ; $6f00: $cb $27
@@ -2352,7 +2364,7 @@ _scriptCmd_6ed7:
 	ld   hl, $c007                                   ; $6f08: $21 $07 $c0
 	ld   (hl), a                                     ; $6f0b: $77
 
-// bc is curr npc idx
+// now to check param 2 (x)
 	ld   hl, wCurrNpcIdx                                   ; $6f0c: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6f0f: $4e
 	ld   b, $00                                      ; $6f10: $06 $00
@@ -2389,6 +2401,8 @@ _scriptCmd_6ed7:
 	cp   $b0                                         ; $6f48: $fe $b0
 	jr   nc, @done                             ; $6f4a: $30 $35
 
+// param 1 is tile type to replace with
+// store in game screen tiles
 	ld   hl, wNPCScriptParam1                                   ; $6f4c: $21 $20 $c0
 	ld   a, (hl)                                     ; $6f4f: $7e
 	ld   hl, w2x2gameScreenTiles                                   ; $6f50: $21 $b0 $c3
@@ -2398,8 +2412,10 @@ _scriptCmd_6ed7:
 	ld   (hl), a                                     ; $6f58: $77
 	ld   a, c                                        ; $6f59: $79
 	push af                                          ; $6f5a: $f5
+
+// as well as to tile types
 	ld   a, $00                                      ; $6f5b: $3e $00
-	call convertCurrTileUsingTable_02_4acd                                       ; $6f5d: $cd $6b $07
+	call convertCurrTileToTileType                                       ; $6f5d: $cd $6b $07
 	pop  af                                          ; $6f60: $f1
 	ld   c, a                                        ; $6f61: $4f
 	ld   b, $00                                      ; $6f62: $06 $00
@@ -2407,6 +2423,8 @@ _scriptCmd_6ed7:
 	ld   hl, w2x2tileTypes                                   ; $6f65: $21 $00 $c3
 	add  hl, bc                                      ; $6f68: $09
 	ld   (hl), a                                     ; $6f69: $77
+
+// c00c is x of tile, c00d is y of tile
 	ld   hl, wNPCScriptParam2                                   ; $6f6a: $21 $21 $c0
 	ld   c, (hl)                                     ; $6f6d: $4e
 	ld   b, $00                                      ; $6f6e: $06 $00
@@ -2458,7 +2476,7 @@ _scriptCmd_jumpIfAtTile:
 	srl  a                                           ; $6fb8: $cb $3f
 	ld   c, a                                        ; $6fba: $4f
 	ld   b, $00                                      ; $6fbb: $06 $00
-	call Call_001_400c                               ; $6fbd: $cd $0c $40
+	call c028_equGameScreenTileIdx_16ePlusC                               ; $6fbd: $cd $0c $40
 	ld   hl, wCurrNpcIdx                                   ; $6fc0: $21 $a6 $c0
 	ld   c, (hl)                                     ; $6fc3: $4e
 	ld   b, $00                                      ; $6fc4: $06 $00
@@ -2522,7 +2540,7 @@ _scriptCmd_moveNPC_jumpIfCant:
 	jp   npcHelper_jump
 
 
-_scriptCmd_700e:
+_scriptCmd_quiz:
 	ld   hl, wCurrNpcIdx                                   ; $700e: $21 $a6 $c0
 	ld   a, (hl)                                     ; $7011: $7e
 	push af                                          ; $7012: $f5

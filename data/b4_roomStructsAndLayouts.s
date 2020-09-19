@@ -480,7 +480,7 @@ group11room04struct:
 	.dw group11room04layout
 	.db $12 $85 $1c $00 $06 $78 $90
 	.db $ff
-	.db $6d $89 $a9
+	.db ENTID_HEART_CONTAINER $89 $a9
 	.db $ff
 
 group11room00struct:
@@ -526,12 +526,12 @@ group22room00struct:
 	.db $02 $84 $1e $01 $00 $78 $90
 	.db $ff
 	.db $ea $80 $12
-	.db $3e $80 $13
-	.db $3e $80 $14
-	.db $3e $80 $15
-	.db $3e $80 $16
-	.db $3e $80 $17
-	.db $3e $80 $18
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $13
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $14
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $15
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $16
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $17
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $18
 	.db $ff
 
 group15room00struct:
@@ -768,7 +768,7 @@ group16room09struct:
 	.db $db $89 $66
 	.db $db $89 $97
 	.db $db $83 $48
-	.db $f5 $06 $10 $28
+	.db ENTID_GUY_BEFORE_BOSSES $06 $10 $28
 	.db $ff
 
 group17room00struct:
@@ -1089,7 +1089,7 @@ group1aroom0astruct:
 	.db $ff
 	.db $d4 $89 $44
 	.db $d6 $89 $b8
-	.db $74 $80 $64
+	.db ENTID_KEYLOCK $80 $64
 	.db $ff
 
 group1aroom0bstruct:
@@ -1121,7 +1121,7 @@ group1aroom0dstruct:
 	.db $ff
 	.db $d5 $89 $44
 	.db $d4 $89 $b8
-	.db $f5 $06 $40 $88
+	.db ENTID_GUY_BEFORE_BOSSES $06 $40 $88
 	.db $ff
 
 group1aroom0estruct:
@@ -1773,7 +1773,7 @@ group19room32struct:
 	.db $d1 $89 $95
 	.db $d1 $89 $87
 	.db $d1 $89 $96
-	.db $f5 $06 $20 $88
+	.db ENTID_GUY_BEFORE_BOSSES $06 $20 $88
 	.db $ff
 
 group19room33struct:

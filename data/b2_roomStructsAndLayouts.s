@@ -355,9 +355,9 @@ group00room00struct:
 	.dw group00room00layout
 	.db $03 $33
 	.db $ff
-	.db $05 $86 $77
-	.db $05 $80 $b6
-	.db $05 $83 $c8
+	.db ENTID_SUNGLASSES_KNIFE_GUY $86 $77
+	.db ENTID_SUNGLASSES_KNIFE_GUY $80 $b6
+	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $c8
 	.db $ff
 
 group00room01struct:
@@ -366,8 +366,8 @@ group00room01struct:
 	.dw group00room01layout
 	.db $a5 $85 $14 $01 $01 $78 $94
 	.db $ff
-	.db $05 $89 $43
-	.db $05 $80 $b6
+	.db ENTID_SUNGLASSES_KNIFE_GUY $89 $43
+	.db ENTID_SUNGLASSES_KNIFE_GUY $80 $b6
 	.db $ff
 
 group00room02struct:
@@ -379,16 +379,16 @@ group00room02struct:
 	.db $75 $00 $09 $02 $01 $78 $94
 	.db $85 $00 $09 $02 $01 $78 $94
 	.db $ff
-	.db $05 $80 $38
-	.db $05 $80 $d7
+	.db ENTID_SUNGLASSES_KNIFE_GUY $80 $38
+	.db ENTID_SUNGLASSES_KNIFE_GUY $80 $d7
 	.db $ff
 
 group00room03struct:
 	.db $30
 	.db $00
 	.dw group00room03layout
-	.db $50 $80 $75
-	.db $5b $80 $75
+	.db ENTID_BASKETBALLER $80 $75
+	.db ENTID_BASKETBALLER_CTRLER $80 $75
 	.db $ff
 
 group00room04struct:
@@ -397,10 +397,10 @@ group00room04struct:
 	.dw group00room04layout
 	.db $06 $46
 	.db $ff
-	.db $06 $89 $54
-	.db $05 $86 $a4
-	.db $05 $80 $59
-	.db $07 $80 $95
+	.db ENTID_CRAZY_EYES_CLUB_GUY $89 $54
+	.db ENTID_SUNGLASSES_KNIFE_GUY $86 $a4
+	.db ENTID_SUNGLASSES_KNIFE_GUY $80 $59
+	.db ENTID_CIRCLING_ALCOHOLIC $80 $95
 	.db $ff
 
 group00room05struct:
@@ -409,18 +409,18 @@ group00room05struct:
 	.dw group00room05layout
 	.db $f1 $28 $06 $00 $00 $10 $08
 	.db $ff
-	.db $06 $89 $84
-	.db $06 $86 $57
+	.db ENTID_CRAZY_EYES_CLUB_GUY $89 $84
+	.db ENTID_CRAZY_EYES_CLUB_GUY $86 $57
 	.db $ff
 
 group00room06struct:
 	.db $30
 	.db $00
 	.dw group00room06layout
-	.db $6d $80 $35
-	.db $06 $83 $75
-	.db $06 $86 $95
-	.db $06 $80 $b5
+	.db ENTID_HEART_CONTAINER $80 $35
+	.db ENTID_CRAZY_EYES_CLUB_GUY $83 $75
+	.db ENTID_CRAZY_EYES_CLUB_GUY $86 $95
+	.db ENTID_CRAZY_EYES_CLUB_GUY $80 $b5
 	.db $ff
 
 group00room07struct:
@@ -430,15 +430,15 @@ group00room07struct:
 	.db $03 $62
 	.db $03 $82
 	.db $ff
-	.db $06 $89 $84
+	.db ENTID_CRAZY_EYES_CLUB_GUY $89 $84
 	.db $ff
 
 group00room08struct:
 	.db $30
 	.db $00
 	.dw group00room08layout
-	.db $05 $83 $25
-	.db $05 $86 $26
+	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $25
+	.db ENTID_SUNGLASSES_KNIFE_GUY $86 $26
 	.db $ff
 
 group00room09struct:
@@ -454,9 +454,9 @@ group00room09struct:
 	.db $05 $b8
 	.db $05 $c8
 	.db $ff
-	.db $06 $80 $75
-	.db $06 $80 $a3
-	.db $06 $89 $62
+	.db ENTID_CRAZY_EYES_CLUB_GUY $80 $75
+	.db ENTID_CRAZY_EYES_CLUB_GUY $80 $a3
+	.db ENTID_CRAZY_EYES_CLUB_GUY $89 $62
 	.db $ff
 
 group00room0astruct:
@@ -465,18 +465,18 @@ group00room0astruct:
 	.dw group00room0alayout
 	.db $0e $23
 	.db $ff
-	.db $05 $83 $63
-	.db $05 $86 $75
-	.db $4f $80 $a3
+	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $63
+	.db ENTID_SUNGLASSES_KNIFE_GUY $86 $75
+	.db ENTID_CYCLIST $80 $a3
 	.db $ff
 
 group00room0bstruct:
 	.db $30
 	.db $00
 	.dw group00room0blayout
-	.db $05 $86 $d4
-	.db $05 $89 $76
-	.db $07 $80 $75
+	.db ENTID_SUNGLASSES_KNIFE_GUY $86 $d4
+	.db ENTID_SUNGLASSES_KNIFE_GUY $89 $76
+	.db ENTID_CIRCLING_ALCOHOLIC $80 $75
 	.db $ff
 
 group00room0cstruct:
@@ -488,8 +488,8 @@ group00room0cstruct:
 	.db $05 $b5
 	.db $03 $99
 	.db $ff
-	.db $06 $83 $56
-	.db $06 $86 $94
+	.db ENTID_CRAZY_EYES_CLUB_GUY $83 $56
+	.db ENTID_CRAZY_EYES_CLUB_GUY $86 $94
 	.db $ff
 
 group00room0dstruct:
@@ -505,7 +505,7 @@ group00room0estruct:
 	.dw group00room0elayout
 	.db $55 $8c $09 $00 $02 $10 $80
 	.db $ff
-	.db $04 $83 $66
+	.db ENTID_BALLOON_GUY $83 $66
 	.db $ff
 
 group00room0fstruct:
@@ -514,8 +514,8 @@ group00room0fstruct:
 	.dw group00room0flayout
 	.db $55 $8c $09 $00 $02 $e0 $80
 	.db $ff
-	.db $05 $83 $e9
-	.db $05 $86 $67
+	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $e9
+	.db ENTID_SUNGLASSES_KNIFE_GUY $86 $67
 	.db $ff
 
 group00room10struct:
@@ -526,10 +526,10 @@ group00room10struct:
 	.db $04 $b2
 	.db $05 $46
 	.db $ff
-	.db $05 $83 $73
-	.db $05 $89 $55
-	.db $05 $c6 $76
-	.db $05 $c0 $b6
+	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $73
+	.db ENTID_SUNGLASSES_KNIFE_GUY $89 $55
+	.db ENTID_SUNGLASSES_KNIFE_GUY $c6 $76
+	.db ENTID_SUNGLASSES_KNIFE_GUY $c0 $b6
 	.db $ff
 
 group00room11struct:
@@ -539,9 +539,9 @@ group00room11struct:
 	.dw group00room11layout
 	.db $04 $73
 	.db $ff
-	.db $06 $c9 $55
-	.db $06 $86 $88
-	.db $06 $c9 $a3
+	.db ENTID_CRAZY_EYES_CLUB_GUY $c9 $55
+	.db ENTID_CRAZY_EYES_CLUB_GUY $86 $88
+	.db ENTID_CRAZY_EYES_CLUB_GUY $c9 $a3
 	.db $ff
 
 group00room12struct:
@@ -553,8 +553,8 @@ group00room12struct:
 	.db $ff
 	.db $06 $52
 	.db $ff
-	.db $05 $83 $83
-	.db $05 $c0 $c4
+	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $83
+	.db ENTID_SUNGLASSES_KNIFE_GUY $c0 $c4
 	.db $ff
 
 group00room13struct:
@@ -563,10 +563,10 @@ group00room13struct:
 	.dw group00room13layout
 	.db $06 $94
 	.db $ff
-	.db $05 $86 $43
-	.db $05 $89 $57
-	.db $05 $80 $b6
-	.db $07 $89 $c8
+	.db ENTID_SUNGLASSES_KNIFE_GUY $86 $43
+	.db ENTID_SUNGLASSES_KNIFE_GUY $89 $57
+	.db ENTID_SUNGLASSES_KNIFE_GUY $80 $b6
+	.db ENTID_CIRCLING_ALCOHOLIC $89 $c8
 	.db $ff
 
 group00room14struct:
@@ -575,8 +575,8 @@ group00room14struct:
 	.dw group00room14layout
 	.db $05 $76
 	.db $ff
-	.db $04 $86 $26
-	.db $41 $80 $74
+	.db ENTID_BALLOON_GUY $86 $26
+	.db ENTID_RAFT $80 $74
 	.db $ff
 
 group00room15struct:
@@ -588,8 +588,8 @@ group00room15struct:
 	.db $05 $c4
 	.db $05 $73
 	.db $ff
-	.db $06 $86 $53
-	.db $06 $83 $b3
+	.db ENTID_CRAZY_EYES_CLUB_GUY $86 $53
+	.db ENTID_CRAZY_EYES_CLUB_GUY $83 $b3
 	.db $ff
 
 group00room16struct:
@@ -599,10 +599,10 @@ group00room16struct:
 	.dw group00room16layout
 	.db $04 $85
 	.db $ff
-	.db $05 $83 $94
-	.db $05 $80 $c5
-	.db $05 $89 $55
-	.db $07 $83 $a8
+	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $94
+	.db ENTID_SUNGLASSES_KNIFE_GUY $80 $c5
+	.db ENTID_SUNGLASSES_KNIFE_GUY $89 $55
+	.db ENTID_CIRCLING_ALCOHOLIC $83 $a8
 	.db $ff
 
 group00room17struct:
@@ -614,11 +614,11 @@ group00room17struct:
 	.db $ff
 	.db $05 $75
 	.db $ff
-	.db $05 $c6 $63
-	.db $05 $83 $c4
-	.db $05 $89 $33
-	.db $04 $80 $c5
-	.db $3e $80 $d6
+	.db ENTID_SUNGLASSES_KNIFE_GUY $c6 $63
+	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $c4
+	.db ENTID_SUNGLASSES_KNIFE_GUY $89 $33
+	.db ENTID_BALLOON_GUY $80 $c5
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $d6
 	.db $ff
 
 group0froom06struct:
@@ -627,9 +627,9 @@ group0froom06struct:
 	.dw group0froom06layout
 	.db $70 $9c $0e $00 $00 $c0 $60
 	.db $ff
-	.db $22 $80 $97
-	.db $49 $89 $65
-	.db $22 $80 $53
+	.db ENTID_CITY_PLUMBER_1 $80 $97
+	.db ENTID_CITY_PLUMBER_2 $89 $65
+	.db ENTID_CITY_PLUMBER_1 $80 $53
 	.db $ff
 
 group0froom07struct:
@@ -638,15 +638,15 @@ group0froom07struct:
 	.dw group0froom07layout
 	.db $8a $88 $01 $02 $00 $80 $78
 	.db $ff
-	.db $49 $89 $a5
-	.db $22 $80 $41
+	.db ENTID_CITY_PLUMBER_2 $89 $a5
+	.db ENTID_CITY_PLUMBER_1 $80 $41
 	.db $ff
 
 group0froom08struct:
 	.db $30
 	.db $db
 	.dw group0froom08layout
-	.db $49 $89 $b3
+	.db ENTID_CITY_PLUMBER_2 $89 $b3
 	.db $ff
 
 group0eroom00struct:
@@ -660,16 +660,16 @@ group0eroom01struct:
 	.db $30
 	.db $07
 	.dw group0eroom01layout
-	.db $1d $89 $85
-	.db $1d $80 $56
+	.db ENTID_SLOW_CITY_GUY $89 $85
+	.db ENTID_SLOW_CITY_GUY $80 $56
 	.db $ff
 
 group0eroom02struct:
 	.db $30
 	.db $07
 	.dw group0eroom02layout
-	.db $1d $89 $56
-	.db $1d $80 $96
+	.db ENTID_SLOW_CITY_GUY $89 $56
+	.db ENTID_SLOW_CITY_GUY $80 $96
 	.db $ff
 
 group01room00struct:
@@ -678,16 +678,16 @@ group01room00struct:
 	.dw group01room00layout
 	.db $07 $00 $00 $05 $03 $e0 $68
 	.db $ff
-	.db $19 $c9 $b7
-	.db $19 $86 $35
+	.db ENTID_RUNNING_CITY_GUY $c9 $b7
+	.db ENTID_RUNNING_CITY_GUY $86 $35
 	.db $ff
 
 group01room01struct:
 	.db $30
 	.db $07
 	.dw group01room01layout
-	.db $19 $80 $69
-	.db $19 $89 $59
+	.db ENTID_RUNNING_CITY_GUY $80 $69
+	.db ENTID_RUNNING_CITY_GUY $89 $59
 	.db $ff
 
 group01room02struct:
@@ -696,23 +696,23 @@ group01room02struct:
 	.dw group01room02layout
 	.db $87 $85 $0f $02 $01 $80 $90
 	.db $ff
-	.db $19 $86 $28
-	.db $19 $83 $59
-	.db $19 $86 $a8
-	.db $19 $83 $d9
+	.db ENTID_RUNNING_CITY_GUY $86 $28
+	.db ENTID_RUNNING_CITY_GUY $83 $59
+	.db ENTID_RUNNING_CITY_GUY $86 $a8
+	.db ENTID_RUNNING_CITY_GUY $83 $d9
 	.db $ff
 
 group01room03struct:
 	.db $30
 	.db $07
 	.dw group01room03layout
-	.db $19 $86 $48
-	.db $19 $86 $57
-	.db $19 $86 $75
-	.db $19 $86 $84
-	.db $19 $86 $95
-	.db $19 $86 $b7
-	.db $19 $86 $c8
+	.db ENTID_RUNNING_CITY_GUY $86 $48
+	.db ENTID_RUNNING_CITY_GUY $86 $57
+	.db ENTID_RUNNING_CITY_GUY $86 $75
+	.db ENTID_RUNNING_CITY_GUY $86 $84
+	.db ENTID_RUNNING_CITY_GUY $86 $95
+	.db ENTID_RUNNING_CITY_GUY $86 $b7
+	.db ENTID_RUNNING_CITY_GUY $86 $c8
 	.db $ff
 
 group01room04struct:
@@ -721,8 +721,8 @@ group01room04struct:
 	.dw group01room04layout
 	.db $f9 $00 $02 $00 $03 $10 $90
 	.db $ff
-	.db $19 $c6 $b7
-	.db $19 $80 $59
+	.db ENTID_RUNNING_CITY_GUY $c6 $b7
+	.db ENTID_RUNNING_CITY_GUY $80 $59
 	.db $ff
 
 group01room05struct:
@@ -731,28 +731,28 @@ group01room05struct:
 	.dw group01room05layout
 	.db $64 $84 $1c $02 $00 $78 $90
 	.db $ff
-	.db $1a $80 $19
-	.db $19 $80 $56
-	.db $19 $89 $a7
-	.db $19 $86 $c4
+	.db ENTID_BLOCKAGE_BUILDER $80 $19
+	.db ENTID_RUNNING_CITY_GUY $80 $56
+	.db ENTID_RUNNING_CITY_GUY $89 $a7
+	.db ENTID_RUNNING_CITY_GUY $86 $c4
 	.db $ff
 
 group01room06struct:
 	.db $30
 	.db $07
 	.dw group01room06layout
-	.db $1a $80 $79
-	.db $1a $86 $d5
-	.db $19 $c0 $24
+	.db ENTID_BLOCKAGE_BUILDER $80 $79
+	.db ENTID_BLOCKAGE_BUILDER $86 $d5
+	.db ENTID_RUNNING_CITY_GUY $c0 $24
 	.db $ff
 
 group01room07struct:
 	.db $30
 	.db $07
 	.dw group01room07layout
-	.db $1a $80 $79
-	.db $1a $86 $b5
-	.db $19 $89 $87
+	.db ENTID_BLOCKAGE_BUILDER $80 $79
+	.db ENTID_BLOCKAGE_BUILDER $86 $b5
+	.db ENTID_RUNNING_CITY_GUY $89 $87
 	.db $ff
 
 group01room08struct:
@@ -761,38 +761,38 @@ group01room08struct:
 	.dw group01room08layout
 	.db $87 $95 $09 $01 $01 $20 $10
 	.db $ff
-	.db $21 $86 $55
-	.db $1a $89 $c4
-	.db $19 $83 $97
-	.db $19 $c0 $44
+	.db ENTID_DYNAMITE_BUILDER $86 $55
+	.db ENTID_BLOCKAGE_BUILDER $89 $c4
+	.db ENTID_RUNNING_CITY_GUY $83 $97
+	.db ENTID_RUNNING_CITY_GUY $c0 $44
 	.db $ff
 
 group01room09struct:
 	.db $30
 	.db $07
 	.dw group01room09layout
-	.db $21 $83 $c7
-	.db $19 $89 $d6
-	.db $19 $86 $b5
-	.db $19 $c9 $87
+	.db ENTID_DYNAMITE_BUILDER $83 $c7
+	.db ENTID_RUNNING_CITY_GUY $89 $d6
+	.db ENTID_RUNNING_CITY_GUY $86 $b5
+	.db ENTID_RUNNING_CITY_GUY $c9 $87
 	.db $ff
 
 group01room0astruct:
 	.db $30
 	.db $07
 	.dw group01room0alayout
-	.db $19 $80 $19
-	.db $19 $86 $d7
-	.db $19 $83 $88
+	.db ENTID_RUNNING_CITY_GUY $80 $19
+	.db ENTID_RUNNING_CITY_GUY $86 $d7
+	.db ENTID_RUNNING_CITY_GUY $83 $88
 	.db $ff
 
 group01room0bstruct:
 	.db $30
 	.db $07
 	.dw group01room0blayout
-	.db $1a $86 $66
-	.db $19 $83 $29
-	.db $19 $80 $a7
+	.db ENTID_BLOCKAGE_BUILDER $86 $66
+	.db ENTID_RUNNING_CITY_GUY $83 $29
+	.db ENTID_RUNNING_CITY_GUY $80 $a7
 	.db $ff
 
 group01room0cstruct:
@@ -803,20 +803,20 @@ group01room0cstruct:
 	.db $45 $87 $1c $02 $06 $78 $90
 	.db $ff
 	.db $1c $06 $38 $58
-	.db $3e $80 $35
-	.db $3e $80 $45
-	.db $04 $80 $85
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $35
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $45
+	.db ENTID_BALLOON_GUY $80 $85
 	.db $ff
 
 group01room0dstruct:
 	.db $30
 	.db $07
 	.dw group01room0dlayout
-	.db $21 $80 $55
-	.db $21 $83 $a8
-	.db $19 $83 $87
-	.db $19 $89 $87
-	.db $19 $80 $87
+	.db ENTID_DYNAMITE_BUILDER $80 $55
+	.db ENTID_DYNAMITE_BUILDER $83 $a8
+	.db ENTID_RUNNING_CITY_GUY $83 $87
+	.db ENTID_RUNNING_CITY_GUY $89 $87
+	.db ENTID_RUNNING_CITY_GUY $80 $87
 	.db $ff
 
 group01room0estruct:
@@ -825,10 +825,10 @@ group01room0estruct:
 	.dw group01room0elayout
 	.db $f7 $8d $09 $00 $01 $e0 $80
 	.db $ff
-	.db $19 $89 $86
-	.db $19 $89 $87
-	.db $19 $89 $88
-	.db $19 $83 $c7
+	.db ENTID_RUNNING_CITY_GUY $89 $86
+	.db ENTID_RUNNING_CITY_GUY $89 $87
+	.db ENTID_RUNNING_CITY_GUY $89 $88
+	.db ENTID_RUNNING_CITY_GUY $83 $c7
 	.db $ff
 
 group01room0fstruct:
@@ -851,9 +851,9 @@ group01room10struct:
 	.db $30
 	.db $07
 	.dw group01room10layout
-	.db $1a $80 $75
-	.db $21 $80 $84
-	.db $19 $80 $97
+	.db ENTID_BLOCKAGE_BUILDER $80 $75
+	.db ENTID_DYNAMITE_BUILDER $80 $84
+	.db ENTID_RUNNING_CITY_GUY $80 $97
 	.db $ff
 
 group01room11struct:
@@ -862,18 +862,18 @@ group01room11struct:
 	.dw group01room11layout
 	.db $d5 $86 $0f $00 $02 $60 $90
 	.db $ff
-	.db $19 $c9 $55
-	.db $19 $83 $96
-	.db $19 $86 $b6
+	.db ENTID_RUNNING_CITY_GUY $c9 $55
+	.db ENTID_RUNNING_CITY_GUY $83 $96
+	.db ENTID_RUNNING_CITY_GUY $86 $b6
 	.db $ff
 
 group01room12struct:
 	.db $30
 	.db $07
 	.dw group01room12layout
-	.db $1a $89 $c5
-	.db $19 $80 $48
-	.db $19 $89 $b3
+	.db ENTID_BLOCKAGE_BUILDER $89 $c5
+	.db ENTID_RUNNING_CITY_GUY $80 $48
+	.db ENTID_RUNNING_CITY_GUY $89 $b3
 	.db $ff
 
 group01room13struct:
@@ -882,20 +882,20 @@ group01room13struct:
 	.dw group01room13layout
 	.db $f7 $00 $0a $00 $02 $10 $70
 	.db $ff
-	.db $1a $86 $56
-	.db $19 $80 $a5
-	.db $19 $89 $c8
+	.db ENTID_BLOCKAGE_BUILDER $86 $56
+	.db ENTID_RUNNING_CITY_GUY $80 $a5
+	.db ENTID_RUNNING_CITY_GUY $89 $c8
 	.db $ff
 
 group01room14struct:
 	.db $30
 	.db $07
 	.dw group01room14layout
-	.db $19 $86 $12
-	.db $19 $83 $37
-	.db $19 $83 $e6
-	.db $19 $c0 $98
-	.db $04 $c0 $e4
+	.db ENTID_RUNNING_CITY_GUY $86 $12
+	.db ENTID_RUNNING_CITY_GUY $83 $37
+	.db ENTID_RUNNING_CITY_GUY $83 $e6
+	.db ENTID_RUNNING_CITY_GUY $c0 $98
+	.db ENTID_BALLOON_GUY $c0 $e4
 	.db $ff
 
 group01room15struct:
@@ -905,26 +905,26 @@ group01room15struct:
 	.db $78 $85 $0f $01 $00 $70 $90
 	.db $88 $85 $0f $01 $00 $80 $90
 	.db $ff
-	.db $19 $c0 $a8
-	.db $19 $c9 $58
+	.db ENTID_RUNNING_CITY_GUY $c0 $a8
+	.db ENTID_RUNNING_CITY_GUY $c9 $58
 	.db $ff
 
 group01room16struct:
 	.db $30
 	.db $07
 	.dw group01room16layout
-	.db $1a $80 $b4
-	.db $19 $86 $c6
-	.db $19 $c0 $58
-	.db $19 $c9 $48
+	.db ENTID_BLOCKAGE_BUILDER $80 $b4
+	.db ENTID_RUNNING_CITY_GUY $86 $c6
+	.db ENTID_RUNNING_CITY_GUY $c0 $58
+	.db ENTID_RUNNING_CITY_GUY $c9 $48
 	.db $ff
 
 group01room17struct:
 	.db $30
 	.db $07
 	.dw group01room17layout
-	.db $21 $80 $54
-	.db $21 $83 $b8
+	.db ENTID_DYNAMITE_BUILDER $80 $54
+	.db ENTID_DYNAMITE_BUILDER $83 $b8
 	.db $ff
 
 group01room18struct:
@@ -933,8 +933,8 @@ group01room18struct:
 	.dw group01room18layout
 	.db $48 $84 $1c $02 $01 $78 $90
 	.db $ff
-	.db $19 $c9 $c8
-	.db $19 $83 $c6
+	.db ENTID_RUNNING_CITY_GUY $c9 $c8
+	.db ENTID_RUNNING_CITY_GUY $83 $c6
 	.db $ff
 
 group09room05struct:
@@ -947,8 +947,8 @@ group09room05struct:
 	.db $11 $11 $00 $00 $02 $50 $30
 	.db $e9 $11 $01 $04 $02 $e0 $70
 	.db $ff
-	.db $04 $80 $33
-	.db $04 $80 $d8
+	.db ENTID_BALLOON_GUY $80 $33
+	.db ENTID_BALLOON_GUY $80 $d8
 	.db $ff
 
 group0froom02struct:
@@ -959,7 +959,7 @@ group0froom02struct:
 	.dw group0froom02layout
 	.db $84 $84 $0c $04 $04 $60 $48
 	.db $ff
-	.db $6d $80 $64
+	.db ENTID_HEART_CONTAINER $80 $64
 	.db $ff
 
 group0froom05struct:
@@ -1102,7 +1102,7 @@ group0aroom0cstruct:
 	.db $8a $00 $0d $03 $00 $80 $10
 	.db $ff
 	.db $08 $c3 $83
-	.db $04 $80 $48
+	.db ENTID_BALLOON_GUY $80 $48
 	.db $ff
 
 group0aroom0dstruct:
@@ -1202,7 +1202,7 @@ group1croom1astruct:
 	.db $1e $c0 $57
 	.db $1e $c9 $97
 	.db $1f $89 $e8
-	.db $f5 $06 $70 $88
+	.db ENTID_GUY_BEFORE_BOSSES $06 $70 $88
 	.db $ff
 
 group0droom02struct:
@@ -1276,7 +1276,7 @@ group0droom07struct:
 	.db $ff
 	.db $1f $86 $c5
 	.db $14 $06 $a0 $24
-	.db $74 $80 $77
+	.db ENTID_KEYLOCK $80 $77
 	.db $ff
 
 group0droom08struct:
@@ -1564,7 +1564,7 @@ group0croom20struct:
 	.db $64 $84 $0f $02 $00 $90 $40
 	.db $ff
 	.db $24 $c9 $66
-	.db $74 $80 $64
+	.db ENTID_KEYLOCK $80 $64
 	.db $ff
 
 group0croom21struct:
@@ -1600,7 +1600,7 @@ group08room02struct:
 	.dw group08room02layout
 	.db $58 $84 $1c $00 $07 $78 $90
 	.db $ff
-	.db $04 $86 $17
+	.db ENTID_BALLOON_GUY $86 $17
 	.db $ff
 
 group08room03struct:
@@ -1623,7 +1623,7 @@ group08room04struct:
 	.db $ff
 	.db $28 $80 $71
 	.db $28 $86 $35
-	.db $6d $80 $93
+	.db ENTID_HEART_CONTAINER $80 $93
 	.db $ff
 
 group08room05struct:
@@ -1645,7 +1645,7 @@ group08room06struct:
 	.db $2c $80 $15
 	.db $2a $86 $36
 	.db $2b $86 $37
-	.db $04 $82 $88
+	.db ENTID_BALLOON_GUY $82 $88
 	.db $ff
 
 group08room07struct:
@@ -1700,7 +1700,7 @@ group09room0fstruct:
 	.db $1b $00
 	.db $db
 	.dw group09room0flayout
-	.db $4b $83 $a6
+	.db ENTID_LADDER_CLIMBER $83 $a6
 	.db $ff
 
 group09room10struct:
@@ -1709,22 +1709,22 @@ group09room10struct:
 	.dw group09room10layout
 	.db $42 $84 $1c $01 $00 $78 $90
 	.db $ff
-	.db $3e $86 $52
-	.db $3e $86 $62
-	.db $3e $86 $72
-	.db $3e $86 $82
-	.db $3e $86 $92
-	.db $4b $86 $75
+	.db ENTID_DISAPPEARING_OBSTACLE $86 $52
+	.db ENTID_DISAPPEARING_OBSTACLE $86 $62
+	.db ENTID_DISAPPEARING_OBSTACLE $86 $72
+	.db ENTID_DISAPPEARING_OBSTACLE $86 $82
+	.db ENTID_DISAPPEARING_OBSTACLE $86 $92
+	.db ENTID_LADDER_CLIMBER $86 $75
 	.db $ff
 
 group09room14struct:
 	.db $30
 	.db $db
 	.dw group09room14layout
-	.db $4b $86 $13
-	.db $4b $83 $76
-	.db $4b $86 $96
-	.db $4b $83 $c5
+	.db ENTID_LADDER_CLIMBER $86 $13
+	.db ENTID_LADDER_CLIMBER $83 $76
+	.db ENTID_LADDER_CLIMBER $86 $96
+	.db ENTID_LADDER_CLIMBER $83 $c5
 	.db $ff
 
 group09room02struct:
@@ -1743,10 +1743,10 @@ group09room15struct:
 	.dw group09room15layout
 	.db $46 $00 $ff $01 $00 $40 $70
 	.db $ff
-	.db $3e $86 $d3
-	.db $3e $86 $e3
-	.db $3e $86 $f3
-	.db $4b $86 $c6
+	.db ENTID_DISAPPEARING_OBSTACLE $86 $d3
+	.db ENTID_DISAPPEARING_OBSTACLE $86 $e3
+	.db ENTID_DISAPPEARING_OBSTACLE $86 $f3
+	.db ENTID_LADDER_CLIMBER $86 $c6
 	.db $ff
 
 group09room01struct:
@@ -1757,7 +1757,7 @@ group09room01struct:
 	.db $48 $88 $ff $01 $04 $40 $70
 	.db $21 $84 $20 $00 $00 $78 $90
 	.db $ff
-	.db $f5 $86 $24
+	.db ENTID_GUY_BEFORE_BOSSES $86 $24
 	.db $ff
 
 group09room16struct:
@@ -1773,7 +1773,7 @@ group0eroom03struct:
 	.dw group0eroom03layout
 	.db $96 $8c $0f $02 $02 $90 $10
 	.db $ff
-	.db $1d $80 $46
+	.db ENTID_SLOW_CITY_GUY $80 $46
 	.db $ff
 
 group0froom0bstruct:
@@ -1782,8 +1782,8 @@ group0froom0bstruct:
 	.dw group0froom0blayout
 	.db $d1 $84 $21 $00 $00 $20 $90
 	.db $ff
-	.db $74 $00 $d0 $17
-	.db $f5 $86 $d4
+	.db ENTID_KEYLOCK $00 $d0 $17
+	.db ENTID_GUY_BEFORE_BOSSES $86 $d4
 	.db $ff
 
 group0froom0cstruct:
@@ -1792,8 +1792,8 @@ group0froom0cstruct:
 	.dw group0froom0clayout
 	.db $90 $9c $0e $03 $00 $80 $58
 	.db $ff
-	.db $22 $83 $57
-	.db $22 $80 $43
+	.db ENTID_CITY_PLUMBER_1 $83 $57
+	.db ENTID_CITY_PLUMBER_1 $80 $43
 	.db $ff
 
 group0froom01struct:
@@ -1803,11 +1803,11 @@ group0froom01struct:
 	.db $7a $88 $01 $01 $04 $70 $88
 	.db $8a $88 $01 $01 $04 $80 $88
 	.db $ff
-	.db $22 $80 $94
-	.db $4b $83 $e6
-	.db $49 $89 $86
-	.db $4b $86 $13
-	.db $22 $80 $18
+	.db ENTID_CITY_PLUMBER_1 $80 $94
+	.db ENTID_LADDER_CLIMBER $83 $e6
+	.db ENTID_CITY_PLUMBER_2 $89 $86
+	.db ENTID_LADDER_CLIMBER $86 $13
+	.db ENTID_CITY_PLUMBER_1 $80 $18
 	.db $ff
 
 group1croom0fstruct:
@@ -1819,7 +1819,7 @@ group1croom0fstruct:
 	.db $7a $00 $23 $00 $00 $c0 $80
 	.db $8a $00 $23 $00 $00 $c0 $80
 	.db $ff
-	.db $2d $00 $40 $44
+	.db ENTID_ITEM_ROOM_ANGEL $00 $40 $44
 	.db $ff
 
 group0froom00struct:
@@ -1832,7 +1832,7 @@ group0froom00struct:
 	.db $45 $80 $57
 	.db $45 $80 $83
 	.db $45 $80 $a3
-	.db $6d $80 $c3
+	.db ENTID_HEART_CONTAINER $80 $c3
 	.db $ff
 
 group0froom03struct:
@@ -1843,13 +1843,13 @@ group0froom03struct:
 	.db $1a $9c $09 $01 $01 $d0 $90
 	.db $e1 $85 $1c $02 $03 $78 $90
 	.db $ff
-	.db $4b $83 $13
-	.db $4b $86 $37
-	.db $22 $86 $53
-	.db $4b $83 $75
-	.db $4b $86 $93
-	.db $49 $83 $b7
-	.db $4b $83 $d9
+	.db ENTID_LADDER_CLIMBER $83 $13
+	.db ENTID_LADDER_CLIMBER $86 $37
+	.db ENTID_CITY_PLUMBER_1 $86 $53
+	.db ENTID_LADDER_CLIMBER $83 $75
+	.db ENTID_LADDER_CLIMBER $86 $93
+	.db ENTID_CITY_PLUMBER_2 $83 $b7
+	.db ENTID_LADDER_CLIMBER $83 $d9
 	.db $ff
 
 group0froom0fstruct:
@@ -1873,16 +1873,16 @@ group0froom10struct:
 	.dw group0froom10layout
 	.db $89 $85 $0c $04 $00 $80 $68
 	.db $ff
-	.db $22 $80 $45
-	.db $22 $80 $b4
+	.db ENTID_CITY_PLUMBER_1 $80 $45
+	.db ENTID_CITY_PLUMBER_1 $80 $b4
 	.db $ff
 
 group0froom11struct:
 	.db $30
 	.db $db
 	.dw group0froom11layout
-	.db $22 $86 $61
-	.db $22 $89 $d5
+	.db ENTID_CITY_PLUMBER_1 $86 $61
+	.db ENTID_CITY_PLUMBER_1 $89 $d5
 	.db $ff
 
 group0froom12struct:
@@ -1891,9 +1891,9 @@ group0froom12struct:
 	.dw group0froom12layout
 	.db $c1 $85 $1c $01 $05 $78 $90
 	.db $ff
-	.db $22 $80 $66
-	.db $22 $83 $84
-	.db $74 $00 $b9 $10
+	.db ENTID_CITY_PLUMBER_1 $80 $66
+	.db ENTID_CITY_PLUMBER_1 $83 $84
+	.db ENTID_KEYLOCK $00 $b9 $10
 	.db $ff
 
 group09room06struct:
@@ -1939,9 +1939,9 @@ group0froom0astruct:
 	.dw group0froom0alayout
 	.db $6a $9c $01 $02 $03 $d0 $58
 	.db $ff
-	.db $49 $83 $11
-	.db $49 $86 $e4
-	.db $6d $80 $c9
+	.db ENTID_CITY_PLUMBER_2 $83 $11
+	.db ENTID_CITY_PLUMBER_2 $86 $e4
+	.db ENTID_HEART_CONTAINER $80 $c9
 	.db $ff
 
 group0froom0dstruct:
@@ -2015,10 +2015,10 @@ group0froom14struct:
 	.db $6a $9d $0a $04 $00 $60 $58
 	.db $a7 $84 $1c $02 $02 $78 $90
 	.db $ff
-	.db $3e $80 $67
-	.db $3e $80 $77
-	.db $3e $80 $99
-	.db $3e $80 $a9
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $67
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $77
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $99
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $a9
 	.db $ff
 
 group09room07struct:
@@ -2050,7 +2050,7 @@ group1croom00struct:
 	.db $7a $00 $00 $01 $02 $90 $18
 	.db $8a $00 $00 $01 $02 $90 $18
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom01struct:
@@ -2060,7 +2060,7 @@ group1croom01struct:
 	.db $7a $00 $09 $01 $03 $a0 $20
 	.db $8a $00 $09 $01 $03 $a0 $20
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom02struct:
@@ -2070,7 +2070,7 @@ group1croom02struct:
 	.db $7a $00 $01 $00 $01 $60 $48
 	.db $8a $00 $01 $00 $01 $60 $48
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom03struct:
@@ -2080,7 +2080,7 @@ group1croom03struct:
 	.db $7a $00 $20 $00 $00 $80 $28
 	.db $8a $00 $20 $00 $00 $80 $28
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom04struct:
@@ -2091,7 +2091,7 @@ group1croom04struct:
 	.db $7a $00 $09 $02 $04 $a0 $50
 	.db $8a $00 $09 $02 $04 $a0 $50
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom05struct:
@@ -2101,7 +2101,7 @@ group1croom05struct:
 	.db $7a $00 $01 $04 $04 $40 $88
 	.db $8a $00 $01 $04 $04 $40 $88
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom06struct:
@@ -2111,7 +2111,7 @@ group1croom06struct:
 	.db $7a $00 $21 $00 $00 $d0 $10
 	.db $8a $00 $21 $00 $00 $d0 $10
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom07struct:
@@ -2121,7 +2121,7 @@ group1croom07struct:
 	.db $7a $00 $0a $03 $03 $70 $88
 	.db $8a $00 $0a $03 $03 $70 $88
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom08struct:
@@ -2131,7 +2131,7 @@ group1croom08struct:
 	.db $7a $00 $0f $00 $04 $b0 $70
 	.db $8a $00 $0f $00 $04 $b0 $70
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom09struct:
@@ -2141,7 +2141,7 @@ group1croom09struct:
 	.db $7a $00 $08 $02 $03 $70 $58
 	.db $8a $00 $08 $02 $03 $70 $58
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom0astruct:
@@ -2151,7 +2151,7 @@ group1croom0astruct:
 	.db $7a $00 $0f $04 $01 $10 $90
 	.db $8a $00 $0f $04 $01 $10 $90
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom0bstruct:
@@ -2161,7 +2161,7 @@ group1croom0bstruct:
 	.db $7a $00 $0f $03 $00 $d0 $10
 	.db $8a $00 $0f $03 $00 $d0 $10
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom0cstruct:
@@ -2171,7 +2171,7 @@ group1croom0cstruct:
 	.db $7a $00 $0d $03 $00 $e0 $90
 	.db $8a $00 $0d $03 $00 $e0 $90
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom0dstruct:
@@ -2181,7 +2181,7 @@ group1croom0dstruct:
 	.db $7a $00 $0d $02 $02 $20 $90
 	.db $8a $00 $0d $02 $02 $20 $90
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom0estruct:
@@ -2191,7 +2191,7 @@ group1croom0estruct:
 	.db $7a $00 $08 $00 $02 $30 $50
 	.db $8a $00 $08 $00 $02 $30 $50
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom10struct:
@@ -2201,7 +2201,7 @@ group1croom10struct:
 	.db $7a $00 $0f $03 $03 $b0 $10
 	.db $8a $00 $0f $03 $03 $b0 $10
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom11struct:
@@ -2211,7 +2211,7 @@ group1croom11struct:
 	.db $7a $00 $08 $00 $02 $30 $50
 	.db $8a $00 $08 $00 $02 $30 $50
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom12struct:
@@ -2221,7 +2221,7 @@ group1croom12struct:
 	.db $7a $00 $11 $00 $01 $20 $20
 	.db $8a $00 $11 $00 $01 $20 $20
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom13struct:
@@ -2231,7 +2231,7 @@ group1croom13struct:
 	.db $7a $00 $06 $04 $00 $70 $70
 	.db $8a $00 $06 $04 $00 $70 $70
 	.db $ff
-	.db $2d $80 $25
+	.db ENTID_ITEM_ROOM_ANGEL $80 $25
 	.db $ff
 
 group1croom14struct:
@@ -2241,7 +2241,7 @@ group1croom14struct:
 	.db $7a $00 $01 $02 $02 $30 $58
 	.db $8a $00 $01 $02 $02 $40 $58
 	.db $ff
-	.db $2d $c0 $25
+	.db ENTID_ITEM_ROOM_ANGEL $c0 $25
 	.db $ff
 
 group1croom15struct:
@@ -2251,7 +2251,7 @@ group1croom15struct:
 	.db $7a $00 $08 $02 $00 $50 $88
 	.db $8a $00 $08 $02 $00 $50 $88
 	.db $ff
-	.db $2d $c0 $26
+	.db ENTID_ITEM_ROOM_ANGEL $c0 $26
 	.db $ff
 
 group1croom16struct:
@@ -2261,7 +2261,7 @@ group1croom16struct:
 	.db $7a $00 $25 $00 $00 $70 $90
 	.db $8a $00 $25 $00 $00 $70 $90
 	.db $ff
-	.db $2d $c0 $25
+	.db ENTID_ITEM_ROOM_ANGEL $c0 $25
 	.db $ff
 
 group1croom17struct:
@@ -2271,7 +2271,7 @@ group1croom17struct:
 	.db $7a $00 $05 $02 $01 $e0 $88
 	.db $8a $00 $05 $02 $01 $e0 $88
 	.db $ff
-	.db $2d $c0 $25
+	.db ENTID_ITEM_ROOM_ANGEL $c0 $25
 	.db $ff
 
 group1croom18struct:
@@ -2281,7 +2281,7 @@ group1croom18struct:
 	.db $7a $00 $1f $00 $01 $50 $50
 	.db $8a $00 $1f $00 $01 $50 $50
 	.db $ff
-	.db $2d $c0 $25
+	.db ENTID_ITEM_ROOM_ANGEL $c0 $25
 	.db $ff
 
 group20room00struct:
@@ -2292,8 +2292,8 @@ group20room00struct:
 	.db $7a $00 $09 $01 $00 $20 $18
 	.db $8a $00 $09 $01 $00 $20 $18
 	.db $ff
-	.db $5d $86 $83
-	.db $5e $86 $84
+	.db ENTID_BOSS_1 $86 $83
+	.db ENTID_BOSS_1_CTRLER $86 $84
 	.db $ff
 
 group21room00struct:
@@ -2303,12 +2303,12 @@ group21room00struct:
 	.db $19 $84 $0f $01 $02 $d0 $18
 	.db $c1 $84 $1c $00 $02 $78 $90
 	.db $ff
-	.db $61 $89 $e1
-	.db $60 $89 $42
-	.db $60 $80 $88
-	.db $60 $83 $e5
-	.db $60 $86 $69
-	.db $60 $89 $63
+	.db ENTID_CITY_BOSS $89 $e1
+	.db ENTID_CITY_BOSS_HELPER $89 $42
+	.db ENTID_CITY_BOSS_HELPER $80 $88
+	.db ENTID_CITY_BOSS_HELPER $83 $e5
+	.db ENTID_CITY_BOSS_HELPER $86 $69
+	.db ENTID_CITY_BOSS_HELPER $89 $63
 	.db $ff
 
 group24room00struct:
@@ -2321,10 +2321,10 @@ group24room00struct:
 	.db $ff
 	.db $0e $e8
 	.db $ff
-	.db $3e $80 $78
-	.db $3e $80 $b6
-	.db $3e $80 $44
-	.db $3e $80 $92
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $78
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $b6
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $44
+	.db ENTID_DISAPPEARING_OBSTACLE $80 $92
 	.db $63 $89 $d1
 	.db $62 $80 $53
 	.db $62 $89 $e5

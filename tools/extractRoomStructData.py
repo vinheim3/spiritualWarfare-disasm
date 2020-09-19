@@ -7,6 +7,9 @@ with open('OR', 'rb') as f:
 with open('json/roomPointers.json') as f:
     jdata = json.loads(f.read())
 
+with open('json/npcs.json') as f:
+    npc_names = json.loads(f.read())
+
 curr_bank = 2
 bank_offset = curr_bank*0x8000
 data = data[bank_offset:bank_offset+0x8000]
@@ -106,7 +109,10 @@ for idx, addr in enumerate(sorted_addrs[:-1]):
         if not (byte1 & 0x08):
             while bytes_to_convert[new_offset] != 0xff:
                 length = 3 if (bytes_to_convert[new_offset+1] & 0x80) else 4
-                conv_bytes = " ".join(f'${byte:02x}' for byte in bytes_to_convert[new_offset:new_offset+length])
+                npc_bytes = [f'${byte:02x}' for byte in bytes_to_convert[new_offset:new_offset+length]]
+                if npc_bytes[0][1:3] in npc_names:
+                    npc_bytes[0] = npc_names[npc_bytes[0][1:3]]
+                conv_bytes = " ".join(npc_bytes)
                 comps.append(f'\t.db {conv_bytes}')
                 new_offset += length
             comps.append('\t.db $ff')

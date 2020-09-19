@@ -14,6 +14,10 @@
 	.db $03
 .endm
 
+.macro npc_set4_cb60
+	.db $04
+.endm
+
 .macro npc_faceUp
 	.db $05
 .endm
@@ -32,6 +36,10 @@
 
 .macro npc_set6_cb60_reset_cb6c
 	.db $09
+.endm
+
+.macro npc_offsetNPCCoordsBy1_turnRight
+	.db $0a
 .endm
 
 .macro npc_offsetNPCCoordsBy1_turnLeft
@@ -54,7 +62,7 @@
 	.db $0f
 .endm
 
-.macro npc_moveHorizontallyToPlayer
+.macro npc_facePlayerHorizontally
 	.db $10
 .endm
 
@@ -64,8 +72,16 @@
 
 // 16
 
+.macro npc_moveNPCturnBackIfCant
+	.db $17
+.endm
+
 .macro npc_callCommonSoundFuncs6638
 	.db $18
+.endm
+
+.macro npc_takeKey
+	.db $1c
 .endm
 
 .macro npc_set2_cb60
@@ -94,6 +110,14 @@
 
 .macro npc_set3_cbe4
 	.db $29
+.endm
+
+.macro npc_endIfSimilarIDNpcExists
+	.db $2c
+.endm
+
+.macro npc_set1_cbe4
+	.db $2d
 .endm
 
 .macro npc_moveByParamPixels
@@ -146,6 +170,10 @@
 
 .macro npc_giveNumBirds
 	.db $4e \1
+.endm
+
+.macro npc_takeNumBirds
+	.db $4f \1
 .endm
 
 .macro npc_giveItem
@@ -235,7 +263,9 @@
 	.dw \1
 .endm
 
-// 8d
+.macro npc_waitRandomValBetween2ParamsInclusive
+	.db $8d \1 \2
+.endm
 
 .macro npc_addParamsToXthenYCoords
 	.db $90 \1 \2
@@ -290,7 +320,10 @@
 	.dw \2
 .endm
 
-// c7 - todo with replacing tiles (1st param is tile to replace)
+.macro npc_placeTile
+	.db $c7
+	.db \1 \2 \3
+.endm
 
 .macro npc_jumpIfItemGotten
 	.db $c8
@@ -310,10 +343,21 @@
 	.dw \2
 .endm
 
+.macro npc_jumpIfMoreThanParam1HealthGotten
+	.db $cc
+	.db \1
+	.dw \2
+.endm
+
 .macro npc_moveNPC_jumpIfCant
 	.db $ce
 	.db \1
 	.dw \2
+.endm
+
+.macro npc_quiz
+	.db $cf
+	.db \1 \2 \3
 .endm
 
 .macro npc_jumpIfFacingDirection
