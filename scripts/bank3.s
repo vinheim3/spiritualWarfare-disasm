@@ -25,13 +25,13 @@ npc2e_scripts:
 
 @scriptsAfterFruitGiven:
 	.db $1c $02 $00
-	.dw @scriptAfterFruitGiven_topleftCity
+	.dw @topleftCity
 
 	.db $1c $02 $07
-	.dw @scriptAfterFruitGiven_1c_02_07
+	.dw @airportBuildingEast
 
 	.db $1c $02 $03
-	.dw @scriptAfterFruitGiven_portBottomLeft
+	.dw @portBottomLeft
 
 	.db $ff $ff $ff
 
@@ -42,18 +42,18 @@ npc2e_scripts:
 	npc_call npcHelper_increaseScoreBy40
 	npc_end
 
-@scriptAfterFruitGiven_topleftCity:
+@topleftCity:
 	npc_giveItem ITEMID_PEAR_TOPLEFT_CITY
 	npc_call npcHelper_increaseScoreBy80
 	npc_end
 
-@scriptAfterFruitGiven_1c_02_07:
-	npc_giveItem ITEMID_02
+@airportBuildingEast:
+	npc_giveItem ITEMID_AIRPORT_BUILDING_PEAR
 	npc_increaseScore SCORE_100
 	npc_call npcHelper_increaseScoreBy60
 	npc_end
 
-@scriptAfterFruitGiven_portBottomLeft:
+@portBottomLeft:
 	npc_giveItem ITEMID_PORT_BOTTOM_LEFT_PEAR
 	npc_call npcHelper_increaseScoreBy300
 	npc_call npcHelper_increaseScoreBy20
@@ -2785,7 +2785,7 @@ npc2d_scripts:
 	.dw @entry15
 
 	.db $1c $02 $07
-	.dw @entry16
+	.dw @airportBuildingEast
 
 	.db $1c $00 $08
 	.dw @entry17
@@ -2900,7 +2900,7 @@ npc2d_scripts:
 @portBottomLeftWithPear:
 	npc_jumpIfItemGotten ITEMID_PORT_BOTTOM_LEFT_PEAR, _showText_roomEmpty_clear_c059
 
-@func_62f4:
+@airportBuildingEastCont:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_672f
 	npc_startScrollingText text_7f_03_63aa
@@ -2972,9 +2972,9 @@ npc2d_scripts:
 	npc_spawnNPC $37 $7a $64
 	npc_jump @emptyRoom
 
-@entry16:
-	npc_jumpIfItemGotten ITEMID_02, _showText_roomEmpty_clear_c059
-	npc_jump @func_62f4
+@airportBuildingEast:
+	npc_jumpIfItemGotten ITEMID_AIRPORT_BUILDING_PEAR, _showText_roomEmpty_clear_c059
+	npc_jump @airportBuildingEastCont
 
 @entry17:
 	npc_jumpIfItemGotten ITEMID_0e, _showText_roomEmpty_clear_c059

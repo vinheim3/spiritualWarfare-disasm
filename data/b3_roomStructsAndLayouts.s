@@ -638,25 +638,25 @@ group04room00struct:
 	.db $30
 	.db $04
 	.dw group04room00layout
-	.db $a7 $86 $68
-	.db $a7 $80 $b4
+	.db ENTID_DRUNK_POLICEMAN $86 $68
+	.db ENTID_DRUNK_POLICEMAN $80 $b4
 	.db $ff
 
 group04room01struct:
 	.db $30
 	.db $04
 	.dw group04room01layout
-	.db $a7 $86 $68
-	.db $a7 $80 $c7
-	.db $a7 $89 $a2
+	.db ENTID_DRUNK_POLICEMAN $86 $68
+	.db ENTID_DRUNK_POLICEMAN $80 $c7
+	.db ENTID_DRUNK_POLICEMAN $89 $a2
 	.db $ff
 
 group04room02struct:
 	.db $30
 	.db $04
 	.dw group04room02layout
-	.db $a7 $83 $77
-	.db $a7 $89 $d8
+	.db ENTID_DRUNK_POLICEMAN $83 $77
+	.db ENTID_DRUNK_POLICEMAN $89 $d8
 	.db $ff
 
 group04room03struct:
@@ -666,27 +666,27 @@ group04room03struct:
 	.db $46 $59 $05 $00 $00 $30 $70
 	.db $b6 $59 $05 $01 $00 $d0 $70
 	.db $ff
-	.db $a7 $80 $b3
-	.db $a7 $86 $79
-	.db $a8 $89 $44
+	.db ENTID_DRUNK_POLICEMAN $80 $b3
+	.db ENTID_DRUNK_POLICEMAN $86 $79
+	.db ENTID_AIRPORT_BALD_THUGS $89 $44
 	.db $ff
 
 group04room04struct:
 	.db $30
 	.db $04
 	.dw group04room04layout
-	.db $a9 $86 $73
-	.db $a9 $89 $a7
-	.db $a9 $80 $26
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $86 $73
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $89 $a7
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $80 $26
 	.db $ff
 
 group04room05struct:
 	.db $30
 	.db $04
 	.dw group04room05layout
-	.db $a9 $86 $33
-	.db $a9 $80 $75
-	.db $a9 $89 $b3
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $86 $33
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $80 $75
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $89 $b3
 	.db $ff
 
 group04room06struct:
@@ -695,17 +695,17 @@ group04room06struct:
 	.dw group04room06layout
 	.db $aa $00 $05 $02 $01 $e0 $08
 	.db $ff
-	.db $a8 $80 $76
-	.db $a7 $86 $53
+	.db ENTID_AIRPORT_BALD_THUGS $80 $76
+	.db ENTID_DRUNK_POLICEMAN $86 $53
 	.db $ff
 
 group04room07struct:
 	.db $30
 	.db $04
 	.dw group04room07layout
-	.db $a9 $83 $c8
-	.db $a9 $80 $77
-	.db $a9 $89 $b7
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $83 $c8
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $80 $77
+	.db ENTID_AIRPORT_SUNGLASSES_GUY $89 $b7
 	.db $ff
 
 group04room08struct:
@@ -714,15 +714,15 @@ group04room08struct:
 	.dw group04room08layout
 	.db $07 $00 $07 $01 $02 $e7 $68
 	.db $ff
-	.db $a7 $80 $83
-	.db $a7 $89 $68
+	.db ENTID_DRUNK_POLICEMAN $80 $83
+	.db ENTID_DRUNK_POLICEMAN $89 $68
 	.db $ff
 
 group04room09struct:
 	.db $30
 	.db $04
 	.dw group04room09layout
-	.db $a7 $89 $b8
+	.db ENTID_DRUNK_POLICEMAN $89 $b8
 	.db $ff
 
 group04room0astruct:
@@ -732,10 +732,10 @@ group04room0astruct:
 	.db $74 $85 $05 $01 $01 $70 $90
 	.db $84 $85 $05 $01 $01 $80 $90
 	.db $ff
-	.db $75 $c0 $54
-	.db $76 $c0 $a4
-	.db $a8 $80 $48
-	.db $a8 $89 $c7
+	.db ENTID_AIRPORT_LEFT_GUARD $c0 $54
+	.db ENTID_AIRPORT_RIGHT_GUARD $c0 $a4
+	.db ENTID_AIRPORT_BALD_THUGS $80 $48
+	.db ENTID_AIRPORT_BALD_THUGS $89 $c7
 	.db $ff
 
 group04room0bstruct:
@@ -744,7 +744,7 @@ group04room0bstruct:
 	.dw group04room0blayout
 	.db $f7 $00 $01 $00 $03 $10 $70
 	.db $ff
-	.db $a7 $c9 $76
+	.db ENTID_DRUNK_POLICEMAN $c9 $76
 	.db $ff
 
 group05room00struct:
@@ -771,11 +771,11 @@ group05room03struct:
 	.dw group05room03layout
 	.db $74 $00 $ff $00 $02 $20 $90
 	.db $ff
-	.db $6e $89 $74
-	.db $6f $89 $74
-	.db $70 $89 $74
-	.db $71 $89 $74
-	.db $72 $89 $74
+	.db ENTID_AIRPORT_BAGGAGE_1F_1 $89 $74
+	.db ENTID_AIRPORT_BAGGAGE_1F_2 $89 $74
+	.db ENTID_AIRPORT_BAGGAGE_1F_3 $89 $74
+	.db ENTID_AIRPORT_BAGGAGE_1F_4 $89 $74
+	.db ENTID_AIRPORT_BAGGAGE_1F_5 $89 $74
 	.db $ff
 
 group05room04struct:
@@ -803,7 +803,7 @@ group05room06struct:
 	.db $19 $00 $05 $00 $01 $66 $40
 	.db $d0 $84 $10 $03 $00 $90 $70
 	.db $ff
-	.db $73 $89 $f1
+	.db ENTID_AIRPORT_BAGGAGE_2F $89 $f1
 	.db $ff
 
 group0broom05struct:

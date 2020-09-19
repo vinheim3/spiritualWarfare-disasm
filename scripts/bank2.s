@@ -481,27 +481,40 @@ npc6b_scripts:
 
 
 ; ==============================================================================
-;
+; ENTID_AIRPORT_BAGGAGE_1F_2
 ; ==============================================================================
 npc6f_scripts:
 	npc_wait $50
 	npc_jump +
 
+
+; ==============================================================================
+; ENTID_AIRPORT_BAGGAGE_1F_3
+; ==============================================================================
 npc70_scripts:
 	npc_wait $a0
 	npc_jump +
 
 
+; ==============================================================================
+; ENTID_AIRPORT_BAGGAGE_1F_4
+; ==============================================================================
 npc71_scripts:
 	npc_wait $f0
 	npc_jump +
 
 
+; ==============================================================================
+; ENTID_AIRPORT_BAGGAGE_1F_5
+; ==============================================================================
 npc72_scripts:
 	npc_wait $fa
 	npc_wait $50
 
 +
+; ==============================================================================
+; ENTID_AIRPORT_BAGGAGE_1F_1
+; ==============================================================================
 npc6e_scripts:
 	npc_set3_cb60
 	npc_set6_cb60_reset_cb6c
@@ -527,6 +540,9 @@ npc6e_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_AIRPORT_BAGGAGE_2F
+; ==============================================================================
 npc73_scripts:
 	npc_faceLeft
 	npc_set3_cb60
@@ -540,7 +556,7 @@ npc73_scripts:
 	npc_faceLeft
 	npc_moveByParamPixels $30
 	npc_faceUp
-	npc_spawnNPC $73 $f0 $10
+	npc_spawnNPC ENTID_AIRPORT_BAGGAGE_2F $f0 $10
 	npc_moveByParamPixels $40
 	npc_faceLeft
 	npc_moveByParamPixels $40
@@ -771,7 +787,7 @@ npc6d_scripts:
 	.dw @westPark
 
 	.db $10 $03 $00
-	.dw @entry3
+	.dw @airportBuilding3F
 
 	.db $1e $02 $02
 	.dw @entry4
@@ -834,10 +850,10 @@ npc6d_scripts:
 	npc_placeTile $6c $80 $80
 	npc_end
 
-@entry3:
-	npc_jumpIfItemGotten ITEMID_19, _npc_end_02_502c
+@airportBuilding3F:
+	npc_jumpIfItemGotten ITEMID_AIRPORT_BUILDING_HC, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem ITEMID_19
+	npc_giveItem ITEMID_AIRPORT_BUILDING_HC
 	npc_call @func_54de
 	npc_end
 
@@ -901,6 +917,9 @@ npcText_02_55b7:
 	.db $ff $fe $7f
 
 
+; ==============================================================================
+; ENTID_AIRPORT_LEFT_GUARD
+; ==============================================================================
 npc75_scripts:
 -
 	npc_call func_02_4fea
@@ -909,6 +928,9 @@ npc75_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_AIRPORT_RIGHT_GUARD
+; ==============================================================================
 npc76_scripts:
 -
 	npc_call func_02_4fea
@@ -2710,6 +2732,9 @@ func_02_69c0:
 	npc_ret
 
 
+; ==============================================================================
+; ENTID_DRUNK_POLICEMAN
+; ==============================================================================
 npca7_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_res4_cb60
@@ -2721,24 +2746,30 @@ npca7_scripts:
 	npc_turnBackwards
 	npc_setMovementSpeed $01
 -
-	.db $29
+	npc_set3_cbe4
 	npc_moveByParamPixels $04
 	npc_loopAboveParamTimes $0c, -
 	npc_jump --
 
 
+; ==============================================================================
+; ENTID_AIRPORT_BALD_THUGS
+; ==============================================================================
 npca8_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_res4_cb60
 	npc_setDamageTaken $02
 	npc_wait $0a
 -
-	.db $29
+	npc_set3_cbe4
 	npc_moveByParamPixels $04
 	npc_wait $01
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_AIRPORT_SUNGLASSES_GUY
+; ==============================================================================
 npca9_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
@@ -2746,7 +2777,7 @@ npca9_scripts:
 	npc_wait $0a
 	npc_setMovementSpeed $03
 @loop:
-	.db $29
+	npc_set3_cbe4
 	npc_moveByParamPixels $20
 	npc_moveNPC_jumpIfCant $08, +
 	npc_waitRandomValBetween2ParamsInclusive $0a $28
@@ -3473,9 +3504,9 @@ npcb3_scripts:
 	npc_setDamageTaken $04
 -
 	npc_moveByParamPixels $04
-	.db $29
+	npc_set3_cbe4
 	npc_moveByParamPixels $04
-	.db $29
+	npc_set3_cbe4
 	npc_loopAboveParamTimes $3c, -
 	npc_wait $0f
 

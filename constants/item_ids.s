@@ -3,7 +3,7 @@
 // pears
 	ITEMID_PEAR_FIRST_SCREEN						db // $00
 	ITEMID_PEAR_TOPLEFT_CITY						db // $01
-	ITEMID_02										db // $02
+	ITEMID_AIRPORT_BUILDING_PEAR					db // $02
 	// also keylock for structure in the sea??
 	ITEMID_PORT_BOTTOM_LEFT_PEAR					db // $03
 
@@ -38,7 +38,7 @@
 	ITEMID_CITY_BOTTOM_MID_HC						db // $16
 	ITEMID_17										db // $17
 	ITEMID_WEST_PARK_HC								db // $18
-	ITEMID_19										db // $19
+	ITEMID_AIRPORT_BUILDING_HC						db // $19
 	ITEMID_1a										db // $1a
 	ITEMID_1b										db // $1b
 	ITEMID_1c										db // $1c
