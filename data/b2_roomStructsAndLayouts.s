@@ -505,7 +505,7 @@ group00room0estruct:
 	.dw group00room0elayout
 	.db $55 $8c $09 $00 $02 $10 $80
 	.db $ff
-	.db ENTID_BALLOON_GUY $83 $66
+	.db ENTID_MISC_NPC $83 $66
 	.db $ff
 
 group00room0fstruct:
@@ -575,7 +575,7 @@ group00room14struct:
 	.dw group00room14layout
 	.db $05 $76
 	.db $ff
-	.db ENTID_BALLOON_GUY $86 $26
+	.db ENTID_MISC_NPC $86 $26
 	.db ENTID_RAFT $80 $74
 	.db $ff
 
@@ -617,7 +617,7 @@ group00room17struct:
 	.db ENTID_SUNGLASSES_KNIFE_GUY $c6 $63
 	.db ENTID_SUNGLASSES_KNIFE_GUY $83 $c4
 	.db ENTID_SUNGLASSES_KNIFE_GUY $89 $33
-	.db ENTID_BALLOON_GUY $80 $c5
+	.db ENTID_MISC_NPC $80 $c5
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $d6
 	.db $ff
 
@@ -802,10 +802,10 @@ group01room0cstruct:
 	.db $35 $87 $1c $02 $06 $78 $90
 	.db $45 $87 $1c $02 $06 $78 $90
 	.db $ff
-	.db $1c $06 $38 $58
+	.db ENTID_BAR_SLOW_GUY_SPAWNER $06 $38 $58
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $35
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $45
-	.db ENTID_BALLOON_GUY $80 $85
+	.db ENTID_MISC_NPC $80 $85
 	.db $ff
 
 group01room0dstruct:
@@ -837,14 +837,14 @@ group01room0fstruct:
 	.dw group01room0flayout
 	.db $07 $00 $04 $03 $02 $e0 $70
 	.db $ff
-	.db $42 $80 $17
-	.db $1b $86 $36
-	.db $1b $80 $67
-	.db $1b $89 $a7
-	.db $1b $89 $46
-	.db $1b $86 $84
-	.db $1b $83 $d5
-	.db $42 $86 $e8
+	.db ENTID_CITY_BANDIT_BLOCKER $80 $17
+	.db ENTID_CITY_BANDIT $86 $36
+	.db ENTID_CITY_BANDIT $80 $67
+	.db ENTID_CITY_BANDIT $89 $a7
+	.db ENTID_CITY_BANDIT $89 $46
+	.db ENTID_CITY_BANDIT $86 $84
+	.db ENTID_CITY_BANDIT $83 $d5
+	.db ENTID_CITY_BANDIT_BLOCKER $86 $e8
 	.db $ff
 
 group01room10struct:
@@ -895,7 +895,7 @@ group01room14struct:
 	.db ENTID_RUNNING_CITY_GUY $83 $37
 	.db ENTID_RUNNING_CITY_GUY $83 $e6
 	.db ENTID_RUNNING_CITY_GUY $c0 $98
-	.db ENTID_BALLOON_GUY $c0 $e4
+	.db ENTID_MISC_NPC $c0 $e4
 	.db $ff
 
 group01room15struct:
@@ -947,8 +947,8 @@ group09room05struct:
 	.db $11 $11 $00 $00 $02 $50 $30
 	.db $e9 $11 $01 $04 $02 $e0 $70
 	.db $ff
-	.db ENTID_BALLOON_GUY $80 $33
-	.db ENTID_BALLOON_GUY $80 $d8
+	.db ENTID_MISC_NPC $80 $33
+	.db ENTID_MISC_NPC $80 $d8
 	.db $ff
 
 group0froom02struct:
@@ -1102,7 +1102,7 @@ group0aroom0cstruct:
 	.db $8a $00 $0d $03 $00 $80 $10
 	.db $ff
 	.db $08 $c3 $83
-	.db ENTID_BALLOON_GUY $80 $48
+	.db ENTID_MISC_NPC $80 $48
 	.db $ff
 
 group0aroom0dstruct:
@@ -1600,7 +1600,7 @@ group08room02struct:
 	.dw group08room02layout
 	.db $58 $84 $1c $00 $07 $78 $90
 	.db $ff
-	.db ENTID_BALLOON_GUY $86 $17
+	.db ENTID_MISC_NPC $86 $17
 	.db $ff
 
 group08room03struct:
@@ -1645,7 +1645,7 @@ group08room06struct:
 	.db $2c $80 $15
 	.db $2a $86 $36
 	.db $2b $86 $37
-	.db ENTID_BALLOON_GUY $82 $88
+	.db ENTID_MISC_NPC $82 $88
 	.db $ff
 
 group08room07struct:

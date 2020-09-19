@@ -133,7 +133,7 @@ npce7_scripts:
 	npc_res4_cb60
 	npc_setMovementSpeed $0d
 -
-	npc_jumpIfItemGotten $30, +
+	npc_jumpIfItemGotten ITEMID_30, +
 	npc_jump ++
 +
 	.db $55 $e6
@@ -326,15 +326,15 @@ npcea_scripts:
 	npc_res4_cb60
 	npc_res5_cb60
 	.db $12
-	npc_takeItem $30
-	npc_takeItem $31
-	npc_takeItem $2a
+	npc_takeItem ITEMID_30
+	npc_takeItem ITEMID_31
+	npc_takeItem ITEMID_2a
 	npc_spawnNPCAtOffset $eb $00 $00
 -
 	npc_wait $0a
-	npc_jumpIfItemGotten $30, +
-	npc_jumpIfItemGotten $31, +
-	npc_jumpIfItemGotten $2a, +
+	npc_jumpIfItemGotten ITEMID_30, +
+	npc_jumpIfItemGotten ITEMID_31, +
+	npc_jumpIfItemGotten ITEMID_2a, +
 	npc_jump -
 +
 	npc_faceLeft
@@ -352,8 +352,8 @@ npce8_scripts:
 	npc_placeTile $08 $80 $80
 -
 	npc_wait $01
-	npc_jumpIfItemGotten $30, ++
-	npc_jumpIfItemGotten $31, +
+	npc_jumpIfItemGotten ITEMID_30, ++
+	npc_jumpIfItemGotten ITEMID_31, +
 	npc_loopAboveParamTimes $a5, -
 +
 	npc_placeTile $1c $80 $80
@@ -373,8 +373,8 @@ npce9_scripts:
 	npc_placeTile $7c $80 $80
 -
 	npc_wait $01
-	npc_jumpIfItemGotten $31, ++
-	npc_jumpIfItemGotten $30, +
+	npc_jumpIfItemGotten ITEMID_31, ++
+	npc_jumpIfItemGotten ITEMID_30, +
 	npc_loopAboveParamTimes $a5, -
 +
 	npc_placeTile $1c $80 $80
@@ -536,8 +536,8 @@ npcf0_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_SHIELD, @end
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_setMovementSpeed $02
-	npc_takeItem $30
-	npc_takeItem $31
+	npc_takeItem ITEMID_30
+	npc_takeItem ITEMID_31
 	npc_set7_cb60
 	npc_faceLeft
 @loop:
@@ -554,7 +554,7 @@ npcf0_scripts:
 	.db $16
 	npc_turnBackwards
 	npc_moveByParamPixels $20
-	npc_jumpIfItemGotten $31, @end
+	npc_jumpIfItemGotten ITEMID_31, @end
 	npc_jump @loop
 @end:
 	npc_end
@@ -1052,7 +1052,7 @@ npcdb_scripts:
 
 
 npcdc_scripts:
-	npc_jumpIfItemGotten $2a, ++
+	npc_jumpIfItemGotten ITEMID_2a, ++
 -
 	npc_resetNPC2ndByteBit5_jumpIfOrigSet +
 	npc_wait $01
@@ -1071,7 +1071,7 @@ func_06_14b5:
 
 
 npce2_scripts:
-	npc_jumpIfItemGotten $2b, ++
+	npc_jumpIfItemGotten ITEMID_2b, ++
 -
 	npc_resetNPC2ndByteBit5_jumpIfOrigSet +
 	npc_wait $01

@@ -152,20 +152,20 @@ checkBitemsSelectable:
 ;;
 	ld   hl, $c000                                   ; $5223: $21 $00 $c0
 	ld   (hl), $01                                   ; $5226: $36 $01
-	jr   jr_008_5239                                 ; $5228: $18 $0f
+	jr   +                                 ; $5228: $18 $0f
 
 
 drawBombsOrKeys:
 	ld   hl, $c000                                   ; $522a: $21 $00 $c0
 	ld   (hl), $02                                   ; $522d: $36 $02
 	call aIsMax99                                       ; $522f: $cd $ef $12
-	jr   jr_008_5239                                 ; $5232: $18 $05
+	jr   +                                 ; $5232: $18 $05
 
 drawNumBirdsAtOffset:
 	ld   hl, $c000                                   ; $5234: $21 $00 $c0
 	ld   (hl), $03                                   ; $5237: $36 $03
 
-jr_008_5239:
++
 	ld   c, a                                        ; $5239: $4f
 	ld   b, $00                                      ; $523a: $06 $00
 	call b4_dEquDoffsetInScreen1                                       ; $523c: $cd $01 $13

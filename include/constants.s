@@ -28,7 +28,9 @@
 .define SPECIALB_RR_TICKET	$08
 
 // fruits
-.define FRUIT_PEAR		$00
+.define FRUIT_PEAR				$00
+.define FRUIT_POMEGRANATE		$01
+.define FRUIT_APPLE				$02
 
 // score
 .define SCORE_10		$04

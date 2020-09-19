@@ -66,6 +66,14 @@
 	.db $10
 .endm
 
+.macro npc_moveToPlayersXandFacePlayerHorizontally
+	.db $12
+.endm
+
+.macro npc_moveToPlayersYandFacePlayerVertically
+	.db $13
+.endm
+
 .macro npc_set3_cb60
 	.db $14
 .endm
@@ -98,6 +106,10 @@
 
 .macro npc_incAnointingOilsGotten
 	.db $25
+.endm
+
+.macro npc_set7_npc2ndByteLower6Bits
+	.db $26
 .endm
 
 .macro npc_set2_cbe4
