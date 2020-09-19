@@ -23,15 +23,25 @@ Only stuff that may not be immediately obvious
 * `code` - all the code, maybe a little bit of data
     * `bank_000.s` - core engine stuff
     * `common.*` - the shared 'bank 0'-like code
+    * `quizzes.s` - sometimes you can spawn an angel, that on contact, prompts
+        you with a 5-question quiz. Answering these gives you birds and health
+    * `roomFlags.s` - code around storing temporary data of the last 10-ish rooms
+        so that enemies/items don't just spawn so soon after getting them
+    * `scripting.s` - decoding of scripting commands used by entities
 * `data`
     * `*_roomStructsAndLayouts.s` - contains variable-sized structs for rooms,
-    and compressed room layout data
-    * `bank_*.s` - data that hasn't been decoded yet
+        and compressed room layout data
+    * `*_oamData.s` - indexes that when run against a vram tile conversion table,
+        gets you the relevant top-left tile idx for 1 of an NPC's sprites
+    * `bank_004.s` - possibly sound data
     * `roomGroupStructs.s` - rooms are grouped, and this file contains info about
-    the groups, with some bytes still having unknown purpose
+        the groups, with some bytes still having unknown purpose
+    * `tileTypeConversionTable.s` - for each of the $20 tilesets, each value
+        in a tile layout is checked against here to turn into a tile type that
+        determines how it interacts with the player, room flags, npcs, etc
     * `vramTileConversionTables.s` - for each of the $20 tilesets, each value
-    in a tile layout is checked against here to turn into its actual tile idx,
-    eg an invisible wall is converted to a black tile
+        in a tile layout is checked against here to turn into its actual tile idx,
+        eg an invisible wall is converted to a black tile
 * `garbage` - left over, converted NES code, talking to NES ports
 * `gfx` - compressed graphics and pngs of the graphics
 * `include` - ram definitions, macros, etc
@@ -40,4 +50,4 @@ Only stuff that may not be immediately obvious
 * `roomGroup_gfx` - pngs of grouped rooms laid out based on a group's width and height
 * `scripts` - scripting language used for entities
 * `tools` - various python files for extracting data, laying out data, etc.
-May (Does) contain questionable os.system calls out of want to pump out nice roomGroup_gfx
+    May (Does) contain questionable os.system calls out of want to pump out nice roomGroup_gfx
