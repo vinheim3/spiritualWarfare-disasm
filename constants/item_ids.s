@@ -10,7 +10,7 @@
 // pomegranate
 	ITEMID_SLUMS_BOTTOM_LEFT_POMEGRANATE			db // $04
 	ITEMID_05										db // $05
-	ITEMID_06										db // $06
+	ITEMID_WAREHOUSE_ABOVE_RR_POMEGRANATE			db // $06
 	ITEMID_07										db // $07
 
 	ITEMID_BOSS_1_AREA_HIDDEN_APPLE					db // $08
@@ -22,7 +22,7 @@
 	ITEMID_0c										db // $0c
 	ITEMID_0d										db // $0d
 	ITEMID_0e										db // $0e
-	ITEMID_0f										db // $0f
+	ITEMID_PRISON_TOP_RIGHT_GRAPES					db // $0f
 
 // bananas
 	ITEMID_10										db // $10
@@ -43,7 +43,7 @@
 	ITEMID_1b										db // $1b
 	ITEMID_1c										db // $1c
 	ITEMID_1d										db // $1d
-	ITEMID_1e										db // $1e
+	ITEMID_PRISON_TOP_LEFT_HC						db // $1e
 
 // misc
 	ITEMID_CITY_BOSS_KEYLOCK						db // $1f

@@ -82,7 +82,7 @@ npc2f_scripts:
 	.dw @script_1c_02_02
 
 	.db $1b $02 $02
-	.dw @script_1b_02_02
+	.dw @warehouseAboveRR
 
 	.db $1c $01 $04
 	.dw @script_1c_01_04
@@ -98,8 +98,8 @@ npc2f_scripts:
 	npc_call npcHelper_increaseScoreBy20
 	npc_end
 
-@script_1b_02_02:
-	npc_giveItem ITEMID_06
+@warehouseAboveRR:
+	npc_giveItem ITEMID_WAREHOUSE_ABOVE_RR_POMEGRANATE
 	npc_increaseScore SCORE_200
 	npc_call npcHelper_increaseScoreBy40
 	npc_end
@@ -164,12 +164,15 @@ npc30_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_GRAPES
+; ==============================================================================
 npc31_scripts:
 	npc_call data_03_6994
 	npc_jumpIfNumBirdsGotten 75, +
 	npc_jump data_03_4fde
 +
-	npc_giveFruit $03
+	npc_giveFruit FRUIT_GRAPES
 	npc_call shopTake75birds
 	npc_callCommonSoundFuncs_6d6c $03 $ff
 	npc_groupRoomXYjumpTable @table
@@ -186,7 +189,7 @@ npc31_scripts:
 	.dw @entry2
 
 	.db $1c $01 $06
-	.dw @entry3
+	.dw @prisonTopRight
 
 	.db $ff $ff $ff
 
@@ -207,8 +210,8 @@ npc31_scripts:
 	npc_call npcHelper_increaseScoreBy60
 	npc_end
 
-@entry3:
-	npc_giveItem ITEMID_0f
+@prisonTopRight:
+	npc_giveItem ITEMID_PRISON_TOP_RIGHT_GRAPES
 	npc_call npcHelper_increaseScoreBy700
 	npc_call npcHelper_increaseScoreBy20
 	npc_end
@@ -438,6 +441,9 @@ npc35_scripts:
 	.db $ff $ff $ff
 
 
+; ==============================================================================
+; ENTID_BOOTS_OF_THE_GOSPEL
+; ==============================================================================
 npc36_scripts:
 	npc_call data_03_6994
 	npc_set_c059 $ff
@@ -2773,7 +2779,7 @@ npc2d_scripts:
 	.dw @entry11
 
 	.db $1c $01 $06
-	.dw @entry12
+	.dw @prisonTopRight
 
 	.db $1c $02 $06
 	.dw @cityBar
@@ -2944,8 +2950,8 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_13, _showText_roomEmpty_clear_c059
 	npc_jump @func_62dd
 
-@entry12:
-	npc_jumpIfItemGotten ITEMID_0f, _showText_roomEmpty_clear_c059
+@prisonTopRight:
+	npc_jumpIfItemGotten ITEMID_PRISON_TOP_RIGHT_GRAPES, _showText_roomEmpty_clear_c059
 	npc_jump @func_62a8
 
 @cityBar:

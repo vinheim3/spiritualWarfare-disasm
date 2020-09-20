@@ -286,7 +286,7 @@ group14room05struct:
 	.dw shared_03_3fe9layout
 	.db $01 $28 $06 $04 $00 $e0 $08
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $04
+	.db ENTID_ITEM_PLACER $80 $04
 	.db ENTID_SLUMS_GANGSTER $86 $14
 	.db ENTID_SLUMS_GANGSTER $83 $98
 	.db ENTID_SLUMS_DOG $83 $35
@@ -299,7 +299,7 @@ group02room01struct:
 	.dw group02room01layout
 	.db $a7 $84 $14 $00 $00 $78 $94
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
+	.db ENTID_ITEM_PLACER $80 $03
 	.db ENTID_SLUMS_GANGSTER $86 $35
 	.db ENTID_SLUMS_GANGSTER $89 $d8
 	.db ENTID_HELPFUL_LADY $00 $20 $77
@@ -311,7 +311,7 @@ group02room02struct:
 	.dw group02room02layout
 	.db $97 $86 $03 $02 $01 $19 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $09
+	.db ENTID_ITEM_PLACER $80 $09
 	.db ENTID_SLUMS_GANGSTER $86 $76
 	.db ENTID_SLUMS_BIKER $c9 $e7
 	.db $ff
@@ -324,7 +324,7 @@ group02room03struct:
 	.db $46 $84 $03 $00 $00 $b0 $90
 	.db $ff
 	.db ENTID_KEYLOCK $80 $46
-	.db ENTID_SLUMS_ITEM_PLACER $80 $04
+	.db ENTID_ITEM_PLACER $80 $04
 	.db ENTID_SLUMS_DOG $80 $28
 	.db ENTID_SLUMS_DOG $86 $84
 	.db ENTID_SLUMS_GANGSTER $89 $d9
@@ -335,13 +335,13 @@ group02room04struct:
 	.db $69
 	.db $06
 	.dw group02room04layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
-	.db ENTID_SLUMS_GUNMAN_FACING_LEFT $80 $54
-	.db ENTID_SLUMS_GUNMAN_FACING_LEFT $80 $46
-	.db ENTID_SLUMS_GUNMAN_FACING_LEFT $80 $58
-	.db ENTID_SLUMS_GUNMAN_FACING_RIGHT $89 $c5
-	.db ENTID_SLUMS_GUNMAN_FACING_RIGHT $89 $c7
-	.db ENTID_SLUMS_GUNMAN_FACING_RIGHT $89 $c9
+	.db ENTID_ITEM_PLACER $80 $03
+	.db ENTID_GUNMAN_FACING_LEFT $80 $54
+	.db ENTID_GUNMAN_FACING_LEFT $80 $46
+	.db ENTID_GUNMAN_FACING_LEFT $80 $58
+	.db ENTID_GUNMAN_FACING_RIGHT $89 $c5
+	.db ENTID_GUNMAN_FACING_RIGHT $89 $c7
+	.db ENTID_GUNMAN_FACING_RIGHT $89 $c9
 	.db ENTID_SLUMS_GANGSTER $89 $73
 	.db $ff
 
@@ -354,7 +354,7 @@ group02room05struct:
 	.db $04 $68 $06 $04 $01 $e0 $40
 	.db $05 $68 $06 $04 $01 $e0 $50
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
+	.db ENTID_ITEM_PLACER $80 $03
 	.db ENTID_HELPFUL_LADY $c6 $91
 	.db ENTID_SLUMS_GANGSTER $89 $67
 	.db ENTID_SLUMS_GANGSTER $83 $d5
@@ -366,9 +366,9 @@ group02room06struct:
 	.db $1b $00
 	.db $06
 	.dw group02room06layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $02
-	.db ENTID_SLUMS_GUNMAN_FACING_LEFT $80 $22
-	.db ENTID_SLUMS_GUNMAN_FACING_LEFT $89 $a2
+	.db ENTID_ITEM_PLACER $80 $02
+	.db ENTID_GUNMAN_FACING_LEFT $80 $22
+	.db ENTID_GUNMAN_FACING_LEFT $89 $a2
 	.db ENTID_SLUMS_BIKER $83 $b8
 	.db ENTID_SLUMS_BIKER $80 $a4
 	.db ENTID_SLUMS_GANGSTER $80 $34
@@ -390,7 +390,7 @@ group02room08struct:
 	.db $24 $84 $fe $00 $0c $70 $20
 	.db $72 $84 $fe $00 $0c $20 $40
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $06
+	.db ENTID_ITEM_PLACER $80 $06
 	.db ENTID_SLUMS_BIKER $89 $57
 	.db ENTID_SLUMS_GANGSTER $80 $96
 	.db $ff
@@ -399,7 +399,7 @@ group02room09struct:
 	.db $30
 	.db $06
 	.dw group02room09layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $f7
+	.db ENTID_ITEM_PLACER $80 $f7
 	.db ENTID_HELPFUL_LADY $00 $30 $07
 	.db ENTID_SLUMS_GANGSTER $80 $b7
 	.db ENTID_SLUMS_DOG $89 $47
@@ -415,7 +415,7 @@ group02room0astruct:
 	.db $23 $84 $03 $00 $02 $50 $40
 	.db $a2 $86 $03 $01 $02 $e0 $40
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $02
+	.db ENTID_ITEM_PLACER $80 $02
 	.db ENTID_SLUMS_BIKER $80 $19
 	.db ENTID_SLUMS_GANGSTER $80 $86
 	.db ENTID_SLUMS_GANGSTER $83 $15
@@ -426,7 +426,7 @@ group02room0bstruct:
 	.db $69
 	.db $06
 	.dw group02room0blayout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $07
+	.db ENTID_ITEM_PLACER $80 $07
 	.db ENTID_SLUMS_BIKER $89 $35
 	.db ENTID_SLUMS_GANGSTER $86 $13
 	.db ENTID_SLUMS_GANGSTER $80 $77
@@ -440,9 +440,9 @@ group02room0cstruct:
 	.dw group02room0clayout
 	.db $65 $85 $03 $01 $00 $20 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $08
-	.db ENTID_SLUMS_GUNMAN_FACING_LEFT $89 $c7
-	.db ENTID_SLUMS_GUNMAN_FACING_RIGHT $80 $27
+	.db ENTID_ITEM_PLACER $80 $08
+	.db ENTID_GUNMAN_FACING_LEFT $89 $c7
+	.db ENTID_GUNMAN_FACING_RIGHT $80 $27
 	.db ENTID_SLUMS_GANGSTER $80 $97
 	.db $ff
 
@@ -451,7 +451,7 @@ group02room0dstruct:
 	.db $69
 	.db $06
 	.dw group02room0dlayout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $07
+	.db ENTID_ITEM_PLACER $80 $07
 	.db ENTID_SLUMS_GANGSTER $83 $69
 	.db ENTID_SLUMS_GANGSTER $83 $b9
 	.db ENTID_SLUMS_GANGSTER $86 $93
@@ -462,7 +462,7 @@ group02room0estruct:
 	.db $69
 	.db $06
 	.dw group02room0elayout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $04
+	.db ENTID_ITEM_PLACER $80 $04
 	.db ENTID_SLUMS_DOG $80 $58
 	.db ENTID_SLUMS_DOG $86 $c7
 	.db ENTID_SLUMS_GANGSTER $86 $65
@@ -476,7 +476,7 @@ group02room0fstruct:
 	.db $26 $85 $03 $02 $00 $37 $90
 	.db $09 $00 $01 $04 $00 $e0 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $01
+	.db ENTID_ITEM_PLACER $80 $01
 	.db ENTID_SLUMS_DOG $86 $61
 	.db ENTID_SLUMS_BIKER $89 $94
 	.db ENTID_SLUMS_BIKER $83 $a9
@@ -488,7 +488,7 @@ group02room10struct:
 	.dw group02room10layout
 	.db $d4 $84 $1b $02 $01 $78 $94
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $05
+	.db ENTID_ITEM_PLACER $80 $05
 	.db ENTID_SLUMS_DOG $80 $66
 	.db ENTID_SLUMS_GANGSTER $89 $a3
 	.db ENTID_SLUMS_GANGSTER $83 $59
@@ -499,7 +499,7 @@ group02room11struct:
 	.db $30
 	.db $06
 	.dw group02room11layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $05
+	.db ENTID_ITEM_PLACER $80 $05
 	.db ENTID_SLUMS_GANGSTER $86 $85
 	.db ENTID_SLUMS_BIKER $80 $69
 	.db ENTID_SLUMS_GANGSTER $83 $b9
@@ -511,7 +511,7 @@ group02room12struct:
 	.dw group02room12layout
 	.db $86 $84 $1b $00 $01 $78 $94
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $08
+	.db ENTID_ITEM_PLACER $80 $08
 	.db ENTID_SLUMS_BIKER $80 $58
 	.db ENTID_SLUMS_GANGSTER $86 $89
 	.db ENTID_SLUMS_GANGSTER $86 $c5
@@ -524,7 +524,7 @@ group02room13struct:
 	.db $46 $86 $03 $02 $02 $80 $90
 	.db $ea $70 $0a $04 $00 $e0 $09
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $05
+	.db ENTID_ITEM_PLACER $80 $05
 	.db ENTID_SLUMS_BIKER $80 $58
 	.db ENTID_SLUMS_GANGSTER $86 $a5
 	.db ENTID_SLUMS_GANGSTER $89 $c7
@@ -551,11 +551,11 @@ group03room01struct:
 	.db $19 $84 $02 $02 $02 $60 $60
 	.db $e1 $84 $1b $00 $02 $78 $94
 	.db $ff
-	.db ENTID_SLUMS_GUNMAN_DOOR $80 $01
-	.db ENTID_SLUMS_GUNMAN_DOOR $89 $f3
-	.db ENTID_SLUMS_GUNMAN_DOOR $80 $05
-	.db ENTID_SLUMS_GUNMAN_DOOR $89 $f7
-	.db ENTID_SLUMS_GUNMAN_DOOR $80 $09
+	.db ENTID_GUNMAN_DOOR $80 $01
+	.db ENTID_GUNMAN_DOOR $89 $f3
+	.db ENTID_GUNMAN_DOOR $80 $05
+	.db ENTID_GUNMAN_DOOR $89 $f7
+	.db ENTID_GUNMAN_DOOR $80 $09
 	.db $ff
 
 group03room02struct:
@@ -811,7 +811,7 @@ group0broom05struct:
 	.db $b8
 	.db $09
 	.dw group0broom05layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $02
+	.db ENTID_ITEM_PLACER $80 $02
 	.db $8d $c6 $a2
 	.db $8d $80 $77
 	.db $8d $83 $45
@@ -826,7 +826,7 @@ group0broom06struct:
 	.dw group0broom06layout
 	.db $e2 $cd $1b $01 $02 $78 $94
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $02
+	.db ENTID_ITEM_PLACER $80 $02
 	.db $8d $c6 $82
 	.db $8d $89 $55
 	.db $8d $80 $39
@@ -839,7 +839,7 @@ group0broom0cstruct:
 	.db $b8
 	.db $09
 	.dw group0broom0clayout
-	.db ENTID_SLUMS_ITEM_PLACER $89 $f8
+	.db ENTID_ITEM_PLACER $89 $f8
 	.db $aa $c0 $67
 	.db $8d $c9 $a8
 	.db $8d $c0 $a1
@@ -863,7 +863,7 @@ group0broom0estruct:
 	.dw group0broom0elayout
 	.db $07 $b8 $0c $05 $03 $e0 $70
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
+	.db ENTID_ITEM_PLACER $80 $03
 	.db $8d $c6 $42
 	.db $8d $c0 $27
 	.db $aa $86 $d4
@@ -874,7 +874,7 @@ group0broom0fstruct:
 	.db $b8
 	.db $09
 	.dw group0broom0flayout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $07
+	.db ENTID_ITEM_PLACER $80 $07
 	.db $aa $c9 $65
 	.db $8d $83 $48
 	.db $8d $c0 $a6
@@ -887,7 +887,7 @@ group0broom10struct:
 	.dw group0broom10layout
 	.db $45 $84 $1f $00 $01 $10 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $07
+	.db ENTID_ITEM_PLACER $80 $07
 	.db ENTID_HELPFUL_LADY $03 $b8 $57
 	.db $8d $c6 $83
 	.db $8d $80 $37
@@ -902,7 +902,7 @@ group0broom11struct:
 	.dw group0broom11layout
 	.db $70 $b8 $0d $02 $03 $70 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $89 $f4
+	.db ENTID_ITEM_PLACER $89 $f4
 	.db $8d $80 $76
 	.db $ff
 
@@ -911,7 +911,7 @@ group0broom12struct:
 	.db $b8
 	.db $09
 	.dw group0broom12layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $07
+	.db ENTID_ITEM_PLACER $80 $07
 	.db $aa $c9 $55
 	.db $aa $c9 $c5
 	.db $8d $83 $a8
@@ -922,7 +922,7 @@ group0broom13struct:
 	.db $b8
 	.db $09
 	.dw group0broom13layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $02
+	.db ENTID_ITEM_PLACER $80 $02
 	.db $aa $86 $74
 	.db $8d $83 $c7
 	.db $8d $c9 $b3
@@ -937,7 +937,7 @@ group0broom14struct:
 	.db $37 $00 $09 $02 $00 $28 $94
 	.db $47 $00 $09 $02 $00 $28 $94
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
+	.db ENTID_ITEM_PLACER $80 $03
 	.db $8d $c9 $62
 	.db $8d $83 $23
 	.db $ff
@@ -947,7 +947,7 @@ group0broom15struct:
 	.db $b8
 	.db $09
 	.dw group0broom15layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $00
+	.db ENTID_ITEM_PLACER $80 $00
 	.db $ff
 
 group0broom16struct:
@@ -982,7 +982,7 @@ group0broom18struct:
 	.db $94
 	.db $09
 	.dw group0broom18layout
-	.db ENTID_SLUMS_ITEM_PLACER $89 $f4
+	.db ENTID_ITEM_PLACER $89 $f4
 	.db $7f $80 $79
 	.db $7f $86 $22
 	.db $89 $80 $a4
@@ -1023,7 +1023,7 @@ group0broom1bstruct:
 	.dw group0broom1blayout
 	.db $a8 $cd $24 $00 $00 $20 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $04
+	.db ENTID_ITEM_PLACER $80 $04
 	.db $8d $c9 $b4
 	.db ENTID_GUY_BEFORE_BOSSES $86 $d7
 	.db $ff
@@ -1077,11 +1077,11 @@ group07room00struct:
 	.dw group07room00layout
 	.db $10 $95 $00 $00 $03 $10 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $89 $f8
-	.db $93 $86 $91
-	.db $94 $83 $48
-	.db $93 $89 $74
-	.db $94 $83 $b4
+	.db ENTID_ITEM_PLACER $89 $f8
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $91
+	.db ENTID_WAREHOUSE_WRENCH_GUY $83 $48
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $74
+	.db ENTID_WAREHOUSE_WRENCH_GUY $83 $b4
 	.db $ff
 
 group07room01struct:
@@ -1090,11 +1090,11 @@ group07room01struct:
 	.dw group07room01layout
 	.db $b4 $85 $1e $02 $02 $a0 $97
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $89 $f6
-	.db $93 $80 $97
-	.db $94 $83 $56
-	.db $93 $86 $31
-	.db $93 $89 $68
+	.db ENTID_ITEM_PLACER $89 $f6
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $80 $97
+	.db ENTID_WAREHOUSE_WRENCH_GUY $83 $56
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $31
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $68
 	.db $ff
 
 group07room03struct:
@@ -1104,28 +1104,28 @@ group07room03struct:
 	.db $45 $84 $1e $02 $00 $40 $97
 	.db $b3 $84 $1e $02 $00 $b0 $77
 	.db $ff
-	.db $93 $89 $77
-	.db $93 $80 $c8
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $77
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $80 $c8
 	.db $ff
 
 group07room04struct:
 	.db $30
 	.db $02
 	.dw group07room04layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $08
-	.db $93 $89 $63
-	.db $94 $89 $e9
-	.db $93 $89 $77
+	.db ENTID_ITEM_PLACER $80 $08
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $63
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $e9
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $77
 	.db $ff
 
 group07room06struct:
 	.db $30
 	.db $02
 	.dw group07room06layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $07
-	.db $93 $89 $67
-	.db $94 $80 $87
-	.db $96 $86 $35
+	.db ENTID_ITEM_PLACER $80 $07
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $67
+	.db ENTID_WAREHOUSE_WRENCH_GUY $80 $87
+	.db ENTID_WAREHOUSE_DRILLER $86 $35
 	.db $ff
 
 group07room07struct:
@@ -1134,10 +1134,10 @@ group07room07struct:
 	.dw group07room07layout
 	.db $f7 $00 $04 $00 $02 $09 $68
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
-	.db $96 $86 $62
-	.db $94 $80 $37
-	.db $93 $89 $a6
+	.db ENTID_ITEM_PLACER $80 $03
+	.db ENTID_WAREHOUSE_DRILLER $86 $62
+	.db ENTID_WAREHOUSE_WRENCH_GUY $80 $37
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $a6
 	.db $ff
 
 group07room09struct:
@@ -1146,9 +1146,9 @@ group07room09struct:
 	.dw group07room09layout
 	.db $94 $84 $1b $02 $02 $78 $94
 	.db $ff
-	.db $94 $80 $66
-	.db $93 $83 $a7
-	.db $96 $80 $57
+	.db ENTID_WAREHOUSE_WRENCH_GUY $80 $66
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $83 $a7
+	.db ENTID_WAREHOUSE_DRILLER $80 $57
 	.db $ff
 
 group07room0astruct:
@@ -1157,10 +1157,10 @@ group07room0astruct:
 	.dw group07room0alayout
 	.db $74 $85 $1e $01 $01 $a9 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
-	.db $96 $86 $36
-	.db $93 $89 $a7
-	.db $93 $86 $c4
+	.db ENTID_ITEM_PLACER $80 $03
+	.db ENTID_WAREHOUSE_DRILLER $86 $36
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $a7
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $c4
 	.db ENTID_HELPFUL_LADY $c0 $64
 	.db $ff
 
@@ -1168,10 +1168,10 @@ group07room0bstruct:
 	.db $30
 	.db $02
 	.dw group07room0blayout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $00
-	.db $8e $83 $68
-	.db $8e $86 $41
-	.db $8e $89 $85
+	.db ENTID_ITEM_PLACER $80 $00
+	.db ENTID_WAREHOUSE_FORKLIFT_DRIVER $83 $68
+	.db ENTID_WAREHOUSE_FORKLIFT_DRIVER $86 $41
+	.db ENTID_WAREHOUSE_FORKLIFT_DRIVER $89 $85
 	.db $ff
 
 group07room0cstruct:
@@ -1180,20 +1180,20 @@ group07room0cstruct:
 	.dw group07room0clayout
 	.db $64 $84 $14 $01 $00 $78 $94
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $07
-	.db $94 $80 $47
-	.db $94 $83 $87
-	.db $93 $86 $b7
+	.db ENTID_ITEM_PLACER $80 $07
+	.db ENTID_WAREHOUSE_WRENCH_GUY $80 $47
+	.db ENTID_WAREHOUSE_WRENCH_GUY $83 $87
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $b7
 	.db $ff
 
 group07room0dstruct:
 	.db $30
 	.db $02
 	.dw group07room0dlayout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
-	.db $93 $86 $94
-	.db $94 $89 $56
-	.db $96 $80 $45
+	.db ENTID_ITEM_PLACER $80 $03
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $94
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $56
+	.db ENTID_WAREHOUSE_DRILLER $80 $45
 	.db $ff
 
 group07room0estruct:
@@ -1203,10 +1203,10 @@ group07room0estruct:
 	.dw group07room0elayout
 	.db $f7 $00 $08 $00 $01 $10 $70
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
-	.db $94 $86 $a7
-	.db $94 $86 $c3
-	.db $93 $86 $12
+	.db ENTID_ITEM_PLACER $80 $03
+	.db ENTID_WAREHOUSE_WRENCH_GUY $86 $a7
+	.db ENTID_WAREHOUSE_WRENCH_GUY $86 $c3
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $12
 	.db ENTID_HELPFUL_LADY $00 $48 $68
 	.db $ff
 
@@ -1214,11 +1214,11 @@ group07room0fstruct:
 	.db $30
 	.db $02
 	.dw group07room0flayout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $06
-	.db $94 $86 $97
-	.db $96 $83 $57
-	.db $93 $89 $c6
-	.db $93 $86 $68
+	.db ENTID_ITEM_PLACER $80 $06
+	.db ENTID_WAREHOUSE_WRENCH_GUY $86 $97
+	.db ENTID_WAREHOUSE_DRILLER $83 $57
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $c6
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $68
 	.db $ff
 
 group07room10struct:
@@ -1228,10 +1228,10 @@ group07room10struct:
 	.db $74 $4d $1e $02 $01 $49 $10
 	.db $94 $4d $1e $02 $01 $97 $10
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $03
-	.db $96 $83 $c7
-	.db $93 $89 $76
-	.db $94 $86 $43
+	.db ENTID_ITEM_PLACER $80 $03
+	.db ENTID_WAREHOUSE_DRILLER $83 $c7
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $76
+	.db ENTID_WAREHOUSE_WRENCH_GUY $86 $43
 	.db $ff
 
 group07room11struct:
@@ -1241,9 +1241,9 @@ group07room11struct:
 	.db $d4 $84 $22 $00 $00 $10 $90
 	.db $ff
 	.db ENTID_KEYLOCK $80 $d4
-	.db $96 $83 $e8
-	.db $96 $86 $87
-	.db $93 $89 $66
+	.db ENTID_WAREHOUSE_DRILLER $83 $e8
+	.db ENTID_WAREHOUSE_DRILLER $86 $87
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $66
 	.db ENTID_GUY_BEFORE_BOSSES $06 $c0 $48
 	.db $ff
 
@@ -1254,20 +1254,20 @@ group07room12struct:
 	.db $45 $84 $1e $00 $02 $10 $47
 	.db $b3 $4d $1e $00 $02 $d7 $60
 	.db $ff
-	.db $94 $83 $79
-	.db $94 $83 $c8
-	.db $93 $86 $c5
+	.db ENTID_WAREHOUSE_WRENCH_GUY $83 $79
+	.db ENTID_WAREHOUSE_WRENCH_GUY $83 $c8
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $c5
 	.db $ff
 
 group07room13struct:
 	.db $30
 	.db $02
 	.dw group07room13layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $04
-	.db $93 $86 $25
-	.db $93 $89 $68
-	.db $93 $80 $95
-	.db $94 $89 $e5
+	.db ENTID_ITEM_PLACER $80 $04
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $25
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $68
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $80 $95
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $e5
 	.db $ff
 
 group07room14struct:
@@ -1276,31 +1276,31 @@ group07room14struct:
 	.dw group07room14layout
 	.db $e9 $4d $1e $01 $02 $d9 $10
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $89 $f8
-	.db $8e $83 $64
-	.db $8e $86 $e2
-	.db $8e $89 $c2
-	.db $94 $89 $66
-	.db $93 $86 $32
+	.db ENTID_ITEM_PLACER $89 $f8
+	.db ENTID_WAREHOUSE_FORKLIFT_DRIVER $83 $64
+	.db ENTID_WAREHOUSE_FORKLIFT_DRIVER $86 $e2
+	.db ENTID_WAREHOUSE_FORKLIFT_DRIVER $89 $c2
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $66
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $32
 	.db $ff
 
 group07room15struct:
 	.db $30
 	.db $02
 	.dw group07room15layout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $04
-	.db $94 $89 $a6
-	.db $93 $80 $38
-	.db $93 $86 $b4
+	.db ENTID_ITEM_PLACER $80 $04
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $a6
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $80 $38
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $b4
 	.db $ff
 
 group07room16struct:
 	.db $30
 	.db $02
 	.dw group07room16layout
-	.db $93 $86 $a4
-	.db $93 $80 $a8
-	.db $94 $80 $57
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $a4
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $80 $a8
+	.db ENTID_WAREHOUSE_WRENCH_GUY $80 $57
 	.db $ff
 
 group07room17struct:
@@ -1310,10 +1310,10 @@ group07room17struct:
 	.db $f2 $25 $0c $00 $03 $10 $20
 	.db $e4 $4d $1e $01 $02 $e0 $87
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $04
-	.db $93 $86 $54
-	.db $94 $89 $94
-	.db $94 $89 $d7
+	.db ENTID_ITEM_PLACER $80 $04
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $54
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $94
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $d7
 	.db $ff
 
 group07room18struct:
@@ -1324,9 +1324,9 @@ group07room18struct:
 	.db $83 $85 $1e $00 $01 $47 $90
 	.db $e3 $85 $1e $00 $01 $a7 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $08
-	.db $94 $80 $58
-	.db $94 $80 $c8
+	.db ENTID_ITEM_PLACER $80 $08
+	.db ENTID_WAREHOUSE_WRENCH_GUY $80 $58
+	.db ENTID_WAREHOUSE_WRENCH_GUY $80 $c8
 	.db $ff
 
 group07room19struct:
@@ -1337,21 +1337,21 @@ group07room19struct:
 	.db $73 $85 $1e $01 $01 $49 $90
 	.db $d3 $85 $1e $01 $01 $a9 $90
 	.db $ff
-	.db ENTID_SLUMS_ITEM_PLACER $80 $08
-	.db $94 $89 $48
-	.db $94 $80 $a8
-	.db $96 $86 $65
+	.db ENTID_ITEM_PLACER $80 $08
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $48
+	.db ENTID_WAREHOUSE_WRENCH_GUY $80 $a8
+	.db ENTID_WAREHOUSE_DRILLER $86 $65
 	.db $ff
 
 group07room1astruct:
 	.db $30
 	.db $02
 	.dw group07room1alayout
-	.db ENTID_SLUMS_ITEM_PLACER $80 $01
-	.db $94 $89 $78
-	.db $93 $89 $d4
-	.db $94 $86 $e1
-	.db $93 $86 $83
+	.db ENTID_ITEM_PLACER $80 $01
+	.db ENTID_WAREHOUSE_WRENCH_GUY $89 $78
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $89 $d4
+	.db ENTID_WAREHOUSE_WRENCH_GUY $86 $e1
+	.db ENTID_WAREHOUSE_FAST_ALCOHOLIC $86 $83
 	.db $ff
 
 group1froom00struct:
@@ -1650,10 +1650,10 @@ group1eroom02struct:
 	.db $4a $84 $07 $00 $01 $40 $59
 	.db $b8 $84 $07 $00 $01 $b0 $39
 	.db $ff
-	.db $a5 $80 $42
-	.db $a5 $80 $96
-	.db $a6 $89 $e1
-	.db $a6 $89 $34
+	.db ENTID_WAREHOUSE_GUNMAN $80 $42
+	.db ENTID_WAREHOUSE_GUNMAN $80 $96
+	.db ENTID_WAREHOUSE_PLUMBER $89 $e1
+	.db ENTID_WAREHOUSE_PLUMBER $89 $34
 	.db $ff
 
 group1eroom03struct:
@@ -1670,9 +1670,9 @@ group1eroom03struct:
 	.db $b7 $86 $1e $01 $01 $49 $30
 	.db $d3 $86 $fe $f0 $00 $50 $30
 	.db $ff
-	.db ENTID_SLUMS_GUNMAN_DOOR $80 $13
-	.db ENTID_SLUMS_GUNMAN_DOOR $80 $15
-	.db ENTID_SLUMS_GUNMAN_DOOR $80 $17
+	.db ENTID_GUNMAN_DOOR $80 $13
+	.db ENTID_GUNMAN_DOOR $80 $15
+	.db ENTID_GUNMAN_DOOR $80 $17
 	.db $ff
 
 group1eroom04struct:
@@ -1690,9 +1690,9 @@ group1eroom04struct:
 	.db $a5 $86 $fe $10 $00 $40 $70
 	.db $a7 $86 $1e $00 $01 $a7 $30
 	.db $ff
-	.db ENTID_SLUMS_GUNMAN_DOOR $89 $e3
-	.db ENTID_SLUMS_GUNMAN_DOOR $89 $e5
-	.db ENTID_SLUMS_GUNMAN_DOOR $89 $e7
+	.db ENTID_GUNMAN_DOOR $89 $e3
+	.db ENTID_GUNMAN_DOOR $89 $e5
+	.db ENTID_GUNMAN_DOOR $89 $e7
 	.db $ff
 
 group1eroom05struct:
@@ -1703,11 +1703,11 @@ group1eroom05struct:
 	.db $41 $85 $07 $01 $05 $67 $40
 	.db $a1 $85 $07 $01 $05 $99 $40
 	.db $ff
-	.db $a5 $89 $e3
-	.db $a5 $80 $66
-	.db $a6 $80 $d8
-	.db $a6 $89 $38
-	.db $a6 $89 $d1
+	.db ENTID_WAREHOUSE_GUNMAN $89 $e3
+	.db ENTID_WAREHOUSE_GUNMAN $80 $66
+	.db ENTID_WAREHOUSE_PLUMBER $80 $d8
+	.db ENTID_WAREHOUSE_PLUMBER $89 $38
+	.db ENTID_WAREHOUSE_PLUMBER $89 $d1
 	.db $ff
 
 group1eroom06struct:
@@ -1718,10 +1718,10 @@ group1eroom06struct:
 	.db $15 $84 $07 $00 $06 $40 $59
 	.db $e6 $85 $07 $00 $06 $b9 $30
 	.db $ff
-	.db $a5 $89 $e9
-	.db $a5 $80 $43
-	.db $a6 $80 $21
-	.db $a6 $89 $b9
+	.db ENTID_WAREHOUSE_GUNMAN $89 $e9
+	.db ENTID_WAREHOUSE_GUNMAN $80 $43
+	.db ENTID_WAREHOUSE_PLUMBER $80 $21
+	.db ENTID_WAREHOUSE_PLUMBER $89 $b9
 	.db $ff
 
 group1eroom07struct:
@@ -1732,11 +1732,11 @@ group1eroom07struct:
 	.db $e9 $85 $07 $02 $07 $e0 $49
 	.db $d1 $85 $07 $02 $06 $d7 $90
 	.db $ff
-	.db $a5 $80 $13
-	.db $a5 $80 $93
-	.db $a5 $80 $15
-	.db $a5 $80 $17
-	.db $a5 $80 $19
+	.db ENTID_WAREHOUSE_GUNMAN $80 $13
+	.db ENTID_WAREHOUSE_GUNMAN $80 $93
+	.db ENTID_WAREHOUSE_GUNMAN $80 $15
+	.db ENTID_WAREHOUSE_GUNMAN $80 $17
+	.db ENTID_WAREHOUSE_GUNMAN $80 $19
 	.db $ff
 
 group1eroom08struct:
@@ -1746,12 +1746,12 @@ group1eroom08struct:
 	.db $aa $84 $07 $01 $00 $b0 $49
 	.db $ff
 	.db ENTID_HEART_CONTAINER $00 $78 $10
-	.db $a5 $80 $51
-	.db $a5 $80 $27
-	.db $a6 $89 $35
-	.db $a6 $80 $a3
-	.db $a6 $89 $89
-	.db $a6 $89 $c5
+	.db ENTID_WAREHOUSE_GUNMAN $80 $51
+	.db ENTID_WAREHOUSE_GUNMAN $80 $27
+	.db ENTID_WAREHOUSE_PLUMBER $89 $35
+	.db ENTID_WAREHOUSE_PLUMBER $80 $a3
+	.db ENTID_WAREHOUSE_PLUMBER $89 $89
+	.db ENTID_WAREHOUSE_PLUMBER $89 $c5
 	.db $ff
 
 group26room00struct:

@@ -22,11 +22,13 @@
 	ENTID_PEAR									db // $2e
 	ENTID_POMEGRANATE							db // $2f
 	ENTID_APPLE									db // $30
-	ENTID_31									dsb 3-1
+	ENTID_GRAPES								db // $31
+	ENTID_32									db
 	ENTID_PRICE_BIRD							db // $33
 	ENTID_BELT_OF_TRUTH							db // $34
 	ENTID_BREASTPLATE_OF_RIGHTEOUSNESS			db // $35
-	ENTID_36									dsb $a-6
+	ENTID_BOOTS_OF_THE_GOSPEL					db // $36
+	ENTID_37									dsb $a-7
 	ENTID_SHOP_7_VIALS							db // $3a
 	ENTID_SHOP_OIL								db // $3b
 	ENTID_BIRDS_HIDDEN_ROOM_NEAR_BOSS_1			db // $3c
@@ -75,10 +77,10 @@
 	ENTID_AIRPORT_LEFT_GUARD					db // $75
 	ENTID_AIRPORT_RIGHT_GUARD					db // $76
 	ENTID_HELPFUL_LADY							db // $77
-	ENTID_SLUMS_GUNMAN_FACING_LEFT				db // $78
-	ENTID_SLUMS_GUNMAN_BULLET_LEFT				db // $79
-	ENTID_SLUMS_GUNMAN_FACING_RIGHT				db // $7a
-	ENTID_SLUMS_GUNMAN_BULLET_RIGHT				db // $7b
+	ENTID_GUNMAN_FACING_LEFT					db // $78
+	ENTID_GUNMAN_BULLET_LEFT					db // $79
+	ENTID_GUNMAN_FACING_RIGHT					db // $7a
+	ENTID_GUNMAN_BULLET_RIGHT					db // $7b
 	ENTID_SLUMS_BULLET_EXPLOSION				db // $7c
 	ENTID_SHOP_ANGEL							db // $7d
 	ENTID_LAMP									db // $7e
@@ -88,22 +90,49 @@
 	ENTID_SLUMS_DOG_CHARGING					db // $86
 	ENTID_87									dsb $c-$7
 	ENTID_SLUMS_BIKER							db // $8c
-	ENTID_8d									dsb $91-$8d
+	ENTID_8d									db
+	ENTID_WAREHOUSE_FORKLIFT_DRIVER				db // $8e
+	ENTID_WAREHOUSE_FORKLIFT_BOX				db // $8f
+	ENTID_90									db
 	ENTID_SLUMS_GANGSTER						db // $91
 	ENTID_SLUMS_PLUMBER							db // $92
-	ENTID_93									dsb 9-3
-	ENTID_SLUMS_ITEM_PLACER						db // $99
+	ENTID_WAREHOUSE_FAST_ALCOHOLIC				db // $93
+	ENTID_WAREHOUSE_WRENCH_GUY					db // $94
+	ENTID_WAREHOUSE_WRENCH_GUYS_WRENCH			db // $95
+	ENTID_WAREHOUSE_DRILLER						db // $96
+	ENTID_WAREHOUSE_DRILLER_DRILLING_HORIZ		db // $97
+	ENTID_WAREHOUSE_DRILLER_DRILLING_VERT		db // $98
+	ENTID_ITEM_PLACER							db // $99
 	ENTID_SLUMS_BOTTOM_MIDDLE_KEY				db // $9a
-	ENTID_SLUMS_GUNMAN_DOOR						db // $9b
-	ENTID_SLUMS_GUNMAN_IN_DOOR					db // $9c
+	ENTID_GUNMAN_DOOR							db // $9b
+	ENTID_GUNMAN_IN_DOOR						db // $9c
 	ENTID_9d									dsb $a2-$9d
 	ENTID_PERMANENTLY_REMOVABLE_OBSTACLE		db // $a2
 	ENTID_PERMANENTLY_REMOVED_OBSTACLE			db // $a3
-	ENTID_DOOR_GUNMAN_BULLET					db // $a4
-	ENTID_a5									dsb 7-5
+	ENTID_GUNMAN_BULLET							db // $a4
+	ENTID_WAREHOUSE_GUNMAN						db // $a5
+	ENTID_WAREHOUSE_PLUMBER						db // $a6
 	ENTID_DRUNK_POLICEMAN						db // $a7
 	ENTID_AIRPORT_BALD_THUGS					db // $a8
 	ENTID_AIRPORT_SUNGLASSES_GUY				db // $a9
-	ENTID_aa									dsb $f5-$aa
+	ENTID_aa									dsb $bf-$aa
+	ENTID_PRISONER								db // $bf
+	ENTID_c0									dsb 2-0
+	ENTID_PRISON_POLICEMAN						db // $c2
+	ENTID_c3									dsb 5-3
+	ENTID_PRISON_DOGS							db // $c5
+	ENTID_c6									dsb $d9-$c6
+	ENTID_PRISON_FLEEING_DEMON_1				db // $d9
+	ENTID_PRISON_FLEEING_DEMON_2				db // $da
+	ENTID_db									dsb $e4-$db
+	ENTID_PRISON_LOCK							db // $e4
+	ENTID_e5									db // $e5
+	ENTID_FOREST_BOMB_BOSS						db // $e6
+	ENTID_e7									db
+	ENTID_WAREHOUSE_BOSS_HELPER_TODO_1			db // $e8
+	ENTID_WAREHOUSE_BOSS_HELPER_TODO_2			db // $e9
+	ENTID_WAREHOUSE_SLOW_BULLET_BOSS			db // $ea
+	ENTID_WAREHOUSE_BOSS_HELPER_TODO_3			db // $eb
+	ENTID_ec									dsb $f5-$ec
 	ENTID_GUY_BEFORE_BOSSES						db // $f5
 .ende

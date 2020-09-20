@@ -66,6 +66,10 @@
 	.db $10
 .endm
 
+.macro npc_facePlayerVertically
+	.db $11
+.endm
+
 .macro npc_moveToPlayersXandFacePlayerHorizontally
 	.db $12
 .endm

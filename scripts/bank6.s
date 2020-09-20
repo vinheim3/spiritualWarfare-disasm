@@ -1,10 +1,14 @@
+
+; ==============================================================================
+; ENTID_PRISONER
+; ==============================================================================
 npcbf_scripts:
 npcc1_scripts:
 	npc_res4_cb60
 	npc_wait $05
-	npc_call func_06_14d9
+	npc_call setMovement3damage4
 -
-	npc_call func_06_1509
+	npc_call move20hPixelsHorizThenVertToPlayer
 	npc_wait $02
 	npc_jump -
 
@@ -17,7 +21,7 @@ npcc0_scripts:
 
 npce3_scripts:
 	npc_res4_cb60
-	npc_call func_06_14d9
+	npc_call setMovement3damage4
 	npc_faceDown
 	npc_moveByParamPixels $10
 @loop:
@@ -35,6 +39,9 @@ npce3_scripts:
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_PRISON_LOCK
+; ==============================================================================
 npce4_scripts:
 	npc_set3_cb60
 	npc_res4_cb60
@@ -57,6 +64,9 @@ npce5_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_FOREST_BOMB_BOSS
+; ==============================================================================
 npce6_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_HELM, @helmGotten
 	npc_res4_cb60
@@ -96,8 +106,8 @@ npce6_scripts:
 	npc_faceRight
 	npc_moveByParamPixels $20
 	npc_wait $03
-	.db $13
-	.db $13
+	npc_moveToPlayersYandFacePlayerVertically
+	npc_moveToPlayersYandFacePlayerVertically
 	npc_faceRight
 	npc_wait $03
 	npc_takeItem ITEMID_30
@@ -178,6 +188,9 @@ npcec_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_BOSS_HELPER_TODO_3
+; ==============================================================================
 npceb_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -200,7 +213,7 @@ npceb_scripts:
 	npc_wait $03
 	npc_end
 +++
-	.db $11
+	npc_facePlayerVertically
 	npc_res5_cb60
 	npc_moveByParamPixels $10
 	.db $2a
@@ -211,13 +224,16 @@ npceb_scripts:
 	npc_setMovementSpeed $02
 	npc_facePlayerHorizontally
 	npc_moveByParamPixels $04
-	.db $11
+	npc_facePlayerVertically
 	npc_moveByParamPixels $04
 	.db $2a
 	npc_giveItem ITEMID_2a
 	npc_end
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_SLOW_BULLET_BOSS
+; ==============================================================================
 npcea_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_BOOTS, _npc_end_06_1051
 	npc_res4_cb60
@@ -229,7 +245,7 @@ npcea_scripts:
 	npc_takeItem ITEMID_30
 	npc_takeItem ITEMID_31
 	npc_takeItem ITEMID_2a
-	.db $04
+	npc_set4_cb60
 	npc_set5_cb60
 	npc_wait $14
 	npc_jumpIfRandomNumLTparam $80, +
@@ -259,7 +275,7 @@ npcea_scripts:
 	npc_jumpIfAtTile $1c, +
 	npc_jump ++
 +
-	npc_spawnNPCAtOffset $e8 $00 $00
+	npc_spawnNPCAtOffset ENTID_WAREHOUSE_BOSS_HELPER_TODO_1 $00 $00
 	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $90 $70
@@ -270,7 +286,7 @@ npcea_scripts:
 	npc_jumpIfAtTile $1c, +
 	npc_jump ++
 +
-	npc_spawnNPCAtOffset $e8 $00 $00
+	npc_spawnNPCAtOffset ENTID_WAREHOUSE_BOSS_HELPER_TODO_1 $00 $00
 	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $30 $40
@@ -281,7 +297,7 @@ npcea_scripts:
 	npc_jumpIfAtTile $1c, +
 	npc_jump ++
 +
-	npc_spawnNPCAtOffset $e8 $00 $00
+	npc_spawnNPCAtOffset ENTID_WAREHOUSE_BOSS_HELPER_TODO_1 $00 $00
 	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $d0 $40
@@ -292,7 +308,7 @@ npcea_scripts:
 	npc_jumpIfAtTile $1c, +
 	npc_jump ++
 +
-	npc_spawnNPCAtOffset $e8 $00 $00
+	npc_spawnNPCAtOffset ENTID_WAREHOUSE_BOSS_HELPER_TODO_1 $00 $00
 	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $50 $70
@@ -303,7 +319,7 @@ npcea_scripts:
 	npc_jumpIfAtTile $1c, +
 	npc_jump ++
 +
-	npc_spawnNPCAtOffset $e8 $00 $00
+	npc_spawnNPCAtOffset ENTID_WAREHOUSE_BOSS_HELPER_TODO_1 $00 $00
 	npc_giveItem ITEMID_2a
 ++
 	npc_setCoords $20 $60
@@ -314,7 +330,7 @@ npcea_scripts:
 	npc_jump ++
 +
 	npc_takeItem ITEMID_2a
-	npc_spawnNPCAtOffset $e9 $00 $00
+	npc_spawnNPCAtOffset ENTID_WAREHOUSE_BOSS_HELPER_TODO_2 $00 $00
 	npc_jump @func_100b
 ++
 	npc_jumpIfItemGotten ITEMID_2a, @func_100b
@@ -325,11 +341,11 @@ npcea_scripts:
 	npc_faceRight
 	npc_res4_cb60
 	npc_res5_cb60
-	.db $12
+	npc_moveToPlayersXandFacePlayerHorizontally
 	npc_takeItem ITEMID_30
 	npc_takeItem ITEMID_31
 	npc_takeItem ITEMID_2a
-	npc_spawnNPCAtOffset $eb $00 $00
+	npc_spawnNPCAtOffset ENTID_WAREHOUSE_BOSS_HELPER_TODO_3 $00 $00
 -
 	npc_wait $0a
 	npc_jumpIfItemGotten ITEMID_30, +
@@ -344,6 +360,9 @@ npcea_scripts:
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_BOSS_HELPER_TODO_1
+; ==============================================================================
 npce8_scripts:
 	npc_set3_cb60
 	npc_set6_cb60_reset_cb6c
@@ -365,6 +384,9 @@ _npc_end_06_1051:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_BOSS_HELPER_TODO_2
+; ==============================================================================
 npce9_scripts:
 	npc_set3_cb60
 	npc_set6_cb60_reset_cb6c
@@ -560,13 +582,16 @@ npcf0_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_PRISON_POLICEMAN
+; ==============================================================================
 npcc2_scripts:
 npcc4_scripts:
 	npc_res4_cb60
 	npc_wait $05
-	npc_call func_06_14d9
+	npc_call setMovement3damage4
 -
-	npc_call func_06_1509
+	npc_call move20hPixelsHorizThenVertToPlayer
 	npc_wait $02
 	npc_jump -
 
@@ -577,16 +602,19 @@ npcc3_scripts:
 	npc_setNewNpcID $c4
 
 
+; ==============================================================================
+; ENTID_PRISON_DOGS
+; ==============================================================================
 npcc5_scripts:
 	npc_res4_cb60
 	npc_set7_cb60
 	npc_wait $0f
 	npc_callCommonSoundFuncs_6c01 $0a $18
-	npc_call func_06_14d9
+	npc_call setMovement3damage4
 -
 	npc_call func_06_1502
 	npc_wait $02
-	npc_jump $11bb
+	npc_jump -
 
 
 npce0_scripts:
@@ -752,7 +780,7 @@ npcd5_scripts:
 
 npcc6_scripts:
 npcca_scripts:
-	npc_call func_06_14d9
+	npc_call setMovement3damage4
 @loop:
 	.db $04
 	npc_wait $14
@@ -778,7 +806,7 @@ npcca_scripts:
 
 npcc7_scripts:
 npccb_scripts:
-	npc_call func_06_14d9
+	npc_call setMovement3damage4
 @loop:
 	.db $04
 	npc_wait $0c
@@ -846,7 +874,7 @@ npcd1_scripts:
 	npc_call $14de
 	npc_jump @func_138d
 +
-	npc_call func_06_14d9
+	npc_call setMovement3damage4
 @func_138d:
 	.db $29
 	npc_moveByParamPixels $08
@@ -856,6 +884,9 @@ npcd1_scripts:
 	npc_jump @func_138d
 
 
+; ==============================================================================
+; ENTID_PRISON_FLEEING_DEMON_2
+; ==============================================================================
 npcda_scripts:
 	npc_setRoomFlagFrom_cbf0
 	npc_set6_cb60_reset_cb6c
@@ -874,9 +905,12 @@ npcda_scripts:
 	npc_moveByParamPixels $10
 	npc_setMovementSpeed $04
 	npc_faceLeft
-	npc_jump func_06_13c9
+	npc_jump fleeingDemonCommon
 
 
+; ==============================================================================
+; ENTID_PRISON_FLEEING_DEMON_1
+; ==============================================================================
 npcd9_scripts:
 	npc_setRoomFlagFrom_cbf0
 	npc_set6_cb60_reset_cb6c
@@ -892,7 +926,7 @@ npcd9_scripts:
 	npc_setMovementSpeed $04
 	.db $23
 
-func_06_13c9:
+fleeingDemonCommon:
 	npc_moveByParamPixels $14
 	npc_setMovementSpeed $06
 	npc_moveByParamPixels $20
@@ -1089,7 +1123,7 @@ func_06_14d4:
 	npc_ret
 
 
-func_06_14d9:
+setMovement3damage4:
 	npc_setMovementSpeed $03
 	npc_setDamageTaken $04
 	npc_ret
@@ -1129,15 +1163,15 @@ func_06_14ec:
 func_06_1502:
 	npc_facePlayerHorizontally
 	npc_moveByParamPixels $30
-	.db $11
+	npc_facePlayerVertically
 	npc_moveByParamPixels $30
 	npc_ret
 
 
-func_06_1509:
+move20hPixelsHorizThenVertToPlayer:
 	npc_facePlayerHorizontally
 	npc_moveByParamPixels $20
-	.db $11
+	npc_facePlayerVertically
 	npc_moveByParamPixels $20
 	npc_ret
 

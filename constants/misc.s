@@ -28,6 +28,7 @@
 .define FRUIT_PEAR				$00
 .define FRUIT_POMEGRANATE		$01
 .define FRUIT_APPLE				$02
+.define FRUIT_GRAPES			$03
 
 // score
 .define SCORE_10		$04

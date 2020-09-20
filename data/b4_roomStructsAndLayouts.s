@@ -257,9 +257,9 @@ group06room00struct:
 	.dw group06room00layout
 	.db $01 $11 $00 $05 $00 $e0 $08
 	.db $ff
-	.db $bf $83 $c8
-	.db $bf $83 $89
-	.db $c2 $86 $26
+	.db ENTID_PRISONER $83 $c8
+	.db ENTID_PRISONER $83 $89
+	.db ENTID_PRISON_POLICEMAN $86 $26
 	.db $ff
 
 group06room01struct:
@@ -269,9 +269,9 @@ group06room01struct:
 	.dw group06room01layout
 	.db $46 $95 $11 $00 $00 $10 $88
 	.db $ff
-	.db $c2 $80 $58
-	.db $c2 $80 $97
-	.db $c2 $80 $27
+	.db ENTID_PRISON_POLICEMAN $80 $58
+	.db ENTID_PRISON_POLICEMAN $80 $97
+	.db ENTID_PRISON_POLICEMAN $80 $27
 	.db $ff
 
 group06room02struct:
@@ -283,7 +283,7 @@ group06room02struct:
 	.db $41 $11 $fe $10 $00 $70 $08
 	.db $71 $11 $fe $f0 $00 $40 $08
 	.db $ff
-	.db $bf $86 $98
+	.db ENTID_PRISONER $86 $98
 	.db $ff
 
 group06room03struct:
@@ -293,9 +293,9 @@ group06room03struct:
 	.dw group06room03layout
 	.db $77 $81 $0f $03 $02 $20 $08
 	.db $ff
-	.db $bf $89 $46
-	.db $bf $89 $59
-	.db $bf $80 $a9
+	.db ENTID_PRISONER $89 $46
+	.db ENTID_PRISONER $89 $59
+	.db ENTID_PRISONER $80 $a9
 	.db $ff
 
 group06room04struct:
@@ -306,9 +306,9 @@ group06room04struct:
 	.db $76 $69 $1c $01 $06 $78 $88
 	.db $f1 $11 $02 $00 $00 $10 $08
 	.db $ff
-	.db $c2 $86 $d6
-	.db $c2 $86 $89
-	.db $c2 $86 $37
+	.db ENTID_PRISON_POLICEMAN $86 $d6
+	.db ENTID_PRISON_POLICEMAN $86 $89
+	.db ENTID_PRISON_POLICEMAN $86 $37
 	.db $ff
 
 group06room05struct:
@@ -316,9 +316,9 @@ group06room05struct:
 	.db $a2
 	.db $03
 	.dw group06room05layout
-	.db $c2 $86 $26
-	.db $c2 $86 $a6
-	.db $c5 $86 $54
+	.db ENTID_PRISON_POLICEMAN $86 $26
+	.db ENTID_PRISON_POLICEMAN $86 $a6
+	.db ENTID_PRISON_DOGS $86 $54
 	.db $ff
 
 group06room06struct:
@@ -326,9 +326,9 @@ group06room06struct:
 	.db $a2
 	.db $03
 	.dw group06room06layout
-	.db $bf $83 $49
-	.db $c5 $83 $53
-	.db $bf $83 $a7
+	.db ENTID_PRISONER $83 $49
+	.db ENTID_PRISON_DOGS $83 $53
+	.db ENTID_PRISONER $83 $a7
 	.db $ff
 
 group06room07struct:
@@ -338,9 +338,9 @@ group06room07struct:
 	.dw group06room07layout
 	.db $d6 $69 $11 $01 $01 $30 $68
 	.db $ff
-	.db $c2 $86 $39
-	.db $c5 $86 $99
-	.db $c2 $86 $c8
+	.db ENTID_PRISON_POLICEMAN $86 $39
+	.db ENTID_PRISON_DOGS $86 $99
+	.db ENTID_PRISON_POLICEMAN $86 $c8
 	.db $ff
 
 group06room08struct:
@@ -348,9 +348,9 @@ group06room08struct:
 	.db $a2
 	.db $03
 	.dw group06room08layout
-	.db $bf $83 $37
-	.db $bf $89 $b4
-	.db $bf $89 $b3
+	.db ENTID_PRISONER $83 $37
+	.db ENTID_PRISONER $89 $b4
+	.db ENTID_PRISONER $89 $b3
 	.db $ff
 
 group06room09struct:
@@ -362,8 +362,8 @@ group06room09struct:
 	.db $f4 $00 $02 $00 $01 $10 $38
 	.db $f5 $00 $02 $00 $01 $10 $48
 	.db $ff
-	.db $c5 $86 $96
-	.db $c5 $86 $66
+	.db ENTID_PRISON_DOGS $86 $96
+	.db ENTID_PRISON_DOGS $86 $66
 	.db $ff
 
 group06room0astruct:
@@ -373,9 +373,9 @@ group06room0astruct:
 	.dw group06room0alayout
 	.db $47 $95 $11 $02 $00 $e0 $20
 	.db $ff
-	.db $c2 $83 $69
-	.db $c5 $86 $26
-	.db $c2 $86 $b4
+	.db ENTID_PRISON_POLICEMAN $83 $69
+	.db ENTID_PRISON_DOGS $86 $26
+	.db ENTID_PRISON_POLICEMAN $86 $b4
 	.db $ff
 
 group06room0bstruct:
@@ -387,11 +387,11 @@ group06room0bstruct:
 	.db $88 $95 $11 $03 $01 $a0 $70
 	.db $d8 $95 $11 $03 $01 $e0 $70
 	.db $ff
-	.db $bf $83 $63
-	.db $bf $89 $a5
-	.db $bf $89 $69
-	.db $e4 $86 $d2
-	.db $e4 $86 $32
+	.db ENTID_PRISONER $83 $63
+	.db ENTID_PRISONER $89 $a5
+	.db ENTID_PRISONER $89 $69
+	.db ENTID_PRISON_LOCK $86 $d2
+	.db ENTID_PRISON_LOCK $86 $32
 	.db $ff
 
 group06room0cstruct:
@@ -399,9 +399,9 @@ group06room0cstruct:
 	.db $a2
 	.db $03
 	.dw group06room0clayout
-	.db $c2 $83 $37
-	.db $c5 $89 $37
-	.db $c2 $86 $c7
+	.db ENTID_PRISON_POLICEMAN $83 $37
+	.db ENTID_PRISON_DOGS $89 $37
+	.db ENTID_PRISON_POLICEMAN $86 $c7
 	.db $ff
 
 group06room0dstruct:
@@ -409,9 +409,9 @@ group06room0dstruct:
 	.db $a2
 	.db $03
 	.dw group06room0dlayout
-	.db $bf $89 $63
-	.db $bf $89 $a5
-	.db $bf $89 $48
+	.db ENTID_PRISONER $89 $63
+	.db ENTID_PRISONER $89 $a5
+	.db ENTID_PRISONER $89 $48
 	.db $ff
 
 group06room0estruct:
@@ -419,9 +419,9 @@ group06room0estruct:
 	.db $a2
 	.db $03
 	.dw group06room0elayout
-	.db $bf $83 $79
-	.db $c5 $86 $35
-	.db $c5 $86 $c5
+	.db ENTID_PRISONER $83 $79
+	.db ENTID_PRISON_DOGS $86 $35
+	.db ENTID_PRISON_DOGS $86 $c5
 	.db $ff
 
 group11room05struct:
@@ -431,9 +431,9 @@ group11room05struct:
 	.dw group11room05layout
 	.db $36 $69 $06 $02 $01 $d0 $78
 	.db $ff
-	.db $e4 $86 $d3
-	.db $bf $83 $b7
-	.db $bf $86 $89
+	.db ENTID_PRISON_LOCK $86 $d3
+	.db ENTID_PRISONER $83 $b7
+	.db ENTID_PRISONER $86 $89
 	.db $ff
 
 group11room06struct:
@@ -443,7 +443,7 @@ group11room06struct:
 	.dw group11room06layout
 	.db $d6 $69 $06 $02 $00 $50 $80
 	.db $ff
-	.db $bf $83 $67
+	.db ENTID_PRISONER $83 $67
 	.db $ff
 
 group11room02struct:
@@ -470,7 +470,7 @@ group23room00struct:
 	.db $f9 $85 $0d $01 $00 $70 $78
 	.db $c9 $85 $1c $00 $05 $70 $90
 	.db $ff
-	.db $e6 $86 $a7
+	.db ENTID_FOREST_BOMB_BOSS $86 $a7
 	.db $ff
 
 group11room04struct:
@@ -502,8 +502,8 @@ group11room07struct:
 	.db $29 $8d $ff $01 $00 $60 $70
 	.db $12 $8d $15 $00 $00 $20 $40
 	.db $ff
-	.db $da $89 $b4
-	.db $d9 $80 $92
+	.db ENTID_PRISON_FLEEING_DEMON_2 $89 $b4
+	.db ENTID_PRISON_FLEEING_DEMON_1 $80 $92
 	.db $ff
 
 group11room01struct:
@@ -525,7 +525,7 @@ group22room00struct:
 	.db $09 $84 $07 $02 $05 $d0 $49
 	.db $02 $84 $1e $01 $00 $78 $90
 	.db $ff
-	.db $ea $80 $12
+	.db ENTID_WAREHOUSE_SLOW_BULLET_BOSS $80 $12
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $13
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $14
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $15

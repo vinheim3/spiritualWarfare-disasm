@@ -802,7 +802,7 @@ npc6d_scripts:
 	.dw @entry7
 
 	.db $11 $00 $01
-	.dw @entry8
+	.dw @prisonTopLeft
 
 	.db $ff $ff $ff
 
@@ -887,10 +887,10 @@ npc6d_scripts:
 	npc_placeTile $b8 $80 $80
 	npc_end
 
-@entry8:
-	npc_jumpIfItemGotten ITEMID_1e, _npc_end_02_502c
+@prisonTopLeft:
+	npc_jumpIfItemGotten ITEMID_PRISON_TOP_LEFT_HC, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem ITEMID_1e
+	npc_giveItem ITEMID_PRISON_TOP_LEFT_HC
 	npc_call @func_54de
 	npc_end
 
@@ -1203,7 +1203,7 @@ npc77_scripts:
 
 
 ; ==============================================================================
-; ENTID_SLUMS_GUNMAN_FACING_LEFT
+; ENTID_GUNMAN_FACING_LEFT
 ; ==============================================================================
 npc78_scripts:
 	npc_call func_02_58c4
@@ -1211,14 +1211,14 @@ npc78_scripts:
 	npc_call func_02_58cc
 	npc_set6_cb60_reset_cb6c
 	npc_wait $08
-	npc_spawnNPCinFrontOfSelf ENTID_SLUMS_GUNMAN_BULLET_LEFT
+	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET_LEFT
 	.db $16
 	npc_call func_02_58d0
 	npc_jump -
 
 
 ; ==============================================================================
-; ENTID_SLUMS_GUNMAN_FACING_RIGHT
+; ENTID_GUNMAN_FACING_RIGHT
 ; ==============================================================================
 npc7a_scripts:
 	npc_call func_02_58c4
@@ -1226,7 +1226,7 @@ npc7a_scripts:
 	npc_call func_02_58cc
 	npc_set6_cb60_reset_cb6c
 	npc_wait $08
-	npc_spawnNPCinFrontOfSelf ENTID_SLUMS_GUNMAN_BULLET_RIGHT
+	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET_RIGHT
 	.db $16
 	npc_call func_02_58d0
 	npc_jump -
@@ -1252,8 +1252,8 @@ func_02_58d0:
 
 
 ; ==============================================================================
-; ENTID_SLUMS_GUNMAN_BULLET_LEFT
-; ENTID_SLUMS_GUNMAN_BULLET_RIGHT
+; ENTID_GUNMAN_BULLET_LEFT
+; ENTID_GUNMAN_BULLET_RIGHT
 ; ==============================================================================
 npc79_scripts:
 npc7b_scripts:
@@ -1315,13 +1315,13 @@ npc7d_scripts:
 	.dw @slumsBottomMiddle
 
 	.db $1b $02 $02
-	.dw @entry6
+	.dw @warehouseAboveRR
 
 	.db $1e $00 $00
 	.dw @warehousesBottomLeftApple
 
 	.db $1e $01 $00
-	.dw @entry8
+	.dw @afterWarehouseBoss
 
 	.db $10 $ff $ff
 	.dw @entry9
@@ -1385,21 +1385,21 @@ npc7d_scripts:
 	npc_spawnNPC ENTID_SLUMS_BOTTOM_MIDDLE_KEY $7a $64
 	npc_jump npc82_scripts
 
-@entry6:
-	npc_jumpIfItemGotten ITEMID_06, +
+@warehouseAboveRR:
+	npc_jumpIfItemGotten ITEMID_WAREHOUSE_ABOVE_RR_POMEGRANATE, +
 	npc_set_c059 $ff
 	npc_startScrollingText @npcText_5c8f
 	npc_startScrollingText @npcText_5dfb
 	npc_spawnNPC ENTID_POMEGRANATE $52 $64
 	npc_spawnNPC ENTID_PRICE_BIRD $48 $54
-	npc_spawnNPC $3b $a2 $64
+	npc_spawnNPC ENTID_SHOP_OIL $a2 $64
 	npc_spawnNPC ENTID_PRICE_BIRD $98 $54
 	npc_jump npc82_scripts
 +
 	npc_set_c059 $ff
 	npc_startScrollingText @npcText_5cd1
 	npc_startScrollingText @npcText_5dfb
-	npc_spawnNPC $3b $7a $64
+	npc_spawnNPC ENTID_SHOP_OIL $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump npc82_scripts
 
@@ -1412,7 +1412,7 @@ npc7d_scripts:
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump npc82_scripts
 
-@entry8:
+@afterWarehouseBoss:
 	npc_jumpIfArmorOfGodGotten AOG_BOOTS, @showRoomEmptyText
 	npc_set_c059 $ff
 	npc_startScrollingText @npcText_5d92
@@ -2445,6 +2445,9 @@ npc8d_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_FORKLIFT_DRIVER
+; ==============================================================================
 npc8e_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_res4_cb60
@@ -2457,7 +2460,7 @@ npc8e_scripts:
 	npc_flipBit4ofNPC2ndByte_jumpIfNZ +
 	npc_jump @loop
 +
-	npc_spawnNPCinFrontOfSelf $8f
+	npc_spawnNPCinFrontOfSelf ENTID_WAREHOUSE_FORKLIFT_BOX
 	npc_wait $02
 	npc_moveByParamPixels $10
 	npc_flipBit4ofNPC2ndByte_jumpIfNZ +
@@ -2468,13 +2471,16 @@ npc8e_scripts:
 	npc_jump @loop
 +
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $0a
+	npc_offsetNPCCoordsBy1_turnRight
 	npc_jump @loop
 +
 	npc_offsetNPCCoordsBy1_turnLeft
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_FORKLIFT_BOX
+; ==============================================================================
 npc8f_scripts:
 	npc_jumpIfAtTile $48, +
 	npc_setMovementSpeed $10
@@ -2482,7 +2488,7 @@ npc8f_scripts:
 	npc_turnBackwards
 	npc_moveByParamPixels $0a
 	npc_turnBackwards
-	.db $02
+	npc_res5_cb60
 	npc_jumpIfAtTile $48, +
 	npc_end
 +
@@ -2550,6 +2556,9 @@ _npc_end_02_6897:
 	npc_ret
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_FAST_ALCOHOLIC
+; ==============================================================================
 npc93_scripts:
 	npc_setMovementSpeed $04
 	npc_setDamageTaken $03
@@ -2585,13 +2594,16 @@ npc93_scripts:
 
 @func_68d6:
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $13
+	npc_moveToPlayersYandFacePlayerVertically
 	npc_jump @loop
 +
-	.db $12
+	npc_moveToPlayersXandFacePlayerHorizontally
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_WRENCH_GUY
+; ==============================================================================
 npc94_scripts:
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $03
@@ -2602,7 +2614,7 @@ npc94_scripts:
 	npc_jumpIfRandomNumLTparam $80, @func_690f
 	npc_moveNPC_jumpIfCant $10, @func_690f
 	npc_waitRandomValBetween2ParamsInclusive $08 $10
-	npc_spawnNPCinFrontOfSelf $95
+	npc_spawnNPCinFrontOfSelf ENTID_WAREHOUSE_WRENCH_GUYS_WRENCH
 	npc_jump @func_68ea
 @loop:
 	npc_jumpIfRandomNumLTparam $80, +
@@ -2630,6 +2642,9 @@ npc94_scripts:
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_WRENCH_GUYS_WRENCH
+; ==============================================================================
 npc95_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set6_cb60_reset_cb6c
@@ -2642,6 +2657,9 @@ npc95_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_DRILLER
+; ==============================================================================
 npc96_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $02
@@ -2650,7 +2668,9 @@ npc96_scripts:
 	npc_waitRandomValBetween2ParamsInclusive $08 $10
 @loop:
 	npc_moveByParamPixels $10
+// horizontal pavement
 	npc_jumpIfAtTile $a0, @func_698e
+// vertical pavement
 	npc_jumpIfAtTile $74, @func_6993
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jumpIfRandomNumLTparam $80, +
@@ -2665,11 +2685,11 @@ npc96_scripts:
 	npc_offsetNPCCoordsBy1_turnLeft
 	npc_jump @loop
 ++
-	.db $0a
+	npc_offsetNPCCoordsBy1_turnRight
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jump @loop
 +
-	.db $0a
+	npc_offsetNPCCoordsBy1_turnRight
 	npc_jump @loop
 @func_6977:
 	npc_jumpIfRandomNumLTparam $aa, +
@@ -2677,39 +2697,45 @@ npc96_scripts:
 	npc_jump @loop
 +
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $11
+	npc_facePlayerVertically
 	npc_jump @loop
 +
 	npc_facePlayerHorizontally
 	npc_moveByParamPixels $40
-	.db $11
+	npc_facePlayerVertically
 	npc_jump @loop
 @func_698e:
 	npc_faceUp
 	npc_moveByParamPixels $08
-	npc_setNewNpcID $97
+	npc_setNewNpcID ENTID_WAREHOUSE_DRILLER_DRILLING_HORIZ
 @func_6993:
-	npc_setNewNpcID $98
+	npc_setNewNpcID ENTID_WAREHOUSE_DRILLER_DRILLING_VERT
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_DRILLER_DRILLING_HORIZ
+; ==============================================================================
 npc97_scripts:
 	npc_call func_02_69c0
 	npc_placeTile $e5 $80 $80
 	npc_call func_02_69b6
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_faceLeft
-	npc_setNewNpcID $96
+	npc_setNewNpcID ENTID_WAREHOUSE_DRILLER
 +
 	npc_faceRight
-	npc_setNewNpcID $96
+	npc_setNewNpcID ENTID_WAREHOUSE_DRILLER
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_DRILLER_DRILLING_VERT
+; ==============================================================================
 npc98_scripts:
 	npc_call func_02_69c0
 	npc_placeTile $69 $80 $80
 	npc_call func_02_69b6
 	npc_faceDown
-	npc_setNewNpcID $96
+	npc_setNewNpcID ENTID_WAREHOUSE_DRILLER
 
 
 func_02_69b6:
@@ -2817,7 +2843,7 @@ npcab_scripts:
 
 
 ; ==============================================================================
-; ENTID_SLUMS_ITEM_PLACER
+; ENTID_ITEM_PLACER
 ; ==============================================================================
 npc99_scripts:
 	npc_set5_cb60
@@ -2986,7 +3012,7 @@ npc9a_scripts:
 
 
 ; ==============================================================================
-; ENTID_SLUMS_GUNMAN_DOOR
+; ENTID_GUNMAN_DOOR
 ; ==============================================================================
 npc9b_scripts:
 	npc_setMovementSpeed $10
@@ -3009,14 +3035,14 @@ npc9b_scripts:
 	npc_resetBit5ofNPC2ndByte_jumpIfNZ @innerLoop
 	npc_placeTile $86 $80 $80
 	npc_wait $08
-	npc_spawnNPCAtOffset ENTID_SLUMS_GUNMAN_IN_DOOR $00 $00
+	npc_spawnNPCAtOffset ENTID_GUNMAN_IN_DOOR $00 $00
 	npc_wait $38
 	npc_placeTile $c2 $80 $80
 	npc_jump @loop
 
 
 ; ==============================================================================
-; ENTID_SLUMS_GUNMAN_IN_DOOR
+; ENTID_GUNMAN_IN_DOOR
 ; ==============================================================================
 npc9c_scripts:
 	npc_facePlayerHorizontally
@@ -3024,13 +3050,13 @@ npc9c_scripts:
 	npc_wait $0c
 	npc_set6_cb60_reset_cb6c
 	npc_wait $08
-	npc_spawnNPCinFrontOfSelf ENTID_DOOR_GUNMAN_BULLET
+	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET
 	npc_wait $1e
 	npc_end
 
 
 ; ==============================================================================
-; ENTID_DOOR_GUNMAN_BULLET
+; ENTID_GUNMAN_BULLET
 ; ==============================================================================
 npca4_scripts:
 	npc_callCommonSoundFuncs_6c01 $61 $16
@@ -3043,18 +3069,24 @@ npca4_scripts:
 	npc_setNewNpcID ENTID_SLUMS_BULLET_EXPLOSION
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_GUNMAN
+; ==============================================================================
 npca5_scripts:
 	npc_call func_02_58c4
 -
 	npc_call func_02_58cc
 	npc_set6_cb60_reset_cb6c
 	npc_wait $08
-	npc_spawnNPCinFrontOfSelf $a4
+	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET
 	.db $16
 	npc_waitRandomValBetween2ParamsInclusive $0c $18
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_WAREHOUSE_PLUMBER
+; ==============================================================================
 npca6_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_res4_cb60
