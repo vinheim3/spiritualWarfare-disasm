@@ -781,7 +781,7 @@ npc6d_scripts:
 	.dw @cityBottomMid
 
 	.db $0f $00 $00
-	.dw @entry1
+	.dw @housesLeft
 
 	.db $00 $00 $01
 	.dw @westPark
@@ -793,7 +793,7 @@ npc6d_scripts:
 	.dw @entry4
 
 	.db $08 $01 $01
-	.dw @entry5
+	.dw @hotelsRooftop
 
 	.db $0f $02 $00
 	.dw @entry6
@@ -835,10 +835,10 @@ npc6d_scripts:
 	npc_call @func_54de
 	npc_end
 
-@entry1:
-	npc_jumpIfItemGotten ITEMID_17, _npc_end_02_502c
+@housesLeft:
+	npc_jumpIfItemGotten ITEMID_HOUSES_LEFT_HC, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem ITEMID_17
+	npc_giveItem ITEMID_HOUSES_LEFT_HC
 	npc_call @func_54de
 	npc_end
 
@@ -864,10 +864,10 @@ npc6d_scripts:
 	npc_call @func_54de
 	npc_end
 
-@entry5:
-	npc_jumpIfItemGotten ITEMID_1b, _npc_end_02_502c
+@hotelsRooftop:
+	npc_jumpIfItemGotten ITEMID_HOTELS_ROOFTOP_HC, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem ITEMID_1b
+	npc_giveItem ITEMID_HOTELS_ROOFTOP_HC
 	npc_call @func_54de
 	npc_placeTile $b4 $80 $80
 	npc_end
@@ -1815,6 +1815,9 @@ npc81_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_CHURCH_TIPS
+; ==============================================================================
 npc83_scripts:
 @loop:
 	npc_call func_02_4fed
@@ -1844,11 +1847,11 @@ npc83_scripts:
 	npc_displayTextScreen @npcText_6213
 	npc_jump @end
 +
-	npc_jumpIfSpecialBitemGotten $02, +
+	npc_jumpIfSpecialBitemGotten SPECIALB_JAWBONE, +
 	npc_displayTextScreen @npcText_6287
 	npc_jump @end
 +
-	npc_jumpIfSpecialBitemGotten $04, +
+	npc_jumpIfSpecialBitemGotten SPECIALB_RAFT, +
 	npc_displayTextScreen @npcText_6300
 	npc_jump @end
 +

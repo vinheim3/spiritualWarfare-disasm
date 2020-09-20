@@ -6,8 +6,16 @@
 	ENTID_SUNGLASSES_KNIFE_GUY					db // $05
 	ENTID_CRAZY_EYES_CLUB_GUY					db // $06
 	ENTID_CIRCLING_ALCOHOLIC					db // $07
+	ENTID_HOUSES_GRAFFITI_GUY					db // $08
+	ENTID_HOUSES_NINJA							db // $09
+	ENTID_HOUSES_PACING_OLD_MAN					db // $0a
+	ENTID_HOUSES_DRIVER_SPAWNER					db // $0b
+	ENTID_HOUSES_DRIVER_SPEED_3					db // $0c
+	ENTID_HOUSES_DRIVER_SPEED_2					db // $0d
+	ENTID_HOUSES_DRIVER_SPEED_5					db // $0e
+	ENTID_HOUSES_DRIVER_SPEED_6					db // $0f
 	// TODO: 16 and 17 are dropped birds
-	ENTID_08									dsb $19-8
+	ENTID_10									dsb 9-0
 	ENTID_RUNNING_CITY_GUY						db // $19
 	ENTID_BLOCKAGE_BUILDER						db // $1a
 	ENTID_CITY_BANDIT							db // $1b
@@ -16,14 +24,19 @@
 	ENTID_1e									dsb $21-$1e
 	ENTID_DYNAMITE_BUILDER						db // $21
 	ENTID_CITY_PLUMBER_1						db // $22
-	ENTID_23									dsb $d-3
+	ENTID_23									dsb 8-3
+	ENTID_HOTELS_BIKER							db // $28
+	ENTID_HOTELS_ALCOHOLIC						db // $29
+	ENTID_HOTELS_DISAPPEARING_CAR_1				db // $2a
+	ENTID_HOTELS_DISAPPEARING_CAR_2				db // $2b
+	ENTID_HOTELS_BIKER_THIN_CAR_PATH			db // $2c
 	// creates text and NPC
 	ENTID_ITEM_ROOM_ANGEL						db // $2d
 	ENTID_PEAR									db // $2e
 	ENTID_POMEGRANATE							db // $2f
 	ENTID_APPLE									db // $30
 	ENTID_GRAPES								db // $31
-	ENTID_32									db
+	ENTID_BANANA								db // $32
 	ENTID_PRICE_BIRD							db // $33
 	ENTID_BELT_OF_TRUTH							db // $34
 	ENTID_BREASTPLATE_OF_RIGHTEOUSNESS			db // $35
@@ -39,11 +52,17 @@
 	ENTID_3f									dsb $41-$3f
 	ENTID_RAFT									db // $41
 	ENTID_CITY_BANDIT_BLOCKER					db // $42
-	ENTID_43									dsb 9-3
+	ENTID_HOTEL_HIGHRISE_GUNNER_1				db // $43
+	ENTID_HOTEL_HIGHRISE_GUNNER_2				db // $44
+	ENTID_HOUSES_STATIC_BALLOON					db // $45
+	ENTID_46									dsb 8-6
+	ENTID_CHURCH_FLAMES							db // $48
 	ENTID_CITY_PLUMBER_2						db // $49
 	ENTID_4a									db
 	ENTID_LADDER_CLIMBER						db // $4b
-	ENTID_4c									dsb $f-$c
+	ENTID_GRAFFITIER_SK							db // $4c
+	ENTID_GRAFFITIER_MESSY						db // $4d
+	ENTID_4e									db
 	ENTID_CYCLIST								db // $4f
 	ENTID_BASKETBALLER							db // $50
 	ENTID_BASKETBALLER_SHOOTING_FROM_SIDE		db // $51
@@ -54,7 +73,10 @@
 	// same code as 57
 	ENTID_56									db
 	ENTID_BELT_BEING_TAKEN_AWAY					db // $57
-	ENTID_58									dsb $b-8
+	// or other way around??
+	ENTID_HOTEL_GUNNER_BULLET					db // $58
+	ENTID_HOTEL_GUNNER_BALLOON					db // $59
+	ENTID_5a									db
 	ENTID_BASKETBALLER_CTRLER					db // $5b
 	ENTID_5c									db
 	ENTID_BOSS_1								db // $5d
@@ -84,7 +106,8 @@
 	ENTID_SLUMS_BULLET_EXPLOSION				db // $7c
 	ENTID_SHOP_ANGEL							db // $7d
 	ENTID_LAMP									db // $7e
-	ENTID_7f									dsb $84-$7f
+	ENTID_7f									dsb $83-$7f
+	ENTID_CHURCH_TIPS							db // $83
 	ENTID_QUIZ_ANGEL							db // $84
 	ENTID_SLUMS_DOG								db // $85
 	ENTID_SLUMS_DOG_CHARGING					db // $86

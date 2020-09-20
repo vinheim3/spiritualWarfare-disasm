@@ -93,7 +93,7 @@ npc2f_scripts:
 	npc_end
 
 @script_1c_02_02:
-	npc_giveItem ITEMID_05
+	npc_giveItem ITEMID_HOUSES_TOP_RIGHT_POMEGRANATE
 	npc_increaseScore SCORE_100
 	npc_call npcHelper_increaseScoreBy20
 	npc_end
@@ -180,10 +180,10 @@ npc31_scripts:
 
 @table:
 	.db $1c $01 $02
-	.dw @entry0
+	.dw @housesHidden
 
 	.db $1c $00 $03
-	.dw @entry1
+	.dw @hotelsBottomRight
 
 	.db $1c $00 $08
 	.dw @entry2
@@ -193,13 +193,13 @@ npc31_scripts:
 
 	.db $ff $ff $ff
 
-@entry0:
-	npc_giveItem ITEMID_0c
+@housesHidden:
+	npc_giveItem ITEMID_HOUSES_HIDDEN_GRAPES
 	npc_call npcHelper_increaseScoreBy90
 	npc_end
 
-@entry1:
-	npc_giveItem ITEMID_0d
+@hotelsBottomRight:
+	npc_giveItem ITEMID_HOTELS_BOTTOM_RIGHT_GRAPES
 	npc_increaseScore SCORE_100
 	npc_call npcHelper_increaseScoreBy80
 	npc_end
@@ -217,12 +217,15 @@ npc31_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_BANANA
+; ==============================================================================
 npc32_scripts:
 	npc_call data_03_6994
 	npc_jumpIfNumBirdsGotten 90, +
 	npc_jump data_03_4fde
 +
-	npc_giveFruit $04
+	npc_giveFruit FRUIT_BANANA
 	npc_call shopTake90birds
 	npc_callCommonSoundFuncs_6d6c $03 $ff
 	npc_groupRoomXYjumpTable @table
@@ -230,7 +233,7 @@ npc32_scripts:
 
 @table:
 	.db $1c $02 $04
-	.dw @entry0
+	.dw @hotelsUnderCar
 
 	.db $1c $01 $03
 	.dw @entry1
@@ -243,8 +246,8 @@ npc32_scripts:
 
 	.db $ff $ff $ff
 
-@entry0:
-	npc_giveItem ITEMID_10
+@hotelsUnderCar:
+	npc_giveItem ITEMID_HOTELS_BANANA_UNDER_CAR
 	npc_increaseScore SCORE_100
 	npc_end
 
@@ -845,7 +848,7 @@ npc04_scripts:
 	npc_jump @afterInitialScript
 
 @@byHotelsThinCarPath:
-	npc_jumpIfItemGotten ITEMID_10, @end
+	npc_jumpIfItemGotten ITEMID_HOTELS_BANANA_UNDER_CAR, @end
 	npc_jump @afterInitialScript
 
 @regularScripts:
@@ -1187,7 +1190,7 @@ npc3e_scripts:
 	npc_end
 
 @entry1:
-	npc_jumpIfItemGotten ITEMID_05, @remove
+	npc_jumpIfItemGotten ITEMID_HOUSES_TOP_RIGHT_POMEGRANATE, @remove
 	npc_end
 
 @byBoss1entrance:
@@ -1519,6 +1522,9 @@ npc55_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_HOUSES_GRAFFITI_GUY
+; ==============================================================================
 npc08_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -1526,30 +1532,35 @@ npc08_scripts:
 	npc_setMovementSpeed $04
 	npc_setDamageTaken $01
 	npc_wait $0a
-	.db $11
+	npc_facePlayerVertically
 	npc_moveByParamPixels $40
 	npc_facePlayerHorizontally
 --
 	npc_moveByParamPixels $10
 	npc_waitRandomValBetween2ParamsInclusive $03 $0a
+// bottom-edged pavement
 	npc_jumpIfAtTile $b4, @func_5a6d
+// full pavement
 	npc_jumpIfAtTile $b8, @func_5a6f
 	npc_loopAboveParamTimes $03, --
-	.db $12
+	npc_moveToPlayersXandFacePlayerHorizontally
 -
 	npc_moveByParamPixels $10
 	npc_waitRandomValBetween2ParamsInclusive $03 $0a
 	npc_jumpIfAtTile $b4, @func_5a6d
 	npc_jumpIfAtTile $b8, @func_5a6f
 	npc_loopAboveParamTimes $03, -
-	.db $13
+	npc_moveToPlayersYandFacePlayerVertically
 	npc_jump --
 @func_5a6d:
-	npc_setNewNpcID $4c
+	npc_setNewNpcID ENTID_GRAFFITIER_SK
 @func_5a6f:
-	npc_setNewNpcID $4d
+	npc_setNewNpcID ENTID_GRAFFITIER_MESSY
 
 
+; ==============================================================================
+; ENTID_GRAFFITIER_SK
+; ==============================================================================
 npc4c_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -1558,16 +1569,19 @@ npc4c_scripts:
 	npc_callCommonSoundFuncs_6c01 $47 $16
 	npc_jumpIfRandomNumLTparam $aa, +
 	npc_placeTile $98 $80 $80
-	npc_setNewNpcID $08
+	npc_setNewNpcID ENTID_HOUSES_GRAFFITI_GUY
 +
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_placeTile $98 $80 $80
-	npc_setNewNpcID $08
+	npc_setNewNpcID ENTID_HOUSES_GRAFFITI_GUY
 +
 	npc_placeTile $98 $80 $80
-	npc_setNewNpcID $08
+	npc_setNewNpcID ENTID_HOUSES_GRAFFITI_GUY
 
 
+; ==============================================================================
+; ENTID_GRAFFITIER_MESSY
+; ==============================================================================
 npc4d_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -1576,16 +1590,19 @@ npc4d_scripts:
 	npc_callCommonSoundFuncs_6c01 $47 $16
 	npc_jumpIfRandomNumLTparam $aa, +
 	npc_placeTile $50 $80 $80
-	npc_setNewNpcID $08
+	npc_setNewNpcID ENTID_HOUSES_GRAFFITI_GUY
 +
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_placeTile $50 $80 $80
-	npc_setNewNpcID $08
+	npc_setNewNpcID ENTID_HOUSES_GRAFFITI_GUY
 +
 	npc_placeTile $50 $80 $80
-	npc_setNewNpcID $08
+	npc_setNewNpcID ENTID_HOUSES_GRAFFITI_GUY
 
 
+; ==============================================================================
+; ENTID_HOUSES_NINJA
+; ==============================================================================
 npc09_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -1598,22 +1615,25 @@ npc09_scripts:
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_turnLeft
 	npc_moveByParamPixels $32
-	.db $17
+	npc_moveNPCturnBackIfCant
 	npc_jump -
 +
 	npc_turnRight
 	npc_moveByParamPixels $32
-	.db $17
+	npc_moveNPCturnBackIfCant
 	npc_jump -
 ++
 	npc_jumpIfRandomNumLTparam $80, +
-	.db $12
+	npc_moveToPlayersXandFacePlayerHorizontally
 	npc_jump -
 +
-	.db $13
+	npc_moveToPlayersYandFacePlayerVertically
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_HOUSES_PACING_OLD_MAN
+; ==============================================================================
 npc0a_scripts:
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $03
@@ -1626,10 +1646,13 @@ npc0a_scripts:
 	npc_setMovementSpeed $02
 -
 	npc_moveByParamPixels $ff
-	.db $17
+	npc_moveNPCturnBackIfCant
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_HOUSES_DRIVER_SPAWNER
+; ==============================================================================
 npc0b_scripts:
 	npc_setMovementSpeed $04
 -
@@ -1652,21 +1675,33 @@ npc0b_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_HOUSES_DRIVER_SPEED_3
+; ==============================================================================
 npc0c_scripts:
 	npc_setMovementSpeed $03
 	npc_jump func_03_5b39
 
 
+; ==============================================================================
+; ENTID_HOUSES_DRIVER_SPEED_2
+; ==============================================================================
 npc0d_scripts:
 	npc_setMovementSpeed $02
 	npc_jump func_03_5b39
 
 
+; ==============================================================================
+; ENTID_HOUSES_DRIVER_SPEED_5
+; ==============================================================================
 npc0e_scripts:
 	npc_setMovementSpeed $05
 	npc_jump func_03_5b39
 
 
+; ==============================================================================
+; ENTID_HOUSES_DRIVER_SPEED_6
+; ==============================================================================
 npc0f_scripts:
 	npc_setMovementSpeed $06
 
@@ -2001,6 +2036,9 @@ npc26_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_HOTEL_GUNNER_BULLET
+; ==============================================================================
 npc58_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -2011,6 +2049,9 @@ npc58_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_HOTEL_GUNNER_BALLOON
+; ==============================================================================
 npc59_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_jump npc26_scripts
@@ -2046,6 +2087,9 @@ npc25_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_HOTELS_BIKER
+; ==============================================================================
 npc28_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -2058,6 +2102,9 @@ npc28_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_HOTELS_BIKER_THIN_CAR_PATH
+; ==============================================================================
 npc2c_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -2102,8 +2149,11 @@ npc27_scripts:
 	npc_setNewNpcID $27
 
 
+; ==============================================================================
+; ENTID_HOTELS_DISAPPEARING_CAR_1
+; ==============================================================================
 npc2a_scripts:
-	npc_jumpIfItemGotten ITEMID_10, func_03_5db9
+	npc_jumpIfItemGotten ITEMID_HOTELS_BANANA_UNDER_CAR, func_03_5db9
 	npc_set5_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_set3_cb60
@@ -2119,8 +2169,11 @@ func_03_5d9d:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_HOTELS_DISAPPEARING_CAR_2
+; ==============================================================================
 npc2b_scripts:
-	npc_jumpIfItemGotten ITEMID_10, func_03_5db9
+	npc_jumpIfItemGotten ITEMID_HOTELS_BANANA_UNDER_CAR, func_03_5db9
 	npc_set6_cb60_reset_cb6c
 	npc_set5_cb60
 	npc_set3_cb60
@@ -2137,6 +2190,9 @@ func_03_5db9:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_HOTELS_ALCOHOLIC
+; ==============================================================================
 npc29_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -2215,6 +2271,9 @@ npc4b_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_HOTEL_HIGHRISE_GUNNER_1
+; ==============================================================================
 npc43_scripts:
 npc44_scripts:
 	npc_set6_cb60_reset_cb6c
@@ -2238,23 +2297,26 @@ npc44_scripts:
 	.db $16
 	npc_callCommonSoundFuncs_6c01 $61 $16
 	npc_jumpIfRandomNumLTparam $80, +
-	npc_spawnNPCinFrontOfSelf $58
+	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BULLET
 	npc_jump ++
 +
-	npc_spawnNPCinFrontOfSelf $59
+	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BALLOON
 ++
 	npc_wait $05
 	npc_set6_cb60_reset_cb6c
 	.db $16
 	npc_callCommonSoundFuncs_6c01 $61 $16
 	npc_jumpIfRandomNumLTparam $80, +
-	npc_spawnNPCinFrontOfSelf $58
+	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BULLET
 	npc_jump @loop
 +
-	npc_spawnNPCinFrontOfSelf $59
+	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BALLOON
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_HOUSES_STATIC_BALLOON
+; ==============================================================================
 npc45_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_addParamsToXthenYCoords $02 $00
@@ -2279,6 +2341,9 @@ npc5a_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_CHURCH_FLAMES
+; ==============================================================================
 npc47_scripts:
 npc48_scripts:
 	npc_c02a_equFF
@@ -2746,13 +2811,13 @@ npc2d_scripts:
 	.dw @cityBoss
 
 	.db $1c $01 $02
-	.dw @entry7
+	.dw @housesHidden
 
 	.db $1c $02 $02
-	.dw @entry8
+	.dw @housesTopRight
 
 	.db $1c $00 $03
-	.dw @entry9
+	.dw @hotelsBottomRight
 
 	.db $1c $01 $03
 	.dw @entryA
@@ -2770,7 +2835,7 @@ npc2d_scripts:
 	.dw @entryE
 
 	.db $1c $02 $04
-	.dw @entryF
+	.dw @hotelsUnderCar
 
 	.db $1c $01 $05
 	.dw @entry10
@@ -2866,19 +2931,19 @@ npc2d_scripts:
 	npc_spawnNPC ENTID_BREASTPLATE_OF_RIGHTEOUSNESS $7a $64
 	npc_jump @emptyRoom
 
-@entry7:
-	npc_jumpIfItemGotten ITEMID_0c, _showText_roomEmpty_clear_c059
+@housesHidden:
+	npc_jumpIfItemGotten ITEMID_HOUSES_HIDDEN_GRAPES, _showText_roomEmpty_clear_c059
 
 @func_62a8:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6621
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC $31 $7a $64
+	npc_spawnNPC ENTID_GRAPES $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump @emptyRoom
 
-@entry8:
-	npc_jumpIfItemGotten ITEMID_05, _showText_roomEmpty_clear_c059
+@housesTopRight:
+	npc_jumpIfItemGotten ITEMID_HOUSES_TOP_RIGHT_POMEGRANATE, _showText_roomEmpty_clear_c059
 
 @func_62bf:
 	npc_set_c059 $ff
@@ -2888,8 +2953,8 @@ npc2d_scripts:
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump @emptyRoom
 
-@entry9:
-	npc_jumpIfItemGotten ITEMID_0d, _showText_roomEmpty_clear_c059
+@hotelsBottomRight:
+	npc_jumpIfItemGotten ITEMID_HOTELS_BOTTOM_RIGHT_GRAPES, _showText_roomEmpty_clear_c059
 	npc_jump @func_62a8
 
 @entryA:
@@ -2899,7 +2964,7 @@ npc2d_scripts:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_66d5
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC $32 $7a $64
+	npc_spawnNPC ENTID_BANANA $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump @emptyRoom
 
@@ -2933,8 +2998,8 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_07, _showText_roomEmpty_clear_c059
 	npc_jump @func_62bf
 
-@entryF:
-	npc_jumpIfItemGotten ITEMID_10, _showText_roomEmpty_clear_c059
+@hotelsUnderCar:
+	npc_jumpIfItemGotten ITEMID_HOTELS_BANANA_UNDER_CAR, _showText_roomEmpty_clear_c059
 	npc_jump @func_62dd
 
 @entry10:

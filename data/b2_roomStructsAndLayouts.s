@@ -991,8 +991,8 @@ group0aroom00struct:
 	.db $b5
 	.db $01
 	.dw group0aroom00layout
-	.db $0a $c3 $36
-	.db $09 $86 $a2
+	.db ENTID_HOUSES_PACING_OLD_MAN $c3 $36
+	.db ENTID_HOUSES_NINJA $86 $a2
 	.db $ff
 
 group0aroom01struct:
@@ -1000,9 +1000,9 @@ group0aroom01struct:
 	.db $b5
 	.db $01
 	.dw group0aroom01layout
-	.db $09 $89 $54
-	.db $09 $86 $96
-	.db $0a $c3 $e6
+	.db ENTID_HOUSES_NINJA $89 $54
+	.db ENTID_HOUSES_NINJA $86 $96
+	.db ENTID_HOUSES_PACING_OLD_MAN $c3 $e6
 	.db $ff
 
 group0aroom02struct:
@@ -1010,8 +1010,8 @@ group0aroom02struct:
 	.db $b5
 	.db $01
 	.dw group0aroom02layout
-	.db $09 $83 $74
-	.db $09 $89 $c7
+	.db ENTID_HOUSES_NINJA $83 $74
+	.db ENTID_HOUSES_NINJA $89 $c7
 	.db $ff
 
 group0aroom03struct:
@@ -1019,7 +1019,7 @@ group0aroom03struct:
 	.db $b5
 	.db $01
 	.dw group0aroom03layout
-	.db $0a $c3 $86
+	.db ENTID_HOUSES_PACING_OLD_MAN $c3 $86
 	.db $ff
 
 group0aroom04struct:
@@ -1030,42 +1030,42 @@ group0aroom04struct:
 	.db $65 $85 $0f $00 $04 $60 $90
 	.db $e0 $91 $02 $04 $03 $e0 $90
 	.db $ff
-	.db $09 $86 $c2
-	.db $08 $80 $47
+	.db ENTID_HOUSES_NINJA $86 $c2
+	.db ENTID_HOUSES_GRAFFITI_GUY $80 $47
 	.db $ff
 
 group0aroom05struct:
 	.db $30
 	.db $01
 	.dw group0aroom05layout
-	.db $0b $80 $05
-	.db $0b $89 $f2
+	.db ENTID_HOUSES_DRIVER_SPAWNER $80 $05
+	.db ENTID_HOUSES_DRIVER_SPAWNER $89 $f2
 	.db $ff
 
 group0aroom06struct:
 	.db $30
 	.db $01
 	.dw group0aroom06layout
-	.db $0b $80 $05
-	.db $0b $89 $f2
-	.db $09 $c9 $77
+	.db ENTID_HOUSES_DRIVER_SPAWNER $80 $05
+	.db ENTID_HOUSES_DRIVER_SPAWNER $89 $f2
+	.db ENTID_HOUSES_NINJA $c9 $77
 	.db $ff
 
 group0aroom07struct:
 	.db $30
 	.db $01
 	.dw group0aroom07layout
-	.db $0b $80 $05
-	.db $0b $89 $f2
-	.db $09 $80 $79
+	.db ENTID_HOUSES_DRIVER_SPAWNER $80 $05
+	.db ENTID_HOUSES_DRIVER_SPAWNER $89 $f2
+	.db ENTID_HOUSES_NINJA $80 $79
 	.db $ff
 
 group0aroom08struct:
 	.db $30
 	.db $01
 	.dw group0aroom08layout
-	.db $0b $80 $05
-	.db $0b $89 $f2
+	.db ENTID_HOUSES_DRIVER_SPAWNER $80 $05
+	.db ENTID_HOUSES_DRIVER_SPAWNER $89 $f2
 	.db $ff
 
 group0aroom09struct:
@@ -1082,7 +1082,7 @@ group0aroom0astruct:
 	.dw group0aroom0alayout
 	.db $07 $00 $01 $04 $03 $e0 $70
 	.db $ff
-	.db $0a $c3 $53
+	.db ENTID_HOUSES_PACING_OLD_MAN $c3 $53
 	.db $ff
 
 group0aroom0bstruct:
@@ -1091,8 +1091,8 @@ group0aroom0bstruct:
 	.dw group0aroom0blayout
 	.db $54 $85 $0f $00 $00 $a0 $80
 	.db $ff
-	.db $08 $86 $83
-	.db $08 $89 $89
+	.db ENTID_HOUSES_GRAFFITI_GUY $86 $83
+	.db ENTID_HOUSES_GRAFFITI_GUY $89 $89
 	.db $ff
 
 group0aroom0cstruct:
@@ -1101,7 +1101,7 @@ group0aroom0cstruct:
 	.dw group0aroom0clayout
 	.db $8a $00 $0d $03 $00 $80 $10
 	.db $ff
-	.db $08 $c3 $83
+	.db ENTID_HOUSES_GRAFFITI_GUY $c3 $83
 	.db ENTID_MISC_NPC $80 $48
 	.db $ff
 
@@ -1109,9 +1109,9 @@ group0aroom0dstruct:
 	.db $30
 	.db $01
 	.dw group0aroom0dlayout
-	.db $08 $80 $74
-	.db $08 $86 $b7
-	.db $08 $89 $59
+	.db ENTID_HOUSES_GRAFFITI_GUY $80 $74
+	.db ENTID_HOUSES_GRAFFITI_GUY $86 $b7
+	.db ENTID_HOUSES_GRAFFITI_GUY $89 $59
 	.db $ff
 
 group0aroom0estruct:
@@ -1125,8 +1125,8 @@ group0aroom12struct:
 	.dw group0aroom12layout
 	.db $78 $e5 $1c $01 $02 $78 $90
 	.db $ff
-	.db $08 $86 $45
-	.db $08 $83 $b7
+	.db ENTID_HOUSES_GRAFFITI_GUY $86 $45
+	.db ENTID_HOUSES_GRAFFITI_GUY $83 $b7
 	.db $ff
 
 group0aroom13struct:
@@ -1141,7 +1141,7 @@ group0aroom17struct:
 	.db $30
 	.db $01
 	.dw group0aroom17layout
-	.db $08 $80 $22
+	.db ENTID_HOUSES_GRAFFITI_GUY $80 $22
 	.db $ff
 
 group0aroom18struct:
@@ -1150,8 +1150,8 @@ group0aroom18struct:
 	.dw group0aroom18layout
 	.db $c7 $8d $0f $03 $02 $d0 $80
 	.db $ff
-	.db $09 $86 $55
-	.db $08 $86 $73
+	.db ENTID_HOUSES_NINJA $86 $55
+	.db ENTID_HOUSES_GRAFFITI_GUY $86 $73
 	.db $ff
 
 group09room00struct:
@@ -1580,18 +1580,18 @@ group08room00struct:
 	.db $1b $00
 	.db $08
 	.dw group08room00layout
-	.db $29 $86 $18
-	.db $29 $c0 $48
-	.db $29 $86 $e3
+	.db ENTID_HOTELS_ALCOHOLIC $86 $18
+	.db ENTID_HOTELS_ALCOHOLIC $c0 $48
+	.db ENTID_HOTELS_ALCOHOLIC $86 $e3
 	.db $ff
 
 group08room01struct:
 	.db $30
 	.db $08
 	.dw group08room01layout
-	.db $29 $86 $15
-	.db $29 $86 $a8
-	.db $29 $c9 $d8
+	.db ENTID_HOTELS_ALCOHOLIC $86 $15
+	.db ENTID_HOTELS_ALCOHOLIC $86 $a8
+	.db ENTID_HOTELS_ALCOHOLIC $c9 $d8
 	.db $ff
 
 group08room02struct:
@@ -1610,7 +1610,7 @@ group08room03struct:
 	.dw group08room03layout
 	.db $07 $00 $07 $02 $04 $e0 $70
 	.db $ff
-	.db $28 $c0 $77
+	.db ENTID_HOTELS_BIKER $c0 $77
 	.db $ff
 
 group08room04struct:
@@ -1621,8 +1621,8 @@ group08room04struct:
 	.dw group08room04layout
 	.db $54 $8d $0f $04 $02 $30 $10
 	.db $ff
-	.db $28 $80 $71
-	.db $28 $86 $35
+	.db ENTID_HOTELS_BIKER $80 $71
+	.db ENTID_HOTELS_BIKER $86 $35
 	.db ENTID_HEART_CONTAINER $80 $93
 	.db $ff
 
@@ -1630,8 +1630,8 @@ group08room05struct:
 	.db $30
 	.db $08
 	.dw group08room05layout
-	.db $28 $83 $d6
-	.db $28 $86 $e2
+	.db ENTID_HOTELS_BIKER $83 $d6
+	.db ENTID_HOTELS_BIKER $86 $e2
 	.db $ff
 
 group08room06struct:
@@ -1641,10 +1641,10 @@ group08room06struct:
 	.dw group08room06layout
 	.db $36 $8d $1c $02 $04 $78 $90
 	.db $ff
-	.db $2c $89 $d5
-	.db $2c $80 $15
-	.db $2a $86 $36
-	.db $2b $86 $37
+	.db ENTID_HOTELS_BIKER_THIN_CAR_PATH $89 $d5
+	.db ENTID_HOTELS_BIKER_THIN_CAR_PATH $80 $15
+	.db ENTID_HOTELS_DISAPPEARING_CAR_1 $86 $36
+	.db ENTID_HOTELS_DISAPPEARING_CAR_2 $86 $37
 	.db ENTID_MISC_NPC $82 $88
 	.db $ff
 
@@ -1652,7 +1652,7 @@ group08room07struct:
 	.db $30
 	.db $08
 	.dw group08room07layout
-	.db $28 $86 $e2
+	.db ENTID_HOTELS_BIKER $86 $e2
 	.db $ff
 
 group08room08struct:
@@ -1662,16 +1662,16 @@ group08room08struct:
 	.dw group08room08layout
 	.db $f7 $00 $0c $03 $01 $10 $70
 	.db $ff
-	.db $28 $86 $26
-	.db $28 $86 $c3
+	.db ENTID_HOTELS_BIKER $86 $26
+	.db ENTID_HOTELS_BIKER $86 $c3
 	.db $ff
 
 group08room09struct:
 	.db $30
 	.db $08
 	.dw group08room09layout
-	.db $28 $83 $d8
-	.db $28 $c0 $45
+	.db ENTID_HOTELS_BIKER $83 $d8
+	.db ENTID_HOTELS_BIKER $c0 $45
 	.db $ff
 
 group08room0astruct:
@@ -1681,9 +1681,9 @@ group08room0astruct:
 	.dw group08room0alayout
 	.db $67 $84 $0f $04 $04 $50 $90
 	.db $ff
-	.db $28 $c0 $a7
-	.db $28 $83 $35
-	.db $28 $89 $49
+	.db ENTID_HOTELS_BIKER $c0 $a7
+	.db ENTID_HOTELS_BIKER $83 $35
+	.db ENTID_HOTELS_BIKER $89 $49
 	.db $ff
 
 group08room0bstruct:
@@ -1692,7 +1692,7 @@ group08room0bstruct:
 	.dw group08room0blayout
 	.db $75 $84 $1c $00 $03 $78 $90
 	.db $ff
-	.db $28 $c9 $b5
+	.db ENTID_HOTELS_BIKER $c9 $b5
 	.db $ff
 
 group09room0fstruct:
@@ -1829,9 +1829,9 @@ group0froom00struct:
 	.dw group0froom00layout
 	.db $98 $84 $0a $01 $02 $50 $48
 	.db $ff
-	.db $45 $80 $57
-	.db $45 $80 $83
-	.db $45 $80 $a3
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $57
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $83
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $a3
 	.db ENTID_HEART_CONTAINER $80 $c3
 	.db $ff
 
@@ -1859,12 +1859,12 @@ group0froom0fstruct:
 	.dw group0froom0flayout
 	.db $0f $25
 	.db $ff
-	.db $45 $80 $22
-	.db $45 $80 $62
-	.db $45 $80 $37
-	.db $45 $80 $57
-	.db $45 $80 $b8
-	.db $45 $80 $c5
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $22
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $62
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $37
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $57
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $b8
+	.db ENTID_HOUSES_STATIC_BALLOON $80 $c5
 	.db $ff
 
 group0froom10struct:
@@ -1917,8 +1917,8 @@ group0froom04struct:
 	.db $02 $00 $0c $02 $04 $10 $30
 	.db $f2 $00 $0c $02 $04 $d0 $30
 	.db $ff
-	.db $43 $80 $64
-	.db $43 $89 $99
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $80 $64
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $89 $99
 	.db $ff
 
 group0froom09struct:
@@ -1927,10 +1927,10 @@ group0froom09struct:
 	.dw group0froom09layout
 	.db $09 $85 $1c $01 $03 $78 $90
 	.db $ff
-	.db $43 $80 $a4
-	.db $43 $89 $b9
-	.db $43 $89 $35
-	.db $43 $80 $32
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $80 $a4
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $89 $b9
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $89 $35
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $80 $32
 	.db $ff
 
 group0froom0astruct:
@@ -1966,9 +1966,9 @@ group12room00struct:
 	.db $8a $3f $0a $04 $03 $78 $88
 	.db $9a $3f $0a $04 $03 $78 $88
 	.db $ff
-	.db $83 $00 $78 $60
-	.db $48 $00 $61 $31
-	.db $48 $00 $91 $31
+	.db ENTID_CHURCH_TIPS $00 $78 $60
+	.db ENTID_CHURCH_FLAMES $00 $61 $31
+	.db ENTID_CHURCH_FLAMES $00 $91 $31
 	.db $ff
 
 group0froom18struct:
@@ -1979,7 +1979,7 @@ group0froom18struct:
 	.dw group0froom18layout
 	.db $5a $9d $08 $01 $03 $60 $78
 	.db $ff
-	.db $43 $09 $88 $38
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $09 $88 $38
 	.db $ff
 
 group0froom13struct:
@@ -1988,9 +1988,9 @@ group0froom13struct:
 	.db $1b $00
 	.db $db
 	.dw group0froom13layout
-	.db $43 $09 $88 $88
-	.db $44 $09 $b4 $58
-	.db $43 $c9 $92
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $09 $88 $88
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_2 $09 $b4 $58
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $c9 $92
 	.db $ff
 
 group0froom0estruct:
@@ -2001,10 +2001,10 @@ group0froom0estruct:
 	.dw group0froom0elayout
 	.db $30 $9d $08 $01 $01 $50 $28
 	.db $ff
-	.db $43 $09 $a8 $08
-	.db $44 $09 $88 $38
-	.db $43 $c9 $b6
-	.db $44 $09 $88 $98
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $09 $a8 $08
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_2 $09 $88 $38
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_1 $c9 $b6
+	.db ENTID_HOTEL_HIGHRISE_GUNNER_2 $09 $88 $98
 	.db $ff
 
 group0froom14struct:
