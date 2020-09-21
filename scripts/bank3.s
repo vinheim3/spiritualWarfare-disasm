@@ -105,7 +105,7 @@ npc2f_scripts:
 	npc_end
 
 @script_1c_01_04:
-	npc_giveItem ITEMID_07
+	npc_giveItem ITEMID_FOREST_LOG_POMEGRANATE
 	npc_increaseScore SCORE_400
 	npc_call npcHelper_increaseScoreBy80
 	npc_end
@@ -236,13 +236,13 @@ npc32_scripts:
 	.dw @hotelsUnderCar
 
 	.db $1c $01 $03
-	.dw @entry1
+	.dw @underShipyardTunnel
 
 	.db $1b $01 $00
 	.dw @beachFishHouse
 
 	.db $1c $00 $06
-	.dw @entry3
+	.dw @deepInPrison
 
 	.db $ff $ff $ff
 
@@ -251,8 +251,8 @@ npc32_scripts:
 	npc_increaseScore SCORE_100
 	npc_end
 
-@entry1:
-	npc_giveItem ITEMID_11
+@underShipyardTunnel:
+	npc_giveItem ITEMID_SHIPYARD_TUNNEL_BANANA
 	npc_increaseScore SCORE_200
 	npc_end
 
@@ -261,8 +261,8 @@ npc32_scripts:
 	npc_increaseScore SCORE_400
 	npc_end
 
-@entry3:
-	npc_giveItem ITEMID_13
+@deepInPrison:
+	npc_giveItem ITEMID_BANANA_DEEP_IN_PRISON
 	npc_increaseScore SCORE_800
 	npc_end
 
@@ -458,6 +458,9 @@ npc36_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_HELMET_OF_SALVATION
+; ==============================================================================
 npc38_scripts:
 	npc_call data_03_6994
 	npc_set_c059 $ff
@@ -704,6 +707,9 @@ shopTake200birds:
 	npc_loopAboveParamTimes $33, - // $5282
 
 
+; ==============================================================================
+; ENTID_RAILROAD_TICKET
+; ==============================================================================
 npc15_scripts:
 	npc_jumpIfSpecialBitemGotten SPECIALB_RR_TICKET, _npc_end_03_529a
 	npc_call data_03_6994
@@ -1737,6 +1743,9 @@ func_03_5b39:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_FOREST_DRAGON
+; ==============================================================================
 npc1e_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set7_cb60
@@ -1757,19 +1766,25 @@ npc1e_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_FOREST_ARCHER
+; ==============================================================================
 npc10_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $02
 	npc_res4_cb60
-	.db $11
+	npc_facePlayerVertically
 	npc_moveByParamPixels $10
 	npc_facePlayerHorizontally
 	npc_moveByParamPixels $10
-	npc_setNewNpcID $11
+	npc_setNewNpcID ENTID_FOREST_ARCHER_SHOOTING
 
 
+; ==============================================================================
+; ENTID_FOREST_ARCHER_SHOOTING
+; ==============================================================================
 npc11_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_cb60_low2bitsEquParamMinus1 $02
@@ -1780,9 +1795,12 @@ npc11_scripts:
 	npc_spawnNPCinFrontOfSelf $12
 	npc_callCommonSoundFuncs_6c01 $04 $16
 	npc_wait $28
-	npc_setNewNpcID $10
+	npc_setNewNpcID ENTID_FOREST_ARCHER
 
 
+; ==============================================================================
+; ENTID_FOREST_ARCHER_ARROW
+; ==============================================================================
 npc12_scripts:
 	npc_res4_cb60
 	npc_set2_cbe4
@@ -1793,6 +1811,9 @@ npc12_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_FOREST_BEE_SWARM
+; ==============================================================================
 npc4e_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set3_cb60
@@ -1806,7 +1827,7 @@ npc4e_scripts:
 -
 	npc_facePlayerHorizontally
 	npc_moveByParamPixels $04
-	.db $11
+	npc_facePlayerVertically
 	npc_moveByParamPixels $04
 	npc_loopAboveParamTimes $05, -
 	npc_callCommonSoundFuncs_6c01 $0d $16
@@ -1814,6 +1835,9 @@ npc4e_scripts:
 
 
 
+; ==============================================================================
+; ENTID_FOREST_SLOW_AXEMAN
+; ==============================================================================
 npc13_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_setDamageTaken $04
@@ -1822,7 +1846,7 @@ npc13_scripts:
 	npc_wait $0a
 -
 	npc_moveByParamPixels $80
-	.db $17
+	npc_moveNPCturnBackIfCant
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_setMovementSpeed $02
 	npc_jump -
@@ -1839,6 +1863,9 @@ npc13_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_FOREST_CHIMNEY_SMOKE
+; ==============================================================================
 npc14_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_cb60_low2bitsEquParamMinus1 $03
@@ -1849,6 +1876,9 @@ npc14_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_FOREST_CLUBMAN
+; ==============================================================================
 npc1f_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -1856,8 +1886,8 @@ npc1f_scripts:
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $04
 -
-	.db $12
-	.db $13
+	npc_moveToPlayersXandFacePlayerHorizontally
+	npc_moveToPlayersYandFacePlayerVertically
 	npc_jump -
 
 
@@ -2360,6 +2390,7 @@ npc5a_scripts:
 
 
 ; ==============================================================================
+; ENTID_FOREST_CABIN_FIREPLACE
 ; ENTID_CHURCH_FLAMES
 ; ==============================================================================
 npc47_scripts:
@@ -2850,19 +2881,19 @@ npc2d_scripts:
 	.dw @hotelsBottomRight
 
 	.db $1c $01 $03
-	.dw @entryA
+	.dw @underShipyardTunnel
 
 	.db $1c $02 $03
 	.dw @portBottomLeftWithPear
 
 	.db $1c $00 $05
-	.dw @entryC
+	.dw @afterForestCherryBoss
 
 	.db $1c $00 $04
 	.dw @forestTopRight
 
 	.db $1c $01 $04
-	.dw @entryE
+	.dw @forestInLog
 
 	.db $1c $02 $04
 	.dw @hotelsUnderCar
@@ -2871,7 +2902,7 @@ npc2d_scripts:
 	.dw @entry10
 
 	.db $1c $00 $06
-	.dw @entry11
+	.dw @deepInPrison
 
 	.db $1c $01 $06
 	.dw @prisonTopRight
@@ -2987,8 +3018,8 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_HOTELS_BOTTOM_RIGHT_GRAPES, _showText_roomEmpty_clear_c059
 	npc_jump @func_62a8
 
-@entryA:
-	npc_jumpIfItemGotten ITEMID_11, _showText_roomEmpty_clear_c059
+@underShipyardTunnel:
+	npc_jumpIfItemGotten ITEMID_SHIPYARD_TUNNEL_BANANA, _showText_roomEmpty_clear_c059
 
 @func_62dd:
 	npc_set_c059 $ff
@@ -3009,12 +3040,12 @@ npc2d_scripts:
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump @emptyRoom
 
-@entryC:
+@afterForestCherryBoss:
 	npc_jumpIfArmorOfGodGotten AOG_HELM, +
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6789
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC $38 $78 $6c
+	npc_spawnNPC ENTID_HELMET_OF_SALVATION $78 $6c
 	npc_jump @emptyRoom
 +
 	npc_startScrollingText text_03_6832
@@ -3024,8 +3055,8 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_FOREST_TOP_RIGHT_APPLE, _showText_roomEmpty_clear_c059
 	npc_jump @func_6219
 
-@entryE:
-	npc_jumpIfItemGotten ITEMID_07, _showText_roomEmpty_clear_c059
+@forestInLog:
+	npc_jumpIfItemGotten ITEMID_FOREST_LOG_POMEGRANATE, _showText_roomEmpty_clear_c059
 	npc_jump @func_62bf
 
 @hotelsUnderCar:
@@ -3033,7 +3064,7 @@ npc2d_scripts:
 	npc_jump @func_62dd
 
 @entry10:
-	npc_jumpIfSpecialBitemGotten $02, _showText_roomEmpty_clear_c059
+	npc_jumpIfSpecialBitemGotten SPECIALB_JAWBONE, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_67ca
 	npc_startScrollingText text_7f_03_63aa
@@ -3041,8 +3072,8 @@ npc2d_scripts:
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump @emptyRoom
 
-@entry11:
-	npc_jumpIfItemGotten ITEMID_13, _showText_roomEmpty_clear_c059
+@deepInPrison:
+	npc_jumpIfItemGotten ITEMID_BANANA_DEEP_IN_PRISON, _showText_roomEmpty_clear_c059
 	npc_jump @func_62dd
 
 @prisonTopRight:

@@ -420,7 +420,7 @@ loadRoomStructData:
 	ld   a, (hl)                                     ; $02f5: $7e
 	and  $10                                         ; $02f6: $e6 $10
 // has to do with oam
-	ld   hl, wSecondRoomStructByteBit4                                   ; $02f8: $21 $90 $c0
+	ld   hl, wIsPlatformingLikeRoom                                   ; $02f8: $21 $90 $c0
 	ld   (hl), a                                     ; $02fb: $77
 
 // 2nd byte's low nybble x2 in wTilesetIdx

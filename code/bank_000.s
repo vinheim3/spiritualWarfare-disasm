@@ -1,18 +1,18 @@
 
 begin:
 	ld   sp, wStackTop
-	ld   hl, wLCDCvalue                                   ; $094e: $21 $00 $d0
-	ld   a, $81                                      ; $0951: $3e $81
-	ld   (hl), a                                     ; $0953: $77
-	call turnOffLCDstartOfVBlank                               ; $0954: $cd $0a $02
-	call setScrollValues                               ; $0957: $cd $f1 $1d
-	ld   hl, rBGP                                   ; $095a: $21 $47 $ff
-	ld   (hl), $e4                                   ; $095d: $36 $e4
-	ld   hl, wScreen0displayOffset                                   ; $095f: $21 $dc $c6
-	ld   (hl), $00                                   ; $0962: $36 $00
+	ld   hl, wLCDCvalue
+	ld   a, $81
+	ld   (hl), a
+	call turnOffLCDstartOfVBlank
+	call setScrollValues
+	ld   hl, rBGP
+	ld   (hl), $e4
+	ld   hl, wScreen0displayOffset
+	ld   (hl), $00
 	ld   hl, $c04e                                   ; $0964: $21 $4e $c0
 	ld   (hl), $00                                   ; $0967: $36 $00
-	ld   hl, $d400                                   ; $0969: $21 $00 $d4
+	ld   hl, wIsTitleScreen                                   ; $0969: $21 $00 $d4
 	ld   (hl), $00                                   ; $096c: $36 $00
 	call callCommonSoundFunc1_withFF                               ; $096e: $cd $32 $15
 	ld   hl, lyt_introTradeMarkScreen                                   ; $0971: $21 $80 $19
@@ -52,7 +52,7 @@ increaseScore0bytes:
 
 // idx determines the rightmost of 4 bytes to add to score
 increaseScoreAdditions:
-	.db $01
+	.db             $01
 	.db $00 $00 $01 $00
 	.db $00 $01 $00 $00
 	.db $00 $02 $00 $00
@@ -288,7 +288,7 @@ startTitleScreen:
 	call clearScreen0                                       ; $0b98: $cd $8e $5b
 	ld   hl, lyt_03_1815                                   ; $0b9b: $21 $15 $18
 	call copyLayoutFromBank3toScreen0withOffset                               ; $0b9e: $cd $37 $15
-	call Call_000_170b                               ; $0ba1: $cd $0b $17
+	call loadTileset1dh_sprites1ch                               ; $0ba1: $cd $0b $17
 	call changeMusicOnTextAndPlaySound                               ; $0ba4: $cd $50 $0c
 	call clear_c200_to_c2ff                                       ; $0ba7: $cd $9e $5b
 	call copyA0hDataToOam                               ; $0baa: $cd $99 $1a
@@ -322,10 +322,10 @@ startTitleScreen:
 	ld   a, $3c                                      ; $0be9: $3e $3c
 	ld   hl, $c00b                                   ; $0beb: $21 $0b $c0
 	ld   (hl), a                                     ; $0bee: $77
-	ld   hl, $d400                                   ; $0bef: $21 $00 $d4
+	ld   hl, wIsTitleScreen                                   ; $0bef: $21 $00 $d4
 	ld   (hl), $ff                                   ; $0bf2: $36 $ff
 	call Call_000_0c6f                               ; $0bf4: $cd $6f $0c
-	ld   hl, $d400                                   ; $0bf7: $21 $00 $d4
+	ld   hl, wIsTitleScreen                                   ; $0bf7: $21 $00 $d4
 	ld   (hl), $00                                   ; $0bfa: $36 $00
 	ld   hl, $c00c                                   ; $0bfc: $21 $0c $c0
 	ld   a, (hl)                                     ; $0bff: $7e
@@ -876,7 +876,7 @@ Jump_000_0e74:
 	ld   a, (hl)                                     ; $0ec5: $7e
 	ld   c, a                                        ; $0ec6: $4f
 	ld   b, $00                                      ; $0ec7: $06 $00
-	call Call_000_1059                               ; $0ec9: $cd $59 $10
+	call sendTowOamCursorXequC_YequE                               ; $0ec9: $cd $59 $10
 
 Jump_000_0ecc:
 	ld   e, $00                                      ; $0ecc: $1e $00
@@ -1129,7 +1129,7 @@ jr_000_0ff2:
 
 Jump_000_1009:
 jr_000_1009:
-	call Call_000_284f                               ; $1009: $cd $4f $28
+	call callsCommonSoundFuncs_284f                               ; $1009: $cd $4f $28
 	call turnOffLCDstartOfVBlank                               ; $100c: $cd $0a $02
 	jp   Jump_000_0e24                               ; $100f: $c3 $24 $0e
 
@@ -1138,12 +1138,12 @@ Call_000_1012:
 	ld   a, $08                                      ; $1012: $3e $08
 	ld   hl, $c097                                   ; $1014: $21 $97 $c0
 	ld   (hl), a                                     ; $1017: $77
-	ld   hl, $c0f8                                   ; $1018: $21 $f8 $c0
+	ld   hl, wIsSecretPlayerName                                   ; $1018: $21 $f8 $c0
 	ld   (hl), $00                                   ; $101b: $36 $00
 	call Call_000_0de1                               ; $101d: $cd $e1 $0d
 	ld   bc, $0000                                   ; $1020: $01 $00 $00
 
-jr_000_1023:
+@copyIntoPlayerName:
 	ld   hl, $c4e0                                   ; $1023: $21 $e0 $c4
 	add  hl, bc                                      ; $1026: $09
 	ld   a, (hl)                                     ; $1027: $7e
@@ -1154,105 +1154,108 @@ jr_000_1023:
 	inc  bc                                          ; $102f: $03
 	ld   a, c                                        ; $1030: $79
 	cp   $08                                         ; $1031: $fe $08
-	jr   nz, jr_000_1023                             ; $1033: $20 $ee
+	jr   nz, @copyIntoPlayerName                             ; $1033: $20 $ee
 
+// check secret player name
 	ld   bc, $0000                                   ; $1035: $01 $00 $00
 
-jr_000_1038:
-	ld   hl, wPlayerName                                   ; $1038: $21 $49 $c6
-	add  hl, bc                                      ; $103b: $09
-	ld   a, (hl)                                     ; $103c: $7e
-	ld   hl, data_1051                                   ; $103d: $21 $51 $10
-	add  hl, bc                                      ; $1040: $09
-	cp   (hl)                                        ; $1041: $be
-	jr   nz, @done                             ; $1042: $20 $0c
+@nextLetter:
+	ld   hl, wPlayerName
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, @secretPlayerName
+	add  hl, bc
+	cp   (hl)
+	jr   nz, @done
 
-	inc  bc                                          ; $1044: $03
-	ld   a, c                                        ; $1045: $79
-	cp   $08                                         ; $1046: $fe $08
-	jr   nz, jr_000_1038                             ; $1048: $20 $ee
+	inc  bc
+	ld   a, c
+	cp   $08
+	jr   nz, @nextLetter
 
-	ld   a, $06                                      ; $104a: $3e $06
-	ld   hl, $c0f8                                   ; $104c: $21 $f8 $c0
-	ld   (hl), a                                     ; $104f: $77
+	ld   a, $06
+	ld   hl, wIsSecretPlayerName
+	ld   (hl), a
 
 @done:
-	ret                                              ; $1050: $c9
+	ret
+
+@secretPlayerName:
+	// TeStRoOm
+	.db $1d $28 $1c $37 $1b $32 $18 $30
 
 
-data_1051:
-	dec  e                                           ; $1051: $1d
-	.db $28 $1c
+sendTowOamCursorXequC_YequE:
+// tile x
+	ld   a, c
+	sub  $0c
+	ld   hl, wOam+5
+	ld   (hl), a
+	ld   hl, wOam+17
+	ld   (hl), a
+	add  $08
+	ld   hl, wOam+9
+	ld   (hl), a
+	ld   hl, wOam+21
+	ld   (hl), a
+	add  $08
+	ld   hl, wOam+13
+	ld   (hl), a
+	ld   hl, wOam+25
+	ld   (hl), a
 
-	scf                                              ; $1054: $37
-	dec  de                                          ; $1055: $1b
-	ldd  (hl), a                                     ; $1056: $32
-	.db $18 $30
+// tile y
+	ld   a, e
+	sub  $0d
+	ld   hl, wOam+4
+	ld   (hl), a
+	ld   hl, wOam+8
+	ld   (hl), a
+	ld   hl, wOam+12
+	ld   (hl), a
+	add  $10
+	ld   hl, wOam+16
+	ld   (hl), a
+	ld   hl, wOam+20
+	ld   (hl), a
+	ld   hl, wOam+24
+	ld   (hl), a
 
-Call_000_1059:
-	ld   a, c                                        ; $1059: $79
-	sub  $0c                                         ; $105a: $d6 $0c
-	ld   hl, wOam+5                                   ; $105c: $21 $05 $c2
-	ld   (hl), a                                     ; $105f: $77
-	ld   hl, $c211                                   ; $1060: $21 $11 $c2
-	ld   (hl), a                                     ; $1063: $77
-	add  $08                                         ; $1064: $c6 $08
-	ld   hl, wOam+9                                   ; $1066: $21 $09 $c2
-	ld   (hl), a                                     ; $1069: $77
-	ld   hl, $c215                                   ; $106a: $21 $15 $c2
-	ld   (hl), a                                     ; $106d: $77
-	add  $08                                         ; $106e: $c6 $08
-	ld   hl, wOam+$d                                   ; $1070: $21 $0d $c2
-	ld   (hl), a                                     ; $1073: $77
-	ld   hl, $c219                                   ; $1074: $21 $19 $c2
-	ld   (hl), a                                     ; $1077: $77
-	ld   a, e                                        ; $1078: $7b
-	sub  $0d                                         ; $1079: $d6 $0d
-	ld   hl, wOam+4                                   ; $107b: $21 $04 $c2
-	ld   (hl), a                                     ; $107e: $77
-	ld   hl, wOam+8                                   ; $107f: $21 $08 $c2
-	ld   (hl), a                                     ; $1082: $77
-	ld   hl, wOam+$c                                   ; $1083: $21 $0c $c2
-	ld   (hl), a                                     ; $1086: $77
-	add  $10                                         ; $1087: $c6 $10
-	ld   hl, $c210                                   ; $1089: $21 $10 $c2
-	ld   (hl), a                                     ; $108c: $77
-	ld   hl, $c214                                   ; $108d: $21 $14 $c2
-	ld   (hl), a                                     ; $1090: $77
-	ld   hl, $c218                                   ; $1091: $21 $18 $c2
-	ld   (hl), a                                     ; $1094: $77
-	ld   a, $10                                      ; $1095: $3e $10
-	ld   hl, wOam+7                                   ; $1097: $21 $07 $c2
-	ld   (hl), a                                     ; $109a: $77
-	ld   hl, wOam+$b                                   ; $109b: $21 $0b $c2
-	ld   (hl), a                                     ; $109e: $77
-	ld   hl, wOam+$f                                   ; $109f: $21 $0f $c2
-	ld   (hl), a                                     ; $10a2: $77
-	ld   hl, $c213                                   ; $10a3: $21 $13 $c2
-	ld   (hl), a                                     ; $10a6: $77
-	ld   hl, $c217                                   ; $10a7: $21 $17 $c2
-	ld   (hl), a                                     ; $10aa: $77
-	ld   hl, $c21b                                   ; $10ab: $21 $1b $c2
-	ld   (hl), a                                     ; $10ae: $77
-	ld   a, $ae                                      ; $10af: $3e $ae
-	ld   hl, wOam+6                                   ; $10b1: $21 $06 $c2
-	ld   (hl), a                                     ; $10b4: $77
-	ld   a, $7c                                      ; $10b5: $3e $7c
-	ld   hl, wOam+$a                                   ; $10b7: $21 $0a $c2
-	ld   (hl), a                                     ; $10ba: $77
-	ld   a, $7e                                      ; $10bb: $3e $7e
-	ld   hl, wOam+$e                                   ; $10bd: $21 $0e $c2
-	ld   (hl), a                                     ; $10c0: $77
-	ld   a, $a8                                      ; $10c1: $3e $a8
-	ld   hl, $c212                                   ; $10c3: $21 $12 $c2
-	ld   (hl), a                                     ; $10c6: $77
-	ld   a, $aa                                      ; $10c7: $3e $aa
-	ld   hl, $c216                                   ; $10c9: $21 $16 $c2
-	ld   (hl), a                                     ; $10cc: $77
-	ld   a, $ac                                      ; $10cd: $3e $ac
-	ld   hl, $c21a                                   ; $10cf: $21 $1a $c2
-	ld   (hl), a                                     ; $10d2: $77
-	ret                                              ; $10d3: $c9
+// attributes - use OBP1 (flashing)
+	ld   a, $10
+	ld   hl, wOam+7
+	ld   (hl), a
+	ld   hl, wOam+11
+	ld   (hl), a
+	ld   hl, wOam+15
+	ld   (hl), a
+	ld   hl, wOam+19
+	ld   (hl), a
+	ld   hl, wOam+23
+	ld   (hl), a
+	ld   hl, wOam+27
+	ld   (hl), a
+
+// cursor tiles
+	ld   a, $ae
+	ld   hl, wOam+6
+	ld   (hl), a
+	ld   a, $7c
+	ld   hl, wOam+10
+	ld   (hl), a
+	ld   a, $7e
+	ld   hl, wOam+14
+	ld   (hl), a
+	ld   a, $a8
+	ld   hl, wOam+18
+	ld   (hl), a
+	ld   a, $aa
+	ld   hl, wOam+22
+	ld   (hl), a
+	ld   a, $ac
+	ld   hl, wOam+26
+	ld   (hl), a
+	ret
 
 
 processCorrectPassword:
@@ -1280,7 +1283,7 @@ processCorrectPassword:
 
 	ld   hl, $c4e8                                   ; $10f4: $21 $e8 $c4
 	ld   a, (hl)                                     ; $10f7: $7e
-	ld   hl, $c715                                   ; $10f8: $21 $15 $c7
+	ld   hl, wLastReviveRoomGroup                                   ; $10f8: $21 $15 $c7
 	ld   (hl), a                                     ; $10fb: $77
 	call setRevivePointInRoomGroup                               ; $10fc: $cd $96 $19
 	ld   hl, $c4e9                                   ; $10ff: $21 $e9 $c4
@@ -1427,7 +1430,7 @@ generatePassword:
 	cp   $08                                         ; $11f0: $fe $08
 	jr   nz, -                             ; $11f2: $20 $e5
 
-	ld   hl, $c715                                   ; $11f4: $21 $15 $c7
+	ld   hl, wLastReviveRoomGroup                                   ; $11f4: $21 $15 $c7
 	ld   a, (hl)                                     ; $11f7: $7e
 	ld   hl, $c4e8                                   ; $11f8: $21 $e8 $c4
 	ld   (hl), a                                     ; $11fb: $77
@@ -1648,7 +1651,7 @@ musicTestScreen:
 	ld   a, $00                                      ; $13ad: $3e $00
 	ld   hl, $c097                                   ; $13af: $21 $97 $c0
 	ld   (hl), a                                     ; $13b2: $77
-	ld   hl, $c711                                   ; $13b3: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $13b3: $21 $11 $c7
 	ld   (hl), a                                     ; $13b6: $77
 	ld   hl, $c009                                   ; $13b7: $21 $09 $c0
 	ld   (hl), a                                     ; $13ba: $77
@@ -1684,10 +1687,10 @@ musicTestScreen:
 	jr   nz, @gt1                             ; $13eb: $20 $0d
 
 // speed change
-	ld   hl, $c711                                   ; $13ed: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $13ed: $21 $11 $c7
 	ld   a, (hl)                                     ; $13f0: $7e
 	xor  $ff                                         ; $13f1: $ee $ff
-	ld   hl, $c711                                   ; $13f3: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $13f3: $21 $11 $c7
 	ld   (hl), a                                     ; $13f6: $77
 	jp   @mainLoop                               ; $13f7: $c3 $11 $14
 
@@ -1713,7 +1716,7 @@ musicTestScreen:
 @mainLoop:
 	call drawFullMusicTestScreen                               ; $1411: $cd $50 $14
 	call callCommonSoundFunc1_3times                               ; $1414: $cd $d7 $14
-	ld   hl, $c711                                   ; $1417: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $1417: $21 $11 $c7
 	ld   a, (hl)                                     ; $141a: $7e
 	ld   hl, $c72a                                   ; $141b: $21 $2a $c7
 	ld   (hl), a                                     ; $141e: $77
@@ -1834,15 +1837,15 @@ func_14a9
 
 
 callCommonSoundFunc0_3times:
-	ld   bc, data_61cc
+	ld   bc, soundData_61cc
 	ld   a, $00                                      ; $14c2: $3e $00
 	call callCommonSoundFunc0_14e6                               ; $14c4: $cd $e6 $14
 
-	ld   bc, data_61d8                                   ; $14c7: $01 $d8 $61
+	ld   bc, soundData_61d8                                   ; $14c7: $01 $d8 $61
 	ld   a, $01                                      ; $14ca: $3e $01
 	call callCommonSoundFunc0_14e6                               ; $14cc: $cd $e6 $14
 
-	ld   bc, data_61e4                                   ; $14cf: $01 $e4 $61
+	ld   bc, soundData_61e4                                   ; $14cf: $01 $e4 $61
 	ld   a, $02                                      ; $14d2: $3e $02
 	jp   callCommonSoundFunc0_14e6                               ; $14d4: $c3 $e6 $14
 
@@ -1886,7 +1889,7 @@ callCommonSoundFuncs_1507:
 	sla  a                                           ; $1507: $cb $27
 	ld   c, a                                        ; $1509: $4f
 	ld   b, $00                                      ; $150a: $06 $00
-	ld   hl, data_61f0                                   ; $150c: $21 $f0 $61
+	ld   hl, soundData_61f0                                   ; $150c: $21 $f0 $61
 	add  hl, bc                                      ; $150f: $09
 	ld   e, (hl)                                     ; $1510: $5e
 	inc  hl                                          ; $1511: $23
@@ -1955,7 +1958,7 @@ initData:
 
 initGame:
 	call clear_c200_to_c2ff
-	ld   hl, $c0f8                                   ; $1568: $21 $f8 $c0
+	ld   hl, wIsSecretPlayerName                                   ; $1568: $21 $f8 $c0
 	ld   c, (hl)                                     ; $156b: $4e
 	ld   b, $00                                      ; $156c: $06 $00
 	ld   hl, initData                                   ; $156e: $21 $59 $15
@@ -1986,7 +1989,7 @@ initGame:
 	ld   hl, initData+5                                   ; $159b: $21 $5e $15
 	add  hl, bc                                      ; $159e: $09
 	ld   a, (hl)                                     ; $159f: $7e
-	ld   hl, $c6df                                   ; $15a0: $21 $df $c6
+	ld   hl, wPlayerStartingDirection                                   ; $15a0: $21 $df $c6
 	ld   (hl), a                                     ; $15a3: $77
 
 	ld   a, $00                                      ; $15a4: $3e $00
@@ -2041,10 +2044,10 @@ postInitGame:
 
 // after continuing after dying?
 postInitGame2:
-	ld   hl, $c6df                                   ; $15fc: $21 $df $c6
+	ld   hl, wPlayerStartingDirection                                   ; $15fc: $21 $df $c6
 	ld   a, (hl)                                     ; $15ff: $7e
 	ld   c, $00                                      ; $1600: $0e $00
-	ld   hl, $c057                                   ; $1602: $21 $57 $c0
+	ld   hl, wPlayerAnimationIdx                                   ; $1602: $21 $57 $c0
 	ld   (hl), c                                     ; $1605: $71
 	cp   $09                                         ; $1606: $fe $09
 	jr   nz, +                             ; $1608: $20 $04
@@ -2056,7 +2059,7 @@ postInitGame2:
 	add  $40                                         ; $160e: $c6 $40
 	ld   hl, $c056                                   ; $1610: $21 $56 $c0
 	ld   (hl), a                                     ; $1613: $77
-	ld   hl, $c055                                   ; $1614: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $1614: $21 $55 $c0
 	ld   (hl), c                                     ; $1617: $71
 	ld   hl, wRoomTransitionType                                   ; $1618: $21 $3a $c0
 	ld   (hl), $0c                                   ; $161b: $36 $0c
@@ -2064,11 +2067,11 @@ postInitGame2:
 	ld   a, $00                                      ; $1620: $3e $00
 	ld   hl, wKeysPressed                                   ; $1622: $21 $16 $c0
 	ld   (hl), a                                     ; $1625: $77
-	ld   hl, wInventoryItemSelectedIdx                                   ; $1626: $21 $48 $c6
+	ld   hl, wInventorySelectedXIdx                                   ; $1626: $21 $48 $c6
 	ld   (hl), a                                     ; $1629: $77
-	ld   hl, $c65f                                   ; $162a: $21 $5f $c6
+	ld   hl, wInventorySelectedYIdx                                   ; $162a: $21 $5f $c6
 	ld   (hl), a                                     ; $162d: $77
-	ld   hl, $c04c                                   ; $162e: $21 $4c $c0
+	ld   hl, wIsEquippingRaft                                   ; $162e: $21 $4c $c0
 	ld   (hl), a                                     ; $1631: $77
 	ld   hl, wCounterSo2ArmorIsAThirdDamageTaken                                   ; $1632: $21 $d9 $c0
 	ld   (hl), a                                     ; $1635: $77
@@ -2087,7 +2090,7 @@ postInitGame2:
 	jr   nc, -                             ; $1651: $30 $fb
 
 	call setScrollValues                               ; $1653: $cd $f1 $1d
-	call Call_000_16ef                               ; $1656: $cd $ef $16
+	call reloadGfxClearLCDScreen_loadTileset1ch                               ; $1656: $cd $ef $16
 	ld   hl, lyt_gameOverScreen                                   ; $1659: $21 $fe $10
 	call copyLayoutFromBank3toScreen0withOffset                               ; $165c: $cd $37 $15
 	call func_5abf                                       ; $165f: $cd $bf $5a
@@ -2174,24 +2177,24 @@ jr_000_168d:
 	jp   postInitGame2                               ; $16ec: $c3 $fc $15
 
 
-Call_000_16ef:
-	call turnOffLCDstartOfVBlank                               ; $16ef: $cd $0a $02
-	ld   hl, rBGP                                   ; $16f2: $21 $47 $ff
-	ld   (hl), $1b                                   ; $16f5: $36 $1b
-	ld   hl, rOBP0                                   ; $16f7: $21 $48 $ff
-	ld   (hl), $1b                                   ; $16fa: $36 $1b
-	call clearScreen0                                       ; $16fc: $cd $8e $5b
-	call clear_c200_to_c2ff                                       ; $16ff: $cd $9e $5b
-	call copyA0hDataToOam                               ; $1702: $cd $99 $1a
-	ld   hl, $001c                                   ; $1705: $21 $1c $00
-	jp   loadTilesetAndVramTileConversionTable_idxedHL                               ; $1708: $c3 $7a $17
+reloadGfxClearLCDScreen_loadTileset1ch:
+	call turnOffLCDstartOfVBlank
+	ld   hl, rBGP
+	ld   (hl), $1b
+	ld   hl, rOBP0
+	ld   (hl), $1b
+	call clearScreen0
+	call clear_c200_to_c2ff
+	call copyA0hDataToOam
+	ld   hl, $001c
+	jp   loadTilesetAndVramTileConversionTable_idxedHL
 
 
-Call_000_170b:
-	ld   hl, $001d                                   ; $170b: $21 $1d $00
-	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $170e: $cd $7a $17
-	ld   hl, $001c                                   ; $1711: $21 $1c $00
-	jp   loadFirst800hVramTilesAndVramTileConversionTable                               ; $1714: $c3 $a4 $17
+loadTileset1dh_sprites1ch:
+	ld   hl, $001d
+	call loadTilesetAndVramTileConversionTable_idxedHL
+	ld   hl, $001c
+	jp   loadFirst800hVramTilesAndVramTileConversionTable
 
 
 tilesetAddresses:
@@ -2383,27 +2386,27 @@ func_17dd:
 	ret                                              ; $180e: $c9
 
 
-func_180f:
-	call Call_000_1812                               ; func_180f: $cd $12 $18
+callMinimalMainLoop78hTimes:
+	call callMinimalMainLoop3chTimes
 
-Call_000_1812:
-	call Call_000_1815                               ; $1812: $cd $15 $18
+callMinimalMainLoop3chTimes:
+	call callMinimalMainLoop1ehTimes
 
-Call_000_1815:
-	call Call_000_1818                               ; Call_000_1815: $cd $18 $18
+callMinimalMainLoop1ehTimes:
+	call callMinimalMainLoop0fhTimes
 
-Call_000_1818:
-	ld   c, $0f                                      ; Call_000_1818: $0e $0f
+callMinimalMainLoop0fhTimes:
+	ld   c, $0f
 
-jr_000_181a:
+callMinimalMainLoopCTimes:
 @loopC:
 	push bc
-	call Call_000_1a5e                               ; $181b: $cd $5e $1a
-	pop  bc                                          ; $181e: $c1
-	dec  c                                           ; $181f: $0d
-	jr   nz, @loopC                             ; $1820: $20 $f8
+	call minimalMainLoop
+	pop  bc
+	dec  c
+	jr   nz, @loopC
 
-	ret                                              ; $1822: $c9
+	ret
 
 
 waitUntilAllKeysReleased:
@@ -2431,127 +2434,128 @@ jr_000_182f:
 loadRoomGroupStruct:
 // load curr group's vram offset
 	call getCurrRoomGroupsWidthAndHeight
-	ld   de, $0002                                   ; $183e: $11 $02 $00
-	ld   hl, $c006                                   ; $1841: $21 $06 $c0
-	ldi  a, (hl)                                     ; $1844: $2a
-	ld   h, (hl)                                     ; $1845: $66
-	ld   l, a                                        ; $1846: $6f
-	add  hl, de                                      ; $1847: $19
-	ld   a, (hl)                                     ; $1848: $7e
-	ld   hl, wCurrGroupMapVRamOffset                                   ; $1849: $21 $da $c0
-	ld   (hl), a                                     ; $184c: $77
-	inc  de                                          ; $184d: $13
-	ld   hl, $c006                                   ; $184e: $21 $06 $c0
-	ldi  a, (hl)                                     ; $1851: $2a
-	ld   h, (hl)                                     ; $1852: $66
-	ld   l, a                                        ; $1853: $6f
-	add  hl, de                                      ; $1854: $19
-	ld   a, (hl)                                     ; $1855: $7e
-	ld   hl, wCurrGroupMapVRamOffset+1                                   ; $1856: $21 $db $c0
-	ld   (hl), a                                     ; $1859: $77
+	ld   de, $0002
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrGroupMapVRamOffset
+	ld   (hl), a
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrGroupMapVRamOffset+1
+	ld   (hl), a
 
 // byte after pointer to room struct is the bank of tile layouts
-	ld   de, $0014                                   ; $185a: $11 $14 $00
-	ld   hl, $c006                                   ; $185d: $21 $06 $c0
-	ldi  a, (hl)                                     ; $1860: $2a
-	ld   h, (hl)                                     ; $1861: $66
-	ld   l, a                                        ; $1862: $6f
-	add  hl, de                                      ; $1863: $19
-	ld   a, (hl)                                     ; $1864: $7e
-	ld   hl, wTileLayoutDataBank                                   ; $1865: $21 $5c $c0
-	ld   (hl), a                                     ; $1868: $77
+	ld   de, $0014
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wTileLayoutDataBank
+	ld   (hl), a
 
 // Unused?
-	ld   de, $001b                                   ; $1869: $11 $1b $00
-	ld   hl, $c006                                   ; $186c: $21 $06 $c0
-	ldi  a, (hl)                                     ; $186f: $2a
-	ld   h, (hl)                                     ; $1870: $66
-	ld   l, a                                        ; $1871: $6f
-	add  hl, de                                      ; $1872: $19
-	ld   a, (hl)                                     ; $1873: $7e
-	ld   hl, wCurrGroupStructByte1bh                                   ; $1874: $21 $28 $c7
-	ld   (hl), a                                     ; $1877: $77
+	ld   de, $001b
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrGroupStructByte1bh
+	ld   (hl), a
 
-//
-	inc  de                                          ; $1878: $13
-	ld   hl, $c006                                   ; $1879: $21 $06 $c0
-	ldi  a, (hl)                                     ; $187c: $2a
-	ld   h, (hl)                                     ; $187d: $66
-	ld   l, a                                        ; $187e: $6f
-	add  hl, de                                      ; $187f: $19
-	ld   a, (hl)                                     ; $1880: $7e
-	ld   hl, wCurrGroupStruct2ndLastWord                                   ; $1881: $21 $24 $c7
-	ld   (hl), a                                     ; $1884: $77
-	inc  de                                          ; $1885: $13
-	ld   hl, $c006                                   ; $1886: $21 $06 $c0
-	ldi  a, (hl)                                     ; $1889: $2a
-	ld   h, (hl)                                     ; $188a: $66
-	ld   l, a                                        ; $188b: $6f
-	add  hl, de                                      ; $188c: $19
-	ld   a, (hl)                                     ; $188d: $7e
-	ld   hl, wCurrGroupStruct2ndLastWord+1                                   ; $188e: $21 $25 $c7
-	ld   (hl), a                                     ; $1891: $77
-	inc  de                                          ; $1892: $13
-	ld   hl, $c006                                   ; $1893: $21 $06 $c0
-	ldi  a, (hl)                                     ; $1896: $2a
-	ld   h, (hl)                                     ; $1897: $66
-	ld   l, a                                        ; $1898: $6f
-	add  hl, de                                      ; $1899: $19
-	ld   a, (hl)                                     ; $189a: $7e
-	ld   hl, wCurrGroupStructLastWord                                   ; $189b: $21 $26 $c7
-	ld   (hl), a                                     ; $189e: $77
-	inc  de                                          ; $189f: $13
-	ld   hl, $c006                                   ; $18a0: $21 $06 $c0
-	ldi  a, (hl)                                     ; $18a3: $2a
-	ld   h, (hl)                                     ; $18a4: $66
-	ld   l, a                                        ; $18a5: $6f
-	add  hl, de                                      ; $18a6: $19
-	ld   a, (hl)                                     ; $18a7: $7e
-	ld   hl, wCurrGroupStructLastWord+1                                   ; $18a8: $21 $27 $c7
-	ld   (hl), a                                     ; $18ab: $77
-	ld   de, $0004                                   ; $18ac: $11 $04 $00
-	ld   bc, $0000                                   ; $18af: $01 $00 $00
+// default palettes
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrGroupDefaultBGP
+	ld   (hl), a
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrGroupDefaultBGP+1
+	ld   (hl), a
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrGroupDefaultOBP0
+	ld   (hl), a
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrGroupDefaultOBP0+1
+	ld   (hl), a
+
+// copies group name line 1 and 2
+	ld   de, $0004
+	ld   bc, $0000
 
 -
-// copies group name line 1 and 2
-	ld   hl, $c006                                   ; $18b2: $21 $06 $c0
-	ldi  a, (hl)                                     ; $18b5: $2a
-	ld   h, (hl)                                     ; $18b6: $66
-	ld   l, a                                        ; $18b7: $6f
-	add  hl, de                                      ; $18b8: $19
-	ld   a, (hl)                                     ; $18b9: $7e
-	inc  de                                          ; $18ba: $13
-	ld   hl, wRoomGroupNameLine1                                   ; $18bb: $21 $16 $c7
-	add  hl, bc                                      ; $18be: $09
-	ld   (hl), a                                     ; $18bf: $77
-	inc  bc                                          ; $18c0: $03
-	ld   a, c                                        ; $18c1: $79
-	cp   $0e                                         ; $18c2: $fe $0e
-	jr   nz, -                             ; $18c4: $20 $ec
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	inc  de
+	ld   hl, wRoomGroupNameLine1
+	add  hl, bc
+	ld   (hl), a
+	inc  bc
+	ld   a, c
+	cp   $0e
+	jr   nz, -
 
 // 2nd byte after pointer to room struct
-	ld   de, $0015                                   ; $18c6: $11 $15 $00
-	ld   hl, $c006                                   ; $18c9: $21 $06 $c0
-	ldi  a, (hl)                                     ; $18cc: $2a
-	ld   h, (hl)                                     ; $18cd: $66
-	ld   l, a                                        ; $18ce: $6f
-	add  hl, de                                      ; $18cf: $19
-	ld   a, (hl)                                     ; $18d0: $7e
-	cp   $ff                                         ; $18d1: $fe $ff
-	jr   z, +                              ; $18d3: $28 $08
+	ld   de, $0015
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	cp   $ff
+	jr   z, +
 
-	ld   hl, wCurrRoomGroup                                   ; $18d5: $21 $33 $c0
-	ld   a, (hl)                                     ; $18d8: $7e
-	ld   hl, $c715                                   ; $18d9: $21 $15 $c7
-	ld   (hl), a                                     ; $18dc: $77
+	ld   hl, wCurrRoomGroup
+	ld   a, (hl)
+	ld   hl, wLastReviveRoomGroup
+	ld   (hl), a
 
 +
-	call getAddrOfCurrentRoomStructForGroup                               ; $18dd: $cd $09 $19
-	ld   hl, wRoomStructAddress                                   ; $18e0: $21 $38 $c0
-	ld   (hl), c                                     ; $18e3: $71
-	ld   hl, wRoomStructAddress+1                                   ; $18e4: $21 $39 $c0
-	ld   (hl), e                                     ; $18e7: $73
-	ret                                              ; $18e8: $c9
+	call getAddrOfCurrentRoomStructForGroup
+	ld   hl, wRoomStructAddress
+	ld   (hl), c
+	ld   hl, wRoomStructAddress+1
+	ld   (hl), e
+	ret
 
 
 getCurrRoomGroupsWidthAndHeight:
@@ -2687,79 +2691,79 @@ getAddrOfCurrGroupDataStruct:
 setRevivePointInRoomGroup:
 // if last row group struct bytes byte 2 is not $ff
 // $c715 is previous room group? (dont set revive points for inside areas?)
-	ld   hl, $c715                                   ; $1996: $21 $15 $c7
-	ld   a, (hl)                                     ; $1999: $7e
-	ld   hl, wCurrRoomGroup                                   ; $199a: $21 $33 $c0
-	ld   (hl), a                                     ; $199d: $77
-	call getAddrOfCurrGroupDataStruct                               ; $199e: $cd $78 $19
+	ld   hl, wLastReviveRoomGroup
+	ld   a, (hl)
+	ld   hl, wCurrRoomGroup
+	ld   (hl), a
+	call getAddrOfCurrGroupDataStruct
 
 // set curr room group to that byte
-	ld   de, $0015                                   ; $19a1: $11 $15 $00
-	ld   hl, $c006                                   ; $19a4: $21 $06 $c0
-	ldi  a, (hl)                                     ; $19a7: $2a
-	ld   h, (hl)                                     ; $19a8: $66
-	ld   l, a                                        ; $19a9: $6f
-	add  hl, de                                      ; $19aa: $19
-	ld   a, (hl)                                     ; $19ab: $7e
-	ld   hl, wCurrRoomGroup                                   ; $19ac: $21 $33 $c0
-	ld   (hl), a                                     ; $19af: $77
+	ld   de, $0015
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrRoomGroup
+	ld   (hl), a
 
 // 3rd last row group struct byte into room x
-	inc  de                                          ; $19b0: $13
-	ld   hl, $c006                                   ; $19b1: $21 $06 $c0
-	ldi  a, (hl)                                     ; $19b4: $2a
-	ld   h, (hl)                                     ; $19b5: $66
-	ld   l, a                                        ; $19b6: $6f
-	add  hl, de                                      ; $19b7: $19
-	ld   a, (hl)                                     ; $19b8: $7e
-	ld   hl, wCurrRoomX                                   ; $19b9: $21 $34 $c0
-	ld   (hl), a                                     ; $19bc: $77
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrRoomX
+	ld   (hl), a
 
 // 4th last row group struct byte into room y
-	inc  de                                          ; $19bd: $13
-	ld   hl, $c006                                   ; $19be: $21 $06 $c0
-	ldi  a, (hl)                                     ; $19c1: $2a
-	ld   h, (hl)                                     ; $19c2: $66
-	ld   l, a                                        ; $19c3: $6f
-	add  hl, de                                      ; $19c4: $19
-	ld   a, (hl)                                     ; $19c5: $7e
-	ld   hl, wCurrRoomY                                   ; $19c6: $21 $35 $c0
-	ld   (hl), a                                     ; $19c9: $77
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wCurrRoomY
+	ld   (hl), a
 
 // 5th last row group struct byte is player x
-	inc  de                                          ; $19ca: $13
-	ld   hl, $c006                                   ; $19cb: $21 $06 $c0
-	ldi  a, (hl)                                     ; $19ce: $2a
-	ld   h, (hl)                                     ; $19cf: $66
-	ld   l, a                                        ; $19d0: $6f
-	add  hl, de                                      ; $19d1: $19
-	ld   a, (hl)                                     ; $19d2: $7e
-	ld   hl, wPlayerX                                   ; $19d3: $21 $52 $c0
-	ld   (hl), a                                     ; $19d6: $77
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wPlayerX
+	ld   (hl), a
 
 // 6th last row group struct byte is player y
-	inc  de                                          ; $19d7: $13
-	ld   hl, $c006                                   ; $19d8: $21 $06 $c0
-	ldi  a, (hl)                                     ; $19db: $2a
-	ld   h, (hl)                                     ; $19dc: $66
-	ld   l, a                                        ; $19dd: $6f
-	add  hl, de                                      ; $19de: $19
-	ld   a, (hl)                                     ; $19df: $7e
-	ld   hl, wPlayerY                                   ; $19e0: $21 $54 $c0
-	ld   (hl), a                                     ; $19e3: $77
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wPlayerY
+	ld   (hl), a
 
 // 6th last row group struct byte into c6df
 // also the last byte in init data
-	inc  de                                          ; $19e4: $13
-	ld   hl, $c006                                   ; $19e5: $21 $06 $c0
-	ldi  a, (hl)                                     ; $19e8: $2a
-	ld   h, (hl)                                     ; $19e9: $66
-	ld   l, a                                        ; $19ea: $6f
-	add  hl, de                                      ; $19eb: $19
-	ld   a, (hl)                                     ; $19ec: $7e
-	ld   hl, $c6df                                   ; $19ed: $21 $df $c6
-	ld   (hl), a                                     ; $19f0: $77
-	ret                                              ; $19f1: $c9
+	inc  de
+	ld   hl, wCurrGroupStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wPlayerStartingDirection
+	ld   (hl), a
+	ret
 
 
 ;;
@@ -2776,7 +2780,7 @@ Call_000_19f8:
 	jr   z, jr_000_1a24                              ; $1a01: $28 $21
 
 Jump_000_1a03:
-	call Call_000_1a5e                               ; $1a03: $cd $5e $1a
+	call minimalMainLoop                               ; $1a03: $cd $5e $1a
 	ld   hl, $d002                                   ; $1a06: $21 $02 $d0
 	ld   a, (hl)                                     ; $1a09: $7e
 	or   a                                           ; $1a0a: $b7
@@ -2796,12 +2800,12 @@ jr_000_1a14:
 
 
 jr_000_1a1c:
-	call Call_000_1a5e                               ; $1a1c: $cd $5e $1a
+	call minimalMainLoop                               ; $1a1c: $cd $5e $1a
 	call pollInput                                       ; $1a1f: $cd $3b $5b
 	jr   nz, Jump_000_1a03                             ; $1a22: $20 $df
 
 jr_000_1a24:
-	call Call_000_1a5e                               ; $1a24: $cd $5e $1a
+	call minimalMainLoop                               ; $1a24: $cd $5e $1a
 	ld   hl, $d002                                   ; $1a27: $21 $02 $d0
 	ld   a, (hl)                                     ; $1a2a: $7e
 	or   a                                           ; $1a2b: $b7
@@ -2856,42 +2860,42 @@ clear_d001:
 	ret                                              ; $1a5d: $c9
 
 
-Call_000_1a5e:
+minimalMainLoop:
 	call waitUntilStartOfVBlankPeriod
 	call copy50hDataToOam
 	call flashOBP1every8timesCalled
-	ld   hl, $d400                                   ; $1a67: $21 $00 $d4
-	ld   a, (hl)                                     ; $1a6a: $7e
-	cp   $00                                         ; $1a6b: $fe $00
-	jr   z, +                              ; $1a6d: $28 $03
+	ld   hl, wIsTitleScreen
+	ld   a, (hl)
+	cp   $00
+	jr   z, +
 
-	call animateTile                                       ; $1a6f: $cd $b5 $60
+	call animateTile
 
 +
-	call commonSoundFunc2                               ; $1a72: $cd $d6 $01
-	ret                                              ; $1a75: $c9
+	call commonSoundFunc2
+	ret
 
 
 callCommonSoundFunc2startOfVBlank:
-	call waitUntilStartOfVBlankPeriod                               ; $1a76: $cd $e8 $01
-	call commonSoundFunc2                               ; $1a79: $cd $d6 $01
-	ret                                              ; $1a7c: $c9
+	call waitUntilStartOfVBlankPeriod
+	call commonSoundFunc2
+	ret
 
 
 flashOBP1every8timesCalled:
 // flash OBP1 every 8 times this function is called
-	ld   hl, $d003                                   ; $1a7d: $21 $03 $d0
-	inc  (hl)                                        ; $1a80: $34
-	ld   a, %00011011                                      ; $1a81: $3e $1b
-	bit  3, (hl)                                     ; $1a83: $cb $5e
-	jp   nz, +                           ; $1a85: $c2 $8a $1a
+	ld   hl, wOBP1FlashCounter
+	inc  (hl)
+	ld   a, %00011011
+	bit  3, (hl)
+	jp   nz, +
 
-	ld   a, %11100100                                      ; $1a88: $3e $e4
+	ld   a, %11100100
 
 +
-	ld   hl, rOBP1                                   ; $1a8a: $21 $49 $ff
-	ld   (hl), a                                     ; $1a8d: $77
-	ret                                              ; $1a8e: $c9
+	ld   hl, rOBP1
+	ld   (hl), a
+	ret
 
 
 copy50hDataToOam:
@@ -2970,8 +2974,8 @@ Call_000_1b1e:
 	call commonSoundFunc2                               ; $1b81: $cd $d6 $01
 	call loadGameScreenTilesOntoScreen                               ; $1b84: $cd $3b $1e
 	call commonSoundFunc2                               ; $1b87: $cd $d6 $01
-	call func_56aa                                       ; $1b8a: $cd $aa $56
-	call jr_001_55fd                                       ; $1b8d: $cd $fd $55
+	call copyPlayerDataOnto_wOam                                       ; $1b8a: $cd $aa $56
+	call copyRaftDataToOam                                       ; $1b8d: $cd $fd $55
 	ld   a, $06                                      ; $1b90: $3e $06
 	call setLCDfromValue_c015equA                               ; $1b92: $cd $11 $02
 	call func_581a                                       ; $1b95: $cd $1a $58
@@ -3037,11 +3041,11 @@ Call_000_1b1e:
 	call commonSoundFunc2                               ; $1bf4: $cd $d6 $01
 
 Jump_000_1bf7:
-	call Call_000_23b5                               ; $1bf7: $cd $b5 $23
+	call retZIfCanRaftOnScreen                               ; $1bf7: $cd $b5 $23
 	jr   z, +                              ; $1bfa: $28 $06
 
 	ld   a, $00                                      ; $1bfc: $3e $00
-	ld   hl, $c04c                                   ; $1bfe: $21 $4c $c0
+	ld   hl, wIsEquippingRaft                                   ; $1bfe: $21 $4c $c0
 	ld   (hl), a                                     ; $1c01: $77
 
 +
@@ -3052,7 +3056,7 @@ Jump_000_1bf7:
 
 +
 	ld   a, $00                                      ; $1c0a: $3e $00
-	ld   hl, $c014                                   ; $1c0c: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $1c0c: $21 $14 $c0
 	ld   (hl), a                                     ; $1c0f: $77
 	call pollInput                                       ; $1c10: $cd $3b $5b
 	ld   hl, wNewKeysPressed                                   ; $1c13: $21 $18 $c0
@@ -3060,13 +3064,14 @@ Jump_000_1bf7:
 
 mainLoop:
 	call waitUntilStartOfVBlankPeriod                               ; $1c17: $cd $e8 $01
-	ld   hl, $c014                                   ; $1c1a: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $1c1a: $21 $14 $c0
 	inc  (hl)                                        ; $1c1d: $34
 	call flashOBP1every8timesCalled                               ; $1c1e: $cd $7d $1a
-	ld   hl, $c014                                   ; $1c21: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $1c21: $21 $14 $c0
 	bit  0, (hl)                                     ; $1c24: $cb $46
-	jr   nz, jr_000_1c3a                             ; $1c26: $20 $12
+	jr   nz, +                             ; $1c26: $20 $12
 
+// copy to oam and set scrolls every other main loop
 	call copyA0hDataToOam                               ; $1c28: $cd $99 $1a
 	ld   hl, wSCXvalue                                   ; $1c2b: $21 $10 $cb
 	ld   e, (hl)                                     ; $1c2e: $5e
@@ -3077,7 +3082,7 @@ mainLoop:
 	ld   (hl), e                                     ; $1c37: $73
 	jr   jr_000_1c46                                 ; $1c38: $18 $0c
 
-jr_000_1c3a:
++
 	call Call_001_5a3b                                       ; $1c3a: $cd $3b $5a
 	call Call_001_5a3b                                       ; $1c3d: $cd $3b $5a
 	call displayNextTextCharacter                                       ; $1c40: $cd $2b $74
@@ -3304,15 +3309,15 @@ jr_000_1d7c:
 
 Jump_000_1d8a:
 jr_000_1d8a:
-	ld   hl, $c055                                   ; $1d8a: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $1d8a: $21 $55 $c0
 	ld   a, (hl)                                     ; $1d8d: $7e
 	and  $df                                         ; $1d8e: $e6 $df
-	ld   hl, $c055                                   ; $1d90: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $1d90: $21 $55 $c0
 	ld   (hl), a                                     ; $1d93: $77
 	ld   a, e                                        ; $1d94: $7b
-	ld   hl, $c055                                   ; $1d95: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $1d95: $21 $55 $c0
 	or   (hl)                                        ; $1d98: $b6
-	ld   hl, $c055                                   ; $1d99: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $1d99: $21 $55 $c0
 	ld   (hl), a                                     ; $1d9c: $77
 	ld   hl, $c056                                   ; $1d9d: $21 $56 $c0
 	ld   (hl), c                                     ; $1da0: $71
@@ -3351,7 +3356,7 @@ jr_000_1dc7:
 Jump_000_1dca:
 	call updateNPCs                                       ; $1dca: $cd $72 $42
 	call loadNpcOamDataToWram                                       ; $1dcd: $cd $bd $41
-	call func_56aa                                       ; $1dd0: $cd $aa $56
+	call copyPlayerDataOnto_wOam                                       ; $1dd0: $cd $aa $56
 	call Call_000_3aa4                               ; $1dd3: $cd $a4 $3a
 	call Call_000_2f50                               ; $1dd6: $cd $50 $2f
 	call Call_000_35b2                               ; $1dd9: $cd $b2 $35
@@ -3360,7 +3365,7 @@ Jump_000_1dca:
 	call Call_000_3e33                               ; $1de2: $cd $33 $3e
 	call Call_000_2e67                               ; $1de5: $cd $67 $2e
 	call Call_000_3b11                               ; $1de8: $cd $11 $3b
-	call func_55a9                                       ; $1deb: $cd $a9 $55
+	call checkRaftChanges_sendToOam                                       ; $1deb: $cd $a9 $55
 	jp   mainLoop                               ; $1dee: $c3 $17 $1c
 
 
@@ -3513,25 +3518,25 @@ TODOloadsRoomData:
 	ld   a, (hl)                                     ; $1eba: $7e
 	ld   hl, $c007                                   ; $1ebb: $21 $07 $c0
 	ld   (hl), a                                     ; $1ebe: $77
-	ld   hl, wCurrGroupStruct2ndLastWord                                   ; $1ebf: $21 $24 $c7
+	ld   hl, wCurrGroupDefaultBGP                                   ; $1ebf: $21 $24 $c7
 	ld   a, (hl)                                     ; $1ec2: $7e
 	ld   hl, wBGPwhenLampOff                                   ; $1ec3: $21 $f0 $c5
 	ld   (hl), a                                     ; $1ec6: $77
 	ld   hl, wBGPwhenLampOn                                   ; $1ec7: $21 $f4 $c5
 	ld   (hl), a                                     ; $1eca: $77
-	ld   hl, wCurrGroupStruct2ndLastWord+1                                   ; $1ecb: $21 $25 $c7
+	ld   hl, wCurrGroupDefaultBGP+1                                   ; $1ecb: $21 $25 $c7
 	ld   a, (hl)                                     ; $1ece: $7e
 	ld   hl, wBGPwhenLampOff+1                                   ; $1ecf: $21 $f1 $c5
 	ld   (hl), a                                     ; $1ed2: $77
 	ld   hl, wBGPwhenLampOn+1                                   ; $1ed3: $21 $f5 $c5
 	ld   (hl), a                                     ; $1ed6: $77
-	ld   hl, wCurrGroupStructLastWord                                   ; $1ed7: $21 $26 $c7
+	ld   hl, wCurrGroupDefaultOBP0                                   ; $1ed7: $21 $26 $c7
 	ld   a, (hl)                                     ; $1eda: $7e
 	ld   hl, wOBP0whenLampOff                                   ; $1edb: $21 $f2 $c5
 	ld   (hl), a                                     ; $1ede: $77
 	ld   hl, wOBP0whenLampOn                                   ; $1edf: $21 $f6 $c5
 	ld   (hl), a                                     ; $1ee2: $77
-	ld   hl, wCurrGroupStructLastWord+1                                   ; $1ee3: $21 $27 $c7
+	ld   hl, wCurrGroupDefaultOBP0+1                                   ; $1ee3: $21 $27 $c7
 	ld   a, (hl)                                     ; $1ee6: $7e
 	ld   hl, wOBP0whenLampOff+1                                   ; $1ee7: $21 $f3 $c5
 	ld   (hl), a                                     ; $1eea: $77
@@ -3556,7 +3561,7 @@ TODOloadsRoomData:
 	ld   (hl), a                                     ; $1f11: $77
 	ld   hl, $c08a                                   ; $1f12: $21 $8a $c0
 	ld   (hl), a                                     ; $1f15: $77
-	ld   hl, $c057                                   ; $1f16: $21 $57 $c0
+	ld   hl, wPlayerAnimationIdx                                   ; $1f16: $21 $57 $c0
 	ld   (hl), a                                     ; $1f19: $77
 	ld   hl, $c08b                                   ; $1f1a: $21 $8b $c0
 	ld   (hl), a                                     ; $1f1d: $77
@@ -3644,12 +3649,12 @@ handleInventoryScreen:
 	ld   a, $00                                      ; $1fae: $3e $00
 	ldi  (hl), a                                     ; $1fb0: $22
 	ldi  (hl), a                                     ; $1fb1: $22
-	call Call_000_2360                               ; $1fb2: $cd $60 $23
+	call updateInventoryLampOam                               ; $1fb2: $cd $60 $23
 	call setNormalBGP_OBP0vals                               ; $1fb5: $cd $30 $1e
 	ld   a, $01                                      ; $1fb8: $3e $01
 	call setLCDfromValue_c015equA                               ; $1fba: $cd $11 $02
 	ld   a, $01                                      ; $1fbd: $3e $01
-	ld   hl, $c019                                   ; $1fbf: $21 $19 $c0
+	ld   hl, wInventoryLastBItemHoveredOver                                   ; $1fbf: $21 $19 $c0
 	ld   (hl), a                                     ; $1fc2: $77
 	call Call_000_2712                               ; $1fc3: $cd $12 $27
 	ld   a, $00                                      ; $1fc6: $3e $00
@@ -3657,13 +3662,14 @@ handleInventoryScreen:
 	ld   (hl), a                                     ; $1fcb: $77
 	call Call_000_2279                               ; $1fcc: $cd $79 $22
 
-Jump_000_1fcf:
-	ld   hl, $c65f                                   ; $1fcf: $21 $5f $c6
+_inventoryScreenMainLoop:
+	ld   hl, wInventorySelectedYIdx                                   ; $1fcf: $21 $5f $c6
 	ld   a, (hl)                                     ; $1fd2: $7e
 	cp   $00                                         ; $1fd3: $fe $00
-	jr   nz, +                             ; $1fd5: $20 $17
+	jr   nz, @cursorNotOnBrow                             ; $1fd5: $20 $17
 
-	ld   hl, wInventoryItemSelectedIdx                                   ; $1fd7: $21 $48 $c6
+// cursor on b row
+	ld   hl, wInventorySelectedXIdx                                   ; $1fd7: $21 $48 $c6
 	ld   c, (hl)                                     ; $1fda: $4e
 	ld   b, $00                                      ; $1fdb: $06 $00
 	ld   hl, inventoryCursorXoffsets                                   ; $1fdd: $21 $8d $1f
@@ -3672,20 +3678,21 @@ Jump_000_1fcf:
 	ld   c, a                                        ; $1fe2: $4f
 	ld   b, $00                                      ; $1fe3: $06 $00
 	ld   de, $0020                                   ; $1fe5: $11 $20 $00
-	call Call_000_1059                               ; $1fe8: $cd $59 $10
+	call sendTowOamCursorXequC_YequE                               ; $1fe8: $cd $59 $10
 	jp   Jump_000_2014                               ; $1feb: $c3 $14 $20
 
-+
-	ld   hl, $c65f                                   ; $1fee: $21 $5f $c6
+@cursorNotOnBrow:
+	ld   hl, wInventorySelectedYIdx                                   ; $1fee: $21 $5f $c6
 	ld   c, (hl)                                     ; $1ff1: $4e
 	ld   b, $00                                      ; $1ff2: $06 $00
 	ld   a, c                                        ; $1ff4: $79
 	cp   $06                                         ; $1ff5: $fe $06
 	jr   nz, +                             ; $1ff7: $20 $09
 
+// at exit game button
 	ld   bc, $0013                                   ; $1ff9: $01 $13 $00
 	ld   de, $008f                                   ; $1ffc: $11 $8f $00
-	jp   Jump_000_2011                               ; $1fff: $c3 $11 $20
+	jp   @setInvCursorOam                               ; $1fff: $c3 $11 $20
 
 +
 	ld   de, $0010                                   ; $2002: $11 $10 $00
@@ -3696,8 +3703,8 @@ Jump_000_1fcf:
 	ld   d, $00                                      ; $200c: $16 $00
 	ld   bc, $0010                                   ; $200e: $01 $10 $00
 
-Jump_000_2011:
-	call Call_000_1059                               ; $2011: $cd $59 $10
+@setInvCursorOam:
+	call sendTowOamCursorXequC_YequE                               ; $2011: $cd $59 $10
 
 Jump_000_2014:
 	ld   e, $78                                      ; $2014: $1e $78
@@ -3707,29 +3714,30 @@ Jump_000_2014:
 	pop  af                                          ; $201d: $f1
 	jr   z, Jump_000_2014                              ; $201e: $28 $f4
 
-	cp   $08                                         ; $2020: $fe $08
+	cp   PADF_START                                         ; $2020: $fe $08
 	jr   z, +                              ; $2022: $28 $04
 
-	cp   $04                                         ; $2024: $fe $04
-	jr   nz, jr_000_202b                             ; $2026: $20 $03
+	cp   PADF_SELECT                                         ; $2024: $fe $04
+	jr   nz, @notExitingInventory                             ; $2026: $20 $03
 
 +
-	jp   Jump_000_2320                               ; $2028: $c3 $20 $23
+// exit inventory menu
+	jp   exitingInventoryMenu                               ; $2028: $c3 $20 $23
 
-
-jr_000_202b:
-	cp   $10                                         ; $202b: $fe $10
+@notExitingInventory:
+	cp   PADF_RIGHT                                         ; $202b: $fe $10
 	jr   nz, jr_000_206a                             ; $202d: $20 $3b
 
-	ld   hl, $c65f                                   ; $202f: $21 $5f $c6
+	ld   hl, wInventorySelectedYIdx                                   ; $202f: $21 $5f $c6
 	ld   a, (hl)                                     ; $2032: $7e
 	cp   $00                                         ; $2033: $fe $00
 	jr   nz, jr_000_2053                             ; $2035: $20 $1c
 
+// pressing right through b items
 	ld   a, $01                                      ; $2037: $3e $01
-	ld   hl, $c019                                   ; $2039: $21 $19 $c0
+	ld   hl, wInventoryLastBItemHoveredOver                                   ; $2039: $21 $19 $c0
 	ld   (hl), a                                     ; $203c: $77
-	ld   hl, wInventoryItemSelectedIdx                                   ; $203d: $21 $48 $c6
+	ld   hl, wInventorySelectedXIdx                                   ; $203d: $21 $48 $c6
 	inc  (hl)                                        ; $2040: $34
 
 Jump_000_2041:
@@ -3741,45 +3749,47 @@ Jump_000_2041:
 
 Jump_000_204d:
 	call safeCallCommonSoundFuncs_with20h                               ; $204d: $cd $ff $27
-	jp   Jump_000_1fcf                               ; $2050: $c3 $cf $1f
+	jp   _inventoryScreenMainLoop                               ; $2050: $c3 $cf $1f
 
 
 jr_000_2053:
 	ld   hl, checkBitemsSelectable                                   ; $2053: $21 $a4 $11
 	call jpHLinBank4                                       ; $2056: $cd $b5 $61
-	ld   hl, $c0a0                                   ; $2059: $21 $a0 $c0
+	ld   hl, wSpecialItemsGottenByte                                   ; $2059: $21 $a0 $c0
 	ld   a, (hl)                                     ; $205c: $7e
 	cp   $00                                         ; $205d: $fe $00
 	jr   z, Jump_000_204d                              ; $205f: $28 $ec
 
 	ld   a, $00                                      ; $2061: $3e $00
-	ld   hl, $c65f                                   ; $2063: $21 $5f $c6
+	ld   hl, wInventorySelectedYIdx                                   ; $2063: $21 $5f $c6
 	ld   (hl), a                                     ; $2066: $77
 	jp   Jump_000_2041                               ; $2067: $c3 $41 $20
 
 
 jr_000_206a:
-	cp   $20                                         ; $206a: $fe $20
-	jr   nz, jr_000_2083                             ; $206c: $20 $15
+	cp   PADF_LEFT                                         ; $206a: $fe $20
+	jr   nz, @notRightLeft                             ; $206c: $20 $15
 
-	ld   hl, $c65f                                   ; $206e: $21 $5f $c6
+// pressing left
+	ld   hl, wInventorySelectedYIdx                                   ; $206e: $21 $5f $c6
 	ld   a, (hl)                                     ; $2071: $7e
 	cp   $00                                         ; $2072: $fe $00
 	jr   nz, jr_000_2053                             ; $2074: $20 $dd
 
+// in the b item region
 	ld   a, $ff                                      ; $2076: $3e $ff
-	ld   hl, $c019                                   ; $2078: $21 $19 $c0
+	ld   hl, wInventoryLastBItemHoveredOver                                   ; $2078: $21 $19 $c0
 	ld   (hl), a                                     ; $207b: $77
-	ld   hl, wInventoryItemSelectedIdx                                   ; $207c: $21 $48 $c6
+	ld   hl, wInventorySelectedXIdx                                   ; $207c: $21 $48 $c6
 	dec  (hl)                                        ; $207f: $35
 	jp   Jump_000_2041                               ; $2080: $c3 $41 $20
 
-
-jr_000_2083:
-	cp   $40                                         ; $2083: $fe $40
+@notRightLeft:
+	cp   PADF_UP                                         ; $2083: $fe $40
 	jr   nz, jr_000_20ab                             ; $2085: $20 $24
 
-	ld   hl, $c65f                                   ; $2087: $21 $5f $c6
+// pressing up
+	ld   hl, wInventorySelectedYIdx                                   ; $2087: $21 $5f $c6
 	dec  (hl)                                        ; $208a: $35
 	jr   z, jr_000_209a                              ; $208b: $28 $0d
 
@@ -3788,7 +3798,7 @@ jr_000_2083:
 
 jr_000_2091:
 	ld   a, $06                                      ; $2091: $3e $06
-	ld   hl, $c65f                                   ; $2093: $21 $5f $c6
+	ld   hl, wInventorySelectedYIdx                                   ; $2093: $21 $5f $c6
 	ld   (hl), a                                     ; $2096: $77
 	jp   Jump_000_2041                               ; $2097: $c3 $41 $20
 
@@ -3796,7 +3806,7 @@ jr_000_2091:
 jr_000_209a:
 	ld   hl, checkBitemsSelectable                                   ; $209a: $21 $a4 $11
 	call jpHLinBank4                                       ; $209d: $cd $b5 $61
-	ld   hl, $c0a0                                   ; $20a0: $21 $a0 $c0
+	ld   hl, wSpecialItemsGottenByte                                   ; $20a0: $21 $a0 $c0
 	ld   a, (hl)                                     ; $20a3: $7e
 	cp   $00                                         ; $20a4: $fe $00
 	jr   z, jr_000_2091                              ; $20a6: $28 $e9
@@ -3805,94 +3815,96 @@ jr_000_209a:
 
 
 jr_000_20ab:
-	cp   $80                                         ; $20ab: $fe $80
-	jr   nz, jr_000_20bd                             ; $20ad: $20 $0e
+	cp   PADF_DOWN                                         ; $20ab: $fe $80
+	jr   nz, @checkPressingAorB                             ; $20ad: $20 $0e
 
-	ld   hl, $c65f                                   ; $20af: $21 $5f $c6
+// pressing down
+	ld   hl, wInventorySelectedYIdx                                   ; $20af: $21 $5f $c6
 	inc  (hl)                                        ; $20b2: $34
 	ld   a, (hl)                                     ; $20b3: $7e
 	cp   $07                                         ; $20b4: $fe $07
 	jr   nz, Jump_000_2041                             ; $20b6: $20 $89
 
+// loop around
 	ld   (hl), $00                                   ; $20b8: $36 $00
 	jp   Jump_000_2041                               ; $20ba: $c3 $41 $20
 
 
-jr_000_20bd:
-	and  $03                                         ; $20bd: $e6 $03
-	jr   nz, jr_000_20c4                             ; $20bf: $20 $03
+@checkPressingAorB:
+	and  PADF_B|PADF_A
+	jr   nz, @pressingAorB
 
 	jp   Jump_000_2014                               ; $20c1: $c3 $14 $20
 
+@pressingAorB:
+	ld   hl, wInventorySelectedYIdx
+	ld   a, (hl)
+	cp   $00
+	jr   z, @selectedOnBItemRow
 
-jr_000_20c4:
-	ld   hl, $c65f                                   ; $20c4: $21 $5f $c6
-	ld   a, (hl)                                     ; $20c7: $7e
-	cp   $00                                         ; $20c8: $fe $00
-	jr   z, jr_000_20cf                              ; $20ca: $28 $03
+	jp   @selectedNotOnBRow
 
-	jp   Jump_000_2236                               ; $20cc: $c3 $36 $22
+@selectedOnBItemRow:
+	ld   hl, wInventorySelectedXIdx
+	ld   a, (hl)
+	cp   $07
+	jr   nz, @selectedBnotPraying
 
+// selected praying
+	ld   de, text_praying
+	call drawInventoryItemDescription
+	ld   hl, wPlayerHealth
+	ld   a, (hl)
+	ld   hl, wPlayerMaxHealth
+	cp   (hl)
+	jr   z, @afterHealingOrHealthAlreadyFull
 
-jr_000_20cf:
-	ld   hl, wInventoryItemSelectedIdx                                   ; $20cf: $21 $48 $c6
-	ld   a, (hl)                                     ; $20d2: $7e
-	cp   $07                                         ; $20d3: $fe $07
-	jr   nz, jr_000_212d                             ; $20d5: $20 $56
+	ld   c, 10
 
-	ld   de, text_praying                                   ; $20d7: $11 $dc $24
-	call drawInventoryItemDescription                               ; $20da: $cd $f0 $26
-	ld   hl, wPlayerHealth                                   ; $20dd: $21 $72 $c0
-	ld   a, (hl)                                     ; $20e0: $7e
-	ld   hl, wPlayerMaxHealth                                   ; $20e1: $21 $73 $c0
-	cp   (hl)                                        ; $20e4: $be
-	jr   z, jr_000_2124                              ; $20e5: $28 $3d
-
-	ld   c, $0a                                      ; $20e7: $0e $0a
-
-jr_000_20e9:
-	ld   hl, wNumBirds                                   ; $20e9: $21 $08 $c7
-	dec  (hl)                                        ; $20ec: $35
-	push bc                                          ; $20ed: $c5
-	call callCommonSoundFunc2startOfVBlank                               ; $20ee: $cd $76 $1a
-	call waitUntilStartOfVBlankPeriod                               ; $20f1: $cd $e8 $01
-	ld   hl, drawNumBirds                                   ; $20f4: $21 $8f $11
-	call jpHLinBank4                                       ; $20f7: $cd $b5 $61
-	call commonSoundFunc2                               ; $20fa: $cd $d6 $01
-	call safeCallCommonSoundFuncs_with20h                               ; $20fd: $cd $ff $27
-	pop  bc                                          ; $2100: $c1
-	dec  c                                           ; $2101: $0d
-	jr   nz, jr_000_20e9                             ; $2102: $20 $e5
+@takeBirdForPraying:
+	ld   hl, wNumBirds
+	dec  (hl)
+	push bc
+	call callCommonSoundFunc2startOfVBlank
+	call waitUntilStartOfVBlankPeriod
+	ld   hl, drawNumBirds
+	call jpHLinBank4
+	call commonSoundFunc2
+	call safeCallCommonSoundFuncs_with20h
+	pop  bc
+	dec  c
+	jr   nz, @takeBirdForPraying
 
 // half heart
-	ld   a, $01                                      ; $2104: $3e $01
-	call addAtoPlayerHealth                                       ; $2106: $cd $86 $50
-	call Call_000_284f                               ; $2109: $cd $4f $28
-	call waitUntilStartOfVBlankPeriod                               ; $210c: $cd $e8 $01
-	ld   hl, drawHearts                                   ; $210f: $21 $21 $13
-	call jpHLinBank4                                       ; $2112: $cd $b5 $61
-	call commonSoundFunc2                               ; $2115: $cd $d6 $01
-	call waitUntilStartOfVBlankPeriod                               ; $2118: $cd $e8 $01
-	ld   hl, drawSelectableBitems                                   ; $211b: $21 $32 $14
-	call jpHLinBank4                                       ; $211e: $cd $b5 $61
-	call commonSoundFunc2                               ; $2121: $cd $d6 $01
+	ld   a, $01
+	call addAtoPlayerHealth
+	call callsCommonSoundFuncs_284f
+	call waitUntilStartOfVBlankPeriod
+	ld   hl, drawHearts
+	call jpHLinBank4
+	call commonSoundFunc2
+	call waitUntilStartOfVBlankPeriod
+	ld   hl, drawSelectableBitems
+	call jpHLinBank4
+	call commonSoundFunc2
 
-jr_000_2124:
+@afterHealingOrHealthAlreadyFull:
 	call Call_000_2712                               ; $2124: $cd $12 $27
 	call Call_000_2279                               ; $2127: $cd $79 $22
-	jp   Jump_000_1fcf                               ; $212a: $c3 $cf $1f
+	jp   _inventoryScreenMainLoop                               ; $212a: $c3 $cf $1f
 
 
-jr_000_212d:
-	cp   $00                                         ; $212d: $fe $00
-	jr   nz, jr_000_214f                             ; $212f: $20 $1e
+@selectedBnotPraying:
+	cp   $00
+	jr   nz, @notSelectedPrayingBombs
 
-	ld   a, $00                                      ; $2131: $3e $00
-	ld   hl, wEquippedBItem                                   ; $2133: $21 $49 $c0
-	ld   (hl), a                                     ; $2136: $77
+// vial bombs
+	ld   a, EQUIPB_BOMBS
+	ld   hl, wEquippedBItem
+	ld   (hl), a
 
-Jump_000_2137:
-	call safeCallCommonSoundFuncs_with20h                               ; $2137: $cd $ff $27
+@updateEquippedNewBItem:
+	call safeCallCommonSoundFuncs_with20h
 	ld   a, $00                                      ; $213a: $3e $00
 	ld   hl, $c6cb                                   ; $213c: $21 $cb $c6
 	ld   (hl), a                                     ; $213f: $77
@@ -3900,178 +3912,178 @@ Jump_000_2137:
 	ld   hl, drawBitem                                   ; $2143: $21 $83 $13
 	call jpHLinBank4                                       ; $2146: $cd $b5 $61
 	call commonSoundFunc2                               ; $2149: $cd $d6 $01
-	jp   Jump_000_1fcf                               ; $214c: $c3 $cf $1f
+	jp   _inventoryScreenMainLoop                               ; $214c: $c3 $cf $1f
+
+@notSelectedPrayingBombs:
+	cp   $03
+	jr   nz, @notLampOrBombs
+
+// selected lamp
+	ld   hl, wIsLampOn
+	ld   a, (hl)
+	xor  $ff
+	ld   (hl), a
+	call updateInventoryLampOam
+	call safeCallCommonSoundFuncs_with20h
+	jp   _inventoryScreenMainLoop
+
+@notLampOrBombs:
+	cp   $01
+	jr   nz, @notLampBombsJawbone
+
+// jawbone
+	ld   a, EQUIPB_JAWBONE
+	ld   hl, wEquippedBItem
+	ld   (hl), a
+	jp   @updateEquippedNewBItem
+
+@notLampBombsJawbone:
+	cp   $04
+	jr   nz, @notLampBombsJawboneRaft
+
+// raft
+	ld   hl, wIsEquippingRaft
+	ld   a, (hl)
+	cp   $00
+	jr   z, @tryToUseRaft
+
+// is equipping raft
+	ld   hl, wIsUsingRaft
+	ld   a, (hl)
+	cp   $00
+	jr   z, @unequipRaft
+
+	ld   de, text_findLandFirst
+	jp   @selectedSomethingOnInvScreenEnd
+
+@unequipRaft:
+	ld   a, $00
+	jp   @setEquippingRaft
+
+@tryToUseRaft:
+	call retZIfCanRaftOnScreen
+	jr   z, @canRaftOnScreen
+
+	ld   de, text_noRaftingHere
+	jp   @selectedSomethingOnInvScreenEnd
+
+@canRaftOnScreen:
+	ld   a, $ff
+
+@setEquippingRaft:
+	ld   hl, wIsEquippingRaft
+	ld   (hl), a
+	call safeCallCommonSoundFuncs_with20h
+	jp   _inventoryScreenMainLoop
 
 
-jr_000_214f:
-	cp   $03                                         ; $214f: $fe $03
-	jr   nz, jr_000_2163                             ; $2151: $20 $10
+@notLampBombsJawboneRaft:
+	cp   $02
+	jr   nz, @oilOrMap
 
-	ld   hl, wIsLampOn                                   ; $2153: $21 $5b $c0
-	ld   a, (hl)                                     ; $2156: $7e
-	xor  $ff                                         ; $2157: $ee $ff
-	ld   (hl), a                                     ; $2159: $77
-	call Call_000_2360                               ; $215a: $cd $60 $23
-	call safeCallCommonSoundFuncs_with20h                               ; $215d: $cd $ff $27
-	jp   Jump_000_1fcf                               ; $2160: $c3 $cf $1f
+// sword
+	ld   a, EQUIPB_SWORD
+	ld   hl, wEquippedBItem
+	ld   (hl), a
+	jp   @updateEquippedNewBItem
 
+@oilOrMap:
+	cp   $08
+	jp   z, @transitionToMapScreen
 
-jr_000_2163:
-	cp   $01                                         ; $2163: $fe $01
-	jr   nz, jr_000_2170                             ; $2165: $20 $09
+// oil
+	ld   hl, wPlayerHealth
+	ld   a, (hl)
+	ld   hl, wPlayerMaxHealth
+	cp   (hl)
+	jr   nz, @sanityCheckHealth
 
-	ld   a, $01                                      ; $2167: $3e $01
-	ld   hl, wEquippedBItem                                   ; $2169: $21 $49 $c0
-	ld   (hl), a                                     ; $216c: $77
-	jp   Jump_000_2137                               ; $216d: $c3 $37 $21
-
-
-jr_000_2170:
-	cp   $04                                         ; $2170: $fe $04
-	jr   nz, jr_000_21a6                             ; $2172: $20 $32
-
-	ld   hl, $c04c                                   ; $2174: $21 $4c $c0
-	ld   a, (hl)                                     ; $2177: $7e
-	cp   $00                                         ; $2178: $fe $00
-	jr   z, jr_000_218f                              ; $217a: $28 $13
-
-	ld   hl, $c04f                                   ; $217c: $21 $4f $c0
-	ld   a, (hl)                                     ; $217f: $7e
-	cp   $00                                         ; $2180: $fe $00
-	jr   z, jr_000_218a                              ; $2182: $28 $06
-
-	ld   de, text_findLandFirst                                   ; $2184: $11 $a4 $24
-	jp   Jump_000_2270                               ; $2187: $c3 $70 $22
+	ld   de, text_strengthIsFull
+	jp   @selectedSomethingOnInvScreenEnd
 
 
-jr_000_218a:
-	ld   a, $00                                      ; $218a: $3e $00
-	jp   Jump_000_219c                               ; $218c: $c3 $9c $21
+@sanityCheckHealth:
+	ld   hl, wPlayerHealth
+	ld   a, (hl)
+	ld   hl, wPlayerMaxHealth
+	cp   (hl)
+	jr   c, @usingOil
+
+	ld   de, text_strengthIsFull
+	jp   @selectedSomethingOnInvScreenEnd
 
 
-jr_000_218f:
-	call Call_000_23b5                               ; $218f: $cd $b5 $23
-	jr   z, jr_000_219a                              ; $2192: $28 $06
+@usingOil:
+	call safeCallCommonSoundFuncs_with20h
+	ld   hl, wPlayerHealth
+	inc  (hl)
+	call waitUntilStartOfVBlankPeriod
+	ld   hl, drawHearts
+	call jpHLinBank4
+	call commonSoundFunc2
+	call callCommonSoundFunc2startOfVBlank
+	call callCommonSoundFunc2startOfVBlank
+	ld   hl, wPlayerHealth
+	ld   a, (hl)
+	ld   hl, wPlayerMaxHealth
+	cp   (hl)
+	jr   c, @usingOil
 
-	ld   de, text_noRaftingHere                                   ; $2194: $11 $93 $24
-	jp   Jump_000_2270                               ; $2197: $c3 $70 $22
+// dec based on oil gotten 
+	ld   hl, wInventorySelectedXIdx
+	ld   a, (hl)
+	cp   $06
+	jr   nz, +
 
-
-jr_000_219a:
-	ld   a, $ff                                      ; $219a: $3e $ff
-
-Jump_000_219c:
-	ld   hl, $c04c                                   ; $219c: $21 $4c $c0
-	ld   (hl), a                                     ; $219f: $77
-	call safeCallCommonSoundFuncs_with20h                               ; $21a0: $cd $ff $27
-	jp   Jump_000_1fcf                               ; $21a3: $c3 $cf $1f
-
-
-jr_000_21a6:
-	cp   $02                                         ; $21a6: $fe $02
-	jr   nz, jr_000_21b3                             ; $21a8: $20 $09
-
-	ld   a, $02                                      ; $21aa: $3e $02
-	ld   hl, wEquippedBItem                                   ; $21ac: $21 $49 $c0
-	ld   (hl), a                                     ; $21af: $77
-	jp   Jump_000_2137                               ; $21b0: $c3 $37 $21
-
-
-jr_000_21b3:
-	cp   $08                                         ; $21b3: $fe $08
-	jp   z, _transitionToMapScreen                            ; $21b5: $ca $1a $22
-
-	ld   hl, wPlayerHealth                                   ; $21b8: $21 $72 $c0
-	ld   a, (hl)                                     ; $21bb: $7e
-	ld   hl, wPlayerMaxHealth                                   ; $21bc: $21 $73 $c0
-	cp   (hl)                                        ; $21bf: $be
-	jr   nz, jr_000_21c8                             ; $21c0: $20 $06
-
-	ld   de, text_strengthIsFull                                   ; $21c2: $11 $ca $24
-	jp   Jump_000_2270                               ; $21c5: $c3 $70 $22
-
-
-jr_000_21c8:
-	ld   hl, wPlayerHealth                                   ; $21c8: $21 $72 $c0
-	ld   a, (hl)                                     ; $21cb: $7e
-	ld   hl, wPlayerMaxHealth                                   ; $21cc: $21 $73 $c0
-	cp   (hl)                                        ; $21cf: $be
-	jr   c, jr_000_21d8                              ; $21d0: $38 $06
-
-	ld   de, text_strengthIsFull                                   ; $21d2: $11 $ca $24
-	jp   Jump_000_2270                               ; $21d5: $c3 $70 $22
-
-
-jr_000_21d8:
-	call safeCallCommonSoundFuncs_with20h                               ; $21d8: $cd $ff $27
-	ld   hl, wPlayerHealth                                   ; $21db: $21 $72 $c0
-	inc  (hl)                                        ; $21de: $34
-	call waitUntilStartOfVBlankPeriod                               ; $21df: $cd $e8 $01
-	ld   hl, drawHearts                                   ; $21e2: $21 $21 $13
-	call jpHLinBank4                                       ; $21e5: $cd $b5 $61
-	call commonSoundFunc2                               ; $21e8: $cd $d6 $01
-	call callCommonSoundFunc2startOfVBlank                               ; $21eb: $cd $76 $1a
-	call callCommonSoundFunc2startOfVBlank                               ; $21ee: $cd $76 $1a
-	ld   hl, wPlayerHealth                                   ; $21f1: $21 $72 $c0
-	ld   a, (hl)                                     ; $21f4: $7e
-	ld   hl, wPlayerMaxHealth                                   ; $21f5: $21 $73 $c0
-	cp   (hl)                                        ; $21f8: $be
-	jr   c, jr_000_21d8                              ; $21f9: $38 $dd
-
-	ld   hl, wInventoryItemSelectedIdx                                   ; $21fb: $21 $48 $c6
-	ld   a, (hl)                                     ; $21fe: $7e
-	cp   $06                                         ; $21ff: $fe $06
-	jr   nz, +                             ; $2201: $20 $04
-
-	ld   hl, wAnointingOilsGotten                                   ; $2203: $21 $51 $c6
-	dec  (hl)                                        ; $2206: $35
+	ld   hl, wAnointingOilsGotten
+	dec  (hl)
 
 +
-	ld   hl, wAnointingOilsGotten                                   ; $2207: $21 $51 $c6
-	dec  (hl)                                        ; $220a: $35
-	call waitUntilStartOfVBlankPeriod                               ; $220b: $cd $e8 $01
-	ld   hl, drawSelectableBitems                                   ; $220e: $21 $32 $14
-	call jpHLinBank4                                       ; $2211: $cd $b5 $61
+	ld   hl, wAnointingOilsGotten
+	dec  (hl)
+
+// update b items
+	call waitUntilStartOfVBlankPeriod
+	ld   hl, drawSelectableBitems
+	call jpHLinBank4
 	call commonSoundFunc2                               ; $2214: $cd $d6 $01
 	jp   Jump_000_2041                               ; $2217: $c3 $41 $20
 
-
-_transitionToMapScreen:
-	call turnOffLCDstartOfVBlank                               ; $221a: $cd $0a $02
-	call commonSoundFunc2                               ; $221d: $cd $d6 $01
-	call clear_c200_to_c2ff                                       ; $2220: $cd $9e $5b
-	call copyA0hDataToOam                               ; $2223: $cd $99 $1a
-	call loadMapScreen                               ; $2226: $cd $7f $1e
-	ld   a, $01                                      ; $2229: $3e $01
-	call setLCDfromValue_c015equA                               ; $222b: $cd $11 $02
+@transitionToMapScreen:
+	call turnOffLCDstartOfVBlank
+	call commonSoundFunc2
+	call clear_c200_to_c2ff
+	call copyA0hDataToOam
+	call loadMapScreen
+	ld   a, $01
+	call setLCDfromValue_c015equA
 	ld   e, $00                                      ; $222e: $1e $00
 	call Call_000_19f8                               ; $2230: $cd $f8 $19
 	jp   handleInventoryScreen                               ; $2233: $c3 $96 $1f
 
+@selectedNotOnBRow:
+	ld   hl, wInventorySelectedYIdx
+	ld   e, (hl)
+	ld   d, $00
+	cp   $06
+	jr   nz, +
 
-Jump_000_2236:
-	ld   hl, $c65f                                   ; $2236: $21 $5f $c6
-	ld   e, (hl)                                     ; $2239: $5e
-	ld   d, $00                                      ; $223a: $16 $00
-	cp   $06                                         ; $223c: $fe $06
-	jr   nz, jr_000_2243                             ; $223e: $20 $03
+// on exit game
+	jp   exitGamePrompt
 
-	jp   Jump_000_22c7                               ; $2240: $c3 $c7 $22
++
+	dec  de
+	ld   hl, getFruitAmountFromWram
+	call jpHLinBank4
+	ld   a, e
+	cp   $00
+	jr   z, @0ofSelectedFruit
 
-
-jr_000_2243:
-	dec  de                                          ; $2243: $1b
-	ld   hl, getFruitAmountFromWram                                   ; $2244: $21 $fe $13
-	call jpHLinBank4                                       ; $2247: $cd $b5 $61
-	ld   a, e                                        ; $224a: $7b
-	cp   $00                                         ; $224b: $fe $00
-	jr   z, jr_000_226d                              ; $224d: $28 $1e
-
-	ld   hl, $c65f                                   ; $224f: $21 $5f $c6
-	ld   a, (hl)                                     ; $2252: $7e
-	ld   hl, wFruitEquipped                                   ; $2253: $21 $0c $c7
-	ld   (hl), a                                     ; $2256: $77
-	ld   hl, wFruitEquipped                                   ; $2257: $21 $0c $c7
+	ld   hl, wInventorySelectedYIdx
+	ld   a, (hl)
+	ld   hl, wFruitEquipped
+	ld   (hl), a
+	ld   hl, wFruitEquipped
 	dec  (hl)                                        ; $225a: $35
 	call Call_000_241a                               ; $225b: $cd $1a $24
 	call waitUntilStartOfVBlankPeriod                               ; $225e: $cd $e8 $01
@@ -4080,14 +4092,13 @@ jr_000_2243:
 	call commonSoundFunc2                               ; $2267: $cd $d6 $01
 	jp   Jump_000_204d                               ; $226a: $c3 $4d $20
 
+@0ofSelectedFruit:
+	ld   de, text_findThisOneFirst
 
-jr_000_226d:
-	ld   de, text_findThisOneFirst                                   ; $226d: $11 $b5 $24
-
-Jump_000_2270:
-	call drawInventoryItemDescription                               ; $2270: $cd $f0 $26
-	call safeCallCommonSoundFuncs_with23h                               ; $2273: $cd $31 $28
-	jp   Jump_000_1fcf                               ; $2276: $c3 $cf $1f
+@selectedSomethingOnInvScreenEnd:
+	call drawInventoryItemDescription
+	call safeCallCommonSoundFuncs_with23h
+	jp   _inventoryScreenMainLoop
 
 
 Call_000_2279:
@@ -4099,18 +4110,17 @@ Call_000_2279:
 	ld   de, text_pushAtoPickThis                                   ; $2281: $11 $6a $24
 	jp   _drawChangingItemDescription                               ; $2284: $c3 $af $22
 
-
 jr_000_2287:
-	ld   hl, $c65f                                   ; $2287: $21 $5f $c6
+	ld   hl, wInventorySelectedYIdx                                   ; $2287: $21 $5f $c6
 	ld   a, (hl)                                     ; $228a: $7e
 	cp   $00                                         ; $228b: $fe $00
-	jr   z, jr_000_2293                              ; $228d: $28 $04
+	jr   z, @onBRow                              ; $228d: $28 $04
 
 	add  $08                                         ; $228f: $c6 $08
 	jr   jr_000_2297                                 ; $2291: $18 $04
 
-jr_000_2293:
-	ld   hl, wInventoryItemSelectedIdx                                   ; $2293: $21 $48 $c6
+@onBRow:
+	ld   hl, wInventorySelectedXIdx                                   ; $2293: $21 $48 $c6
 	ld   a, (hl)                                     ; $2296: $7e
 
 jr_000_2297:
@@ -4150,75 +4160,75 @@ _drawChangingItemDescription:
 	ret                                              ; $22c4: $c9
 
 
-data_22c5:
+exitGamePromptCursorX:
 	.db $6c $8f
 
-Jump_000_22c7:
+exitGamePrompt:
 	call safeCallCommonSoundFuncs_with20h                               ; $22c7: $cd $ff $27
 	ld   de, text_endGameChoice                                   ; $22ca: $11 $7e $24
 	call drawInventoryItemDescription                               ; $22cd: $cd $f0 $26
 	ld   a, $01                                      ; $22d0: $3e $01
-	ld   hl, $c711                                   ; $22d2: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $22d2: $21 $11 $c7
 	ld   (hl), a                                     ; $22d5: $77
 
-Jump_000_22d6:
-	ld   hl, $c711                                   ; $22d6: $21 $11 $c7
+@exitGameLoop:
+	ld   hl, wMenuCursorIdx                                   ; $22d6: $21 $11 $c7
 	ld   c, (hl)                                     ; $22d9: $4e
 	ld   b, $00                                      ; $22da: $06 $00
-	ld   hl, data_22c5                                   ; $22dc: $21 $c5 $22
+	ld   hl, exitGamePromptCursorX                                   ; $22dc: $21 $c5 $22
 	add  hl, bc                                      ; $22df: $09
 	ld   a, (hl)                                     ; $22e0: $7e
 	ld   c, a                                        ; $22e1: $4f
 	ld   b, $00                                      ; $22e2: $06 $00
 	ld   de, $009d                                   ; $22e4: $11 $9d $00
-	call Call_000_1059                               ; $22e7: $cd $59 $10
+	call sendTowOamCursorXequC_YequE                               ; $22e7: $cd $59 $10
 	ld   e, $00                                      ; $22ea: $1e $00
 	call Call_000_19f8                               ; $22ec: $cd $f8 $19
 	ld   c, a                                        ; $22ef: $4f
 	ld   b, $00                                      ; $22f0: $06 $00
-	and  $30                                         ; $22f2: $e6 $30
-	jr   z, jr_000_2306                              ; $22f4: $28 $10
+	and  PADF_LEFT|PADF_RIGHT                                         ; $22f2: $e6 $30
+	jr   z, @notLeftRight                              ; $22f4: $28 $10
 
-	ld   hl, $c711                                   ; $22f6: $21 $11 $c7
+// left or right, swap idx
+	ld   hl, wMenuCursorIdx                                   ; $22f6: $21 $11 $c7
 	ld   a, (hl)                                     ; $22f9: $7e
 	xor  $01                                         ; $22fa: $ee $01
-	ld   hl, $c711                                   ; $22fc: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $22fc: $21 $11 $c7
 	ld   (hl), a                                     ; $22ff: $77
 	call safeCallCommonSoundFuncs_with20h                               ; $2300: $cd $ff $27
-	jp   Jump_000_22d6                               ; $2303: $c3 $d6 $22
+	jp   @exitGameLoop                               ; $2303: $c3 $d6 $22
 
-
-jr_000_2306:
+@notLeftRight:
 	ld   a, c                                        ; $2306: $79
-	and  $03                                         ; $2307: $e6 $03
-	jr   nz, jr_000_2314                             ; $2309: $20 $09
+	and  PADF_B|PADF_A                                         ; $2307: $e6 $03
+	jr   nz, @pressedAorB                             ; $2309: $20 $09
 
 	ld   de, text_space                                   ; $230b: $11 $91 $24
 	call drawInventoryItemDescription                               ; $230e: $cd $f0 $26
-	jp   Jump_000_1fcf                               ; $2311: $c3 $cf $1f
+	jp   _inventoryScreenMainLoop                               ; $2311: $c3 $cf $1f
 
-
-jr_000_2314:
-	ld   hl, $c711                                   ; $2314: $21 $11 $c7
+@pressedAorB:
+	ld   hl, wMenuCursorIdx                                   ; $2314: $21 $11 $c7
 	ld   a, (hl)                                     ; $2317: $7e
 	cp   $00                                         ; $2318: $fe $00
-	jr   nz, Jump_000_2320                             ; $231a: $20 $04
+	jr   nz, exitingInventoryMenu                             ; $231a: $20 $04
 
+// yes - exit game
 	or   $ff                                         ; $231c: $f6 $ff
-	jr   jr_000_232a                                 ; $231e: $18 $0a
+	jr   func_232a                                 ; $231e: $18 $0a
 
-Jump_000_2320:
+exitingInventoryMenu:
 	ld   de, text_space                                   ; $2320: $11 $91 $24
 	call drawInventoryItemDescription                               ; $2323: $cd $f0 $26
 	call clear_c200_to_c2ff                                       ; $2326: $cd $9e $5b
 	xor  a                                           ; $2329: $af
 
-jr_000_232a:
+func_232a:
 	push af
 	call turnOffLCDstartOfVBlank                               ; $232b: $cd $0a $02
 	call applyPalettesBasedOnLamp                               ; $232e: $cd $06 $1e
-	call func_56aa                                       ; $2331: $cd $aa $56
-	call func_55a9                                       ; $2334: $cd $a9 $55
+	call copyPlayerDataOnto_wOam                                       ; $2331: $cd $aa $56
+	call checkRaftChanges_sendToOam                                       ; $2334: $cd $a9 $55
 	call loadNpcOamDataToWram                                       ; $2337: $cd $bd $41
 	call Call_000_2e67                               ; $233a: $cd $67 $2e
 	call Call_000_3b11                               ; $233d: $cd $11 $3b
@@ -4240,73 +4250,83 @@ jr_000_232a:
 	ret                                              ; $235f: $c9
 
 
-Call_000_2360:
-	call waitUntilStartOfVBlankPeriod                               ; $2360: $cd $e8 $01
-	ld   hl, $c21c                                   ; $2363: $21 $1c $c2
-	ld   (hl), $00                                   ; $2366: $36 $00
-	ld   hl, $c220                                   ; $2368: $21 $20 $c2
-	ld   (hl), $00                                   ; $236b: $36 $00
-	ld   hl, checkBitemsSelectable                                   ; $236d: $21 $a4 $11
-	call jpHLinBank4                                       ; $2370: $cd $b5 $61
-	ld   hl, $c0a0                                   ; $2373: $21 $a0 $c0
-	bit  3, (hl)                                     ; $2376: $cb $5e
-	jr   z, @done                              ; $2378: $28 $3a
+updateInventoryLampOam:
+	call waitUntilStartOfVBlankPeriod
+// clear lamp by default
+	ld   hl, $c21c
+	ld   (hl), $00
+	ld   hl, $c220
+	ld   (hl), $00
+	ld   hl, checkBitemsSelectable
+	call jpHLinBank4
 
-	ld   hl, wIsLampOn                                   ; $237a: $21 $5b $c0
-	ld   a, (hl)                                     ; $237d: $7e
-	cp   $00                                         ; $237e: $fe $00
-	jr   z, @done                              ; $2380: $28 $32
+// skip if not gotten the lamp
+	ld   hl, wSpecialItemsGottenByte
+	bit  3, (hl)
+	jr   z, @done
 
-	ld   hl, $c21c                                   ; $2382: $21 $1c $c2
-	ld   (hl), $18                                   ; $2385: $36 $18
-	ld   hl, $c220                                   ; $2387: $21 $20 $c2
-	ld   (hl), $18                                   ; $238a: $36 $18
-	ld   hl, $c21d                                   ; $238c: $21 $1d $c2
-	ld   (hl), $40                                   ; $238f: $36 $40
-	ld   hl, $c221                                   ; $2391: $21 $21 $c2
-	ld   (hl), $48                                   ; $2394: $36 $48
-	ld   hl, $c21e                                   ; $2396: $21 $1e $c2
-	ld   (hl), $8c                                   ; $2399: $36 $8c
-	ld   hl, $c222                                   ; $239b: $21 $22 $c2
-	ld   (hl), $8e                                   ; $239e: $36 $8e
-	ld   b, $80                                      ; $23a0: $06 $80
-	ld   hl, wIsLampOn                                   ; $23a2: $21 $5b $c0
-	ld   a, (hl)                                     ; $23a5: $7e
-	cp   $00                                         ; $23a6: $fe $00
-	jr   z, +                              ; $23a8: $28 $02
+	ld   hl, wIsLampOn
+	ld   a, (hl)
+	cp   $00
+	jr   z, @done
+
+// lamp on, copy y to oam
+	ld   hl, $c21c
+	ld   (hl), $18
+	ld   hl, $c220
+	ld   (hl), $18
+
+// copy x to oam
+	ld   hl, $c21d
+	ld   (hl), $40
+	ld   hl, $c221
+	ld   (hl), $48
+
+// copy tile idxes to oam
+	ld   hl, $c21e
+	ld   (hl), $8c
+	ld   hl, $c222
+	ld   (hl), $8e
+
+// lamp attrs - use $90, or OBP1 (flashing)
+	ld   b, $80
+	ld   hl, wIsLampOn
+	ld   a, (hl)
+	cp   $00
+	jr   z, +
 
 // lamp is on
-	ld   b, $90                                      ; $23aa: $06 $90
+	ld   b, $90
 
 +
-	ld   hl, $c21f                                   ; $23ac: $21 $1f $c2
-	ld   (hl), b                                     ; $23af: $70
-	ld   hl, $c223                                   ; $23b0: $21 $23 $c2
-	ld   (hl), b                                     ; $23b3: $70
+	ld   hl, $c21f
+	ld   (hl), b
+	ld   hl, $c223
+	ld   (hl), b
 
 @done:
-	ret                                              ; $23b4: $c9
+	ret
 
 
-Call_000_23b5:
-	ld   bc, $0000                                   ; $23b5: $01 $00 $00
+retZIfCanRaftOnScreen:
+	ld   bc, $0000
 
-jr_000_23b8:
-	ld   hl, w2x2tileTypes                                   ; $23b8: $21 $00 $c3
-	add  hl, bc                                      ; $23bb: $09
-	ld   a, (hl)                                     ; $23bc: $7e
-	cp   $2d                                         ; $23bd: $fe $2d
-	jr   z, @done                              ; $23bf: $28 $08
+-
+	ld   hl, w2x2tileTypes
+	add  hl, bc
+	ld   a, (hl)
+	cp   $2d
+	jr   z, @done
 
-	inc  bc                                          ; $23c1: $03
-	ld   a, c                                        ; $23c2: $79
-	cp   $b0                                         ; $23c3: $fe $b0
-	jr   nz, jr_000_23b8                             ; $23c5: $20 $f1
+	inc  bc
+	ld   a, c
+	cp   $b0
+	jr   nz, -
 
-	cp   $2d                                         ; $23c7: $fe $2d
+	cp   $2d
 
 @done:
-	ret                                              ; $23c9: $c9
+	ret
 
 
 setFruitAsAmountToE:
@@ -4637,22 +4657,24 @@ drawInventoryItemDescription:
 Call_000_2712:
 	ld   hl, checkBitemsSelectable                                   ; $2712: $21 $a4 $11
 	call jpHLinBank4                                       ; $2715: $cd $b5 $61
-	ld   hl, $c0a0                                   ; $2718: $21 $a0 $c0
+	ld   hl, wSpecialItemsGottenByte                                   ; $2718: $21 $a0 $c0
 	ld   a, (hl)                                     ; $271b: $7e
 	cp   $00                                         ; $271c: $fe $00
 	jr   nz, @bigLoop                             ; $271e: $20 $0f
 
-	ld   hl, $c65f                                   ; $2720: $21 $5f $c6
+// no special items gotten
+	ld   hl, wInventorySelectedYIdx                                   ; $2720: $21 $5f $c6
 	ld   a, (hl)                                     ; $2723: $7e
 	cp   $00                                         ; $2724: $fe $00
 	jr   nz, @done                             ; $2726: $20 $44
 
-	ld   hl, wInventoryItemSelectedIdx                                   ; $2728: $21 $48 $c6
+// y = 0, default to going to map
+	ld   hl, wInventorySelectedXIdx                                   ; $2728: $21 $48 $c6
 	ld   (hl), $08                                   ; $272b: $36 $08
 	jr   @done                                 ; $272d: $18 $3d
 
 @bigLoop:
-	ld   hl, wInventoryItemSelectedIdx                                   ; $272f: $21 $48 $c6
+	ld   hl, wInventorySelectedXIdx                                   ; $272f: $21 $48 $c6
 	ld   c, (hl)                                     ; $2732: $4e
 	ld   b, $00                                      ; $2733: $06 $00
 	bit  7, c                                        ; $2735: $cb $79
@@ -4668,25 +4690,25 @@ Call_000_2712:
 	ld   hl, bitTable                                   ; $2742: $21 $41 $07
 	add  hl, bc                                      ; $2745: $09
 	ld   a, (hl)                                     ; $2746: $7e
-	ld   hl, $c0a0                                   ; $2747: $21 $a0 $c0
+	ld   hl, wSpecialItemsGottenByte                                   ; $2747: $21 $a0 $c0
 	and  (hl)                                        ; $274a: $a6
 	jr   nz, @done                             ; $274b: $20 $1f
 
-	ld   hl, wInventoryItemSelectedIdx                                   ; $274d: $21 $48 $c6
+	ld   hl, wInventorySelectedXIdx                                   ; $274d: $21 $48 $c6
 	ld   a, (hl)                                     ; $2750: $7e
-	ld   hl, $c019                                   ; $2751: $21 $19 $c0
+	ld   hl, wInventoryLastBItemHoveredOver                                   ; $2751: $21 $19 $c0
 	add  (hl)                                        ; $2754: $86
-	ld   hl, wInventoryItemSelectedIdx                                   ; $2755: $21 $48 $c6
+	ld   hl, wInventorySelectedXIdx                                   ; $2755: $21 $48 $c6
 	ld   (hl), a                                     ; $2758: $77
 	jp   @bigLoop                               ; $2759: $c3 $2f $27
 
 +
-	ld   hl, wInventoryItemSelectedIdx                                   ; $275c: $21 $48 $c6
+	ld   hl, wInventorySelectedXIdx                                   ; $275c: $21 $48 $c6
 	ld   (hl), $00                                   ; $275f: $36 $00
 	jp   @bigLoop                               ; $2761: $c3 $2f $27
 
 ++
-	ld   hl, wInventoryItemSelectedIdx                                   ; $2764: $21 $48 $c6
+	ld   hl, wInventorySelectedXIdx                                   ; $2764: $21 $48 $c6
 	ld   (hl), $08                                   ; $2767: $36 $08
 	jp   @bigLoop                               ; $2769: $c3 $2f $27
 
@@ -4824,7 +4846,7 @@ safeCallCommonSoundFuncs_with22h:
 	jp   _safeCallCommonSoundFuncs_286a                               ; $280e: $c3 $6a $28
 
 
-Call_000_2811:
+callsCommonSoundFuncs_2811:
 	push af                                          ; $2811: $f5
 	ld   a, $0f                                      ; $2812: $3e $0f
 	push af                                          ; $2814: $f5
@@ -4863,7 +4885,7 @@ safeCallCommonSoundFuncs_with23h2:
 	jp   _safeCallCommonSoundFuncs_286a                               ; $283a: $c3 $6a $28
 
 
-Call_000_283d:
+callsCommonSoundFuncs_283d:
 	push af                                          ; $283d: $f5
 	ld   a, $1b                                      ; $283e: $3e $1b
 	push af                                          ; $2840: $f5
@@ -4871,7 +4893,7 @@ Call_000_283d:
 	jp   callsCommonSoundFuncs_2817                               ; $2843: $c3 $17 $28
 
 
-func_2846:
+callsCommonSoundFuncs_2846:
 	push af
 	ld   a, $0c                                      ; $2847: $3e $0c
 	push af                                          ; $2849: $f5
@@ -4879,7 +4901,7 @@ func_2846:
 	jp   callsCommonSoundFuncs_2817                               ; $284c: $c3 $17 $28
 
 
-Call_000_284f:
+callsCommonSoundFuncs_284f:
 	push af
 	ld   a, $0c                                      ; $2850: $3e $0c
 	push af                                          ; $2852: $f5
@@ -4893,7 +4915,7 @@ safeCallCommonSoundFuncs_with27h:
 	jp   _safeCallCommonSoundFuncs_286a                               ; $285b: $c3 $6a $28
 
 
-Call_000_285e:
+callsCommonSoundFuncs_285e:
 	push af                                          ; $285e: $f5
 	ld   a, $09                                      ; $285f: $3e $09
 	push af                                          ; $2861: $f5
@@ -5020,12 +5042,12 @@ playerTakeDamage:
 
 //
 	ld   a, $00                                      ; $2901: $3e $00
-	ld   hl, $c057                                   ; $2903: $21 $57 $c0
+	ld   hl, wPlayerAnimationIdx                                   ; $2903: $21 $57 $c0
 	ld   (hl), a                                     ; $2906: $77
 
 //
 	ld   a, $00                                      ; $2907: $3e $00
-	ld   hl, $c055                                   ; $2909: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $2909: $21 $55 $c0
 	ld   (hl), a                                     ; $290c: $77
 
 //
@@ -5178,7 +5200,7 @@ checkUsingItems:
 	ld   a, $00                                      ; $29d0: $3e $00
 
 @Jump_000_29d2:
-	ld   hl, $c711                                   ; $29d2: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $29d2: $21 $11 $c7
 	ld   (hl), a                                     ; $29d5: $77
 	call processUsingBombs                               ; $29d6: $cd $51 $34
 
@@ -5281,9 +5303,9 @@ jr_000_2a56:
 jr_000_2a5a:
 	ld   hl, $c714                                   ; $2a5a: $21 $14 $c7
 	ld   a, (hl)                                     ; $2a5d: $7e
-	ld   hl, $c04f                                   ; $2a5e: $21 $4f $c0
+	ld   hl, wIsUsingRaft                                   ; $2a5e: $21 $4f $c0
 	or   (hl)                                        ; $2a61: $b6
-	ld   hl, $c014                                   ; $2a62: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $2a62: $21 $14 $c0
 	and  (hl)                                        ; $2a65: $a6
 	and  $01                                         ; $2a66: $e6 $01
 	jr   z, jr_000_2a6b                              ; $2a68: $28 $01
@@ -5428,7 +5450,7 @@ Jump_000_2af5:
 
 @afterVertButtonCheck:
 	ld   a, $00                                      ; $2b27: $3e $00
-	ld   hl, $c711                                   ; $2b29: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $2b29: $21 $11 $c7
 	ld   (hl), a                                     ; $2b2c: $77
 
 	ld   hl, wPlayerX                                   ; $2b2d: $21 $52 $c0
@@ -5557,7 +5579,7 @@ jr_000_2be3:
 	ld   (hl), a                                     ; $2be8: $77
 	ld   hl, $c047                                   ; $2be9: $21 $47 $c0
 	inc  (hl)                                        ; $2bec: $34
-	call Call_000_283d                               ; $2bed: $cd $3d $28
+	call callsCommonSoundFuncs_283d                               ; $2bed: $cd $3d $28
 	ret                                              ; $2bf0: $c9
 
 
@@ -5613,7 +5635,7 @@ jr_000_2c35:
 	ld   a, (hl)                                     ; $2c38: $7e
 	ld   hl, $c007                                   ; $2c39: $21 $07 $c0
 	ld   (hl), a                                     ; $2c3c: $77
-	ld   hl, $c055                                   ; $2c3d: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $2c3d: $21 $55 $c0
 	ld   a, (hl)                                     ; $2c40: $7e
 	and  $20                                         ; $2c41: $e6 $20
 	jr   z, jr_000_2c58                              ; $2c43: $28 $13
@@ -5857,7 +5879,7 @@ Call_000_2cbf:
 
 @next_2d91:
 	ld   a, $ff                                      ; $2d91: $3e $ff
-	ld   hl, $c711                                   ; $2d93: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $2d93: $21 $11 $c7
 	ld   (hl), a                                     ; $2d96: $77
 	ld   hl, wPlayerX                                   ; $2d97: $21 $52 $c0
 	ld   c, (hl)                                     ; $2d9a: $4e
@@ -5997,7 +6019,7 @@ Call_000_2cbf:
 
 Call_000_2e67:
 	ld   a, $20                                      ; $2e67: $3e $20
-	call getLastUsableOamIdx                                       ; $2e69: $cd $f1 $57
+	call getLastUsableOamIdx_fromA                                       ; $2e69: $cd $f1 $57
 	call clear2spritesInOam_1stIdxedE                                       ; $2e6c: $cd $00 $58
 	ld   hl, $c6cb                                   ; $2e6f: $21 $cb $c6
 	ld   a, (hl)                                     ; $2e72: $7e
@@ -6135,7 +6157,7 @@ Jump_000_2ef9:
 	jr   z, jr_000_2f4f                              ; $2f3f: $28 $0e
 
 	ld   de, $0000                                   ; $2f41: $11 $00 $00
-	ld   hl, $c055                                   ; $2f44: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $2f44: $21 $55 $c0
 	ld   a, (hl)                                     ; $2f47: $7e
 	and  $20                                         ; $2f48: $e6 $20
 	jr   z, jr_000_2f4f                              ; $2f4a: $28 $03
@@ -6168,7 +6190,7 @@ jr_000_2f5f:
 Jump_000_2f68:
 	ld   a, c                                        ; $2f68: $79
 	add  $24                                         ; $2f69: $c6 $24
-	call getLastUsableOamIdx                                       ; $2f6b: $cd $f1 $57
+	call getLastUsableOamIdx_fromA                                       ; $2f6b: $cd $f1 $57
 	call clearWoamOffsetE                                       ; $2f6e: $cd $10 $58
 
 Jump_000_2f71:
@@ -6283,7 +6305,7 @@ Jump_000_2ff5:
 	and  $40                                         ; $3003: $e6 $40
 	jr   z, jr_000_3022                              ; $3005: $28 $1b
 
-	ld   hl, $c014                                   ; $3007: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $3007: $21 $14 $c0
 	ld   a, (hl)                                     ; $300a: $7e
 	and  $08                                         ; $300b: $e6 $08
 	jr   nz, jr_000_3025                             ; $300d: $20 $16
@@ -6387,7 +6409,7 @@ Jump_000_3081:
 	and  $40                                         ; $308f: $e6 $40
 	jr   z, Jump_000_30f2                              ; $3091: $28 $5f
 
-	ld   hl, $c014                                   ; $3093: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $3093: $21 $14 $c0
 	ld   a, (hl)                                     ; $3096: $7e
 	and  $08                                         ; $3097: $e6 $08
 	jr   nz, jr_000_30ad                             ; $3099: $20 $12
@@ -6469,7 +6491,7 @@ Jump_000_30f2:
 	add  hl, bc                                      ; $3100: $09
 	ld   a, (hl)                                     ; $3101: $7e
 	and  $80                                         ; $3102: $e6 $80
-	ld   hl, $c711                                   ; $3104: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $3104: $21 $11 $c7
 	ld   (hl), a                                     ; $3107: $77
 	ld   hl, $c0e0                                   ; $3108: $21 $e0 $c0
 	add  hl, bc                                      ; $310b: $09
@@ -6564,7 +6586,7 @@ Jump_000_3183:
 jr_000_318d:
 	ld   a, c                                        ; $318d: $79
 	add  $24                                         ; $318e: $c6 $24
-	call getLastUsableOamIdx                                       ; $3190: $cd $f1 $57
+	call getLastUsableOamIdx_fromA                                       ; $3190: $cd $f1 $57
 	call clearWoamOffsetE                                       ; $3193: $cd $10 $58
 	ld   hl, $c0dc                                   ; $3196: $21 $dc $c0
 	add  hl, bc                                      ; $3199: $09
@@ -6603,7 +6625,7 @@ jr_000_318d:
 
 
 Call_000_31d1:
-	ld   hl, $c014                                   ; $31d1: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $31d1: $21 $14 $c0
 	ld   a, (hl)                                     ; $31d4: $7e
 	ld   hl, data_31e5                                   ; $31d5: $21 $e5 $31
 	bit  2, a                                        ; $31d8: $cb $57
@@ -6644,7 +6666,7 @@ _ret_31f8:
 
 
 Call_000_31f9:
-	call Call_000_3fed                               ; $31f9: $cd $ed $3f
+	call getTilePlayerIsOn                               ; $31f9: $cd $ed $3f
 	ld   hl, $c00c                                   ; $31fc: $21 $0c $c0
 	ld   (hl), c                                     ; $31ff: $71
 	cp   $2f                                         ; $3200: $fe $2f
@@ -6659,7 +6681,7 @@ Call_000_31f9:
 jr_000_320b:
 	jr   z, jr_000_3217                              ; $320b: $28 $0a
 
-	ld   hl, $c711                                   ; $320d: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $320d: $21 $11 $c7
 	ld   a, (hl)                                     ; $3210: $7e
 	cp   $00                                         ; $3211: $fe $00
 	jr   z, jr_000_3217                              ; $3213: $28 $02
@@ -6707,7 +6729,7 @@ Jump_000_3237:
 func_3243:
 	ld   a, $05                                      ; func_3243: $3e $05
 	call Call_000_39ea                               ; $3245: $cd $ea $39
-	call Call_000_2811                               ; $3248: $cd $11 $28
+	call callsCommonSoundFuncs_2811                               ; $3248: $cd $11 $28
 	jp   Jump_000_3286                               ; $324b: $c3 $86 $32
 
 
@@ -7062,7 +7084,7 @@ func_340e:
 	ld   hl, $c66f                                   ; $3427: $21 $6f $c6
 	add  hl, bc                                      ; $342a: $09
 	ld   (hl), a                                     ; $342b: $77
-	call Call_000_2811                               ; $342c: $cd $11 $28
+	call callsCommonSoundFuncs_2811                               ; $342c: $cd $11 $28
 	jp   c5f8_equFF                               ; $342f: $c3 $4a $34
 
 
@@ -7127,7 +7149,7 @@ processUsingBombs:
 	ld   d, $00                                      ; $3473: $16 $00
 
 //
-	ld   hl, $c711                                   ; $3475: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $3475: $21 $11 $c7
 	ld   a, (hl)                                     ; $3478: $7e
 	cp   $00                                         ; $3479: $fe $00
 	jr   z, +                              ; $347b: $28 $0c
@@ -7151,7 +7173,7 @@ processUsingBombs:
 
 	jr   nz, @incBCnext                             ; $349a: $20 $08
 
-	ld   hl, $c055                                   ; $349c: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $349c: $21 $55 $c0
 	ld   a, (hl)                                     ; $349f: $7e
 	and  $20                                         ; $34a0: $e6 $20
 	jr   z, +                              ; $34a2: $28 $01
@@ -7179,12 +7201,12 @@ processUsingBombs:
 	inc  de                                          ; $34bd: $13
 
 +
-	ld   hl, $c711                                   ; $34be: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $34be: $21 $11 $c7
 	ld   a, (hl)                                     ; $34c1: $7e
 	cp   $00                                         ; $34c2: $fe $00
 	jr   nz, +                             ; $34c4: $20 $17
 
-	call Call_000_3fed                               ; $34c6: $cd $ed $3f
+	call getTilePlayerIsOn                               ; $34c6: $cd $ed $3f
 	cp   $03                                         ; $34c9: $fe $03
 	jr   nc, @popAFret                             ; $34cb: $30 $45
 
@@ -7212,7 +7234,7 @@ processUsingBombs:
 	add  hl, bc                                      ; $34f3: $09
 	ld   (hl), a                                     ; $34f4: $77
 	ld   a, e                                        ; $34f5: $7b
-	ld   hl, $c711                                   ; $34f6: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $34f6: $21 $11 $c7
 	or   (hl)                                        ; $34f9: $b6
 	ld   hl, $c630                                   ; $34fa: $21 $30 $c6
 	add  hl, bc                                      ; $34fd: $09
@@ -7228,7 +7250,7 @@ processUsingBombs:
 // decrease bombs
 	ld   hl, wNumBombs                                   ; $350a: $21 $3b $c0
 	dec  (hl)                                        ; $350d: $35
-	call Call_000_285e                               ; $350e: $cd $5e $28
+	call callsCommonSoundFuncs_285e                               ; $350e: $cd $5e $28
 
 @ret:
 	ret                                              ; $3511: $c9
@@ -7562,7 +7584,7 @@ Call_000_36c3:
 	cp   $0b                                         ; $36c9: $fe $0b
 	jr   nc, @done                             ; $36cb: $30 $18
 
-	call Call_000_3fed                               ; $36cd: $cd $ed $3f
+	call getTilePlayerIsOn                               ; $36cd: $cd $ed $3f
 	cp   $2f                                         ; $36d0: $fe $2f
 	jr   nc, @done                             ; $36d2: $30 $11
 
@@ -7764,7 +7786,7 @@ Jump_000_37ce:
 	cp   $03                                         ; $37d0: $fe $03
 	jr   c, jr_000_37c5                              ; $37d2: $38 $f1
 
-	jp   Jump_000_3837                               ; $37d4: $c3 $37 $38
+	jp   setNpcNewIDBasedOnNpcByte6                               ; $37d4: $c3 $37 $38
 
 
 jr_000_37d7:
@@ -7806,6 +7828,9 @@ jr_000_37d7:
 	ld   hl, $c00c                                   ; $380d: $21 $0c $c0
 	ld   (hl), c                                     ; $3810: $71
 	push af                                          ; $3811: $f5
+
+// a is double idx
+// c004 is a word from the table
 	sla  a                                           ; $3812: $cb $27
 	ld   c, a                                        ; $3814: $4f
 	ld   b, $00                                      ; $3815: $06 $00
@@ -7819,6 +7844,8 @@ jr_000_37d7:
 	ld   a, (hl)                                     ; $3824: $7e
 	ld   hl, $c005                                   ; $3825: $21 $05 $c0
 	ld   (hl), a                                     ; $3828: $77
+
+//
 	ld   hl, $c00c                                   ; $3829: $21 $0c $c0
 	ld   c, (hl)                                     ; $382c: $4e
 	ld   b, $00                                      ; $382d: $06 $00
@@ -7830,7 +7857,7 @@ jr_000_37d7:
 	jp   hl                                          ; $3836: $e9
 
 
-Jump_000_3837:
+setNpcNewIDBasedOnNpcByte6:
 	ld   bc, $0000                                   ; $3837: $01 $00 $00
 
 @checkNextNPC:
@@ -8259,7 +8286,7 @@ jr_000_3a29:
 	ld   a, (hl)                                     ; $3a59: $7e
 	ld   c, a                                        ; $3a5a: $4f
 	ld   b, $00                                      ; $3a5b: $06 $00
-	call Call_000_3fed                               ; $3a5d: $cd $ed $3f
+	call getTilePlayerIsOn                               ; $3a5d: $cd $ed $3f
 	pop  af                                          ; $3a60: $f1
 	call Call_000_08fc                               ; $3a61: $cd $fc $08
 	call Call_001_58f4                                       ; $3a64: $cd $f4 $58
@@ -8369,7 +8396,7 @@ Jump_000_3ad7:
 	ld   a, (hl)                                     ; $3aec: $7e
 	ld   c, a                                        ; $3aed: $4f
 	ld   b, $00                                      ; $3aee: $06 $00
-	call Call_000_3fed                               ; $3af0: $cd $ed $3f
+	call getTilePlayerIsOn                               ; $3af0: $cd $ed $3f
 	ld   hl, $c00d                                   ; $3af3: $21 $0d $c0
 	ld   a, (hl)                                     ; $3af6: $7e
 	cp   $00                                         ; $3af7: $fe $00
@@ -8403,7 +8430,7 @@ jr_000_3b14:
 	ld   a, c                                        ; $3b14: $79
 	sla  a                                           ; $3b15: $cb $27
 	add  $02                                         ; $3b17: $c6 $02
-	call getLastUsableOamIdx                                       ; $3b19: $cd $f1 $57
+	call getLastUsableOamIdx_fromA                                       ; $3b19: $cd $f1 $57
 	call clear2spritesInOam_1stIdxedE                                       ; $3b1c: $cd $00 $58
 	ld   hl, $c660                                   ; $3b1f: $21 $60 $c6
 	add  hl, bc                                      ; $3b22: $09
@@ -9048,7 +9075,7 @@ Jump_000_3eb2:
 	ld   hl, $c009                                   ; $3ee5: $21 $09 $c0
 	ld   e, (hl)                                     ; $3ee8: $5e
 	ld   d, $00                                      ; $3ee9: $16 $00
-	call Call_000_3fed                               ; $3eeb: $cd $ed $3f
+	call getTilePlayerIsOn                               ; $3eeb: $cd $ed $3f
 	pop  af                                          ; $3eee: $f1
 	ld   hl, $c028                                   ; $3eef: $21 $28 $c0
 	ld   (hl), a                                     ; $3ef2: $77
@@ -9064,7 +9091,7 @@ Jump_000_3eb2:
 	jr   nz, Jump_000_3f19                             ; $3f03: $20 $14
 
 	inc  de                                          ; $3f05: $13
-	call Call_000_3fed                               ; $3f06: $cd $ed $3f
+	call getTilePlayerIsOn                               ; $3f06: $cd $ed $3f
 	cp   $18                                         ; $3f09: $fe $18
 	jr   nz, Jump_000_3f19                             ; $3f0b: $20 $0c
 
@@ -9109,7 +9136,7 @@ Jump_000_3f20:
 
 
 func_3f41:
-	call Call_000_3fed                               ; func_3f41: $cd $ed $3f
+	call getTilePlayerIsOn                               ; func_3f41: $cd $ed $3f
 	cp   $10                                         ; $3f44: $fe $10
 	jr   c, jr_000_3f4a                              ; $3f46: $38 $02
 
@@ -9246,7 +9273,7 @@ Jump_000_3fe2:
 
 // looks to be many purposes
 // including returning in A the tile the player is on for collisions
-Call_000_3fed:
+getTilePlayerIsOn:
 	push de
 	call c028_equGameScreenTileIdx_16ePlusC                                       ; $3fee: $cd $0c $40
 // c01e equals 16e+c
@@ -9264,7 +9291,7 @@ Call_000_3fed:
 	ld   (hl), a                                     ; $4001: $77
 	and  $7f                                         ; $4002: $e6 $7f
 
-// tile type with bo bit 7 in c00a/b
+// tile type with no bit 7 in c00a/b
 	ld   hl, $c00a                                   ; $4004: $21 $0a $c0
 	ld   (hl), e                                     ; $4007: $73
 	inc  hl                                          ; $4008: $23
@@ -9551,7 +9578,7 @@ loadNpcOamDataToWram:
 	ld   a, $1e                                      ; $41c0: $3e $1e
 	sub  c                                           ; $41c2: $91
 	sub  c                                           ; $41c3: $91
-	call getLastUsableOamIdx                               ; $41c4: $cd $f1 $57
+	call getLastUsableOamIdx_fromA                               ; $41c4: $cd $f1 $57
 	call clear2spritesInOam_1stIdxedE                               ; $41c7: $cd $00 $58
 
 	ld   hl, wNPCBytes_ID                                   ; $41ca: $21 $30 $cb
@@ -9815,7 +9842,7 @@ Call_001_4324:
 	ld   a, (hl)                                     ; $4332: $7e
 
 // turn off the above bits from c014
-	ld   hl, $c014                                   ; $4333: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $4333: $21 $14 $c0
 	and  (hl)                                        ; $4336: $a6
 	ld   hl, data_4320                                   ; $4337: $21 $20 $43
 	add  hl, de                                      ; $433a: $19
@@ -10316,25 +10343,25 @@ Call_001_45d3:
 	jr   nc, ++                             ; $45e9: $30 $0b
 
 +
-	call Call_000_3fed                                       ; $45eb: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $45eb: $cd $ed $3f
 	call Call_001_45cf                               ; $45ee: $cd $cf $45
 	jr   c, @retCFset                              ; $45f1: $38 $21
 
 	jp   @retCFunset                               ; $45f3: $c3 $11 $46
 
 ++
-	call Call_000_3fed                                       ; $45f6: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $45f6: $cd $ed $3f
 	call Call_001_45cf                               ; $45f9: $cd $cf $45
 	jr   nc, +                             ; $45fc: $30 $0a
 
 	inc  de                                          ; $45fe: $13
-	call Call_000_3fed                                       ; $45ff: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $45ff: $cd $ed $3f
 	call Call_001_45cf                               ; $4602: $cd $cf $45
 	jp   @retCFset                               ; $4605: $c3 $14 $46
 
 +
 	inc  de                                          ; $4608: $13
-	call Call_000_3fed                                       ; $4609: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $4609: $cd $ed $3f
 	call Call_001_45cf                               ; $460c: $cd $cf $45
 	jr   c, @retCFset                              ; $460f: $38 $03
 
@@ -10360,25 +10387,25 @@ Call_001_4616:
 	cp   $01                                         ; $4626: $fe $01
 	jr   nc, +                             ; $4628: $30 $0b
 
-	call Call_000_3fed                                       ; $462a: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $462a: $cd $ed $3f
 	call Call_001_45cf                               ; $462d: $cd $cf $45
 	jr   c, @retCFset                              ; $4630: $38 $21
 
 	jp   @retCFunset                               ; $4632: $c3 $50 $46
 
 +
-	call Call_000_3fed                                       ; $4635: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $4635: $cd $ed $3f
 	call Call_001_45cf                               ; $4638: $cd $cf $45
 	jr   nc, +                             ; $463b: $30 $0a
 
 	inc  bc                                          ; $463d: $03
-	call Call_000_3fed                                       ; $463e: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $463e: $cd $ed $3f
 	call Call_001_45cf                               ; $4641: $cd $cf $45
 	jp   @retCFset                               ; $4644: $c3 $53 $46
 
 +
 	inc  bc                                          ; $4647: $03
-	call Call_000_3fed                                       ; $4648: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $4648: $cd $ed $3f
 	call Call_001_45cf                               ; $464b: $cd $cf $45
 	jr   c, @retCFset                              ; $464e: $38 $03
 
@@ -10894,7 +10921,7 @@ func_48ec:
 	dec  (hl)                                        ; $4923: $35
 	jr   z, @c081_0                              ; $4924: $28 $24
 
-	call Call_000_3fed                                       ; $4926: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $4926: $cd $ed $3f
 	cp   $23                                         ; $4929: $fe $23
 	jr   z, @a18to23                              ; $492b: $28 $26
 
@@ -11159,7 +11186,7 @@ jr_001_4a2a:
 	ld   (hl), a                                     ; $4a95: $77
 	ld   c, a                                        ; $4a96: $4f
 	ld   b, $00                                      ; $4a97: $06 $00
-	call Call_000_3fed                                       ; $4a99: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $4a99: $cd $ed $3f
 	call Call_000_078b                                       ; $4a9c: $cd $8b $07
 	ld   a, $00                                      ; $4a9f: $3e $00
 	call Call_001_58f4                               ; $4aa1: $cd $f4 $58
@@ -11498,10 +11525,10 @@ checkTransitioningToLeftScreen:
 	cp   $00                                         ; $4c5f: $fe $00
 	jr   nz, jr_001_4c79                             ; $4c61: $20 $16
 
-	ld   hl, $c055                                   ; $4c63: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4c63: $21 $55 $c0
 	ld   a, (hl)                                     ; $4c66: $7e
 	or   $20                                         ; $4c67: $f6 $20
-	ld   hl, $c055                                   ; $4c69: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4c69: $21 $55 $c0
 	ld   (hl), a                                     ; $4c6c: $77
 	ld   a, $40                                      ; $4c6d: $3e $40
 	ld   hl, $c056                                   ; $4c6f: $21 $56 $c0
@@ -11569,7 +11596,7 @@ Jump_001_4cca:
 
 
 Jump_001_4cd5:
-	ld   hl, $c055                                   ; $4cd5: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4cd5: $21 $55 $c0
 	ld   a, (hl)                                     ; $4cd8: $7e
 	or   $20                                         ; $4cd9: $f6 $20
 	jp   Jump_001_4d5f                               ; $4cdb: $c3 $5f $4d
@@ -11582,10 +11609,10 @@ checkTransitioningToRightScreen:
 	jr   c, @notTransitioningRight                              ; $4ce4: $38 $16
 
 // player x is past right edge of screen
-	ld   hl, $c055                                   ; $4ce6: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4ce6: $21 $55 $c0
 	ld   a, (hl)                                     ; $4ce9: $7e
 	and  $df                                         ; $4cea: $e6 $df
-	ld   hl, $c055                                   ; $4cec: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4cec: $21 $55 $c0
 	ld   (hl), a                                     ; $4cef: $77
 	ld   a, $40                                      ; $4cf0: $3e $40
 	ld   hl, $c056                                   ; $4cf2: $21 $56 $c0
@@ -11653,12 +11680,12 @@ jr_001_4d51:
 	jr   nz, Jump_001_4d69                             ; $4d57: $20 $10
 
 Jump_001_4d59:
-	ld   hl, $c055                                   ; $4d59: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4d59: $21 $55 $c0
 	ld   a, (hl)                                     ; $4d5c: $7e
 	and  $df                                         ; $4d5d: $e6 $df
 
 Jump_001_4d5f:
-	ld   hl, $c055                                   ; $4d5f: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4d5f: $21 $55 $c0
 	ld   (hl), a                                     ; $4d62: $77
 	ld   a, $40                                      ; $4d63: $3e $40
 	ld   hl, $c056                                   ; $4d65: $21 $56 $c0
@@ -11672,7 +11699,7 @@ Jump_001_4d69:
 	and  $03                                         ; $4d71: $e6 $03
 	jr   nz, jr_001_4d88                             ; $4d73: $20 $13
 
-	ld   hl, $c057                                   ; $4d75: $21 $57 $c0
+	ld   hl, wPlayerAnimationIdx                                   ; $4d75: $21 $57 $c0
 	ld   e, (hl)                                     ; $4d78: $5e
 	ld   d, $00                                      ; $4d79: $16 $00
 	ld   a, e                                        ; $4d7b: $7b
@@ -11683,7 +11710,7 @@ Jump_001_4d69:
 
 jr_001_4d83:
 	inc  de                                          ; $4d83: $13
-	ld   hl, $c057                                   ; $4d84: $21 $57 $c0
+	ld   hl, wPlayerAnimationIdx                                   ; $4d84: $21 $57 $c0
 	ld   (hl), e                                     ; $4d87: $73
 
 jr_001_4d88:
@@ -11699,10 +11726,10 @@ checkTransitioningToAboveScreen:
 	ld   a, $43                                      ; $4d91: $3e $43
 	ld   hl, $c056                                   ; $4d93: $21 $56 $c0
 	ld   (hl), a                                     ; $4d96: $77
-	ld   hl, $c055                                   ; $4d97: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4d97: $21 $55 $c0
 	ld   a, (hl)                                     ; $4d9a: $7e
 	and  $df                                         ; $4d9b: $e6 $df
-	ld   hl, $c055                                   ; $4d9d: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4d9d: $21 $55 $c0
 	ld   (hl), a                                     ; $4da0: $77
 
 // transitioning up
@@ -11765,10 +11792,10 @@ jr_001_4df1:
 	ld   (hl), a                                     ; $4dfe: $77
 
 Jump_001_4dff:
-	ld   hl, $c055                                   ; $4dff: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4dff: $21 $55 $c0
 	ld   a, (hl)                                     ; $4e02: $7e
 	and  $df                                         ; $4e03: $e6 $df
-	ld   hl, $c055                                   ; $4e05: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4e05: $21 $55 $c0
 	ld   (hl), a                                     ; $4e08: $77
 
 jr_001_4e09:
@@ -11785,10 +11812,10 @@ checkTransitioningToBelowScreen:
 	ld   a, $46                                      ; $4e16: $3e $46
 	ld   hl, $c056                                   ; $4e18: $21 $56 $c0
 	ld   (hl), a                                     ; $4e1b: $77
-	ld   hl, $c055                                   ; $4e1c: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4e1c: $21 $55 $c0
 	ld   a, (hl)                                     ; $4e1f: $7e
 	and  $df                                         ; $4e20: $e6 $df
-	ld   hl, $c055                                   ; $4e22: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $4e22: $21 $55 $c0
 	ld   (hl), a                                     ; $4e25: $77
 
 // transitioning down
@@ -12279,7 +12306,7 @@ processPlayerCollision:
 	cp   (hl)                                        ; $50da: $be
 	jr   nz, @func_50ef                             ; $50db: $20 $12
 
-	call Call_000_3fed                                       ; $50dd: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $50dd: $cd $ed $3f
 	cp   $10                                         ; $50e0: $fe $10
 	jr   z, @next_50f2                              ; $50e2: $28 $0e
 
@@ -12292,7 +12319,7 @@ processPlayerCollision:
 	jp   @done                               ; $50ec: $c3 $07 $51
 
 @func_50ef:
-	call Call_000_3fed                                       ; $50ef: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $50ef: $cd $ed $3f
 
 @next_50f2:
 // check out of bounds of table
@@ -12334,7 +12361,7 @@ _collisionsTable_17:
 	cp   $00                                         ; $510d: $fe $00
 	jr   nz, _ret_5108                             ; $510f: $20 $f7
 
-	ld   hl, $c711                                   ; $5111: $21 $11 $c7
+	ld   hl, wMenuCursorIdx                                   ; $5111: $21 $11 $c7
 	ld   a, (hl)                                     ; $5114: $7e
 	cp   $00                                         ; $5115: $fe $00
 	jr   nz, _ret_5108                             ; $5117: $20 $ef
@@ -12431,7 +12458,7 @@ giveBombs:
 //
 	call func_3928                                       ; $51a0: $cd $28 $39
 	call Call_001_58ea                               ; $51a3: $cd $ea $58
-	call Call_000_284f                                       ; $51a6: $cd $4f $28
+	call callsCommonSoundFuncs_284f                                       ; $51a6: $cd $4f $28
 	ret                                              ; $51a9: $c9
 
 
@@ -12458,7 +12485,7 @@ giveBirds:
 	ld   hl, wNumBirds                                   ; $51c1: $21 $08 $c7
 	ld   (hl), a                                     ; $51c4: $77
 //
-	call Call_000_284f                                       ; $51c5: $cd $4f $28
+	call callsCommonSoundFuncs_284f                                       ; $51c5: $cd $4f $28
 	ret                                              ; $51c8: $c9
 
 
@@ -12470,14 +12497,14 @@ _collision_give5birds:
 _collisionsTable_07:
 	call func_3928                                       ; $51ce: $cd $28 $39
 	call Call_001_58ea                               ; $51d1: $cd $ea $58
-	call Call_000_284f                                       ; $51d4: $cd $4f $28
+	call callsCommonSoundFuncs_284f                                       ; $51d4: $cd $4f $28
 	ret                                              ; $51d7: $c9
 
 
 _collisionsTable_08:
 	call func_3928                                       ; $51d8: $cd $28 $39
 	call Call_001_58ea                               ; $51db: $cd $ea $58
-	call Call_000_284f                                       ; $51de: $cd $4f $28
+	call callsCommonSoundFuncs_284f                                       ; $51de: $cd $4f $28
 	ret                                              ; $51e1: $c9
 
 
@@ -12508,7 +12535,7 @@ _collision_giveArmorOfGod:
 	or   (hl)                                        ; $5203: $b6
 	ld   hl, wArmorOfGodGotten                                   ; $5204: $21 $52 $c6
 	ld   (hl), a                                     ; $5207: $77
-	call Call_000_284f                                       ; $5208: $cd $4f $28
+	call callsCommonSoundFuncs_284f                                       ; $5208: $cd $4f $28
 	ret                                              ; $520b: $c9
 
 
@@ -12539,7 +12566,7 @@ _collision_giveSpecialBitem:
 	or   (hl)                                        ; $522d: $b6
 	ld   hl, wSpecialBitemsGotten                                   ; $522e: $21 $53 $c6
 	ld   (hl), a                                     ; $5231: $77
-	call Call_000_284f                                       ; $5232: $cd $4f $28
+	call callsCommonSoundFuncs_284f                                       ; $5232: $cd $4f $28
 	ret                                              ; $5235: $c9
 
 
@@ -12555,7 +12582,7 @@ bcEquTilesetIdxDiv2:
 _collision_giveHeartContainer:
 	call func_3928                                       ; $5240: $cd $28 $39
 	call Call_001_58ea                               ; $5243: $cd $ea $58
-	call Call_000_284f                                       ; $5246: $cd $4f $28
+	call callsCommonSoundFuncs_284f                                       ; $5246: $cd $4f $28
 
 giveHeartContainer:
 	ld   hl, wPlayerMaxHealth                                   ; $5249: $21 $73 $c0
@@ -12585,7 +12612,7 @@ _collisionsTable_0d:
 _collision_giveAnointingOil:
 	call func_3928                                       ; $5262: $cd $28 $39
 	call Call_001_58ea                               ; $5265: $cd $ea $58
-	call func_2846                                       ; $5268: $cd $46 $28
+	call callsCommonSoundFuncs_2846                                       ; $5268: $cd $46 $28
 
 incAnointingOilsGotten:
 	ld   hl, wAnointingOilsGotten                                   ; $526b: $21 $51 $c6
@@ -12610,7 +12637,7 @@ incAnointingOilsGotten:
 _collision_giveKey:
 	call func_3928                                       ; $5280: $cd $28 $39
 	call Call_001_58ea                               ; $5283: $cd $ea $58
-	call Call_000_284f                                       ; $5286: $cd $4f $28
+	call callsCommonSoundFuncs_284f                                       ; $5286: $cd $4f $28
 
 giveKey:
 	ld   hl, wNumKeys                                   ; $5289: $21 $fa $c5
@@ -12629,7 +12656,7 @@ _collision_giveHeart:
 	call func_39fb                                       ; $529e: $cd $fb $39
 	call Call_000_3a0c                                       ; $52a1: $cd $0c $3a
 	call add2toPlayerHealth                               ; $52a4: $cd $84 $50
-	call func_2846                                       ; $52a7: $cd $46 $28
+	call callsCommonSoundFuncs_2846                                       ; $52a7: $cd $46 $28
 	ret                                              ; $52aa: $c9
 
 
@@ -12880,7 +12907,7 @@ Call_001_53d8:
 	cp   (hl)                                        ; $53f5: $be
 	jr   nc, jr_001_541f                             ; $53f6: $30 $27
 
-	call Call_000_3fed                                       ; $53f8: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $53f8: $cd $ed $3f
 	call Call_001_553b                               ; $53fb: $cd $3b $55
 	call Call_001_52ab                               ; $53fe: $cd $ab $52
 	jr   c, jr_001_5463                              ; $5401: $38 $60
@@ -12894,7 +12921,7 @@ Call_001_53d8:
 	jr   z, jr_001_545d                              ; $540d: $28 $4e
 
 	inc  de                                          ; $540f: $13
-	call Call_000_3fed                                       ; $5410: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $5410: $cd $ed $3f
 	call Call_001_553b                               ; $5413: $cd $3b $55
 	jr   nc, jr_001_545d                             ; $5416: $30 $45
 
@@ -12908,13 +12935,13 @@ jr_001_541f:
 	jr   c, jr_001_543f                              ; $5421: $38 $1c
 
 	inc  de                                          ; $5423: $13
-	call Call_000_3fed                                       ; $5424: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $5424: $cd $ed $3f
 	call Call_001_553b                               ; $5427: $cd $3b $55
 	call Call_001_52ab                               ; $542a: $cd $ab $52
 	jr   c, jr_001_5463                              ; $542d: $38 $34
 
 	dec  de                                          ; $542f: $1b
-	call Call_000_3fed                                       ; $5430: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $5430: $cd $ed $3f
 	call Call_001_553b                               ; $5433: $cd $3b $55
 	jr   nc, jr_001_545d                             ; $5436: $30 $25
 
@@ -12924,19 +12951,19 @@ jr_001_541f:
 
 
 jr_001_543f:
-	call Call_000_3fed                                       ; $543f: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $543f: $cd $ed $3f
 	call Call_001_553b                               ; $5442: $cd $3b $55
 	jr   nc, jr_001_5451                             ; $5445: $30 $0a
 
 	inc  de                                          ; $5447: $13
-	call Call_000_3fed                                       ; $5448: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $5448: $cd $ed $3f
 	call Call_001_553b                               ; $544b: $cd $3b $55
 	jp   Jump_001_5463                               ; $544e: $c3 $63 $54
 
 
 jr_001_5451:
 	inc  de                                          ; $5451: $13
-	call Call_000_3fed                                       ; $5452: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $5452: $cd $ed $3f
 	call Call_001_553b                               ; $5455: $cd $3b $55
 	call Call_001_52ab                               ; $5458: $cd $ab $52
 	jr   c, jr_001_5463                              ; $545b: $38 $06
@@ -13014,7 +13041,7 @@ Call_001_549f:
 	cp   $05                                         ; $54af: $fe $05
 	jr   nc, jr_001_54d6                             ; $54b1: $30 $23
 
-	call Call_000_3fed                                       ; $54b3: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $54b3: $cd $ed $3f
 	call Call_001_553b                               ; $54b6: $cd $3b $55
 	call Call_001_5342                               ; $54b9: $cd $42 $53
 	jr   c, jr_001_551a                              ; $54bc: $38 $5c
@@ -13025,7 +13052,7 @@ Call_001_549f:
 	jr   z, jr_001_5514                              ; $54c4: $28 $4e
 
 	inc  bc                                          ; $54c6: $03
-	call Call_000_3fed                                       ; $54c7: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $54c7: $cd $ed $3f
 	call Call_001_553b                               ; $54ca: $cd $3b $55
 	jr   nc, jr_001_5514                             ; $54cd: $30 $45
 
@@ -13039,13 +13066,13 @@ jr_001_54d6:
 	jr   c, jr_001_54f6                              ; $54d8: $38 $1c
 
 	inc  bc                                          ; $54da: $03
-	call Call_000_3fed                                       ; $54db: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $54db: $cd $ed $3f
 	call Call_001_553b                               ; $54de: $cd $3b $55
 	call Call_001_5342                               ; $54e1: $cd $42 $53
 	jr   c, jr_001_551a                              ; $54e4: $38 $34
 
 	dec  bc                                          ; $54e6: $0b
-	call Call_000_3fed                                       ; $54e7: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $54e7: $cd $ed $3f
 	call Call_001_553b                               ; $54ea: $cd $3b $55
 	jr   nc, jr_001_5514                             ; $54ed: $30 $25
 
@@ -13055,19 +13082,19 @@ jr_001_54d6:
 
 
 jr_001_54f6:
-	call Call_000_3fed                                       ; $54f6: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $54f6: $cd $ed $3f
 	call Call_001_553b                               ; $54f9: $cd $3b $55
 	jr   nc, jr_001_5508                             ; $54fc: $30 $0a
 
 	inc  bc                                          ; $54fe: $03
-	call Call_000_3fed                                       ; $54ff: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $54ff: $cd $ed $3f
 	call Call_001_553b                               ; $5502: $cd $3b $55
 	jp   Jump_001_551a                               ; $5505: $c3 $1a $55
 
 
 jr_001_5508:
 	inc  bc                                          ; $5508: $03
-	call Call_000_3fed                                       ; $5509: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $5509: $cd $ed $3f
 	call Call_001_553b                               ; $550c: $cd $3b $55
 	call Call_001_5342                               ; $550f: $cd $42 $53
 	jr   c, jr_001_551a                              ; $5512: $38 $06
@@ -13132,7 +13159,7 @@ Call_001_553b:
 
 
 jr_001_554f:
-	ld   hl, $c04c                                   ; $554f: $21 $4c $c0
+	ld   hl, wIsEquippingRaft                                   ; $554f: $21 $4c $c0
 	ld   a, (hl)                                     ; $5552: $7e
 	cp   $00                                         ; $5553: $fe $00
 	jr   z, jr_001_55a7                              ; $5555: $28 $50
@@ -13214,23 +13241,25 @@ jr_001_55a6:
 jr_001_55a7:
 	scf                                              ; $55a7: $37
 
-jr_001_55a8:
+_ret_55a8:
 	ret                                              ; $55a8: $c9
 
 
-func_55a9:
-	ld   hl, $c04f
-	ld   a, (hl)                                     ; $55ac: $7e
-	ld   hl, $c711                                   ; $55ad: $21 $11 $c7
-	ld   (hl), a                                     ; $55b0: $77
-	ld   a, $00                                      ; $55b1: $3e $00
-	ld   hl, $c04f                                   ; $55b3: $21 $4f $c0
-	ld   (hl), a                                     ; $55b6: $77
-	ld   hl, $c04c                                   ; $55b7: $21 $4c $c0
-	ld   a, (hl)                                     ; $55ba: $7e
-	cp   $00                                         ; $55bb: $fe $00
-	jr   z, jr_001_55a8                              ; $55bd: $28 $e9
+checkRaftChanges_sendToOam:
+	ld   hl, wIsUsingRaft
+	ld   a, (hl)
+	ld   hl, wPreviousUsingRaft
+	ld   (hl), a
 
+	ld   a, $00
+	ld   hl, wIsUsingRaft
+	ld   (hl), a
+	ld   hl, wIsEquippingRaft
+	ld   a, (hl)
+	cp   $00
+	jr   z, _ret_55a8
+
+// equipping raft
 	ld   hl, wPlayerX                                   ; $55bf: $21 $52 $c0
 	ld   a, (hl)                                     ; $55c2: $7e
 	add  $08                                         ; $55c3: $c6 $08
@@ -13248,32 +13277,35 @@ func_55a9:
 	ld   hl, $c009                                   ; $55da: $21 $09 $c0
 	ld   e, (hl)                                     ; $55dd: $5e
 	ld   d, $00                                      ; $55de: $16 $00
-	call Call_000_3fed                                       ; $55e0: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $55e0: $cd $ed $3f
 	cp   $2d                                         ; $55e3: $fe $2d
-	jr   nz, jr_001_55ed                             ; $55e5: $20 $06
+	jr   nz, +                             ; $55e5: $20 $06
 
-	ld   a, $ff                                      ; $55e7: $3e $ff
-	ld   hl, $c04f                                   ; $55e9: $21 $4f $c0
-	ld   (hl), a                                     ; $55ec: $77
+// set using raft if current tile is $2d (water)
+	ld   a, $ff
+	ld   hl, wIsUsingRaft
+	ld   (hl), a
 
-jr_001_55ed:
-	ld   hl, $c04f                                   ; $55ed: $21 $4f $c0
-	ld   a, (hl)                                     ; $55f0: $7e
-	ld   hl, $c711                                   ; $55f1: $21 $11 $c7
-	xor  (hl)                                        ; $55f4: $ae
-	jr   z, jr_001_55fd                              ; $55f5: $28 $06
++
+	ld   hl, wIsUsingRaft
+	ld   a, (hl)
+	ld   hl, wPreviousUsingRaft
+	xor  (hl)
+	jr   z, copyRaftDataToOam
 
-	ld   de, $168e                                   ; $55f7: $11 $8e $16
-	call callCommonSoundFuncs_1513                                       ; $55fa: $cd $13 $15
+// play sound if entering or exiting water
+	ld   de, $168e
+	call callCommonSoundFuncs_1513
 
-jr_001_55fd:
-	ld   hl, $c04c                                   ; jr_001_55fd: $21 $4c $c0
-	ld   a, (hl)                                     ; $5600: $7e
-	cp   $00                                         ; $5601: $fe $00
-	jr   z, jr_001_55a8                              ; $5603: $28 $a3
+copyRaftDataToOam:
+	ld   hl, wIsEquippingRaft
+	ld   a, (hl)
+	cp   $00
+	jr   z, _ret_55a8
 
+// equipping raft
 	ld   a, $22                                      ; $5605: $3e $22
-	call getLastUsableOamIdx                               ; $5607: $cd $f1 $57
+	call getLastUsableOamIdx_fromA                               ; $5607: $cd $f1 $57
 	call clear2spritesInOam_1stIdxedE                               ; $560a: $cd $00 $58
 	ld   a, $b1                                      ; $560d: $3e $b1
 	call func_17dd                                       ; $560f: $cd $dd $17
@@ -13290,137 +13322,140 @@ jr_001_55fd:
 	ld   hl, wOam+7                                   ; $5624: $21 $07 $c2
 	add  hl, de                                      ; $5627: $19
 	ld   (hl), $00                                   ; $5628: $36 $00
-	ld   hl, $c04f                                   ; $562a: $21 $4f $c0
+	ld   hl, wIsUsingRaft                                   ; $562a: $21 $4f $c0
 	ld   a, (hl)                                     ; $562d: $7e
 	cp   $00                                         ; $562e: $fe $00
-	jr   z, jr_001_565f                              ; $5630: $28 $2d
+	jr   z, @notUsingRaft                              ; $5630: $28 $2d
 
-	ld   hl, wPlayerX                                   ; $5632: $21 $52 $c0
-	ld   a, (hl)                                     ; $5635: $7e
-	ld   hl, wSCXvalue                                   ; $5636: $21 $10 $cb
-	sub  (hl)                                        ; $5639: $96
-	add  $08                                         ; $563a: $c6 $08
-	ld   hl, wOam+1                                   ; $563c: $21 $01 $c2
-	add  hl, de                                      ; $563f: $19
-	ld   (hl), a                                     ; $5640: $77
-	add  $08                                         ; $5641: $c6 $08
-	ld   hl, wOam+5                                   ; $5643: $21 $05 $c2
-	add  hl, de                                      ; $5646: $19
-	ld   (hl), a                                     ; $5647: $77
-	ld   hl, wPlayerY                                   ; $5648: $21 $54 $c0
-	ld   a, (hl)                                     ; $564b: $7e
-	add  $10                                         ; $564c: $c6 $10
-	add  $08                                         ; $564e: $c6 $08
-	ld   hl, wSCYvalue                                   ; $5650: $21 $11 $cb
-	sub  (hl)                                        ; $5653: $96
-	ld   hl, wOam                                   ; $5654: $21 $00 $c2
-	add  hl, de                                      ; $5657: $19
-	ld   (hl), a                                     ; $5658: $77
-	ld   hl, wOam+4                                   ; $5659: $21 $04 $c2
-	add  hl, de                                      ; $565c: $19
-	ld   (hl), a                                     ; $565d: $77
-	ret                                              ; $565e: $c9
+// using raft
+	ld   hl, wPlayerX
+	ld   a, (hl)
+	ld   hl, wSCXvalue
+	sub  (hl)
+	add  $08
+	ld   hl, wOam+1
+	add  hl, de
+	ld   (hl), a
+	add  $08
+	ld   hl, wOam+5
+	add  hl, de
+	ld   (hl), a
+	ld   hl, wPlayerY
+	ld   a, (hl)
+	add  $10
+	add  $08
+	ld   hl, wSCYvalue
+	sub  (hl)
+	ld   hl, wOam
+	add  hl, de
+	ld   (hl), a
+	ld   hl, wOam+4
+	add  hl, de
+	ld   (hl), a
+	ret
 
+@notUsingRaft:
+// offsets, etc for holding raft
+	ld   hl, wPlayerOamAttr
+	ld   a, (hl)
+	and  $20
+	jr   z, @facingRight
 
-jr_001_565f:
-	ld   hl, $c055                                   ; $565f: $21 $55 $c0
-	ld   a, (hl)                                     ; $5662: $7e
-	and  $20                                         ; $5663: $e6 $20
-	jr   z, jr_001_567f                              ; $5665: $28 $18
+// facing left
+	ld   hl, wPlayerX
+	ld   a, (hl)
+	ld   hl, wSCXvalue
+	sub  (hl)
+	add  $08
+	sub  $0a
+	jr   nc, @sendTo_wOam
 
-	ld   hl, wPlayerX                                   ; $5667: $21 $52 $c0
-	ld   a, (hl)                                     ; $566a: $7e
-	ld   hl, wSCXvalue                                   ; $566b: $21 $10 $cb
-	sub  (hl)                                        ; $566e: $96
-	add  $08                                         ; $566f: $c6 $08
-	sub  $0a                                         ; $5671: $d6 $0a
-	jr   nc, jr_001_5689                             ; $5673: $30 $14
-
-	ld   a, $00                                      ; $5675: $3e $00
-	ld   hl, wOam+1                                   ; $5677: $21 $01 $c2
-	add  hl, de                                      ; $567a: $19
-	ld   (hl), a                                     ; $567b: $77
-	jp   Jump_001_5689                               ; $567c: $c3 $89 $56
-
-
-jr_001_567f:
-	ld   hl, wPlayerX                                   ; $567f: $21 $52 $c0
-	ld   a, (hl)                                     ; $5682: $7e
-	ld   hl, wSCXvalue                                   ; $5683: $21 $10 $cb
-	sub  (hl)                                        ; $5686: $96
-	add  $12                                         ; $5687: $c6 $12
-
-Jump_001_5689:
-jr_001_5689:
-	ld   hl, wOam+1                                   ; $5689: $21 $01 $c2
-	add  hl, de                                      ; $568c: $19
-	ld   (hl), a                                     ; $568d: $77
-	add  $08                                         ; $568e: $c6 $08
-	ld   hl, wOam+5                                   ; $5690: $21 $05 $c2
-	add  hl, de                                      ; $5693: $19
-	ld   (hl), a                                     ; $5694: $77
-	ld   hl, wPlayerY                                   ; $5695: $21 $54 $c0
-	ld   a, (hl)                                     ; $5698: $7e
-	add  $10                                         ; $5699: $c6 $10
-	ld   hl, wSCYvalue                                   ; $569b: $21 $11 $cb
-	sub  (hl)                                        ; $569e: $96
-	ld   hl, wOam                                   ; $569f: $21 $00 $c2
-	add  hl, de                                      ; $56a2: $19
-	ld   (hl), a                                     ; $56a3: $77
-	ld   hl, wOam+4                                   ; $56a4: $21 $04 $c2
-	add  hl, de                                      ; $56a7: $19
-	ld   (hl), a                                     ; $56a8: $77
-	ret                                              ; $56a9: $c9
-
-
-func_56aa:
 	ld   a, $00
-	call getLastUsableOamIdx                               ; $56ac: $cd $f1 $57
+	ld   hl, wOam+1
+	add  hl, de
+	ld   (hl), a
+	jp   @sendTo_wOam
+
+@facingRight:
+	ld   hl, wPlayerX
+	ld   a, (hl)
+	ld   hl, wSCXvalue
+	sub  (hl)
+	add  $12
+
+@sendTo_wOam:
+	ld   hl, wOam+1
+	add  hl, de
+	ld   (hl), a
+	add  $08
+	ld   hl, wOam+5
+	add  hl, de
+	ld   (hl), a
+	ld   hl, wPlayerY
+	ld   a, (hl)
+	add  $10
+	ld   hl, wSCYvalue
+	sub  (hl)
+	ld   hl, wOam
+	add  hl, de
+	ld   (hl), a
+	ld   hl, wOam+4
+	add  hl, de
+	ld   (hl), a
+	ret
+
+
+copyPlayerDataOnto_wOam:
+	ld   a, $00
+	call getLastUsableOamIdx_fromA
 	ld   e, a                                        ; $56af: $5f
 	ld   d, $00                                      ; $56b0: $16 $00
-	ld   hl, wSecondRoomStructByteBit4                                   ; $56b2: $21 $90 $c0
+	ld   hl, wIsPlatformingLikeRoom                                   ; $56b2: $21 $90 $c0
 	ld   a, (hl)                                     ; $56b5: $7e
 	cp   $00                                         ; $56b6: $fe $00
-	jr   z, jr_001_56c8                              ; $56b8: $28 $0e
+	jr   z, @notPlatforming_orGoingLeftRight                              ; $56b8: $28 $0e
 
+// is platforming-looking room, change oam?
 	ld   c, $4c                                      ; $56ba: $0e $4c
 	ld   hl, $c056                                   ; $56bc: $21 $56 $c0
 	ld   a, (hl)                                     ; $56bf: $7e
 	cp   $43                                         ; $56c0: $fe $43
-	jr   z, jr_001_56d4                              ; $56c2: $28 $10
+	jr   z, @notUsingRaftOr_platformingLadderAnimation                              ; $56c2: $28 $10
 
 	cp   $46                                         ; $56c4: $fe $46
-	jr   z, jr_001_56d4                              ; $56c6: $28 $0c
+	jr   z, @notUsingRaftOr_platformingLadderAnimation                              ; $56c6: $28 $0c
 
-jr_001_56c8:
+@notPlatforming_orGoingLeftRight:
+// eg uses non-platforming sprites
 	ld   hl, $c056                                   ; $56c8: $21 $56 $c0
 	ld   c, (hl)                                     ; $56cb: $4e
-	ld   hl, $c04f                                   ; $56cc: $21 $4f $c0
+	ld   hl, wIsUsingRaft                                   ; $56cc: $21 $4f $c0
 	ld   a, (hl)                                     ; $56cf: $7e
 	cp   $00                                         ; $56d0: $fe $00
-	jr   nz, jr_001_56da                             ; $56d2: $20 $06
+	jr   nz, @after_getting_data_08ad_offset                             ; $56d2: $20 $06
 
-jr_001_56d4:
-	ld   hl, $c057                                   ; $56d4: $21 $57 $c0
+@notUsingRaftOr_platformingLadderAnimation:
+	ld   hl, wPlayerAnimationIdx                                   ; $56d4: $21 $57 $c0
 	ld   a, (hl)                                     ; $56d7: $7e
 	add  c                                           ; $56d8: $81
 	ld   c, a                                        ; $56d9: $4f
 
-jr_001_56da:
-	ld   hl, $c055                                   ; $56da: $21 $55 $c0
+@after_getting_data_08ad_offset:
+	ld   hl, wPlayerOamAttr                                   ; $56da: $21 $55 $c0
 	ld   a, (hl)                                     ; $56dd: $7e
 	and  $20                                         ; $56de: $e6 $20
-	jr   nz, jr_001_5701                             ; $56e0: $20 $1f
+	jr   nz, @facingLeft                             ; $56e0: $20 $1f
 
 	ld   hl, data_08ad                                   ; $56e2: $21 $ad $08
 	ld   b, $00                                      ; $56e5: $06 $00
 	add  hl, bc                                      ; $56e7: $09
 	ld   a, (hl)                                     ; $56e8: $7e
 	call func_17dd                                       ; $56e9: $cd $dd $17
+
 	bit  0, a                                        ; $56ec: $cb $47
 	jr   nz, jr_001_570f                             ; $56ee: $20 $1f
 
-jr_001_56f0:
+@afterGettingFrom_08ad:
 	and  $fe                                         ; $56f0: $e6 $fe
 	ld   hl, wOam+2                                   ; $56f2: $21 $02 $c2
 	add  hl, de                                      ; $56f5: $19
@@ -13431,15 +13466,15 @@ jr_001_56f0:
 	ld   (hl), a                                     ; $56fd: $77
 	jp   Jump_001_571d                               ; $56fe: $c3 $1d $57
 
-
-jr_001_5701:
+@facingLeft:
 	ld   hl, data_08ad                                   ; $5701: $21 $ad $08
 	ld   b, $00                                      ; $5704: $06 $00
 	add  hl, bc                                      ; $5706: $09
 	ld   a, (hl)                                     ; $5707: $7e
 	call func_17dd                                       ; $5708: $cd $dd $17
+
 	bit  0, a                                        ; $570b: $cb $47
-	jr   nz, jr_001_56f0                             ; $570d: $20 $e1
+	jr   nz, @afterGettingFrom_08ad                             ; $570d: $20 $e1
 
 jr_001_570f:
 	and  $fe                                         ; $570f: $e6 $fe
@@ -13460,7 +13495,7 @@ Jump_001_571d:
 	ld   a, $10                                      ; $5725: $3e $10
 
 jr_001_5727:
-	ld   hl, $c055                                   ; $5727: $21 $55 $c0
+	ld   hl, wPlayerOamAttr                                   ; $5727: $21 $55 $c0
 	or   (hl)                                        ; $572a: $b6
 	ld   hl, $c017                                   ; $572b: $21 $17 $c0
 	bit  0, (hl)                                     ; $572e: $cb $46
@@ -13600,19 +13635,19 @@ jr_001_57c3:
 	cp   $01                                         ; $57dd: $fe $01
 	jr   nz, @done                             ; $57df: $20 $0f
 
-	ld   hl, $c014                                   ; $57e1: $21 $14 $c0
+	ld   hl, wMainLoopCounter                                   ; $57e1: $21 $14 $c0
 	bit  4, (hl)                                     ; $57e4: $cb $66
 	jr   nz, @done                             ; $57e6: $20 $08
 
 	ld   a, $00                                      ; $57e8: $3e $00
-	call getLastUsableOamIdx                               ; $57ea: $cd $f1 $57
+	call getLastUsableOamIdx_fromA                               ; $57ea: $cd $f1 $57
 	call clear2spritesInOam_1stIdxedE                               ; $57ed: $cd $00 $58
 
 @done:
 	ret                                              ; $57f0: $c9
 
 
-getLastUsableOamIdx:
+getLastUsableOamIdx_fromA:
 	ld   hl, $c04e
 	add  (hl)                                        ; $57f4: $86
 	cp   $28                                         ; $57f5: $fe $28
@@ -13669,7 +13704,7 @@ Call_001_5826:
 	ld   hl, $c0b9                                   ; $5831: $21 $b9 $c0
 	ld   e, (hl)                                     ; $5834: $5e
 	ld   d, $00                                      ; $5835: $16 $00
-	call Call_000_3fed                                       ; $5837: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $5837: $cd $ed $3f
 	cp   $2d                                         ; $583a: $fe $2d
 	jr   z, jr_001_5842                              ; $583c: $28 $04
 
@@ -14082,56 +14117,56 @@ Call_001_5a3b:
 
 npcHelper_increaseScore:
 // de is param of script command calling this
-	ld   bc, wPlayerScoreLastDigit                                   ; $5a7e: $01 $31 $c0
-	ld   hl, increaseScoreAdditions                                   ; $5a81: $21 $cf $09
-	add  hl, de                                      ; $5a84: $19
-	call @scoreDigitInBCplusEquValInHL                               ; $5a85: $cd $ae $5a
-	dec  hl                                          ; $5a88: $2b
-	call @scoreDigitInBCplusEquValInHL                               ; $5a89: $cd $ae $5a
-	dec  hl                                          ; $5a8c: $2b
-	call @scoreDigitInBCplusEquValInHL                               ; $5a8d: $cd $ae $5a
-	dec  hl                                          ; $5a90: $2b
-	call @scoreDigitInBCplusEquValInHL                               ; $5a91: $cd $ae $5a
-	ld   hl, increaseScore0bytes                                   ; $5a94: $21 $cc $09
-	call @scoreDigitInBCplusEquValInHL                               ; $5a97: $cd $ae $5a
-	call @scoreDigitInBCplusEquValInHL                               ; $5a9a: $cd $ae $5a
-	ld   a, (bc)                                     ; $5a9d: $0a
-	cp   $0a                                         ; $5a9e: $fe $0a
-	jr   c, @done                              ; $5aa0: $38 $0b
+	ld   bc, wPlayerScoreLastDigit
+	ld   hl, increaseScoreAdditions
+	add  hl, de
+	call @scoreDigitInBCplusEquValInHL
+	dec  hl
+	call @scoreDigitInBCplusEquValInHL
+	dec  hl
+	call @scoreDigitInBCplusEquValInHL
+	dec  hl
+	call @scoreDigitInBCplusEquValInHL
+	ld   hl, increaseScore0bytes
+	call @scoreDigitInBCplusEquValInHL
+	call @scoreDigitInBCplusEquValInHL
+	ld   a, (bc)
+	cp   $0a
+	jr   c, @done
 
 // max score
-	ld   hl, wPlayerScore                                   ; $5aa2: $21 $2b $c0
-	ld   a, $09                                      ; $5aa5: $3e $09
-	ld   de, $0007                                   ; $5aa7: $11 $07 $00
-	call setAtoHL_deBytes                                       ; $5aaa: $cd $6d $27
+	ld   hl, wPlayerScore
+	ld   a, $09
+	ld   de, $0007
+	call setAtoHL_deBytes
 
 @done:
-	ret                                              ; $5aad: $c9
+	ret
 
 @scoreDigitInBCplusEquValInHL:
 // val in bc += val in hl
-	ld   a, (bc)                                     ; $5aae: $0a
-	add  (hl)                                        ; $5aaf: $86
-	ld   (bc), a                                     ; $5ab0: $02
-	cp   10                                         ; $5ab1: $fe $0a
-	jr   c, +                              ; $5ab3: $38 $08
+	ld   a, (bc)
+	add  (hl)
+	ld   (bc), a
+	cp   10
+	jr   c, +
 
 // if >= 10, inc the val in bc-1
-	sub  10                                         ; $5ab5: $d6 $0a
-	ld   (bc), a                                     ; $5ab7: $02
-	dec  bc                                          ; $5ab8: $0b
-	ld   a, (bc)                                     ; $5ab9: $0a
-	inc  a                                           ; $5aba: $3c
-	ld   (bc), a                                     ; $5abb: $02
-	ret                                              ; $5abc: $c9
+	sub  10
+	ld   (bc), a
+	dec  bc
+	ld   a, (bc)
+	inc  a
+	ld   (bc), a
+	ret
 
 +
-	dec  bc                                          ; $5abd: $0b
-	ret                                              ; $5abe: $c9
+	dec  bc
+	ret
 
 
 func_5abf:
-	ld   de, $988c                                   ; $5abf: $11 $8c $98
+	ld   de, $988c
 	call dPlusEquScreen0displayOffset                                       ; $5ac2: $cd $99 $1e
 	ld   bc, $0000                                   ; $5ac5: $01 $00 $00
 	ld   hl, $c006                                   ; $5ac8: $21 $06 $c0
@@ -14174,6 +14209,7 @@ jr_001_5aef:
 	ret                                              ; $5af5: $c9
 
 
+;;
 	add  $01                                         ; $5af6: $c6 $01
 
 Call_001_5af8:
@@ -14322,9 +14358,9 @@ clearScreen0:
 
 clear_c200_to_c2ff:
 	ld   hl, wOam
-	ld   de, $0100                                   ; $5ba1: $11 $00 $01
-	ld   a, $00                                      ; $5ba4: $3e $00
-	jp   setAtoHL_deBytes                                       ; $5ba6: $c3 $6d $27
+	ld   de, $0100
+	ld   a, $00
+	jp   setAtoHL_deBytes
 
 .include "code/tileAnimations.s"
 
@@ -14358,7 +14394,7 @@ aEqu2ahPlus10:
 	ret                                              ; $61cb: $c9
 
 
-data_61cc:
+soundData_61cc:
 	inc  de                                          ; $61cc: $13
 	dec  de                                          ; $61cd: $1b
 	ldd  a, (hl)                                     ; $61ce: $3a
@@ -14375,7 +14411,7 @@ data_61cc:
 	.db $18
 	
 	
-data_61d8:
+soundData_61d8:
 	.db $5c
 
 	dec  de                                          ; $61d9: $1b
@@ -14390,7 +14426,7 @@ data_61d8:
 	.db $c2 $19
 	
 	
-data_61e4:
+soundData_61e4:
 	.db $1d
 
 	dec  d                                           ; $61e5: $15
@@ -14406,7 +14442,7 @@ data_61e4:
 	dec  d                                           ; $61ef: $15
 	
 	
-data_61f0:
+soundData_61f0:
 	ld   a, ($ff00+c)                                ; $61f0: $f2
 	dec  d                                           ; $61f1: $15
 	ei                                               ; $61f2: $fb

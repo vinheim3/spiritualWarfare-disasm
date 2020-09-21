@@ -417,7 +417,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 	ld   hl, $c009                                   ; $64de: $21 $09 $c0
 	ld   e, (hl)                                     ; $64e1: $5e
 	ld   d, $00                                      ; $64e2: $16 $00
-	call Call_000_3fed                                       ; $64e4: $cd $ed $3f
+	call getTilePlayerIsOn                                       ; $64e4: $cd $ed $3f
 	call Call_001_45cf                               ; $64e7: $cd $cf $45
 	ld   hl, wCurrNpcIdx                                   ; $64ea: $21 $a6 $c0
 	ld   c, (hl)                                     ; $64ed: $4e
@@ -1595,7 +1595,7 @@ _scriptCmd_displayTextScreen:
 	cp   $7f
 	jp   nz, @not7fh
 
-	call jr_000_232a                                       ; $6b0c: $cd $2a $23
+	call func_232a                                       ; $6b0c: $cd $2a $23
 	call callsCommonSoundFuncs_27ae                                       ; $6b0f: $cd $ae $27
 	jp   executeNPCScriptCode                               ; $6b12: $c3 $8a $62
 
@@ -1614,11 +1614,11 @@ _scriptCmd_displayTextScreen:
 	push af                                          ; $6b24: $f5
 	ld   c, a                                        ; $6b25: $4f
 	ld   b, $00                                      ; $6b26: $06 $00
-	call jr_000_181a                                       ; $6b28: $cd $1a $18
+	call callMinimalMainLoopCTimes                                       ; $6b28: $cd $1a $18
 	pop  af                                          ; $6b2b: $f1
 	ld   c, a                                        ; $6b2c: $4f
 	ld   b, $00                                      ; $6b2d: $06 $00
-	call jr_000_181a                                       ; $6b2f: $cd $1a $18
+	call callMinimalMainLoopCTimes                                       ; $6b2f: $cd $1a $18
 	jp   @checkNextCharacter                               ; $6b32: $c3 $04 $6b
 
 @not42:
@@ -2620,13 +2620,13 @@ _scriptCmd_quiz:
 	call Call_001_7254                               ; $70b1: $cd $54 $72
 	ld   bc, $0002                                   ; $70b4: $01 $02 $00
 	call Call_001_71b4                               ; $70b7: $cd $b4 $71
-	call Call_000_1818                                       ; $70ba: $cd $18 $18
+	call callMinimalMainLoop0fhTimes                                       ; $70ba: $cd $18 $18
 	ld   bc, $0003                                   ; $70bd: $01 $03 $00
 	call Call_001_71b4                               ; $70c0: $cd $b4 $71
-	call Call_000_1818                                       ; $70c3: $cd $18 $18
+	call callMinimalMainLoop0fhTimes                                       ; $70c3: $cd $18 $18
 	ld   bc, $0004                                   ; $70c6: $01 $04 $00
 	call Call_001_71b4                               ; $70c9: $cd $b4 $71
-	call Call_000_1818                                       ; $70cc: $cd $18 $18
+	call callMinimalMainLoop0fhTimes                                       ; $70cc: $cd $18 $18
 	ld   hl, wNPCScriptParam2                                   ; $70cf: $21 $21 $c0
 	ld   a, (hl)                                     ; $70d2: $7e
 	cp   $01                                         ; $70d3: $fe $01
@@ -2638,11 +2638,11 @@ _scriptCmd_quiz:
 	jr   nz, @next_70e5                             ; $70dd: $20 $06
 
 	call Call_001_7267                               ; $70df: $cd $67 $72
-	call Call_000_1815                                       ; $70e2: $cd $15 $18
+	call callMinimalMainLoop1ehTimes                                       ; $70e2: $cd $15 $18
 
 @next_70e5:
 -
-	call Call_000_1a5e                                       ; $70e5: $cd $5e $1a
+	call minimalMainLoop                                       ; $70e5: $cd $5e $1a
 	call Call_000_14f8                                       ; $70e8: $cd $f8 $14
 	jr   nz, -                             ; $70eb: $20 $f8
 
@@ -2721,26 +2721,26 @@ _scriptCmd_quiz:
 	call commonSoundFunc0                                       ; $7158: $cd $be $01
 	ld   bc, $0000                                   ; $715b: $01 $00 $00
 	call Call_001_71b4                               ; $715e: $cd $b4 $71
-	call Call_000_1818                                       ; $7161: $cd $18 $18
+	call callMinimalMainLoop0fhTimes                                       ; $7161: $cd $18 $18
 	ld   bc, $0002                                   ; $7164: $01 $02 $00
 	call Call_001_719b                               ; $7167: $cd $9b $71
-	call Call_000_1818                                       ; $716a: $cd $18 $18
+	call callMinimalMainLoop0fhTimes                                       ; $716a: $cd $18 $18
 	ld   bc, $0001                                   ; $716d: $01 $01 $00
 	call Call_001_719b                               ; $7170: $cd $9b $71
-	call Call_000_1818                                       ; $7173: $cd $18 $18
+	call callMinimalMainLoop0fhTimes                                       ; $7173: $cd $18 $18
 	ld   bc, $0001                                   ; $7176: $01 $01 $00
 	call Call_001_71b4                               ; $7179: $cd $b4 $71
 
 -
-	call Call_000_1a5e                                       ; $717c: $cd $5e $1a
+	call minimalMainLoop                                       ; $717c: $cd $5e $1a
 	call Call_000_14f8                                       ; $717f: $cd $f8 $14
 	jr   nz, -                             ; $7182: $20 $f8
 
 	jp   @bigLoop_7125                               ; $7184: $c3 $25 $71
 
 @done:
-	call func_180f                                       ; $7187: $cd $0f $18
-	call jr_000_232a                                       ; $718a: $cd $2a $23
+	call callMinimalMainLoop78hTimes                                       ; $7187: $cd $0f $18
+	call func_232a                                       ; $718a: $cd $2a $23
 	call callsCommonSoundFuncs_27ae                                       ; $718d: $cd $ae $27
 	pop  af                                          ; $7190: $f1
 	ld   hl, wCurrNpcIdx                                   ; $7191: $21 $a6 $c0
@@ -2887,10 +2887,10 @@ Jump_001_7235:
 Call_001_7254:
 	ld   bc, $0000                                   ; $7254: $01 $00 $00
 	call Call_001_719b                               ; $7257: $cd $9b $71
-	call Call_000_1815                                       ; $725a: $cd $15 $18
+	call callMinimalMainLoop1ehTimes                                       ; $725a: $cd $15 $18
 	ld   bc, $0001                                   ; $725d: $01 $01 $00
 	call Call_001_719b                               ; $7260: $cd $9b $71
-	call Call_000_1815                                       ; $7263: $cd $15 $18
+	call callMinimalMainLoop1ehTimes                                       ; $7263: $cd $15 $18
 	ret                                              ; $7266: $c9
 
 
@@ -2913,7 +2913,7 @@ Call_001_7267:
 	push bc                                          ; $7278: $c5
 	ld   b, $00                                      ; $7279: $06 $00
 	call Call_001_71cc                               ; $727b: $cd $cc $71
-	call Call_000_1a5e                                       ; $727e: $cd $5e $1a
+	call minimalMainLoop                                       ; $727e: $cd $5e $1a
 	pop  bc                                          ; $7281: $c1
 	ld   a, b                                        ; $7282: $78
 	cp   $00                                         ; $7283: $fe $00

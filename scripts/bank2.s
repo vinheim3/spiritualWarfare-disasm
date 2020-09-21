@@ -77,6 +77,9 @@ _npc_end_02_502c:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_TESTROOM_ARMOUR_OF_GOD
+; ==============================================================================
 npcb4_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
@@ -92,17 +95,23 @@ npcb4_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_TESTROOM_SPECIAL_B_ITEMS
+; ==============================================================================
 npcb5_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	npc_callCommonSoundFuncs6638
-	npc_giveSpecialBItem $01
-	npc_giveSpecialBItem $02
-	npc_giveSpecialBItem $04
-	npc_giveSpecialBItem $08
+	npc_giveSpecialBItem SPECIALB_LAMP
+	npc_giveSpecialBItem SPECIALB_JAWBONE
+	npc_giveSpecialBItem SPECIALB_RAFT
+	npc_giveSpecialBItem SPECIALB_RR_TICKET
 	npc_end
 
 
+; ==============================================================================
+; ENTID_TESTROOM_HEARTS_BIRDS_BOMBS_OILS
+; ==============================================================================
 npcb6_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
@@ -121,20 +130,26 @@ npcb6_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_TESTROOM_FRUITS
+; ==============================================================================
 npcb7_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
 	npc_callCommonSoundFuncs6638
 -
-	npc_giveFruit $04
-	npc_giveFruit $03
-	npc_giveFruit $02
+	npc_giveFruit FRUIT_BANANA
+	npc_giveFruit FRUIT_GRAPES
+	npc_giveFruit FRUIT_APPLE
 	npc_giveFruit FRUIT_POMEGRANATE
-	npc_giveFruit $00
+	npc_giveFruit FRUIT_PEAR
 	npc_loopAboveParamTimes $04, -
 	npc_end
 
 
+; ==============================================================================
+; ENTID_TESTROOM_ANGEL
+; ==============================================================================
 npcb8_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_cb60_low2bitsEquParamMinus1 $04
@@ -143,11 +158,14 @@ npcb8_scripts:
 	npc_res4_cb60
 -
 	npc_call func_02_4fed
-	.db $cf $ff $0a $01
+	npc_quiz $ff $0a $01
 	npc_call func_02_4ff6
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_TESTROOM_TEXT
+; ==============================================================================
 npcText_02_5094:
 	.db $02 $04
 	.asc "PARK"
@@ -609,7 +627,7 @@ keyLockFunc:
 	.dw @entry1
 
 	.db $0d $03 $01
-	.dw @entry2
+	.dw @forestCabin
 
 	.db $02 $03 $00
 	.dw @entry3
@@ -636,14 +654,14 @@ keyLockFunc:
 	npc_ret
 
 @entry1:
-	npc_giveItem ITEMID_22
+	npc_giveItem ITEMID_BEACH_SOUTH_KEYLOCK
 	npc_ret
 
-@entry2:
+@forestCabin:
 	npc_ret
 
 @entry3:
-	npc_giveItem ITEMID_23
+	npc_giveItem ITEMID_SLUMS_TOP_RIGHT_KEYLOCK
 	npc_ret
 
 @entry4:
@@ -651,7 +669,7 @@ keyLockFunc:
 	npc_ret
 
 @entry5:
-	npc_giveItem ITEMID_25
+	npc_giveItem ITEMID_JAWBONE_KEYLOCK
 	npc_ret
 
 @shipyardBottomRight:
@@ -659,11 +677,11 @@ keyLockFunc:
 	npc_ret
 
 @entry7:
-	npc_giveItem ITEMID_28
+	npc_giveItem ITEMID_DEMONS_LAIR_6_TOP_RIGHT_KEYLOCK
 	npc_ret
 
 @entry8:
-	npc_giveItem ITEMID_2c
+	npc_giveItem ITEMID_WAREHOUSE_EAST_KEYLOCK
 	npc_ret
 
 
@@ -707,7 +725,7 @@ placeDoorAtKeyLockBasedOnRoom:
 	npc_ret
 
 @entry1:
-	npc_jumpIfItemGotten ITEMID_22, placeDoorAtKeyLock
+	npc_jumpIfItemGotten ITEMID_BEACH_SOUTH_KEYLOCK, placeDoorAtKeyLock
 	npc_ret
 
 @entry2:
@@ -715,7 +733,7 @@ placeDoorAtKeyLockBasedOnRoom:
 	npc_ret
 
 @entry3:
-	npc_jumpIfItemGotten ITEMID_23, placeDoorAtKeyLock
+	npc_jumpIfItemGotten ITEMID_SLUMS_TOP_RIGHT_KEYLOCK, placeDoorAtKeyLock
 	npc_ret
 
 @entry4:
@@ -723,7 +741,7 @@ placeDoorAtKeyLockBasedOnRoom:
 	npc_ret
 
 @entry5:
-	npc_jumpIfItemGotten ITEMID_25, placeDoorAtKeyLock
+	npc_jumpIfItemGotten ITEMID_JAWBONE_KEYLOCK, placeDoorAtKeyLock
 	npc_ret
 
 @entry6:
@@ -731,11 +749,11 @@ placeDoorAtKeyLockBasedOnRoom:
 	npc_ret
 
 @entry7:
-	npc_jumpIfItemGotten ITEMID_28, placeDoorAtKeyLock
+	npc_jumpIfItemGotten ITEMID_DEMONS_LAIR_6_TOP_RIGHT_KEYLOCK, placeDoorAtKeyLock
 	npc_ret
 
 @entry8:
-	npc_jumpIfItemGotten ITEMID_2c, placeDoorAtKeyLock
+	npc_jumpIfItemGotten ITEMID_WAREHOUSE_EAST_KEYLOCK, placeDoorAtKeyLock
 	npc_ret
 
 
@@ -858,9 +876,9 @@ npc6d_scripts:
 	npc_end
 
 @entry4:
-	npc_jumpIfItemGotten ITEMID_1a, _npc_end_02_502c
+	npc_jumpIfItemGotten ITEMID_WAREHOUSE_NORTH_HC, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem ITEMID_1a
+	npc_giveItem ITEMID_WAREHOUSE_NORTH_HC
 	npc_call @func_54de
 	npc_end
 
@@ -880,9 +898,9 @@ npc6d_scripts:
 	npc_end
 
 @entry7:
-	npc_jumpIfItemGotten ITEMID_1d, _npc_end_02_502c
+	npc_jumpIfItemGotten ITEMID_BEACH_BOTTOM_LEFT_HC, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem ITEMID_1d
+	npc_giveItem ITEMID_BEACH_BOTTOM_LEFT_HC
 	npc_call @func_54de
 	npc_placeTile $b8 $80 $80
 	npc_end
@@ -1324,7 +1342,7 @@ npc7d_scripts:
 	.dw @afterWarehouseBoss
 
 	.db $10 $ff $ff
-	.dw @entry9
+	.dw @endingScreen
 
 	.db $ff $ff $ff
 
@@ -1419,7 +1437,7 @@ npc7d_scripts:
 	npc_spawnNPC $36 $7a $64
 	npc_jump npc82_scripts
 
-@entry9:
+@endingScreen:
 -
 	npc_wait $01
 	npc_jump -

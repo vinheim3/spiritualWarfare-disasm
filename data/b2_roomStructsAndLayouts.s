@@ -1199,9 +1199,9 @@ group1croom1astruct:
 	.db $77 $00 $23 $00 $00 $f0 $80
 	.db $87 $00 $23 $00 $00 $f0 $80
 	.db $ff
-	.db $1e $c0 $57
-	.db $1e $c9 $97
-	.db $1f $89 $e8
+	.db ENTID_FOREST_DRAGON $c0 $57
+	.db ENTID_FOREST_DRAGON $c9 $97
+	.db ENTID_FOREST_CLUBMAN $89 $e8
 	.db ENTID_GUY_BEFORE_BOSSES $06 $70 $88
 	.db $ff
 
@@ -1210,8 +1210,8 @@ group0droom02struct:
 	.db $60
 	.db $0a
 	.dw group0droom02layout
-	.db $10 $83 $85
-	.db $13 $80 $77
+	.db ENTID_FOREST_ARCHER $83 $85
+	.db ENTID_FOREST_SLOW_AXEMAN $80 $77
 	.db $ff
 
 group0droom03struct:
@@ -1233,14 +1233,14 @@ group0droom04struct:
 	.db $03 $78
 	.db $0f $53
 	.db $ff
-	.db $1e $c0 $17
-	.db $1e $c9 $57
-	.db $1e $c9 $42
-	.db $10 $c9 $d2
-	.db $13 $89 $a7
-	.db $13 $c0 $b5
-	.db $13 $80 $93
-	.db $13 $89 $82
+	.db ENTID_FOREST_DRAGON $c0 $17
+	.db ENTID_FOREST_DRAGON $c9 $57
+	.db ENTID_FOREST_DRAGON $c9 $42
+	.db ENTID_FOREST_ARCHER $c9 $d2
+	.db ENTID_FOREST_SLOW_AXEMAN $89 $a7
+	.db ENTID_FOREST_SLOW_AXEMAN $c0 $b5
+	.db ENTID_FOREST_SLOW_AXEMAN $80 $93
+	.db ENTID_FOREST_SLOW_AXEMAN $89 $82
 	.db $ff
 
 group0droom05struct:
@@ -1250,11 +1250,11 @@ group0droom05struct:
 	.dw group0droom05layout
 	.db $f9 $62 $ff $02 $01 $10 $90
 	.db $ff
-	.db $10 $89 $48
-	.db $10 $83 $b5
-	.db $1e $80 $59
-	.db $1e $89 $99
-	.db $4e $80 $c6
+	.db ENTID_FOREST_ARCHER $89 $48
+	.db ENTID_FOREST_ARCHER $83 $b5
+	.db ENTID_FOREST_DRAGON $80 $59
+	.db ENTID_FOREST_DRAGON $89 $99
+	.db ENTID_FOREST_BEE_SWARM $80 $c6
 	.db $ff
 
 group0droom06struct:
@@ -1262,9 +1262,9 @@ group0droom06struct:
 	.db $60
 	.db $0a
 	.dw group0droom06layout
-	.db $10 $89 $e9
-	.db $10 $80 $38
-	.db $13 $80 $65
+	.db ENTID_FOREST_ARCHER $89 $e9
+	.db ENTID_FOREST_ARCHER $80 $38
+	.db ENTID_FOREST_SLOW_AXEMAN $80 $65
 	.db $ff
 
 group0droom07struct:
@@ -1274,8 +1274,8 @@ group0droom07struct:
 	.dw group0droom07layout
 	.db $77 $ac $0f $02 $04 $70 $70
 	.db $ff
-	.db $1f $86 $c5
-	.db $14 $06 $a0 $24
+	.db ENTID_FOREST_CLUBMAN $86 $c5
+	.db ENTID_FOREST_CHIMNEY_SMOKE $06 $a0 $24
 	.db ENTID_KEYLOCK $80 $77
 	.db $ff
 
@@ -1284,10 +1284,10 @@ group0droom08struct:
 	.db $60
 	.db $0a
 	.dw group0droom08layout
-	.db $10 $80 $26
-	.db $10 $83 $63
-	.db $1f $86 $24
-	.db $1f $89 $97
+	.db ENTID_FOREST_ARCHER $80 $26
+	.db ENTID_FOREST_ARCHER $83 $63
+	.db ENTID_FOREST_CLUBMAN $86 $24
+	.db ENTID_FOREST_CLUBMAN $89 $97
 	.db $ff
 
 group0droom09struct:
@@ -1295,8 +1295,8 @@ group0droom09struct:
 	.db $60
 	.db $0a
 	.dw group0droom09layout
-	.db $13 $80 $58
-	.db $13 $83 $85
+	.db ENTID_FOREST_SLOW_AXEMAN $80 $58
+	.db ENTID_FOREST_SLOW_AXEMAN $83 $85
 	.db $ff
 
 group0droom0astruct:
@@ -1306,8 +1306,8 @@ group0droom0astruct:
 	.dw group0droom0alayout
 	.db $39 $08 $1c $01 $04 $78 $90
 	.db $ff
-	.db $13 $89 $76
-	.db $13 $80 $63
+	.db ENTID_FOREST_SLOW_AXEMAN $89 $76
+	.db ENTID_FOREST_SLOW_AXEMAN $80 $63
 	.db $ff
 
 group0droom0bstruct:
@@ -1315,11 +1315,11 @@ group0droom0bstruct:
 	.db $60
 	.db $4a
 	.dw group0droom0blayout
-	.db $13 $80 $53
-	.db $13 $89 $b3
-	.db $13 $80 $86
-	.db $13 $89 $c6
-	.db $13 $80 $a8
+	.db ENTID_FOREST_SLOW_AXEMAN $80 $53
+	.db ENTID_FOREST_SLOW_AXEMAN $89 $b3
+	.db ENTID_FOREST_SLOW_AXEMAN $80 $86
+	.db ENTID_FOREST_SLOW_AXEMAN $89 $c6
+	.db ENTID_FOREST_SLOW_AXEMAN $80 $a8
 	.db $ff
 
 group0droom0cstruct:
@@ -1327,9 +1327,9 @@ group0droom0cstruct:
 	.db $60
 	.db $0a
 	.dw group0droom0clayout
-	.db $10 $80 $28
-	.db $10 $83 $85
-	.db $10 $80 $99
+	.db ENTID_FOREST_ARCHER $80 $28
+	.db ENTID_FOREST_ARCHER $83 $85
+	.db ENTID_FOREST_ARCHER $80 $99
 	.db $ff
 
 group0droom0dstruct:
@@ -1337,8 +1337,8 @@ group0droom0dstruct:
 	.db $60
 	.db $0a
 	.dw group0droom0dlayout
-	.db $10 $89 $58
-	.db $10 $86 $c7
+	.db ENTID_FOREST_ARCHER $89 $58
+	.db ENTID_FOREST_ARCHER $86 $c7
 	.db $ff
 
 group0droom0estruct:
@@ -1348,7 +1348,7 @@ group0droom0estruct:
 	.dw group0droom0elayout
 	.db $7a $82 $0b $03 $02 $70 $10
 	.db $ff
-	.db $1f $86 $65
+	.db ENTID_FOREST_CLUBMAN $86 $65
 	.db $ff
 
 group0droom0fstruct:
@@ -1356,8 +1356,8 @@ group0droom0fstruct:
 	.db $60
 	.db $0a
 	.dw group0droom0flayout
-	.db $10 $86 $77
-	.db $10 $89 $e9
+	.db ENTID_FOREST_ARCHER $86 $77
+	.db ENTID_FOREST_ARCHER $89 $e9
 	.db $ff
 
 group0croom03struct:
@@ -2039,8 +2039,8 @@ group0froom16struct:
 	.dw group0froom16layout
 	.db $36 $20 $0d $03 $01 $70 $78
 	.db $ff
-	.db $15 $80 $88
-	.db $47 $00 $a8 $60
+	.db ENTID_RAILROAD_TICKET $80 $88
+	.db ENTID_FOREST_CABIN_FIREPLACE $00 $a8 $60
 	.db $ff
 
 group1croom00struct:

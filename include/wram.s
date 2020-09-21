@@ -82,7 +82,13 @@ wNPCTextBank: ; $c011
 	db
 
 wc012:
-	dsb 6-2
+	dsb 4-2
+
+wMainLoopCounter: ; $c014
+	db
+
+wc015:
+	db
 
 wKeysPressed: ; $c016
 	db
@@ -93,8 +99,11 @@ wc017:
 wNewKeysPressed: ; $c018
 	db
 
-wc019:
-	dsb $f-$9
+wInventoryLastBItemHoveredOver: ; $c019
+	db
+
+wc01a:
+	dsb $f-$a
 
 wNPCScriptOpcode: ; $c01f
 	db
@@ -170,7 +179,19 @@ wEquippedBItem: ; $c049
 	db
 
 wc04a:
-	dsb $52-$4a
+	dsb $c-$a
+
+wIsEquippingRaft: ; $c04c
+	db
+
+wc04d:
+	dsb $f-$d
+
+wIsUsingRaft: ; $c04f
+	db
+
+wc050:
+	dsb 2-0
 
 wPlayerX: ; $c052
 	db
@@ -181,8 +202,18 @@ wc053:
 wPlayerY: ; $c054
 	db
 
-wc055:
-	dsb $b-5
+wPlayerOamAttr: ; $c055
+	db
+
+wc056:
+	db
+
+// 0, 1 or 2, eg shows leg forward, or not
+wPlayerAnimationIdx: ; $c057
+	db
+
+wc058:
+	dsb $b-8
 
 // $ff if on
 wIsLampOn: ; $c05b
@@ -236,7 +267,7 @@ wRoomStructByteWhenFirstByteBitSet2: ; $c079
 wc07a:
 	dsb $90-$7a
 
-wSecondRoomStructByteBit4: ; $c090
+wIsPlatformingLikeRoom: ; $c090
 	db
 
 wAddrOfRooms40hTileTypeConversionTable: ; $c091
@@ -338,7 +369,10 @@ wCurrGroupMapVRamOffset: ; $c0da
 	dw
 
 wc0dc:
-	dsb $f9-$dc
+	dsb $f8-$dc
+
+wIsSecretPlayerName: ; $c0f8
+	db
 
 wScrollingTextCurrRowVramStart: ; $c0f9
 	dw
@@ -429,7 +463,7 @@ wc600:
 	dsb $48
 
 // ie times 2 to get the double index for its item description
-wInventoryItemSelectedIdx: ; $c648
+wInventorySelectedXIdx: ; $c648
 	db
 
 wPlayerName: ; $c649
@@ -461,7 +495,13 @@ wItemsGotten: ; $c654
 	dsb $a
 
 wc65e:
-	dsb $d0-$5e
+	db
+
+wInventorySelectedYIdx: ; $c65f
+	db
+
+wc660:
+	dsb $d0-$60
 
 wCommonByteCopyDestBytes: ; $c6d0
 	dsb $c
@@ -475,7 +515,13 @@ wScreen1displayOffset: ; $c6dd
 	db
 
 wc6de:
-	dsb $708-$6de
+	db
+
+wPlayerStartingDirection: ; $c6df
+	db
+
+wc6e0:
+	dsb $708-$6e0
 
 wNumBirds: ; $c708
 	db
@@ -492,7 +538,21 @@ wFruitEquipped: ; $c70c
 	db
 
 wc70d:
-	dsb $16-$d
+	dsb $11-$d
+
+.union
+	wMenuCursorIdx: ; $c711
+		db
+.nextu
+	wPreviousUsingRaft: ; $c711
+		db
+.endu
+
+wc712:
+	dsb 5-2
+
+wLastReviveRoomGroup: ; $c715
+	db
 
 wRoomGroupNameLine1: ; $c716
 	dsb 7
@@ -500,12 +560,13 @@ wRoomGroupNameLine1: ; $c716
 wRoomGroupNameLine2: ; $c71d
 	dsb 7
 
-wCurrGroupStruct2ndLastWord: ; $c724
+wCurrGroupDefaultBGP: ; $c724
 	dw
 
-wCurrGroupStructLastWord: ; $c726
+wCurrGroupDefaultOBP0: ; $c726
 	dw
 
+// unused?
 wCurrGroupStructByte1bh: ; $c728
 	db
 
@@ -631,7 +692,13 @@ wLCDCvalue: ; $d000
 	db
 
 wd001:
-	dsb 6-1
+	dsb 3-1
+
+wOBP1FlashCounter: ; $d003
+	db
+
+wd004:
+	dsb 6-4
 
 wCurrent2x2tileToVramTileIdxConversionTable: ; $d006
 	dsb $40
@@ -652,7 +719,13 @@ wCurrTileAnimationAddr: ; $d0fe
 	dw
 
 wd100:
-	dsb $fff-$100
+	dsb $400-$100
+
+wIsTitleScreen: ; $d400
+	db
+
+wd401:
+	dsb $fff-$401
 
 wStackTop: ; $dfff
 	db

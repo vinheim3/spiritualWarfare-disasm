@@ -1807,12 +1807,12 @@ group10room11struct:
 	.db $a9 $84 $15 $01 $02 $70 $50
 	.db $e7 $84 $10 $00 $04 $70 $50
 	.db $ff
-	.db $6a $80 $00
-	.db $b8 $80 $e3
-	.db $b4 $80 $b1
-	.db $b5 $80 $c1
-	.db $b6 $80 $d1
-	.db $b7 $80 $e1
+	.db ENTID_TESTROOM_TEXT $80 $00
+	.db ENTID_TESTROOM_ANGEL $80 $e3
+	.db ENTID_TESTROOM_ARMOUR_OF_GOD $80 $b1
+	.db ENTID_TESTROOM_SPECIAL_B_ITEMS $80 $c1
+	.db ENTID_TESTROOM_HEARTS_BIRDS_BOMBS_OILS $80 $d1
+	.db ENTID_TESTROOM_FRUITS $80 $e1
 	.db $ff
 
 group10room10struct:

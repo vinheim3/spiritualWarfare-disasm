@@ -15,14 +15,22 @@
 	ENTID_HOUSES_DRIVER_SPEED_2					db // $0d
 	ENTID_HOUSES_DRIVER_SPEED_5					db // $0e
 	ENTID_HOUSES_DRIVER_SPEED_6					db // $0f
+	ENTID_FOREST_ARCHER							db // $10
+	ENTID_FOREST_ARCHER_SHOOTING				db // $11
+	ENTID_FOREST_ARCHER_ARROW					db // $12
+	ENTID_FOREST_SLOW_AXEMAN					db // $13
+	ENTID_FOREST_CHIMNEY_SMOKE					db // $14
+	ENTID_RAILROAD_TICKET						db // $15
 	// TODO: 16 and 17 are dropped birds
-	ENTID_10									dsb 9-0
+	ENTID_16									dsb 9-6
 	ENTID_RUNNING_CITY_GUY						db // $19
 	ENTID_BLOCKAGE_BUILDER						db // $1a
 	ENTID_CITY_BANDIT							db // $1b
 	ENTID_BAR_SLOW_GUY_SPAWNER					db // $1c
 	ENTID_SLOW_CITY_GUY							db // $1d
-	ENTID_1e									dsb $21-$1e
+	ENTID_FOREST_DRAGON							db // $1e
+	ENTID_FOREST_CLUBMAN						db // $1f
+	ENTID_20									db
 	ENTID_DYNAMITE_BUILDER						db // $21
 	ENTID_CITY_PLUMBER_1						db // $22
 	ENTID_SHIPYARD_GUNMAN						db // $23
@@ -46,7 +54,8 @@
 	ENTID_BELT_OF_TRUTH							db // $34
 	ENTID_BREASTPLATE_OF_RIGHTEOUSNESS			db // $35
 	ENTID_BOOTS_OF_THE_GOSPEL					db // $36
-	ENTID_37									dsb 9-7
+	ENTID_37									db
+	ENTID_HELMET_OF_SALVATION					db // $38
 	ENTID_SWORD_OF_THE_SPIRIT					db // $39
 	ENTID_SHOP_7_VIALS							db // $3a
 	ENTID_SHOP_OIL								db // $3b
@@ -61,14 +70,15 @@
 	ENTID_HOTEL_HIGHRISE_GUNNER_1				db // $43
 	ENTID_HOTEL_HIGHRISE_GUNNER_2				db // $44
 	ENTID_HOUSES_STATIC_BALLOON					db // $45
-	ENTID_46									dsb 8-6
+	ENTID_46									db
+	ENTID_FOREST_CABIN_FIREPLACE				db // $47
 	ENTID_CHURCH_FLAMES							db // $48
 	ENTID_CITY_PLUMBER_2						db // $49
 	ENTID_SHIPYARD_BUOY							db // $4a
 	ENTID_LADDER_CLIMBER						db // $4b
 	ENTID_GRAFFITIER_SK							db // $4c
 	ENTID_GRAFFITIER_MESSY						db // $4d
-	ENTID_4e									db
+	ENTID_FOREST_BEE_SWARM						db // $4e
 	ENTID_CYCLIST								db // $4f
 	ENTID_BASKETBALLER							db // $50
 	ENTID_BASKETBALLER_SHOOTING_FROM_SIDE		db // $51
@@ -94,7 +104,8 @@
 	ENTID_BEACH_BOSS_HELPER						db // $62
 	ENTID_BEACH_BOSS							db // $63
 	ENTID_BEACH_BOSS_BALLOON					db // $64
-	ENTID_65									dsb $b-5
+	ENTID_65									dsb $a-5
+	ENTID_TESTROOM_TEXT							db // $6a
 	ENTID_TRAIN_GUY								db // $6b
 	ENTID_PAWN_SHOP_GUY							db // $6c
 	ENTID_HEART_CONTAINER						db // $6d
@@ -155,7 +166,13 @@
 	ENTID_BEACH_SKATEBOARDER					db // $aa
 	ENTID_BEACH_SKATEBOARDER_BOTTLE				db // $ab
 	ENTID_BEACH_ENCIRCLING_SHARKS				db // $ac
-	ENTID_ad									dsb $bf-$ad
+	ENTID_ad									dsb $b4-$ad
+	ENTID_TESTROOM_ARMOUR_OF_GOD				db // $b4
+	ENTID_TESTROOM_SPECIAL_B_ITEMS				db // $b5
+	ENTID_TESTROOM_HEARTS_BIRDS_BOMBS_OILS		db // $b6
+	ENTID_TESTROOM_FRUITS						db // $b7
+	ENTID_TESTROOM_ANGEL						db // $b8
+	ENTID_b9									dsb $f-9
 	ENTID_PRISONER								db // $bf
 	ENTID_c0									dsb 2-0
 	ENTID_PRISON_POLICEMAN						db // $c2
