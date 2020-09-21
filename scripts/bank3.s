@@ -186,7 +186,7 @@ npc31_scripts:
 	.dw @hotelsBottomRight
 
 	.db $1c $00 $08
-	.dw @entry2
+	.dw @beachWest
 
 	.db $1c $01 $06
 	.dw @prisonTopRight
@@ -204,8 +204,8 @@ npc31_scripts:
 	npc_call npcHelper_increaseScoreBy80
 	npc_end
 
-@entry2:
-	npc_giveItem ITEMID_0e
+@beachWest:
+	npc_giveItem ITEMID_WEST_BEACH_GRAPES
 	npc_call npcHelper_increaseScoreBy300
 	npc_call npcHelper_increaseScoreBy60
 	npc_end
@@ -239,7 +239,7 @@ npc32_scripts:
 	.dw @entry1
 
 	.db $1b $01 $00
-	.dw @entry2
+	.dw @beachFishHouse
 
 	.db $1c $00 $06
 	.dw @entry3
@@ -256,8 +256,8 @@ npc32_scripts:
 	npc_increaseScore SCORE_200
 	npc_end
 
-@entry2:
-	npc_giveItem ITEMID_12
+@beachFishHouse:
+	npc_giveItem ITEMID_BEACH_FISH_HOUSE_BANANA
 	npc_increaseScore SCORE_400
 	npc_end
 
@@ -480,6 +480,9 @@ npc37_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_SWORD_OF_THE_SPIRIT
+; ==============================================================================
 npc39_scripts:
 	npc_call data_03_6994
 	npc_set_c059 $ff
@@ -844,7 +847,7 @@ npc04_scripts:
 	npc_jump @afterInitialScript
 
 @@byBeachLockedFishHouse:
-	npc_jumpIfItemGotten ITEMID_12, @end
+	npc_jumpIfItemGotten ITEMID_BEACH_FISH_HOUSE_BANANA, @end
 	npc_jump @afterInitialScript
 
 @@byHotelsThinCarPath:
@@ -1997,6 +2000,9 @@ npc42_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_SHIPYARD_GUNMAN
+; ==============================================================================
 npc23_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -2006,18 +2012,18 @@ npc23_scripts:
 -
 	npc_facePlayerHorizontally
 	npc_moveByParamPixels $20
-	.db $11
+	npc_facePlayerVertically
 	npc_moveByParamPixels $20
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_facePlayerHorizontally
 +
-	npc_spawnNPCinFrontOfSelf $26
+	npc_spawnNPCinFrontOfSelf ENTID_SHIPYARD_GUNMAN_BULLET
 	npc_callCommonSoundFuncs_6c01 $61 $16
 	npc_wait $0a
-	npc_spawnNPCinFrontOfSelf $26
+	npc_spawnNPCinFrontOfSelf ENTID_SHIPYARD_GUNMAN_BULLET
 	npc_callCommonSoundFuncs_6c01 $61 $16
 	npc_wait $0a
-	npc_spawnNPCinFrontOfSelf $26
+	npc_spawnNPCinFrontOfSelf ENTID_SHIPYARD_GUNMAN_BULLET
 	npc_callCommonSoundFuncs_6c01 $61 $16
 	npc_wait $0a
 	npc_turnBackwards
@@ -2026,6 +2032,9 @@ npc23_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_SHIPYARD_GUNMAN_BULLET
+; ==============================================================================
 npc26_scripts:
 	npc_set2_cbe4
 	npc_res4_cb60
@@ -2057,6 +2066,9 @@ npc59_scripts:
 	npc_jump npc26_scripts
 
 
+; ==============================================================================
+; ENTID_SHIPYARD_SAILOR
+; ==============================================================================
 npc24_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -2064,12 +2076,15 @@ npc24_scripts:
 	npc_setMovementSpeed $03
 	npc_setDamageTaken $02
 -
-	.db $12
-	.db $13
+	npc_moveToPlayersXandFacePlayerHorizontally
+	npc_moveToPlayersYandFacePlayerVertically
 	npc_wait $1e
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_SHIPYARD_DOG
+; ==============================================================================
 npc25_scripts:
 	npc_res4_cb60
 	npc_callCommonSoundFuncs_6c01 $0a $18
@@ -2080,7 +2095,7 @@ npc25_scripts:
 -
 	npc_moveByParamPixels $ff
 	npc_jumpIfRandomNumLTparam $55, +
-	.db $17
+	npc_moveNPCturnBackIfCant
 	npc_jump -
 +
 	npc_callCommonSoundFuncs_6c01 $0a $18
@@ -2333,6 +2348,9 @@ npc46_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_BALLOON_POP
+; ==============================================================================
 npc5a_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -2384,6 +2402,9 @@ npc57_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_SHIPYARD_BUOY
+; ==============================================================================
 npc4a_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_set2_cb60
@@ -2633,6 +2654,9 @@ npc61_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_BEACH_BOSS
+; ==============================================================================
 npc63_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_SWORD, @func_6098
 	npc_wait $0a
@@ -2652,8 +2676,8 @@ npc63_scripts:
 	npc_jump @func_609d
 +++
 	npc_callCommonSoundFuncs_6c01 $d7 $15
-	.db $04
-	npc_spawnNPCAtOffset $03 $80 $80
+	npc_set4_cb60
+	npc_spawnNPCAtOffset ENTID_STUB_03 $80 $80
 	npc_wait $0f
 	npc_placeTile $84 $0e $01
 	npc_callCommonSoundFuncs_6c01 $85 $16
@@ -2669,7 +2693,7 @@ npc63_scripts:
 	npc_end
 
 @func_609d:
-	.db $04
+	npc_set4_cb60
 	npc_jumpIfRandomNumLTparam $c0, +
 	npc_setCoords $b0 $50
 	npc_jump @func_60bf
@@ -2699,13 +2723,16 @@ npc63_scripts:
 	npc_jumpIfRandomNumLTparam $2a, +
 	npc_jump -
 +
-	npc_spawnNPCAtOffset $64 $00 $08
+	npc_spawnNPCAtOffset ENTID_BEACH_BOSS_BALLOON $00 $08
 	npc_waitRandomValBetween2ParamsInclusive $05 $0a
 ++
 	npc_turnBackwards
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_BEACH_BOSS_BALLOON
+; ==============================================================================
 npc64_scripts:
 	npc_set5_cb60
 	npc_set6_cb60_reset_cb6c
@@ -2714,7 +2741,7 @@ npc64_scripts:
 	npc_setDamageTaken $04
 	npc_faceDown
 	npc_moveByParamPixels $ff
-	npc_setNewNpcID $5a
+	npc_setNewNpcID ENTID_BALLOON_POP
 
 
 npc65_scripts:
@@ -2725,6 +2752,9 @@ npc65_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_BEACH_BOSS_HELPER
+; ==============================================================================
 npc62_scripts:
 	npc_takeItem ITEMID_30
 	npc_takeItem ITEMID_31
@@ -2859,7 +2889,7 @@ npc2d_scripts:
 	.dw @airportBuildingEast
 
 	.db $1c $00 $08
-	.dw @entry17
+	.dw @beachWest
 
 	.db $ff $ff $ff
 
@@ -3047,8 +3077,8 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_AIRPORT_BUILDING_PEAR, _showText_roomEmpty_clear_c059
 	npc_jump @airportBuildingEastCont
 
-@entry17:
-	npc_jumpIfItemGotten ITEMID_0e, _showText_roomEmpty_clear_c059
+@beachWest:
+	npc_jumpIfItemGotten ITEMID_WEST_BEACH_GRAPES, _showText_roomEmpty_clear_c059
 	npc_jump @func_62a8
 
 @emptyRoom:

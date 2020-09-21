@@ -1,7 +1,8 @@
 .enum 0
 	ENTID_00									db
 	ENTID_DEVIL_SPAWN							db // $01
-	ENTID_02									dsb 4-2
+	ENTID_02									db
+	ENTID_STUB_03								db // $03
 	ENTID_MISC_NPC								db // $04
 	ENTID_SUNGLASSES_KNIFE_GUY					db // $05
 	ENTID_CRAZY_EYES_CLUB_GUY					db // $06
@@ -24,7 +25,11 @@
 	ENTID_1e									dsb $21-$1e
 	ENTID_DYNAMITE_BUILDER						db // $21
 	ENTID_CITY_PLUMBER_1						db // $22
-	ENTID_23									dsb 8-3
+	ENTID_SHIPYARD_GUNMAN						db // $23
+	ENTID_SHIPYARD_SAILOR						db // $24
+	ENTID_SHIPYARD_DOG							db // $25
+	ENTID_SHIPYARD_GUNMAN_BULLET				db // $26
+	ENTID_27									db
 	ENTID_HOTELS_BIKER							db // $28
 	ENTID_HOTELS_ALCOHOLIC						db // $29
 	ENTID_HOTELS_DISAPPEARING_CAR_1				db // $2a
@@ -41,7 +46,8 @@
 	ENTID_BELT_OF_TRUTH							db // $34
 	ENTID_BREASTPLATE_OF_RIGHTEOUSNESS			db // $35
 	ENTID_BOOTS_OF_THE_GOSPEL					db // $36
-	ENTID_37									dsb $a-7
+	ENTID_37									dsb 9-7
+	ENTID_SWORD_OF_THE_SPIRIT					db // $39
 	ENTID_SHOP_7_VIALS							db // $3a
 	ENTID_SHOP_OIL								db // $3b
 	ENTID_BIRDS_HIDDEN_ROOM_NEAR_BOSS_1			db // $3c
@@ -58,7 +64,7 @@
 	ENTID_46									dsb 8-6
 	ENTID_CHURCH_FLAMES							db // $48
 	ENTID_CITY_PLUMBER_2						db // $49
-	ENTID_4a									db
+	ENTID_SHIPYARD_BUOY							db // $4a
 	ENTID_LADDER_CLIMBER						db // $4b
 	ENTID_GRAFFITIER_SK							db // $4c
 	ENTID_GRAFFITIER_MESSY						db // $4d
@@ -76,7 +82,7 @@
 	// or other way around??
 	ENTID_HOTEL_GUNNER_BULLET					db // $58
 	ENTID_HOTEL_GUNNER_BALLOON					db // $59
-	ENTID_5a									db
+	ENTID_BALLOON_POP							db // $5a
 	ENTID_BASKETBALLER_CTRLER					db // $5b
 	ENTID_5c									db
 	ENTID_BOSS_1								db // $5d
@@ -85,7 +91,10 @@
 	ENTID_5f									dsb $60-$5f
 	ENTID_CITY_BOSS_HELPER						db // $60
 	ENTID_CITY_BOSS								db // $61
-	ENTID_62									dsb $b-2
+	ENTID_BEACH_BOSS_HELPER						db // $62
+	ENTID_BEACH_BOSS							db // $63
+	ENTID_BEACH_BOSS_BALLOON					db // $64
+	ENTID_65									dsb $b-5
 	ENTID_TRAIN_GUY								db // $6b
 	ENTID_PAWN_SHOP_GUY							db // $6c
 	ENTID_HEART_CONTAINER						db // $6d
@@ -103,17 +112,22 @@
 	ENTID_GUNMAN_BULLET_LEFT					db // $79
 	ENTID_GUNMAN_FACING_RIGHT					db // $7a
 	ENTID_GUNMAN_BULLET_RIGHT					db // $7b
-	ENTID_SLUMS_BULLET_EXPLOSION				db // $7c
+	ENTID_ENEMY_ITEM_EXPLOSION					db // $7c
 	ENTID_SHOP_ANGEL							db // $7d
 	ENTID_LAMP									db // $7e
-	ENTID_7f									dsb $83-$7f
+	ENTID_BEACH_UP_AND_DOWN_SHARKS				db // $7f
+	ENTID_80									dsb 3-0
 	ENTID_CHURCH_TIPS							db // $83
 	ENTID_QUIZ_ANGEL							db // $84
 	ENTID_SLUMS_DOG								db // $85
 	ENTID_SLUMS_DOG_CHARGING					db // $86
-	ENTID_87									dsb $c-$7
+	ENTID_87									db
+	ENTID_BEACH_UNDEGROUND_FISHES				db // $88
+	ENTID_BEACH_DUCKS							db // $89
+	ENTID_BEACH_SECRET_ROOM_HIDER				db // $8a
+	ENTID_BEACH_SECRET_ROOM_TEXT				db // $8b
 	ENTID_SLUMS_BIKER							db // $8c
-	ENTID_8d									db
+	ENTID_BEACH_FAST_NAKED_GUY					db // $8d
 	ENTID_WAREHOUSE_FORKLIFT_DRIVER				db // $8e
 	ENTID_WAREHOUSE_FORKLIFT_BOX				db // $8f
 	ENTID_90									db
@@ -138,7 +152,10 @@
 	ENTID_DRUNK_POLICEMAN						db // $a7
 	ENTID_AIRPORT_BALD_THUGS					db // $a8
 	ENTID_AIRPORT_SUNGLASSES_GUY				db // $a9
-	ENTID_aa									dsb $bf-$aa
+	ENTID_BEACH_SKATEBOARDER					db // $aa
+	ENTID_BEACH_SKATEBOARDER_BOTTLE				db // $ab
+	ENTID_BEACH_ENCIRCLING_SHARKS				db // $ac
+	ENTID_ad									dsb $bf-$ad
 	ENTID_PRISONER								db // $bf
 	ENTID_c0									dsb 2-0
 	ENTID_PRISON_POLICEMAN						db // $c2

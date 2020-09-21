@@ -1364,8 +1364,8 @@ group0croom03struct:
 	.db $30
 	.db $05
 	.dw group0croom03layout
-	.db $24 $c0 $86
-	.db $24 $c6 $56
+	.db ENTID_SHIPYARD_SAILOR $c0 $86
+	.db ENTID_SHIPYARD_SAILOR $c6 $56
 	.db $ff
 
 group0croom04struct:
@@ -1374,22 +1374,22 @@ group0croom04struct:
 	.dw group0croom04layout
 	.db $86 $00 $0f $01 $03 $90 $90
 	.db $ff
-	.db $24 $c0 $36
-	.db $24 $c9 $c6
+	.db ENTID_SHIPYARD_SAILOR $c0 $36
+	.db ENTID_SHIPYARD_SAILOR $c9 $c6
 	.db $ff
 
 group0croom05struct:
 	.db $30
 	.db $05
 	.dw group0croom05layout
-	.db $23 $c6 $76
+	.db ENTID_SHIPYARD_GUNMAN $c6 $76
 	.db $ff
 
 group0croom06struct:
 	.db $30
 	.db $05
 	.dw group0croom06layout
-	.db $24 $83 $a7
+	.db ENTID_SHIPYARD_SAILOR $83 $a7
 	.db $ff
 
 group0croom0astruct:
@@ -1398,69 +1398,69 @@ group0croom0astruct:
 	.dw group0croom0alayout
 	.db $07 $00 $08 $02 $02 $e0 $70
 	.db $ff
-	.db $24 $86 $95
+	.db ENTID_SHIPYARD_SAILOR $86 $95
 	.db $ff
 
 group0croom0bstruct:
 	.db $30
 	.db $05
 	.dw group0croom0blayout
-	.db $23 $80 $57
-	.db $24 $c9 $72
+	.db ENTID_SHIPYARD_GUNMAN $80 $57
+	.db ENTID_SHIPYARD_SAILOR $c9 $72
 	.db $ff
 
 group0croom0cstruct:
 	.db $30
 	.db $05
 	.dw group0croom0clayout
-	.db $23 $80 $57
-	.db $24 $c0 $72
+	.db ENTID_SHIPYARD_GUNMAN $80 $57
+	.db ENTID_SHIPYARD_SAILOR $c0 $72
 	.db $ff
 
 group0croom0dstruct:
 	.db $30
 	.db $05
 	.dw group0croom0dlayout
-	.db $23 $86 $55
-	.db $23 $89 $a7
-	.db $24 $83 $b5
+	.db ENTID_SHIPYARD_GUNMAN $86 $55
+	.db ENTID_SHIPYARD_GUNMAN $89 $a7
+	.db ENTID_SHIPYARD_SAILOR $83 $b5
 	.db $ff
 
 group0croom11struct:
 	.db $30
 	.db $05
 	.dw group0croom11layout
-	.db $25 $83 $28
-	.db $25 $86 $52
-	.db $25 $83 $84
+	.db ENTID_SHIPYARD_DOG $83 $28
+	.db ENTID_SHIPYARD_DOG $86 $52
+	.db ENTID_SHIPYARD_DOG $83 $84
 	.db $ff
 
 group0croom12struct:
 	.db $30
 	.db $05
 	.dw group0croom12layout
-	.db $23 $89 $83
-	.db $23 $80 $43
-	.db $23 $83 $78
-	.db $4a $80 $c3
-	.db $4a $80 $28
+	.db ENTID_SHIPYARD_GUNMAN $89 $83
+	.db ENTID_SHIPYARD_GUNMAN $80 $43
+	.db ENTID_SHIPYARD_GUNMAN $83 $78
+	.db ENTID_SHIPYARD_BUOY $80 $c3
+	.db ENTID_SHIPYARD_BUOY $80 $28
 	.db $ff
 
 group0croom13struct:
 	.db $30
 	.db $05
 	.dw group0croom13layout
-	.db $23 $80 $85
-	.db $24 $c0 $94
-	.db $4a $80 $43
+	.db ENTID_SHIPYARD_GUNMAN $80 $85
+	.db ENTID_SHIPYARD_SAILOR $c0 $94
+	.db ENTID_SHIPYARD_BUOY $80 $43
 	.db $ff
 
 group0croom14struct:
 	.db $30
 	.db $05
 	.dw group0croom14layout
-	.db $23 $80 $97
-	.db $24 $89 $55
+	.db ENTID_SHIPYARD_GUNMAN $80 $97
+	.db ENTID_SHIPYARD_SAILOR $89 $55
 	.db $ff
 
 group0croom15struct:
@@ -1469,45 +1469,45 @@ group0croom15struct:
 	.dw group0croom15layout
 	.db $02 $15 $07 $02 $07 $e0 $20
 	.db $ff
-	.db $25 $86 $a4
+	.db ENTID_SHIPYARD_DOG $86 $a4
 	.db $ff
 
 group0croom16struct:
 	.db $30
 	.db $05
 	.dw group0croom16layout
-	.db $25 $86 $a4
-	.db $24 $c0 $63
+	.db ENTID_SHIPYARD_DOG $86 $a4
+	.db ENTID_SHIPYARD_SAILOR $c0 $63
 	.db $ff
 
 group0croom17struct:
 	.db $30
 	.db $05
 	.dw group0croom17layout
-	.db $23 $89 $91
-	.db $24 $c9 $c6
+	.db ENTID_SHIPYARD_GUNMAN $89 $91
+	.db ENTID_SHIPYARD_SAILOR $c9 $c6
 	.db $ff
 
 group0croom18struct:
 	.db $30
 	.db $05
 	.dw group0croom18layout
-	.db $25 $80 $25
-	.db $25 $89 $54
-	.db $25 $80 $36
-	.db $25 $80 $47
-	.db $25 $89 $38
+	.db ENTID_SHIPYARD_DOG $80 $25
+	.db ENTID_SHIPYARD_DOG $89 $54
+	.db ENTID_SHIPYARD_DOG $80 $36
+	.db ENTID_SHIPYARD_DOG $80 $47
+	.db ENTID_SHIPYARD_DOG $89 $38
 	.db $ff
 
 group0croom19struct:
 	.db $30
 	.db $05
 	.dw group0croom19layout
-	.db $23 $86 $85
-	.db $24 $c9 $97
-	.db $4a $80 $c5
-	.db $4a $80 $42
-	.db $4a $80 $35
+	.db ENTID_SHIPYARD_GUNMAN $86 $85
+	.db ENTID_SHIPYARD_SAILOR $c9 $97
+	.db ENTID_SHIPYARD_BUOY $80 $c5
+	.db ENTID_SHIPYARD_BUOY $80 $42
+	.db ENTID_SHIPYARD_BUOY $80 $35
 	.db $ff
 
 group0croom1astruct:
@@ -1517,8 +1517,8 @@ group0croom1astruct:
 	.dw group0croom1alayout
 	.db $f7 $1c $0b $00 $02 $10 $70
 	.db $ff
-	.db $23 $83 $34
-	.db $24 $86 $95
+	.db ENTID_SHIPYARD_GUNMAN $83 $34
+	.db ENTID_SHIPYARD_SAILOR $86 $95
 	.db $ff
 
 group0croom1cstruct:
@@ -1528,7 +1528,7 @@ group0croom1cstruct:
 	.db $41 $00 $0f $03 $00 $90 $90
 	.db $e5 $84 $0f $00 $01 $30 $40
 	.db $ff
-	.db $23 $83 $67
+	.db ENTID_SHIPYARD_GUNMAN $83 $67
 	.db $ff
 
 group0croom1dstruct:
@@ -1537,7 +1537,7 @@ group0croom1dstruct:
 	.dw group0croom1dlayout
 	.db $e1 $84 $14 $00 $01 $78 $94
 	.db $ff
-	.db $24 $c0 $77
+	.db ENTID_SHIPYARD_SAILOR $c0 $77
 	.db $ff
 
 group0croom1estruct:
@@ -1547,14 +1547,14 @@ group0croom1estruct:
 	.db $23 $8d $0f $04 $00 $10 $20
 	.db $c3 $8d $0f $04 $00 $e0 $20
 	.db $ff
-	.db $23 $86 $74
+	.db ENTID_SHIPYARD_GUNMAN $86 $74
 	.db $ff
 
 group0croom1fstruct:
 	.db $30
 	.db $05
 	.dw group0croom1flayout
-	.db $23 $83 $a7
+	.db ENTID_SHIPYARD_GUNMAN $83 $a7
 	.db $ff
 
 group0croom20struct:
@@ -1563,7 +1563,7 @@ group0croom20struct:
 	.dw group0croom20layout
 	.db $64 $84 $0f $02 $00 $90 $40
 	.db $ff
-	.db $24 $c9 $66
+	.db ENTID_SHIPYARD_SAILOR $c9 $66
 	.db ENTID_KEYLOCK $80 $64
 	.db $ff
 
@@ -1571,8 +1571,8 @@ group0croom21struct:
 	.db $30
 	.db $05
 	.dw group0croom21layout
-	.db $23 $83 $64
-	.db $4a $80 $b7
+	.db ENTID_SHIPYARD_GUNMAN $83 $64
+	.db ENTID_SHIPYARD_BUOY $80 $b7
 	.db $ff
 
 group08room00struct:
@@ -2325,8 +2325,8 @@ group24room00struct:
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $b6
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $44
 	.db ENTID_DISAPPEARING_OBSTACLE $80 $92
-	.db $63 $89 $d1
-	.db $62 $80 $53
-	.db $62 $89 $e5
-	.db $62 $80 $37
+	.db ENTID_BEACH_BOSS $89 $d1
+	.db ENTID_BEACH_BOSS_HELPER $80 $53
+	.db ENTID_BEACH_BOSS_HELPER $89 $e5
+	.db ENTID_BEACH_BOSS_HELPER $80 $37
 	.db $ff

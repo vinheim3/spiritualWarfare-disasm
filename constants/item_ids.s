@@ -22,13 +22,13 @@
 // grapes
 	ITEMID_HOUSES_HIDDEN_GRAPES						db // $0c
 	ITEMID_HOTELS_BOTTOM_RIGHT_GRAPES				db // $0d
-	ITEMID_0e										db // $0e
+	ITEMID_WEST_BEACH_GRAPES						db // $0e
 	ITEMID_PRISON_TOP_RIGHT_GRAPES					db // $0f
 
 // bananas
 	ITEMID_HOTELS_BANANA_UNDER_CAR					db // $10
 	ITEMID_11										db // $11
-	ITEMID_12										db // $12
+	ITEMID_BEACH_FISH_HOUSE_BANANA					db // $12
 	ITEMID_13										db // $13
 
 // armor of God
@@ -42,7 +42,7 @@
 	ITEMID_AIRPORT_BUILDING_HC						db // $19
 	ITEMID_1a										db // $1a
 	ITEMID_HOTELS_ROOFTOP_HC						db // $1b
-	ITEMID_1c										db // $1c
+	ITEMID_SHIPYARD_BOTTOM_RIGHT_HC					db // $1c
 	ITEMID_1d										db // $1d
 	ITEMID_PRISON_TOP_LEFT_HC						db // $1e
 
@@ -50,8 +50,6 @@
 	ITEMID_CITY_BOSS_KEYLOCK						db // $1f
 	ITEMID_20										db // $20 - unused
 	ITEMID_VIALBIRD_HIDDEN_ROOM_NEAR_BOSS_1			db // $21
-
-// ??
 	ITEMID_22										db // $22
 	ITEMID_23										db // $23
 	ITEMID_24										db // $24
@@ -60,7 +58,7 @@
 	ITEMID_26										db // $26
 	ITEMID_SLUMS_BOTTOM_MIDDLE_KEY					db // $27
 	ITEMID_28										db // $28
-	ITEMID_29										db // $29
+	ITEMID_SHIPYARD_BOTTOM_LEFT_KEYLOCK				db // $29
 	ITEMID_2a										db // $2a
 	ITEMID_2b										db // $2b
 	ITEMID_2c										db // $2c

@@ -812,11 +812,11 @@ group0broom05struct:
 	.db $09
 	.dw group0broom05layout
 	.db ENTID_ITEM_PLACER $80 $02
-	.db $8d $c6 $a2
-	.db $8d $80 $77
-	.db $8d $83 $45
-	.db $8d $89 $d9
-	.db $8d $c0 $60
+	.db ENTID_BEACH_FAST_NAKED_GUY $c6 $a2
+	.db ENTID_BEACH_FAST_NAKED_GUY $80 $77
+	.db ENTID_BEACH_FAST_NAKED_GUY $83 $45
+	.db ENTID_BEACH_FAST_NAKED_GUY $89 $d9
+	.db ENTID_BEACH_FAST_NAKED_GUY $c0 $60
 	.db $ff
 
 group0broom06struct:
@@ -827,11 +827,11 @@ group0broom06struct:
 	.db $e2 $cd $1b $01 $02 $78 $94
 	.db $ff
 	.db ENTID_ITEM_PLACER $80 $02
-	.db $8d $c6 $82
-	.db $8d $89 $55
-	.db $8d $80 $39
-	.db $8d $86 $35
-	.db $8a $80 $00
+	.db ENTID_BEACH_FAST_NAKED_GUY $c6 $82
+	.db ENTID_BEACH_FAST_NAKED_GUY $89 $55
+	.db ENTID_BEACH_FAST_NAKED_GUY $80 $39
+	.db ENTID_BEACH_FAST_NAKED_GUY $86 $35
+	.db ENTID_BEACH_SECRET_ROOM_HIDER $80 $00
 	.db $ff
 
 group0broom0cstruct:
@@ -840,9 +840,9 @@ group0broom0cstruct:
 	.db $09
 	.dw group0broom0clayout
 	.db ENTID_ITEM_PLACER $89 $f8
-	.db $aa $c0 $67
-	.db $8d $c9 $a8
-	.db $8d $c0 $a1
+	.db ENTID_BEACH_SKATEBOARDER $c0 $67
+	.db ENTID_BEACH_FAST_NAKED_GUY $c9 $a8
+	.db ENTID_BEACH_FAST_NAKED_GUY $c0 $a1
 	.db $ff
 
 group0broom0dstruct:
@@ -851,9 +851,9 @@ group0broom0dstruct:
 	.db $b8
 	.db $09
 	.dw group0broom0dlayout
-	.db $8d $89 $63
-	.db $8d $80 $22
-	.db $8d $83 $38
+	.db ENTID_BEACH_FAST_NAKED_GUY $89 $63
+	.db ENTID_BEACH_FAST_NAKED_GUY $80 $22
+	.db ENTID_BEACH_FAST_NAKED_GUY $83 $38
 	.db $ff
 
 group0broom0estruct:
@@ -864,9 +864,9 @@ group0broom0estruct:
 	.db $07 $b8 $0c $05 $03 $e0 $70
 	.db $ff
 	.db ENTID_ITEM_PLACER $80 $03
-	.db $8d $c6 $42
-	.db $8d $c0 $27
-	.db $aa $86 $d4
+	.db ENTID_BEACH_FAST_NAKED_GUY $c6 $42
+	.db ENTID_BEACH_FAST_NAKED_GUY $c0 $27
+	.db ENTID_BEACH_SKATEBOARDER $86 $d4
 	.db $ff
 
 group0broom0fstruct:
@@ -875,9 +875,9 @@ group0broom0fstruct:
 	.db $09
 	.dw group0broom0flayout
 	.db ENTID_ITEM_PLACER $80 $07
-	.db $aa $c9 $65
-	.db $8d $83 $48
-	.db $8d $c0 $a6
+	.db ENTID_BEACH_SKATEBOARDER $c9 $65
+	.db ENTID_BEACH_FAST_NAKED_GUY $83 $48
+	.db ENTID_BEACH_FAST_NAKED_GUY $c0 $a6
 	.db $ff
 
 group0broom10struct:
@@ -889,9 +889,9 @@ group0broom10struct:
 	.db $ff
 	.db ENTID_ITEM_PLACER $80 $07
 	.db ENTID_HELPFUL_LADY $03 $b8 $57
-	.db $8d $c6 $83
-	.db $8d $80 $37
-	.db $8d $89 $b8
+	.db ENTID_BEACH_FAST_NAKED_GUY $c6 $83
+	.db ENTID_BEACH_FAST_NAKED_GUY $80 $37
+	.db ENTID_BEACH_FAST_NAKED_GUY $89 $b8
 	.db $ff
 
 group0broom11struct:
@@ -903,7 +903,7 @@ group0broom11struct:
 	.db $70 $b8 $0d $02 $03 $70 $90
 	.db $ff
 	.db ENTID_ITEM_PLACER $89 $f4
-	.db $8d $80 $76
+	.db ENTID_BEACH_FAST_NAKED_GUY $80 $76
 	.db $ff
 
 group0broom12struct:
@@ -912,9 +912,9 @@ group0broom12struct:
 	.db $09
 	.dw group0broom12layout
 	.db ENTID_ITEM_PLACER $80 $07
-	.db $aa $c9 $55
-	.db $aa $c9 $c5
-	.db $8d $83 $a8
+	.db ENTID_BEACH_SKATEBOARDER $c9 $55
+	.db ENTID_BEACH_SKATEBOARDER $c9 $c5
+	.db ENTID_BEACH_FAST_NAKED_GUY $83 $a8
 	.db $ff
 
 group0broom13struct:
@@ -923,9 +923,9 @@ group0broom13struct:
 	.db $09
 	.dw group0broom13layout
 	.db ENTID_ITEM_PLACER $80 $02
-	.db $aa $86 $74
-	.db $8d $83 $c7
-	.db $8d $c9 $b3
+	.db ENTID_BEACH_SKATEBOARDER $86 $74
+	.db ENTID_BEACH_FAST_NAKED_GUY $83 $c7
+	.db ENTID_BEACH_FAST_NAKED_GUY $c9 $b3
 	.db $ff
 
 group0broom14struct:
@@ -938,8 +938,8 @@ group0broom14struct:
 	.db $47 $00 $09 $02 $00 $28 $94
 	.db $ff
 	.db ENTID_ITEM_PLACER $80 $03
-	.db $8d $c9 $62
-	.db $8d $83 $23
+	.db ENTID_BEACH_FAST_NAKED_GUY $c9 $62
+	.db ENTID_BEACH_FAST_NAKED_GUY $83 $23
 	.db $ff
 
 group0broom15struct:
@@ -959,10 +959,10 @@ group0broom16struct:
 	.db $7a $37 $1d $03 $00 $70 $09
 	.db $ff
 	.db ENTID_HEART_CONTAINER $80 $75
-	.db $ac $80 $42
-	.db $ac $86 $a2
-	.db $ac $89 $a8
-	.db $ac $83 $48
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $80 $42
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $86 $a2
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $89 $a8
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $83 $48
 	.db $ff
 
 group0broom17struct:
@@ -971,9 +971,9 @@ group0broom17struct:
 	.db $b8
 	.db $09
 	.dw group0broom17layout
-	.db $ac $80 $64
-	.db $7f $86 $32
-	.db $7f $83 $a7
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $80 $64
+	.db ENTID_BEACH_UP_AND_DOWN_SHARKS $86 $32
+	.db ENTID_BEACH_UP_AND_DOWN_SHARKS $83 $a7
 	.db $ff
 
 group0broom18struct:
@@ -983,11 +983,11 @@ group0broom18struct:
 	.db $09
 	.dw group0broom18layout
 	.db ENTID_ITEM_PLACER $89 $f4
-	.db $7f $80 $79
-	.db $7f $86 $22
-	.db $89 $80 $a4
-	.db $89 $89 $d5
-	.db $89 $80 $72
+	.db ENTID_BEACH_UP_AND_DOWN_SHARKS $80 $79
+	.db ENTID_BEACH_UP_AND_DOWN_SHARKS $86 $22
+	.db ENTID_BEACH_DUCKS $80 $a4
+	.db ENTID_BEACH_DUCKS $89 $d5
+	.db ENTID_BEACH_DUCKS $80 $72
 	.db $ff
 
 group0broom19struct:
@@ -1000,8 +1000,8 @@ group0broom19struct:
 	.db $ff
 	.db ENTID_KEYLOCK $80 $84
 	.db ENTID_MISC_NPC $c3 $23
-	.db $7f $83 $c5
-	.db $7f $80 $79
+	.db ENTID_BEACH_UP_AND_DOWN_SHARKS $83 $c5
+	.db ENTID_BEACH_UP_AND_DOWN_SHARKS $80 $79
 	.db $ff
 
 group0broom1astruct:
@@ -1010,10 +1010,10 @@ group0broom1astruct:
 	.db $b8
 	.db $09
 	.dw group0broom1alayout
-	.db $ac $80 $52
-	.db $ac $86 $b2
-	.db $ac $89 $b8
-	.db $ac $83 $58
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $80 $52
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $86 $b2
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $89 $b8
+	.db ENTID_BEACH_ENCIRCLING_SHARKS $83 $58
 	.db $ff
 
 group0broom1bstruct:
@@ -1024,7 +1024,7 @@ group0broom1bstruct:
 	.db $a8 $cd $24 $00 $00 $20 $90
 	.db $ff
 	.db ENTID_ITEM_PLACER $80 $04
-	.db $8d $c9 $b4
+	.db ENTID_BEACH_FAST_NAKED_GUY $c9 $b4
 	.db ENTID_GUY_BEFORE_BOSSES $86 $d7
 	.db $ff
 
@@ -1045,10 +1045,10 @@ group13room01struct:
 	.dw group13room01layout
 	.db $80 $9c $ff $00 $00 $d0 $40
 	.db $ff
-	.db $88 $80 $31
-	.db $88 $89 $c5
-	.db $88 $89 $46
-	.db $88 $80 $b9
+	.db ENTID_BEACH_UNDEGROUND_FISHES $80 $31
+	.db ENTID_BEACH_UNDEGROUND_FISHES $89 $c5
+	.db ENTID_BEACH_UNDEGROUND_FISHES $89 $46
+	.db ENTID_BEACH_UNDEGROUND_FISHES $80 $b9
 	.db $ff
 
 group13room02struct:
@@ -1057,7 +1057,7 @@ group13room02struct:
 	.dw group13room02layout
 	.db $36 $88 $1b $01 $00 $78 $94
 	.db $ff
-	.db $88 $89 $71
+	.db ENTID_BEACH_UNDEGROUND_FISHES $89 $71
 	.db ENTID_CITY_PLUMBER_1 $80 $56
 	.db $ff
 
@@ -1065,7 +1065,7 @@ group13room03struct:
 	.db $30
 	.db $5b
 	.dw group13room03layout
-	.db $88 $80 $42
+	.db ENTID_BEACH_UNDEGROUND_FISHES $80 $42
 	.db ENTID_LADDER_CLIMBER $83 $84
 	.db ENTID_LADDER_CLIMBER $86 $56
 	.db ENTID_LADDER_CLIMBER $83 $18
@@ -1453,7 +1453,7 @@ group1broom07struct:
 	.db $7a $00 $0b $06 $00 $d0 $20
 	.db $8a $00 $0b $06 $00 $d0 $20
 	.db $ff
-	.db $8b $80 $00
+	.db ENTID_BEACH_SECRET_ROOM_TEXT $80 $00
 	.db $ff
 
 group1broom08struct:

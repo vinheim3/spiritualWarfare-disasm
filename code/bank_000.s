@@ -3058,7 +3058,7 @@ Jump_000_1bf7:
 	ld   hl, wNewKeysPressed                                   ; $1c13: $21 $18 $c0
 	ld   (hl), a                                     ; $1c16: $77
 
-Jump_000_1c17:
+mainLoop:
 	call waitUntilStartOfVBlankPeriod                               ; $1c17: $cd $e8 $01
 	ld   hl, $c014                                   ; $1c1a: $21 $14 $c0
 	inc  (hl)                                        ; $1c1d: $34
@@ -3089,72 +3089,74 @@ jr_000_1c46:
 	ld   hl, $c058                                   ; $1c4c: $21 $58 $c0
 	ld   a, (hl)                                     ; $1c4f: $7e
 	cp   $00                                         ; $1c50: $fe $00
-	jr   nz, jr_000_1c74                             ; $1c52: $20 $20
+	jr   nz, @afterInvScreenCheck                             ; $1c52: $20 $20
 
 	ld   hl, $c059                                   ; $1c54: $21 $59 $c0
 	ld   a, (hl)                                     ; $1c57: $7e
 	cp   $00                                         ; $1c58: $fe $00
-	jr   nz, jr_000_1c74                             ; $1c5a: $20 $18
+	jr   nz, @afterInvScreenCheck                             ; $1c5a: $20 $18
 
+// check if pressing select to go to inventory screen
 	ld   hl, wNewKeysPressed                                   ; $1c5c: $21 $18 $c0
 	ld   a, (hl)                                     ; $1c5f: $7e
 	and  PADF_SELECT                                         ; $1c60: $e6 $04
-	jr   z, jr_000_1c74                              ; $1c62: $28 $10
+	jr   z, @afterInvScreenCheck                              ; $1c62: $28 $10
 
 	ld   hl, wKeysPressed                                   ; $1c64: $21 $16 $c0
 	ld   a, (hl)                                     ; $1c67: $7e
 	and  PADF_SELECT                                         ; $1c68: $e6 $04
-	jr   z, jr_000_1c74                              ; $1c6a: $28 $08
+	jr   z, @afterInvScreenCheck                              ; $1c6a: $28 $08
 
 	call handleInventoryScreen                               ; $1c6c: $cd $96 $1f
-	jr   z, Jump_000_1c17                              ; $1c6f: $28 $a6
+	jr   z, mainLoop                              ; $1c6f: $28 $a6
 
 	jp   Jump_000_1cf5                               ; $1c71: $c3 $f5 $1c
 
 
-jr_000_1c74:
+@afterInvScreenCheck:
 	ld   hl, wNewKeysPressed                                   ; $1c74: $21 $18 $c0
 	ld   a, (hl)                                     ; $1c77: $7e
 	and  PADF_START                                         ; $1c78: $e6 $08
-	jr   z, Jump_000_1ca9                              ; $1c7a: $28 $2d
+	jr   z, @afterPauseGameCheck                              ; $1c7a: $28 $2d
 
 	ld   hl, wKeysPressed                                   ; $1c7c: $21 $16 $c0
 	ld   a, (hl)                                     ; $1c7f: $7e
 	and  PADF_START                                         ; $1c80: $e6 $08
-	jr   z, Jump_000_1ca9                              ; $1c82: $28 $25
+	jr   z, @afterPauseGameCheck                              ; $1c82: $28 $25
 
+// pause game
 	ld   hl, $c058                                   ; $1c84: $21 $58 $c0
 	ld   a, (hl)                                     ; $1c87: $7e
 	xor  $ff                                         ; $1c88: $ee $ff
 	ld   hl, $c058                                   ; $1c8a: $21 $58 $c0
 	ld   (hl), a                                     ; $1c8d: $77
 	cp   $00                                         ; $1c8e: $fe $00
-	jr   z, jr_000_1c98                              ; $1c90: $28 $06
+	jr   z, +                              ; $1c90: $28 $06
 
 	call callsCommonSoundFuncs_27c3                               ; $1c92: $cd $c3 $27
-	jp   Jump_000_1ca9                               ; $1c95: $c3 $a9 $1c
+	jp   @afterPauseGameCheck                               ; $1c95: $c3 $a9 $1c
 
 
-jr_000_1c98:
++
 	ld   hl, $c08b                                   ; $1c98: $21 $8b $c0
 	ld   a, (hl)                                     ; $1c9b: $7e
 	cp   $00                                         ; $1c9c: $fe $00
-	jr   z, jr_000_1ca6                              ; $1c9e: $28 $06
+	jr   z, +                              ; $1c9e: $28 $06
 
 	call callsCommonSoundFuncs_27ae                               ; $1ca0: $cd $ae $27
-	jp   Jump_000_1ca9                               ; $1ca3: $c3 $a9 $1c
+	jp   @afterPauseGameCheck                               ; $1ca3: $c3 $a9 $1c
 
 
-jr_000_1ca6:
++
 	call callsCommonSoundFuncs_27ae                               ; $1ca6: $cd $ae $27
 
-Jump_000_1ca9:
+@afterPauseGameCheck:
 	ld   hl, $c058                                   ; $1ca9: $21 $58 $c0
 	ld   a, (hl)                                     ; $1cac: $7e
 	cp   $00                                         ; $1cad: $fe $00
 	jr   z, jr_000_1cb4                              ; $1caf: $28 $03
 
-	jp   Jump_000_1c17                               ; $1cb1: $c3 $17 $1c
+	jp   mainLoop                               ; $1cb1: $c3 $17 $1c
 
 
 jr_000_1cb4:
@@ -3359,7 +3361,7 @@ Jump_000_1dca:
 	call Call_000_2e67                               ; $1de5: $cd $67 $2e
 	call Call_000_3b11                               ; $1de8: $cd $11 $3b
 	call func_55a9                                       ; $1deb: $cd $a9 $55
-	jp   Jump_000_1c17                               ; $1dee: $c3 $17 $1c
+	jp   mainLoop                               ; $1dee: $c3 $17 $1c
 
 
 setScrollValues:

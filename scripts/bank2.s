@@ -621,7 +621,7 @@ keyLockFunc:
 	.dw @entry5
 
 	.db $0c $04 $04
-	.dw @entry6
+	.dw @shipyardBottomRight
 
 	.db $1a $04 $01
 	.dw @entry7
@@ -654,8 +654,8 @@ keyLockFunc:
 	npc_giveItem ITEMID_25
 	npc_ret
 
-@entry6:
-	npc_giveItem ITEMID_29
+@shipyardBottomRight:
+	npc_giveItem ITEMID_SHIPYARD_BOTTOM_LEFT_KEYLOCK
 	npc_ret
 
 @entry7:
@@ -727,7 +727,7 @@ placeDoorAtKeyLockBasedOnRoom:
 	npc_ret
 
 @entry6:
-	npc_jumpIfItemGotten ITEMID_29, placeDoorAtKeyLock
+	npc_jumpIfItemGotten ITEMID_SHIPYARD_BOTTOM_LEFT_KEYLOCK, placeDoorAtKeyLock
 	npc_ret
 
 @entry7:
@@ -796,7 +796,7 @@ npc6d_scripts:
 	.dw @hotelsRooftop
 
 	.db $0f $02 $00
-	.dw @entry6
+	.dw @shipyardBottomRight
 
 	.db $0b $01 $03
 	.dw @entry7
@@ -872,10 +872,10 @@ npc6d_scripts:
 	npc_placeTile $b4 $80 $80
 	npc_end
 
-@entry6:
-	npc_jumpIfItemGotten ITEMID_1c, _npc_end_02_502c
+@shipyardBottomRight:
+	npc_jumpIfItemGotten ITEMID_SHIPYARD_BOTTOM_RIGHT_HC, _npc_end_02_502c
 	npc_call @func_54d6
-	npc_giveItem ITEMID_1c
+	npc_giveItem ITEMID_SHIPYARD_BOTTOM_RIGHT_HC
 	npc_call @func_54de
 	npc_end
 
@@ -1270,7 +1270,7 @@ npc7b_scripts:
 
 
 ; ==============================================================================
-; ENTID_SLUMS_BULLET_EXPLOSION
+; ENTID_ENEMY_ITEM_EXPLOSION
 ; ==============================================================================
 npc7c_scripts:
 	npc_set3_cb60
@@ -1300,10 +1300,10 @@ npc7d_scripts:
 	.dw @slumsTopRight
 
 	.db $1b $01 $00
-	.dw @entry1
+	.dw @beachFishHouse
 
 	.db $1b $02 $00
-	.dw @entry2
+	.dw @afterBeachBoss
 
 	.db $1b $01 $01
 	.dw @entry3
@@ -1337,20 +1337,20 @@ npc7d_scripts:
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump npc82_scripts
 
-@entry1:
-	npc_jumpIfItemGotten ITEMID_12, @showRoomEmptyText
+@beachFishHouse:
+	npc_jumpIfItemGotten ITEMID_BEACH_FISH_HOUSE_BANANA, @showRoomEmptyText
 	npc_set_c059 $ff
 	npc_startScrollingText @npcText_5aa5
 	npc_startScrollingText @npcText_5dfb
-	npc_spawnNPC $32 $7a $64
+	npc_spawnNPC ENTID_BANANA $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
 	npc_jump npc82_scripts
 
-@entry2:
+@afterBeachBoss:
 	npc_jumpIfArmorOfGodGotten AOG_SWORD, @showRoomEmptyText
 	npc_set_c059 $ff
 	npc_startScrollingText @npcText_5b02
-	npc_spawnNPC $39 $7a $64
+	npc_spawnNPC ENTID_SWORD_OF_THE_SPIRIT $7a $64
 	npc_jump npc82_scripts
 
 @entry3:
@@ -1744,6 +1744,9 @@ npc7e_scripts:
 	.db $ff $fe $7f
 
 
+; ==============================================================================
+; ENTID_BEACH_UP_AND_DOWN_SHARKS
+; ==============================================================================
 npc7f_scripts:
 	npc_set5_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
@@ -1756,6 +1759,9 @@ npc7f_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_BEACH_ENCIRCLING_SHARKS
+; ==============================================================================
 npcac_scripts:
 	npc_set5_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
@@ -2289,6 +2295,9 @@ func_02_669d:
 	npc_ret
 
 
+; ==============================================================================
+; ENTID_BEACH_UNDEGROUND_FISHES
+; ==============================================================================
 npc88_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set5_cb60
@@ -2301,6 +2310,9 @@ npc88_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_BEACH_DUCKS
+; ==============================================================================
 npc89_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set2_cbe4
@@ -2332,6 +2344,9 @@ npc89_scripts:
 	.db $42 $0f $7f
 
 
+; ==============================================================================
+; ENTID_BEACH_SECRET_ROOM_HIDER
+; ==============================================================================
 npc8a_scripts:
 	npc_setCoords $10 $20
 	npc_set5_cb60
@@ -2352,6 +2367,9 @@ npc8a_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_BEACH_SECRET_ROOM_TEXT
+; ==============================================================================
 npc8b_scripts:
 	npc_c02a_equFF
 	npc_startScrollingText @text
@@ -2432,6 +2450,9 @@ npc8c_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_BEACH_FAST_NAKED_GUY
+; ==============================================================================
 npc8d_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set7_cb60
@@ -2817,6 +2838,9 @@ npca9_scripts:
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_BEACH_SKATEBOARDER
+; ==============================================================================
 npcaa_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
@@ -2831,10 +2855,13 @@ npcaa_scripts:
 	npc_turnBackwards
 	npc_jump @loop
 ++
-	npc_spawnNPCinFrontOfSelf $ab
+	npc_spawnNPCinFrontOfSelf ENTID_BEACH_SKATEBOARDER_BOTTLE
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_BEACH_SKATEBOARDER_BOTTLE
+; ==============================================================================
 npcab_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_cb60_low2bitsEquParamMinus1 $02
@@ -2842,7 +2869,7 @@ npcab_scripts:
 	npc_facePlayerHorizontally
 	npc_res4_cb60
 	npc_moveByParamPixels $ff
-	npc_setNewNpcID $7c
+	npc_setNewNpcID ENTID_ENEMY_ITEM_EXPLOSION
 
 
 ; ==============================================================================
@@ -3069,7 +3096,7 @@ npca4_scripts:
 	npc_setMovementSpeed $04
 	npc_setDamageTaken $03
 	npc_moveByParamPixels $ff
-	npc_setNewNpcID ENTID_SLUMS_BULLET_EXPLOSION
+	npc_setNewNpcID ENTID_ENEMY_ITEM_EXPLOSION
 
 
 ; ==============================================================================
