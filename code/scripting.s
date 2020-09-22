@@ -1,3 +1,58 @@
+Call_001_6244:
+	push bc
+	push af                                          ; $6245: $f5
+	ld   hl, $c00c                                   ; $6246: $21 $0c $c0
+	ld   (hl), c                                     ; $6249: $71
+	ld   hl, wArmorOfGodGotten                                   ; $624a: $21 $52 $c6
+	ld   a, (hl)                                     ; $624d: $7e
+	and  AOG_HELM                                         ; $624e: $e6 $10
+	jr   z, Jump_001_6257                              ; $6250: $28 $05
+
+// helm gotten
+	ld   hl, $c04b                                   ; $6252: $21 $4b $c0
+	ld   (hl), $00                                   ; $6255: $36 $00
+
+Jump_001_6257:
+	ld   bc, $0000                                   ; $6257: $01 $00 $00
+
+jr_001_625a:
+	ld   hl, $c600                                   ; $625a: $21 $00 $c6
+	add  hl, bc                                      ; $625d: $09
+	ld   a, (hl)                                     ; $625e: $7e
+	cp   $00                                         ; $625f: $fe $00
+	jr   z, jr_001_626f                              ; $6261: $28 $0c
+
+	inc  bc                                          ; $6263: $03
+
+jr_001_6264:
+	ld   a, c                                        ; $6264: $79
+	cp   $18                                         ; $6265: $fe $18
+	jr   c, jr_001_625a                              ; $6267: $38 $f1
+
+	call Call_000_35b2                                       ; $6269: $cd $b2 $35
+	jp   Jump_001_6257                               ; $626c: $c3 $57 $62
+
+
+jr_001_626f:
+	pop  af                                          ; $626f: $f1
+	ld   hl, $c600                                   ; $6270: $21 $00 $c6
+	add  hl, bc                                      ; $6273: $09
+	ld   (hl), a                                     ; $6274: $77
+	ld   hl, $c00c                                   ; $6275: $21 $0c $c0
+	ld   a, (hl)                                     ; $6278: $7e
+	ld   hl, $c04b                                   ; $6279: $21 $4b $c0
+	or   (hl)                                        ; $627c: $b6
+	ld   hl, $c618                                   ; $627d: $21 $18 $c6
+	add  hl, bc                                      ; $6280: $09
+	ld   (hl), a                                     ; $6281: $77
+	ld   a, e                                        ; $6282: $7b
+	ld   hl, $c630                                   ; $6283: $21 $30 $c6
+	add  hl, bc                                      ; $6286: $09
+	ld   (hl), a                                     ; $6287: $77
+	pop  bc                                          ; $6288: $c1
+	ret                                              ; $6289: $c9
+
+
 executeNPCScriptCode:
 	ld   hl, wCurrNpcIdx
 	ld   c, (hl)
@@ -3251,110 +3306,3 @@ copyByteFrom_c006_WordPlusEinto_c009:
 	ld   (hl), a                                     ; $7428: $77
 	pop  de                                          ; $7429: $d1
 	ret                                              ; $742a: $c9
-
-
-displayNextTextCharacter:
-// c061 - marker to tell when done
-	ld   hl, wScrollingTextByteDone
-	ld   a, (hl)
-	cp   $00
-	jr   nz, +
-
-	ret
-
-+
-// c064/5 - vram offset of text character?
-	ld   hl, wScrollingTextVramOffset
-	ld   e, (hl)
-	inc  hl
-	ld   a, (hl)
-	add  >$9800
-	ld   d, a
-// $c6de - row of vram?
-	call dPlusEquValIn_c6de
-
-// gets the next byte of text
-	push de
-	ld   de, $0000
-	call loadScrollingTextByteIdxedE
-	ld   a, e
-	pop  de
-
-// byte 1 is signal to progress to next line
-	cp   $01
-	jr   z, @byteReadEqu1
-
-// if not terminator, read byte
-	cp   $ff
-	jr   nz, storeScrollingTextByteIncVramIncVramGotoNextByte
-
-// byte read is $ff - next bytes are control bytes
-	ld   hl, wScrollingTextByteDone
-	ld   (hl), $00
-	jp   scrollingTextIncVramOffsetNextTextBytes
-
-@byteReadEqu1:
-	call scrollingTextGoToNewLine
-	jp   scrollingTextStartNextByte
-
-
-scrollingTextGoToNewLine:
-// c0fa/9 += $20
-// store also in c065/4
-	ld   hl, wScrollingTextCurrRowVramStart
-	ld   a, (hl)
-	add  <$0020
-	ld   (hl), a
-	ld   hl, wScrollingTextVramOffset
-	ld   (hl), a
-	ld   hl, wScrollingTextCurrRowVramStart+1
-	ld   a, (hl)
-	adc  >$0020
-	ld   (hl), a
-	ld   hl, wScrollingTextVramOffset+1
-	ld   (hl), a
-	ret
-
-
-storeScrollingTextByteIncVramIncVramGotoNextByte:
-	ld   hl, wScrollingTextVramOffset+1
-	ld   l, (hl)
-	bit  2, h
-// bug: this jump never done
-// intention is if it goes from screen 0 to screen 1, to ignore
-	jr   nc, +
-
-	ld   (de), a
-
-+
-scrollingTextIncVramOffsetNextTextBytes:
-	ld   hl, wScrollingTextVramOffset
-	ld   a, (hl)
-	add  $01
-	ld   (hl), a
-	jr   nc, +
-
-	inc  hl
-	inc  (hl)
-
-+
-scrollingTextStartNextByte:
-	ld   hl, wScrollingTextByteAddr
-	ld   a, (hl)
-	add  $01
-	ld   (hl), a
-	jr   nz, +
-
-	inc  hl
-	inc  (hl)
-
-+
-	ld   hl, wScrollingTextByteDone
-	ld   a, (hl)
-	cp   $00
-	jr   nz, @done
-
-	call scrollingTextProcessControlBytes
-
-@done:
-	ret
