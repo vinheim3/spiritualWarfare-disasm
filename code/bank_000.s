@@ -104,26 +104,26 @@ table_0a31:
 	.dw _ret_328f
 	.dw _ret_328f
 	.dw _ret_328f
-	.dw Jump_000_3289
+	.dw storeFFinto_c5f8
 	.dw func_3257
 	.dw func_32bc
 	.dw func_3243
-	.dw Jump_000_3289
-	.dw Jump_000_3289
+	.dw storeFFinto_c5f8
+	.dw storeFFinto_c5f8
 	.dw func_3235
-	.dw Jump_000_3289
+	.dw storeFFinto_c5f8
 	.dw func_324e
 	.dw func_324e
 	.dw func_324e
 	.dw func_324e
 	.dw func_324e
 	.dw func_324e
-	.dw Jump_000_3289
+	.dw storeFFinto_c5f8
 	.dw func_322d
 	.dw func_3243
 	.dw func_3261
 	.dw func_3243
-	.dw Jump_000_3289
+	.dw storeFFinto_c5f8
 	.dw _ret_328f
 	.dw _ret_328f
 	.dw _ret_328f
@@ -3363,7 +3363,7 @@ Jump_000_1dca:
 	call Call_000_2cbf                               ; $1ddc: $cd $bf $2c
 	call func_48ec                                       ; $1ddf: $cd $ec $48
 	call Call_000_3e33                               ; $1de2: $cd $33 $3e
-	call Call_000_2e67                               ; $1de5: $cd $67 $2e
+	call loadBWeaponDataToOam                               ; $1de5: $cd $67 $2e
 	call Call_000_3b11                               ; $1de8: $cd $11 $3b
 	call checkRaftChanges_sendToOam                                       ; $1deb: $cd $a9 $55
 	jp   mainLoop                               ; $1dee: $c3 $17 $1c
@@ -4230,7 +4230,7 @@ func_232a:
 	call copyPlayerDataOnto_wOam                                       ; $2331: $cd $aa $56
 	call checkRaftChanges_sendToOam                                       ; $2334: $cd $a9 $55
 	call loadNpcOamDataToWram                                       ; $2337: $cd $bd $41
-	call Call_000_2e67                               ; $233a: $cd $67 $2e
+	call loadBWeaponDataToOam                               ; $233a: $cd $67 $2e
 	call Call_000_3b11                               ; $233d: $cd $11 $3b
 	call copyA0hDataToOam                               ; $2340: $cd $99 $1a
 	call loadAllVramTilesAndConversionTableDataForTileset                               ; $2343: $cd $4a $1e
@@ -5700,7 +5700,7 @@ processUsingJawboneOrSword:
 	ld   hl, wEquippedBItem                                   ; $2ca1: $21 $49 $c0
 	ld   a, (hl)                                     ; $2ca4: $7e
 	cp   EQUIPB_JAWBONE                                         ; $2ca5: $fe $01
-	jr   z, +                              ; $2ca7: $28 $09
+	jr   z, @jawbone                              ; $2ca7: $28 $09
 
 // sword
 	ld   a, $1e                                      ; $2ca9: $3e $1e
@@ -5708,7 +5708,7 @@ processUsingJawboneOrSword:
 	ld   (hl), a                                     ; $2cae: $77
 	jp   @done                               ; $2caf: $c3 $be $2c
 
-+
+@jawbone:
 	ld   a, $5a                                      ; $2cb2: $3e $5a
 	ld   hl, $c6cb                                   ; $2cb4: $21 $cb $c6
 	ld   (hl), a                                     ; $2cb7: $77
@@ -5942,7 +5942,7 @@ Call_000_2cbf:
 @gotoCheckNextNPC:
 	inc  bc                                          ; $2df5: $03
 	ld   a, c                                        ; $2df6: $79
-	cp   $0c                                         ; $2df7: $fe $0c
+	cp   NUM_NPCS                                         ; $2df7: $fe $0c
 	jr   c, @checkNextNPC                              ; $2df9: $38 $f1
 
 	ret                                              ; $2dfb: $c9
@@ -5985,6 +5985,7 @@ Call_000_2cbf:
 	cp   EQUIPB_SWORD                                         ; $2e33: $fe $02
 	jr   nz, @bItemIsNotSword                             ; $2e35: $20 $14
 
+// sword
 	ld   hl, wNPCBytes_cbe4                                   ; $2e37: $21 $e4 $cb
 	add  hl, bc                                      ; $2e3a: $09
 	ld   a, (hl)                                     ; $2e3b: $7e
@@ -6017,7 +6018,7 @@ Call_000_2cbf:
 	jp   @gotoCheckNextNPC                               ; $2e64: $c3 $f5 $2d
 
 
-Call_000_2e67:
+loadBWeaponDataToOam:
 	ld   a, $20                                      ; $2e67: $3e $20
 	call getLastUsableOamIdx_fromA                                       ; $2e69: $cd $f1 $57
 	call clear2spritesInOam_1stIdxedE                                       ; $2e6c: $cd $00 $58
@@ -6674,23 +6675,20 @@ Call_000_31f9:
 
 	push af                                          ; $3204: $f5
 	cp   $27                                         ; $3205: $fe $27
-	jr   z, jr_000_3217                              ; $3207: $28 $0e
+	jr   z, @next_3217                              ; $3207: $28 $0e
 
 	cp   $1e                                         ; $3209: $fe $1e
-
-jr_000_320b:
-	jr   z, jr_000_3217                              ; $320b: $28 $0a
+	jr   z, @next_3217                              ; $320b: $28 $0a
 
 	ld   hl, wMenuCursorIdx                                   ; $320d: $21 $11 $c7
 	ld   a, (hl)                                     ; $3210: $7e
 	cp   $00                                         ; $3211: $fe $00
-	jr   z, jr_000_3217                              ; $3213: $28 $02
+	jr   z, @next_3217                              ; $3213: $28 $02
 
 	pop  af                                          ; $3215: $f1
 	ret                                              ; $3216: $c9
 
-
-jr_000_3217:
+@next_3217:
 	pop  af                                          ; $3217: $f1
 	push af                                          ; $3218: $f5
 	sla  a                                           ; $3219: $cb $27
@@ -6723,7 +6721,7 @@ Jump_000_3237:
 	ld   (hl), a                                     ; $323a: $77
 	ld   a, $06                                      ; $323b: $3e $06
 	call Call_001_6244                                       ; $323d: $cd $44 $62
-	jp   Jump_000_3289                               ; $3240: $c3 $89 $32
+	jp   storeFFinto_c5f8                               ; $3240: $c3 $89 $32
 
 
 func_3243:
@@ -6760,9 +6758,10 @@ func_3261:
 Jump_000_3268:
 	call c028_equGameScreenTileIdx_16ePlusC                                       ; $3268: $cd $0c $40
 	call Call_001_58f4                                       ; $326b: $cd $f4 $58
-	jp   Jump_000_3289                               ; $326e: $c3 $89 $32
+	jp   storeFFinto_c5f8                               ; $326e: $c3 $89 $32
 
 
+;;
 	ld   hl, $c00c                                   ; $3271: $21 $0c $c0
 	ld   (hl), e                                     ; $3274: $73
 	ld   de, $0000                                   ; $3275: $11 $00 $00
@@ -6779,8 +6778,8 @@ Jump_000_3268:
 Jump_000_3286:
 	call Call_000_3a0c                               ; $3286: $cd $0c $3a
 
-Jump_000_3289:
-	ld   a, $ff                                      ; Jump_000_3289: $3e $ff
+storeFFinto_c5f8:
+	ld   a, $ff
 	ld   hl, $c5f8                                   ; $328b: $21 $f8 $c5
 	ld   (hl), a                                     ; $328e: $77
 

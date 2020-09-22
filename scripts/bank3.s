@@ -472,6 +472,9 @@ npc38_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_SHIELD_OF_FAITH
+; ==============================================================================
 npc37_scripts:
 	npc_call data_03_6994
 	npc_set_c059 $ff
@@ -2911,10 +2914,10 @@ npc2d_scripts:
 	.dw @cityBar
 
 	.db $1c $00 $07
-	.dw @entry14
+	.dw @casino
 
 	.db $1c $01 $07
-	.dw @entry15
+	.dw @afterDemonLairBoss
 
 	.db $1c $02 $07
 	.dw @airportBuildingEast
@@ -3088,7 +3091,7 @@ npc2d_scripts:
 	npc_takeArmorOfGod AOG_BELT
 	npc_jump @emptyRoom
 
-@entry14:
+@casino:
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_68bb
 	npc_startScrollingText text_7f_03_63aa
@@ -3096,12 +3099,12 @@ npc2d_scripts:
 	npc_takeArmorOfGod AOG_ARMOUR
 	npc_jump @emptyRoom
 
-@entry15:
+@afterDemonLairBoss:
 	npc_jumpIfArmorOfGodGotten AOG_SHIELD, _showText_roomEmpty_clear_c059
 	npc_set_c059 $ff
 	npc_startScrollingText text_03_6930
 	npc_startScrollingText text_7f_03_63aa
-	npc_spawnNPC $37 $7a $64
+	npc_spawnNPC ENTID_SHIELD_OF_FAITH $7a $64
 	npc_jump @emptyRoom
 
 @airportBuildingEast:

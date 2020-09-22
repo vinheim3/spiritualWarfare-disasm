@@ -43,7 +43,6 @@
 	ENTID_HOTELS_DISAPPEARING_CAR_1				db // $2a
 	ENTID_HOTELS_DISAPPEARING_CAR_2				db // $2b
 	ENTID_HOTELS_BIKER_THIN_CAR_PATH			db // $2c
-	// creates text and NPC
 	ENTID_ITEM_ROOM_ANGEL						db // $2d
 	ENTID_PEAR									db // $2e
 	ENTID_POMEGRANATE							db // $2f
@@ -54,7 +53,7 @@
 	ENTID_BELT_OF_TRUTH							db // $34
 	ENTID_BREASTPLATE_OF_RIGHTEOUSNESS			db // $35
 	ENTID_BOOTS_OF_THE_GOSPEL					db // $36
-	ENTID_37									db
+	ENTID_SHIELD_OF_FAITH						db // $37
 	ENTID_HELMET_OF_SALVATION					db // $38
 	ENTID_SWORD_OF_THE_SPIRIT					db // $39
 	ENTID_SHOP_7_VIALS							db // $3a
@@ -166,7 +165,9 @@
 	ENTID_BEACH_SKATEBOARDER					db // $aa
 	ENTID_BEACH_SKATEBOARDER_BOTTLE				db // $ab
 	ENTID_BEACH_ENCIRCLING_SHARKS				db // $ac
-	ENTID_ad									dsb $b4-$ad
+	ENTID_ad									dsb $f-$d
+	ENTID_FINAL_BOSS_SHIELD						db // $af
+	ENTID_b0									dsb 4-0
 	ENTID_TESTROOM_ARMOUR_OF_GOD				db // $b4
 	ENTID_TESTROOM_SPECIAL_B_ITEMS				db // $b5
 	ENTID_TESTROOM_HEARTS_BIRDS_BOMBS_OILS		db // $b6
@@ -178,10 +179,34 @@
 	ENTID_PRISON_POLICEMAN						db // $c2
 	ENTID_c3									dsb 5-3
 	ENTID_PRISON_DOGS							db // $c5
-	ENTID_c6									dsb $d9-$c6
+	ENTID_DEMONS_LAIR_RUNNING_DEMON_1			db // $c6
+	ENTID_DEMONS_LAIR_RUNNING_DEMON_2			db // $c7
+	ENTID_RUNNING_DEMON_SPAWN_CLOUD				db // $c8
+	ENTID_DEMONS_LAIR_RUNNING_DEMON_3			db // $c9
+	ENTID_DEMONS_LAIR_RUNNING_DEMON_4			db // $ca
+	ENTID_DEMONS_LAIR_RUNNING_DEMON_5			db // $cb
+	ENTID_DEMONS_LAIR_RUNNING_DEMON_6			db // $cc
+	ENTID_DEMONS_LAIR_INVISIBLE_DEMON			db // $cd
+	// spawned from invisible demon
+	ENTID_ce									db
+	ENTID_DEMONS_LAIR_LAVA_DEMON				db // $cf
+	// rare thing spawned from lava demon
+	ENTID_d0									db
+	ENTID_SPAWNED_DEMON							db // $d1
+	ENTID_DEMON_FIREBALL						db // $d2
+	ENTID_DEMON_SPAWN_CLOUD						db // $d3
+	ENTID_DEMON_SPAWNER							db // $d4
+	ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2			db // $d5
+	ENTID_DEMONS_LAIR_STAIRS					db // $d6
+	ENTID_SPAWNED_DEMON_2						db // $d7
+	ENTID_DEMON_SPAWNER_2						db // $d8
 	ENTID_PRISON_FLEEING_DEMON_1				db // $d9
 	ENTID_PRISON_FLEEING_DEMON_2				db // $da
-	ENTID_db									dsb $e4-$db
+	ENTID_DEMONS_LAIR_MONKEY_DEMON				db // $db
+	ENTID_DEMONS_LAIR_BREAKABLE_WALL			db // $dc
+	ENTID_db									dsb $e2-$dd
+	ENTID_DEMONS_LAIR_4_BREAKABLE_WALL			db // $e2
+	ENTID_e3									db
 	ENTID_PRISON_LOCK							db // $e4
 	ENTID_e5									db // $e5
 	ENTID_FOREST_BOMB_BOSS						db // $e6
@@ -190,6 +215,13 @@
 	ENTID_WAREHOUSE_BOSS_HELPER_TODO_2			db // $e9
 	ENTID_WAREHOUSE_SLOW_BULLET_BOSS			db // $ea
 	ENTID_WAREHOUSE_BOSS_HELPER_TODO_3			db // $eb
-	ENTID_ec									dsb $f5-$ec
+	ENTID_ec									db
+	ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP			db // $ed
+	ENTID_DEMONS_LAIR_BOSS_BLOOD_ENEMY			db // $ee
+	ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP_SPAWNER	db // $ef
+	ENTID_DEMONS_LAIR_BOSS_HAND					db // $f0
+	ENTID_DEMONS_LAIR_BOSS_FLYING_DEMON			db // $f1
+	ENTID_DEMONS_LAIR_BOSS_FLYING_DEMON_2		db // $f2
+	ENTID_f3									dsb 5-3
 	ENTID_GUY_BEFORE_BOSSES						db // $f5
 .ende

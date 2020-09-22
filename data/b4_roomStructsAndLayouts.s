@@ -561,23 +561,23 @@ group15room01struct:
 	.db $13 $86 $fe $10 $00 $d0 $30
 	.db $d3 $86 $fe $f0 $00 $10 $30
 	.db $ff
-	.db $d4 $89 $45
+	.db ENTID_DEMON_SPAWNER $89 $45
 	.db $ff
 
 group15room02struct:
 	.db $30
 	.db $0d
 	.dw group15room02layout
-	.db $c9 $89 $45
-	.db $d4 $89 $a7
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_3 $89 $45
+	.db ENTID_DEMON_SPAWNER $89 $a7
 	.db $ff
 
 group15room03struct:
 	.db $30
 	.db $0d
 	.dw group15room03layout
-	.db $c6 $89 $43
-	.db $d4 $89 $48
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_1 $89 $43
+	.db ENTID_DEMON_SPAWNER $89 $48
 	.db $ff
 
 group15room04struct:
@@ -591,8 +591,8 @@ group15room05struct:
 	.db $30
 	.db $0d
 	.dw group15room05layout
-	.db $c6 $89 $43
-	.db $d4 $89 $b5
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_1 $89 $43
+	.db ENTID_DEMON_SPAWNER $89 $b5
 	.db $ff
 
 group15room06struct:
@@ -606,15 +606,15 @@ group15room07struct:
 	.db $30
 	.db $0d
 	.dw group15room07layout
-	.db $c9 $89 $45
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_3 $89 $45
 	.db $ff
 
 group15room08struct:
 	.db $30
 	.db $0d
 	.dw group15room08layout
-	.db $c6 $89 $43
-	.db $d4 $89 $45
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_1 $89 $43
+	.db ENTID_DEMON_SPAWNER $89 $45
 	.db $ff
 
 group15room09struct:
@@ -623,16 +623,16 @@ group15room09struct:
 	.dw group15room09layout
 	.db $91 $8d $16 $03 $04 $70 $90
 	.db $ff
-	.db $c7 $89 $b5
-	.db $d4 $89 $45
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_2 $89 $b5
+	.db ENTID_DEMON_SPAWNER $89 $45
 	.db $ff
 
 group15room0astruct:
 	.db $30
 	.db $0d
 	.dw group15room0alayout
-	.db $c7 $89 $b5
-	.db $d4 $89 $44
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_2 $89 $b5
+	.db ENTID_DEMON_SPAWNER $89 $44
 	.db $ff
 
 group15room0bstruct:
@@ -641,8 +641,8 @@ group15room0bstruct:
 	.dw group15room0blayout
 	.db $a5 $8d $16 $00 $05 $50 $30
 	.db $ff
-	.db $c7 $89 $b5
-	.db $d4 $89 $48
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_2 $89 $b5
+	.db ENTID_DEMON_SPAWNER $89 $48
 	.db $ff
 
 group16room14struct:
@@ -651,15 +651,15 @@ group16room14struct:
 	.dw group16room14layout
 	.db $52 $00 $15 $02 $03 $90 $50
 	.db $ff
-	.db $d6 $89 $53
-	.db $d6 $89 $54
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $53
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $54
 	.db $ff
 
 group16room15struct:
 	.db $30
 	.db $0d
 	.dw group16room15layout
-	.db $d8 $89 $44
+	.db ENTID_DEMON_SPAWNER_2 $89 $44
 	.db $ff
 
 group16room16struct:
@@ -668,7 +668,7 @@ group16room16struct:
 	.dw group16room16layout
 	.db $63 $8d $17 $00 $00 $20 $20
 	.db $ff
-	.db $d4 $89 $44
+	.db ENTID_DEMON_SPAWNER $89 $44
 	.db $ff
 
 group16room17struct:
@@ -676,8 +676,8 @@ group16room17struct:
 	.db $86
 	.db $0d
 	.dw group16room17layout
-	.db $d4 $89 $b8
-	.db $dc $83 $a3
+	.db ENTID_DEMON_SPAWNER $89 $b8
+	.db ENTID_DEMONS_LAIR_BREAKABLE_WALL $83 $a3
 	.db $ff
 
 group16room12struct:
@@ -696,44 +696,44 @@ group16room0estruct:
 	.db $30
 	.db $0d
 	.dw group16room0elayout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group16room0fstruct:
 	.db $30
 	.db $0d
 	.dw group16room0flayout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group16room0astruct:
 	.db $30
 	.db $0d
 	.dw group16room0alayout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group16room0bstruct:
 	.db $30
 	.db $0d
 	.dw group16room0blayout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group16room06struct:
 	.db $30
 	.db $0d
 	.dw group16room06layout
-	.db $d6 $89 $70
-	.db $d6 $89 $71
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $70
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $71
 	.db $ff
 
 group16room07struct:
 	.db $30
 	.db $0d
 	.dw group16room07layout
-	.db $db $89 $84
-	.db $d1 $89 $86
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $86
 	.db $ff
 
 group16room02struct:
@@ -743,14 +743,14 @@ group16room02struct:
 	.dw group16room02layout
 	.db $72 $00 $15 $01 $01 $90 $30
 	.db $ff
-	.db $d4 $89 $44
+	.db ENTID_DEMON_SPAWNER $89 $44
 	.db $ff
 
 group16room03struct:
 	.db $30
 	.db $0d
 	.dw group16room03layout
-	.db $d4 $89 $44
+	.db ENTID_DEMON_SPAWNER $89 $44
 	.db $ff
 
 group16room09struct:
@@ -762,12 +762,12 @@ group16room09struct:
 	.db $8a $86 $15 $01 $00 $70 $60
 	.db $e3 $8d $17 $01 $00 $70 $60
 	.db $ff
-	.db $db $89 $34
-	.db $db $89 $55
-	.db $db $83 $b4
-	.db $db $89 $66
-	.db $db $89 $97
-	.db $db $83 $48
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $34
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $55
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $83 $b4
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $66
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $97
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $83 $48
 	.db ENTID_GUY_BEFORE_BOSSES $06 $10 $28
 	.db $ff
 
@@ -781,9 +781,9 @@ group17room00struct:
 	.db $35 $3a $fe $10 $00 $70 $50
 	.db $75 $3a $fe $f0 $00 $30 $50
 	.db $ff
-	.db $cf $89 $e6
-	.db $cf $89 $40
-	.db $cf $83 $06
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $89 $e6
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $89 $40
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $83 $06
 	.db $ff
 
 group17room01struct:
@@ -803,9 +803,9 @@ group17room02struct:
 	.db $57 $3a $fe $10 $00 $90 $70
 	.db $97 $3a $fe $f0 $00 $50 $70
 	.db $ff
-	.db $cf $80 $c5
-	.db $cf $86 $75
-	.db $cf $83 $36
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $80 $c5
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $86 $75
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $83 $36
 	.db $ff
 
 group17room04struct:
@@ -815,10 +815,10 @@ group17room04struct:
 	.db $c1 $72 $fe $00 $10 $c0 $50
 	.db $c5 $72 $fe $00 $f0 $c0 $10
 	.db $ff
-	.db $cf $86 $06
-	.db $cf $83 $25
-	.db $cf $89 $83
-	.db $cf $86 $c7
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $86 $06
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $83 $25
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $89 $83
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $86 $c7
 	.db $ff
 
 group17room05struct:
@@ -830,9 +830,9 @@ group17room05struct:
 	.db $78 $3a $fe $10 $00 $b0 $80
 	.db $b8 $3a $fe $f0 $00 $70 $80
 	.db $ff
-	.db $cf $80 $b3
-	.db $cf $83 $34
-	.db $cf $89 $48
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $80 $b3
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $83 $34
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $89 $48
 	.db $ff
 
 group17room06struct:
@@ -842,10 +842,10 @@ group17room06struct:
 	.db $38 $3a $fe $10 $00 $70 $80
 	.db $78 $3a $fe $f0 $00 $30 $80
 	.db $ff
-	.db $cf $86 $c7
-	.db $cf $80 $a3
-	.db $cf $86 $e5
-	.db $cf $89 $32
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $86 $c7
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $80 $a3
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $86 $e5
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $89 $32
 	.db $ff
 
 group17room08struct:
@@ -855,18 +855,18 @@ group17room08struct:
 	.db $74 $72 $fe $00 $10 $70 $80
 	.db $78 $72 $fe $00 $f0 $70 $40
 	.db $ff
-	.db $cf $89 $a9
-	.db $cf $80 $96
-	.db $cf $86 $04
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $89 $a9
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $80 $96
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $86 $04
 	.db $ff
 
 group17room09struct:
 	.db $30
 	.db $0d
 	.dw group17room09layout
-	.db $cf $80 $85
-	.db $cf $80 $b9
-	.db $cf $89 $49
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $80 $85
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $80 $b9
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $89 $49
 	.db $ff
 
 group17room0astruct:
@@ -876,9 +876,9 @@ group17room0astruct:
 	.db $56 $3a $fe $10 $00 $90 $60
 	.db $96 $3a $fe $f0 $00 $50 $60
 	.db $ff
-	.db $cf $89 $36
-	.db $cf $80 $d9
-	.db $cf $83 $74
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $89 $36
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $80 $d9
+	.db ENTID_DEMONS_LAIR_LAVA_DEMON $83 $74
 	.db $ff
 
 group17room03struct:
@@ -895,8 +895,8 @@ group18room01struct:
 	.dw group18room01layout
 	.db $15 $00 $15 $00 $02 $a0 $90
 	.db $ff
-	.db $db $89 $74
-	.db $db $89 $a7
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $74
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $a7
 	.db $ff
 
 group18room02struct:
@@ -904,8 +904,8 @@ group18room02struct:
 	.db $a2
 	.db $0d
 	.dw group18room02layout
-	.db $db $89 $a4
-	.db $db $83 $58
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $a4
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $83 $58
 	.db $ff
 
 group18room05struct:
@@ -913,8 +913,8 @@ group18room05struct:
 	.db $a2
 	.db $0d
 	.dw group18room05layout
-	.db $db $89 $b4
-	.db $db $86 $36
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $b4
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $86 $36
 	.db $ff
 
 group18room08struct:
@@ -922,8 +922,8 @@ group18room08struct:
 	.db $a2
 	.db $0d
 	.dw group18room08layout
-	.db $db $89 $b6
-	.db $db $89 $64
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $b6
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $64
 	.db $ff
 
 group18room07struct:
@@ -931,8 +931,8 @@ group18room07struct:
 	.db $a2
 	.db $0d
 	.dw group18room07layout
-	.db $db $89 $a5
-	.db $db $89 $53
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $a5
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $53
 	.db $ff
 
 group18room06struct:
@@ -940,7 +940,7 @@ group18room06struct:
 	.db $a2
 	.db $0d
 	.dw group18room06layout
-	.db $db $89 $74
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $74
 	.db $ff
 
 group18room03struct:
@@ -949,9 +949,9 @@ group18room03struct:
 	.db $2d
 	.db $1b $00 $1b $00
 	.dw group18room03layout
-	.db $db $89 $75
-	.db $d1 $89 $86
-	.db $e2 $83 $69
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $86
+	.db ENTID_DEMONS_LAIR_4_BREAKABLE_WALL $83 $69
 	.db $ff
 
 group18room04struct:
@@ -960,8 +960,8 @@ group18room04struct:
 	.dw group18room04layout
 	.db $95 $8d $19 $03 $04 $70 $80
 	.db $ff
-	.db $db $89 $74
-	.db $d1 $89 $a8
+	.db ENTID_DEMONS_LAIR_MONKEY_DEMON $89 $74
+	.db ENTID_SPAWNED_DEMON $89 $a8
 	.db $ff
 
 group25room00struct:
@@ -971,9 +971,9 @@ group25room00struct:
 	.db $7a $e6 $16 $01 $02 $20 $28
 	.db $69 $95 $1c $01 $07 $78 $90
 	.db $ff
-	.db $f0 $86 $82
-	.db $f1 $80 $44
-	.db $ef $80 $3b
+	.db ENTID_DEMONS_LAIR_BOSS_HAND $86 $82
+	.db ENTID_DEMONS_LAIR_BOSS_FLYING_DEMON $80 $44
+	.db ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP_SPAWNER $80 $3b
 	.db $ff
 
 group1aroom00struct:
@@ -981,10 +981,10 @@ group1aroom00struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom00layout
-	.db $d4 $89 $44
-	.db $d5 $89 $51
-	.db $d6 $89 $b4
-	.db $d6 $89 $57
+	.db ENTID_DEMON_SPAWNER $89 $44
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $89 $51
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $b4
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $57
 	.db $ff
 
 group1aroom01struct:
@@ -992,9 +992,9 @@ group1aroom01struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom01layout
-	.db $d1 $89 $58
-	.db $d1 $89 $c6
-	.db $d1 $89 $92
+	.db ENTID_SPAWNED_DEMON $89 $58
+	.db ENTID_SPAWNED_DEMON $89 $c6
+	.db ENTID_SPAWNED_DEMON $89 $92
 	.db $ff
 
 group1aroom02struct:
@@ -1002,9 +1002,9 @@ group1aroom02struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom02layout
-	.db $d1 $89 $58
-	.db $d1 $89 $c6
-	.db $d1 $89 $92
+	.db ENTID_SPAWNED_DEMON $89 $58
+	.db ENTID_SPAWNED_DEMON $89 $c6
+	.db ENTID_SPAWNED_DEMON $89 $92
 	.db $ff
 
 group1aroom03struct:
@@ -1012,7 +1012,7 @@ group1aroom03struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom03layout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group1aroom04struct:
@@ -1020,9 +1020,9 @@ group1aroom04struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom04layout
-	.db $d1 $89 $58
-	.db $d1 $89 $c6
-	.db $d1 $89 $92
+	.db ENTID_SPAWNED_DEMON $89 $58
+	.db ENTID_SPAWNED_DEMON $89 $c6
+	.db ENTID_SPAWNED_DEMON $89 $92
 	.db $ff
 
 group1aroom05struct:
@@ -1030,7 +1030,7 @@ group1aroom05struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom05layout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group1aroom06struct:
@@ -1038,7 +1038,7 @@ group1aroom06struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom06layout
-	.db $d4 $89 $44
+	.db ENTID_DEMON_SPAWNER $89 $44
 	.db $ff
 
 group1aroom07struct:
@@ -1049,8 +1049,8 @@ group1aroom07struct:
 	.db $e8 $00 $fe $10 $00 $20 $40
 	.db $24 $8d $fe $00 $10 $e0 $80
 	.db $ff
-	.db $d5 $80 $94
-	.db $d6 $89 $56
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $80 $94
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $56
 	.db $ff
 
 group1aroom08struct:
@@ -1061,9 +1061,9 @@ group1aroom08struct:
 	.db $a6 $a5 $fe $00 $02 $40 $30
 	.db $53 $8d $fe $00 $02 $a0 $70
 	.db $ff
-	.db $d5 $80 $92
-	.db $d6 $89 $c5
-	.db $d6 $89 $38
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $80 $92
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $c5
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $38
 	.db $ff
 
 group1aroom09struct:
@@ -1074,9 +1074,9 @@ group1aroom09struct:
 	.db $15 $86 $fe $10 $00 $e0 $50
 	.db $e5 $86 $fe $f0 $00 $10 $50
 	.db $ff
-	.db $d5 $83 $54
-	.db $d5 $83 $c9
-	.db $d6 $89 $85
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $83 $54
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $83 $c9
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $85
 	.db $ff
 
 group1aroom0astruct:
@@ -1087,8 +1087,8 @@ group1aroom0astruct:
 	.db $64 $3c $fe $00 $02 $40 $80
 	.db $47 $3c $fe $00 $02 $60 $50
 	.db $ff
-	.db $d4 $89 $44
-	.db $d6 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $44
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $b8
 	.db ENTID_KEYLOCK $80 $64
 	.db $ff
 
@@ -1097,9 +1097,9 @@ group1aroom0bstruct:
 	.db $a2
 	.db $0d
 	.dw group1aroom0blayout
-	.db $d4 $89 $b8
-	.db $d6 $89 $75
-	.db $d6 $89 $78
+	.db ENTID_DEMON_SPAWNER $89 $b8
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $75
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $78
 	.db $ff
 
 group1aroom0cstruct:
@@ -1107,7 +1107,7 @@ group1aroom0cstruct:
 	.db $a2
 	.db $0d
 	.dw group1aroom0clayout
-	.db $d4 $89 $44
+	.db ENTID_DEMON_SPAWNER $89 $44
 	.db $ff
 
 group1aroom0dstruct:
@@ -1119,8 +1119,8 @@ group1aroom0dstruct:
 	.db $c6 $86 $fe $f0 $00 $90 $40
 	.db $38 $a5 $26 $00 $00 $78 $94
 	.db $ff
-	.db $d5 $89 $44
-	.db $d4 $89 $b8
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $89 $44
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db ENTID_GUY_BEFORE_BOSSES $06 $40 $88
 	.db $ff
 
@@ -1132,9 +1132,9 @@ group1aroom0estruct:
 	.db $a5 $86 $fe $00 $f0 $a0 $20
 	.db $a2 $86 $fe $00 $10 $a0 $50
 	.db $ff
-	.db $d4 $89 $44
-	.db $d5 $89 $66
-	.db $d6 $89 $34
+	.db ENTID_DEMON_SPAWNER $89 $44
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $89 $66
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $34
 	.db $ff
 
 group1aroom0fstruct:
@@ -1145,10 +1145,10 @@ group1aroom0fstruct:
 	.db $98 $8d $fe $00 $08 $20 $80
 	.db $28 $8d $fe $08 $00 $98 $80
 	.db $ff
-	.db $d5 $83 $46
-	.db $d5 $80 $a4
-	.db $d6 $89 $c3
-	.db $d6 $89 $76
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $83 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $80 $a4
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $c3
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $76
 	.db $ff
 
 group1aroom10struct:
@@ -1156,10 +1156,10 @@ group1aroom10struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom10layout
-	.db $d4 $89 $b8
-	.db $d5 $80 $89
-	.db $d6 $89 $b3
-	.db $d6 $89 $b6
+	.db ENTID_DEMON_SPAWNER $89 $b8
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $80 $89
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $b3
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $b6
 	.db $ff
 
 group1aroom11struct:
@@ -1167,7 +1167,7 @@ group1aroom11struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom11layout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group1aroom12struct:
@@ -1175,8 +1175,8 @@ group1aroom12struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom12layout
-	.db $d5 $86 $c4
-	.db $d5 $89 $49
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $86 $c4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $89 $49
 	.db $ff
 
 group1aroom13struct:
@@ -1184,7 +1184,7 @@ group1aroom13struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom13layout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group1aroom14struct:
@@ -1192,7 +1192,7 @@ group1aroom14struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom14layout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group1aroom15struct:
@@ -1200,7 +1200,7 @@ group1aroom15struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom15layout
-	.db $d4 $89 $44
+	.db ENTID_DEMON_SPAWNER $89 $44
 	.db $ff
 
 group1aroom16struct:
@@ -1208,7 +1208,7 @@ group1aroom16struct:
 	.db $a2
 	.db $0d
 	.dw group1aroom16layout
-	.db $d4 $89 $b8
+	.db ENTID_DEMON_SPAWNER $89 $b8
 	.db $ff
 
 group1aroom17struct:
@@ -1218,8 +1218,8 @@ group1aroom17struct:
 	.dw group1aroom17layout
 	.db $d8 $8d $19 $06 $07 $b0 $60
 	.db $ff
-	.db $d5 $86 $35
-	.db $d5 $80 $91
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $86 $35
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2 $80 $91
 	.db $ff
 
 group19room00struct:
@@ -1229,10 +1229,10 @@ group19room00struct:
 	.dw group19room00layout
 	.db $46 $8d $17 $03 $00 $90 $50
 	.db $ff
-	.db $d4 $89 $38
-	.db $cd $89 $a4
-	.db $c7 $89 $a4
-	.db $d1 $89 $a6
+	.db ENTID_DEMON_SPAWNER $89 $38
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
+	.db ENTID_DEMONS_LAIR_RUNNING_DEMON_2 $89 $a4
+	.db ENTID_SPAWNED_DEMON $89 $a6
 	.db $ff
 
 group19room01struct:
@@ -1240,12 +1240,12 @@ group19room01struct:
 	.db $a2
 	.db $0d
 	.dw group19room01layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room02struct:
@@ -1253,12 +1253,12 @@ group19room02struct:
 	.db $a2
 	.db $0d
 	.dw group19room02layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room03struct:
@@ -1266,12 +1266,12 @@ group19room03struct:
 	.db $a2
 	.db $0d
 	.dw group19room03layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room04struct:
@@ -1279,12 +1279,12 @@ group19room04struct:
 	.db $a2
 	.db $0d
 	.dw group19room04layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room05struct:
@@ -1292,12 +1292,12 @@ group19room05struct:
 	.db $a2
 	.db $0d
 	.dw group19room05layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room06struct:
@@ -1305,12 +1305,12 @@ group19room06struct:
 	.db $a2
 	.db $0d
 	.dw group19room06layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room07struct:
@@ -1318,12 +1318,12 @@ group19room07struct:
 	.db $a2
 	.db $0d
 	.dw group19room07layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room08struct:
@@ -1331,8 +1331,8 @@ group19room08struct:
 	.db $a2
 	.db $0d
 	.dw group19room08layout
-	.db $cd $89 $38
-	.db $cd $89 $94
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $38
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $94
 	.db $ff
 
 group19room09struct:
@@ -1340,8 +1340,8 @@ group19room09struct:
 	.db $a2
 	.db $0d
 	.dw group19room09layout
-	.db $cd $89 $67
-	.db $cd $89 $b4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $67
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $b4
 	.db $ff
 
 group19room0astruct:
@@ -1349,8 +1349,8 @@ group19room0astruct:
 	.db $a2
 	.db $0d
 	.dw group19room0alayout
-	.db $cd $89 $58
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $58
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room0bstruct:
@@ -1358,8 +1358,8 @@ group19room0bstruct:
 	.db $a2
 	.db $0d
 	.dw group19room0blayout
-	.db $cd $89 $69
-	.db $cd $89 $b3
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $69
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $b3
 	.db $ff
 
 group19room0cstruct:
@@ -1367,8 +1367,8 @@ group19room0cstruct:
 	.db $a2
 	.db $0d
 	.dw group19room0clayout
-	.db $cd $89 $67
-	.db $cd $89 $b4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $67
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $b4
 	.db $ff
 
 group19room0dstruct:
@@ -1376,12 +1376,12 @@ group19room0dstruct:
 	.db $a2
 	.db $0d
 	.dw group19room0dlayout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room0estruct:
@@ -1389,12 +1389,12 @@ group19room0estruct:
 	.db $a2
 	.db $0d
 	.dw group19room0elayout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room0fstruct:
@@ -1402,8 +1402,8 @@ group19room0fstruct:
 	.db $a2
 	.db $0d
 	.dw group19room0flayout
-	.db $cd $89 $67
-	.db $cd $89 $b4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $67
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $b4
 	.db $ff
 
 group19room10struct:
@@ -1411,12 +1411,12 @@ group19room10struct:
 	.db $a2
 	.db $0d
 	.dw group19room10layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room11struct:
@@ -1424,12 +1424,12 @@ group19room11struct:
 	.db $a2
 	.db $0d
 	.dw group19room11layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room12struct:
@@ -1437,8 +1437,8 @@ group19room12struct:
 	.db $a2
 	.db $0d
 	.dw group19room12layout
-	.db $cd $89 $69
-	.db $cd $89 $b3
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $69
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $b3
 	.db $ff
 
 group19room13struct:
@@ -1446,8 +1446,8 @@ group19room13struct:
 	.db $a2
 	.db $0d
 	.dw group19room13layout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room14struct:
@@ -1455,12 +1455,12 @@ group19room14struct:
 	.db $a2
 	.db $0d
 	.dw group19room14layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room15struct:
@@ -1468,12 +1468,12 @@ group19room15struct:
 	.db $a2
 	.db $0d
 	.dw group19room15layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room16struct:
@@ -1481,8 +1481,8 @@ group19room16struct:
 	.db $a2
 	.db $0d
 	.dw group19room16layout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room17struct:
@@ -1490,8 +1490,8 @@ group19room17struct:
 	.db $a2
 	.db $0d
 	.dw group19room17layout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room18struct:
@@ -1499,12 +1499,12 @@ group19room18struct:
 	.db $a2
 	.db $0d
 	.dw group19room18layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room19struct:
@@ -1512,8 +1512,8 @@ group19room19struct:
 	.db $a2
 	.db $0d
 	.dw group19room19layout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room1astruct:
@@ -1521,8 +1521,8 @@ group19room1astruct:
 	.db $a2
 	.db $0d
 	.dw group19room1alayout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room1bstruct:
@@ -1530,12 +1530,12 @@ group19room1bstruct:
 	.db $a2
 	.db $0d
 	.dw group19room1blayout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room1cstruct:
@@ -1543,12 +1543,12 @@ group19room1cstruct:
 	.db $a2
 	.db $0d
 	.dw group19room1clayout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room1dstruct:
@@ -1556,8 +1556,8 @@ group19room1dstruct:
 	.db $a2
 	.db $0d
 	.dw group19room1dlayout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room1estruct:
@@ -1565,8 +1565,8 @@ group19room1estruct:
 	.db $a2
 	.db $0d
 	.dw group19room1elayout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room1fstruct:
@@ -1576,11 +1576,11 @@ group19room1fstruct:
 	.dw group19room1flayout
 	.db $77 $00 $18 $01 $01 $90 $60
 	.db $ff
-	.db $d6 $89 $78
-	.db $d1 $89 $74
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $47
+	.db ENTID_DEMONS_LAIR_STAIRS $89 $78
+	.db ENTID_SPAWNED_DEMON $89 $74
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $47
 	.db $ff
 
 group19room20struct:
@@ -1588,8 +1588,8 @@ group19room20struct:
 	.db $a2
 	.db $0d
 	.dw group19room20layout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room21struct:
@@ -1597,8 +1597,8 @@ group19room21struct:
 	.db $a2
 	.db $0d
 	.dw group19room21layout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room22struct:
@@ -1606,12 +1606,12 @@ group19room22struct:
 	.db $a2
 	.db $0d
 	.dw group19room22layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room23struct:
@@ -1619,12 +1619,12 @@ group19room23struct:
 	.db $a2
 	.db $0d
 	.dw group19room23layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room24struct:
@@ -1632,8 +1632,8 @@ group19room24struct:
 	.db $a2
 	.db $0d
 	.dw group19room24layout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room25struct:
@@ -1641,8 +1641,8 @@ group19room25struct:
 	.db $a2
 	.db $0d
 	.dw group19room25layout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room26struct:
@@ -1650,8 +1650,8 @@ group19room26struct:
 	.db $a2
 	.db $0d
 	.dw group19room26layout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room27struct:
@@ -1659,8 +1659,8 @@ group19room27struct:
 	.db $a2
 	.db $0d
 	.dw group19room27layout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room28struct:
@@ -1668,8 +1668,8 @@ group19room28struct:
 	.db $a2
 	.db $0d
 	.dw group19room28layout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room29struct:
@@ -1683,12 +1683,12 @@ group19room2astruct:
 	.db $a2
 	.db $0d
 	.dw group19room2alayout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room2bstruct:
@@ -1696,8 +1696,8 @@ group19room2bstruct:
 	.db $a2
 	.db $0d
 	.dw group19room2blayout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room2cstruct:
@@ -1705,8 +1705,8 @@ group19room2cstruct:
 	.db $a2
 	.db $0d
 	.dw group19room2clayout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room2dstruct:
@@ -1714,8 +1714,8 @@ group19room2dstruct:
 	.db $a2
 	.db $0d
 	.dw group19room2dlayout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room2estruct:
@@ -1723,8 +1723,8 @@ group19room2estruct:
 	.db $a2
 	.db $0d
 	.dw group19room2elayout
-	.db $cd $89 $46
-	.db $cd $89 $a4
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $46
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $a4
 	.db $ff
 
 group19room2fstruct:
@@ -1732,8 +1732,8 @@ group19room2fstruct:
 	.db $a2
 	.db $0d
 	.dw group19room2flayout
-	.db $cd $89 $48
-	.db $cd $89 $83
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $48
+	.db ENTID_DEMONS_LAIR_INVISIBLE_DEMON $89 $83
 	.db $ff
 
 group19room30struct:
@@ -1741,12 +1741,12 @@ group19room30struct:
 	.db $a2
 	.db $0d
 	.dw group19room30layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room31struct:
@@ -1754,12 +1754,12 @@ group19room31struct:
 	.db $a2
 	.db $0d
 	.dw group19room31layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room32struct:
@@ -1767,12 +1767,12 @@ group19room32struct:
 	.db $a2
 	.db $0d
 	.dw group19room32layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db ENTID_GUY_BEFORE_BOSSES $06 $20 $88
 	.db $ff
 
@@ -1781,12 +1781,12 @@ group19room33struct:
 	.db $a2
 	.db $0d
 	.dw group19room33layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room34struct:
@@ -1794,12 +1794,12 @@ group19room34struct:
 	.db $a2
 	.db $0d
 	.dw group19room34layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room35struct:
@@ -1807,12 +1807,12 @@ group19room35struct:
 	.db $a2
 	.db $0d
 	.dw group19room35layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room36struct:
@@ -1820,12 +1820,12 @@ group19room36struct:
 	.db $a2
 	.db $0d
 	.dw group19room36layout
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff
 
 group19room37struct:
@@ -1835,10 +1835,10 @@ group19room37struct:
 	.dw group19room37layout
 	.db $c6 $8d $1a $05 $03 $c0 $80
 	.db $ff
-	.db $d1 $89 $66
-	.db $d1 $89 $75
-	.db $d1 $89 $84
-	.db $d1 $89 $95
-	.db $d1 $89 $87
-	.db $d1 $89 $96
+	.db ENTID_SPAWNED_DEMON $89 $66
+	.db ENTID_SPAWNED_DEMON $89 $75
+	.db ENTID_SPAWNED_DEMON $89 $84
+	.db ENTID_SPAWNED_DEMON $89 $95
+	.db ENTID_SPAWNED_DEMON $89 $87
+	.db ENTID_SPAWNED_DEMON $89 $96
 	.db $ff

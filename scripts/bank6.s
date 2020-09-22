@@ -408,6 +408,9 @@ _npc_end_06_1070:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_BOSS_FLYING_DEMON
+; ==============================================================================
 npcf1_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_SHIELD, _npc_end_06_1070
 	npc_set6_cb60_reset_cb6c
@@ -443,12 +446,15 @@ npcf1_scripts:
 	npc_resetNPC2ndByteBit5_jumpIfOrigSet @func_10af
 	npc_jump @loop
 @func_10af:
-	npc_spawnNPCAtOffset $c8 $00 $00
+	npc_spawnNPCAtOffset ENTID_RUNNING_DEMON_SPAWN_CLOUD $00 $00
 	npc_wait $05
-	.db $04
-	npc_setNewNpcID $f2
+	npc_set4_cb60
+	npc_setNewNpcID ENTID_DEMONS_LAIR_BOSS_FLYING_DEMON_2
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_BOSS_FLYING_DEMON_2
+; ==============================================================================
 npcf2_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set5_cb60
@@ -458,7 +464,7 @@ npcf2_scripts:
 +
 	npc_facePlayerHorizontally
 	npc_turnBackwards
-	npc_spawnNPCAtOffset $c8 $00 $00
+	npc_spawnNPCAtOffset ENTID_RUNNING_DEMON_SPAWN_CLOUD $00 $00
 	npc_callCommonSoundFuncs_6c01 $26 $16
 	npc_wait $0a
 	npc_moveByParamPixels $10
@@ -468,9 +474,12 @@ npcf2_scripts:
 	npc_setMovementSpeed $04
 	npc_faceLeft
 	npc_setMovementSpeed $06
-	npc_setNewNpcID $f1
+	npc_setNewNpcID ENTID_DEMONS_LAIR_BOSS_FLYING_DEMON
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP
+; ==============================================================================
 npced_scripts:
 	npc_wait $0a
 	npc_set5_cb60
@@ -492,7 +501,7 @@ npced_scripts:
 	npc_end
 +
 	npc_jumpIfRandomNumLTparam $6e, @endjump
-	.db $04
+	npc_set4_cb60
 	npc_placeTile $5c $80 $80
 	npc_wait $04
 	npc_placeTile $58 $80 $80
@@ -510,6 +519,9 @@ npced_scripts:
 	npc_jump @func_10f5
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_BOSS_BLOOD_ENEMY
+; ==============================================================================
 npcee_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -518,9 +530,12 @@ npcee_scripts:
 	.db $16
 	npc_wait $05
 	npc_placeTile $00 $80 $80
-	npc_setNewNpcID $ef
+	npc_setNewNpcID ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP_SPAWNER
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP_SPAWNER
+; ==============================================================================
 npcef_scripts:
 npcf3_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_SHIELD, @func_116a
@@ -543,17 +558,20 @@ npcf3_scripts:
 ++
 	npc_jump @func_1147
 +++
-	.db $04
+	npc_set4_cb60
 	npc_placeTile $9c $80 $80
 	npc_wait $05
 	npc_placeTile $5c $80 $80
-	npc_spawnNPCAtOffset $ed $00 $00
+	npc_spawnNPCAtOffset ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP $00 $00
 	npc_end
 @func_116a:
 	npc_placeTile $95 $06 $09
 	npc_end
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_BOSS_HAND
+; ==============================================================================
 npcf0_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_SHIELD, @end
 	npc_cb60_low2bitsEquParamMinus1 $04
@@ -635,6 +653,9 @@ npcf4_scripts:
 	npc_setNewNpcID $02
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_STAIRS
+; ==============================================================================
 npcd6_scripts:
 	npc_wait $01
 -
@@ -648,6 +669,9 @@ npcd6_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_DEMON_SPAWNER
+; ==============================================================================
 npcd4_scripts:
 	npc_set5_cb60
 	npc_set6_cb60_reset_cb6c
@@ -655,28 +679,34 @@ npcd4_scripts:
 	npc_call func_06_14d4
 -
 	npc_call func_06_1510
-	npc_spawnNPCAtOffset $d3 $00 $00
+	npc_spawnNPCAtOffset ENTID_DEMON_SPAWN_CLOUD $00 $00
 	npc_wait $2d
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_DEMON_SPAWNER_2
+; ==============================================================================
 npcd8_scripts:
 	npc_set5_cb60
 	npc_call func_06_14d4
 -
 	npc_call func_06_1510
 	npc_wait $32
-	npc_spawnNPCAtOffset $d3 $00 $00
+	npc_spawnNPCAtOffset ENTID_DEMON_SPAWN_CLOUD $00 $00
 	npc_loopAboveParamTimes $1e, -
 	npc_wait $1e
-	npc_spawnNPC $d7 $14 $10
+	npc_spawnNPC ENTID_SPAWNED_DEMON_2 $14 $10
 -
 	npc_call func_06_1510
 	npc_wait $2d
-	npc_spawnNPCAtOffset $d3 $00 $00
+	npc_spawnNPCAtOffset ENTID_DEMON_SPAWN_CLOUD $00 $00
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_SPAWNED_DEMON_2
+; ==============================================================================
 npcd7_scripts:
 	npc_set5_cb60
 	npc_set6_cb60_reset_cb6c
@@ -712,6 +742,9 @@ npcd7_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_INVISIBLE_DEMON
+; ==============================================================================
 npccd_scripts:
 	npc_set3_cb60
 	npc_set6_cb60_reset_cb6c
@@ -751,6 +784,9 @@ npccd_scripts:
 	npc_jump @func_127c
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_LAVA_DEMON
+; ==============================================================================
 npccf_scripts:
 	npc_res4_cb60
 	npc_set7_cb60
@@ -762,6 +798,9 @@ npccf_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_INVISIBLE_DEMON_2
+; ==============================================================================
 npcd5_scripts:
 	npc_set3_cb60
 	npc_set2_cbe4
@@ -778,11 +817,15 @@ npcd5_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_RUNNING_DEMON_1
+; ENTID_DEMONS_LAIR_RUNNING_DEMON_4
+; ==============================================================================
 npcc6_scripts:
 npcca_scripts:
 	npc_call setMovement3damage4
 @loop:
-	.db $04
+	npc_set4_cb60
 	npc_wait $14
 	npc_jumpIfRandomNumLTparam $5a, +
 	npc_jumpIfRandomNumLTparam $64, ++
@@ -804,11 +847,15 @@ npcca_scripts:
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_RUNNING_DEMON_2
+; ENTID_DEMONS_LAIR_RUNNING_DEMON_5
+; ==============================================================================
 npcc7_scripts:
 npccb_scripts:
 	npc_call setMovement3damage4
 @loop:
-	.db $04
+	npc_set4_cb60
 	npc_wait $0c
 	npc_jumpIfRandomNumLTparam $5a, +
 	npc_jumpIfRandomNumLTparam $64, ++
@@ -830,11 +877,15 @@ npccb_scripts:
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_RUNNING_DEMON_3
+; ENTID_DEMONS_LAIR_RUNNING_DEMON_6
+; ==============================================================================
 npcc9_scripts:
 npccc_scripts:
-	npc_call $14d9
+	npc_call setMovement3damage4
 @loop:
-	.db $04
+	npc_set4_cb60
 	npc_jumpIfRandomNumLTparam $5a, +
 	npc_jumpIfRandomNumLTparam $64, ++
 	npc_jump +++
@@ -857,29 +908,32 @@ npccc_scripts:
 
 func_06_1370:
 	npc_faceUp
-	npc_spawnNPCAtOffset $c8 $00 $00
+	npc_spawnNPCAtOffset ENTID_RUNNING_DEMON_SPAWN_CLOUD $00 $00
 	npc_wait $16
 	npc_res4_cb60
 	npc_ret
 
 
+; ==============================================================================
+; ENTID_SPAWNED_DEMON
+; ==============================================================================
 npcd1_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_cb60_low2bitsEquParamMinus1 $03
-	.db $29
+	npc_set3_cbe4
 	npc_res4_cb60
 	npc_set5_cb60
 	npc_wait $06
 	npc_jumpIfLampOn +
-	npc_call $14de
+	npc_call func_06_14de
 	npc_jump @func_138d
 +
 	npc_call setMovement3damage4
 @func_138d:
-	.db $29
+	npc_set3_cbe4
 	npc_moveByParamPixels $08
 	npc_jumpIfRandomNumLTparam $d2, +
-	npc_spawnNPCinFrontOfSelf $d2
+	npc_spawnNPCinFrontOfSelf ENTID_DEMON_FIREBALL
 +
 	npc_jump @func_138d
 
@@ -985,15 +1039,21 @@ npcdf_scripts:
 	npc_setNewNpcID $dd
 
 
+; ==============================================================================
+; ENTID_DEMON_SPAWN_CLOUD
+; ==============================================================================
 npcd3_scripts:
 	npc_set3_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
 	npc_wait $23
 	.db $15
-	npc_setNewNpcID $d1
+	npc_setNewNpcID ENTID_SPAWNED_DEMON
 
 
+; ==============================================================================
+; ENTID_RUNNING_DEMON_SPAWN_CLOUD
+; ==============================================================================
 npcc8_scripts:
 	npc_setDamageTaken $00
 	npc_set3_cb60
@@ -1011,6 +1071,9 @@ npcce_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_DEMON_FIREBALL
+; ==============================================================================
 npcd2_scripts:
 	npc_set5_cb60
 	npc_res4_cb60
@@ -1068,6 +1131,9 @@ npcd0_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_MONKEY_DEMON
+; ==============================================================================
 npcdb_scripts:
 	npc_res4_cb60
 	npc_wait $0a
@@ -1085,6 +1151,9 @@ npcdb_scripts:
 	npc_jump -
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_BREAKABLE_WALL
+; ==============================================================================
 npcdc_scripts:
 	npc_jumpIfItemGotten ITEMID_2a, ++
 -
@@ -1104,14 +1173,17 @@ func_06_14b5:
 	npc_ret
 
 
+; ==============================================================================
+; ENTID_DEMONS_LAIR_4_BREAKABLE_WALL
+; ==============================================================================
 npce2_scripts:
-	npc_jumpIfItemGotten ITEMID_2b, ++
+	npc_jumpIfItemGotten ITEMID_DEMONS_LAIR_4_WALL_BROKEN, ++
 -
 	npc_resetNPC2ndByteBit5_jumpIfOrigSet +
 	npc_wait $01
 	npc_jump -
 +
-	npc_giveItem ITEMID_2b
+	npc_giveItem ITEMID_DEMONS_LAIR_4_WALL_BROKEN
 ++
 	npc_call func_06_14b5
 	npc_end
@@ -1214,16 +1286,16 @@ func_06_154d:
 -
 	npc_moveByParamPixels $30
 	npc_jumpIfRandomNumLTparam $80, +
-	npc_spawnNPCinFrontOfSelf $d2
+	npc_spawnNPCinFrontOfSelf ENTID_DEMON_FIREBALL
 +
 	npc_turnBackwards
 	npc_moveByParamPixels $30
 	npc_jumpIfRandomNumLTparam $80, +
-	npc_spawnNPCinFrontOfSelf $d2
+	npc_spawnNPCinFrontOfSelf ENTID_DEMON_FIREBALL
 +
 	npc_turnRight
 	npc_loopAboveParamTimes $04, -
-	npc_spawnNPCAtOffset $c8 $00 $00
+	npc_spawnNPCAtOffset ENTID_RUNNING_DEMON_SPAWN_CLOUD $00 $00
 	npc_wait $0f
 	npc_ret
 

@@ -1767,7 +1767,7 @@ group26room00struct:
 	.db $a0 $00 $48 $30
 	.db $ad $00 $48 $30
 	.db $ae $00 $48 $30
-	.db $af $c0 $77
+	.db ENTID_FINAL_BOSS_SHIELD $c0 $77
 	.db $ff
 
 group10room13struct:

@@ -59,10 +59,10 @@
 	ITEMID_SLUMS_BOTTOM_MIDDLE_KEY					db // $27
 	ITEMID_DEMONS_LAIR_6_TOP_RIGHT_KEYLOCK			db // $28
 	ITEMID_SHIPYARD_BOTTOM_LEFT_KEYLOCK				db // $29
-// used to communicate between entities
+// used to communicate between entities (warehouse boss)
+// also used for group 16, connecting the 2 paths
 	ITEMID_2a										db // $2a
-	// possibly moving onto this unlocks a shortcut in demons lair 4?
-	ITEMID_2b										db // $2b
+	ITEMID_DEMONS_LAIR_4_WALL_BROKEN				db // $2b
 	ITEMID_WAREHOUSE_EAST_KEYLOCK					db // $2c
 
 // 3 permanently removable obstacles

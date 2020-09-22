@@ -3489,6 +3489,9 @@ npcae_scripts:
 	npc_jump @loop
 
 
+; ==============================================================================
+; ENTID_FINAL_BOSS_SHIELD
+; ==============================================================================
 npcaf_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_set3_cb60
@@ -3497,7 +3500,7 @@ npcaf_scripts:
 	npc_set5_cb60
 	npc_setMovementSpeed $02
 @loop:
-	.db $12
+	npc_moveToPlayersXandFacePlayerHorizontally
 	npc_resetNPC2ndByteBit5_jumpIfOrigSet +
 	npc_jumpIfItemGotten ITEMID_33, _npc_end_02_6ebd
 	npc_wait $01
