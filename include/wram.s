@@ -51,28 +51,44 @@ wc000:
 		db
 
 	wc00c:
-		dsb $e-$c
+		dsb 2
 
 	wTimesToCopyDecompressedTile: ; $c00e
 		db
 .nextu
-	wc008_2:
-		dsb $b-8
-
-	wCountByteForCurrCompressedByte: ; $c00b
+	wc008_1:
 		db
+
+	wSoundToPlayIdx: ; $c009
+		db
+.nextu
+	wc008_2:
+		dw
+
+	.union
+		wDoneProcessingHiddenItems: ; $c00a
+			db
+	.nextu
+		wNextQuizQuestionIdx: ; $c00a
+			db
+
+		wc00b:
+			dsb $d-$b
+
+		wQuizCurrTextVramAddr: ; $c00d
+			dw
+	.endu
 .nextu
 	wc008_3:
-		dsb $a-8
+		dsb 3
 
-	wDoneProcessingHiddenItems: ; $c00a
-		db
-.nextu
-	wc008_4:
-		dsb $b-8
-
-	wNumDataBytesForCurrRoomsFlags: ; $c00b
-		db
+	.union
+		wCountByteForCurrCompressedByte: ; $c00b
+			db
+	.nextu
+		wNumDataBytesForCurrRoomsFlags: ; $c00b
+			db
+	.endu
 .endu
 
 wc00f:
@@ -170,7 +186,16 @@ wNumBombs: ; $c03b
 	db
 
 wc03c:
-	dsb $49-$3c
+	dsb $46-$3c
+
+wCurrFruitAmount: ; $c046
+	db
+
+wCurrFruitOnScreen: ; $c047
+	db
+
+wc048:
+	db
 
 // 00 - vial bombs
 // 01 - jawbone
@@ -265,7 +290,10 @@ wRoomStructByteWhenFirstByteBitSet2: ; $c079
 	db
 
 wc07a:
-	dsb $90-$7a
+	dsb $8e-$7a
+
+wCurrQuizQuestionAddr: ; $c08e
+	dw
 
 wIsPlatformingLikeRoom: ; $c090
 	db
@@ -288,10 +316,19 @@ wc097:
 .union
 	wCommonByteCopyFuncSrc: ; $c09a
 		dw
+.nextu
+	wSoundHWReg1stAddr: ; $c09a
+		db
 .endu
 
-wc09c:
-	dsb $a0-$9c
+wNewSoundChannelFrequency: ; $c09c
+	dw
+
+wControlByteBit0AndHWReg: ; $c09e
+	db
+
+wc09f:
+	dsb $a0-$9f
 
 .union
 	wSpecialItemsGottenByte: ; $c0a0
@@ -424,7 +461,13 @@ wIsMusicOff: ; $c4dd
 	db
 
 wc4de:
-	dsb $5e0-$4de
+	db
+
+wCurrQuizQuestionIdx: ; $c4df
+	db
+
+w4e0:
+	dsb $5e0-$4e0
 
 wOffsetIntoCompressedRoomLayoutPerScreenRow: ; $c5e0
 	dsb $b
@@ -571,7 +614,10 @@ wCurrGroupStructByte1bh: ; $c728
 	db
 
 wc729:
-	dsb $b-9
+	db
+
+wSoundIsTwiceSpeed: ; $c72a
+	db
 
 // bit 7 set - load BGP vals
 // bit 6 set - load OBP0 vals

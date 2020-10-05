@@ -125,7 +125,7 @@ while start + offset < end:
     elif opcode == 0x88:
         comps.append(f'\tnpc_jumpIfLampOn {next_word}')
     elif opcode == 0x89:
-        comps.append(f'\tnpc_callCommonSoundFuncs_6c01 {next_2_bytes}')
+        comps.append(f'\tnpc_playSoundEffectAtAddr {next_2_bytes}')
     elif opcode == 0x8a:
         comps.append(f'\tnpc_resetNPC2ndByteBit5_jumpIfOrigSet {next_word}')
     elif opcode == 0x8b:
@@ -135,7 +135,7 @@ while start + offset < end:
     elif opcode == 0x90:
         comps.append(f'\tnpc_addParamsToXthenYCoords {next_2_bytes}')
     elif opcode == 0x91:
-        comps.append(f'\tnpc_callCommonSoundFuncs_6d6c {next_2_bytes}')
+        comps.append(f'\tnpc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed {next_2_bytes}')
     elif opcode == 0x92:
         comps.append(f'\tnpc_teleportPlayer {next_word}')
     elif opcode == 0xc1:

@@ -12,7 +12,7 @@ npc2e_scripts:
 	npc_jump data_03_4fde
 +
 	npc_call shopTake25birds
-	npc_callCommonSoundFuncs_6d6c $03 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
 	npc_giveFruit FRUIT_PEAR
 	npc_groupRoomXYjumpTable @scriptsAfterFruitGiven
 	npc_end
@@ -38,7 +38,7 @@ npc2e_scripts:
 @initialScript_1stPear:
 	npc_giveFruit FRUIT_PEAR
 	npc_giveItem ITEMID_PEAR_FIRST_SCREEN
-	npc_callCommonSoundFuncs_6d6c $03 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
 	npc_call npcHelper_increaseScoreBy40
 	npc_end
 
@@ -70,7 +70,7 @@ npc2f_scripts:
 +
 	npc_giveFruit FRUIT_POMEGRANATE
 	npc_call shopTake60birds
-	npc_callCommonSoundFuncs_6d6c $03 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
 	npc_groupRoomXYjumpTable @table
 	npc_end
 
@@ -121,7 +121,7 @@ npc30_scripts:
 +
 	npc_giveFruit FRUIT_APPLE
 	npc_call shopTake40birds
-	npc_callCommonSoundFuncs_6d6c $03 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
 	npc_groupRoomXYjumpTable @table
 	npc_end
 
@@ -174,7 +174,7 @@ npc31_scripts:
 +
 	npc_giveFruit FRUIT_GRAPES
 	npc_call shopTake75birds
-	npc_callCommonSoundFuncs_6d6c $03 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
 	npc_groupRoomXYjumpTable @table
 	npc_end
 
@@ -227,7 +227,7 @@ npc32_scripts:
 +
 	npc_giveFruit FRUIT_BANANA
 	npc_call shopTake90birds
-	npc_callCommonSoundFuncs_6d6c $03 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
 	npc_groupRoomXYjumpTable @table
 	npc_end
 
@@ -299,7 +299,7 @@ npc16_scripts:
 +
 	npc_giveNumBirds $01
 data_03_5031:
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_faceUp
 	npc_setMovementSpeed $0c
 	npc_moveByParamPixels $ff
@@ -365,7 +365,7 @@ func_03_5082:
 -
 	npc_set_c059 $ff
 	npc_addToPlayerHealth $01
-	npc_callCommonSoundFuncs_6c01 $6a $16
+	npc_playSoundEffectAtAddr sound_166a
 	npc_wait $02
 	npc_jumpIfPlayerIsFullHealth +
 	npc_jump -
@@ -407,7 +407,7 @@ npc34_scripts:
 func_03_50c0:
 	npc_set_c059 $ff
 -
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_wait $02
 	npc_loopAboveParamTimes $1e, -
 	npc_set_c059 $01
@@ -549,7 +549,7 @@ npc41_scripts:
 	npc_giveSpecialBItem SPECIALB_RAFT
 	npc_call npcHelper_increaseScoreBy700
 	npc_call npcHelper_increaseScoreBy50
-	npc_callCommonSoundFuncs_6c01 $6a $16
+	npc_playSoundEffectAtAddr sound_166a
 	npc_placeTile $37 $80 $80
 @end:
 	npc_end
@@ -563,7 +563,7 @@ npc00_scripts:
 	npc_set2_cbe4
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set6_cb60_reset_cb6c
-	npc_callCommonSoundFuncs_6c01 $7c $16
+	npc_playSoundEffectAtAddr sound_167c
 	npc_increaseScore SCORE_10
 	npc_spawnNPCAtOffset $84 $00 $00
 	npc_wait $05
@@ -594,7 +594,7 @@ npc00_scripts:
 ; ==============================================================================
 npc01_scripts:
 	npc_res4_cb60
-	npc_callCommonSoundFuncs_6c01 $26 $16
+	npc_playSoundEffectAtAddr sound_1626
 	npc_set5_cb60
 	npc_groupRoomXYjumpTable @table
 	npc_setMovementSpeed $01
@@ -661,7 +661,7 @@ npc02_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
 	npc_set6_cb60_reset_cb6c
-	npc_callCommonSoundFuncs_6c01 $37 $18
+	npc_playSoundEffectAtAddr sound_1837
 	.db $16
 	npc_call npcHelper_increaseScoreBy30
 	npc_wait $02
@@ -682,7 +682,7 @@ shopTake20birds:
 -
 	npc_takeNumBirds $05
 	npc_set_c059 $0a
-	npc_callCommonSoundFuncs_6c01 $73 $16
+	npc_playSoundEffectAtAddr sound_1673
 	npc_wait $02
 	npc_loopAboveParamTimes $04, -
 	npc_ret
@@ -720,7 +720,7 @@ npc15_scripts:
 	npc_call data_03_699f
 	npc_increaseScore SCORE_500
 	npc_giveSpecialBItem SPECIALB_RR_TICKET
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 
 _npc_end_03_529a:
 	npc_end
@@ -1578,7 +1578,7 @@ npc4c_scripts:
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
 	.db $16
-	npc_callCommonSoundFuncs_6c01 $47 $16
+	npc_playSoundEffectAtAddr sound_1647
 	npc_jumpIfRandomNumLTparam $aa, +
 	npc_placeTile $98 $80 $80
 	npc_setNewNpcID ENTID_HOUSES_GRAFFITI_GUY
@@ -1599,7 +1599,7 @@ npc4d_scripts:
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
 	.db $16
-	npc_callCommonSoundFuncs_6c01 $47 $16
+	npc_playSoundEffectAtAddr sound_1647
 	npc_jumpIfRandomNumLTparam $aa, +
 	npc_placeTile $50 $80 $80
 	npc_setNewNpcID ENTID_HOUSES_GRAFFITI_GUY
@@ -1722,10 +1722,10 @@ func_03_5b39:
 	npc_set7_cb60
 	npc_jumpIfRandomNumLTparam $aa, ++
 	npc_jumpIfRandomNumLTparam $80, +
-	npc_callCommonSoundFuncs_6c01 $a9 $16
+	npc_playSoundEffectAtAddr sound_16a9
 	npc_jump ++
 +
-	npc_callCommonSoundFuncs_6c01 $ba $16
+	npc_playSoundEffectAtAddr sound_16ba
 ++
 	npc_jumpIfRandomNumLTparam $aa, +
 	npc_jump ++
@@ -1796,7 +1796,7 @@ npc11_scripts:
 	npc_wait $0a
 	.db $16
 	npc_spawnNPCinFrontOfSelf $12
-	npc_callCommonSoundFuncs_6c01 $04 $16
+	npc_playSoundEffectAtAddr sound_1604
 	npc_wait $28
 	npc_setNewNpcID ENTID_FOREST_ARCHER
 
@@ -1825,7 +1825,7 @@ npc4e_scripts:
 	npc_set5_cb60
 	npc_setMovementSpeed $03
 	npc_set2_cbe4
-	npc_callCommonSoundFuncs_6c01 $0d $16
+	npc_playSoundEffectAtAddr sound_160d
 	npc_wait $28
 -
 	npc_facePlayerHorizontally
@@ -1833,7 +1833,7 @@ npc4e_scripts:
 	npc_facePlayerVertically
 	npc_moveByParamPixels $04
 	npc_loopAboveParamTimes $05, -
-	npc_callCommonSoundFuncs_6c01 $0d $16
+	npc_playSoundEffectAtAddr sound_160d
 	npc_jump -
 
 
@@ -1955,14 +1955,14 @@ npc1a_scripts:
 	npc_call func_03_5c91
 -
 	npc_placeTile $4c $80 $80
-	npc_callCommonSoundFuncs_6c01 $1d $16
+	npc_playSoundEffectAtAddr sound_161d
 	npc_wait $03
 	npc_moveByParamPixels $10
 	npc_moveNPC_jumpIfCant $10, +
 	npc_jump -
 +
 	npc_placeTile $4c $80 $80
-	npc_callCommonSoundFuncs_6c01 $1d $16
+	npc_playSoundEffectAtAddr sound_161d
 -
 	npc_offsetNPCCoordsBy1_turnRight
 	npc_moveByParamPixels $ff
@@ -1977,7 +1977,7 @@ npc21_scripts:
 	npc_call func_03_5c91
 -
 	npc_placeTile $cc $80 $80
-	npc_callCommonSoundFuncs_6c01 $1d $16
+	npc_playSoundEffectAtAddr sound_161d
 	npc_wait $02
 	npc_moveByParamPixels $10
 	npc_jumpIfRandomNumLTparam $80, +
@@ -2051,13 +2051,13 @@ npc23_scripts:
 	npc_facePlayerHorizontally
 +
 	npc_spawnNPCinFrontOfSelf ENTID_SHIPYARD_GUNMAN_BULLET
-	npc_callCommonSoundFuncs_6c01 $61 $16
+	npc_playSoundEffectAtAddr sound_1661
 	npc_wait $0a
 	npc_spawnNPCinFrontOfSelf ENTID_SHIPYARD_GUNMAN_BULLET
-	npc_callCommonSoundFuncs_6c01 $61 $16
+	npc_playSoundEffectAtAddr sound_1661
 	npc_wait $0a
 	npc_spawnNPCinFrontOfSelf ENTID_SHIPYARD_GUNMAN_BULLET
-	npc_callCommonSoundFuncs_6c01 $61 $16
+	npc_playSoundEffectAtAddr sound_1661
 	npc_wait $0a
 	npc_turnBackwards
 	npc_moveByParamPixels $42
@@ -2120,7 +2120,7 @@ npc24_scripts:
 ; ==============================================================================
 npc25_scripts:
 	npc_res4_cb60
-	npc_callCommonSoundFuncs_6c01 $0a $18
+	npc_playSoundEffectAtAddr sound_180a
 	npc_wait $0a
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_setMovementSpeed $02
@@ -2131,7 +2131,7 @@ npc25_scripts:
 	npc_moveNPCturnBackIfCant
 	npc_jump -
 +
-	npc_callCommonSoundFuncs_6c01 $0a $18
+	npc_playSoundEffectAtAddr sound_180a
 	npc_jump -
 
 
@@ -2343,7 +2343,7 @@ npc44_scripts:
 @func_5e3f:
 	npc_set6_cb60_reset_cb6c
 	.db $16
-	npc_callCommonSoundFuncs_6c01 $61 $16
+	npc_playSoundEffectAtAddr sound_1661
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BULLET
 	npc_jump ++
@@ -2353,7 +2353,7 @@ npc44_scripts:
 	npc_wait $05
 	npc_set6_cb60_reset_cb6c
 	.db $16
-	npc_callCommonSoundFuncs_6c01 $61 $16
+	npc_playSoundEffectAtAddr sound_1661
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BULLET
 	npc_jump @loop
@@ -2375,7 +2375,7 @@ npc45_scripts:
 npc46_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
-	npc_callCommonSoundFuncs_6c01 $58 $16
+	npc_playSoundEffectAtAddr sound_1658
 	npc_wait $05
 	npc_placeTile $00 $80 $80
 	npc_end
@@ -2387,7 +2387,7 @@ npc46_scripts:
 npc5a_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
-	npc_callCommonSoundFuncs_6c01 $58 $16
+	npc_playSoundEffectAtAddr sound_1658
 	npc_wait $05
 	npc_end
 
@@ -2415,7 +2415,7 @@ npc57_scripts:
 	npc_set5_cb60
 	npc_res4_cb60
 	npc_wait $1e
-	npc_callCommonSoundFuncs_6c01 $f2 $15
+	npc_playSoundEffectAtAddr sound_15f2
 	npc_setMovementSpeed $01
 	npc_moveByParamPixels $10
 	npc_setMovementSpeed $02
@@ -2563,7 +2563,7 @@ npc5f_scripts:
 	npc_wait $05
 	.db $04
 	npc_placeTile $85 $08 $02
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_end
 
 
@@ -2593,7 +2593,7 @@ npc60_scripts:
 	npc_jump @func_5f85
 +
 	npc_placeTile $14 $80 $80
-	npc_callCommonSoundFuncs_6c01 $5f $17
+	npc_playSoundEffectAtAddr sound_175f
 	npc_waitRandomValBetween2ParamsInclusive $50 $78
 	npc_placeTile $00 $80 $80
 	npc_jump @loop
@@ -2602,7 +2602,7 @@ npc60_scripts:
 	npc_jump @func_5f85
 +
 	npc_placeTile $14 $80 $80
-	npc_callCommonSoundFuncs_6c01 $5f $17
+	npc_playSoundEffectAtAddr sound_175f
 	npc_waitRandomValBetween2ParamsInclusive $50 $78
 	npc_placeTile $9d $80 $80
 	npc_jump @loop
@@ -2626,25 +2626,25 @@ npc61_scripts:
 	npc_jumpIfItemGotten ITEMID_31, +++
 	npc_takeItem ITEMID_30
 	npc_giveItem ITEMID_31
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_jump @func_600d
 
 ++
 	npc_giveItem ITEMID_30
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_jump @func_600d
 
 +++
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_set4_cb60
 	npc_spawnNPCAtOffset $03 $80 $80
 	npc_wait $0f
 	npc_placeTile $84 $0c $01
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_wait $02
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_wait $02
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_wait $02
 	npc_end
 
@@ -2702,23 +2702,23 @@ npc63_scripts:
 	npc_jumpIfItemGotten ITEMID_31, +++
 	npc_takeItem ITEMID_30
 	npc_giveItem ITEMID_31
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_jump @func_609d
 ++
 	npc_giveItem ITEMID_30
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_jump @func_609d
 +++
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_set4_cb60
 	npc_spawnNPCAtOffset ENTID_STUB_03 $80 $80
 	npc_wait $0f
 	npc_placeTile $84 $0e $01
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_wait $02
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_wait $02
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_wait $02
 	npc_end
 
@@ -2781,7 +2781,7 @@ npc64_scripts:
 npc65_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	.db $16
 	npc_end
 
@@ -2805,7 +2805,7 @@ npc62_scripts:
 	npc_moveNPC_jumpIfCant $30, @loop
 	npc_moveNPC_jumpIfCant $20, @loop
 	npc_moveNPC_jumpIfCant $10, @loop
-	npc_callCommonSoundFuncs_6c01 $ec $16
+	npc_playSoundEffectAtAddr sound_16ec
 	npc_jumpIfFacingDirection $09, +
 	npc_placeTile $45 $81 $80
 	npc_wait $01
@@ -2849,7 +2849,7 @@ npc2d_scripts:
 	npc_set2_cbe4
 	npc_res4_cb60
 	npc_groupRoomXYjumpTable @table
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_end
 
 @table:
@@ -3444,7 +3444,7 @@ data_03_699f:
 func_03_69aa:
 	npc_set_c059 $ff
 	npc_giveNumBombs $01
-	npc_callCommonSoundFuncs_6c01 $5f $17
+	npc_playSoundEffectAtAddr sound_175f
 	npc_wait $02
 	npc_ret
 
@@ -3452,7 +3452,7 @@ func_03_69aa:
 func_03_69b4:
 	npc_set_c059 $ff
 	npc_giveNumBirds $01
-	npc_callCommonSoundFuncs_6c01 $5f $17
+	npc_playSoundEffectAtAddr sound_175f
 	npc_wait $02
 	npc_ret
 
@@ -3510,7 +3510,7 @@ npc66_scripts:
 	npc_call @func_6a09
 	npc_call @func_6a09
 	npc_startScrollingText @text_6a37
-	npc_callCommonSoundFuncs_6d6c $01 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $01 $ff
 	npc_set_c059 $ff
 	npc_wait $5a
 -

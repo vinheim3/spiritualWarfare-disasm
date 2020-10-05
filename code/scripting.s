@@ -186,7 +186,7 @@ scriptCmdTable:
 	.dw _scriptCmd_res3_cb60
 	.dw _scriptCmd_65fd
 	.dw _scriptCmd_moveNPCturnBackIfCant
-	.dw _scriptCmd_callCommonSoundFuncs6638
+	.dw _scriptCmd_playSoundEffect20h
 	.dw _scriptCmd_giveHeartContainer
 	.dw _scriptCmd_reducePlayerMaxHealth
 	.dw _scriptCmd_giveKey
@@ -243,7 +243,7 @@ scriptCmdTable:
 	.dw _scriptCmd_groupRoomXYjumpTable
 	.dw _scriptCmd_displayTextScreen
 	.dw _scriptCmd_jumpIfLampOn
-	.dw _scriptCmd_callCommonSoundFuncs_6c01
+	.dw _scriptCmd_playSoundEffectAtAddr
 	.dw _scriptCmd_resetNPC2ndByteBit5_jumpIfOrigSet
 	.dw _scriptCmd_jumpIfPlayerIsFullHealth
 	.dw _scriptCmd_flipBit4ofNPC2ndByte_jumpIfNZ
@@ -251,7 +251,7 @@ scriptCmdTable:
 	.dw _scriptCmd_lampOnOrOffSameBGP
 	.dw _scriptCmd_lampOnOrOffSameOBP0
 	.dw _scriptCmd_addParamsToXthenYCoords
-	.dw _scriptCmd_callCommonSoundFuncs_6d6c
+	.dw _scriptCmd_stopAllSoundsPlayParamSoundSetIfTwiceSpeed
 	.dw _scriptCmd_teleportPlayer
 
 // 3 params
@@ -736,8 +736,8 @@ _scriptCmd_moveNPCturnBackIfCant:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_callCommonSoundFuncs6638:
-	call safeCallCommonSoundFuncs_with20h
+_scriptCmd_playSoundEffect20h:
+	call playSoundEffect20h
 	jp   executeNPCScriptCode
 
 
@@ -1637,7 +1637,7 @@ _scriptCmd_displayTextScreen:
 	ld   a, (hl)
 	ld   hl, wNPCTextBank
 	ld   (hl), a
-	call callCommonSoundFunc1_withFF
+	call stopAllSounds
 
 @initScreen:
 	call npcHelper_initTextScreenGfx
@@ -1651,7 +1651,7 @@ _scriptCmd_displayTextScreen:
 	jp   nz, @not7fh
 
 	call func_232a                                       ; $6b0c: $cd $2a $23
-	call callsCommonSoundFuncs_27ae                                       ; $6b0f: $cd $ae $27
+	call stopSoundsPlaySound5AtNormalSpeed                                       ; $6b0f: $cd $ae $27
 	jp   executeNPCScriptCode                               ; $6b12: $c3 $8a $62
 
 @not7fh:
@@ -1842,12 +1842,12 @@ _scriptCmd_jumpIfLampOn:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_callCommonSoundFuncs_6c01:
+_scriptCmd_playSoundEffectAtAddr:
 	ld   hl, wNPCScriptParam1
 	ld   e, (hl)
 	ld   hl, wNPCScriptParam2
 	ld   d, (hl)
-	call callCommonSoundFuncs_1513
+	call playSoundEffectInDE_channel3or4
 	jp   executeNPCScriptCode
 
 
@@ -2115,21 +2115,25 @@ _scriptCmd_addParamsToXthenYCoords:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_callCommonSoundFuncs_6d6c:
-	call callCommonSoundFunc1_3times                                       ; $6d6c: $cd $d7 $14
-	ld   hl, wNPCScriptParam1                                   ; $6d6f: $21 $20 $c0
-	ld   a, (hl)                                     ; $6d72: $7e
-	ld   hl, $c009                                   ; $6d73: $21 $09 $c0
-	ld   (hl), a                                     ; $6d76: $77
-	ld   hl, wNPCScriptParam2                                   ; $6d77: $21 $21 $c0
-	ld   a, (hl)                                     ; $6d7a: $7e
-	ld   hl, $c72a                                   ; $6d7b: $21 $2a $c7
-	ld   (hl), a                                     ; $6d7e: $77
-	call callCommonSoundFunc0_3times                                       ; $6d7f: $cd $bf $14
-	ld   a, $00                                      ; $6d82: $3e $00
-	ld   hl, $c72a                                   ; $6d84: $21 $2a $c7
-	ld   (hl), a                                     ; $6d87: $77
-	jp   executeNPCScriptCode                               ; $6d88: $c3 $8a $62
+_scriptCmd_stopAllSoundsPlayParamSoundSetIfTwiceSpeed:
+	call stopHWSoundChannels012
+
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
+
+	ld   hl, wNPCScriptParam2
+	ld   a, (hl)
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+
+	call play3soundChannels_6choicesIdxed_c009
+
+	ld   a, $00
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_teleportPlayer:
@@ -2599,7 +2603,7 @@ _scriptCmd_quiz:
 	ld   hl, wCurrNpcIdx                                   ; $700e: $21 $a6 $c0
 	ld   a, (hl)                                     ; $7011: $7e
 	push af                                          ; $7012: $f5
-	call callCommonSoundFunc1_withFF                                       ; $7013: $cd $32 $15
+	call stopAllSounds                                       ; $7013: $cd $32 $15
 	ld   a, $00                                      ; $7016: $3e $00
 	ld   hl, wScrollingTextByteDone                                   ; $7018: $21 $61 $c0
 	ld   (hl), a                                     ; $701b: $77
@@ -2663,15 +2667,19 @@ _scriptCmd_quiz:
 
 +
 	ld   a, $ff                                      ; $709c: $3e $ff
-	ld   hl, $c72a                                   ; $709e: $21 $2a $c7
+	ld   hl, wSoundIsTwiceSpeed                                   ; $709e: $21 $2a $c7
 	ld   (hl), a                                     ; $70a1: $77
+
 	ld   a, $03                                      ; $70a2: $3e $03
-	ld   hl, $c009                                   ; $70a4: $21 $09 $c0
+	ld   hl, wSoundToPlayIdx                                   ; $70a4: $21 $09 $c0
 	ld   (hl), a                                     ; $70a7: $77
-	call callCommonSoundFunc0_3times                                       ; $70a8: $cd $bf $14
+
+	call play3soundChannels_6choicesIdxed_c009                                       ; $70a8: $cd $bf $14
+
 	ld   a, $00                                      ; $70ab: $3e $00
-	ld   hl, $c72a                                   ; $70ad: $21 $2a $c7
+	ld   hl, wSoundIsTwiceSpeed                                   ; $70ad: $21 $2a $c7
 	ld   (hl), a                                     ; $70b0: $77
+
 	call Call_001_7254                               ; $70b1: $cd $54 $72
 	ld   bc, $0002                                   ; $70b4: $01 $02 $00
 	call Call_001_71b4                               ; $70b7: $cd $b4 $71
@@ -2768,21 +2776,27 @@ _scriptCmd_quiz:
 @func_7147:
 	ld   hl, wNPCScriptOpcode                                   ; $7147: $21 $1f $c0
 	inc  (hl)                                        ; $714a: $34
-	ld   de, $15e0                                   ; $714b: $11 $e0 $15
+
+	ld   de, sound_birdsUpdating_channel0                                   ; $714b: $11 $e0 $15
 	ld   a, $00                                      ; $714e: $3e $00
-	call commonSoundFunc0                                       ; $7150: $cd $be $01
-	ld   de, $15e9                                   ; $7153: $11 $e9 $15
+	call call_playSoundChannelADataInDE                                       ; $7150: $cd $be $01
+
+	ld   de, sound_birdsUpdating_channel1                                   ; $7153: $11 $e9 $15
 	ld   a, $01                                      ; $7156: $3e $01
-	call commonSoundFunc0                                       ; $7158: $cd $be $01
+	call call_playSoundChannelADataInDE                                       ; $7158: $cd $be $01
+
 	ld   bc, $0000                                   ; $715b: $01 $00 $00
 	call Call_001_71b4                               ; $715e: $cd $b4 $71
 	call callMinimalMainLoop0fhTimes                                       ; $7161: $cd $18 $18
+
 	ld   bc, $0002                                   ; $7164: $01 $02 $00
 	call Call_001_719b                               ; $7167: $cd $9b $71
 	call callMinimalMainLoop0fhTimes                                       ; $716a: $cd $18 $18
+
 	ld   bc, $0001                                   ; $716d: $01 $01 $00
 	call Call_001_719b                               ; $7170: $cd $9b $71
 	call callMinimalMainLoop0fhTimes                                       ; $7173: $cd $18 $18
+
 	ld   bc, $0001                                   ; $7176: $01 $01 $00
 	call Call_001_71b4                               ; $7179: $cd $b4 $71
 
@@ -2796,7 +2810,7 @@ _scriptCmd_quiz:
 @done:
 	call callMinimalMainLoop78hTimes                                       ; $7187: $cd $0f $18
 	call func_232a                                       ; $718a: $cd $2a $23
-	call callsCommonSoundFuncs_27ae                                       ; $718d: $cd $ae $27
+	call stopSoundsPlaySound5AtNormalSpeed                                       ; $718d: $cd $ae $27
 	pop  af                                          ; $7190: $f1
 	ld   hl, wCurrNpcIdx                                   ; $7191: $21 $a6 $c0
 	ld   (hl), a                                     ; $7194: $77
@@ -2959,7 +2973,7 @@ Call_001_7267:
 	jr   z, +                              ; $726e: $28 $08
 
 	push bc                                          ; $7270: $c5
-	call safeCallCommonSoundFuncs_with20h                                       ; $7271: $cd $ff $27
+	call playSoundEffect20h                                       ; $7271: $cd $ff $27
 	pop  bc                                          ; $7274: $c1
 	ld   c, $00                                      ; $7275: $0e $00
 	dec  b                                           ; $7277: $05

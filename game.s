@@ -13,6 +13,7 @@
 .include "include/hram.s"
 .include "include/macros.s"
 .include "include/npcScriptMacros.s"
+.include "include/soundMacros.s"
 
 
 .bank $000 slot 0

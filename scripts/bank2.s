@@ -44,7 +44,7 @@ npc82_scripts:
 func_02_5008:
 	npc_set_c059 $ff
 	npc_giveNumBombs $01
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_wait $01
 	npc_ret
 
@@ -52,7 +52,7 @@ func_02_5008:
 func_02_5010:
 	npc_set_c059 $ff
 	npc_giveNumBirds $01
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_wait $01
 	npc_ret
 
@@ -63,7 +63,7 @@ func_02_5010:
 -
 	npc_set_c059 $ff
 	.db $4f $05
-	npc_callCommonSoundFuncs_6c01 $73 $16
+	npc_playSoundEffectAtAddr sound_1673
 	npc_wait $02
 	npc_loopAboveParamTimes $01, @loop
 	npc_set_c059 $00
@@ -83,7 +83,7 @@ _npc_end_02_502c:
 npcb4_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_giveArmorOfGod AOG_BELT
 	npc_giveItem ITEMID_BELT
 	npc_giveArmorOfGod AOG_ARMOUR
@@ -101,7 +101,7 @@ npcb4_scripts:
 npcb5_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_giveSpecialBItem SPECIALB_LAMP
 	npc_giveSpecialBItem SPECIALB_JAWBONE
 	npc_giveSpecialBItem SPECIALB_RAFT
@@ -115,7 +115,7 @@ npcb5_scripts:
 npcb6_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 -
 	.db $19
 	npc_loopAboveParamTimes $0c, -
@@ -136,7 +136,7 @@ npcb6_scripts:
 npcb7_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 -
 	npc_giveFruit FRUIT_BANANA
 	npc_giveFruit FRUIT_GRAPES
@@ -610,7 +610,7 @@ npc74_scripts:
 	npc_jump -
 +
 	npc_call keyLockFunc
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_takeKey
 	npc_jump placeDoorAtKeyLock
 
@@ -687,7 +687,7 @@ keyLockFunc:
 
 placeDoorAtKeyLockBasedOnRoom:
 	npc_groupRoomXYjumpTable @table
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_end
 
 @table:
@@ -791,7 +791,7 @@ npcText_02_5470:
 npc6d_scripts:
 	npc_set5_cb60
 	npc_groupRoomXYjumpTable @table
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_end
 
 @table:
@@ -832,12 +832,12 @@ npc6d_scripts:
 @func_54de:
 	npc_set_c059 $ff
 	.db $19
-	npc_callCommonSoundFuncs_6c01 $6a $16
+	npc_playSoundEffectAtAddr sound_166a
 	npc_wait $04
 
 @func_54e6:
 	npc_addToPlayerHealth $01
-	npc_callCommonSoundFuncs_6c01 $6a $16
+	npc_playSoundEffectAtAddr sound_166a
 	npc_wait $02
 	npc_jumpIfPlayerIsFullHealth +
 	npc_jump @func_54e6
@@ -1275,7 +1275,7 @@ func_02_58d0:
 ; ==============================================================================
 npc79_scripts:
 npc7b_scripts:
-	npc_callCommonSoundFuncs_6c01 $61 $16
+	npc_playSoundEffectAtAddr sound_1661
 	npc_set5_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -1310,7 +1310,7 @@ npc7d_scripts:
 	npc_set2_cbe4
 	npc_res4_cb60
 	npc_groupRoomXYjumpTable @table
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_end
 
 @table:
@@ -2271,7 +2271,7 @@ npc85_scripts:
 npc86_scripts:
 	npc_call func_02_6697
 	npc_setMovementSpeed $02
-	npc_callCommonSoundFuncs_6c01 $0a $18
+	npc_playSoundEffectAtAddr sound_180a
 	npc_moveToPlayersXandFacePlayerHorizontally
 	npc_moveToPlayersYandFacePlayerVertically
 	npc_setNewNpcID ENTID_SLUMS_DOG
@@ -2379,7 +2379,7 @@ npc8a_scripts:
 +
 	npc_moveByParamPixels $10
 	npc_loopAboveParamTimes $0b, -
-	npc_callCommonSoundFuncs_6d6c $03 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
 	npc_placeTile $00 $0e $02
 	npc_placeTile $cd $0e $02
 	npc_end
@@ -2782,7 +2782,7 @@ npc98_scripts:
 
 func_02_69b6:
 -
-	npc_callCommonSoundFuncs_6c01 $fb $15
+	npc_playSoundEffectAtAddr sound_15fb
 	npc_wait $03
 	npc_loopAboveParamTimes $08, -
 	npc_ret
@@ -2794,7 +2794,7 @@ func_02_69c0:
 	npc_setDamageTaken $03
 	npc_res4_cb60
 -
-	npc_callCommonSoundFuncs_6c01 $fb $15
+	npc_playSoundEffectAtAddr sound_15fb
 	npc_wait $03
 	npc_loopAboveParamTimes $08, -
 	npc_ret
@@ -3054,7 +3054,7 @@ npc99_scripts:
 npc9a_scripts:
 	npc_call func_02_4fea
 	.db $1b
-	npc_callCommonSoundFuncs_6c01 $85 $16
+	npc_playSoundEffectAtAddr sound_1685
 	npc_giveItem ITEMID_SLUMS_BOTTOM_MIDDLE_KEY
 	npc_end
 
@@ -3107,7 +3107,7 @@ npc9c_scripts:
 ; ENTID_GUNMAN_BULLET
 ; ==============================================================================
 npca4_scripts:
-	npc_callCommonSoundFuncs_6c01 $61 $16
+	npc_playSoundEffectAtAddr sound_1661
 	npc_set5_cb60
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
@@ -3192,12 +3192,12 @@ npca1_scripts:
 	npc_setDamageTaken $04 // 6be3
 	npc_res4_cb60 // 6be5
 	npc_call $6c14 // 6be6
-	npc_callCommonSoundFuncs_6c01 $26 $16 // 6be9
+	npc_playSoundEffectAtAddr sound_1626 // 6be9
 	npc_wait $0a // 6bec
 	npc_loopAboveParamTimes $0a, $6be6 // 6bee
 	npc_giveItem ITEMID_31 // 6bf2
 	npc_set_c059 $ff // 6bf4
-	npc_callCommonSoundFuncs_6d6c $03 $ff // 6bf6
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff // 6bf6
 	npc_placeTile $00 $ff $81 // 6bf9
 	npc_placeTile $00 $80 $81 // 6bfd
 	npc_placeTile $00 $ff $82 // 6c01
@@ -3410,7 +3410,7 @@ npc9e_scripts:
 npcb0_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
-	npc_callCommonSoundFuncs_6c01 $ae $15
+	npc_playSoundEffectAtAddr sound_15ae
 	npc_wait $3c
 	npc_setNewNpcID $9e
 
@@ -3531,7 +3531,7 @@ npcb2_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_res4_cb60
 	npc_set5_cb60
-	npc_callCommonSoundFuncs_6c01 $26 $16
+	npc_playSoundEffectAtAddr sound_1626
 	npc_increaseScore SCORE_5000
 	npc_placeTile $a7 $ff $81
 	npc_placeTile $e7 $ff $82
@@ -3540,16 +3540,16 @@ npcb2_scripts:
 	npc_placeTile $eb $80 $82
 	npc_placeTile $d3 $80 $83
 -
-	npc_callCommonSoundFuncs_6c01 $26 $16
+	npc_playSoundEffectAtAddr sound_1626
 	npc_wait $0a
 	npc_loopAboveParamTimes $06, -
 	npc_giveItem ITEMID_32
 	npc_wait $05
-	npc_callCommonSoundFuncs_6c01 $26 $16
+	npc_playSoundEffectAtAddr sound_1626
 	npc_takeItem ITEMID_32
-	npc_callCommonSoundFuncs_6c01 $26 $16
+	npc_playSoundEffectAtAddr sound_1626
 	npc_wait $0a
-	npc_callCommonSoundFuncs_6c01 $26 $16
+	npc_playSoundEffectAtAddr sound_1626
 	npc_jumpIfItemGotten ITEMID_33, +
 	npc_setNewNpcID $9e
 +
@@ -3568,7 +3568,7 @@ npcb2_scripts:
 	npc_placeTile $00 $82 $83
 	.db $04
 	npc_wait $08
-	npc_callCommonSoundFuncs_6d6c $03 $ff
+	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
 	npc_set_c059 $ff
 	npc_wait $80
 	npc_teleportPlayer @data
@@ -3581,7 +3581,7 @@ npcb2_scripts:
 
 npcb3_scripts:
 	npc_res4_cb60
-	npc_callCommonSoundFuncs_6c01 $04 $16
+	npc_playSoundEffectAtAddr sound_1604
 	npc_set5_cb60
 	npc_setMovementSpeed $03
 	npc_setDamageTaken $04
@@ -3600,7 +3600,7 @@ _npc_end_02_6ebd:
 npcb9_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_call func_02_6f2a
 	npc_end
 
@@ -3608,7 +3608,7 @@ npcb9_scripts:
 npcba_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod AOG_BELT
 	npc_giveItem ITEMID_BELT
@@ -3618,7 +3618,7 @@ npcba_scripts:
 npcbb_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod AOG_BELT
 	npc_giveItem ITEMID_BELT
@@ -3630,7 +3630,7 @@ npcbb_scripts:
 npcbc_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod AOG_BELT
 	npc_giveItem ITEMID_BELT
@@ -3643,7 +3643,7 @@ npcbc_scripts:
 npcbd_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod AOG_BELT
 	npc_giveItem ITEMID_BELT
@@ -3657,7 +3657,7 @@ npcbd_scripts:
 npcbe_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_call func_02_4fea
-	npc_callCommonSoundFuncs6638
+	npc_playSoundEffect20h
 	npc_call func_02_6f2a
 	npc_giveArmorOfGod AOG_BELT
 	npc_giveItem ITEMID_BELT

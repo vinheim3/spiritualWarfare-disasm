@@ -88,7 +88,7 @@
 	.db $17
 .endm
 
-.macro npc_callCommonSoundFuncs6638
+.macro npc_playSoundEffect20h
 	.db $18
 .endm
 
@@ -260,8 +260,9 @@
 	.dw \1
 .endm
 
-.macro npc_callCommonSoundFuncs_6c01
-	.db $89 \1 \2
+.macro npc_playSoundEffectAtAddr
+	.db $89
+	.dw \1
 .endm
 
 .macro npc_resetNPC2ndByteBit5_jumpIfOrigSet
@@ -287,7 +288,7 @@
 	.db $90 \1 \2
 .endm
 
-.macro npc_callCommonSoundFuncs_6d6c
+.macro npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed
 	.db $91 \1 \2
 .endm
 

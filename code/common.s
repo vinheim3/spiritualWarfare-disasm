@@ -146,28 +146,28 @@ copyMemoryInBankA:
 
 
 // sound-related functions
-commonSoundFunc0:
-	ld   hl, :soundEngineFunc0
+call_playSoundChannelADataInDE:
+	ld   hl, :playSoundChannelADataInDE
 	ld   (hl), a
-	call soundEngineFunc0
+	call playSoundChannelADataInDE
 	ld   hl, $0000
 	ld   (hl), a
 	ret
 
 
-commonSoundFunc1:
-	ld   hl, :soundEngineFunc1
+call_stopHWSoundChannelA:
+	ld   hl, :stopHWSoundChannelA
 	ld   (hl), a
-	call soundEngineFunc1
+	call stopHWSoundChannelA
 	ld   hl, $0000
 	ld   (hl), a
 	ret
 
 
-commonSoundFunc2:
-	ld   hl, :soundEngineFunc2
+call_updateSounds:
+	ld   hl, :updateSounds
 	ld   (hl), a
-	call soundEngineFunc2
+	call updateSounds
 	ld   hl, $0000
 	ld   (hl), a
 	ret

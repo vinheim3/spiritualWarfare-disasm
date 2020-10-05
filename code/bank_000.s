@@ -1,35 +1,50 @@
 
 begin:
 	ld   sp, wStackTop
+
 	ld   hl, wLCDCvalue
 	ld   a, $81
 	ld   (hl), a
+
 	call turnOffLCDstartOfVBlank
 	call setScrollValues
+
 	ld   hl, rBGP
 	ld   (hl), $e4
+
 	ld   hl, wScreen0displayOffset
 	ld   (hl), $00
 	ld   hl, $c04e                                   ; $0964: $21 $4e $c0
 	ld   (hl), $00                                   ; $0967: $36 $00
-	ld   hl, wIsTitleScreen                                   ; $0969: $21 $00 $d4
-	ld   (hl), $00                                   ; $096c: $36 $00
-	call callCommonSoundFunc1_withFF                               ; $096e: $cd $32 $15
+
+	ld   hl, wIsTitleScreen
+	ld   (hl), $00
+
+	call stopAllSounds                               ; $096e: $cd $32 $15
+
 	ld   hl, lyt_introTradeMarkScreen                                   ; $0971: $21 $80 $19
 	call copyLayoutFromBank3toScreen0withOffset                               ; $0974: $cd $37 $15
+
 	ld   hl, $001c                                   ; $0977: $21 $1c $00
 	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $097a: $cd $7a $17
+
 	call clear_c200_to_c2ff                                       ; $097d: $cd $9e $5b
 	call copyA0hDataToOam                               ; $0980: $cd $99 $1a
+
 	ld   a, $01                                      ; $0983: $3e $01
 	call setLCDfromValue_c015equA                               ; $0985: $cd $11 $02
-	call callsCommonSoundFuncs_27d8                               ; $0988: $cd $d8 $27
+
+	call stopSoundsPlaySound2AtTwiceSpeed                               ; $0988: $cd $d8 $27
+
 	ld   e, $ff                                      ; $098b: $1e $ff
 	call Call_000_19f8                               ; $098d: $cd $f8 $19
-	call callCommonSoundFunc1_withFF                               ; $0990: $cd $32 $15
-	call clear_c094_c095                                       ; $0993: $cd $a6 $48
+
+	call stopAllSounds                               ; $0990: $cd $32 $15
+	call resetRandomNumberTableIdx                                       ; $0993: $cd $a6 $48
+
 	ld   hl, wIsMusicOff                                   ; $0996: $21 $dd $c4
 	ld   (hl), $00                                   ; $0999: $36 $00
+
 	jp   startTitleScreen                               ; $099b: $c3 $58 $0b
 
 
@@ -303,10 +318,10 @@ startTitleScreen:
 	ld   (hl), $02                                   ; $0bbe: $36 $02
 	ld   a, $01                                      ; $0bc0: $3e $01
 	call setLCDfromValue_c015equA                               ; $0bc2: $cd $11 $02
-	call callCommonSoundFunc1_withFF                               ; $0bc5: $cd $32 $15
+	call stopAllSounds                               ; $0bc5: $cd $32 $15
 	ld   hl, wNewKeysPressed                                   ; $0bc8: $21 $18 $c0
 	ld   (hl), $00                                   ; $0bcb: $36 $00
-	call callsCommonSoundFuncs_278f                               ; $0bcd: $cd $8f $27
+	call stopSoundsPlaySound0AtNormalSpeed                               ; $0bcd: $cd $8f $27
 	ld   hl, wOam+1                                   ; $0bd0: $21 $01 $c2
 	ld   (hl), $1e                                   ; $0bd3: $36 $1e
 	ld   hl, wOam+2                                   ; $0bd5: $21 $02 $c2
@@ -335,7 +350,7 @@ startTitleScreen:
 	jp   @titleScreenLoop                               ; $0c04: $c3 $e9 $0b
 
 +
-	call callCommonSoundFunc1_withFF                               ; $0c07: $cd $32 $15
+	call stopAllSounds                               ; $0c07: $cd $32 $15
 	ld   a, $00                                      ; $0c0a: $3e $00
 	ld   hl, $c0fb                                   ; $0c0c: $21 $fb $c0
 	ld   (hl), a                                     ; $0c0f: $77
@@ -357,9 +372,9 @@ startTitleScreen:
 	ld   a, (hl)                                     ; $0c22: $7e
 	xor  $ff                                         ; $0c23: $ee $ff
 	ld   (hl), a                                     ; $0c25: $77
-	call safeCallCommonSoundFuncs_with20h                               ; $0c26: $cd $ff $27
+	call playSoundEffect20h                               ; $0c26: $cd $ff $27
 	call changeMusicOnTextAndPlaySound                               ; $0c29: $cd $50 $0c
-	call callsCommonSoundFuncs_278f                               ; $0c2c: $cd $8f $27
+	call stopSoundsPlaySound0AtNormalSpeed                               ; $0c2c: $cd $8f $27
 	jp   @titleScreenLoop                               ; $0c2f: $c3 $e9 $0b
 
 +
@@ -402,7 +417,7 @@ changeMusicOnTextAndPlaySound:
 
 +
 	ld   c, $03
-	jp   copyMemoryCinVBlank_callCommonSoundFunc2
+	jp   copyMemoryCinVBlank_updateSounds
 
 
 Call_000_0c69:
@@ -440,7 +455,7 @@ Call_000_0c6f:
 	cp   $40                                         ; $0c99: $fe $40
 	jr   nz, jr_000_0cd1                             ; $0c9b: $20 $34
 
-	call safeCallCommonSoundFuncs_with20h                               ; $0c9d: $cd $ff $27
+	call playSoundEffect20h                               ; $0c9d: $cd $ff $27
 	ld   hl, $c097                                   ; $0ca0: $21 $97 $c0
 	ld   a, (hl)                                     ; $0ca3: $7e
 	cp   $00                                         ; $0ca4: $fe $00
@@ -458,7 +473,7 @@ jr_000_0cb0:
 
 
 jr_000_0cb7:
-	call safeCallCommonSoundFuncs_with20h                               ; $0cb7: $cd $ff $27
+	call playSoundEffect20h                               ; $0cb7: $cd $ff $27
 	ld   hl, $c097                                   ; $0cba: $21 $97 $c0
 	inc  (hl)                                        ; $0cbd: $34
 	ld   hl, $c097                                   ; $0cbe: $21 $97 $c0
@@ -710,7 +725,7 @@ enterPasswordScreen:
 	call Call_000_11b0                               ; $0daf: $cd $b0 $11
 	jr   z, @correctPass                              ; $0db2: $28 $28
 
-	call safeCallCommonSoundFuncs_with29h                               ; $0db4: $cd $67 $28
+	call playSoundEffect29h                               ; $0db4: $cd $67 $28
 	call turnOffLCDstartOfVBlank                               ; $0db7: $cd $0a $02
 	call clear_c200_to_c2ff                                       ; $0dba: $cd $9e $5b
 	call copyA0hDataToOam                               ; $0dbd: $cd $99 $1a
@@ -726,7 +741,7 @@ enterPasswordScreen:
 	jp   @loop                               ; $0dd9: $c3 $af $0d
 
 @correctPass:
-	call safeCallCommonSoundFuncs_with12h                               ; $0ddc: $cd $05 $28
+	call playSoundEffect12h                               ; $0ddc: $cd $05 $28
 	xor  a                                           ; $0ddf: $af
 	ret                                              ; $0de0: $c9
 
@@ -935,7 +950,7 @@ jr_000_0f06:
 
 Jump_000_0f18:
 jr_000_0f18:
-	call safeCallCommonSoundFuncs_with20h                               ; $0f18: $cd $ff $27
+	call playSoundEffect20h                               ; $0f18: $cd $ff $27
 	jp   Jump_000_0e74                               ; $0f1b: $c3 $74 $0e
 
 
@@ -1129,7 +1144,7 @@ jr_000_0ff2:
 
 Jump_000_1009:
 jr_000_1009:
-	call callsCommonSoundFuncs_284f                               ; $1009: $cd $4f $28
+	call playSoundChIfOff26hIfOn                               ; $1009: $cd $4f $28
 	call turnOffLCDstartOfVBlank                               ; $100c: $cd $0a $02
 	jp   Jump_000_0e24                               ; $100f: $c3 $24 $0e
 
@@ -1358,7 +1373,7 @@ processCorrectPassword:
 	ld   b, $00                                      ; $117a: $06 $00
 	ld   de, $0005                                   ; $117c: $11 $05 $00
 	call ecEquEtimesC                               ; $117f: $cd $03 $08
-	ld   hl, $c4df                                   ; $1182: $21 $df $c4
+	ld   hl, wCurrQuizQuestionIdx                                   ; $1182: $21 $df $c4
 	ld   (hl), c                                     ; $1185: $71
 	ld   hl, $c4fa                                   ; $1186: $21 $fa $c4
 	ld   a, (hl)                                     ; $1189: $7e
@@ -1383,7 +1398,7 @@ processCorrectPassword:
 
 
 Call_000_11b0:
-	call Call_000_12d1                               ; $11b0: $cd $d1 $12
+	call generateEncryptValues                               ; $11b0: $cd $d1 $12
 	ld   hl, $c4fd                                   ; $11b3: $21 $fd $c4
 	ld   a, (hl)                                     ; $11b6: $7e
 	and  $3f                                         ; $11b7: $e6 $3f
@@ -1412,34 +1427,43 @@ generatePassword:
 	ld   bc, $0000                                   ; $11d6: $01 $00 $00
 
 -
+// for every letter of the player name..
 	ld   hl, wPlayerName                                   ; $11d9: $21 $49 $c6
 	add  hl, bc                                      ; $11dc: $09
 	ld   a, (hl)                                     ; $11dd: $7e
+// add $20 and store in c4e0
 	add  $20                                         ; $11de: $c6 $20
 	ld   hl, $c4e0                                   ; $11e0: $21 $e0 $c4
 	add  hl, bc                                      ; $11e3: $09
 	ld   (hl), a                                     ; $11e4: $77
+// get its idx*2 and add on to that value in c4e0
 	ld   a, c                                        ; $11e5: $79
 	sla  a                                           ; $11e6: $cb $27
 	ld   hl, $c4e0                                   ; $11e8: $21 $e0 $c4
 	add  hl, bc                                      ; $11eb: $09
 	add  (hl)                                        ; $11ec: $86
 	ld   (hl), a                                     ; $11ed: $77
+// loop for each 8 characters
 	inc  bc                                          ; $11ee: $03
 	ld   a, c                                        ; $11ef: $79
 	cp   $08                                         ; $11f0: $fe $08
 	jr   nz, -                             ; $11f2: $20 $e5
 
+// room group to revive to in c4e8
 	ld   hl, wLastReviveRoomGroup                                   ; $11f4: $21 $15 $c7
 	ld   a, (hl)                                     ; $11f7: $7e
 	ld   hl, $c4e8                                   ; $11f8: $21 $e8 $c4
 	ld   (hl), a                                     ; $11fb: $77
+
+// c4eb low nybble is max health/2 (1 hc is 2 health)
 	ld   hl, wPlayerMaxHealth                                   ; $11fc: $21 $73 $c0
 	ld   a, (hl)                                     ; $11ff: $7e
 	srl  a                                           ; $1200: $cb $3f
 	and  $0f                                         ; $1202: $e6 $0f
 	ld   hl, $c4eb                                   ; $1204: $21 $eb $c4
 	ld   (hl), a                                     ; $1207: $77
+
+// oils is low 2 bits, put in low 2 bits of upper nybble
 	ld   hl, wAnointingOilsGotten                                   ; $1208: $21 $51 $c6
 	ld   a, (hl)                                     ; $120b: $7e
 	sla  a                                           ; $120c: $cb $27
@@ -1447,34 +1471,49 @@ generatePassword:
 	sla  a                                           ; $1210: $cb $27
 	sla  a                                           ; $1212: $cb $27
 	and  $30                                         ; $1214: $e6 $30
+// and or with c4eb with health
 	ld   hl, $c4eb                                   ; $1216: $21 $eb $c4
 	or   (hl)                                        ; $1219: $b6
 	ld   (hl), a                                     ; $121a: $77
+
+// curr health in c4ec
 	ld   hl, wPlayerHealth                                   ; $121b: $21 $72 $c0
 	ld   a, (hl)                                     ; $121e: $7e
 	ld   hl, $c4ec                                   ; $121f: $21 $ec $c4
 	ld   (hl), a                                     ; $1222: $77
+
+// keys in c4ed
 	ld   hl, wNumKeys                                   ; $1223: $21 $fa $c5
 	ld   a, (hl)                                     ; $1226: $7e
 	call aIsMax3fh                                       ; $1227: $cd $ba $61
 	ld   hl, $c4ed                                   ; $122a: $21 $ed $c4
 	ld   (hl), a                                     ; $122d: $77
+
+// bombs in c4ee
 	ld   hl, wNumBombs                                   ; $122e: $21 $3b $c0
 	ld   a, (hl)                                     ; $1231: $7e
 	ld   hl, $c4ee                                   ; $1232: $21 $ee $c4
 	ld   (hl), a                                     ; $1235: $77
+
+// birds in c4ef
 	ld   hl, wNumBirds                                   ; $1236: $21 $08 $c7
 	ld   a, (hl)                                     ; $1239: $7e
 	ld   hl, $c4ef                                   ; $123a: $21 $ef $c4
 	ld   (hl), a                                     ; $123d: $77
+
+// clear c4f0
 	ld   hl, wNumBombs                                   ; $123e: $21 $3b $c0
 	ld   a, (hl)                                     ; $1241: $7e
 	ld   hl, $c4f0                                   ; $1242: $21 $f0 $c4
 	ld   (hl), $00                                   ; $1245: $36 $00
+
+// aog in c4e9
 	ld   hl, wArmorOfGodGotten                                   ; $1247: $21 $52 $c6
 	ld   a, (hl)                                     ; $124a: $7e
 	ld   hl, $c4e9                                   ; $124b: $21 $e9 $c4
 	ld   (hl), a                                     ; $124e: $77
+
+// bombs upper 2 bits only, stored in c4ea (in low 2 bits of upper nybble)
 	ld   hl, wNumBombs                                   ; $124f: $21 $3b $c0
 	ld   a, (hl)                                     ; $1252: $7e
 	srl  a                                           ; $1253: $cb $3f
@@ -1482,19 +1521,24 @@ generatePassword:
 	and  $30                                         ; $1257: $e6 $30
 	ld   hl, $c4ea                                   ; $1259: $21 $ea $c4
 	ld   (hl), a                                     ; $125c: $77
+
+// low nybble of c4ea is special b items gotten
 	ld   hl, wSpecialBitemsGotten                                   ; $125d: $21 $53 $c6
 	ld   a, (hl)                                     ; $1260: $7e
 	and  $0f                                         ; $1261: $e6 $0f
 	ld   hl, $c4ea                                   ; $1263: $21 $ea $c4
 	or   (hl)                                        ; $1266: $b6
 	ld   (hl), a                                     ; $1267: $77
-	ld   bc, $0000                                   ; $1268: $01 $00 $00
 
+	ld   bc, $0000                                   ; $1268: $01 $00 $00
 -
+// for 9 bytes of items gotten (game allocates 10, uses just 9)
+// flags are stored in low 6 bits
 	ld   hl, wItemsGotten                                   ; $126b: $21 $54 $c6
 	add  hl, bc                                      ; $126e: $09
 	ld   a, (hl)                                     ; $126f: $7e
 	and  $3f                                         ; $1270: $e6 $3f
+// store in c4f0+
 	ld   hl, $c4f0                                   ; $1272: $21 $f0 $c4
 	add  hl, bc                                      ; $1275: $09
 	ld   (hl), a                                     ; $1276: $77
@@ -1503,26 +1547,35 @@ generatePassword:
 	cp   $09                                         ; $1279: $fe $09
 	jr   nz, -                             ; $127b: $20 $ee
 
-	ld   hl, $c4df                                   ; $127d: $21 $df $c4
+// c4df // 5 into c4f9
+	ld   hl, wCurrQuizQuestionIdx                                   ; $127d: $21 $df $c4
 	ld   c, (hl)                                     ; $1280: $4e
 	ld   b, $00                                      ; $1281: $06 $00
 	ld   a, $05                                      ; $1283: $3e $05
 	call bcDivA_divInC_modInAB                               ; $1285: $cd $44 $08
 	ld   hl, $c4f9                                   ; $1288: $21 $f9 $c4
 	ld   (hl), c                                     ; $128b: $71
+
+// first 2 fruits in c4fa
 	ld   hl, wFruitAmounts                                   ; $128c: $21 $09 $c7
 	ld   a, (hl)                                     ; $128f: $7e
 	ld   hl, $c4fa                                   ; $1290: $21 $fa $c4
 	ld   (hl), a                                     ; $1293: $77
+
+// next 2 fruits in c4fb
 	ld   hl, wFruitAmounts+1                                   ; $1294: $21 $0a $c7
 	ld   a, (hl)                                     ; $1297: $7e
 	ld   hl, $c4fb                                   ; $1298: $21 $fb $c4
 	ld   (hl), a                                     ; $129b: $77
+
+// just the value for 5th fruit in c4fc
 	ld   hl, wFruitAmounts+2                                   ; $129c: $21 $0b $c7
 	ld   a, (hl)                                     ; $129f: $7e
 	and  $07                                         ; $12a0: $e6 $07
 	ld   hl, $c4fc                                   ; $12a2: $21 $fc $c4
 	ld   (hl), a                                     ; $12a5: $77
+
+// birds again, but upper 2 nybbles or'd with c4fc
 	ld   hl, wNumBirds                                   ; $12a6: $21 $08 $c7
 	ld   a, (hl)                                     ; $12a9: $7e
 	srl  a                                           ; $12aa: $cb $3f
@@ -1531,7 +1584,9 @@ generatePassword:
 	ld   hl, $c4fc                                   ; $12b0: $21 $fc $c4
 	or   (hl)                                        ; $12b3: $b6
 	ld   (hl), a                                     ; $12b4: $77
-	call Call_000_12d1                               ; $12b5: $cd $d1 $12
+
+// store encrypt values in c4fd to c4ff
+	call generateEncryptValues                               ; $12b5: $cd $d1 $12
 	ld   hl, $c006                                   ; $12b8: $21 $06 $c0
 	ld   a, (hl)                                     ; $12bb: $7e
 	ld   hl, $c4fd                                   ; $12bc: $21 $fd $c4
@@ -1547,7 +1602,7 @@ generatePassword:
 	ret                                              ; $12d0: $c9
 
 
-Call_000_12d1:
+generateEncryptValues:
 	ld   bc, $0000                                   ; $12d1: $01 $00 $00
 	ld   hl, $c006                                   ; $12d4: $21 $06 $c0
 	ld   (hl), $00                                   ; $12d7: $36 $00
@@ -1555,9 +1610,12 @@ Call_000_12d1:
 	ld   (hl), $00                                   ; $12dc: $36 $00
 
 -
+// get a byte generated for password
 	ld   hl, $c4e0                                   ; $12de: $21 $e0 $c4
 	add  hl, bc                                      ; $12e1: $09
 	ld   a, (hl)                                     ; $12e2: $7e
+
+// add its low 6 bits only into c006/c007
 	and  $3f                                         ; $12e3: $e6 $3f
 	ld   hl, $c006                                   ; $12e5: $21 $06 $c0
 	add  (hl)                                        ; $12e8: $86
@@ -1566,33 +1624,45 @@ Call_000_12d1:
 	ld   a, (hl)                                     ; $12ed: $7e
 	adc  $00                                         ; $12ee: $ce $00
 	ld   (hl), a                                     ; $12f0: $77
+
+// loop c4e0 to c4fc
 	inc  bc                                          ; $12f1: $03
 	ld   a, c                                        ; $12f2: $79
 	cp   $1d                                         ; $12f3: $fe $1d
 	jr   nz, -                             ; $12f5: $20 $e7
 
+// c006 is its low 6 bits only
 	ld   hl, $c006                                   ; $12f7: $21 $06 $c0
 	ld   a, (hl)                                     ; $12fa: $7e
 	push af                                          ; $12fb: $f5
 	and  $3f                                         ; $12fc: $e6 $3f
 	ld   hl, $c006                                   ; $12fe: $21 $06 $c0
 	ld   (hl), a                                     ; $1301: $77
+
+// rotate upper 2 bits of c006 into c007
 	pop  af                                          ; $1302: $f1
 	rl   a                                           ; $1303: $cb $17
 	ld   hl, $c007                                   ; $1305: $21 $07 $c0
 	rl   (hl)                                        ; $1308: $cb $16
 	rl   a                                           ; $130a: $cb $17
 	rl   (hl)                                        ; $130c: $cb $16
+
+// low 6 bits of c007 (orig low 4 bits, and upper 2 bits of c006)
+// into c007
 	ld   a, (hl)                                     ; $130e: $7e
 	and  $3f                                         ; $130f: $e6 $3f
 	ld   (hl), a                                     ; $1311: $77
+
 	ld   bc, $0000                                   ; $1312: $01 $00 $00
 	ld   a, $2a                                      ; $1315: $3e $2a
 
 -
+// starting from a = $2a, xor it with each password byte
 	ld   hl, $c4e0                                   ; $1317: $21 $e0 $c4
 	add  hl, bc                                      ; $131a: $09
 	xor  (hl)                                        ; $131b: $ae
+
+// loop c4e0 to c4fc, preserve a
 	inc  bc                                          ; $131c: $03
 	ld   e, a                                        ; $131d: $5f
 	ld   a, c                                        ; $131e: $79
@@ -1600,10 +1670,12 @@ Call_000_12d1:
 	ld   a, e                                        ; $1321: $7b
 	jr   nz, -                             ; $1322: $20 $f3
 
+// finally xor the final value with c006 and c007
 	ld   hl, $c006                                   ; $1324: $21 $06 $c0
 	xor  (hl)                                        ; $1327: $ae
 	ld   hl, $c007                                   ; $1328: $21 $07 $c0
 	xor  (hl)                                        ; $132b: $ae
+// put the xor value into c008
 	and  $3f                                         ; $132c: $e6 $3f
 	ld   hl, $c008                                   ; $132e: $21 $08 $c0
 	ld   (hl), a                                     ; $1331: $77
@@ -1653,7 +1725,7 @@ musicTestScreen:
 	ld   (hl), a                                     ; $13b2: $77
 	ld   hl, wMenuCursorIdx                                   ; $13b3: $21 $11 $c7
 	ld   (hl), a                                     ; $13b6: $77
-	ld   hl, $c009                                   ; $13b7: $21 $09 $c0
+	ld   hl, wSoundToPlayIdx                                   ; $13b7: $21 $09 $c0
 	ld   (hl), a                                     ; $13ba: $77
 	jp   @mainLoop                               ; $13bb: $c3 $11 $14
 
@@ -1715,16 +1787,16 @@ musicTestScreen:
 
 @mainLoop:
 	call drawFullMusicTestScreen                               ; $1411: $cd $50 $14
-	call callCommonSoundFunc1_3times                               ; $1414: $cd $d7 $14
+	call stopHWSoundChannels012                               ; $1414: $cd $d7 $14
 	ld   hl, wMenuCursorIdx                                   ; $1417: $21 $11 $c7
 	ld   a, (hl)                                     ; $141a: $7e
-	ld   hl, $c72a                                   ; $141b: $21 $2a $c7
+	ld   hl, wSoundIsTwiceSpeed                                   ; $141b: $21 $2a $c7
 	ld   (hl), a                                     ; $141e: $77
 	ld   hl, $c0a7                                   ; $141f: $21 $a7 $c0
 	ld   a, (hl)                                     ; $1422: $7e
-	ld   hl, $c009                                   ; $1423: $21 $09 $c0
+	ld   hl, wSoundToPlayIdx                                   ; $1423: $21 $09 $c0
 	ld   (hl), a                                     ; $1426: $77
-	call callCommonSoundFunc0_3times                               ; $1427: $cd $bf $14
+	call play3soundChannels_6choicesIdxed_c009                               ; $1427: $cd $bf $14
 	jp   @toMainLoop                               ; $142a: $c3 $be $13
 
 @sound:
@@ -1742,11 +1814,11 @@ musicTestScreen:
 	ld   (hl), $00                                   ; $143e: $36 $00
 
 +
-	call callCommonSoundFunc1_3times                               ; $1440: $cd $d7 $14
+	call stopHWSoundChannels012                               ; $1440: $cd $d7 $14
 	call drawFullMusicTestScreen                               ; $1443: $cd $50 $14
 	ld   hl, $c0a9                                   ; $1446: $21 $a9 $c0
 	ld   a, (hl)                                     ; $1449: $7e
-	call callCommonSoundFuncs_1507                               ; $144a: $cd $07 $15
+	call playSoundEffectInTableIdxedA_channel3or4                               ; $144a: $cd $07 $15
 	jp   @toMainLoop                               ; $144d: $c3 $be $13
 
 
@@ -1836,42 +1908,45 @@ func_14a9
 	ret                                              ; $14be: $c9
 
 
-callCommonSoundFunc0_3times:
-	ld   bc, soundData_61cc
-	ld   a, $00                                      ; $14c2: $3e $00
-	call callCommonSoundFunc0_14e6                               ; $14c4: $cd $e6 $14
-
-	ld   bc, soundData_61d8                                   ; $14c7: $01 $d8 $61
-	ld   a, $01                                      ; $14ca: $3e $01
-	call callCommonSoundFunc0_14e6                               ; $14cc: $cd $e6 $14
-
-	ld   bc, soundData_61e4                                   ; $14cf: $01 $e4 $61
-	ld   a, $02                                      ; $14d2: $3e $02
-	jp   callCommonSoundFunc0_14e6                               ; $14d4: $c3 $e6 $14
-
-
-callCommonSoundFunc1_3times:
+play3soundChannels_6choicesIdxed_c009:
+	ld   bc, musicChannel0
 	ld   a, $00
-	call commonSoundFunc1                               ; $14d9: $cd $ca $01
-	ld   a, $01                                      ; $14dc: $3e $01
-	call commonSoundFunc1                               ; $14de: $cd $ca $01
-	ld   a, $02                                      ; $14e1: $3e $02
-	jp   commonSoundFunc1                               ; $14e3: $c3 $ca $01
+	call playSoundChannelADataInBCIdxed_c009
+
+	ld   bc, musicChannel1
+	ld   a, $01
+	call playSoundChannelADataInBCIdxed_c009
+
+	ld   bc, musicChannel2
+	ld   a, $02
+	jp   playSoundChannelADataInBCIdxed_c009
 
 
-callCommonSoundFunc0_14e6:
-	push af                                          ; $14e6: $f5
-	ld   hl, $c009                                   ; $14e7: $21 $09 $c0
-	ld   a, (hl)                                     ; $14ea: $7e
-	sla  a                                           ; $14eb: $cb $27
-	ld   l, a                                        ; $14ed: $6f
-	ld   h, $00                                      ; $14ee: $26 $00
-	add  hl, bc                                      ; $14f0: $09
-	ld   e, (hl)                                     ; $14f1: $5e
-	inc  hl                                          ; $14f2: $23
-	ld   d, (hl)                                     ; $14f3: $56
-	pop  af                                          ; $14f4: $f1
-	jp   commonSoundFunc0                               ; $14f5: $c3 $be $01
+stopHWSoundChannels012:
+	ld   a, $00
+	call call_stopHWSoundChannelA
+	ld   a, $01
+	call call_stopHWSoundChannelA
+	ld   a, $02
+	jp   call_stopHWSoundChannelA
+
+
+playSoundChannelADataInBCIdxed_c009:
+	push af
+// val in c009 is double index into bc
+	ld   hl, wSoundToPlayIdx
+	ld   a, (hl)
+	sla  a
+	ld   l, a
+	ld   h, $00
+	add  hl, bc
+
+// get de from bc, as sound data addr
+	ld   e, (hl)
+	inc  hl
+	ld   d, (hl)
+	pop  af
+	jp   call_playSoundChannelADataInDE
 
 
 Call_000_14f8:
@@ -1885,40 +1960,45 @@ Call_000_14f8:
 	ret                                              ; $1506: $c9
 
 
-callCommonSoundFuncs_1507:
-	sla  a                                           ; $1507: $cb $27
-	ld   c, a                                        ; $1509: $4f
-	ld   b, $00                                      ; $150a: $06 $00
-	ld   hl, soundData_61f0                                   ; $150c: $21 $f0 $61
-	add  hl, bc                                      ; $150f: $09
-	ld   e, (hl)                                     ; $1510: $5e
-	inc  hl                                          ; $1511: $23
-	ld   d, (hl)                                     ; $1512: $56
+playSoundEffectInTableIdxedA_channel3or4:
+	sla  a
+	ld   c, a
+	ld   b, $00
+	ld   hl, soundEffects
+	add  hl, bc
+	ld   e, (hl)
+	inc  hl
+	ld   d, (hl)
 
-callCommonSoundFuncs_1513:
+playSoundEffectInDE_channel3or4:
 	ld   a, $00
-	ld   hl, $c72a                                   ; $1515: $21 $2a $c7
-	ld   (hl), a                                     ; $1518: $77
-	ld   hl, $c827                                   ; $1519: $21 $27 $c8
-	ld   a, (hl)                                     ; $151c: $7e
-	and  $80                                         ; $151d: $e6 $80
-	jr   z, +                              ; $151f: $28 $0c
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
 
-	push de                                          ; $1521: $d5
-	ld   a, $04                                      ; $1522: $3e $04
-	call commonSoundFunc1                               ; $1524: $cd $ca $01
-	pop  de                                          ; $1527: $d1
-	ld   a, $04                                      ; $1528: $3e $04
-	jp   commonSoundFunc0                               ; $152a: $c3 $be $01
+// if channel 3 not in use, use it, otherwise highjack channel 4
+	ld   hl, wSoundChannelD.controlByteAndHWChannelAddr
+	ld   a, (hl)
+	and  $80
+	jr   z, +
+
+	push de
+// stop audio channel 4
+	ld   a, $04
+	call call_stopHWSoundChannelA
+	pop  de
+
+// play it again with data in de
+	ld   a, $04
+	jp   call_playSoundChannelADataInDE
 
 +
-	ld   a, $03                                      ; $152d: $3e $03
-	jp   commonSoundFunc0                               ; $152f: $c3 $be $01
+	ld   a, $03
+	jp   call_playSoundChannelADataInDE
 
 
-callCommonSoundFunc1_withFF:
+stopAllSounds:
 	ld   a, $ff
-	jp   commonSoundFunc1                               ; $1534: $c3 $ca $01
+	jp   call_stopHWSoundChannelA
 
 
 copyLayoutFromBank3toScreen0withOffset:
@@ -1952,95 +2032,101 @@ copyLayoutFromBank3:
 
 
 initData:
-	// group - roomx - roomy - playerx - playery - ???
+	// group - roomx - roomy - playerx - playery - direction
 	.db $00 $01 $02 $40 $50 $06
 	.db $10 $01 $04 $c0 $30 $06 // room with many doors
 
 initGame:
 	call clear_c200_to_c2ff
-	ld   hl, wIsSecretPlayerName                                   ; $1568: $21 $f8 $c0
-	ld   c, (hl)                                     ; $156b: $4e
-	ld   b, $00                                      ; $156c: $06 $00
-	ld   hl, initData                                   ; $156e: $21 $59 $15
-	add  hl, bc                                      ; $1571: $09
-	ld   a, (hl)                                     ; $1572: $7e
-	ld   hl, wCurrRoomGroup                                   ; $1573: $21 $33 $c0
-	ld   (hl), a                                     ; $1576: $77
-	ld   hl, initData+1                                   ; $1577: $21 $5a $15
-	add  hl, bc                                      ; $157a: $09
-	ld   a, (hl)                                     ; $157b: $7e
-	ld   hl, wCurrRoomX                                   ; $157c: $21 $34 $c0
-	ld   (hl), a                                     ; $157f: $77
-	ld   hl, initData+2                                   ; $1580: $21 $5b $15
-	add  hl, bc                                      ; $1583: $09
-	ld   a, (hl)                                     ; $1584: $7e
-	ld   hl, wCurrRoomY                                   ; $1585: $21 $35 $c0
-	ld   (hl), a                                     ; $1588: $77
-	ld   hl, initData+3                                   ; $1589: $21 $5c $15
-	add  hl, bc                                      ; $158c: $09
-	ld   a, (hl)                                     ; $158d: $7e
-	ld   hl, wPlayerX                                   ; $158e: $21 $52 $c0
-	ld   (hl), a                                     ; $1591: $77
-	ld   hl, initData+4                                   ; $1592: $21 $5d $15
-	add  hl, bc                                      ; $1595: $09
-	ld   a, (hl)                                     ; $1596: $7e
-	ld   hl, wPlayerY                                   ; $1597: $21 $54 $c0
-	ld   (hl), a                                     ; $159a: $77
-	ld   hl, initData+5                                   ; $159b: $21 $5e $15
-	add  hl, bc                                      ; $159e: $09
-	ld   a, (hl)                                     ; $159f: $7e
-	ld   hl, wPlayerStartingDirection                                   ; $15a0: $21 $df $c6
-	ld   (hl), a                                     ; $15a3: $77
+	ld   hl, wIsSecretPlayerName
+	ld   c, (hl)
+	ld   b, $00
 
-	ld   a, $00                                      ; $15a4: $3e $00
-	ld   hl, wNumBombs                                   ; $15a6: $21 $3b $c0
-	ld   (hl), a                                     ; $15a9: $77
-	ld   hl, wNumBirds                                   ; $15aa: $21 $08 $c7
-	ld   (hl), a                                     ; $15ad: $77
-	ld   hl, wNumKeys                                   ; $15ae: $21 $fa $c5
-	ld   (hl), a                                     ; $15b1: $77
-	ld   hl, wAnointingOilsGotten                                   ; $15b2: $21 $51 $c6
-	ld   (hl), a                                     ; $15b5: $77
-	ld   hl, wArmorOfGodGotten                                   ; $15b6: $21 $52 $c6
-	ld   (hl), a                                     ; $15b9: $77
-	ld   hl, wSpecialBitemsGotten                                   ; $15ba: $21 $53 $c6
-	ld   (hl), a                                     ; $15bd: $77
-	ld   hl, wIsLampOn                                   ; $15be: $21 $5b $c0
-	ld   (hl), a                                     ; $15c1: $77
-	ld   hl, wEquippedBItem                                   ; $15c2: $21 $49 $c0
-	ld   (hl), a                                     ; $15c5: $77
-	ld   hl, wFruitEquipped                                   ; $15c6: $21 $0c $c7
-	ld   (hl), a                                     ; $15c9: $77
-	ld   hl, wFruitAmounts+1                                   ; $15ca: $21 $0a $c7
-	ld   (hl), a                                     ; $15cd: $77
-	ld   hl, wFruitAmounts+2                                   ; $15ce: $21 $0b $c7
-	ld   (hl), a                                     ; $15d1: $77
-	ld   hl, wFruitAmounts                                   ; $15d2: $21 $09 $c7
-	ld   (hl), a                                     ; $15d5: $77
-	ld   hl, $c4df                                   ; $15d6: $21 $df $c4
-	ld   (hl), a                                     ; $15d9: $77
+	ld   hl, initData
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wCurrRoomGroup
+	ld   (hl), a
 
-//
-	ld   bc, $0000                                   ; $15da: $01 $00 $00
+	ld   hl, initData+1
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wCurrRoomX
+	ld   (hl), a
+
+	ld   hl, initData+2
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wCurrRoomY
+	ld   (hl), a
+
+	ld   hl, initData+3
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wPlayerX
+	ld   (hl), a
+
+	ld   hl, initData+4
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wPlayerY
+	ld   (hl), a
+
+	ld   hl, initData+5
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wPlayerStartingDirection
+	ld   (hl), a
+
+	ld   a, $00
+	ld   hl, wNumBombs
+	ld   (hl), a
+	ld   hl, wNumBirds
+	ld   (hl), a
+	ld   hl, wNumKeys
+	ld   (hl), a
+	ld   hl, wAnointingOilsGotten
+	ld   (hl), a
+	ld   hl, wArmorOfGodGotten
+	ld   (hl), a
+	ld   hl, wSpecialBitemsGotten
+	ld   (hl), a
+	ld   hl, wIsLampOn
+	ld   (hl), a
+	ld   hl, wEquippedBItem
+	ld   (hl), a
+	ld   hl, wFruitEquipped
+	ld   (hl), a
+	ld   hl, wFruitAmounts+1
+	ld   (hl), a
+	ld   hl, wFruitAmounts+2
+	ld   (hl), a
+	ld   hl, wFruitAmounts
+	ld   (hl), a
+	ld   hl, wCurrQuizQuestionIdx
+	ld   (hl), a
+
+// clear items gotten flags
+	ld   bc, $0000
 -
-	ld   hl, wItemsGotten                                   ; $15dd: $21 $54 $c6
-	add  hl, bc                                      ; $15e0: $09
-	ld   (hl), $00                                   ; $15e1: $36 $00
-	inc  bc                                          ; $15e3: $03
-	ld   a, c                                        ; $15e4: $79
-	cp   $0a                                         ; $15e5: $fe $0a
-	jr   nz, -                             ; $15e7: $20 $f4
+	ld   hl, wItemsGotten
+	add  hl, bc
+	ld   (hl), $00
+	inc  bc
+	ld   a, c
+	cp   $0a
+	jr   nz, -
 
-	ld   hl, wPlayerMaxHealth                                   ; $15e9: $21 $73 $c0
-	ld   (hl), $06                                   ; $15ec: $36 $06
-	ld   hl, wPlayerHealth                                   ; $15ee: $21 $72 $c0
-	ld   (hl), $06                                   ; $15f1: $36 $06
+	ld   hl, wPlayerMaxHealth
+	ld   (hl), $06
+	ld   hl, wPlayerHealth
+	ld   (hl), $06
 
 // straight here from correct password
 postInitGame:
 	call Call_000_241a                               ; $15f3: $cd $1a $24
-	ld   hl, resetRoomFlagData                                   ; $15f6: $21 $4b $09
-	call jpHLinBank1                                       ; $15f9: $cd $b0 $61
+	ld   hl, resetRoomFlagData
+	call jpHLinBank1
 
 // after continuing after dying?
 postInitGame2:
@@ -2049,6 +2135,7 @@ postInitGame2:
 	ld   c, $00                                      ; $1600: $0e $00
 	ld   hl, wPlayerAnimationIdx                                   ; $1602: $21 $57 $c0
 	ld   (hl), c                                     ; $1605: $71
+
 	cp   $09                                         ; $1606: $fe $09
 	jr   nz, +                             ; $1608: $20 $04
 
@@ -2063,21 +2150,27 @@ postInitGame2:
 	ld   (hl), c                                     ; $1617: $71
 	ld   hl, wRoomTransitionType                                   ; $1618: $21 $3a $c0
 	ld   (hl), $0c                                   ; $161b: $36 $0c
+
 	call loadRoomGroupStruct                               ; $161d: $cd $3b $18
-	ld   a, $00                                      ; $1620: $3e $00
-	ld   hl, wKeysPressed                                   ; $1622: $21 $16 $c0
-	ld   (hl), a                                     ; $1625: $77
-	ld   hl, wInventorySelectedXIdx                                   ; $1626: $21 $48 $c6
-	ld   (hl), a                                     ; $1629: $77
-	ld   hl, wInventorySelectedYIdx                                   ; $162a: $21 $5f $c6
-	ld   (hl), a                                     ; $162d: $77
-	ld   hl, wIsEquippingRaft                                   ; $162e: $21 $4c $c0
-	ld   (hl), a                                     ; $1631: $77
-	ld   hl, wCounterSo2ArmorIsAThirdDamageTaken                                   ; $1632: $21 $d9 $c0
-	ld   (hl), a                                     ; $1635: $77
-	ld   hl, wPlayerScore                                   ; $1636: $21 $2b $c0
-	ld   de, $0007                                   ; $1639: $11 $07 $00
-	call setAtoHL_deBytes                               ; $163c: $cd $6d $27
+
+// set some UI defaults
+	ld   a, $00
+	ld   hl, wKeysPressed
+	ld   (hl), a
+	ld   hl, wInventorySelectedXIdx
+	ld   (hl), a
+	ld   hl, wInventorySelectedYIdx
+	ld   (hl), a
+	ld   hl, wIsEquippingRaft
+	ld   (hl), a
+	ld   hl, wCounterSo2ArmorIsAThirdDamageTaken
+	ld   (hl), a
+
+// clear score
+	ld   hl, wPlayerScore
+	ld   de, $0007
+	call setAtoHL_deBytes
+
 	ld   hl, $c6de                                   ; $163f: $21 $de $c6
 	ld   (hl), $00                                   ; $1642: $36 $00
 	ld   hl, wScreen1displayOffset                                   ; $1644: $21 $dd $c6
@@ -2143,7 +2236,7 @@ jr_000_168d:
 
 	ld   a, $01                                      ; $16a6: $3e $01
 	call setLCDfromValue_c015equA                               ; $16a8: $cd $11 $02
-	call callsCommonSoundFuncs_27ea                               ; $16ab: $cd $ea $27
+	call stopSoundsPlaySound4AtNormalSpeed                               ; $16ab: $cd $ea $27
 	ld   hl, wOam+1                                   ; $16ae: $21 $01 $c2
 	ld   (hl), $34                                   ; $16b1: $36 $34
 	ld   hl, wOam+2                                   ; $16b3: $21 $02 $c2
@@ -2160,7 +2253,7 @@ jr_000_168d:
 	ld   hl, $c0b1                                   ; $16cb: $21 $b1 $c0
 	ld   (hl), a                                     ; $16ce: $77
 	call Call_000_0c69                               ; $16cf: $cd $69 $0c
-	call callCommonSoundFunc1_withFF                               ; $16d2: $cd $32 $15
+	call stopAllSounds                               ; $16d2: $cd $32 $15
 	ld   hl, $c097                                   ; $16d5: $21 $97 $c0
 	ld   a, (hl)                                     ; $16d8: $7e
 	cp   $00                                         ; $16d9: $fe $00
@@ -2872,13 +2965,13 @@ minimalMainLoop:
 	call animateTile
 
 +
-	call commonSoundFunc2
+	call call_updateSounds
 	ret
 
 
-callCommonSoundFunc2startOfVBlank:
+updateSoundsStartOfVBlank:
 	call waitUntilStartOfVBlankPeriod
-	call commonSoundFunc2
+	call call_updateSounds
 	ret
 
 
@@ -2959,7 +3052,7 @@ Call_000_1b1e:
 
 // involved with loading a screen
 @loadScreen:
-	call callCommonSoundFunc2startOfVBlank                               ; $1b60: $cd $76 $1a
+	call updateSoundsStartOfVBlank                               ; $1b60: $cd $76 $1a
 	call turnOffLCD                               ; $1b63: $cd $0d $02
 	ld   hl, wScreen0displayOffset                                   ; $1b66: $21 $dc $c6
 	ld   (hl), $00                                   ; $1b69: $36 $00
@@ -2971,9 +3064,9 @@ Call_000_1b1e:
 	call applyPalettesBasedOnLamp                               ; $1b78: $cd $06 $1e
 	call loadNPCAttrs                                       ; $1b7b: $cd $97 $72
 	call clear_c200_to_c2ff                                       ; $1b7e: $cd $9e $5b
-	call commonSoundFunc2                               ; $1b81: $cd $d6 $01
+	call call_updateSounds                               ; $1b81: $cd $d6 $01
 	call loadGameScreenTilesOntoScreen                               ; $1b84: $cd $3b $1e
-	call commonSoundFunc2                               ; $1b87: $cd $d6 $01
+	call call_updateSounds                               ; $1b87: $cd $d6 $01
 	call copyPlayerDataOnto_wOam                                       ; $1b8a: $cd $aa $56
 	call copyRaftDataToOam                                       ; $1b8d: $cd $fd $55
 	ld   a, $06                                      ; $1b90: $3e $06
@@ -3032,13 +3125,13 @@ Call_000_1b1e:
 	ld   (hl), a                                     ; $1be5: $77
 
 -
-	call callCommonSoundFunc2startOfVBlank                               ; $1be6: $cd $76 $1a
+	call updateSoundsStartOfVBlank                               ; $1be6: $cd $76 $1a
 	call Call_001_5826                                       ; $1be9: $cd $26 $58
 	jr   nz, -                             ; $1bec: $20 $f8
 
 	call waitUntilStartOfVBlankPeriod                               ; $1bee: $cd $e8 $01
 	call applyPalettesBasedOnLamp                               ; $1bf1: $cd $06 $1e
-	call commonSoundFunc2                               ; $1bf4: $cd $d6 $01
+	call call_updateSounds                               ; $1bf4: $cd $d6 $01
 
 Jump_000_1bf7:
 	call retZIfCanRaftOnScreen                               ; $1bf7: $cd $b5 $23
@@ -3052,7 +3145,7 @@ Jump_000_1bf7:
 	call Call_000_14f8                               ; $1c02: $cd $f8 $14
 	jr   nz, +                             ; $1c05: $20 $03
 
-	call callsCommonSoundFuncs_27ae                               ; $1c07: $cd $ae $27
+	call stopSoundsPlaySound5AtNormalSpeed                               ; $1c07: $cd $ae $27
 
 +
 	ld   a, $00                                      ; $1c0a: $3e $00
@@ -3089,7 +3182,7 @@ mainLoop:
 	call animateTile                                       ; $1c43: $cd $b5 $60
 
 jr_000_1c46:
-	call commonSoundFunc2                               ; $1c46: $cd $d6 $01
+	call call_updateSounds                               ; $1c46: $cd $d6 $01
 	call pollInput                                       ; $1c49: $cd $3b $5b
 	ld   hl, $c058                                   ; $1c4c: $21 $58 $c0
 	ld   a, (hl)                                     ; $1c4f: $7e
@@ -3138,7 +3231,7 @@ jr_000_1c46:
 	cp   $00                                         ; $1c8e: $fe $00
 	jr   z, +                              ; $1c90: $28 $06
 
-	call callsCommonSoundFuncs_27c3                               ; $1c92: $cd $c3 $27
+	call stopSoundsPlaySound1AtNormalSpeed                               ; $1c92: $cd $c3 $27
 	jp   @afterPauseGameCheck                               ; $1c95: $c3 $a9 $1c
 
 
@@ -3148,12 +3241,12 @@ jr_000_1c46:
 	cp   $00                                         ; $1c9c: $fe $00
 	jr   z, +                              ; $1c9e: $28 $06
 
-	call callsCommonSoundFuncs_27ae                               ; $1ca0: $cd $ae $27
+	call stopSoundsPlaySound5AtNormalSpeed                               ; $1ca0: $cd $ae $27
 	jp   @afterPauseGameCheck                               ; $1ca3: $c3 $a9 $1c
 
 
 +
-	call callsCommonSoundFuncs_27ae                               ; $1ca6: $cd $ae $27
+	call stopSoundsPlaySound5AtNormalSpeed                               ; $1ca6: $cd $ae $27
 
 @afterPauseGameCheck:
 	ld   hl, $c058                                   ; $1ca9: $21 $58 $c0
@@ -3215,7 +3308,7 @@ jr_000_1cdb:
 
 
 Jump_000_1cf5:
-	call callCommonSoundFunc1_withFF                               ; $1cf5: $cd $32 $15
+	call stopAllSounds                               ; $1cf5: $cd $32 $15
 	scf                                              ; $1cf8: $37
 	ret                                              ; $1cf9: $c9
 
@@ -3565,7 +3658,7 @@ TODOloadsRoomData:
 	ld   (hl), a                                     ; $1f19: $77
 	ld   hl, $c08b                                   ; $1f1a: $21 $8b $c0
 	ld   (hl), a                                     ; $1f1d: $77
-	ld   hl, $c047                                   ; $1f1e: $21 $47 $c0
+	ld   hl, wCurrFruitOnScreen                                   ; $1f1e: $21 $47 $c0
 	ld   (hl), a                                     ; $1f21: $77
 	ld   hl, $c0dc                                   ; $1f22: $21 $dc $c0
 	ld   de, $001c                                   ; $1f25: $11 $1c $00
@@ -3638,7 +3731,7 @@ inventoryCursorXoffsets:
 
 handleInventoryScreen:
 	call turnOffLCDstartOfVBlank                               ; $1f96: $cd $0a $02
-	call commonSoundFunc2                               ; $1f99: $cd $d6 $01
+	call call_updateSounds                               ; $1f99: $cd $d6 $01
 	call clear_c200_to_c2ff                                       ; $1f9c: $cd $9e $5b
 	call copyA0hDataToOam                               ; $1f9f: $cd $99 $1a
 	call loadInventoryScreen                               ; $1fa2: $cd $66 $1e
@@ -3748,7 +3841,7 @@ Jump_000_2041:
 	call Call_000_2279                               ; $204a: $cd $79 $22
 
 Jump_000_204d:
-	call safeCallCommonSoundFuncs_with20h                               ; $204d: $cd $ff $27
+	call playSoundEffect20h                               ; $204d: $cd $ff $27
 	jp   _inventoryScreenMainLoop                               ; $2050: $c3 $cf $1f
 
 
@@ -3865,12 +3958,12 @@ jr_000_20ab:
 	ld   hl, wNumBirds
 	dec  (hl)
 	push bc
-	call callCommonSoundFunc2startOfVBlank
+	call updateSoundsStartOfVBlank
 	call waitUntilStartOfVBlankPeriod
 	ld   hl, drawNumBirds
 	call jpHLinBank4
-	call commonSoundFunc2
-	call safeCallCommonSoundFuncs_with20h
+	call call_updateSounds
+	call playSoundEffect20h
 	pop  bc
 	dec  c
 	jr   nz, @takeBirdForPraying
@@ -3878,15 +3971,15 @@ jr_000_20ab:
 // half heart
 	ld   a, $01
 	call addAtoPlayerHealth
-	call callsCommonSoundFuncs_284f
+	call playSoundChIfOff26hIfOn
 	call waitUntilStartOfVBlankPeriod
 	ld   hl, drawHearts
 	call jpHLinBank4
-	call commonSoundFunc2
+	call call_updateSounds
 	call waitUntilStartOfVBlankPeriod
 	ld   hl, drawSelectableBitems
 	call jpHLinBank4
-	call commonSoundFunc2
+	call call_updateSounds
 
 @afterHealingOrHealthAlreadyFull:
 	call Call_000_2712                               ; $2124: $cd $12 $27
@@ -3904,14 +3997,14 @@ jr_000_20ab:
 	ld   (hl), a
 
 @updateEquippedNewBItem:
-	call safeCallCommonSoundFuncs_with20h
+	call playSoundEffect20h
 	ld   a, $00                                      ; $213a: $3e $00
 	ld   hl, $c6cb                                   ; $213c: $21 $cb $c6
 	ld   (hl), a                                     ; $213f: $77
 	call waitUntilStartOfVBlankPeriod                               ; $2140: $cd $e8 $01
 	ld   hl, drawBitem                                   ; $2143: $21 $83 $13
 	call jpHLinBank4                                       ; $2146: $cd $b5 $61
-	call commonSoundFunc2                               ; $2149: $cd $d6 $01
+	call call_updateSounds                               ; $2149: $cd $d6 $01
 	jp   _inventoryScreenMainLoop                               ; $214c: $c3 $cf $1f
 
 @notSelectedPrayingBombs:
@@ -3924,7 +4017,7 @@ jr_000_20ab:
 	xor  $ff
 	ld   (hl), a
 	call updateInventoryLampOam
-	call safeCallCommonSoundFuncs_with20h
+	call playSoundEffect20h
 	jp   _inventoryScreenMainLoop
 
 @notLampOrBombs:
@@ -3973,7 +4066,7 @@ jr_000_20ab:
 @setEquippingRaft:
 	ld   hl, wIsEquippingRaft
 	ld   (hl), a
-	call safeCallCommonSoundFuncs_with20h
+	call playSoundEffect20h
 	jp   _inventoryScreenMainLoop
 
 
@@ -4014,15 +4107,15 @@ jr_000_20ab:
 
 
 @usingOil:
-	call safeCallCommonSoundFuncs_with20h
+	call playSoundEffect20h
 	ld   hl, wPlayerHealth
 	inc  (hl)
 	call waitUntilStartOfVBlankPeriod
 	ld   hl, drawHearts
 	call jpHLinBank4
-	call commonSoundFunc2
-	call callCommonSoundFunc2startOfVBlank
-	call callCommonSoundFunc2startOfVBlank
+	call call_updateSounds
+	call updateSoundsStartOfVBlank
+	call updateSoundsStartOfVBlank
 	ld   hl, wPlayerHealth
 	ld   a, (hl)
 	ld   hl, wPlayerMaxHealth
@@ -4046,12 +4139,12 @@ jr_000_20ab:
 	call waitUntilStartOfVBlankPeriod
 	ld   hl, drawSelectableBitems
 	call jpHLinBank4
-	call commonSoundFunc2                               ; $2214: $cd $d6 $01
+	call call_updateSounds                               ; $2214: $cd $d6 $01
 	jp   Jump_000_2041                               ; $2217: $c3 $41 $20
 
 @transitionToMapScreen:
 	call turnOffLCDstartOfVBlank
-	call commonSoundFunc2
+	call call_updateSounds
 	call clear_c200_to_c2ff
 	call copyA0hDataToOam
 	call loadMapScreen
@@ -4089,7 +4182,7 @@ jr_000_20ab:
 	call waitUntilStartOfVBlankPeriod                               ; $225e: $cd $e8 $01
 	ld   hl, drawAitem                                   ; $2261: $21 $a8 $13
 	call jpHLinBank4                                       ; $2264: $cd $b5 $61
-	call commonSoundFunc2                               ; $2267: $cd $d6 $01
+	call call_updateSounds                               ; $2267: $cd $d6 $01
 	jp   Jump_000_204d                               ; $226a: $c3 $4d $20
 
 @0ofSelectedFruit:
@@ -4097,7 +4190,7 @@ jr_000_20ab:
 
 @selectedSomethingOnInvScreenEnd:
 	call drawInventoryItemDescription
-	call safeCallCommonSoundFuncs_with23h
+	call playSoundEffect23h
 	jp   _inventoryScreenMainLoop
 
 
@@ -4164,7 +4257,7 @@ exitGamePromptCursorX:
 	.db $6c $8f
 
 exitGamePrompt:
-	call safeCallCommonSoundFuncs_with20h                               ; $22c7: $cd $ff $27
+	call playSoundEffect20h                               ; $22c7: $cd $ff $27
 	ld   de, text_endGameChoice                                   ; $22ca: $11 $7e $24
 	call drawInventoryItemDescription                               ; $22cd: $cd $f0 $26
 	ld   a, $01                                      ; $22d0: $3e $01
@@ -4195,7 +4288,7 @@ exitGamePrompt:
 	xor  $01                                         ; $22fa: $ee $01
 	ld   hl, wMenuCursorIdx                                   ; $22fc: $21 $11 $c7
 	ld   (hl), a                                     ; $22ff: $77
-	call safeCallCommonSoundFuncs_with20h                               ; $2300: $cd $ff $27
+	call playSoundEffect20h                               ; $2300: $cd $ff $27
 	jp   @exitGameLoop                               ; $2303: $c3 $d6 $22
 
 @notLeftRight:
@@ -4393,7 +4486,7 @@ Call_000_241a:
 	call jpHLinBank4                                       ; $2421: $cd $b5 $61
 
 // store here the fruit amount of current fruit
-	ld   hl, $c046                                   ; $2424: $21 $46 $c0
+	ld   hl, wCurrFruitAmount                                   ; $2424: $21 $46 $c0
 	ld   (hl), e                                     ; $2427: $73
 
 // c048 from data_240b
@@ -4741,202 +4834,206 @@ copyMemoryBC:
 	jr   -
 
 
-copyMemoryCinVBlank_callCommonSoundFunc2:
-	push hl                                          ; $2780: $e5
-	call waitUntilNextVBlankPeriod                               ; $2781: $cd $e5 $01
-	pop  hl                                          ; $2784: $e1
+copyMemoryCinVBlank_updateSounds:
+	push hl
+	call waitUntilNextVBlankPeriod
+	pop  hl
 
 -
-	ldi  a, (hl)                                     ; $2785: $2a
-	ld   (de), a                                     ; $2786: $12
-	inc  de                                          ; $2787: $13
-	dec  c                                           ; $2788: $0d
-	jr   nz, -                             ; $2789: $20 $fa
+	ldi  a, (hl)
+	ld   (de), a
+	inc  de
+	dec  c
+	jr   nz, -
 
-	call commonSoundFunc2                               ; $278b: $cd $d6 $01
-	ret                                              ; $278e: $c9
+	call call_updateSounds
+	ret
 
 
-callsCommonSoundFuncs_278f:
-	call callCommonSoundFunc1_3times                               ; $278f: $cd $d7 $14
-	call onlyProcessInstructionsAfterIfMusicOn                               ; $2792: $cd $a4 $27
+stopSoundsPlaySound0AtNormalSpeed:
+	call stopHWSoundChannels012
+	call onlyProcessInstructionsAfterIfMusicOn
+
 	ld   a, $00                                      ; $2795: $3e $00
-	ld   hl, $c009                                   ; $2797: $21 $09 $c0
+	ld   hl, wSoundToPlayIdx                                   ; $2797: $21 $09 $c0
 	ld   (hl), a                                     ; $279a: $77
-	ld   a, $00                                      ; $279b: $3e $00
-	ld   hl, $c72a                                   ; $279d: $21 $2a $c7
-	ld   (hl), a                                     ; $27a0: $77
-	jp   callCommonSoundFunc0_3times                               ; $27a1: $c3 $bf $14
+	ld   a, $00
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+	jp   play3soundChannels_6choicesIdxed_c009
 
 
 onlyProcessInstructionsAfterIfMusicOn:
-	ld   hl, wIsMusicOff                                   ; $27a4: $21 $dd $c4
-	ld   a, (hl)                                     ; $27a7: $7e
-	cp   $00                                         ; $27a8: $fe $00
-	jr   z, @done                              ; $27aa: $28 $01
+	ld   hl, wIsMusicOff
+	ld   a, (hl)
+	cp   $00
+	jr   z, @done
 
-	pop  hl                                          ; $27ac: $e1
+	pop  hl
 
 @done:
-	ret                                              ; $27ad: $c9
+	ret
 
 
-callsCommonSoundFuncs_27ae:
-	call callCommonSoundFunc1_3times
-	call onlyProcessInstructionsAfterIfMusicOn                               ; $27b1: $cd $a4 $27
+stopSoundsPlaySound5AtNormalSpeed:
+	call stopHWSoundChannels012
+	call onlyProcessInstructionsAfterIfMusicOn
+
 	ld   a, $05                                      ; $27b4: $3e $05
-	ld   hl, $c009                                   ; $27b6: $21 $09 $c0
+	ld   hl, wSoundToPlayIdx                                   ; $27b6: $21 $09 $c0
 	ld   (hl), a                                     ; $27b9: $77
-	ld   a, $00                                      ; $27ba: $3e $00
-	ld   hl, $c72a                                   ; $27bc: $21 $2a $c7
-	ld   (hl), a                                     ; $27bf: $77
-	jp   callCommonSoundFunc0_3times                               ; $27c0: $c3 $bf $14
+	ld   a, $00
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+	jp   play3soundChannels_6choicesIdxed_c009
 
 
-callsCommonSoundFuncs_27c3:
-	call callCommonSoundFunc1_3times                               ; $27c3: $cd $d7 $14
-	call onlyProcessInstructionsAfterIfMusicOn                               ; $27c6: $cd $a4 $27
+stopSoundsPlaySound1AtNormalSpeed:
+	call stopHWSoundChannels012
+	call onlyProcessInstructionsAfterIfMusicOn
+
 	ld   a, $01                                      ; $27c9: $3e $01
-	ld   hl, $c009                                   ; $27cb: $21 $09 $c0
+	ld   hl, wSoundToPlayIdx                                   ; $27cb: $21 $09 $c0
 	ld   (hl), a                                     ; $27ce: $77
-	ld   a, $00                                      ; $27cf: $3e $00
-	ld   hl, $c72a                                   ; $27d1: $21 $2a $c7
-	ld   (hl), a                                     ; $27d4: $77
-	jp   callCommonSoundFunc0_3times                               ; $27d5: $c3 $bf $14
+	ld   a, $00
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+	jp   play3soundChannels_6choicesIdxed_c009
 
 
-callsCommonSoundFuncs_27d8:
-	call callCommonSoundFunc1_3times                               ; $27d8: $cd $d7 $14
+stopSoundsPlaySound2AtTwiceSpeed:
+	call stopHWSoundChannels012
 	ld   a, $02                                      ; $27db: $3e $02
-	ld   hl, $c009                                   ; $27dd: $21 $09 $c0
+	ld   hl, wSoundToPlayIdx                                   ; $27dd: $21 $09 $c0
 	ld   (hl), a                                     ; $27e0: $77
-	ld   a, $ff                                      ; $27e1: $3e $ff
-	ld   hl, $c72a                                   ; $27e3: $21 $2a $c7
-	ld   (hl), a                                     ; $27e6: $77
-	jp   callCommonSoundFunc0_3times                               ; $27e7: $c3 $bf $14
+	ld   a, $ff
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+	jp   play3soundChannels_6choicesIdxed_c009
 
 
-callsCommonSoundFuncs_27ea:
-	call callCommonSoundFunc1_3times                               ; $27ea: $cd $d7 $14
-	call onlyProcessInstructionsAfterIfMusicOn                               ; $27ed: $cd $a4 $27
+stopSoundsPlaySound4AtNormalSpeed:
+	call stopHWSoundChannels012
+	call onlyProcessInstructionsAfterIfMusicOn
+
 	ld   a, $04                                      ; $27f0: $3e $04
-	ld   hl, $c009                                   ; $27f2: $21 $09 $c0
+	ld   hl, wSoundToPlayIdx                                   ; $27f2: $21 $09 $c0
 	ld   (hl), a                                     ; $27f5: $77
-	ld   a, $00                                      ; $27f6: $3e $00
-	ld   hl, $c72a                                   ; $27f8: $21 $2a $c7
-	ld   (hl), a                                     ; $27fb: $77
-	jp   callCommonSoundFunc0_3times                               ; $27fc: $c3 $bf $14
+	ld   a, $00
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+	jp   play3soundChannels_6choicesIdxed_c009
 
 
-safeCallCommonSoundFuncs_with20h:
+playSoundEffect20h:
 	push af
 	ld   a, $20                                      ; $2800: $3e $20
-	jp   _safeCallCommonSoundFuncs_286a                               ; $2802: $c3 $6a $28
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $2802: $c3 $6a $28
 
 
-safeCallCommonSoundFuncs_with12h:
+playSoundEffect12h:
 	push af                                          ; $2805: $f5
 	ld   a, $12                                      ; $2806: $3e $12
-	jp   _safeCallCommonSoundFuncs_286a                               ; $2808: $c3 $6a $28
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $2808: $c3 $6a $28
 
 
-safeCallCommonSoundFuncs_with22h:
+playSoundEffect22h:
 	push af                                          ; $280b: $f5
 	ld   a, $22                                      ; $280c: $3e $22
-	jp   _safeCallCommonSoundFuncs_286a                               ; $280e: $c3 $6a $28
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $280e: $c3 $6a $28
 
 
-callsCommonSoundFuncs_2811:
+playSoundFhIfOff22hIfOn:
 	push af                                          ; $2811: $f5
 	ld   a, $0f                                      ; $2812: $3e $0f
 	push af                                          ; $2814: $f5
 	ld   a, $22                                      ; $2815: $3e $22
 
-callsCommonSoundFuncs_2817:
-	ld   hl, $c009                                   ; $2817: $21 $09 $c0
-	ld   (hl), a                                     ; $281a: $77
-	ld   hl, wIsMusicOff                                   ; $281b: $21 $dd $c4
-	ld   a, (hl)                                     ; $281e: $7e
-	cp   $00                                         ; $281f: $fe $00
-	jr   z, +                              ; $2821: $28 $06
+play1stSoundIfMusicOff2ndIfOn:
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
+	ld   hl, wIsMusicOff
+	ld   a, (hl)
+	cp   $00
+	jr   z, +
 
 // music off
-	pop  af                                          ; $2823: $f1
-	ld   hl, $c009                                   ; $2824: $21 $09 $c0
-	ld   (hl), a                                     ; $2827: $77
-	push af                                          ; $2828: $f5
+	pop  af
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
+	push af
 
 +
-	pop  af                                          ; $2829: $f1
-	ld   hl, $c009                                   ; $282a: $21 $09 $c0
-	ld   a, (hl)                                     ; $282d: $7e
-	jp   _safeCallCommonSoundFuncs_286a                               ; $282e: $c3 $6a $28
+	pop  af
+	ld   hl, wSoundToPlayIdx
+	ld   a, (hl)
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4
 
 
-safeCallCommonSoundFuncs_with23h:
+playSoundEffect23h:
 	push af                                          ; $2831: $f5
 	ld   a, $23                                      ; $2832: $3e $23
-	jp   _safeCallCommonSoundFuncs_286a                               ; $2834: $c3 $6a $28
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $2834: $c3 $6a $28
 
 
-safeCallCommonSoundFuncs_with23h2:
+playSoundEffect23h2:
 	push af                                          ; $2837: $f5
 	ld   a, $23                                      ; $2838: $3e $23
-	jp   _safeCallCommonSoundFuncs_286a                               ; $283a: $c3 $6a $28
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $283a: $c3 $6a $28
 
 
-callsCommonSoundFuncs_283d:
+playSound1bhIfOff24hIfOn:
 	push af                                          ; $283d: $f5
 	ld   a, $1b                                      ; $283e: $3e $1b
 	push af                                          ; $2840: $f5
 	ld   a, $24                                      ; $2841: $3e $24
-	jp   callsCommonSoundFuncs_2817                               ; $2843: $c3 $17 $28
+	jp   play1stSoundIfMusicOff2ndIfOn                               ; $2843: $c3 $17 $28
 
 
-callsCommonSoundFuncs_2846:
+playSoundChIfOff25hIfOn:
 	push af
 	ld   a, $0c                                      ; $2847: $3e $0c
 	push af                                          ; $2849: $f5
 	ld   a, $25                                      ; $284a: $3e $25
-	jp   callsCommonSoundFuncs_2817                               ; $284c: $c3 $17 $28
+	jp   play1stSoundIfMusicOff2ndIfOn                               ; $284c: $c3 $17 $28
 
 
-callsCommonSoundFuncs_284f:
+playSoundChIfOff26hIfOn:
 	push af
 	ld   a, $0c                                      ; $2850: $3e $0c
 	push af                                          ; $2852: $f5
 	ld   a, $26                                      ; $2853: $3e $26
-	jp   callsCommonSoundFuncs_2817                               ; $2855: $c3 $17 $28
+	jp   play1stSoundIfMusicOff2ndIfOn                               ; $2855: $c3 $17 $28
 
 
-safeCallCommonSoundFuncs_with27h:
+playSoundEffect27h:
 	push af                                          ; $2858: $f5
 	ld   a, $27                                      ; $2859: $3e $27
-	jp   _safeCallCommonSoundFuncs_286a                               ; $285b: $c3 $6a $28
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $285b: $c3 $6a $28
 
 
-callsCommonSoundFuncs_285e:
+playSound9hIfOff28hIfOn:
 	push af                                          ; $285e: $f5
 	ld   a, $09                                      ; $285f: $3e $09
 	push af                                          ; $2861: $f5
 	ld   a, $28                                      ; $2862: $3e $28
-	jp   callsCommonSoundFuncs_2817                               ; $2864: $c3 $17 $28
+	jp   play1stSoundIfMusicOff2ndIfOn                               ; $2864: $c3 $17 $28
 
 
-safeCallCommonSoundFuncs_with29h:
+playSoundEffect29h:
 	push af                                          ; $2867: $f5
 	ld   a, $29                                      ; $2868: $3e $29
 
-_safeCallCommonSoundFuncs_286a:
-	push bc                                          ; $286a: $c5
-	push de                                          ; $286b: $d5
-	push hl                                          ; $286c: $e5
-	call callCommonSoundFuncs_1507                               ; $286d: $cd $07 $15
-	pop  hl                                          ; $2870: $e1
-	pop  de                                          ; $2871: $d1
-	pop  bc                                          ; $2872: $c1
-	pop  af                                          ; $2873: $f1
-	ret                                              ; $2874: $c9
+_safeplaySoundEffectInTableIdxedA_channel3or4:
+	push bc
+	push de
+	push hl
+	call playSoundEffectInTableIdxedA_channel3or4
+	pop  hl
+	pop  de
+	pop  bc
+	pop  af
+	ret
 
 
 playerTakeDamage:
@@ -5013,7 +5110,7 @@ playerTakeDamage:
 	cp   $ff                                         ; $28db: $fe $ff
 	jr   z, +                              ; $28dd: $28 $05
 
-	call safeCallCommonSoundFuncs_with22h                               ; $28df: $cd $0b $28
+	call playSoundEffect22h                               ; $28df: $cd $0b $28
 	ld   e, $08                                      ; $28e2: $1e $08
 
 +
@@ -5054,7 +5151,7 @@ playerTakeDamage:
 	ld   a, $ff                                      ; $290d: $3e $ff
 	ld   hl, $c025                                   ; $290f: $21 $25 $c0
 	ld   (hl), a                                     ; $2912: $77
-	call callsCommonSoundFuncs_27d8                               ; $2913: $cd $d8 $27
+	call stopSoundsPlaySound2AtTwiceSpeed                               ; $2913: $cd $d8 $27
 
 @done:
 	ret                                              ; $2916: $c9
@@ -5160,9 +5257,9 @@ checkUsingItems:
 	jr   z, @notUsingFruit                              ; $2998: $28 $0e
 
 // using A item (fruit)
-	ld   hl, $c047                                   ; $299a: $21 $47 $c0
+	ld   hl, wCurrFruitOnScreen                                   ; $299a: $21 $47 $c0
 	ld   a, (hl)                                     ; $299d: $7e
-	ld   hl, $c046                                   ; $299e: $21 $46 $c0
+	ld   hl, wCurrFruitAmount                                   ; $299e: $21 $46 $c0
 	cp   (hl)                                        ; $29a1: $be
 	jr   nc, @notUsingFruit                             ; $29a2: $30 $04
 
@@ -5577,9 +5674,9 @@ jr_000_2be3:
 	ld   a, $04                                      ; $2be3: $3e $04
 	ld   hl, $c0b0                                   ; $2be5: $21 $b0 $c0
 	ld   (hl), a                                     ; $2be8: $77
-	ld   hl, $c047                                   ; $2be9: $21 $47 $c0
+	ld   hl, wCurrFruitOnScreen                                   ; $2be9: $21 $47 $c0
 	inc  (hl)                                        ; $2bec: $34
-	call callsCommonSoundFuncs_283d                               ; $2bed: $cd $3d $28
+	call playSound1bhIfOff24hIfOn                               ; $2bed: $cd $3d $28
 	ret                                              ; $2bf0: $c9
 
 
@@ -5713,7 +5810,7 @@ processUsingJawboneOrSword:
 	ld   hl, $c6cb                                   ; $2cb4: $21 $cb $c6
 	ld   (hl), a                                     ; $2cb7: $77
 	ld   de, $1771                                   ; $2cb8: $11 $71 $17
-	call callCommonSoundFuncs_1513                               ; $2cbb: $cd $13 $15
+	call playSoundEffectInDE_channel3or4                               ; $2cbb: $cd $13 $15
 
 @done:
 	ret                                              ; $2cbe: $c9
@@ -6214,7 +6311,7 @@ Jump_000_2f7f:
 	ld   hl, $c0dc                                   ; $2f81: $21 $dc $c0
 	add  hl, bc                                      ; $2f84: $09
 	ld   (hl), a                                     ; $2f85: $77
-	ld   hl, $c047                                   ; $2f86: $21 $47 $c0
+	ld   hl, wCurrFruitOnScreen                                   ; $2f86: $21 $47 $c0
 	dec  (hl)                                        ; $2f89: $35
 	jp   Jump_000_2f68                               ; $2f8a: $c3 $68 $2f
 
@@ -6582,7 +6679,7 @@ Jump_000_3183:
 	ld   hl, $c0e8                                   ; $3185: $21 $e8 $c0
 	add  hl, bc                                      ; $3188: $09
 	ld   (hl), a                                     ; $3189: $77
-	call safeCallCommonSoundFuncs_with23h2                               ; $318a: $cd $37 $28
+	call playSoundEffect23h2                               ; $318a: $cd $37 $28
 
 jr_000_318d:
 	ld   a, c                                        ; $318d: $79
@@ -6727,7 +6824,7 @@ Jump_000_3237:
 func_3243:
 	ld   a, $05                                      ; func_3243: $3e $05
 	call Call_000_39ea                               ; $3245: $cd $ea $39
-	call callsCommonSoundFuncs_2811                               ; $3248: $cd $11 $28
+	call playSoundFhIfOff22hIfOn                               ; $3248: $cd $11 $28
 	jp   Jump_000_3286                               ; $324b: $c3 $86 $32
 
 
@@ -7083,7 +7180,7 @@ func_340e:
 	ld   hl, $c66f                                   ; $3427: $21 $6f $c6
 	add  hl, bc                                      ; $342a: $09
 	ld   (hl), a                                     ; $342b: $77
-	call callsCommonSoundFuncs_2811                               ; $342c: $cd $11 $28
+	call playSoundFhIfOff22hIfOn                               ; $342c: $cd $11 $28
 	jp   c5f8_equFF                               ; $342f: $c3 $4a $34
 
 
@@ -7249,7 +7346,7 @@ processUsingBombs:
 // decrease bombs
 	ld   hl, wNumBombs                                   ; $350a: $21 $3b $c0
 	dec  (hl)                                        ; $350d: $35
-	call callsCommonSoundFuncs_285e                               ; $350e: $cd $5e $28
+	call playSound9hIfOff28hIfOn                               ; $350e: $cd $5e $28
 
 @ret:
 	ret                                              ; $3511: $c9
@@ -7481,7 +7578,7 @@ jr_000_363b:
 
 Jump_000_3646:
 	call Call_000_3737                               ; $3646: $cd $37 $37
-	call safeCallCommonSoundFuncs_with12h                               ; $3649: $cd $05 $28
+	call playSoundEffect12h                               ; $3649: $cd $05 $28
 	pop  bc                                          ; $364c: $c1
 	jp   Jump_000_35be                               ; $364d: $c3 $be $35
 
@@ -9096,7 +9193,7 @@ Jump_000_3eb2:
 
 	ld   a, $0d                                      ; $3f0d: $3e $0d
 	call Call_000_3a0c                               ; $3f0f: $cd $0c $3a
-	call safeCallCommonSoundFuncs_with27h                               ; $3f12: $cd $58 $28
+	call playSoundEffect27h                               ; $3f12: $cd $58 $28
 	jp   Jump_000_3f19                               ; $3f15: $c3 $19 $3f
 
 
@@ -10819,12 +10916,12 @@ jr_001_48a4:
 	ret                                              ; $48a5: $c9
 
 
-clear_c094_c095:
-	ld   hl, wRandomNumberTableIdx                                   ; $48a6: $21 $94 $c0
-	ld   (hl), $00                                   ; $48a9: $36 $00
-	ld   hl, wRandomNumberTableIdx+1                                   ; $48ab: $21 $95 $c0
-	ld   (hl), $00                                   ; $48ae: $36 $00
-	ret                                              ; $48b0: $c9
+resetRandomNumberTableIdx:
+	ld   hl, wRandomNumberTableIdx
+	ld   (hl), $00
+	ld   hl, wRandomNumberTableIdx+1
+	ld   (hl), $00
+	ret
 
 
 ;;
@@ -10833,50 +10930,50 @@ clear_c094_c095:
 
 getNextRandomNumber:
 // c0a1 is bank
-	ld   hl, wCommonByteCopyFuncBank                                   ; $48b2: $21 $a1 $c0
-	ld   (hl), :randomNumberTable                                   ; $48b5: $36 $06
+	ld   hl, wCommonByteCopyFuncBank
+	ld   (hl), :randomNumberTable
 
 // number of bytes
-	ld   hl, wCommonByteCopyFuncNumBytes                                   ; $48b7: $21 $a0 $c0
-	ld   (hl), $01                                   ; $48ba: $36 $01
+	ld   hl, wCommonByteCopyFuncNumBytes
+	ld   (hl), $01
 
 // get next number
-	ld   hl, wRandomNumberTableIdx                                   ; $48bc: $21 $94 $c0
-	ld   e, (hl)                                     ; $48bf: $5e
-	ld   hl, wRandomNumberTableIdx+1                                   ; $48c0: $21 $95 $c0
-	ld   d, (hl)                                     ; $48c3: $56
-	inc  de                                          ; $48c4: $13
+	ld   hl, wRandomNumberTableIdx
+	ld   e, (hl)
+	ld   hl, wRandomNumberTableIdx+1
+	ld   d, (hl)
+	inc  de
 
 // loop $400 bytes from 094b to 0d4a
-	bit  2, d                                        ; $48c5: $cb $52
-	jr   z, +                              ; $48c7: $28 $03
-	ld   de, $0000                                   ; $48c9: $11 $00 $00
+	bit  2, d
+	jr   z, +
+	ld   de, $0000
 +
-	ld   (hl), d                                     ; $48cc: $72
-	ld   hl, wRandomNumberTableIdx                                   ; $48cd: $21 $94 $c0
-	ld   (hl), e                                     ; $48d0: $73
+	ld   (hl), d
+	ld   hl, wRandomNumberTableIdx
+	ld   (hl), e
 
 //
-	ld   hl, randomNumberTable                                   ; $48d1: $21 $4b $09
-	add  hl, de                                      ; $48d4: $19
-	push hl                                          ; $48d5: $e5
-	pop  de                                          ; $48d6: $d1
+	ld   hl, randomNumberTable
+	add  hl, de
+	push hl
+	pop  de
 
 // copy from offset in randomNumberTable
-	ld   hl, wCommonByteCopyFuncSrc                                   ; $48d7: $21 $9a $c0
-	ld   (hl), e                                     ; $48da: $73
-	ld   hl, wCommonByteCopyFuncSrc+1                                   ; $48db: $21 $9b $c0
-	ld   (hl), d                                     ; $48de: $72
+	ld   hl, wCommonByteCopyFuncSrc
+	ld   (hl), e
+	ld   hl, wCommonByteCopyFuncSrc+1
+	ld   (hl), d
 
 // copy bytes
-	call copyBytesFromAnotherBankInto_c6d0                                       ; $48df: $cd $24 $02
+	call copyBytesFromAnotherBankInto_c6d0
 
 // c096 is the byte copied
-	ld   hl, wCommonByteCopyDestBytes                                   ; $48e2: $21 $d0 $c6
-	ld   a, (hl)                                     ; $48e5: $7e
-	ld   hl, wRandomNumber                                   ; $48e6: $21 $96 $c0
-	ld   (hl), a                                     ; $48e9: $77
-	ret                                              ; $48ea: $c9
+	ld   hl, wCommonByteCopyDestBytes
+	ld   a, (hl)
+	ld   hl, wRandomNumber
+	ld   (hl), a
+	ret
 
 
 ;;
@@ -12457,7 +12554,7 @@ giveBombs:
 //
 	call func_3928                                       ; $51a0: $cd $28 $39
 	call Call_001_58ea                               ; $51a3: $cd $ea $58
-	call callsCommonSoundFuncs_284f                                       ; $51a6: $cd $4f $28
+	call playSoundChIfOff26hIfOn                                       ; $51a6: $cd $4f $28
 	ret                                              ; $51a9: $c9
 
 
@@ -12484,7 +12581,7 @@ giveBirds:
 	ld   hl, wNumBirds                                   ; $51c1: $21 $08 $c7
 	ld   (hl), a                                     ; $51c4: $77
 //
-	call callsCommonSoundFuncs_284f                                       ; $51c5: $cd $4f $28
+	call playSoundChIfOff26hIfOn                                       ; $51c5: $cd $4f $28
 	ret                                              ; $51c8: $c9
 
 
@@ -12496,14 +12593,14 @@ _collision_give5birds:
 _collisionsTable_07:
 	call func_3928                                       ; $51ce: $cd $28 $39
 	call Call_001_58ea                               ; $51d1: $cd $ea $58
-	call callsCommonSoundFuncs_284f                                       ; $51d4: $cd $4f $28
+	call playSoundChIfOff26hIfOn                                       ; $51d4: $cd $4f $28
 	ret                                              ; $51d7: $c9
 
 
 _collisionsTable_08:
 	call func_3928                                       ; $51d8: $cd $28 $39
 	call Call_001_58ea                               ; $51db: $cd $ea $58
-	call callsCommonSoundFuncs_284f                                       ; $51de: $cd $4f $28
+	call playSoundChIfOff26hIfOn                                       ; $51de: $cd $4f $28
 	ret                                              ; $51e1: $c9
 
 
@@ -12534,7 +12631,7 @@ _collision_giveArmorOfGod:
 	or   (hl)                                        ; $5203: $b6
 	ld   hl, wArmorOfGodGotten                                   ; $5204: $21 $52 $c6
 	ld   (hl), a                                     ; $5207: $77
-	call callsCommonSoundFuncs_284f                                       ; $5208: $cd $4f $28
+	call playSoundChIfOff26hIfOn                                       ; $5208: $cd $4f $28
 	ret                                              ; $520b: $c9
 
 
@@ -12565,7 +12662,7 @@ _collision_giveSpecialBitem:
 	or   (hl)                                        ; $522d: $b6
 	ld   hl, wSpecialBitemsGotten                                   ; $522e: $21 $53 $c6
 	ld   (hl), a                                     ; $5231: $77
-	call callsCommonSoundFuncs_284f                                       ; $5232: $cd $4f $28
+	call playSoundChIfOff26hIfOn                                       ; $5232: $cd $4f $28
 	ret                                              ; $5235: $c9
 
 
@@ -12581,7 +12678,7 @@ bcEquTilesetIdxDiv2:
 _collision_giveHeartContainer:
 	call func_3928                                       ; $5240: $cd $28 $39
 	call Call_001_58ea                               ; $5243: $cd $ea $58
-	call callsCommonSoundFuncs_284f                                       ; $5246: $cd $4f $28
+	call playSoundChIfOff26hIfOn                                       ; $5246: $cd $4f $28
 
 giveHeartContainer:
 	ld   hl, wPlayerMaxHealth                                   ; $5249: $21 $73 $c0
@@ -12611,7 +12708,7 @@ _collisionsTable_0d:
 _collision_giveAnointingOil:
 	call func_3928                                       ; $5262: $cd $28 $39
 	call Call_001_58ea                               ; $5265: $cd $ea $58
-	call callsCommonSoundFuncs_2846                                       ; $5268: $cd $46 $28
+	call playSoundChIfOff25hIfOn                                       ; $5268: $cd $46 $28
 
 incAnointingOilsGotten:
 	ld   hl, wAnointingOilsGotten                                   ; $526b: $21 $51 $c6
@@ -12636,7 +12733,7 @@ incAnointingOilsGotten:
 _collision_giveKey:
 	call func_3928                                       ; $5280: $cd $28 $39
 	call Call_001_58ea                               ; $5283: $cd $ea $58
-	call callsCommonSoundFuncs_284f                                       ; $5286: $cd $4f $28
+	call playSoundChIfOff26hIfOn                                       ; $5286: $cd $4f $28
 
 giveKey:
 	ld   hl, wNumKeys                                   ; $5289: $21 $fa $c5
@@ -12655,7 +12752,7 @@ _collision_giveHeart:
 	call func_39fb                                       ; $529e: $cd $fb $39
 	call Call_000_3a0c                                       ; $52a1: $cd $0c $3a
 	call add2toPlayerHealth                               ; $52a4: $cd $84 $50
-	call callsCommonSoundFuncs_2846                                       ; $52a7: $cd $46 $28
+	call playSoundChIfOff25hIfOn                                       ; $52a7: $cd $46 $28
 	ret                                              ; $52aa: $c9
 
 
@@ -13294,7 +13391,7 @@ checkRaftChanges_sendToOam:
 
 // play sound if entering or exiting water
 	ld   de, $168e
-	call callCommonSoundFuncs_1513
+	call playSoundEffectInDE_channel3or4
 
 copyRaftDataToOam:
 	ld   hl, wIsEquippingRaft
@@ -14212,7 +14309,7 @@ jr_001_5aef:
 	add  $01                                         ; $5af6: $c6 $01
 
 Call_001_5af8:
-	ld   c, a                                        ; Call_001_5af8: $4f
+	ld   c, a
 	ld   b, $00                                      ; $5af9: $06 $00
 	ld   a, 100                                      ; $5afb: $3e $64
 	call bcDivA_divInC_modInAB                                       ; $5afd: $cd $44 $08
@@ -14393,122 +14490,73 @@ aEqu2ahPlus10:
 	ret                                              ; $61cb: $c9
 
 
-soundData_61cc:
-	inc  de                                          ; $61cc: $13
-	dec  de                                          ; $61cd: $1b
-	ldd  a, (hl)                                     ; $61ce: $3a
-	dec  e                                           ; $61cf: $1d
-	ld   (hl), l                                     ; $61d0: $75
-	rra                                              ; $61d1: $1f
-	adc  h                                           ; $61d2: $8c
-	rra                                              ; $61d3: $1f
-	xor  d                                           ; $61d4: $aa
-	rra                                              ; $61d5: $1f
-	reti                                             ; $61d6: $d9
-
-
-	.db $18
+musicChannel0:
+	.dw music0Channel0
+	.dw music1Channel0
+	.dw music2Channel0
+	.dw music3Channel0
+	.dw music4Channel0
+	.dw music5Channel0
 	
 	
-soundData_61d8:
-	.db $5c
-
-	dec  de                                          ; $61d9: $1b
-	adc  l                                           ; $61da: $8d
-	dec  e                                           ; $61db: $1d
-	add  c                                           ; $61dc: $81
-	rra                                              ; $61dd: $1f
-	sbc  e                                           ; $61de: $9b
-	rra                                              ; $61df: $1f
-	or   (hl)                                        ; $61e0: $b6
-	rra                                              ; $61e1: $1f
-	.db $c2 $19
+musicChannel1:
+	.dw music0Channel1
+	.dw music1Channel1
+	.dw music2Channel1
+	.dw music3Channel1
+	.dw music4Channel1
+	.dw music5Channel1
 	
 	
-soundData_61e4:
-	.db $1d
-
-	dec  d                                           ; $61e5: $15
-	dec  e                                           ; $61e6: $1d
-	dec  d                                           ; $61e7: $15
-	dec  e                                           ; $61e8: $1d
-	dec  d                                           ; $61e9: $15
-	dec  e                                           ; $61ea: $1d
-	dec  d                                           ; $61eb: $15
-	dec  e                                           ; $61ec: $1d
-	dec  d                                           ; $61ed: $15
-	dec  e                                           ; $61ee: $1d
-	dec  d                                           ; $61ef: $15
+musicChannel2:
+	.dw sound_stop
+	.dw sound_stop
+	.dw sound_stop
+	.dw sound_stop
+	.dw sound_stop
+	.dw sound_stop
 	
 	
-soundData_61f0:
-	ld   a, ($ff00+c)                                ; $61f0: $f2
-	dec  d                                           ; $61f1: $15
-	ei                                               ; $61f2: $fb
-	dec  d                                           ; $61f3: $15
-	inc  b                                           ; $61f4: $04
-	ld   d, $0d                                      ; $61f5: $16 $0d
-	ld   d, $1d                                      ; $61f7: $16 $1d
-	ld   d, $26                                      ; $61f9: $16 $26
-	ld   d, $47                                      ; $61fb: $16 $47
-	ld   d, $58                                      ; $61fd: $16 $58
-	ld   d, $61                                      ; $61ff: $16 $61
-	ld   d, $6a                                      ; $6201: $16 $6a
-	ld   d, $73                                      ; $6203: $16 $73
-	ld   d, $7c                                      ; $6205: $16 $7c
-	ld   d, $85                                      ; $6207: $16 $85
-	ld   d, $8e                                      ; $6209: $16 $8e
-	ld   d, $97                                      ; $620b: $16 $97
-	ld   d, $a0                                      ; $620d: $16 $a0
-	ld   d, $a9                                      ; $620f: $16 $a9
-	ld   d, $ba                                      ; $6211: $16 $ba
-	ld   d, $cb                                      ; $6213: $16 $cb
-	ld   d, $ec                                      ; $6215: $16 $ec
-	ld   d, $2d                                      ; $6217: $16 $2d
-	rla                                              ; $6219: $17
-	ld   (hl), $17                                   ; $621a: $36 $17
-	ld   e, a                                        ; $621c: $5f
-	rla                                              ; $621d: $17
-	ld   l, b                                        ; $621e: $68
-	rla                                              ; $621f: $17
-	ld   (hl), c                                     ; $6220: $71
-	rla                                              ; $6221: $17
-	ld   a, (bc)                                     ; $6222: $0a
-	jr   jr_001_6238                                 ; $6223: $18 $13
-
-	jr   jr_001_6243                                 ; $6225: $18 $1c
-
-	.db $18 $25
-
-	jr   $2e                                         ; $6229: $18 $2e
-
-	jr   jr_001_6264                                 ; $622b: $18 $37
-
-	jr   jr_001_626f                                 ; $622d: $18 $40
-
-	jr   $66                                         ; $622f: $18 $66
-
-	dec  d                                           ; $6231: $15
-	ld   e, $15                                      ; $6232: $1e $15
-	daa                                              ; $6234: $27
-
-jr_001_6235:
-	dec  d                                           ; $6235: $15
-	add  hl, sp                                      ; $6236: $39
-	dec  d                                           ; $6237: $15
-
-jr_001_6238:
-	ld   b, d                                        ; $6238: $42
-	dec  d                                           ; $6239: $15
-	and  l                                           ; $623a: $a5
-	dec  d                                           ; $623b: $15
-	ld   c, e                                        ; $623c: $4b
-	dec  d                                           ; $623d: $15
-	ld   d, h                                        ; $623e: $54
-	dec  d                                           ; $623f: $15
-	ld   e, l                                        ; $6240: $5d
-	dec  d                                           ; $6241: $15
-	adc  d                                           ; $6242: $8a
-
-jr_001_6243:
-	dec  d                                           ; $6243: $15
+soundEffects:
+	.dw sound_15f2
+	.dw sound_15fb
+	.dw sound_1604
+	.dw sound_160d
+	.dw sound_161d
+	.dw sound_1626
+	.dw sound_1647
+	.dw sound_1658
+	.dw sound_1661
+	.dw sound_166a
+	.dw sound_1673
+	.dw sound_167c
+	.dw sound_1685
+	.dw sound_168e
+	.dw sound_1697
+	.dw sound_16a0
+	.dw sound_16a9
+	.dw sound_16ba
+	.dw sound_16cb
+	.dw sound_16ec
+	.dw sound_172d
+	.dw sound_1736
+	.dw sound_175f
+	.dw sound_1768
+	.dw sound_1771
+	.dw sound_180a
+	.dw sound_1813
+	.dw sound_181c
+	.dw sound_1825
+	.dw sound_182e
+	.dw sound_1837
+	.dw sound_1840
+	.dw sound_1566
+	.dw sound_151e
+	.dw sound_1527
+	.dw sound_1539
+	.dw sound_1542
+	.dw sound_15a5
+	.dw sound_154b
+	.dw sound_1554
+	.dw sound_155d
+	.dw sound_158a

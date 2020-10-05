@@ -10,110 +10,87 @@ text_questionNum:
 text_prize:
 	.dw $9861
 	.asc "Prize:"
-	
+
+// the following 6 dynamically loaded
 data_01_0af1:
 	.dw $9847
 	.db $d4 $d6
-	
-	
+
 data_01_0af5:
-	.db $67
-	sbc  b                                           ; $4af6: $98
-	push de                                          ; $4af7: $d5
-	rst  $10                                         ; $4af8: $d7
+	.dw $9867
+	.db $d5 $d7
 	
 data_01_0af9:
-	ld   b, a                                        ; $4af9: $47
-	sbc  b                                           ; $4afa: $98
-	call c, $e0de                                    ; $4afb: $dc $de $e0
-	ld   ($ff00+c), a                                ; $4afe: $e2
-	ldh  (<$e2), a                                   ; $4aff: $e0 $e2
+	.dw $9847
+	.db $dc $de $e0 $e2 $e0 $e2
 	
 data_01_0b01:
-	ld   h, a                                        ; $4b01: $67
-	sbc  b                                           ; $4b02: $98
-	.db  $dd                                         ; $4b03: $dd
-	rst  $18                                         ; $4b04: $df
-	pop  hl                                          ; $4b05: $e1
-	.db  $e3                                         ; $4b06: $e3
-	pop  hl                                          ; $4b07: $e1
-	.db  $e3                                         ; $4b08: $e3
+	.dw $9867
+	.db $dd $df $e1 $e3 $e1 $e3
 	
 data_01_0b09:
-	ld   c, b                                        ; $4b09: $48
-	sbc  b                                           ; $4b0a: $98
-	ldh  (<$e2), a                                   ; $4b0b: $e0 $e2
+	.dw $9848
+	.db $e0 $e2
 	
 data_01_0b0d:
-	ld   l, b                                        ; $4b0d: $68
-	sbc  b                                           ; $4b0e: $98
-	pop  hl                                          ; $4b0f: $e1
-	.db  $e3                                         ; $4b10: $e3
-	
+	.dw $9868
+	.db $e1 $e3
+
+// the following 4 copied onto screen initially
 data_01_0b11:
 	.dw $982e
-	or   h                                           ; $4b13: $b4
-	or   (hl)                                        ; $4b14: $b6
-	cp   b                                           ; $4b15: $b8
-	cp   d                                           ; $4b16: $ba
+	.db $b4 $b6 $b8 $ba
 	
 data_01_0b17:
-	ld   c, (hl)                                     ; $4b17: $4e
-	sbc  b                                           ; $4b18: $98
-	or   l                                           ; $4b19: $b5
-	or   a                                           ; $4b1a: $b7
-	cp   c                                           ; $4b1b: $b9
-	cp   e                                           ; $4b1c: $bb
+	.dw $984e
+	.db $b5 $b7 $b9 $bb
 	
 data_01_0b1d:
-	ld   l, (hl)                                     ; $4b1d: $6e
-	sbc  b                                           ; $4b1e: $98
-	.db  $f4                                         ; $4b1f: $f4
-	or   $f8                                         ; $4b20: $f6 $f8
-	.db $fa
-	
-	
+	.dw $986e
+	.db $f4 $f6 $f8 $fa
+
 data_01_0b23:
-	.db $8e $98
-	push af                                          ; $4b25: $f5
-	rst  $30                                         ; $4b26: $f7
-	ld   sp, hl                                      ; $4b27: $f9
-	ei                                               ; $4b28: $fb
+	.dw $988e
+	.db $f5 $f7 $f9 $fb
 
 
 
 func_01_0b29:
-	ld   hl, wNPCScriptParam1                                   ; $4b29: $21 $20 $c0
-	ld   a, (hl)                                     ; $4b2c: $7e
-	ld   hl, $c00a                                   ; $4b2d: $21 $0a $c0
-	ld   (hl), a                                     ; $4b30: $77
-	cp   $ff                                         ; $4b31: $fe $ff
-	jr   nz, @next_0b49                             ; $4b33: $20 $14
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, wNextQuizQuestionIdx
+	ld   (hl), a
 
-	ld   hl, $c4df                                   ; $4b35: $21 $df $c4
-	ld   a, (hl)                                     ; $4b38: $7e
-	ld   hl, $c00a                                   ; $4b39: $21 $0a $c0
-	ld   (hl), a                                     ; $4b3c: $77
-	add  $01                                         ; $4b3d: $c6 $01
-	cp   $fa                                         ; $4b3f: $fe $fa
-	jr   c, +                              ; $4b41: $38 $02
+// if script param is ff, simply choose next question
+	cp   $ff
+	jr   nz, @afterSettingNextQuestionIdx
 
-	ld   a, $00                                      ; $4b43: $3e $00
+// c4df to hold quiz question #
+// add 1 to it, there are only $f9 questions, so loop after that to 0
+	ld   hl, wCurrQuizQuestionIdx
+	ld   a, (hl)
+	ld   hl, wNextQuizQuestionIdx
+	ld   (hl), a
+	add  $01
+	cp   $fa
+	jr   c, +
+
+	ld   a, $00
 
 +
-	ld   hl, $c4df                                   ; $4b45: $21 $df $c4
-	ld   (hl), a                                     ; $4b48: $77
+	ld   hl, wCurrQuizQuestionIdx
+	ld   (hl), a
 
-@next_0b49:
-	call func_01_0bed                                       ; $4b49: $cd $ed $0b
+@afterSettingNextQuestionIdx:
+	call drawQuizScreen
 
-	ld   hl, text_prize                                   ; $4b4c: $21 $e9 $0a
-	ld   c, $06                                      ; $4b4f: $0e $06
-	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b51: $cd $dd $0b
+	ld   hl, text_prize
+	ld   c, $06
+	call destAndCbytesToCopyToScreen1AtHL
 
-	ld   hl, text_questionNum                                   ; $4b54: $21 $dd $0a
-	ld   c, $0a                                      ; $4b57: $0e $0a
-	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b59: $cd $dd $0b
+	ld   hl, text_questionNum
+	ld   c, $0a
+	call destAndCbytesToCopyToScreen1AtHL
 
 	ld   c, $04                                      ; $4b5c: $0e $04
 	ld   hl, data_01_0b11                                   ; $4b5e: $21 $11 $0b
@@ -131,21 +108,26 @@ func_01_0b29:
 	ld   hl, data_01_0b23                                   ; $4b76: $21 $23 $0b
 	call destAndCbytesToCopyToScreen1AtHL                                       ; $4b79: $cd $dd $0b
 
+// number of questions
 	ld   hl, wNPCScriptParam2                                   ; $4b7c: $21 $21 $c0
 	ld   a, (hl)                                     ; $4b7f: $7e
 	cp   $01                                         ; $4b80: $fe $01
 	jr   nz, @next_0b9a                             ; $4b82: $20 $16
 
+// if only 1 question specified
+// seems to always be set to 1
 	ld   hl, wNPCScriptParam3                                   ; $4b84: $21 $22 $c0
 	ld   a, (hl)                                     ; $4b87: $7e
 	bit  7, a                                        ; $4b88: $cb $7f
 	jr   nz, @next_0b9a                             ; $4b8a: $20 $0e
 
+// if we encounter npc_end?
 	ld   hl, wNPCScriptOpcode                                   ; $4b8c: $21 $1f $c0
 	ld   a, (hl)                                     ; $4b8f: $7e
 	cp   $00                                         ; $4b90: $fe $00
 	jr   nz, @next_0b9a                             ; $4b92: $20 $06
 
+// param 3 to be $03 instead
 	ld   a, $03                                      ; $4b94: $3e $03
 	ld   hl, wNPCScriptParam3                                   ; $4b96: $21 $22 $c0
 	ld   (hl), a                                     ; $4b99: $77
@@ -159,6 +141,7 @@ func_01_0b29:
 	cp   $03                                         ; $4ba2: $fe $03
 	jr   nz, +                             ; $4ba4: $20 $13
 
+// param 3 equals 3
 	ld   c, $06                                      ; $4ba6: $0e $06
 	ld   hl, data_01_0af9                                   ; $4ba8: $21 $f9 $0a
 	call destAndCbytesToCopyToScreen1AtHL                                       ; $4bab: $cd $dd $0b
@@ -177,6 +160,7 @@ func_01_0b29:
 	jp   @done                                       ; $4bc9: $c3 $dc $0b
 
 ++
+// bit 7 set of param 3 (not usually the case)
 	ld   c, $02                                      ; $4bcc: $0e $02
 	ld   hl, data_01_0b09                                   ; $4bce: $21 $09 $0b
 	call destAndCbytesToCopyToScreen1AtHL                                       ; $4bd1: $cd $dd $0b
@@ -190,67 +174,72 @@ func_01_0b29:
 
 destAndCbytesToCopyToScreen1AtHL:
 // screen 1 word in hl
-	ld   de, wScreen1displayOffset                                   ; $4bdd: $11 $dd $c6
-	ld   a, (de)                                     ; $4be0: $1a
-	ld   e, (hl)                                     ; $4be1: $5e
-	inc  hl                                          ; $4be2: $23
-	add  (hl)                                        ; $4be3: $86
-	ld   d, a                                        ; $4be4: $57
-	inc  hl                                          ; $4be5: $23
+	ld   de, wScreen1displayOffset
+	ld   a, (de)
+	ld   e, (hl)
+	inc  hl
+	add  (hl)
+	ld   d, a
+	inc  hl
 // copy memory C
 -
-	ldi  a, (hl)                                     ; $4be6: $2a
-	ld   (de), a                                     ; $4be7: $12
-	inc  de                                          ; $4be8: $13
-	dec  c                                           ; $4be9: $0d
-	jr   nz, -                             ; $4bea: $20 $fa
+	ldi  a, (hl)
+	ld   (de), a
+	inc  de
+	dec  c
+	jr   nz, -
 
-	ret                                              ; $4bec: $c9
+	ret
 
 
-func_01_0bed:
+drawQuizScreen:
 // hl = $9c00
-	ld   hl, wScreen1displayOffset                                   ; $4bed: $21 $dd $c6
-	ld   a, (hl)                                     ; $4bf0: $7e
-	add  >$9800                                         ; $4bf1: $c6 $98
-	ld   h, a                                        ; $4bf3: $67
-	ld   l, $00                                      ; $4bf4: $2e $00
+	ld   hl, wScreen1displayOffset
+	ld   a, (hl)
+	add  >$9800
+	ld   h, a
+	ld   l, $00
 
 // clear screen 1
-	ld   bc, $0240                                   ; $4bf6: $01 $40 $02
-	ld   a, $00                                      ; $4bf9: $3e $00
+	ld   bc, $0240
+	ld   a, $00
 -
-	ldi  (hl), a                                     ; $4bfb: $22
-	dec  bc                                          ; $4bfc: $0b
-	bit  7, b                                        ; $4bfd: $cb $78
-	jr   z, -                              ; $4bff: $28 $fa
+	ldi  (hl), a
+	dec  bc
+	bit  7, b
+	jr   z, -
 
-//
-	ld   hl, $c00a                                   ; $4c01: $21 $0a $c0
-	ld   e, (hl)                                     ; $4c04: $5e
-	ld   d, $00                                      ; $4c05: $16 $00
-	ld   hl, bank1textData                                   ; $4c07: $21 $a3 $0d
-	add  hl, de                                      ; $4c0a: $19
-	add  hl, de                                      ; $4c0b: $19
-	ld   c, (hl)                                     ; $4c0c: $4e
-	inc  hl                                          ; $4c0d: $23
-	ld   b, (hl)                                     ; $4c0e: $46
-	ld   hl, $c08e                                   ; $4c0f: $21 $8e $c0
-	ld   (hl), c                                     ; $4c12: $71
-	inc  hl                                          ; $4c13: $23
-	ld   (hl), b                                     ; $4c14: $70
-	ld   de, $98e1                                   ; $4c15: $11 $e1 $98
-	ld   hl, wScreen1displayOffset                                   ; $4c18: $21 $dd $c6
-	ld   a, (hl)                                     ; $4c1b: $7e
-	add  d                                           ; $4c1c: $82
-	ld   d, a                                        ; $4c1d: $57
-	ld   hl, $c00d                                   ; $4c1e: $21 $0d $c0
-	ld   (hl), e                                     ; $4c21: $73
-	inc  hl                                          ; $4c22: $23
-	ld   (hl), d                                     ; $4c23: $72
+// bc is address of text for quiz
+	ld   hl, wNextQuizQuestionIdx
+	ld   e, (hl)
+	ld   d, $00
+	ld   hl, bank1textData
+	add  hl, de
+	add  hl, de
+	ld   c, (hl)
+	inc  hl
+	ld   b, (hl)
+
+// store in c08e/c08f
+	ld   hl, wCurrQuizQuestionAddr
+	ld   (hl), c
+	inc  hl
+	ld   (hl), b
+
+// quiz text offset in c00d/e
+	ld   de, $98e1
+	ld   hl, wScreen1displayOffset
+	ld   a, (hl)
+	add  d
+	ld   d, a
+	ld   hl, wQuizCurrTextVramAddr
+	ld   (hl), e
+	inc  hl
+	ld   (hl), d
+
+// start c008 with ff, wait until text at a certain point?
 	ld   hl, $c008                                   ; $4c24: $21 $08 $c0
 	ld   (hl), $ff                                   ; $4c27: $36 $ff
-
 -
 	call func_01_0ca1                                       ; $4c29: $cd $a1 $0c
 	cp   $01                                         ; $4c2c: $fe $01
@@ -263,15 +252,17 @@ func_01_0bed:
 	ld   a, $00                                      ; $4c37: $3e $00
 	ld   hl, $c0c4                                   ; $4c39: $21 $c4 $c0
 	ld   (hl), a                                     ; $4c3c: $77
+
 	ld   de, $99c3                                   ; $4c3d: $11 $c3 $99
 	ld   hl, wScreen1displayOffset                                   ; $4c40: $21 $dd $c6
 	ld   a, (hl)                                     ; $4c43: $7e
 	add  d                                           ; $4c44: $82
 	ld   d, a                                        ; $4c45: $57
-	ld   hl, $c00d                                   ; $4c46: $21 $0d $c0
+	ld   hl, wQuizCurrTextVramAddr                                   ; $4c46: $21 $0d $c0
 	ld   (hl), e                                     ; $4c49: $73
 	inc  hl                                          ; $4c4a: $23
 	ld   (hl), d                                     ; $4c4b: $72
+
 	pop  af                                          ; $4c4c: $f1
 	cp   $06                                         ; $4c4d: $fe $06
 	jr   z, +                              ; $4c4f: $28 $08
@@ -283,8 +274,8 @@ func_01_0bed:
 	inc  (hl)                                        ; $4c58: $34
 
 +
-	call store_c00d_wordIntoDE                                       ; $4c59: $cd $bf $0c
-	call c00e_c00d_plusEqu20h                                       ; $4c5c: $cd $aa $0c
+	call deEquCurrQuizVramAddr                                       ; $4c59: $cd $bf $0c
+	call quizVramTextAddrGoToNextRow                                       ; $4c5c: $cd $aa $0c
 	ld   bc, $0000                                   ; $4c5f: $01 $00 $00
 
 -
@@ -298,7 +289,7 @@ func_01_0bed:
 	cp   $04                                         ; $4c6b: $fe $04
 	jr   nz, +                             ; $4c6d: $20 $03
 
-	call store_c00d_wordIntoDE                                       ; $4c6f: $cd $bf $0c
+	call deEquCurrQuizVramAddr                                       ; $4c6f: $cd $bf $0c
 
 +
 	ld   a, c                                        ; $4c72: $79
@@ -337,32 +328,32 @@ func_01_0bed:
 
 
 func_01_0ca1:
-	call store_c00d_wordIntoDE                                       ; $4ca1: $cd $bf $0c
-	call c00e_c00d_plusEqu20h                                       ; $4ca4: $cd $aa $0c
+	call deEquCurrQuizVramAddr
+	call quizVramTextAddrGoToNextRow
 	jp   func_01_0cc6                                       ; $4ca7: $c3 $c6 $0c
 
 
-c00e_c00d_plusEqu20h:
-	ld   hl, $c00d                                   ; $4caa: $21 $0d $c0
-	ld   a, (hl)                                     ; $4cad: $7e
-	add  $20                                         ; $4cae: $c6 $20
-	ld   hl, $c00d                                   ; $4cb0: $21 $0d $c0
-	ld   (hl), a                                     ; $4cb3: $77
+quizVramTextAddrGoToNextRow:
+	ld   hl, wQuizCurrTextVramAddr
+	ld   a, (hl)
+	add  <$0020
+	ld   hl, wQuizCurrTextVramAddr
+	ld   (hl), a
 
-	ld   hl, $c00e                                   ; $4cb4: $21 $0e $c0
-	ld   a, (hl)                                     ; $4cb7: $7e
-	adc  $00                                         ; $4cb8: $ce $00
-	ld   hl, $c00e                                   ; $4cba: $21 $0e $c0
-	ld   (hl), a                                     ; $4cbd: $77
-	ret                                              ; $4cbe: $c9
+	ld   hl, wQuizCurrTextVramAddr+1
+	ld   a, (hl)
+	adc  >$0020
+	ld   hl, wQuizCurrTextVramAddr+1
+	ld   (hl), a
+	ret
 
 
-store_c00d_wordIntoDE:
-	ld   hl, $c00d                                   ; $4cbf: $21 $0d $c0
-	ld   e, (hl)                                     ; $4cc2: $5e
-	inc  hl                                          ; $4cc3: $23
-	ld   d, (hl)                                     ; $4cc4: $56
-	ret                                              ; $4cc5: $c9
+deEquCurrQuizVramAddr:
+	ld   hl, wQuizCurrTextVramAddr
+	ld   e, (hl)
+	inc  hl
+	ld   d, (hl)
+	ret
 
 
 func_01_0cc6:
@@ -370,7 +361,7 @@ func_01_0cc6:
 	ld   (hl), $22                                   ; $4cc9: $36 $22
 
 @bigLoop:
-	call func_01_0d8c                                       ; $4ccb: $cd $8c $0d
+	call getNextByteFromQuizText                                       ; $4ccb: $cd $8c $0d
 	cp   $08                                         ; $4cce: $fe $08
 	jr   c, @done                              ; $4cd0: $38 $66
 
@@ -397,7 +388,7 @@ func_01_0cc6:
 	jr   z, +                              ; $4ced: $28 $07
 
 	pop  af                                          ; $4cef: $f1
-	call func_01_0d98                                       ; $4cf0: $cd $98 $0d
+	call decQuizQuestionAddr                                       ; $4cf0: $cd $98 $0d
 	ld   a, $20                                      ; $4cf3: $3e $20
 	push af                                          ; $4cf5: $f5
 
@@ -464,26 +455,31 @@ func_01_0cc6:
 
 
 func_01_0d39:
-	ld   hl, $c08e                                   ; $4d39: $21 $8e $c0
+// quiz question addr in bc
+	ld   hl, wCurrQuizQuestionAddr                                   ; $4d39: $21 $8e $c0
 	ld   c, (hl)                                     ; $4d3c: $4e
 	inc  hl                                          ; $4d3d: $23
 	ld   b, (hl)                                     ; $4d3e: $46
+
 	ld   l, $00                                      ; $4d3f: $2e $00
 	ld   h, $00                                      ; $4d41: $26 $00
-
 @bigLoop:
+// if byte is $20, go to done
 	ld   a, (bc)                                     ; $4d43: $0a
 	inc  bc                                          ; $4d44: $03
 	cp   $20                                         ; $4d45: $fe $20
 	jr   z, @done                              ; $4d47: $28 $42
 
+// if byte < 8, go to done
 	cp   $08                                         ; $4d49: $fe $08
 	jr   c, @done                              ; $4d4b: $38 $3e
 
+// next l
 	inc  l                                           ; $4d4d: $2c
 	cp   $5f                                         ; $4d4e: $fe $5f
 	jr   nz, +                             ; $4d50: $20 $0c
 
+// byte read is $5f or _
 	ld   h, a                                        ; $4d52: $67
 	ld   a, l                                        ; $4d53: $7d
 	cp   $01                                         ; $4d54: $fe $01
@@ -543,26 +539,30 @@ func_01_0d39:
 	ret                                              ; $4d8b: $c9
 
 
-func_01_0d8c:
-	ld   hl, $c08e                                   ; $4d8c: $21 $8e $c0
-	ld   c, (hl)                                     ; $4d8f: $4e
-	inc  hl                                          ; $4d90: $23
-	ld   b, (hl)                                     ; $4d91: $46
-	ld   a, (bc)                                     ; $4d92: $0a
-	inc  bc                                          ; $4d93: $03
-	ld   (hl), b                                     ; $4d94: $70
-	dec  hl                                          ; $4d95: $2b
-	ld   (hl), c                                     ; $4d96: $71
-	ret                                              ; $4d97: $c9
+getNextByteFromQuizText:
+// quiz question addr in bc
+	ld   hl, wCurrQuizQuestionAddr
+	ld   c, (hl)
+	inc  hl
+	ld   b, (hl)
+
+// get val in a, and inc question addr to next byte
+	ld   a, (bc)
+	inc  bc
+	ld   (hl), b
+	dec  hl
+	ld   (hl), c
+	ret
 
 
-func_01_0d98:
-	ld   hl, $c08e                                   ; $4d98: $21 $8e $c0
-	ld   c, (hl)                                     ; $4d9b: $4e
-	inc  hl                                          ; $4d9c: $23
-	ld   b, (hl)                                     ; $4d9d: $46
-	dec  bc                                          ; $4d9e: $0b
-	ld   (hl), b                                     ; $4d9f: $70
-	dec  hl                                          ; $4da0: $2b
-	ld   (hl), c                                     ; $4da1: $71
-	ret                                              ; $4da2: $c9
+decQuizQuestionAddr:
+	ld   hl, wCurrQuizQuestionAddr
+	ld   c, (hl)
+	inc  hl
+	ld   b, (hl)
+
+	dec  bc
+	ld   (hl), b
+	dec  hl
+	ld   (hl), c
+	ret

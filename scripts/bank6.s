@@ -128,10 +128,10 @@ npce6_scripts:
 	npc_moveByParamPixels $30
 	npc_faceUp
 	npc_moveByParamPixels $30
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 @helmGotten:
 	npc_placeTile $00 $0d $08
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_end
 
 
@@ -168,7 +168,7 @@ npce7_scripts:
 	.db $2a
 	npc_end
 +
-	npc_callCommonSoundFuncs_6c01 $68 $17
+	npc_playSoundEffectAtAddr sound_1768
 	npc_faceLeft
 	npc_setMovementSpeed $08
 	npc_moveByParamPixels $20
@@ -465,10 +465,10 @@ npcf2_scripts:
 	npc_facePlayerHorizontally
 	npc_turnBackwards
 	npc_spawnNPCAtOffset ENTID_RUNNING_DEMON_SPAWN_CLOUD $00 $00
-	npc_callCommonSoundFuncs_6c01 $26 $16
+	npc_playSoundEffectAtAddr sound_1626
 	npc_wait $0a
 	npc_moveByParamPixels $10
-	npc_callCommonSoundFuncs_6c01 $26 $16
+	npc_playSoundEffectAtAddr sound_1626
 	npc_res4_cb60
 	npc_moveByParamPixels $40
 	npc_setMovementSpeed $04
@@ -627,7 +627,7 @@ npcc5_scripts:
 	npc_res4_cb60
 	npc_set7_cb60
 	npc_wait $0f
-	npc_callCommonSoundFuncs_6c01 $0a $18
+	npc_playSoundEffectAtAddr sound_180a
 	npc_call setMovement3damage4
 -
 	npc_call func_06_1502
@@ -644,12 +644,12 @@ npce1_scripts:
 npcf4_scripts:
 	npc_set6_cb60_reset_cb6c
 	npc_placeTile $95 $06 $09
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_giveItem ITEMID_31
 	npc_wait $05
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_wait $05
-	npc_callCommonSoundFuncs_6c01 $d7 $15
+	npc_playSoundEffectAtAddr sound_15d7
 	npc_setNewNpcID $02
 
 
