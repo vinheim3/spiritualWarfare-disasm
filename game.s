@@ -22,7 +22,7 @@
 	.include "code/common.s"
 	.include "code/bank_000.s"
 	.include "code/scripting.s"
-	.include "code/bank_000_2.s"
+	.include "code/displayRoomTextNextChar.s"
 	.include "data/roomGroupStructs.s"
 
 
@@ -32,7 +32,7 @@
 	.incbin "code/common.bin"
 	.include "code/roomFlags.s"
 	.include "code/quizzes.s"
-	.include "data/bank1_textCollection.s"
+	.include "data/quizTexts.s"
 
 	m_GfxDataCompressed spr_01_56a7
 	m_GfxDataCompressed spr_01_5e51
@@ -46,7 +46,7 @@
 	.include "data/b2_roomStructsAndLayouts.s"
 	.include "data/tileTypeConversionTable.s"
 	.include "data/b2_oamData.s"
-	.include "scripts/bank2.s"
+	.include "scripts/b2_scripts.s"
 
 	m_GfxDataCompressed spr_02_6f53
 
@@ -57,10 +57,10 @@
 	.incbin "code/common.bin"
 	.include "data/entityStructs.s"
 	.include "data/basicLayouts.s"
-	.include "garbage/bank3.s"
+	.include "garbage/b3_garbage.s"
 	.include "data/b3_roomStructsAndLayouts.s"
 	.include "data/b3_oamData.s"
-	.include "scripts/bank3.s"
+	.include "scripts/b3_scripts.s"
 
 	m_GfxDataCompressed spr_03_6b0f
 
@@ -71,7 +71,7 @@
 	.incbin "code/common.bin"
 	.include "data/vramTileConversionTables.s"
 	.include "code/inventoryDrawing.s"
-	.include "data/bank_004.s"
+	.include "data/soundData.s"
 	.include "code/soundEngine.s"
 	.include "data/b4_roomStructsAndLayouts.s"
 
@@ -102,7 +102,7 @@
 	.incbin "code/common.bin"
 	.include "data/randomNumbers.s"
 	.include "data/b6_oamData.s"
-	.include "scripts/bank6.s"
+	.include "scripts/b6_scripts.s"
 
 	m_GfxDataCompressed spr_06_1bfd
 	m_GfxDataCompressed spr_06_2a45
