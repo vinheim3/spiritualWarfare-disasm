@@ -28,12 +28,13 @@ Only stuff that may not be immediately obvious
     * `roomFlags.s` - code around storing temporary data of the last 10-ish rooms
         so that enemies/items don't just spawn so soon after getting them
     * `scripting.s` - decoding of scripting commands used by entities
+    * `tileAnimations.s` - code/data for the specific tiles per room group that animate
 * `data`
     * `*_roomStructsAndLayouts.s` - contains variable-sized structs for rooms,
         and compressed room layout data
     * `*_oamData.s` - indexes that when run against a vram tile conversion table,
         gets you the relevant top-left tile idx for 1 of an NPC's sprites
-    * `bank_004.s` - possibly sound data
+    * `basicLayouts.s` - static layouts, eg menus
     * `roomGroupStructs.s` - rooms are grouped, and this file contains info about
         the groups, with some bytes still having unknown purpose
     * `tileTypeConversionTable.s` - for each of the $20 tilesets, each value
