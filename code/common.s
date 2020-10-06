@@ -1137,12 +1137,13 @@ loadRoomStructData:
 	ld   (hl), a
 
 +
-	ld   hl, $c0fc                                   ; $0690: $21 $fc $c0
-	ld   a, (hl)                                     ; $0693: $7e
-	ld   hl, wNPCBytes_cbf0                                   ; $0694: $21 $f0 $cb
-	add  hl, bc                                      ; $0697: $09
-	ld   (hl), a                                     ; $0698: $77
-	inc  bc                                          ; $0699: $03
+// copy c0fc into npc's room flag idx
+	ld   hl, wNumRoomFlagObjects
+	ld   a, (hl)
+	ld   hl, wNPCBytes_roomFlagIdx
+	add  hl, bc
+	ld   (hl), a
+	inc  bc
 
 @gotoNextNPCtoLoad:
 	call incPositiveNumRoomFlagObjects

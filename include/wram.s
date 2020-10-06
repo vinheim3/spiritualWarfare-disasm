@@ -4,9 +4,12 @@
 
 .ramsection "RAM 0" bank 0 slot 1
 
+wInvItemCountsNumDigits: ; $c000
+	db
+
 // these 1st few wram bytes seem to be multi-purpose, ie unions
-wc000:
-	dsb 6
+wc001:
+	dsb 6-1
 
 .union
 	wCurrGroupStructPointer: ; $c006
@@ -32,6 +35,18 @@ wc000:
 
 	wNewFruitsAmount: ; $c007
 		db
+.nextu
+	wNumGameOverScoreDigitsDrawn: ; $c006
+		db
+.nextu
+	wQuizFaceOamTileAttr: ; $c006
+		db
+.nextu
+	wParamWordForScriptDataCopy: ; $c006
+		db
+.nextu
+	wCurrNPCoamDataAddr: ; $c006
+		db
 .endu
 
 .union
@@ -56,11 +71,25 @@ wc000:
 	wTimesToCopyDecompressedTile: ; $c00e
 		db
 .nextu
+	wLastQuizCharCopiedToVram: ; $c008
+		db
+
+	wLastQuizCharForVramNonUnderscoreOrCaps: ; $c009
+		db
+.nextu
 	wc008_1:
 		db
 
-	wSoundToPlayIdx: ; $c009
-		db
+	.union
+		wSoundToPlayIdx: ; $c009
+			db
+	.nextu
+		wScriptCopiedByte: ; $c009
+			db
+
+		wNumNonFFsRead: ; $c00a
+			db
+	.endu
 .nextu
 	wc008_2:
 		dw
@@ -88,6 +117,12 @@ wc000:
 	.nextu
 		wNumDataBytesForCurrRoomsFlags: ; $c00b
 			db
+	.nextu
+		wTimeUntilMenuInputProcessable: ; $c00b
+			db
+
+		wMenuOptionButtonsPressed: ; $c00c
+			db
 	.endu
 .endu
 
@@ -103,6 +138,7 @@ wc012:
 wMainLoopCounter: ; $c014
 	db
 
+// Unused?
 wc015:
 	db
 
@@ -121,17 +157,31 @@ wInventoryLastBItemHoveredOver: ; $c019
 wc01a:
 	dsb $f-$a
 
-wNPCScriptOpcode: ; $c01f
-	db
+.union
+	wNPCScriptOpcode: ; $c01f
+		db
 
-wNPCScriptParam1: ; $c020
-	db
+	wNPCScriptParam1: ; $c020
+		db
 
-wNPCScriptParam2: ; $c021
-	db
+	wNPCScriptParam2: ; $c021
+		db
 
-wNPCScriptParam3: ; $c022
-	db
+	wNPCScriptParam3: ; $c022
+		db
+.nextu
+	wNumIncorrectQuestions: ; $c01f
+		db
+
+	wQuizQuestionIdx: ; $c020
+		db
+
+	wNumQuestionsLeft: ; $c021
+		db
+
+	wPrizeCounter: ; $c022
+		db
+.endu
 
 // bit 7 set means...
 wBaseDamageTaken: ; $c023
@@ -210,7 +260,10 @@ wIsEquippingRaft: ; $c04c
 	db
 
 wc04d:
-	dsb $f-$d
+	db
+
+wNextUsableOamIdx: ; $c04e
+	db
 
 wIsUsingRaft: ; $c04f
 	db
@@ -310,8 +363,14 @@ wRandomNumberTableIdx: ; $c094
 wRandomNumber: ; $c096
 	db
 
-wc097:
-	dsb $a-7
+wGenericMenuCursorIdx: ; $c097
+	db
+
+wGenericMenuMaxCursorIdx: ; $c098
+	db
+
+wc099:
+	db
 
 .union
 	wCommonByteCopyFuncSrc: ; $c09a
@@ -364,6 +423,15 @@ wc09f:
 .nextu
 	wNumBytesForRoomFlagEntity: ; $c0a0
 		db
+.nextu
+	wc0a0_2:
+		dsb 2
+
+	wCurrMusicTestDigit: ; $c0a2
+		db
+.nextu
+	wInvCountDigits: ; $c0a0
+		dsb 3
 .endu
 
 wc0a3:
@@ -372,14 +440,38 @@ wc0a3:
 wCurrNpcIdx: ; $c0a6
 	db
 
-wc0a7:
-	dsb $b5-$a7
+wMusicScreenSongVal: ; $c0a7
+	db
+
+wc0a8:
+	db
+
+wMusicScreenSoundVal: ; $c0a9
+	db
+
+wc0aa:
+	dsb $b1-$aa
+
+wMenuCursorBaseOamY: ; $c0b1
+	db
+
+wc0b2:
+	dsb 5-2
 
 wBytePatternInRoomStructAfterlayoutAddr: ; $c0b5
 	dw
 
-wc0b7:
-	dsb $b-$7
+wRoomCurrTeleportIdx: ; $c0b7
+	db
+
+wCurrTeleportsTileX: ; $c0b8
+	db
+
+wCurrTeleportsTileY: ; $c0b9
+	db
+
+wCurrTeleportsTileTrigger: ; $c0ba
+	db
 
 wScriptTeleGroup: ; $c0bb
 	db
@@ -397,7 +489,13 @@ wScriptTelePlayerY: ; $c0bf
 	db
 
 wc0c0:
-	dsb $d9-$c0
+	dsb 4-0
+
+wCorrectQuizAnswerIdx: ; $c0c4
+	db
+
+wc0c5:
+	dsb $d9-$c5
 
 wCounterSo2ArmorIsAThirdDamageTaken: ; $c0d9
 	db
@@ -466,8 +564,11 @@ wc4de:
 wCurrQuizQuestionIdx: ; $c4df
 	db
 
-w4e0:
-	dsb $5e0-$4e0
+wTextInputChars: ; $c4e0
+	dsb $20
+
+w500:
+	dsb $e0
 
 wOffsetIntoCompressedRoomLayoutPerScreenRow: ; $c5e0
 	dsb $b
@@ -494,7 +595,10 @@ wNumKeys: ; $c5fa
 	db
 
 wc5fb:
-	dsb $e-$b
+	db
+
+wInvItemCountsDigitsVramAddr: ; $c5fc
+	dw
 
 wSecondRoomStructByteBit7: ; $c5fe
 	db
@@ -557,7 +661,7 @@ wScreen0displayOffset: ; $c6dc
 wScreen1displayOffset: ; $c6dd
 	db
 
-wc6de:
+wScreen0displayOffset2: ; $c6de
 	db
 
 wPlayerStartingDirection: ; $c6df
@@ -588,6 +692,9 @@ wc70d:
 		db
 .nextu
 	wPreviousUsingRaft: ; $c711
+		db
+.nextu
+	wMusicScreenIsTwiceSpeed: ; $c711
 		db
 .endu
 
@@ -685,7 +792,8 @@ wNPCBytes_damageAndMovementSpeed: ; $cb54
 wNPCBytes_cb60: ; $cb60
 	dsb NUM_NPCS
 
-wNPCBytes_cb6c: ; $cb6c
+// todo: a guess
+wNPCBytes_animationFrameIdx: ; $cb6c
 	dsb NUM_NPCS
 
 wNPCBytes_timeToWait: ; $cb78
@@ -720,7 +828,7 @@ wNPCScriptPointerReturnHighByte: ; $cbd8
 wNPCBytes_cbe4: ; $cbe4
 	dsb NUM_NPCS
 
-wNPCBytes_cbf0: ; $cbf0
+wNPCBytes_roomFlagIdx: ; $cbf0
 	dsb NUM_NPCS
 
 wNPCScriptBytesBank: ; $cbfc
@@ -738,7 +846,11 @@ wLCDCvalue: ; $d000
 	db
 
 wd001:
-	dsb 3-1
+	db
+
+// todo: just a guess
+wCounterUntilMenuInputProcessable: ; $d002
+	db
 
 wOBP1FlashCounter: ; $d003
 	db

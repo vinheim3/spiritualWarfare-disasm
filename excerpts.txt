@@ -5,6 +5,11 @@
 ; ENTID
 ; ==============================================================================
 
+# ------ outstanding to disassemble
+bank_000.s - <8200
+common.s - <320
+scripting.s - <430
+
 # ------- room structs
 byte 2 lower nybble x2 - tileset idx
 

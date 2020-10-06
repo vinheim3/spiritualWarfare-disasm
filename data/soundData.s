@@ -101,12 +101,12 @@ sound_15d7:
 	SND_stop
 
 
-sound_birdsUpdating_channel0:
+sound_quizWrongAnswer_channel0:
 	SND_useHWRegChannel 0
 	SND_setHWRegsAndDelay $ad $80 $f4 $60 $8b, $1e
 	SND_stop
 
-sound_birdsUpdating_channel1:
+sound_quizWrongAnswer_channel1:
 	SND_useHWRegChannel 0
 	SND_setHWRegsAndDelay $ad $80 $f4 $60 $8b, $1e
 	SND_stop

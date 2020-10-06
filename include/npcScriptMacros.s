@@ -34,7 +34,7 @@
 	.db $08
 .endm
 
-.macro npc_set6_cb60_reset_cb6c
+.macro npc_set6_cb60_reset_animationFrameIdx
 	.db $09
 .endm
 
@@ -82,6 +82,10 @@
 	.db $14
 .endm
 
+.macro npc_res3_cb60
+	.db $15
+.endm
+
 // 16
 
 .macro npc_moveNPCturnBackIfCant
@@ -92,6 +96,16 @@
 	.db $18
 .endm
 
+.macro npc_giveHeartContainer
+	.db $19
+.endm
+
+// 1a unused
+
+.macro npc_giveKey
+	.db $1b
+.endm
+
 .macro npc_takeKey
 	.db $1c
 .endm
@@ -100,8 +114,20 @@
 	.db $1d
 .endm
 
+// 1e unused
+
 .macro npc_c02a_equFF
 	.db $1f
+.endm
+
+// 20/21 unused
+
+.macro npc_c714_equFF
+	.db $22
+.endm
+
+.macro npc_c714_equ0
+	.db $23
 .endm
 
 .macro npc_ret
@@ -120,13 +146,19 @@
 	.db $27
 .endm
 
-.macro npc_setRoomFlagFrom_cbf0
+.macro npc_setEnemyDefeatedRoomFlag
 	.db $28
 .endm
 
 .macro npc_set3_cbe4
 	.db $29
 .endm
+
+.macro npc_res3_cbe4
+	.db $2a
+.endm
+
+// 2b unused
 
 .macro npc_endIfSimilarIDNpcExists
 	.db $2c
@@ -180,9 +212,13 @@
 	.db $4a \1
 .endm
 
+// 4b unused
+
 .macro npc_addToPlayerHealth
 	.db $4c \1
 .endm
+
+// 4d unused
 
 .macro npc_giveNumBirds
 	.db $4e \1
@@ -284,6 +320,8 @@
 	.db $8d \1 \2
 .endm
 
+// 8e/8f unused
+
 .macro npc_addParamsToXthenYCoords
 	.db $90 \1 \2
 .endm
@@ -360,11 +398,15 @@
 	.dw \2
 .endm
 
+// cb unused
+
 .macro npc_jumpIfMoreThanParam1HealthGotten
 	.db $cc
 	.db \1
 	.dw \2
 .endm
+
+// cd unused
 
 .macro npc_moveNPC_jumpIfCant
 	.db $ce

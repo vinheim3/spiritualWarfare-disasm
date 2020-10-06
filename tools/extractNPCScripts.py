@@ -59,7 +59,7 @@ while start + offset < end:
     elif opcode == 0x08:
         comps.append(f'\tnpc_faceLeft')
     elif opcode == 0x09:
-        comps.append(f'\tnpc_set6_cb60_reset_cb6c')
+        comps.append(f'\tnpc_set6_cb60_reset_animationFrameIdx')
     elif opcode == 0x0c:
         comps.append(f'\tnpc_res4_cb60')
     elif opcode == 0x0f:
@@ -75,7 +75,7 @@ while start + offset < end:
     elif opcode == 0x27:
         comps.append(f'\tnpc_set2_cbe4')
     elif opcode == 0x28:
-        comps.append(f'\tnpc_setRoomFlagFrom_cbf0')
+        comps.append(f'\tnpc_setEnemyDefeatedRoomFlag')
     elif opcode == 0x40:
         comps.append(f'\tnpc_moveByParamPixels {next_byte}')
     elif opcode == 0x41:

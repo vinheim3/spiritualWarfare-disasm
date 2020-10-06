@@ -46,3 +46,5 @@
 .define MIN_HEALTH	$06
 .define MAX_ROOMS_IN_ROOM_FLAGS		10
 .define MAX_BYTES_FOR_ROOM_FLAGS	$40
+.define NUM_SOUNDS	$2a
+.define NUM_MUSIC	$06

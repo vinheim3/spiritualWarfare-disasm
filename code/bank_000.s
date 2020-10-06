@@ -14,38 +14,38 @@ begin:
 
 	ld   hl, wScreen0displayOffset
 	ld   (hl), $00
-	ld   hl, $c04e                                   ; $0964: $21 $4e $c0
-	ld   (hl), $00                                   ; $0967: $36 $00
+	ld   hl, wNextUsableOamIdx
+	ld   (hl), $00
 
 	ld   hl, wIsTitleScreen
 	ld   (hl), $00
 
-	call stopAllSounds                               ; $096e: $cd $32 $15
+	call stopAllSounds
 
-	ld   hl, lyt_introTradeMarkScreen                                   ; $0971: $21 $80 $19
-	call copyLayoutFromBank3toScreen0withOffset                               ; $0974: $cd $37 $15
+	ld   hl, lyt_introTradeMarkScreen
+	call copyLayoutFromBank3toScreen0withOffset
 
-	ld   hl, $001c                                   ; $0977: $21 $1c $00
-	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $097a: $cd $7a $17
+	ld   hl, $001c
+	call loadTilesetAndVramTileConversionTable_idxedHL
 
-	call clear_c200_to_c2ff                                       ; $097d: $cd $9e $5b
-	call copyA0hDataToOam                               ; $0980: $cd $99 $1a
+	call clear_c200_to_c2ff
+	call copyA0hDataToOam
 
-	ld   a, $01                                      ; $0983: $3e $01
-	call setLCDfromValue_c015equA                               ; $0985: $cd $11 $02
+	ld   a, $01
+	call setLCDfromValue_c015equA
 
-	call stopSoundsPlaySound2AtTwiceSpeed                               ; $0988: $cd $d8 $27
+	call stopSoundsPlaySound2AtTwiceSpeed
 
-	ld   e, $ff                                      ; $098b: $1e $ff
-	call Call_000_19f8                               ; $098d: $cd $f8 $19
+	ld   e, $ff
+	call processInputInMenus
 
-	call stopAllSounds                               ; $0990: $cd $32 $15
-	call resetRandomNumberTableIdx                                       ; $0993: $cd $a6 $48
+	call stopAllSounds
+	call resetRandomNumberTableIdx
 
-	ld   hl, wIsMusicOff                                   ; $0996: $21 $dd $c4
-	ld   (hl), $00                                   ; $0999: $36 $00
+	ld   hl, wIsMusicOff
+	ld   (hl), $00
 
-	jp   startTitleScreen                               ; $099b: $c3 $58 $0b
+	jp   startTitleScreen
 
 
 text_badPassword:
@@ -262,14 +262,17 @@ startTitleScreen:
 	ld   a, $00
 	ld   hl, $c029                                   ; $0b5a: $21 $29 $c0
 	ld   (hl), a                                     ; $0b5d: $77
-	ld   hl, $c097                                   ; $0b5e: $21 $97 $c0
-	ld   (hl), a                                     ; $0b61: $77
-	ld   hl, wLCDCvalue                                   ; $0b62: $21 $00 $d0
-	ld   a, $87                                      ; $0b65: $3e $87
-	ld   (hl), a                                     ; $0b67: $77
-	call turnOffLCDstartOfVBlank                               ; $0b68: $cd $0a $02
-	ld   hl, $0020                                   ; $0b6b: $21 $20 $00
-	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $0b6e: $cd $7a $17
+	ld   hl, wGenericMenuCursorIdx
+	ld   (hl), a
+
+// on, obj/bg on, 8x16 sprites
+	ld   hl, wLCDCvalue
+	ld   a, $87
+	ld   (hl), a
+
+	call turnOffLCDstartOfVBlank
+	ld   hl, $0020
+	call loadTilesetAndVramTileConversionTable_idxedHL
 
 // copy water, etc, animation tiles
 	ld   de, $d100                                   ; $0b71: $11 $00 $d1
@@ -296,106 +299,121 @@ startTitleScreen:
 	dec  c                                           ; $0b8a: $0d
 	jr   nz, -                             ; $0b8b: $20 $fa
 
-	call setNormalBGP_OBP0vals                               ; $0b8d: $cd $30 $1e
-	ld   hl, rOBP1                                   ; $0b90: $21 $49 $ff
-	ld   (hl), $1b                                   ; $0b93: $36 $1b
-	call setScrollValues                               ; $0b95: $cd $f1 $1d
-	call clearScreen0                                       ; $0b98: $cd $8e $5b
-	ld   hl, lyt_03_1815                                   ; $0b9b: $21 $15 $18
-	call copyLayoutFromBank3toScreen0withOffset                               ; $0b9e: $cd $37 $15
-	call loadTileset1dh_sprites1ch                               ; $0ba1: $cd $0b $17
-	call changeMusicOnTextAndPlaySound                               ; $0ba4: $cd $50 $0c
-	call clear_c200_to_c2ff                                       ; $0ba7: $cd $9e $5b
-	call copyA0hDataToOam                               ; $0baa: $cd $99 $1a
-	ld   hl, wCurrTileAnimationAddr                                   ; $0bad: $21 $fe $d0
-	ld   de, titleScreenFlamesAnimation                                   ; $0bb0: $11 $7d $5f
-	ld   (hl), e                                     ; $0bb3: $73
-	inc  hl                                          ; $0bb4: $23
-	ld   (hl), d                                     ; $0bb5: $72
-	ld   hl, wVBlanksPerTileAnimation                                   ; $0bb6: $21 $fc $d0
-	ld   (hl), $02                                   ; $0bb9: $36 $02
-	ld   hl, wCurrVBlanksUntilNextTileAnimation                                   ; $0bbb: $21 $fd $d0
-	ld   (hl), $02                                   ; $0bbe: $36 $02
-	ld   a, $01                                      ; $0bc0: $3e $01
-	call setLCDfromValue_c015equA                               ; $0bc2: $cd $11 $02
-	call stopAllSounds                               ; $0bc5: $cd $32 $15
-	ld   hl, wNewKeysPressed                                   ; $0bc8: $21 $18 $c0
-	ld   (hl), $00                                   ; $0bcb: $36 $00
-	call stopSoundsPlaySound0AtNormalSpeed                               ; $0bcd: $cd $8f $27
-	ld   hl, wOam+1                                   ; $0bd0: $21 $01 $c2
-	ld   (hl), $1e                                   ; $0bd3: $36 $1e
-	ld   hl, wOam+2                                   ; $0bd5: $21 $02 $c2
-	ld   (hl), $2a                                   ; $0bd8: $36 $2a
-	ld   hl, wOam+3                                   ; $0bda: $21 $03 $c2
-	ld   (hl), $00                                   ; $0bdd: $36 $00
-	ld   hl, $c098                                   ; $0bdf: $21 $98 $c0
-	ld   (hl), $04                                   ; $0be2: $36 $04
-	ld   hl, $c0b1                                   ; $0be4: $21 $b1 $c0
-	ld   (hl), $68                                   ; $0be7: $36 $68
+	call setNormalBGP_OBP0vals
+	ld   hl, rOBP1
+	ld   (hl), $1b
+
+	call setScrollValues
+	call clearScreen0
+
+	ld   hl, lyt_titleScreen
+	call copyLayoutFromBank3toScreen0withOffset
+	call loadTileset1dh_sprites1ch
+
+	call changeMusicOnTextAndPlaySound
+	call clear_c200_to_c2ff
+	call copyA0hDataToOam
+
+// animate flames
+	ld   hl, wCurrTileAnimationAddr
+	ld   de, titleScreenFlamesAnimation
+	ld   (hl), e
+	inc  hl
+	ld   (hl), d
+// animation details
+	ld   hl, wVBlanksPerTileAnimation
+	ld   (hl), $02
+	ld   hl, wCurrVBlanksUntilNextTileAnimation
+	ld   (hl), $02
+
+	ld   a, $01
+	call setLCDfromValue_c015equA
+
+	call stopAllSounds
+	ld   hl, wNewKeysPressed
+	ld   (hl), $00
+	call stopSoundsPlaySound0AtNormalSpeed
+
+// cursor
+	ld   hl, wOam+1
+	ld   (hl), $1e
+	ld   hl, wOam+2
+	ld   (hl), $2a
+	ld   hl, wOam+3
+	ld   (hl), $00
+	ld   hl, wGenericMenuMaxCursorIdx
+	ld   (hl), $04
+	ld   hl, wMenuCursorBaseOamY
+	ld   (hl), $68
 
 @titleScreenLoop:
-	ld   a, $3c                                      ; $0be9: $3e $3c
-	ld   hl, $c00b                                   ; $0beb: $21 $0b $c0
-	ld   (hl), a                                     ; $0bee: $77
-	ld   hl, wIsTitleScreen                                   ; $0bef: $21 $00 $d4
-	ld   (hl), $ff                                   ; $0bf2: $36 $ff
-	call Call_000_0c6f                               ; $0bf4: $cd $6f $0c
-	ld   hl, wIsTitleScreen                                   ; $0bf7: $21 $00 $d4
-	ld   (hl), $00                                   ; $0bfa: $36 $00
-	ld   hl, $c00c                                   ; $0bfc: $21 $0c $c0
-	ld   a, (hl)                                     ; $0bff: $7e
-	cp   $00                                         ; $0c00: $fe $00
-	jr   nz, +                             ; $0c02: $20 $03
+	ld   a, $3c
+	ld   hl, wTimeUntilMenuInputProcessable
+	ld   (hl), a
+	ld   hl, wIsTitleScreen
+	ld   (hl), $ff
 
-	jp   @titleScreenLoop                               ; $0c04: $c3 $e9 $0b
+// rets when a/b/start selected
+	call genericMenuInputCheckLoop
+	ld   hl, wIsTitleScreen
+	ld   (hl), $00
+	ld   hl, wMenuOptionButtonsPressed
+	ld   a, (hl)
+	cp   $00
+	jr   nz, +
+
+	jp   @titleScreenLoop
 
 +
-	call stopAllSounds                               ; $0c07: $cd $32 $15
+// button pressed
+	call stopAllSounds
+
 	ld   a, $00                                      ; $0c0a: $3e $00
 	ld   hl, $c0fb                                   ; $0c0c: $21 $fb $c0
 	ld   (hl), a                                     ; $0c0f: $77
 
-	ld   hl, $c097                                   ; $0c10: $21 $97 $c0
-	ld   a, (hl)                                     ; $0c13: $7e
-	cp   $03                                         ; $0c14: $fe $03
-	jr   nz, +                             ; $0c16: $20 $03
+// process input
+	ld   hl, wGenericMenuCursorIdx
+	ld   a, (hl)
+	cp   $03
+	jr   nz, +
 
 // selected music test
-	jp   musicTestScreen                               ; $0c18: $c3 $a0 $13
+	jp   musicTestScreen
 
 +
-	cp   $02                                         ; $0c1b: $fe $02
-	jr   nz, +                             ; $0c1d: $20 $13
+	cp   $02
+	jr   nz, +
 
 // flip music on/off
-	ld   hl, wIsMusicOff                                   ; $0c1f: $21 $dd $c4
-	ld   a, (hl)                                     ; $0c22: $7e
-	xor  $ff                                         ; $0c23: $ee $ff
-	ld   (hl), a                                     ; $0c25: $77
-	call playSoundEffect20h                               ; $0c26: $cd $ff $27
-	call changeMusicOnTextAndPlaySound                               ; $0c29: $cd $50 $0c
-	call stopSoundsPlaySound0AtNormalSpeed                               ; $0c2c: $cd $8f $27
-	jp   @titleScreenLoop                               ; $0c2f: $c3 $e9 $0b
+	ld   hl, wIsMusicOff
+	ld   a, (hl)
+	xor  $ff
+	ld   (hl), a
+	call playSoundEffect20h
+	call changeMusicOnTextAndPlaySound
+	call stopSoundsPlaySound0AtNormalSpeed
+	jp   @titleScreenLoop
 
 +
-	cp   $01                                         ; $0c32: $fe $01
-	jr   nz, @playGame                             ; $0c34: $20 $0e
+	cp   $01
+	jr   nz, @playGame
 
 // enter password
 	call enterPasswordScreen
 	jr   z, +
 
-// incorrect password, go back to title screen
-	jp   startTitleScreen                               ; $0c3b: $c3 $58 $0b
+// exited password screen, go back to title screen
+	jp   startTitleScreen
 
 +
 // correct password
-	call processCorrectPassword                               ; $0c3e: $cd $d4 $10
-	jp   postInitGame                               ; $0c41: $c3 $f3 $15
+	call processCorrectPassword
+	jp   postInitGame
 
 @playGame:
-	call Call_000_1012                               ; $0c44: $cd $12 $10
-	jp   initGame                               ; $0c47: $c3 $65 $15
+	call enterNameScreen
+	jp   initGame
 
 
 text_musicOn:
@@ -420,84 +438,90 @@ changeMusicOnTextAndPlaySound:
 	jp   copyMemoryCinVBlank_updateSounds
 
 
-Call_000_0c69:
+// the following return when start/b/a selected
+nonTitleScreenInputCheckLoop:
 	ld   a, $00
-	ld   hl, $c00b                                   ; $0c6b: $21 $0b $c0
-	ld   (hl), a                                     ; $0c6e: $77
+	ld   hl, wTimeUntilMenuInputProcessable
+	ld   (hl), a
 
-Call_000_0c6f:
-	ld   hl, $c097                                   ; $0c6f: $21 $97 $c0
-	ld   a, (hl)                                     ; $0c72: $7e
-	sla  a                                           ; $0c73: $cb $27
-	sla  a                                           ; $0c75: $cb $27
-	sla  a                                           ; $0c77: $cb $27
-	ld   hl, $c0b1                                   ; $0c79: $21 $b1 $c0
-	add  (hl)                                        ; $0c7c: $86
-	ld   hl, wOam                                   ; $0c7d: $21 $00 $c2
-	ld   (hl), a                                     ; $0c80: $77
-	ld   hl, $c00b                                   ; $0c81: $21 $0b $c0
-	ld   e, (hl)                                     ; $0c84: $5e
-	call Call_000_19f8                               ; $0c85: $cd $f8 $19
-	ld   hl, $c00c                                   ; $0c88: $21 $0c $c0
-	ld   (hl), a                                     ; $0c8b: $77
-	cp   $00                                         ; $0c8c: $fe $00
-	jr   nz, +                             ; $0c8e: $20 $01
+genericMenuInputCheckLoop:
+@loop:
+// update cursor y
+	ld   hl, wGenericMenuCursorIdx
+	ld   a, (hl)
+	sla  a
+	sla  a
+	sla  a
+	ld   hl, wMenuCursorBaseOamY
+	add  (hl)
+	ld   hl, wOam
+	ld   (hl), a
 
-	ret                                              ; $0c90: $c9
+	ld   hl, wTimeUntilMenuInputProcessable
+	ld   e, (hl)
+	call processInputInMenus
+
+// c00c is button pressed
+	ld   hl, wMenuOptionButtonsPressed
+	ld   (hl), a
+	cp   $00
+	jr   nz, +
+
+	ret
 
 +
-	cp   $80                                         ; $0c91: $fe $80
-	jr   z, jr_000_0cb7                              ; $0c93: $28 $22
+	cp   PADF_DOWN
+	jr   z, @selectOrDownPressed
 
-	cp   $04                                         ; $0c95: $fe $04
-	jr   z, jr_000_0cb7                              ; $0c97: $28 $1e
+	cp   PADF_SELECT
+	jr   z, @selectOrDownPressed
 
-	cp   $40                                         ; $0c99: $fe $40
-	jr   nz, jr_000_0cd1                             ; $0c9b: $20 $34
+	cp   PADF_UP
+	jr   nz, @notUpDownSelectSelected
 
-	call playSoundEffect20h                               ; $0c9d: $cd $ff $27
-	ld   hl, $c097                                   ; $0ca0: $21 $97 $c0
-	ld   a, (hl)                                     ; $0ca3: $7e
-	cp   $00                                         ; $0ca4: $fe $00
-	jr   nz, jr_000_0cb0                             ; $0ca6: $20 $08
+// pressed up
+	call playSoundEffect20h
+	ld   hl, wGenericMenuCursorIdx
+	ld   a, (hl)
+	cp   $00
+	jr   nz, @processUp
 
-	ld   hl, $c098                                   ; $0ca8: $21 $98 $c0
-	ld   a, (hl)                                     ; $0cab: $7e
-	ld   hl, $c097                                   ; $0cac: $21 $97 $c0
-	ld   (hl), a                                     ; $0caf: $77
+// at 1st option, so should loop
+	ld   hl, wGenericMenuMaxCursorIdx
+	ld   a, (hl)
+	ld   hl, wGenericMenuCursorIdx
+	ld   (hl), a
 
-jr_000_0cb0:
-	ld   hl, $c097                                   ; $0cb0: $21 $97 $c0
-	dec  (hl)                                        ; $0cb3: $35
-	jp   Call_000_0c6f                               ; $0cb4: $c3 $6f $0c
+@processUp:
+	ld   hl, wGenericMenuCursorIdx
+	dec  (hl)
+	jp   @loop
 
+@selectOrDownPressed:
+	call playSoundEffect20h
+	ld   hl, wGenericMenuCursorIdx
+	inc  (hl)
+	ld   hl, wGenericMenuCursorIdx
+	ld   a, (hl)
+	ld   hl, wGenericMenuMaxCursorIdx
+	cp   (hl)
+	jr   c, @loop
 
-jr_000_0cb7:
-	call playSoundEffect20h                               ; $0cb7: $cd $ff $27
-	ld   hl, $c097                                   ; $0cba: $21 $97 $c0
-	inc  (hl)                                        ; $0cbd: $34
-	ld   hl, $c097                                   ; $0cbe: $21 $97 $c0
-	ld   a, (hl)                                     ; $0cc1: $7e
-	ld   hl, $c098                                   ; $0cc2: $21 $98 $c0
-	cp   (hl)                                        ; $0cc5: $be
-	jr   c, Call_000_0c6f                              ; $0cc6: $38 $a7
+	ld   a, $00
+	ld   hl, wGenericMenuCursorIdx
+	ld   (hl), a
+	jp   @loop
 
-	ld   a, $00                                      ; $0cc8: $3e $00
-	ld   hl, $c097                                   ; $0cca: $21 $97 $c0
-	ld   (hl), a                                     ; $0ccd: $77
-	jp   Call_000_0c6f                               ; $0cce: $c3 $6f $0c
+@notUpDownSelectSelected:
+	and  PADF_START|PADF_B|PADF_A
+	jr   z, @loop
 
-
-jr_000_0cd1:
-	and  $0b                                         ; $0cd1: $e6 $0b
-	jr   z, Call_000_0c6f                              ; $0cd3: $28 $9a
-
-	ret                                              ; $0cd5: $c9
+	ret
 
 
 data_0cd6:
-	inc  h                                           ; $0cd6: $24
-	inc  h                                           ; $0cd7: $24
+	inc  h
+	inc  h
 	inc  h                                           ; $0cd8: $24
 	inc  h                                           ; $0cd9: $24
 	inc  h                                           ; $0cda: $24
@@ -715,61 +739,69 @@ jr_000_0da1:
 	nop                                              ; $0da4: $00
 	nop                                              ; $0da5: $00
 
+// ret nz if exiting to title screen (not possible?)
 enterPasswordScreen:
-	ld   a, $20                                      ; $0da6: $3e $20
-	ld   hl, $c097                                   ; $0da8: $21 $97 $c0
-	ld   (hl), a                                     ; $0dab: $77
-	call Call_000_0de1                               ; $0dac: $cd $e1 $0d
+	ld   a, $20
+	ld   hl, wGenericMenuCursorIdx
+	ld   (hl), a
+	call nameOrPasswordInputCheck
 
 @loop:
-	call Call_000_11b0                               ; $0daf: $cd $b0 $11
-	jr   z, @correctPass                              ; $0db2: $28 $28
+	call checkIfPassCorrect
+	jr   z, @correctPass
 
-	call playSoundEffect29h                               ; $0db4: $cd $67 $28
-	call turnOffLCDstartOfVBlank                               ; $0db7: $cd $0a $02
-	call clear_c200_to_c2ff                                       ; $0dba: $cd $9e $5b
-	call copyA0hDataToOam                               ; $0dbd: $cd $99 $1a
-	ld   hl, text_badPassword                                   ; $0dc0: $21 $9e $09
-	call hlContainsScreenOffsetAndDataToCopyToScreen                                       ; $0dc3: $cd $26 $5b
-	ld   hl, text_blankRow                                   ; $0dc6: $21 $b5 $09
-	call hlContainsScreenOffsetAndDataToCopyToScreen                                       ; $0dc9: $cd $26 $5b
-	ld   a, $01                                      ; $0dcc: $3e $01
-	call setLCDfromValue_c015equA                               ; $0dce: $cd $11 $02
-	ld   e, $b4                                      ; $0dd1: $1e $b4
-	call Call_000_19f8                               ; $0dd3: $cd $f8 $19
-	call Call_000_0def                               ; $0dd6: $cd $ef $0d
-	jp   @loop                               ; $0dd9: $c3 $af $0d
+	call playSoundEffect29h
+	call turnOffLCDstartOfVBlank
+	call clear_c200_to_c2ff
+	call copyA0hDataToOam
+
+	ld   hl, text_badPassword
+	call hlContainsScreenOffsetAndDataToCopyToScreen
+
+	ld   hl, text_blankRow
+	call hlContainsScreenOffsetAndDataToCopyToScreen
+
+	ld   a, $01
+	call setLCDfromValue_c015equA
+
+	ld   e, $b4
+	call processInputInMenus
+	call _passwordInputCheck
+	jp   @loop
 
 @correctPass:
-	call playSoundEffect12h                               ; $0ddc: $cd $05 $28
-	xor  a                                           ; $0ddf: $af
-	ret                                              ; $0de0: $c9
+	call playSoundEffect12h
+	xor  a
+	ret
 
 
-Call_000_0de1:
-	call clear_c200_to_c2ff                                       ; $0de1: $cd $9e $5b
-	ld   a, $ff                                      ; $0de4: $3e $ff
-	ld   de, $0020                                   ; $0de6: $11 $20 $00
-	ld   hl, $c4e0                                   ; $0de9: $21 $e0 $c4
-	call setAtoHL_deBytes                               ; $0dec: $cd $6d $27
+nameOrPasswordInputCheck:
+	call clear_c200_to_c2ff
+	ld   a, $ff
+	ld   de, $0020
+	ld   hl, wTextInputChars
+	call setAtoHL_deBytes
 
-Call_000_0def:
-	call turnOffLCDstartOfVBlank                               ; $0def: $cd $0a $02
-	call copyA0hDataToOam                               ; $0df2: $cd $99 $1a
-	ld   hl, lyt_enterPasswordScreen                                   ; $0df5: $21 $d4 $13
-	call copyLayoutFromBank3toScreen0withOffset                               ; $0df8: $cd $37 $15
+_passwordInputCheck:
+	call turnOffLCDstartOfVBlank
+	call copyA0hDataToOam
+	ld   hl, lyt_enterPasswordScreen
+	call copyLayoutFromBank3toScreen0withOffset
+
 	ld   a, $00                                      ; $0dfb: $3e $00
 	ld   hl, $c0c7                                   ; $0dfd: $21 $c7 $c0
 	ld   (hl), a                                     ; $0e00: $77
 	ld   a, $43                                      ; $0e01: $3e $43
 	ld   hl, $c0c0                                   ; $0e03: $21 $c0 $c0
 	ld   (hl), a                                     ; $0e06: $77
-	ld   hl, $001c                                   ; $0e07: $21 $1c $00
-	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $0e0a: $cd $7a $17
-	ld   hl, $c097                                   ; $0e0d: $21 $97 $c0
+
+	ld   hl, $001c
+	call loadTilesetAndVramTileConversionTable_idxedHL
+
+	ld   hl, wGenericMenuCursorIdx                                   ; $0e0d: $21 $97 $c0
 	ld   a, (hl)                                     ; $0e10: $7e
 	cp   $08                                         ; $0e11: $fe $08
-	jr   nz, jr_000_0e24                             ; $0e13: $20 $0f
+	jr   nz, Jump_000_0e24                             ; $0e13: $20 $0f
 
 	ld   de, $980c                                   ; $0e15: $11 $0c $98
 	call dPlusEquScreen0displayOffset                               ; $0e18: $cd $99 $1e
@@ -778,8 +810,7 @@ Call_000_0def:
 	call copyMemoryBC                               ; $0e21: $cd $76 $27
 
 Jump_000_0e24:
-jr_000_0e24:
-	ld   hl, $c097                                   ; $0e24: $21 $97 $c0
+	ld   hl, wGenericMenuCursorIdx                                   ; $0e24: $21 $97 $c0
 	ld   a, (hl)                                     ; $0e27: $7e
 	cp   $08                                         ; $0e28: $fe $08
 	jr   nz, jr_000_0e35                             ; $0e2a: $20 $09
@@ -797,7 +828,7 @@ Jump_000_0e3b:
 	ld   bc, $0000                                   ; $0e3b: $01 $00 $00
 
 jr_000_0e3e:
-	ld   hl, $c4e0                                   ; $0e3e: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $0e3e: $21 $e0 $c4
 	add  hl, bc                                      ; $0e41: $09
 	ld   a, (hl)                                     ; $0e42: $7e
 	bit  7, (hl)                                     ; $0e43: $cb $7e
@@ -833,7 +864,7 @@ Jump_000_0e58:
 	ld   d, a                                        ; $0e67: $57
 
 +
-	ld   hl, $c097                                   ; $0e68: $21 $97 $c0
+	ld   hl, wGenericMenuCursorIdx                                   ; $0e68: $21 $97 $c0
 	ld   a, c                                        ; $0e6b: $79
 	cp   (hl)                                        ; $0e6c: $be
 	jr   nz, jr_000_0e3e                             ; $0e6d: $20 $cf
@@ -858,7 +889,7 @@ Jump_000_0e74:
 	ld   hl, $c21c                                   ; $0e8a: $21 $1c $c2
 	ld   (hl), b                                     ; $0e8d: $70
 	ld   b, $02                                      ; $0e8e: $06 $02
-	ld   hl, $c097                                   ; $0e90: $21 $97 $c0
+	ld   hl, wGenericMenuCursorIdx                                   ; $0e90: $21 $97 $c0
 	ld   a, (hl)                                     ; $0e93: $7e
 	cp   $08                                         ; $0e94: $fe $08
 	jr   nz, +                             ; $0e96: $20 $02
@@ -879,6 +910,7 @@ Jump_000_0e74:
 	add  $08                                         ; $0eae: $c6 $08
 	ld   hl, $c21d                                   ; $0eb0: $21 $1d $c2
 	ld   (hl), a                                     ; $0eb3: $77
+
 	ld   hl, $c0c0                                   ; $0eb4: $21 $c0 $c0
 	ld   c, (hl)                                     ; $0eb7: $4e
 	ld   b, $00                                      ; $0eb8: $06 $00
@@ -886,6 +918,7 @@ Jump_000_0e74:
 	add  hl, bc                                      ; $0ebd: $09
 	ld   e, (hl)                                     ; $0ebe: $5e
 	ld   d, $00                                      ; $0ebf: $16 $00
+
 	ld   hl, data_0d1a                                   ; $0ec1: $21 $1a $0d
 	add  hl, bc                                      ; $0ec4: $09
 	ld   a, (hl)                                     ; $0ec5: $7e
@@ -895,7 +928,7 @@ Jump_000_0e74:
 
 Jump_000_0ecc:
 	ld   e, $00                                      ; $0ecc: $1e $00
-	call Call_000_19f8                               ; $0ece: $cd $f8 $19
+	call processInputInMenus                               ; $0ece: $cd $f8 $19
 	cp   $04                                         ; $0ed1: $fe $04
 	jr   nz, jr_000_0ed8                             ; $0ed3: $20 $03
 
@@ -942,14 +975,13 @@ jr_000_0f06:
 	ld   hl, $c0c0                                   ; $0f0a: $21 $c0 $c0
 	ld   a, (hl)                                     ; $0f0d: $7e
 	cp   $44                                         ; $0f0e: $fe $44
-	jr   nz, jr_000_0f18                             ; $0f10: $20 $06
+	jr   nz, Jump_000_0f18                             ; $0f10: $20 $06
 
 	ld   a, $3c                                      ; $0f12: $3e $3c
 	ld   hl, $c0c0                                   ; $0f14: $21 $c0 $c0
 	ld   (hl), a                                     ; $0f17: $77
 
 Jump_000_0f18:
-jr_000_0f18:
 	call playSoundEffect20h                               ; $0f18: $cd $ff $27
 	jp   Jump_000_0e74                               ; $0f1b: $c3 $74 $0e
 
@@ -991,21 +1023,20 @@ jr_000_0f41:
 	ld   hl, $c0c0                                   ; $0f47: $21 $c0 $c0
 	ld   a, (hl)                                     ; $0f4a: $7e
 	cp   $36                                         ; $0f4b: $fe $36
-	jr   c, jr_000_0f5f                              ; $0f4d: $38 $10
+	jr   c, Jump_000_0f5f                              ; $0f4d: $38 $10
 
 	ld   c, $09                                      ; $0f4f: $0e $09
 	cp   $37                                         ; $0f51: $fe $37
-	jr   z, jr_000_0f5f                              ; $0f53: $28 $0a
+	jr   z, Jump_000_0f5f                              ; $0f53: $28 $0a
 
 	cp   $39                                         ; $0f55: $fe $39
-	jr   c, jr_000_0f74                              ; $0f57: $38 $1b
+	jr   c, Jump_000_0f74                              ; $0f57: $38 $1b
 
 	ld   c, $08                                      ; $0f59: $0e $08
 	cp   $3c                                         ; $0f5b: $fe $3c
 	jr   nc, jr_000_0f68                             ; $0f5d: $30 $09
 
 Jump_000_0f5f:
-jr_000_0f5f:
 	ld   a, c                                        ; $0f5f: $79
 	ld   hl, $c0c0                                   ; $0f60: $21 $c0 $c0
 	add  (hl)                                        ; $0f63: $86
@@ -1015,7 +1046,7 @@ jr_000_0f5f:
 
 jr_000_0f68:
 	cp   $40                                         ; $0f68: $fe $40
-	jr   c, jr_000_0f74                              ; $0f6a: $38 $08
+	jr   c, Jump_000_0f74                              ; $0f6a: $38 $08
 
 	jr   nz, jr_000_0f72                             ; $0f6c: $20 $04
 
@@ -1028,7 +1059,6 @@ jr_000_0f72:
 	inc  e                                           ; $0f73: $1c
 
 Jump_000_0f74:
-jr_000_0f74:
 	ld   hl, $c0c0                                   ; $0f74: $21 $c0 $c0
 	ld   (hl), e                                     ; $0f77: $73
 	jp   Jump_000_0f18                               ; $0f78: $c3 $18 $0f
@@ -1045,11 +1075,11 @@ jr_000_0f7b:
 
 	ld   c, $f6                                      ; $0f87: $0e $f6
 	cp   $40                                         ; $0f89: $fe $40
-	jr   c, jr_000_0f5f                              ; $0f8b: $38 $d2
+	jr   c, Jump_000_0f5f                              ; $0f8b: $38 $d2
 
 	ld   c, $f8                                      ; $0f8d: $0e $f8
 	cp   $40                                         ; $0f8f: $fe $40
-	jr   nz, jr_000_0f5f                             ; $0f91: $20 $cc
+	jr   nz, Jump_000_0f5f                             ; $0f91: $20 $cc
 
 	ld   c, $f7                                      ; $0f93: $0e $f7
 	jp   Jump_000_0f5f                               ; $0f95: $c3 $5f $0f
@@ -1108,9 +1138,9 @@ jr_000_0fd0:
 	ld   hl, $c0c7                                   ; $0fd0: $21 $c7 $c0
 	dec  (hl)                                        ; $0fd3: $35
 	bit  7, (hl)                                     ; $0fd4: $cb $7e
-	jr   z, jr_000_1009                              ; $0fd6: $28 $31
+	jr   z, Jump_000_1009                              ; $0fd6: $28 $31
 
-	ld   hl, $c097                                   ; $0fd8: $21 $97 $c0
+	ld   hl, wGenericMenuCursorIdx                                   ; $0fd8: $21 $97 $c0
 	ld   a, (hl)                                     ; $0fdb: $7e
 	ld   hl, $c0c7                                   ; $0fdc: $21 $c7 $c0
 	ld   (hl), a                                     ; $0fdf: $77
@@ -1123,7 +1153,7 @@ jr_000_0fe7:
 	ld   hl, $c0c7                                   ; $0fe7: $21 $c7 $c0
 	ld   c, (hl)                                     ; $0fea: $4e
 	ld   b, $00                                      ; $0feb: $06 $00
-	ld   hl, $c4e0                                   ; $0fed: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $0fed: $21 $e0 $c4
 	add  hl, bc                                      ; $0ff0: $09
 	ld   (hl), a                                     ; $0ff1: $77
 
@@ -1131,9 +1161,9 @@ jr_000_0ff2:
 	ld   hl, $c0c7                                   ; $0ff2: $21 $c7 $c0
 	inc  (hl)                                        ; $0ff5: $34
 	ld   a, (hl)                                     ; $0ff6: $7e
-	ld   hl, $c097                                   ; $0ff7: $21 $97 $c0
+	ld   hl, wGenericMenuCursorIdx                                   ; $0ff7: $21 $97 $c0
 	cp   (hl)                                        ; $0ffa: $be
-	jr   nz, jr_000_1009                             ; $0ffb: $20 $0c
+	jr   nz, Jump_000_1009                             ; $0ffb: $20 $0c
 
 	ld   a, $00                                      ; $0ffd: $3e $00
 	ld   hl, $c0c7                                   ; $0fff: $21 $c7 $c0
@@ -1143,36 +1173,35 @@ jr_000_0ff2:
 	ld   (hl), a                                     ; $1008: $77
 
 Jump_000_1009:
-jr_000_1009:
 	call playSoundChIfOff26hIfOn                               ; $1009: $cd $4f $28
 	call turnOffLCDstartOfVBlank                               ; $100c: $cd $0a $02
 	jp   Jump_000_0e24                               ; $100f: $c3 $24 $0e
 
 
-Call_000_1012:
-	ld   a, $08                                      ; $1012: $3e $08
-	ld   hl, $c097                                   ; $1014: $21 $97 $c0
-	ld   (hl), a                                     ; $1017: $77
-	ld   hl, wIsSecretPlayerName                                   ; $1018: $21 $f8 $c0
-	ld   (hl), $00                                   ; $101b: $36 $00
-	call Call_000_0de1                               ; $101d: $cd $e1 $0d
-	ld   bc, $0000                                   ; $1020: $01 $00 $00
+enterNameScreen:
+	ld   a, $08
+	ld   hl, wGenericMenuCursorIdx
+	ld   (hl), a
+	ld   hl, wIsSecretPlayerName
+	ld   (hl), $00
+	call nameOrPasswordInputCheck
 
+	ld   bc, $0000
 @copyIntoPlayerName:
-	ld   hl, $c4e0                                   ; $1023: $21 $e0 $c4
-	add  hl, bc                                      ; $1026: $09
-	ld   a, (hl)                                     ; $1027: $7e
-	and  $3f                                         ; $1028: $e6 $3f
-	ld   hl, wPlayerName                                   ; $102a: $21 $49 $c6
-	add  hl, bc                                      ; $102d: $09
-	ld   (hl), a                                     ; $102e: $77
-	inc  bc                                          ; $102f: $03
-	ld   a, c                                        ; $1030: $79
-	cp   $08                                         ; $1031: $fe $08
-	jr   nz, @copyIntoPlayerName                             ; $1033: $20 $ee
+	ld   hl, wTextInputChars
+	add  hl, bc
+	ld   a, (hl)
+	and  $3f
+	ld   hl, wPlayerName
+	add  hl, bc
+	ld   (hl), a
+	inc  bc
+	ld   a, c
+	cp   $08
+	jr   nz, @copyIntoPlayerName
 
 // check secret player name
-	ld   bc, $0000                                   ; $1035: $01 $00 $00
+	ld   bc, $0000
 
 @nextLetter:
 	ld   hl, wPlayerName
@@ -1283,7 +1312,7 @@ processCorrectPassword:
 	ld   hl, wPlayerName                                   ; $10dc: $21 $49 $c6
 	add  hl, bc                                      ; $10df: $09
 	ld   (hl), a                                     ; $10e0: $77
-	ld   hl, $c4e0                                   ; $10e1: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $10e1: $21 $e0 $c4
 	add  hl, bc                                      ; $10e4: $09
 	ld   a, (hl)                                     ; $10e5: $7e
 	ld   hl, wPlayerName                                   ; $10e6: $21 $49 $c6
@@ -1397,7 +1426,7 @@ processCorrectPassword:
 	ret                                              ; $11af: $c9
 
 
-Call_000_11b0:
+checkIfPassCorrect:
 	call generateEncryptValues                               ; $11b0: $cd $d1 $12
 	ld   hl, $c4fd                                   ; $11b3: $21 $fd $c4
 	ld   a, (hl)                                     ; $11b6: $7e
@@ -1433,13 +1462,13 @@ generatePassword:
 	ld   a, (hl)                                     ; $11dd: $7e
 // add $20 and store in c4e0
 	add  $20                                         ; $11de: $c6 $20
-	ld   hl, $c4e0                                   ; $11e0: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $11e0: $21 $e0 $c4
 	add  hl, bc                                      ; $11e3: $09
 	ld   (hl), a                                     ; $11e4: $77
 // get its idx*2 and add on to that value in c4e0
 	ld   a, c                                        ; $11e5: $79
 	sla  a                                           ; $11e6: $cb $27
-	ld   hl, $c4e0                                   ; $11e8: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $11e8: $21 $e0 $c4
 	add  hl, bc                                      ; $11eb: $09
 	add  (hl)                                        ; $11ec: $86
 	ld   (hl), a                                     ; $11ed: $77
@@ -1611,7 +1640,7 @@ generateEncryptValues:
 
 -
 // get a byte generated for password
-	ld   hl, $c4e0                                   ; $12de: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $12de: $21 $e0 $c4
 	add  hl, bc                                      ; $12e1: $09
 	ld   a, (hl)                                     ; $12e2: $7e
 
@@ -1658,7 +1687,7 @@ generateEncryptValues:
 
 -
 // starting from a = $2a, xor it with each password byte
-	ld   hl, $c4e0                                   ; $1317: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $1317: $21 $e0 $c4
 	add  hl, bc                                      ; $131a: $09
 	xor  (hl)                                        ; $131b: $ae
 
@@ -1715,177 +1744,194 @@ musicScreenLayout:
 
 
 musicTestScreen:
-	ld   hl, $c0a7                                   ; $13a0: $21 $a7 $c0
-	ld   (hl), $00                                   ; $13a3: $36 $00
-	ld   hl, $c0a9                                   ; $13a5: $21 $a9 $c0
-	ld   (hl), $00                                   ; $13a8: $36 $00
-	call drawFullMusicTestScreen                               ; $13aa: $cd $50 $14
-	ld   a, $00                                      ; $13ad: $3e $00
-	ld   hl, $c097                                   ; $13af: $21 $97 $c0
-	ld   (hl), a                                     ; $13b2: $77
-	ld   hl, wMenuCursorIdx                                   ; $13b3: $21 $11 $c7
-	ld   (hl), a                                     ; $13b6: $77
-	ld   hl, wSoundToPlayIdx                                   ; $13b7: $21 $09 $c0
-	ld   (hl), a                                     ; $13ba: $77
-	jp   @mainLoop                               ; $13bb: $c3 $11 $14
+	ld   hl, wMusicScreenSongVal
+	ld   (hl), $00
+	ld   hl, wMusicScreenSoundVal
+	ld   (hl), $00
+	call drawFullMusicTestScreen
+
+	ld   a, $00
+	ld   hl, wGenericMenuCursorIdx
+	ld   (hl), a
+
+	ld   hl, wMusicScreenIsTwiceSpeed
+	ld   (hl), a
+
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
+	jp   @mainLoop
 
 
 @toMainLoop:
-	ld   hl, wOam+1                                   ; $13be: $21 $01 $c2
-	ld   (hl), $0e                                   ; $13c1: $36 $0e
-	ld   a, $2a                                      ; $13c3: $3e $2a
-	ld   hl, wOam+2                                   ; $13c5: $21 $02 $c2
-	ld   (hl), a                                     ; $13c8: $77
-	ld   a, $00                                      ; $13c9: $3e $00
-	ld   hl, wOam+3                                   ; $13cb: $21 $03 $c2
-	ld   (hl), a                                     ; $13ce: $77
-	ld   a, $04                                      ; $13cf: $3e $04
-	ld   hl, $c098                                   ; $13d1: $21 $98 $c0
-	ld   (hl), a                                     ; $13d4: $77
-	ld   a, $40                                      ; $13d5: $3e $40
-	ld   hl, $c0b1                                   ; $13d7: $21 $b1 $c0
-	ld   (hl), a                                     ; $13da: $77
-	call Call_000_0c69                               ; $13db: $cd $69 $0c
-	ld   hl, $c097                                   ; $13de: $21 $97 $c0
-	ld   a, (hl)                                     ; $13e1: $7e
-	cp   $00                                         ; $13e2: $fe $00
-	jr   nz, @not0                             ; $13e4: $20 $03
+// cursor, only y changes
+	ld   hl, wOam+1
+	ld   (hl), $0e
+	ld   a, $2a
+	ld   hl, wOam+2
+	ld   (hl), a
+	ld   a, $00
+	ld   hl, wOam+3
+	ld   (hl), a
+
+	ld   a, $04
+	ld   hl, wGenericMenuMaxCursorIdx
+	ld   (hl), a
+
+	ld   a, $40
+	ld   hl, wMenuCursorBaseOamY
+	ld   (hl), a
+
+	call nonTitleScreenInputCheckLoop
+
+// cursor idx
+	ld   hl, wGenericMenuCursorIdx
+	ld   a, (hl)
+	cp   $00
+	jr   nz, @not0
 
 // exit to game menu
-	jp   startTitleScreen                               ; $13e6: $c3 $58 $0b
+	jp   startTitleScreen
 
 @not0:
-	cp   $01                                         ; $13e9: $fe $01
-	jr   nz, @gt1                             ; $13eb: $20 $0d
+	cp   $01
+	jr   nz, @gt1
 
-// speed change
-	ld   hl, wMenuCursorIdx                                   ; $13ed: $21 $11 $c7
-	ld   a, (hl)                                     ; $13f0: $7e
-	xor  $ff                                         ; $13f1: $ee $ff
-	ld   hl, wMenuCursorIdx                                   ; $13f3: $21 $11 $c7
-	ld   (hl), a                                     ; $13f6: $77
-	jp   @mainLoop                               ; $13f7: $c3 $11 $14
-
+// speed change - flip it
+	ld   hl, wMusicScreenIsTwiceSpeed
+	ld   a, (hl)
+	xor  $ff
+	ld   hl, wMusicScreenIsTwiceSpeed
+	ld   (hl), a
+	jp   @mainLoop
 
 @gt1:
-	cp   $03                                         ; $13fa: $fe $03
-	jr   z, @sound                              ; $13fc: $28 $2f
+	cp   $03
+	jr   z, @sound
 
 // song
-	ld   hl, $c00c                                   ; $13fe: $21 $0c $c0
-	ld   a, (hl)                                     ; $1401: $7e
-	cp   $02                                         ; $1402: $fe $02
-	jr   nz, @mainLoop                             ; $1404: $20 $0b
+	ld   hl, wMenuOptionButtonsPressed
+	ld   a, (hl)
+	cp   PADF_B
+	jr   nz, @mainLoop
 
-	ld   hl, $c0a7                                   ; $1406: $21 $a7 $c0
-	inc  (hl)                                        ; $1409: $34
-	ld   a, (hl)                                     ; $140a: $7e
-	cp   $06                                         ; $140b: $fe $06
-	jr   c, @mainLoop                              ; $140d: $38 $02
+// picked song, so go to next one, looping 6 to 0
+	ld   hl, wMusicScreenSongVal
+	inc  (hl)
+	ld   a, (hl)
+	cp   NUM_MUSIC
+	jr   c, @mainLoop
 
-	ld   (hl), $00                                   ; $140f: $36 $00
+// otherwise, main loop
+	ld   (hl), $00
 
 @mainLoop:
-	call drawFullMusicTestScreen                               ; $1411: $cd $50 $14
-	call stopHWSoundChannels012                               ; $1414: $cd $d7 $14
-	ld   hl, wMenuCursorIdx                                   ; $1417: $21 $11 $c7
-	ld   a, (hl)                                     ; $141a: $7e
-	ld   hl, wSoundIsTwiceSpeed                                   ; $141b: $21 $2a $c7
-	ld   (hl), a                                     ; $141e: $77
-	ld   hl, $c0a7                                   ; $141f: $21 $a7 $c0
-	ld   a, (hl)                                     ; $1422: $7e
-	ld   hl, wSoundToPlayIdx                                   ; $1423: $21 $09 $c0
-	ld   (hl), a                                     ; $1426: $77
-	call play3soundChannels_6choicesIdxed_c009                               ; $1427: $cd $bf $14
-	jp   @toMainLoop                               ; $142a: $c3 $be $13
+	call drawFullMusicTestScreen
+	call stopHWSoundChannels012
+	ld   hl, wMusicScreenIsTwiceSpeed
+	ld   a, (hl)
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+	ld   hl, wMusicScreenSongVal
+	ld   a, (hl)
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
+	call play3soundChannels_6choicesIdxed_c009
+	jp   @toMainLoop
 
 @sound:
-	ld   hl, $c00c                                   ; $142d: $21 $0c $c0
-	ld   a, (hl)                                     ; $1430: $7e
-	cp   $02                                         ; $1431: $fe $02
-	jr   nz, +                             ; $1433: $20 $0b
+	ld   hl, wMenuOptionButtonsPressed
+	ld   a, (hl)
+	cp   PADF_B
+	jr   nz, +
 
-	ld   hl, $c0a9                                   ; $1435: $21 $a9 $c0
-	inc  (hl)                                        ; $1438: $34
-	ld   a, (hl)                                     ; $1439: $7e
-	cp   $2a                                         ; $143a: $fe $2a
-	jr   c, +                              ; $143c: $38 $02
+// inc sound val if b pressed, looping $2a to be 0
+	ld   hl, wMusicScreenSoundVal
+	inc  (hl)
+	ld   a, (hl)
+	cp   NUM_SOUNDS
+	jr   c, +
 
-	ld   (hl), $00                                   ; $143e: $36 $00
+	ld   (hl), $00
 
 +
-	call stopHWSoundChannels012                               ; $1440: $cd $d7 $14
-	call drawFullMusicTestScreen                               ; $1443: $cd $50 $14
-	ld   hl, $c0a9                                   ; $1446: $21 $a9 $c0
-	ld   a, (hl)                                     ; $1449: $7e
-	call playSoundEffectInTableIdxedA_channel3or4                               ; $144a: $cd $07 $15
-	jp   @toMainLoop                               ; $144d: $c3 $be $13
+	call stopHWSoundChannels012
+	call drawFullMusicTestScreen
+
+// play new sound
+	ld   hl, wMusicScreenSoundVal
+	ld   a, (hl)
+	call playSoundEffectInTableIdxedA_channel3or4
+
+	jp   @toMainLoop
 
 
 drawFullMusicTestScreen:
-	ld   hl, musicScreenLayout                                   ; $1450: $21 $33 $13
-	call initMusicScreenGfxOamAndLayout                               ; $1453: $cd $75 $14
+	ld   hl, musicScreenLayout
+	call initMusicScreenGfxOamAndLayout
 
 // song value
-	ld   de, $9927                                   ; $1456: $11 $27 $99
-	call dPlusEquScreen0displayOffset                               ; $1459: $cd $99 $1e
-	ld   hl, $c0a7                                   ; $145c: $21 $a7 $c0
-	ld   a, (hl)                                     ; $145f: $7e
-	call Call_001_5af8                                       ; $1460: $cd $f8 $5a
+	ld   de, $9927
+	call dPlusEquScreen0displayOffset
+	ld   hl, wMusicScreenSongVal
+	ld   a, (hl)
+	call drawBCDNumsNoLeading0s
 
 // sound value
-	ld   de, $9948                                   ; $1463: $11 $48 $99
-	call dPlusEquScreen0displayOffset                               ; $1466: $cd $99 $1e
-	ld   hl, $c0a9                                   ; $1469: $21 $a9 $c0
-	ld   a, (hl)                                     ; $146c: $7e
-	call Call_001_5af8                                       ; $146d: $cd $f8 $5a
+	ld   de, $9948
+	call dPlusEquScreen0displayOffset
+	ld   hl, wMusicScreenSoundVal
+	ld   a, (hl)
+	call drawBCDNumsNoLeading0s
 
-//
-	ld   a, $01                                      ; $1470: $3e $01
-	jp   setLCDfromValue_c015equA                               ; $1472: $c3 $11 $02
+	ld   a, $01
+	jp   setLCDfromValue_c015equA
 
 
 initMusicScreenGfxOamAndLayout:
-	push hl                                          ; $1475: $e5
-	call turnOffLCDstartOfVBlank                               ; $1476: $cd $0a $02
-	call clear_c200_to_c2ff                                       ; $1479: $cd $9e $5b
-	call copyA0hDataToOam                               ; $147c: $cd $99 $1a
-	call clearScreen0                                       ; $147f: $cd $8e $5b
-	ld   hl, $001e                                   ; $1482: $21 $1e $00
-	call loadTilesetAndVramTileConversionTable_idxedHL                               ; $1485: $cd $7a $17
-	pop  hl                                          ; $1488: $e1
+// hl is music screen layout
+	push hl
+	call turnOffLCDstartOfVBlank
+	call clear_c200_to_c2ff
+	call copyA0hDataToOam
+	call clearScreen0
+	ld   hl, $001e
+	call loadTilesetAndVramTileConversionTable_idxedHL
+	pop  hl
 
 @tryNextHLvalue:
-	ld   e, (hl)                                     ; $1489: $5e
-	inc  hl                                          ; $148a: $23
-	ld   d, (hl)                                     ; $148b: $56
-	inc  hl                                          ; $148c: $23
-	ld   a, e                                        ; $148d: $7b
-	cp   $ff                                         ; $148e: $fe $ff
-	jr   nz, +                             ; $1490: $20 $05
+	ld   e, (hl)
+	inc  hl
+	ld   d, (hl)
+	inc  hl
+	ld   a, e
+	cp   $ff
+	jr   nz, +
 
 // go to done if de == $ffff
-	ld   a, d                                        ; $1492: $7a
-	cp   $ff                                         ; $1493: $fe $ff
-	jr   z, @done                              ; $1495: $28 $11
+	ld   a, d
+	cp   $ff
+	jr   z, @done
 
 +
-	ld   a, d                                        ; $1497: $7a
-	add  $98                                         ; $1498: $c6 $98
-	ld   d, a                                        ; $149a: $57
-	call dPlusEquScreen0displayOffset                               ; $149b: $cd $99 $1e
+// de is in screen 0
+	ld   a, d
+	add  >_SCRN0
+	ld   d, a
+	call dPlusEquScreen0displayOffset
 
 @waitUntilHLequFF:
-	ldi  a, (hl)                                     ; $149e: $2a
-	cp   $ff                                         ; $149f: $fe $ff
-	jr   z, @tryNextHLvalue                              ; $14a1: $28 $e6
+// if value to put in screen is $ff, place next tiles
+	ldi  a, (hl)
+	cp   $ff
+	jr   z, @tryNextHLvalue
 
-	ld   (de), a                                     ; $14a3: $12
-	inc  de                                          ; $14a4: $13
-	jp   @waitUntilHLequFF                               ; $14a5: $c3 $9e $14
+// copy each byte to vram
+	ld   (de), a
+	inc  de
+	jp   @waitUntilHLequFF
 
 @done:
-	ret                                              ; $14a8: $c9
+	ret
 
 
 ;;
@@ -1949,15 +1995,15 @@ playSoundChannelADataInBCIdxed_c009:
 	jp   call_playSoundChannelADataInDE
 
 
-Call_000_14f8:
-	ld   hl, $c800
-	ld   a, (hl)                                     ; $14fb: $7e
-	ld   hl, $c80d                                   ; $14fc: $21 $0d $c8
-	or   (hl)                                        ; $14ff: $b6
-	ld   hl, $c81a                                   ; $1500: $21 $1a $c8
-	or   (hl)                                        ; $1503: $b6
-	and  $80                                         ; $1504: $e6 $80
-	ret                                              ; $1506: $c9
+retZifFirst3SoundChannelsOff:
+	ld   hl, wSoundChannelA.controlByteAndHWChannelAddr
+	ld   a, (hl)
+	ld   hl, wSoundChannelB.controlByteAndHWChannelAddr
+	or   (hl)
+	ld   hl, wSoundChannelC.controlByteAndHWChannelAddr
+	or   (hl)
+	and  $80
+	ret
 
 
 playSoundEffectInTableIdxedA_channel3or4:
@@ -2171,7 +2217,7 @@ postInitGame2:
 	ld   de, $0007
 	call setAtoHL_deBytes
 
-	ld   hl, $c6de                                   ; $163f: $21 $de $c6
+	ld   hl, wScreen0displayOffset2                                   ; $163f: $21 $de $c6
 	ld   (hl), $00                                   ; $1642: $36 $00
 	ld   hl, wScreen1displayOffset                                   ; $1644: $21 $dd $c6
 	ld   (hl), $04                                   ; $1647: $36 $04
@@ -2179,14 +2225,14 @@ postInitGame2:
 	ld   (hl), $ff                                   ; $164c: $36 $ff
 
 -
-	call Call_000_1b1e                               ; $164e: $cd $1e $1b
-	jr   nc, -                             ; $1651: $30 $fb
+	call mainLoopCheckingForGameOver
+	jr   nc, -
 
 	call setScrollValues                               ; $1653: $cd $f1 $1d
 	call reloadGfxClearLCDScreen_loadTileset1ch                               ; $1656: $cd $ef $16
 	ld   hl, lyt_gameOverScreen                                   ; $1659: $21 $fe $10
 	call copyLayoutFromBank3toScreen0withOffset                               ; $165c: $cd $37 $15
-	call func_5abf                                       ; $165f: $cd $bf $5a
+	call drawGameOverScreenScore                                       ; $165f: $cd $bf $5a
 	call generatePassword                               ; $1662: $cd $d6 $11
 
 //
@@ -2194,7 +2240,7 @@ postInitGame2:
 	call dPlusEquScreen0displayOffset                               ; $1668: $cd $99 $1e
 	ld   bc, $0000                                   ; $166b: $01 $00 $00
 -
-	ld   hl, $c4e0                                   ; $166e: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $166e: $21 $e0 $c4
 	add  hl, bc                                      ; $1671: $09
 	ld   a, (hl)                                     ; $1672: $7e
 	and  $3f                                         ; $1673: $e6 $3f
@@ -2216,7 +2262,7 @@ postInitGame2:
 	call dPlusEquScreen0displayOffset                               ; $168a: $cd $99 $1e
 
 jr_000_168d:
-	ld   hl, $c4e0                                   ; $168d: $21 $e0 $c4
+	ld   hl, wTextInputChars                                   ; $168d: $21 $e0 $c4
 	add  hl, bc                                      ; $1690: $09
 	ld   a, (hl)                                     ; $1691: $7e
 	and  $3f                                         ; $1692: $e6 $3f
@@ -2244,17 +2290,17 @@ jr_000_168d:
 	ld   hl, wOam+3                                   ; $16b8: $21 $03 $c2
 	ld   (hl), $00                                   ; $16bb: $36 $00
 	ld   a, $02                                      ; $16bd: $3e $02
-	ld   hl, $c098                                   ; $16bf: $21 $98 $c0
+	ld   hl, wGenericMenuMaxCursorIdx                                   ; $16bf: $21 $98 $c0
 	ld   (hl), a                                     ; $16c2: $77
 	ld   a, $00                                      ; $16c3: $3e $00
-	ld   hl, $c097                                   ; $16c5: $21 $97 $c0
+	ld   hl, wGenericMenuCursorIdx                                   ; $16c5: $21 $97 $c0
 	ld   (hl), a                                     ; $16c8: $77
 	ld   a, $40                                      ; $16c9: $3e $40
-	ld   hl, $c0b1                                   ; $16cb: $21 $b1 $c0
+	ld   hl, wMenuCursorBaseOamY                                   ; $16cb: $21 $b1 $c0
 	ld   (hl), a                                     ; $16ce: $77
-	call Call_000_0c69                               ; $16cf: $cd $69 $0c
+	call nonTitleScreenInputCheckLoop                               ; $16cf: $cd $69 $0c
 	call stopAllSounds                               ; $16d2: $cd $32 $15
-	ld   hl, $c097                                   ; $16d5: $21 $97 $c0
+	ld   hl, wGenericMenuCursorIdx                                   ; $16d5: $21 $97 $c0
 	ld   a, (hl)                                     ; $16d8: $7e
 	cp   $00                                         ; $16d9: $fe $00
 	jr   z, +                              ; $16db: $28 $03
@@ -2864,9 +2910,12 @@ setRevivePointInRoomGroup:
 	ld   a, $ff                                      ; $19f5: $3e $ff
 	ld   (hl), a                                     ; $19f7: $77
 
-Call_000_19f8:
-	ld   hl, $d002
+processInputInMenus:
+// e/d002 is 0 if non title screen
+// is $3c/60 if title screen
+	ld   hl, wCounterUntilMenuInputProcessable
 	ld   (hl), e                                     ; $19fb: $73
+
 	ld   hl, $d001                                   ; $19fc: $21 $01 $d0
 	ld   a, (hl)                                     ; $19ff: $7e
 	or   a                                           ; $1a00: $b7
@@ -2874,7 +2923,7 @@ Call_000_19f8:
 
 Jump_000_1a03:
 	call minimalMainLoop                               ; $1a03: $cd $5e $1a
-	ld   hl, $d002                                   ; $1a06: $21 $02 $d0
+	ld   hl, wCounterUntilMenuInputProcessable                                   ; $1a06: $21 $02 $d0
 	ld   a, (hl)                                     ; $1a09: $7e
 	or   a                                           ; $1a0a: $b7
 	jr   z, jr_000_1a14                              ; $1a0b: $28 $07
@@ -2887,19 +2936,19 @@ Jump_000_1a03:
 
 jr_000_1a14:
 	call pollInput                                       ; $1a14: $cd $3b $5b
-	jr   z, jr_000_1a1c                              ; $1a17: $28 $03
+	jr   z, @noInput                              ; $1a17: $28 $03
 
 	jp   Jump_000_1a03                               ; $1a19: $c3 $03 $1a
 
-
-jr_000_1a1c:
+@noInput:
 	call minimalMainLoop                               ; $1a1c: $cd $5e $1a
 	call pollInput                                       ; $1a1f: $cd $3b $5b
 	jr   nz, Jump_000_1a03                             ; $1a22: $20 $df
 
+// again no input
 jr_000_1a24:
 	call minimalMainLoop                               ; $1a24: $cd $5e $1a
-	ld   hl, $d002                                   ; $1a27: $21 $02 $d0
+	ld   hl, wCounterUntilMenuInputProcessable                                   ; $1a27: $21 $02 $d0
 	ld   a, (hl)                                     ; $1a2a: $7e
 	or   a                                           ; $1a2b: $b7
 	jr   z, jr_000_1a35                              ; $1a2c: $28 $07
@@ -2937,7 +2986,7 @@ jr_000_1a49:
 ;;
 jr_000_1a4b:
 	ld   e, $0c                                      ; $1a4b: $1e $0c
-	call Call_000_19f8                               ; $1a4d: $cd $f8 $19
+	call processInputInMenus                               ; $1a4d: $cd $f8 $19
 	jr   nz, @done                             ; $1a50: $20 $05
 
 	call clear_d001                               ; $1a52: $cd $58 $1a
@@ -3016,7 +3065,8 @@ _copy40bytesFromWramToOam:
 
 
 // updates game state, deals with room transitions
-Call_000_1b1e:
+mainLoopCheckingForGameOver:
+// if this returns a carry, it's game over
 	ld   a, $00                                      ; $1b1e: $3e $00
 	ld   hl, $c025                                   ; $1b20: $21 $25 $c0
 	ld   (hl), a                                     ; $1b23: $77
@@ -3050,13 +3100,12 @@ Call_000_1b1e:
 	cp   RTT_DIFF_GROUP                                         ; $1b5b: $fe $0c
 	jp   nz, @handleRoomTransitionInit                           ; $1b5d: $c2 $9b $1b
 
-// involved with loading a screen
 @loadScreen:
 	call updateSoundsStartOfVBlank                               ; $1b60: $cd $76 $1a
 	call turnOffLCD                               ; $1b63: $cd $0d $02
 	ld   hl, wScreen0displayOffset                                   ; $1b66: $21 $dc $c6
 	ld   (hl), $00                                   ; $1b69: $36 $00
-	ld   hl, $c6de                                   ; $1b6b: $21 $de $c6
+	ld   hl, wScreen0displayOffset2                                   ; $1b6b: $21 $de $c6
 	ld   (hl), $00                                   ; $1b6e: $36 $00
 	ld   hl, wScreen1displayOffset                                   ; $1b70: $21 $dd $c6
 	ld   (hl), $04                                   ; $1b73: $36 $04
@@ -3072,7 +3121,7 @@ Call_000_1b1e:
 	ld   a, $06                                      ; $1b90: $3e $06
 	call setLCDfromValue_c015equA                               ; $1b92: $cd $11 $02
 	call func_581a                                       ; $1b95: $cd $1a $58
-	jp   Jump_000_1bf7                               ; $1b98: $c3 $f7 $1b
+	jp   @mainLoopAfterLoadScreen                               ; $1b98: $c3 $f7 $1b
 
 
 @handleRoomTransitionInit:
@@ -3121,7 +3170,7 @@ Call_000_1b1e:
 
 ;;
 	ld   a, $00                                      ; $1be0: $3e $00
-	ld   hl, $c0b7                                   ; $1be2: $21 $b7 $c0
+	ld   hl, wRoomCurrTeleportIdx                                   ; $1be2: $21 $b7 $c0
 	ld   (hl), a                                     ; $1be5: $77
 
 -
@@ -3133,27 +3182,30 @@ Call_000_1b1e:
 	call applyPalettesBasedOnLamp                               ; $1bf1: $cd $06 $1e
 	call call_updateSounds                               ; $1bf4: $cd $d6 $01
 
-Jump_000_1bf7:
-	call retZIfCanRaftOnScreen                               ; $1bf7: $cd $b5 $23
-	jr   z, +                              ; $1bfa: $28 $06
+@mainLoopAfterLoadScreen:
+	call retZIfCanRaftOnScreen
+	jr   z, +
 
-	ld   a, $00                                      ; $1bfc: $3e $00
-	ld   hl, wIsEquippingRaft                                   ; $1bfe: $21 $4c $c0
-	ld   (hl), a                                     ; $1c01: $77
-
-+
-	call Call_000_14f8                               ; $1c02: $cd $f8 $14
-	jr   nz, +                             ; $1c05: $20 $03
-
-	call stopSoundsPlaySound5AtNormalSpeed                               ; $1c07: $cd $ae $27
+// cant raft on screen, make sure unequip raft
+	ld   a, $00
+	ld   hl, wIsEquippingRaft
+	ld   (hl), a
 
 +
-	ld   a, $00                                      ; $1c0a: $3e $00
-	ld   hl, wMainLoopCounter                                   ; $1c0c: $21 $14 $c0
-	ld   (hl), a                                     ; $1c0f: $77
-	call pollInput                                       ; $1c10: $cd $3b $5b
-	ld   hl, wNewKeysPressed                                   ; $1c13: $21 $18 $c0
-	ld   (hl), a                                     ; $1c16: $77
+	call retZifFirst3SoundChannelsOff
+	jr   nz, +
+
+	call stopSoundsPlaySound5AtNormalSpeed
+
++
+// screen loaded, main loop counter resets
+	ld   a, $00
+	ld   hl, wMainLoopCounter
+	ld   (hl), a
+
+	call pollInput
+	ld   hl, wNewKeysPressed
+	ld   (hl), a
 
 mainLoop:
 	call waitUntilStartOfVBlankPeriod                               ; $1c17: $cd $e8 $01
@@ -3173,7 +3225,7 @@ mainLoop:
 	ld   hl, rSCY                                   ; $1c33: $21 $42 $ff
 	ldi  (hl), a                                     ; $1c36: $22
 	ld   (hl), e                                     ; $1c37: $73
-	jr   jr_000_1c46                                 ; $1c38: $18 $0c
+	jr   @next_1c46                                 ; $1c38: $18 $0c
 
 +
 	call Call_001_5a3b                                       ; $1c3a: $cd $3b $5a
@@ -3181,7 +3233,7 @@ mainLoop:
 	call displayNextTextCharacter                                       ; $1c40: $cd $2b $74
 	call animateTile                                       ; $1c43: $cd $b5 $60
 
-jr_000_1c46:
+@next_1c46:
 	call call_updateSounds                               ; $1c46: $cd $d6 $01
 	call pollInput                                       ; $1c49: $cd $3b $5b
 	ld   hl, $c058                                   ; $1c4c: $21 $58 $c0
@@ -3208,7 +3260,7 @@ jr_000_1c46:
 	call handleInventoryScreen                               ; $1c6c: $cd $96 $1f
 	jr   z, mainLoop                              ; $1c6f: $28 $a6
 
-	jp   Jump_000_1cf5                               ; $1c71: $c3 $f5 $1c
+	jp   _scfRetToGoToGameOverScreen                               ; $1c71: $c3 $f5 $1c
 
 
 @afterInvScreenCheck:
@@ -3282,7 +3334,7 @@ jr_000_1cc6:
 	dec  (hl)                                        ; $1cce: $35
 
 jr_000_1ccf:
-	ld   hl, $c04e                                   ; $1ccf: $21 $4e $c0
+	ld   hl, wNextUsableOamIdx                                   ; $1ccf: $21 $4e $c0
 	ld   a, (hl)                                     ; $1cd2: $7e
 	add  $0a                                         ; $1cd3: $c6 $0a
 	cp   $28                                         ; $1cd5: $fe $28
@@ -3291,7 +3343,7 @@ jr_000_1ccf:
 	sub  $28                                         ; $1cd9: $d6 $28
 
 jr_000_1cdb:
-	ld   hl, $c04e                                   ; $1cdb: $21 $4e $c0
+	ld   hl, wNextUsableOamIdx                                   ; $1cdb: $21 $4e $c0
 	ld   (hl), a                                     ; $1cde: $77
 	ld   hl, $c08b                                   ; $1cdf: $21 $8b $c0
 	ld   a, (hl)                                     ; $1ce2: $7e
@@ -3302,15 +3354,15 @@ jr_000_1cdb:
 	ld   hl, $c08d                                   ; $1cea: $21 $8d $c0
 	ld   a, (hl)                                     ; $1ced: $7e
 	cp   $00                                         ; $1cee: $fe $00
-	jr   nz, Jump_000_1cf5                             ; $1cf0: $20 $03
+	jr   nz, _scfRetToGoToGameOverScreen                             ; $1cf0: $20 $03
 
 	jp   Jump_000_1dca                               ; $1cf2: $c3 $ca $1d
 
 
-Jump_000_1cf5:
-	call stopAllSounds                               ; $1cf5: $cd $32 $15
-	scf                                              ; $1cf8: $37
-	ret                                              ; $1cf9: $c9
+_scfRetToGoToGameOverScreen:
+	call stopAllSounds
+	scf
+	ret
 
 
 jr_000_1cfa:
@@ -3547,7 +3599,7 @@ loadAllVramTilesAndConversionTableDataForTileset:
 
 loadInventoryScreen:
 	ld   de, $9800
-	call dEquDoffsetInScreen1
+	call dPlusEquScreen1displayOffset
 	ld   hl, lyt_inventoryScreen
 	call copyLayoutFromBank3
 	ld   hl, drawInDynamicPartOfInventoryScreen
@@ -3559,7 +3611,7 @@ loadInventoryScreen:
 
 loadMapScreen:
 	ld   de, $9800
-	call dEquDoffsetInScreen1
+	call dPlusEquScreen1displayOffset
 	ld   hl, lyt_mapScreen
 	call copyLayoutFromBank3
 	ld   hl, drawInDynamicPartOfMap
@@ -3585,11 +3637,11 @@ dPlusEquScreen0displayOffset:
 
 
 dPlusEquValIn_c6de:
-	ld   hl, $c6de                                   ; $1ea2: $21 $de $c6
+	ld   hl, wScreen0displayOffset2                                   ; $1ea2: $21 $de $c6
 	jp   dPlusEquValInHL                               ; $1ea5: $c3 $ab $1e
 
 
-dEquDoffsetInScreen1:
+dPlusEquScreen1displayOffset:
 	ld   hl, wScreen1displayOffset
 
 dPlusEquValInHL:
@@ -3729,6 +3781,7 @@ TODOloadsRoomData:
 inventoryCursorXoffsets:
 	.db $18 $28 $38 $48 $58 $68 $78 $88 $98
 
+// returns nz if we choose to end game
 handleInventoryScreen:
 	call turnOffLCDstartOfVBlank                               ; $1f96: $cd $0a $02
 	call call_updateSounds                               ; $1f99: $cd $d6 $01
@@ -3801,7 +3854,7 @@ _inventoryScreenMainLoop:
 
 Jump_000_2014:
 	ld   e, $78                                      ; $2014: $1e $78
-	call Call_000_19f8                               ; $2016: $cd $f8 $19
+	call processInputInMenus                               ; $2016: $cd $f8 $19
 	push af                                          ; $2019: $f5
 	call Call_000_2279                               ; $201a: $cd $79 $22
 	pop  af                                          ; $201d: $f1
@@ -4151,7 +4204,7 @@ jr_000_20ab:
 	ld   a, $01
 	call setLCDfromValue_c015equA
 	ld   e, $00                                      ; $222e: $1e $00
-	call Call_000_19f8                               ; $2230: $cd $f8 $19
+	call processInputInMenus                               ; $2230: $cd $f8 $19
 	jp   handleInventoryScreen                               ; $2233: $c3 $96 $1f
 
 @selectedNotOnBRow:
@@ -4276,7 +4329,7 @@ exitGamePrompt:
 	ld   de, $009d                                   ; $22e4: $11 $9d $00
 	call sendTowOamCursorXequC_YequE                               ; $22e7: $cd $59 $10
 	ld   e, $00                                      ; $22ea: $1e $00
-	call Call_000_19f8                               ; $22ec: $cd $f8 $19
+	call processInputInMenus                               ; $22ec: $cd $f8 $19
 	ld   c, a                                        ; $22ef: $4f
 	ld   b, $00                                      ; $22f0: $06 $00
 	and  PADF_LEFT|PADF_RIGHT                                         ; $22f2: $e6 $30
@@ -4308,7 +4361,7 @@ exitGamePrompt:
 
 // yes - exit game
 	or   $ff                                         ; $231c: $f6 $ff
-	jr   func_232a                                 ; $231e: $18 $0a
+	jr   backToGameFromMenuQuizText                                 ; $231e: $18 $0a
 
 exitingInventoryMenu:
 	ld   de, text_space                                   ; $2320: $11 $91 $24
@@ -4316,7 +4369,7 @@ exitingInventoryMenu:
 	call clear_c200_to_c2ff                                       ; $2326: $cd $9e $5b
 	xor  a                                           ; $2329: $af
 
-func_232a:
+backToGameFromMenuQuizText:
 	push af
 	call turnOffLCDstartOfVBlank                               ; $232b: $cd $0a $02
 	call applyPalettesBasedOnLamp                               ; $232e: $cd $06 $1e
@@ -4716,7 +4769,7 @@ text_26dd:
 drawInventoryItemDescription:
 	push de
 	ld   de, $9a20
-	call dEquDoffsetInScreen1
+	call dPlusEquScreen1displayOffset
 	push de
 	call waitUntilStartOfVBlankPeriod
 	pop  de
@@ -4854,9 +4907,9 @@ stopSoundsPlaySound0AtNormalSpeed:
 	call stopHWSoundChannels012
 	call onlyProcessInstructionsAfterIfMusicOn
 
-	ld   a, $00                                      ; $2795: $3e $00
-	ld   hl, wSoundToPlayIdx                                   ; $2797: $21 $09 $c0
-	ld   (hl), a                                     ; $279a: $77
+	ld   a, SND_00
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
 	ld   a, $00
 	ld   hl, wSoundIsTwiceSpeed
 	ld   (hl), a
@@ -4879,9 +4932,9 @@ stopSoundsPlaySound5AtNormalSpeed:
 	call stopHWSoundChannels012
 	call onlyProcessInstructionsAfterIfMusicOn
 
-	ld   a, $05                                      ; $27b4: $3e $05
-	ld   hl, wSoundToPlayIdx                                   ; $27b6: $21 $09 $c0
-	ld   (hl), a                                     ; $27b9: $77
+	ld   a, SND_05
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
 	ld   a, $00
 	ld   hl, wSoundIsTwiceSpeed
 	ld   (hl), a
@@ -4892,9 +4945,9 @@ stopSoundsPlaySound1AtNormalSpeed:
 	call stopHWSoundChannels012
 	call onlyProcessInstructionsAfterIfMusicOn
 
-	ld   a, $01                                      ; $27c9: $3e $01
-	ld   hl, wSoundToPlayIdx                                   ; $27cb: $21 $09 $c0
-	ld   (hl), a                                     ; $27ce: $77
+	ld   a, SND_01
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
 	ld   a, $00
 	ld   hl, wSoundIsTwiceSpeed
 	ld   (hl), a
@@ -4903,9 +4956,9 @@ stopSoundsPlaySound1AtNormalSpeed:
 
 stopSoundsPlaySound2AtTwiceSpeed:
 	call stopHWSoundChannels012
-	ld   a, $02                                      ; $27db: $3e $02
-	ld   hl, wSoundToPlayIdx                                   ; $27dd: $21 $09 $c0
-	ld   (hl), a                                     ; $27e0: $77
+	ld   a, SND_02
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
 	ld   a, $ff
 	ld   hl, wSoundIsTwiceSpeed
 	ld   (hl), a
@@ -4916,9 +4969,9 @@ stopSoundsPlaySound4AtNormalSpeed:
 	call stopHWSoundChannels012
 	call onlyProcessInstructionsAfterIfMusicOn
 
-	ld   a, $04                                      ; $27f0: $3e $04
-	ld   hl, wSoundToPlayIdx                                   ; $27f2: $21 $09 $c0
-	ld   (hl), a                                     ; $27f5: $77
+	ld   a, SND_04
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
 	ld   a, $00
 	ld   hl, wSoundIsTwiceSpeed
 	ld   (hl), a
@@ -4927,27 +4980,27 @@ stopSoundsPlaySound4AtNormalSpeed:
 
 playSoundEffect20h:
 	push af
-	ld   a, $20                                      ; $2800: $3e $20
-	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $2802: $c3 $6a $28
+	ld   a, SND_20
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4
 
 
 playSoundEffect12h:
-	push af                                          ; $2805: $f5
-	ld   a, $12                                      ; $2806: $3e $12
-	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $2808: $c3 $6a $28
+	push af
+	ld   a, SND_12
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4
 
 
 playSoundEffect22h:
-	push af                                          ; $280b: $f5
-	ld   a, $22                                      ; $280c: $3e $22
-	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $280e: $c3 $6a $28
+	push af
+	ld   a, SND_22
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4
 
 
 playSoundFhIfOff22hIfOn:
-	push af                                          ; $2811: $f5
-	ld   a, $0f                                      ; $2812: $3e $0f
-	push af                                          ; $2814: $f5
-	ld   a, $22                                      ; $2815: $3e $22
+	push af
+	ld   a, SND_0f
+	push af
+	ld   a, SND_22
 
 play1stSoundIfMusicOff2ndIfOn:
 	ld   hl, wSoundToPlayIdx
@@ -4971,58 +5024,58 @@ play1stSoundIfMusicOff2ndIfOn:
 
 
 playSoundEffect23h:
-	push af                                          ; $2831: $f5
-	ld   a, $23                                      ; $2832: $3e $23
-	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $2834: $c3 $6a $28
+	push af
+	ld   a, SND_23
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4
 
 
 playSoundEffect23h2:
-	push af                                          ; $2837: $f5
-	ld   a, $23                                      ; $2838: $3e $23
-	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $283a: $c3 $6a $28
+	push af
+	ld   a, SND_23
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4
 
 
 playSound1bhIfOff24hIfOn:
-	push af                                          ; $283d: $f5
-	ld   a, $1b                                      ; $283e: $3e $1b
-	push af                                          ; $2840: $f5
-	ld   a, $24                                      ; $2841: $3e $24
-	jp   play1stSoundIfMusicOff2ndIfOn                               ; $2843: $c3 $17 $28
+	push af
+	ld   a, SND_1b
+	push af
+	ld   a, SND_24
+	jp   play1stSoundIfMusicOff2ndIfOn
 
 
 playSoundChIfOff25hIfOn:
 	push af
-	ld   a, $0c                                      ; $2847: $3e $0c
-	push af                                          ; $2849: $f5
-	ld   a, $25                                      ; $284a: $3e $25
-	jp   play1stSoundIfMusicOff2ndIfOn                               ; $284c: $c3 $17 $28
+	ld   a, SND_0c
+	push af
+	ld   a, SND_25
+	jp   play1stSoundIfMusicOff2ndIfOn
 
 
 playSoundChIfOff26hIfOn:
 	push af
-	ld   a, $0c                                      ; $2850: $3e $0c
-	push af                                          ; $2852: $f5
-	ld   a, $26                                      ; $2853: $3e $26
-	jp   play1stSoundIfMusicOff2ndIfOn                               ; $2855: $c3 $17 $28
+	ld   a, SND_0c
+	push af
+	ld   a, SND_26
+	jp   play1stSoundIfMusicOff2ndIfOn
 
 
 playSoundEffect27h:
-	push af                                          ; $2858: $f5
-	ld   a, $27                                      ; $2859: $3e $27
-	jp   _safeplaySoundEffectInTableIdxedA_channel3or4                               ; $285b: $c3 $6a $28
+	push af
+	ld   a, SND_27
+	jp   _safeplaySoundEffectInTableIdxedA_channel3or4
 
 
 playSound9hIfOff28hIfOn:
-	push af                                          ; $285e: $f5
-	ld   a, $09                                      ; $285f: $3e $09
-	push af                                          ; $2861: $f5
-	ld   a, $28                                      ; $2862: $3e $28
-	jp   play1stSoundIfMusicOff2ndIfOn                               ; $2864: $c3 $17 $28
+	push af
+	ld   a, SND_09
+	push af
+	ld   a, SND_28
+	jp   play1stSoundIfMusicOff2ndIfOn
 
 
 playSoundEffect29h:
-	push af                                          ; $2867: $f5
-	ld   a, $29                                      ; $2868: $3e $29
+	push af
+	ld   a, SND_29
 
 _safeplaySoundEffectInTableIdxedA_channel3or4:
 	push bc
@@ -5064,45 +5117,50 @@ playerTakeDamage:
 	and  $7f                                         ; $289a: $e6 $7f
 	ld   hl, wModifiedDamageTaken                                   ; $289c: $21 $a0 $c0
 	ld   (hl), a                                     ; $289f: $77
-	ld   hl, wArmorOfGodGotten                                   ; $28a0: $21 $52 $c6
-	ld   a, (hl)                                     ; $28a3: $7e
-	and  AOG_SHIELD|AOG_ARMOUR                                         ; $28a4: $e6 $0a
-	jr   z, @takeDamage                              ; $28a6: $28 $0d
+
+	ld   hl, wArmorOfGodGotten
+	ld   a, (hl)
+	and  AOG_SHIELD|AOG_ARMOUR
+	jr   z, @takeDamage
 
 // shield or armor gotten
-	cp   AOG_SHIELD|AOG_ARMOUR                                         ; $28a8: $fe $0a
-	jr   z, @bothShieldAndArmor                              ; $28aa: $28 $06
+	cp   AOG_SHIELD|AOG_ARMOUR
+	jr   z, @bothShieldAndArmor
 
 // 1 of shield or armor gotten
-	call applyOneHalfDamage                               ; $28ac: $cd $17 $29
-	jp   @takeDamage                               ; $28af: $c3 $b5 $28
+	call applyOneHalfDamage
+	jp   @takeDamage
 
 @bothShieldAndArmor:
-	call applyOneThirdDamage                               ; $28b2: $cd $47 $29
+	call applyOneThirdDamage
 
 @takeDamage:
 // c0a0 is damage player took
-	ld   hl, wPlayerHealth                                   ; $28b5: $21 $72 $c0
-	ld   a, (hl)                                     ; $28b8: $7e
-	ld   hl, wModifiedDamageTaken                                   ; $28b9: $21 $a0 $c0
-	sub  (hl)                                        ; $28bc: $96
-	ld   hl, wPlayerHealth                                   ; $28bd: $21 $72 $c0
-	ld   (hl), a                                     ; $28c0: $77
+	ld   hl, wPlayerHealth
+	ld   a, (hl)
+	ld   hl, wModifiedDamageTaken
+	sub  (hl)
+	ld   hl, wPlayerHealth
+	ld   (hl), a
 
-	jr   z, @playerDead                              ; $28c1: $28 $02
+	jr   z, @playerDead
 
-	jr   nc, @playerAlive                             ; $28c3: $30 $05
+	jr   nc, @playerAlive
 
 @playerDead:
-	ld   (hl), $00                                   ; $28c5: $36 $00
-	jp   @afterPlayerDead                               ; $28c7: $c3 $eb $28
+	ld   (hl), $00
+	jp   @afterPlayerDead
 
 @playerAlive:
+// redundant copy into player health
 	ld   (hl), a                                     ; $28ca: $77
+
 	ld   a, $4b                                      ; $28cb: $3e $4b
 	ld   hl, $c025                                   ; $28cd: $21 $25 $c0
 	ld   (hl), a                                     ; $28d0: $77
+
 	ld   e, $00                                      ; $28d1: $1e $00
+
 	ld   hl, $c024                                   ; $28d3: $21 $24 $c0
 	ld   a, (hl)                                     ; $28d6: $7e
 	ld   hl, $c026                                   ; $28d7: $21 $26 $c0
@@ -5110,7 +5168,7 @@ playerTakeDamage:
 	cp   $ff                                         ; $28db: $fe $ff
 	jr   z, +                              ; $28dd: $28 $05
 
-	call playSoundEffect22h                               ; $28df: $cd $0b $28
+	call playSoundEffect22h
 	ld   e, $08                                      ; $28e2: $1e $08
 
 +
@@ -5151,10 +5209,10 @@ playerTakeDamage:
 	ld   a, $ff                                      ; $290d: $3e $ff
 	ld   hl, $c025                                   ; $290f: $21 $25 $c0
 	ld   (hl), a                                     ; $2912: $77
-	call stopSoundsPlaySound2AtTwiceSpeed                               ; $2913: $cd $d8 $27
+	call stopSoundsPlaySound2AtTwiceSpeed
 
 @done:
-	ret                                              ; $2916: $c9
+	ret
 
 
 // wCounterSo2ArmorIsAThirdDamageTaken is incremented in a way
@@ -5246,41 +5304,41 @@ checkUsingItems:
 	cp   $00                                         ; $2986: $fe $00
 	jr   nz, @ret                             ; $2988: $20 $4f
 
-	ld   hl, wNewKeysPressed                                   ; $298a: $21 $18 $c0
-	ld   a, (hl)                                     ; $298d: $7e
-	and  PADF_A                                         ; $298e: $e6 $01
-	jr   z, @notUsingFruit                              ; $2990: $28 $16
+	ld   hl, wNewKeysPressed
+	ld   a, (hl)
+	and  PADF_A
+	jr   z, @notUsingFruit
 
-	ld   hl, wKeysPressed                                   ; $2992: $21 $16 $c0
-	ld   a, (hl)                                     ; $2995: $7e
-	and  PADF_A                                         ; $2996: $e6 $01
-	jr   z, @notUsingFruit                              ; $2998: $28 $0e
+	ld   hl, wKeysPressed
+	ld   a, (hl)
+	and  PADF_A
+	jr   z, @notUsingFruit
 
 // using A item (fruit)
-	ld   hl, wCurrFruitOnScreen                                   ; $299a: $21 $47 $c0
-	ld   a, (hl)                                     ; $299d: $7e
-	ld   hl, wCurrFruitAmount                                   ; $299e: $21 $46 $c0
-	cp   (hl)                                        ; $29a1: $be
-	jr   nc, @notUsingFruit                             ; $29a2: $30 $04
+	ld   hl, wCurrFruitOnScreen
+	ld   a, (hl)
+	ld   hl, wCurrFruitAmount
+	cp   (hl)
+	jr   nc, @notUsingFruit
 
-	call processUsingFruit                               ; $29a4: $cd $4c $2b
-	ret                                              ; $29a7: $c9
+	call processUsingFruit
+	ret
 
 @notUsingFruit:
-	ld   hl, wNewKeysPressed                                   ; $29a8: $21 $18 $c0
-	ld   a, (hl)                                     ; $29ab: $7e
-	and  PADF_B                                         ; $29ac: $e6 $02
-	jr   z, @ret                              ; $29ae: $28 $29
+	ld   hl, wNewKeysPressed
+	ld   a, (hl)
+	and  PADF_B
+	jr   z, @ret
 
-	ld   hl, wKeysPressed                                   ; $29b0: $21 $16 $c0
-	ld   a, (hl)                                     ; $29b3: $7e
-	and  PADF_B                                         ; $29b4: $e6 $02
-	jr   z, @ret                              ; $29b6: $28 $21
+	ld   hl, wKeysPressed
+	ld   a, (hl)
+	and  PADF_B
+	jr   z, @ret
 
-	ld   hl, wEquippedBItem                                   ; $29b8: $21 $49 $c0
-	ld   a, (hl)                                     ; $29bb: $7e
-	cp   EQUIPB_BOMBS                                         ; $29bc: $fe $00
-	jr   nz, @usingNonBombBitem                             ; $29be: $20 $1a
+	ld   hl, wEquippedBItem
+	ld   a, (hl)
+	cp   EQUIPB_BOMBS
+	jr   nz, @usingNonBombBitem
 
 // b item is vial bombs
 	ld   hl, $c02a                                   ; $29c0: $21 $2a $c0
@@ -6000,7 +6058,7 @@ Call_000_2cbf:
 	ld   a, $00                                      ; $2dbd: $3e $00
 
 +
-	ld   hl, $c0a7                                   ; $2dbf: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $2dbf: $21 $a7 $c0
 	ld   (hl), a                                     ; $2dc2: $77
 	ld   hl, $c6cd                                   ; $2dc3: $21 $cd $c6
 	ld   a, (hl)                                     ; $2dc6: $7e
@@ -6015,7 +6073,7 @@ Call_000_2cbf:
 	ld   a, $00                                      ; $2dd5: $3e $00
 
 +
-	ld   hl, $c0a9                                   ; $2dd7: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $2dd7: $21 $a9 $c0
 	ld   (hl), a                                     ; $2dda: $77
 	ld   hl, $c6cc                                   ; $2ddb: $21 $cc $c6
 	ld   a, (hl)                                     ; $2dde: $7e
@@ -6048,7 +6106,7 @@ Call_000_2cbf:
 	ld   hl, wNPC_yCoord                                   ; $2dfc: $21 $48 $cb
 	add  hl, bc                                      ; $2dff: $09
 	ld   a, (hl)                                     ; $2e00: $7e
-	ld   hl, $c0a7                                   ; $2e01: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $2e01: $21 $a7 $c0
 	cp   (hl)                                        ; $2e04: $be
 	jr   c, @gotoCheckNextNPC                              ; $2e05: $38 $ee
 
@@ -6059,7 +6117,7 @@ Call_000_2cbf:
 	ld   hl, wNPC_xCoord                                   ; $2e0d: $21 $3c $cb
 	add  hl, bc                                      ; $2e10: $09
 	ld   a, (hl)                                     ; $2e11: $7e
-	ld   hl, $c0a9                                   ; $2e12: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $2e12: $21 $a9 $c0
 	cp   (hl)                                        ; $2e15: $be
 	jr   c, @gotoCheckNextNPC                              ; $2e16: $38 $dd
 
@@ -6894,7 +6952,7 @@ Call_000_3290:
 	ld   a, $00                                      ; $3299: $3e $00
 
 jr_000_329b:
-	ld   hl, $c0a7                                   ; $329b: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $329b: $21 $a7 $c0
 	ld   (hl), a                                     ; $329e: $77
 	ld   hl, $c0e4                                   ; $329f: $21 $e4 $c0
 	add  hl, bc                                      ; $32a2: $09
@@ -6911,7 +6969,7 @@ jr_000_329b:
 	ld   a, $00                                      ; $32b3: $3e $00
 
 jr_000_32b5:
-	ld   hl, $c0a9                                   ; $32b5: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $32b5: $21 $a9 $c0
 	ld   (hl), a                                     ; $32b8: $77
 	ld   hl, $c0e0                                   ; $32b9: $21 $e0 $c0
 	add  hl, bc                                      ; $32bc: $09
@@ -6949,7 +7007,7 @@ jr_000_32dd:
 	ld   hl, $c669                                   ; $32e1: $21 $69 $c6
 	add  hl, bc                                      ; $32e4: $09
 	ld   a, (hl)                                     ; $32e5: $7e
-	ld   hl, $c0a7                                   ; $32e6: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $32e6: $21 $a7 $c0
 	cp   (hl)                                        ; $32e9: $be
 	jr   c, jr_000_32d4                              ; $32ea: $38 $e8
 
@@ -6960,7 +7018,7 @@ jr_000_32dd:
 	ld   hl, $c663                                   ; $32f2: $21 $63 $c6
 	add  hl, bc                                      ; $32f5: $09
 	ld   a, (hl)                                     ; $32f6: $7e
-	ld   hl, $c0a9                                   ; $32f7: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $32f7: $21 $a9 $c0
 	cp   (hl)                                        ; $32fa: $be
 	jr   c, jr_000_32d4                              ; $32fb: $38 $d7
 
@@ -7012,28 +7070,28 @@ jr_000_32dd:
 
 
 Jump_000_333d:
-	ld   bc, $0000                                   ; $333d: $01 $00 $00
+	ld   bc, $0000
 
 @checkNextNPC:
-	ld   hl, wNPCBytes_ID                                   ; $3340: $21 $30 $cb
-	add  hl, bc                                      ; $3343: $09
-	ld   a, (hl)                                     ; $3344: $7e
-	cp   $ff                                         ; $3345: $fe $ff
-	jr   nz, @processNPC                             ; $3347: $20 $07
+	ld   hl, wNPCBytes_ID
+	add  hl, bc
+	ld   a, (hl)
+	cp   $ff
+	jr   nz, @processNPC
 
 @gotoCheckNextNPC:
-	inc  bc                                          ; $3349: $03
-	ld   a, c                                        ; $334a: $79
-	cp   $0c                                         ; $334b: $fe $0c
-	jr   c, @checkNextNPC                              ; $334d: $38 $f1
+	inc  bc
+	ld   a, c
+	cp   NUM_NPCS
+	jr   c, @checkNextNPC
 
-	ret                                              ; $334f: $c9
+	ret
 
 @processNPC:
 	ld   hl, wNPC_yCoord                                   ; $3350: $21 $48 $cb
 	add  hl, bc                                      ; $3353: $09
 	ld   a, (hl)                                     ; $3354: $7e
-	ld   hl, $c0a7                                   ; $3355: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $3355: $21 $a7 $c0
 	cp   (hl)                                        ; $3358: $be
 	jr   c, @gotoCheckNextNPC                              ; $3359: $38 $ee
 
@@ -7044,7 +7102,7 @@ Jump_000_333d:
 	ld   hl, wNPC_xCoord                                   ; $3361: $21 $3c $cb
 	add  hl, bc                                      ; $3364: $09
 	ld   a, (hl)                                     ; $3365: $7e
-	ld   hl, $c0a9                                   ; $3366: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $3366: $21 $a9 $c0
 	cp   (hl)                                        ; $3369: $be
 	jr   c, @gotoCheckNextNPC                              ; $336a: $38 $dd
 
@@ -7216,9 +7274,10 @@ c5f8_equFF:
 
 
 processUsingBombs:
-	ld   bc, $0000                                   ; $3451: $01 $00 $00
+	ld   bc, $0000
 
 @loop:
+// loop 24 times, jumping once encountering a 00
 	ld   hl, $c600                                   ; $3454: $21 $00 $c6
 	add  hl, bc                                      ; $3457: $09
 	ld   a, (hl)                                     ; $3458: $7e
@@ -7237,12 +7296,12 @@ processUsingBombs:
 	push af                                          ; $3468: $f5
 
 // player x in bc, player y in de
-	ld   hl, wPlayerX                                   ; $3469: $21 $52 $c0
-	ld   c, (hl)                                     ; $346c: $4e
-	ld   b, $00                                      ; $346d: $06 $00
-	ld   hl, wPlayerY                                   ; $346f: $21 $54 $c0
-	ld   e, (hl)                                     ; $3472: $5e
-	ld   d, $00                                      ; $3473: $16 $00
+	ld   hl, wPlayerX
+	ld   c, (hl)
+	ld   b, $00
+	ld   hl, wPlayerY
+	ld   e, (hl)
+	ld   d, $00
 
 //
 	ld   hl, wMenuCursorIdx                                   ; $3475: $21 $11 $c7
@@ -7344,16 +7403,16 @@ processUsingBombs:
 	ld   (hl), a                                     ; $3509: $77
 
 // decrease bombs
-	ld   hl, wNumBombs                                   ; $350a: $21 $3b $c0
-	dec  (hl)                                        ; $350d: $35
-	call playSound9hIfOff28hIfOn                               ; $350e: $cd $5e $28
+	ld   hl, wNumBombs
+	dec  (hl)
+	call playSound9hIfOff28hIfOn
 
 @ret:
-	ret                                              ; $3511: $c9
+	ret
 
 @popAFret:
-	pop  af                                          ; $3512: $f1
-	ret                                              ; $3513: $c9
+	pop  af
+	ret
 
 
 Call_000_3514:
@@ -7371,7 +7430,7 @@ Call_000_3514:
 	ld   a, $00                                      ; $3526: $3e $00
 
 jr_000_3528:
-	ld   hl, $c0a7                                   ; $3528: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $3528: $21 $a7 $c0
 	ld   (hl), a                                     ; $352b: $77
 	ld   hl, $c0a8                                   ; $352c: $21 $a8 $c0
 	ld   a, (hl)                                     ; $352f: $7e
@@ -7384,11 +7443,11 @@ jr_000_3528:
 	sla  a                                           ; $353a: $cb $27
 	sla  a                                           ; $353c: $cb $27
 	sla  a                                           ; $353e: $cb $27
-	ld   hl, $c0a9                                   ; $3540: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $3540: $21 $a9 $c0
 	ld   (hl), a                                     ; $3543: $77
 	ld   hl, $c0aa                                   ; $3544: $21 $aa $c0
 	ld   (hl), a                                     ; $3547: $77
-	ld   hl, $c0a9                                   ; $3548: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $3548: $21 $a9 $c0
 	ld   a, (hl)                                     ; $354b: $7e
 	sub  $0f                                         ; $354c: $d6 $0f
 	jr   nc, jr_000_3552                             ; $354e: $30 $02
@@ -7396,7 +7455,7 @@ jr_000_3528:
 	ld   a, $00                                      ; $3550: $3e $00
 
 jr_000_3552:
-	ld   hl, $c0a9                                   ; $3552: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $3552: $21 $a9 $c0
 	ld   (hl), a                                     ; $3555: $77
 	ld   hl, $c0aa                                   ; $3556: $21 $aa $c0
 	ld   a, (hl)                                     ; $3559: $7e
@@ -7420,7 +7479,7 @@ jr_000_3567:
 	ld   hl, $c669                                   ; $3570: $21 $69 $c6
 	add  hl, bc                                      ; $3573: $09
 	ld   a, (hl)                                     ; $3574: $7e
-	ld   hl, $c0a7                                   ; $3575: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $3575: $21 $a7 $c0
 	cp   (hl)                                        ; $3578: $be
 	jr   c, jr_000_3597                              ; $3579: $38 $1c
 
@@ -7431,7 +7490,7 @@ jr_000_3567:
 	ld   hl, $c663                                   ; $3581: $21 $63 $c6
 	add  hl, bc                                      ; $3584: $09
 	ld   a, (hl)                                     ; $3585: $7e
-	ld   hl, $c0a9                                   ; $3586: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $3586: $21 $a9 $c0
 	cp   (hl)                                        ; $3589: $be
 	jr   c, jr_000_3597                              ; $358a: $38 $0b
 
@@ -7777,6 +7836,7 @@ _ret_3736:
 Call_000_3737:
 	ld   a, e                                        ; $3737: $7b
 	push af                                          ; $3738: $f5
+
 	sla  a                                           ; $3739: $cb $27
 	sla  a                                           ; $373b: $cb $27
 	sla  a                                           ; $373d: $cb $27
@@ -7789,7 +7849,7 @@ Call_000_3737:
 	ld   a, $00                                      ; $3749: $3e $00
 
 jr_000_374b:
-	ld   hl, $c0a7                                   ; $374b: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $374b: $21 $a7 $c0
 	ld   (hl), a                                     ; $374e: $77
 	ld   hl, $c0a8                                   ; $374f: $21 $a8 $c0
 	ld   a, (hl)                                     ; $3752: $7e
@@ -7798,15 +7858,16 @@ jr_000_374b:
 	ld   (hl), a                                     ; $3758: $77
 	ld   a, c                                        ; $3759: $79
 	push af                                          ; $375a: $f5
+
 	sla  a                                           ; $375b: $cb $27
 	sla  a                                           ; $375d: $cb $27
 	sla  a                                           ; $375f: $cb $27
 	sla  a                                           ; $3761: $cb $27
-	ld   hl, $c0a9                                   ; $3763: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $3763: $21 $a9 $c0
 	ld   (hl), a                                     ; $3766: $77
 	ld   hl, $c0aa                                   ; $3767: $21 $aa $c0
 	ld   (hl), a                                     ; $376a: $77
-	ld   hl, $c0a9                                   ; $376b: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $376b: $21 $a9 $c0
 	ld   a, (hl)                                     ; $376e: $7e
 	sub  $1a                                         ; $376f: $d6 $1a
 	jr   nc, jr_000_3775                             ; $3771: $30 $02
@@ -7814,7 +7875,7 @@ jr_000_374b:
 	ld   a, $00                                      ; $3773: $3e $00
 
 jr_000_3775:
-	ld   hl, $c0a9                                   ; $3775: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $3775: $21 $a9 $c0
 	ld   (hl), a                                     ; $3778: $77
 	ld   hl, $c0aa                                   ; $3779: $21 $aa $c0
 	ld   a, (hl)                                     ; $377c: $7e
@@ -7834,7 +7895,7 @@ jr_000_3783:
 // continue if player y > c0a7
 	ld   hl, wPlayerY                                   ; $378f: $21 $54 $c0
 	ld   a, (hl)                                     ; $3792: $7e
-	ld   hl, $c0a7                                   ; $3793: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $3793: $21 $a7 $c0
 	cp   (hl)                                        ; $3796: $be
 	jr   c, jr_000_37c2                              ; $3797: $38 $29
 
@@ -7846,7 +7907,7 @@ jr_000_3783:
 // continue if player x > c0a9
 	ld   hl, wPlayerX                                   ; $379f: $21 $52 $c0
 	ld   a, (hl)                                     ; $37a2: $7e
-	ld   hl, $c0a9                                   ; $37a3: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $37a3: $21 $a9 $c0
 	cp   (hl)                                        ; $37a6: $be
 	jr   c, jr_000_37c2                              ; $37a7: $38 $19
 
@@ -7892,7 +7953,7 @@ jr_000_37d7:
 	ld   hl, $c669                                   ; $37db: $21 $69 $c6
 	add  hl, bc                                      ; $37de: $09
 	ld   a, (hl)                                     ; $37df: $7e
-	ld   hl, $c0a7                                   ; $37e0: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $37e0: $21 $a7 $c0
 	cp   (hl)                                        ; $37e3: $be
 	jr   c, Jump_000_37ce                              ; $37e4: $38 $e8
 
@@ -7903,7 +7964,7 @@ jr_000_37d7:
 	ld   hl, $c663                                   ; $37ec: $21 $63 $c6
 	add  hl, bc                                      ; $37ef: $09
 	ld   a, (hl)                                     ; $37f0: $7e
-	ld   hl, $c0a9                                   ; $37f1: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $37f1: $21 $a9 $c0
 	cp   (hl)                                        ; $37f4: $be
 	jr   c, Jump_000_37ce                              ; $37f5: $38 $d7
 
@@ -7954,20 +8015,20 @@ jr_000_37d7:
 
 
 setNpcNewIDBasedOnNpcByte6:
-	ld   bc, $0000                                   ; $3837: $01 $00 $00
+	ld   bc, $0000
 
 @checkNextNPC:
-	ld   hl, wNPCBytes_ID                                   ; $383a: $21 $30 $cb
-	add  hl, bc                                      ; $383d: $09
-	ld   a, (hl)                                     ; $383e: $7e
-	cp   $ff                                         ; $383f: $fe $ff
-	jr   nz, @processNPC                             ; $3841: $20 $0f
+	ld   hl, wNPCBytes_ID
+	add  hl, bc
+	ld   a, (hl)
+	cp   $ff
+	jr   nz, @processNPC
 
 @gotoCheckNextNPC:
-	inc  bc                                          ; $3843: $03
-	ld   a, c                                        ; $3844: $79
-	cp   $0c                                         ; $3845: $fe $0c
-	jr   c, @checkNextNPC                              ; $3847: $38 $f1
+	inc  bc
+	ld   a, c
+	cp   NUM_NPCS
+	jr   c, @checkNextNPC
 
 	pop  af                                          ; $3849: $f1
 	ld   c, a                                        ; $384a: $4f
@@ -7981,7 +8042,7 @@ setNpcNewIDBasedOnNpcByte6:
 	ld   hl, wNPC_yCoord                                   ; $3852: $21 $48 $cb
 	add  hl, bc                                      ; $3855: $09
 	ld   a, (hl)                                     ; $3856: $7e
-	ld   hl, $c0a7                                   ; $3857: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $3857: $21 $a7 $c0
 	cp   (hl)                                        ; $385a: $be
 	jr   c, @gotoCheckNextNPC                              ; $385b: $38 $e6
 
@@ -7992,7 +8053,7 @@ setNpcNewIDBasedOnNpcByte6:
 	ld   hl, wNPC_xCoord                                   ; $3863: $21 $3c $cb
 	add  hl, bc                                      ; $3866: $09
 	ld   a, (hl)                                     ; $3867: $7e
-	ld   hl, $c0a9                                   ; $3868: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $3868: $21 $a9 $c0
 	cp   (hl)                                        ; $386b: $be
 	jr   c, @gotoCheckNextNPC                              ; $386c: $38 $d5
 
@@ -8209,7 +8270,7 @@ jr_000_3981:
 	ld   hl, $c00c                                   ; $3987: $21 $0c $c0
 	ld   c, (hl)                                     ; $398a: $4e
 	ld   b, $00                                      ; $398b: $06 $00
-	call Call_000_39b9                               ; $398d: $cd $b9 $39
+	call retZIfPlayerOnTeleTile                               ; $398d: $cd $b9 $39
 	ret                                              ; $3990: $c9
 
 
@@ -8241,47 +8302,48 @@ jr_000_3991:
 	ret                                              ; $39b8: $c9
 
 
-Call_000_39b9:
+retZIfPlayerOnTeleTile:
 	ld   a, $00
-	ld   hl, $c0b7                                   ; $39bb: $21 $b7 $c0
-	ld   (hl), a                                     ; $39be: $77
+	ld   hl, wRoomCurrTeleportIdx
+	ld   (hl), a
 
-Jump_000_39bf:
-	push de                                          ; $39bf: $d5
-	push bc                                          ; $39c0: $c5
-	call setTeleportDetails_retZifNotPossible                                       ; $39c1: $cd $6c $58
-	pop  bc                                          ; $39c4: $c1
-	pop  de                                          ; $39c5: $d1
-	jr   nz, jr_000_39cd                             ; $39c6: $20 $05
+@checkNextTele:
+	push de
+	push bc
+	call setTeleportDetails_retZifNotPossible
+	pop  bc
+	pop  de
+	jr   nz, @checkIfPlayerAtPos
 
-	ld   a, $00                                      ; $39c8: $3e $00
-	jp   Jump_000_39e7                               ; $39ca: $c3 $e7 $39
+// not possible to set tele details
+	ld   a, $00
+	jp   @done
 
+// able to teleport
+@checkIfPlayerAtPos:
+// bc is player x
+	ld   hl, wCurrTeleportsTileX
+	ld   a, c
+	cp   (hl)
+	jr   nz, @notAtTeleportCheckNext
 
-jr_000_39cd:
-	ld   hl, $c0b8                                   ; $39cd: $21 $b8 $c0
-	ld   a, c                                        ; $39d0: $79
-	cp   (hl)                                        ; $39d1: $be
-	jr   nz, jr_000_39e0                             ; $39d2: $20 $0c
+// de is player y
+	ld   hl, wCurrTeleportsTileY
+	ld   a, e
+	cp   (hl)
+	jr   nz, @notAtTeleportCheckNext
 
-	ld   hl, $c0b9                                   ; $39d4: $21 $b9 $c0
-	ld   a, e                                        ; $39d7: $7b
-	cp   (hl)                                        ; $39d8: $be
-	jr   nz, jr_000_39e0                             ; $39d9: $20 $05
+	ld   a, $01
+	jp   @done
 
-	ld   a, $01                                      ; $39db: $3e $01
-	jp   Jump_000_39e7                               ; $39dd: $c3 $e7 $39
+@notAtTeleportCheckNext:
+	ld   hl, wRoomCurrTeleportIdx
+	inc  (hl)
+	jp   @checkNextTele
 
-
-jr_000_39e0:
-	ld   hl, $c0b7                                   ; $39e0: $21 $b7 $c0
-	inc  (hl)                                        ; $39e3: $34
-	jp   Jump_000_39bf                               ; $39e4: $c3 $bf $39
-
-
-Jump_000_39e7:
-	cp   $01                                         ; $39e7: $fe $01
-	ret                                              ; $39e9: $c9
+@done:
+	cp   $01
+	ret
 
 
 Call_000_39ea:
@@ -9804,37 +9866,37 @@ updateNPCs:
 	inc  (hl)                                        ; $427e: $34
 
 @checkNextNPC:
-	ld   hl, wNPCBytes_ID                                   ; $427f: $21 $30 $cb
-	add  hl, bc                                      ; $4282: $09
-	ld   a, (hl)                                     ; $4283: $7e
-	cp   $ff                                         ; $4284: $fe $ff
-	jr   nz, @processNPC                             ; $4286: $20 $08
+	ld   hl, wNPCBytes_ID
+	add  hl, bc
+	ld   a, (hl)
+	cp   $ff
+	jr   nz, @processNPC
 
 @gotoCheckNextNPC:
-	inc  bc                                          ; $4288: $03
-	inc  bc                                          ; $4289: $03
-	ld   a, c                                        ; $428a: $79
-	cp   $0c                                         ; $428b: $fe $0c
-	jr   c, @checkNextNPC                              ; $428d: $38 $f0
+	inc  bc
+	inc  bc
+	ld   a, c
+	cp   NUM_NPCS
+	jr   c, @checkNextNPC
 
-	ret                                              ; $428f: $c9
+	ret
 
 @processNPC:
-	ld   hl, wCurrNpcIdx                                   ; $4290: $21 $a6 $c0
-	ld   (hl), c                                     ; $4293: $71
+	ld   hl, wCurrNpcIdx
+	ld   (hl), c
 
 // transform npc if specified
-	ld   hl, wNPCBytes_newID                                   ; $4294: $21 $c0 $cb
-	add  hl, bc                                      ; $4297: $09
-	ld   a, (hl)                                     ; $4298: $7e
-	cp   $ff                                         ; $4299: $fe $ff
-	jr   z, +                              ; $429b: $28 $03
-	call setNPCsNewID                               ; $429d: $cd $67 $73
+	ld   hl, wNPCBytes_newID
+	add  hl, bc
+	ld   a, (hl)
+	cp   $ff
+	jr   z, +
+	call setNPCsNewID
 +
 
 //
 	call Call_001_4324                               ; $42a0: $cd $24 $43
-	jr   nz, @next_42e7                             ; $42a3: $20 $42
+	jr   nz, @afterAnimationFrameCheck                             ; $42a3: $20 $42
 
 	call getBit6ofNPCBytes_cb60                               ; $42a5: $cd $82 $73
 	jr   nz, +                             ; $42a8: $20 $1a
@@ -9843,45 +9905,45 @@ updateNPCs:
 	add  hl, bc                                      ; $42ad: $09
 	ld   a, (hl)                                     ; $42ae: $7e
 	cp   $00                                         ; $42af: $fe $00
-	jr   z, @next_42e7                              ; $42b1: $28 $34
+	jr   z, @afterAnimationFrameCheck                              ; $42b1: $28 $34
 
 // npc still has pixels to move
-	ld   hl, wNPCBytes_cb6c                                   ; $42b3: $21 $6c $cb
+	ld   hl, wNPCBytes_animationFrameIdx                                   ; $42b3: $21 $6c $cb
 	add  hl, bc                                      ; $42b6: $09
 	inc  (hl)                                        ; $42b7: $34
-	ld   hl, wNPCBytes_cb6c                                   ; $42b8: $21 $6c $cb
+	ld   hl, wNPCBytes_animationFrameIdx                                   ; $42b8: $21 $6c $cb
 	add  hl, bc                                      ; $42bb: $09
 	ld   a, (hl)                                     ; $42bc: $7e
 	cp   $03                                         ; $42bd: $fe $03
-	jr   nc, @next_42e0                             ; $42bf: $30 $1f
+	jr   nc, @resetAnimationFrameIdx                             ; $42bf: $30 $1f
 
-	jp   @next_42e7                               ; $42c1: $c3 $e7 $42
+	jp   @afterAnimationFrameCheck                               ; $42c1: $c3 $e7 $42
 
 +
-	ld   hl, wNPCBytes_cb6c                                   ; $42c4: $21 $6c $cb
+	ld   hl, wNPCBytes_animationFrameIdx                                   ; $42c4: $21 $6c $cb
 	add  hl, bc                                      ; $42c7: $09
 	inc  (hl)                                        ; $42c8: $34
 	call Call_001_738a                               ; $42c9: $cd $8a $73
 	ld   hl, $c009                                   ; $42cc: $21 $09 $c0
 	ld   a, (hl)                                     ; $42cf: $7e
 	cp   $02                                         ; $42d0: $fe $02
-	jr   z, @next_42e0                              ; $42d2: $28 $0c
+	jr   z, @resetAnimationFrameIdx                              ; $42d2: $28 $0c
 
 	cp   $01                                         ; $42d4: $fe $01
-	jr   nz, @next_42e7                             ; $42d6: $20 $0f
+	jr   nz, @afterAnimationFrameCheck                             ; $42d6: $20 $0f
 
-	ld   hl, wNPCBytes_cb6c                                   ; $42d8: $21 $6c $cb
+	ld   hl, wNPCBytes_animationFrameIdx                                   ; $42d8: $21 $6c $cb
 	add  hl, bc                                      ; $42db: $09
 	dec  (hl)                                        ; $42dc: $35
-	jp   @next_42e7                               ; $42dd: $c3 $e7 $42
+	jp   @afterAnimationFrameCheck                               ; $42dd: $c3 $e7 $42
 
-@next_42e0:
-	ld   a, $00                                      ; $42e0: $3e $00
-	ld   hl, wNPCBytes_cb6c                                   ; $42e2: $21 $6c $cb
-	add  hl, bc                                      ; $42e5: $09
-	ld   (hl), a                                     ; $42e6: $77
+@resetAnimationFrameIdx:
+	ld   a, $00
+	ld   hl, wNPCBytes_animationFrameIdx
+	add  hl, bc
+	ld   (hl), a
 
-@next_42e7:
+@afterAnimationFrameCheck:
 -
 // if cb78 or cba8 are non-zero, before or after executing opcodes
 // jump to their relevant function
@@ -10033,12 +10095,12 @@ jr_001_43a9:
 	pop  af                                          ; $43b1: $f1
 
 jr_001_43b2:
-	jr   z, jr_001_43d4                              ; $43b2: $28 $20
+	jr   z, @done                              ; $43b2: $28 $20
 
 	ld   hl, $c08b                                   ; $43b4: $21 $8b $c0
 	ld   a, (hl)                                     ; $43b7: $7e
 	cp   $00                                         ; $43b8: $fe $00
-	jr   nz, jr_001_43d4                             ; $43ba: $20 $18
+	jr   nz, @done                             ; $43ba: $20 $18
 
 	ld   a, c                                        ; $43bc: $79
 	push af                                          ; $43bd: $f5
@@ -10056,8 +10118,8 @@ jr_001_43b2:
 	ld   c, a                                        ; $43d1: $4f
 	ld   b, $00                                      ; $43d2: $06 $00
 
-jr_001_43d4:
-	ret                                              ; $43d4: $c9
+@done:
+	ret
 
 
 npcMovePixelFunc:
@@ -11300,7 +11362,7 @@ Call_001_4aa7:
 	ld   a, $00                                      ; $4aad: $3e $00
 
 +
-	ld   hl, $c0a7                                   ; $4aaf: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $4aaf: $21 $a7 $c0
 	ld   (hl), a                                     ; $4ab2: $77
 	ld   a, e                                        ; $4ab3: $7b
 	add  $0b                                         ; $4ab4: $c6 $0b
@@ -11314,7 +11376,7 @@ Call_001_4aa7:
 	ld   a, $00                                      ; $4ac0: $3e $00
 
 +
-	ld   hl, $c0a9                                   ; $4ac2: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $4ac2: $21 $a9 $c0
 	ld   (hl), a                                     ; $4ac5: $77
 	ld   a, c                                        ; $4ac6: $79
 	add  $0b                                         ; $4ac7: $c6 $0b
@@ -11327,7 +11389,7 @@ Call_001_4aa7:
 	ld   (hl), a                                     ; $4ad0: $77
 	ld   hl, wPlayerY                                   ; $4ad1: $21 $54 $c0
 	ld   a, (hl)                                     ; $4ad4: $7e
-	ld   hl, $c0a7                                   ; $4ad5: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $4ad5: $21 $a7 $c0
 	cp   (hl)                                        ; $4ad8: $be
 	jr   c, jr_001_4b2c                              ; $4ad9: $38 $51
 
@@ -11337,7 +11399,7 @@ Call_001_4aa7:
 
 	ld   hl, wPlayerX                                   ; $4ae1: $21 $52 $c0
 	ld   a, (hl)                                     ; $4ae4: $7e
-	ld   hl, $c0a9                                   ; $4ae5: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $4ae5: $21 $a9 $c0
 	cp   (hl)                                        ; $4ae8: $be
 	jr   c, jr_001_4b2c                              ; $4ae9: $38 $41
 
@@ -11408,7 +11470,7 @@ Call_001_4b34:
 	ld   a, $00                                      ; $4b3d: $3e $00
 
 jr_001_4b3f:
-	ld   hl, $c0a7                                   ; $4b3f: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $4b3f: $21 $a7 $c0
 	ld   (hl), a                                     ; $4b42: $77
 	ld   hl, $c0a8                                   ; $4b43: $21 $a8 $c0
 	ld   a, (hl)                                     ; $4b46: $7e
@@ -11422,7 +11484,7 @@ jr_001_4b3f:
 	ld   a, $00                                      ; $4b52: $3e $00
 
 jr_001_4b54:
-	ld   hl, $c0a9                                   ; $4b54: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $4b54: $21 $a9 $c0
 	ld   (hl), a                                     ; $4b57: $77
 	ld   a, c                                        ; $4b58: $79
 	add  $10                                         ; $4b59: $c6 $10
@@ -11460,7 +11522,7 @@ jr_001_4b81:
 	ld   hl, $c669                                   ; $4b8a: $21 $69 $c6
 	add  hl, bc                                      ; $4b8d: $09
 	ld   a, (hl)                                     ; $4b8e: $7e
-	ld   hl, $c0a7                                   ; $4b8f: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $4b8f: $21 $a7 $c0
 	cp   (hl)                                        ; $4b92: $be
 	jr   c, Jump_001_4bb1                              ; $4b93: $38 $1c
 
@@ -11471,7 +11533,7 @@ jr_001_4b81:
 	ld   hl, $c663                                   ; $4b9b: $21 $63 $c6
 	add  hl, bc                                      ; $4b9e: $09
 	ld   a, (hl)                                     ; $4b9f: $7e
-	ld   hl, $c0a9                                   ; $4ba0: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $4ba0: $21 $a9 $c0
 	cp   (hl)                                        ; $4ba3: $be
 	jr   c, Jump_001_4bb1                              ; $4ba4: $38 $0b
 
@@ -11539,7 +11601,7 @@ Call_001_4bea:
 	ld   a, $00                                      ; $4bf3: $3e $00
 
 jr_001_4bf5:
-	ld   hl, $c0a7                                   ; $4bf5: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $4bf5: $21 $a7 $c0
 	ld   (hl), a                                     ; $4bf8: $77
 	ld   hl, $c0a8                                   ; $4bf9: $21 $a8 $c0
 	ld   a, (hl)                                     ; $4bfc: $7e
@@ -11553,7 +11615,7 @@ jr_001_4bf5:
 	ld   a, $00                                      ; $4c08: $3e $00
 
 jr_001_4c0a:
-	ld   hl, $c0a9                                   ; $4c0a: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $4c0a: $21 $a9 $c0
 	ld   (hl), a                                     ; $4c0d: $77
 	ld   a, c                                        ; $4c0e: $79
 	add  $10                                         ; $4c0f: $c6 $10
@@ -11576,7 +11638,7 @@ jr_001_4c1c:
 	ld   hl, $c669                                   ; $4c25: $21 $69 $c6
 	add  hl, bc                                      ; $4c28: $09
 	ld   a, (hl)                                     ; $4c29: $7e
-	ld   hl, $c0a7                                   ; $4c2a: $21 $a7 $c0
+	ld   hl, wMusicScreenSongVal                                   ; $4c2a: $21 $a7 $c0
 	cp   (hl)                                        ; $4c2d: $be
 	jr   c, jr_001_4c4c                              ; $4c2e: $38 $1c
 
@@ -11587,7 +11649,7 @@ jr_001_4c1c:
 	ld   hl, $c663                                   ; $4c36: $21 $63 $c6
 	add  hl, bc                                      ; $4c39: $09
 	ld   a, (hl)                                     ; $4c3a: $7e
-	ld   hl, $c0a9                                   ; $4c3b: $21 $a9 $c0
+	ld   hl, wMusicScreenSoundVal                                   ; $4c3b: $21 $a9 $c0
 	cp   (hl)                                        ; $4c3e: $be
 	jr   c, jr_001_4c4c                              ; $4c3f: $38 $0b
 
@@ -12462,7 +12524,7 @@ _collisionsTable_17:
 	cp   $00                                         ; $5115: $fe $00
 	jr   nz, _ret_5108                             ; $5117: $20 $ef
 
-	call Call_000_39b9                                       ; $5119: $cd $b9 $39
+	call retZIfPlayerOnTeleTile                                       ; $5119: $cd $b9 $39
 	jr   nz, _ret_5108                             ; $511c: $20 $ea
 
 	call Call_001_5488                               ; $511e: $cd $88 $54
@@ -12586,8 +12648,8 @@ giveBirds:
 
 
 _collision_give5birds:
-	ld   a, $05                                      ; $51c9: $3e $05
-	jp   giveBirds                               ; $51cb: $c3 $b1 $51
+	ld   a, $05
+	jp   giveBirds
 
 
 _collisionsTable_07:
@@ -12624,6 +12686,7 @@ _collision_giveArmorOfGod:
 	call func_3928                                       ; $51f2: $cd $28 $39
 	call Call_001_58ea                               ; $51f5: $cd $ea $58
 	call bcEquTilesetIdxDiv2                               ; $51f8: $cd $36 $52
+
 	ld   hl, data_51e2                                   ; $51fb: $21 $e2 $51
 	add  hl, bc                                      ; $51fe: $09
 	ld   a, (hl)                                     ; $51ff: $7e
@@ -13090,7 +13153,7 @@ Call_001_5465:
 	ld   hl, $c009                                   ; $5473: $21 $09 $c0
 	ld   e, (hl)                                     ; $5476: $5e
 	ld   d, $00                                      ; $5477: $16 $00
-	call Call_000_39b9                                       ; $5479: $cd $b9 $39
+	call retZIfPlayerOnTeleTile                                       ; $5479: $cd $b9 $39
 	jr   nz, jr_001_5485                             ; $547c: $20 $07
 
 	call Call_001_5488                               ; $547e: $cd $88 $54
@@ -13107,7 +13170,7 @@ jr_001_5485:
 
 
 Call_001_5488:
-	ld   hl, $c0b7                                   ; $5488: $21 $b7 $c0
+	ld   hl, wRoomCurrTeleportIdx                                   ; $5488: $21 $b7 $c0
 	ld   e, (hl)                                     ; $548b: $5e
 	ld   d, $00                                      ; $548c: $16 $00
 	ld   a, $00                                      ; $548e: $3e $00
@@ -13744,17 +13807,18 @@ jr_001_57c3:
 
 
 getLastUsableOamIdx_fromA:
-	ld   hl, $c04e
-	add  (hl)                                        ; $57f4: $86
-	cp   $28                                         ; $57f5: $fe $28
-	jr   c, +                              ; $57f7: $38 $02
+	ld   hl, wNextUsableOamIdx
+	add  (hl)
+	cp   $28
+	jr   c, +
 
-	sub  $28                                         ; $57f9: $d6 $28
+	sub  $28
 
 +
-	sla  a                                           ; $57fb: $cb $27
-	sla  a                                           ; $57fd: $cb $27
-	ret                                              ; $57ff: $c9
+// loop and use $00, etc
+	sla  a
+	sla  a
+	ret
 
 
 clear2spritesInOam_1stIdxedE:
@@ -13779,8 +13843,8 @@ clearWoamOffsetE:
 
 
 func_581a:
-	ld   a, $00                                      ; func_581a: $3e $00
-	ld   hl, $c0b7                                   ; $581c: $21 $b7 $c0
+	ld   a, $00
+	ld   hl, wRoomCurrTeleportIdx                                   ; $581c: $21 $b7 $c0
 	ld   (hl), a                                     ; $581f: $77
 
 jr_001_5820:
@@ -13792,34 +13856,38 @@ jr_001_5820:
 
 Call_001_5826:
 	call setTeleportDetails_retZifNotPossible
-	jr   z, jr_001_5853                              ; $5829: $28 $28
+	jr   z, @done                              ; $5829: $28 $28
 
-	ld   hl, $c0b8                                   ; $582b: $21 $b8 $c0
+	ld   hl, wCurrTeleportsTileX                                   ; $582b: $21 $b8 $c0
 	ld   c, (hl)                                     ; $582e: $4e
 	ld   b, $00                                      ; $582f: $06 $00
-	ld   hl, $c0b9                                   ; $5831: $21 $b9 $c0
+	ld   hl, wCurrTeleportsTileY                                   ; $5831: $21 $b9 $c0
 	ld   e, (hl)                                     ; $5834: $5e
 	ld   d, $00                                      ; $5835: $16 $00
+
+// water
 	call getTilePlayerIsOn                                       ; $5837: $cd $ed $3f
 	cp   $2d                                         ; $583a: $fe $2d
-	jr   z, jr_001_5842                              ; $583c: $28 $04
+	jr   z, @isWaterOrObstacle                              ; $583c: $28 $04
 
+// nothing
 	cp   $00                                         ; $583e: $fe $00
-	jr   nz, jr_001_584f                             ; $5840: $20 $0d
+	jr   nz, @toNextTeleIdx                             ; $5840: $20 $0d
 
-jr_001_5842:
-	ld   hl, $c0ba                                   ; $5842: $21 $ba $c0
+@isWaterOrObstacle:
+	ld   hl, wCurrTeleportsTileTrigger                                   ; $5842: $21 $ba $c0
 	ld   a, (hl)                                     ; $5845: $7e
 	ld   hl, $c028                                   ; $5846: $21 $28 $c0
 	ld   (hl), a                                     ; $5849: $77
+
 	ld   a, $01                                      ; $584a: $3e $01
 	call Call_001_58f4                               ; $584c: $cd $f4 $58
 
-jr_001_584f:
-	ld   hl, $c0b7                                   ; $584f: $21 $b7 $c0
+@toNextTeleIdx:
+	ld   hl, wRoomCurrTeleportIdx                                   ; $584f: $21 $b7 $c0
 	inc  (hl)                                        ; $5852: $34
 
-jr_001_5853:
+@done:
 	ret                                              ; $5853: $c9
 
 
@@ -13831,80 +13899,93 @@ teleport7byteIndexes:
 setTeleportDetails_retZifNotPossible:
 // c0a1 is bank
 	ld   hl, wTileLayoutDataBank
-	ld   a, (hl)                                     ; $586f: $7e
-	ld   hl, wCommonByteCopyFuncBank                                   ; $5870: $21 $a1 $c0
-	ld   (hl), a                                     ; $5873: $77
+	ld   a, (hl)
+	ld   hl, wCommonByteCopyFuncBank
+	ld   (hl), a
 
 // c0b7 is idx of entrance we are setting ourself at
-	ld   hl, $c0b7                                   ; $5874: $21 $b7 $c0
-	ld   e, (hl)                                     ; $5877: $5e
-	ld   d, $00                                      ; $5878: $16 $00
-	ld   hl, teleport7byteIndexes                                   ; $587a: $21 $54 $58
-	add  hl, de                                      ; $587d: $19
+	ld   hl, wRoomCurrTeleportIdx
+	ld   e, (hl)
+	ld   d, $00
+	ld   hl, teleport7byteIndexes
+	add  hl, de
 
 // source of bytes is $c0b6/5 + value in 5854
-	ld   a, (hl)                                     ; $587e: $7e
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr                                   ; $587f: $21 $b5 $c0
-	add  (hl)                                        ; $5882: $86
-	ld   hl, wCommonByteCopyFuncSrc                                   ; $5883: $21 $9a $c0
-	ld   (hl), a                                     ; $5886: $77
+	ld   a, (hl)
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr
+	add  (hl)
+	ld   hl, wCommonByteCopyFuncSrc
+	ld   (hl), a
 
 // next byte
-	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1                                   ; $5887: $21 $b6 $c0
-	ld   a, (hl)                                     ; $588a: $7e
-	adc  $00                                         ; $588b: $ce $00
-	ld   hl, wCommonByteCopyFuncSrc+1                                   ; $588d: $21 $9b $c0
-	ld   (hl), a                                     ; $5890: $77
+	ld   hl, wBytePatternInRoomStructAfterlayoutAddr+1
+	ld   a, (hl)
+	adc  $00
+	ld   hl, wCommonByteCopyFuncSrc+1
+	ld   (hl), a
 
 // copy 7 bytes
-	ld   hl, wCommonByteCopyFuncNumBytes                                   ; $5891: $21 $a0 $c0
-	ld   (hl), $07                                   ; $5894: $36 $07
-	call copyBytesFromAnotherBankInto_c6d0                                       ; $5896: $cd $24 $02
+	ld   hl, wCommonByteCopyFuncNumBytes
+	ld   (hl), $07
+	call copyBytesFromAnotherBankInto_c6d0
 
-	ld   hl, wCommonByteCopyDestBytes                                   ; $5899: $21 $d0 $c6
-	ld   a, (hl)                                     ; $589c: $7e
-	ld   hl, $c0b8                                   ; $589d: $21 $b8 $c0
-	ld   (hl), a                                     ; $58a0: $77
-	cp   $ff                                         ; $58a1: $fe $ff
-	jr   z, @end                              ; $58a3: $28 $3e
+// nybbles of x and y (2x2 tile)
+	ld   hl, wCommonByteCopyDestBytes
+	ld   a, (hl)
+	ld   hl, wCurrTeleportsTileX
+	ld   (hl), a
 
-	call aDivEqu16                                       ; $58a5: $cd $fa $07
-	ld   (hl), a                                     ; $58a8: $77
-	ld   hl, wCommonByteCopyDestBytes                                   ; $58a9: $21 $d0 $c6
-	ld   a, (hl)                                     ; $58ac: $7e
-	and  $0f                                         ; $58ad: $e6 $0f
-	ld   hl, $c0b9                                   ; $58af: $21 $b9 $c0
-	ld   (hl), a                                     ; $58b2: $77
-	ld   hl, wCommonByteCopyDestBytes+1                                   ; $58b3: $21 $d1 $c6
-	ld   a, (hl)                                     ; $58b6: $7e
-	ld   hl, $c0ba                                   ; $58b7: $21 $ba $c0
-	ld   (hl), a                                     ; $58ba: $77
-	ld   hl, wCommonByteCopyDestBytes+2                                   ; $58bb: $21 $d2 $c6
-	ld   a, (hl)                                     ; $58be: $7e
-	ld   hl, wScriptTeleGroup                                   ; $58bf: $21 $bb $c0
-	ld   (hl), a                                     ; $58c2: $77
-	ld   hl, wCommonByteCopyDestBytes+3                                   ; $58c3: $21 $d3 $c6
-	ld   a, (hl)                                     ; $58c6: $7e
-	ld   hl, wScriptTeleRoomX                                   ; $58c7: $21 $bc $c0
-	ld   (hl), a                                     ; $58ca: $77
-	ld   hl, wCommonByteCopyDestBytes+4                                   ; $58cb: $21 $d4 $c6
-	ld   a, (hl)                                     ; $58ce: $7e
-	ld   hl, wScriptTeleRoomY                                   ; $58cf: $21 $bd $c0
-	ld   (hl), a                                     ; $58d2: $77
-	ld   hl, wCommonByteCopyDestBytes+5                                   ; $58d3: $21 $d5 $c6
-	ld   a, (hl)                                     ; $58d6: $7e
-	ld   hl, wScriptTelePlayerX                                   ; $58d7: $21 $be $c0
-	ld   (hl), a                                     ; $58da: $77
-	ld   hl, wCommonByteCopyDestBytes+6                                   ; $58db: $21 $d6 $c6
-	ld   a, (hl)                                     ; $58de: $7e
-	ld   hl, wScriptTelePlayerY                                   ; $58df: $21 $bf $c0
-	ld   (hl), a                                     ; $58e2: $77
+	cp   $ff
+	jr   z, @end
+
+// x in c0b8
+	call aDivEqu16
+	ld   (hl), a
+
+// y in c0b9
+	ld   hl, wCommonByteCopyDestBytes
+	ld   a, (hl)
+	and  $0f
+	ld   hl, wCurrTeleportsTileY
+	ld   (hl), a
+
+// tile to trigger teleport in c0ba
+	ld   hl, wCommonByteCopyDestBytes+1
+	ld   a, (hl)
+	ld   hl, wCurrTeleportsTileTrigger
+	ld   (hl), a
+
+// group, room x,y, player x, y
+	ld   hl, wCommonByteCopyDestBytes+2
+	ld   a, (hl)
+	ld   hl, wScriptTeleGroup
+	ld   (hl), a
+
+	ld   hl, wCommonByteCopyDestBytes+3
+	ld   a, (hl)
+	ld   hl, wScriptTeleRoomX
+	ld   (hl), a
+
+	ld   hl, wCommonByteCopyDestBytes+4
+	ld   a, (hl)
+	ld   hl, wScriptTeleRoomY
+	ld   (hl), a
+
+	ld   hl, wCommonByteCopyDestBytes+5
+	ld   a, (hl)
+	ld   hl, wScriptTelePlayerX
+	ld   (hl), a
+
+	ld   hl, wCommonByteCopyDestBytes+6
+	ld   a, (hl)
+	ld   hl, wScriptTelePlayerY
+	ld   (hl), a
 
 @end:
-	ld   hl, $c0b8                                   ; $58e3: $21 $b8 $c0
-	ld   a, (hl)                                     ; $58e6: $7e
-	cp   $ff                                         ; $58e7: $fe $ff
-	ret                                              ; $58e9: $c9
+	ld   hl, wCurrTeleportsTileX
+	ld   a, (hl)
+	cp   $ff
+	ret
 
 
 Call_001_58ea:
@@ -13933,7 +14014,7 @@ Call_001_58f4:
 	jr   nz, jr_001_5986                             ; $5910: $20 $74
 
 	push af                                          ; $5912: $f5
-	ld   hl, $c0ba                                   ; $5913: $21 $ba $c0
+	ld   hl, wCurrTeleportsTileTrigger                                   ; $5913: $21 $ba $c0
 	ld   a, (hl)                                     ; $5916: $7e
 	ld   hl, $c028                                   ; $5917: $21 $28 $c0
 	ld   (hl), a                                     ; $591a: $77
@@ -13954,7 +14035,7 @@ jr_001_591f:
 	jr   nz, jr_001_593b                             ; $592f: $20 $0a
 
 	push af                                          ; $5931: $f5
-	ld   hl, $c0ba                                   ; $5932: $21 $ba $c0
+	ld   hl, wCurrTeleportsTileTrigger                                   ; $5932: $21 $ba $c0
 	ld   a, (hl)                                     ; $5935: $7e
 	ld   hl, $c028                                   ; $5936: $21 $28 $c0
 	ld   (hl), a                                     ; $5939: $77
@@ -14261,88 +14342,100 @@ npcHelper_increaseScore:
 	ret
 
 
-func_5abf:
+drawGameOverScreenScore:
 	ld   de, $988c
-	call dPlusEquScreen0displayOffset                                       ; $5ac2: $cd $99 $1e
-	ld   bc, $0000                                   ; $5ac5: $01 $00 $00
-	ld   hl, $c006                                   ; $5ac8: $21 $06 $c0
-	ld   (hl), b                                     ; $5acb: $70
+	call dPlusEquScreen0displayOffset
 
-jr_001_5acc:
-	ld   hl, wPlayerScore                                   ; $5acc: $21 $2b $c0
-	add  hl, bc                                      ; $5acf: $09
-	ld   a, (hl)                                     ; $5ad0: $7e
-	push af                                          ; $5ad1: $f5
-	cp   $00                                         ; $5ad2: $fe $00
-	jr   nz, jr_001_5ae6                             ; $5ad4: $20 $10
+// c006 is idx of current score digit
+	ld   bc, $0000
+	ld   hl, wNumGameOverScoreDigitsDrawn
+	ld   (hl), b
 
-	ld   a, c                                        ; $5ad6: $79
-	cp   $06                                         ; $5ad7: $fe $06
-	jr   z, jr_001_5ae6                              ; $5ad9: $28 $0b
+@nextDigit:
+	ld   hl, wPlayerScore
+	add  hl, bc
+	ld   a, (hl)
+	push af
 
-	ld   hl, $c006                                   ; $5adb: $21 $06 $c0
-	ld   a, (hl)                                     ; $5ade: $7e
-	cp   $00                                         ; $5adf: $fe $00
-	jr   nz, jr_001_5ae6                             ; $5ae1: $20 $03
+// draw digit if number isn't 0
+	cp   $00
+	jr   nz, @drawDigit
 
-	pop  af                                          ; $5ae3: $f1
-	jr   jr_001_5aef                                 ; $5ae4: $18 $09
+// draw digit if the last digit
+	ld   a, c
+	cp   $06
+	jr   z, @drawDigit
 
-jr_001_5ae6:
-	pop  af                                          ; $5ae6: $f1
-	ld   hl, $c006                                   ; $5ae7: $21 $06 $c0
-	inc  (hl)                                        ; $5aea: $34
-	add  $30                                         ; $5aeb: $c6 $30
-	ld   (de), a                                     ; $5aed: $12
-	inc  de                                          ; $5aee: $13
+// draw digit if 0, if other digits have been drawn
+	ld   hl, wNumGameOverScoreDigitsDrawn
+	ld   a, (hl)
+	cp   $00
+	jr   nz, @drawDigit
 
-jr_001_5aef:
-	inc  bc                                          ; $5aef: $03
-	ld   a, c                                        ; $5af0: $79
-	cp   $07                                         ; $5af1: $fe $07
-	jr   nz, jr_001_5acc                             ; $5af3: $20 $d7
+	pop  af
+	jr   @toNextDigit
 
-	ret                                              ; $5af5: $c9
+@drawDigit:
+	pop  af
+	ld   hl, wNumGameOverScoreDigitsDrawn
+	inc  (hl)
+	add  $30
+	ld   (de), a
+	inc  de
+
+@toNextDigit:
+	inc  bc
+	ld   a, c
+	cp   $07
+	jr   nz, @nextDigit
+
+	ret
 
 
 ;;
 	add  $01                                         ; $5af6: $c6 $01
 
-Call_001_5af8:
+drawBCDNumsNoLeading0s:
+// value in a / 100, put in c
 	ld   c, a
-	ld   b, $00                                      ; $5af9: $06 $00
-	ld   a, 100                                      ; $5afb: $3e $64
-	call bcDivA_divInC_modInAB                                       ; $5afd: $cd $44 $08
-	ld   hl, $c0a2                                   ; $5b00: $21 $a2 $c0
-	ld   (hl), c                                     ; $5b03: $71
-	ld   a, c                                        ; $5b04: $79
-	cp   $00                                         ; $5b05: $fe $00
-	jr   z, +                              ; $5b07: $28 $03
+	ld   b, $00
+	ld   a, 100
+	call bcDivA_divInC_modInAB
+	ld   hl, wCurrMusicTestDigit
+	ld   (hl), c
 
-	call @drawDigit                               ; $5b09: $cd $21 $5b
+// draw if non-zero
+	ld   a, c
+	cp   $00
+	jr   z, +
 
-+
-	ld   a, b                                        ; $5b0c: $78
-	ld   c, a                                        ; $5b0d: $4f
-	ld   b, $00                                      ; $5b0e: $06 $00
-	ld   a, 10                                      ; $5b10: $3e $0a
-	call bcDivA_divInC_modInAB                                       ; $5b12: $cd $44 $08
-	ld   a, c                                        ; $5b15: $79
-	ld   hl, $c0a2                                   ; $5b16: $21 $a2 $c0
-	or   (hl)                                        ; $5b19: $b6
-	jr   z, +                              ; $5b1a: $28 $04
-
-	ld   a, c                                        ; $5b1c: $79
-	call @drawDigit                               ; $5b1d: $cd $21 $5b
+	call @drawDigit
 
 +
-	ld   a, b                                        ; $5b20: $78
+// mod val / 10, put in c
+	ld   a, b
+	ld   c, a
+	ld   b, $00
+	ld   a, 10
+	call bcDivA_divInC_modInAB
+	ld   a, c
+	ld   hl, wCurrMusicTestDigit
+// draw tens, if non-zero or hundreds drawn
+	or   (hl)
+	jr   z, +
+
+	ld   a, c
+	call @drawDigit
+
++
+// draw digit always
+	ld   a, b
 
 @drawDigit:
-	add  $30                                         ; $5b21: $c6 $30
-	ld   (de), a                                     ; $5b23: $12
-	inc  de                                          ; $5b24: $13
-	ret                                              ; $5b25: $c9
+	add  $30
+	ld   (de), a
+	inc  de
+	ret
 
 
 hlContainsScreenOffsetAndDataToCopyToScreen:
@@ -14434,10 +14527,11 @@ jr_001_5b7c:
 	ret                                              ; $5b84: $c9
 
 
-;;
-	ld   de, $9800                                   ; $5b85: $11 $00 $98
-	call dEquDoffsetInScreen1                                       ; $5b88: $cd $a8 $1e
-	jp   +                               ; $5b8b: $c3 $94 $5b
+// Unused?
+clearScreen1:
+	ld   de, $9800
+	call dPlusEquScreen1displayOffset
+	jp   +
 
 
 clearScreen0:
@@ -14478,16 +14572,16 @@ aIsMax3fh:
 	ret
 
 
-aEqu2ahPlus10:
+// the following 2 funcs unused
+aEqu2APlus10:
 	sla  a
 	add  $0a
 	ret
 
-
-;;
-	call aEqu2ahPlus10                               ; $61c6: $cd $c1 $61
-	add  $01                                         ; $61c9: $c6 $01
-	ret                                              ; $61cb: $c9
+aEqu2APlus11:
+	call aEqu2APlus10
+	add  $01
+	ret
 
 
 musicChannel0:

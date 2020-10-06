@@ -16,7 +16,7 @@
 	m_LayoutData lyt_inventoryScreen
 
 	.db $01 $14 $12
-	m_LayoutData lyt_03_1815
+	m_LayoutData lyt_titleScreen
 
 	.db $01 $14 $12
 	m_LayoutData lyt_introTradeMarkScreen

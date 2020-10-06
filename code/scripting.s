@@ -171,7 +171,7 @@ scriptCmdTable:
 	.dw _scriptCmd_faceDown
 	.dw _scriptCmd_faceRight
 	.dw _scriptCmd_faceLeft
-	.dw _scriptCmd_set6_cb60_reset_cb6c
+	.dw _scriptCmd_set6_cb60_reset_animationFrameIdx
 	.dw _scriptCmd_offsetNPCCoordsBy1_turnRight
 	.dw _scriptCmd_offsetNPCCoordsBy1_turnLeft
 	.dw _scriptCmd_res4_cb60
@@ -202,7 +202,7 @@ scriptCmdTable:
 	.dw _scriptCmd_incAnointingOilsGotten
 	.dw _scriptCmd_set7_npc2ndByteLower6Bits
 	.dw _scriptCmd_set2_cbe4
-	.dw _scriptCmd_setRoomFlagFrom_cbf0
+	.dw _scriptCmd_setEnemyDefeatedRoomFlag
 	.dw _scriptCmd_set3_cbe4
 	.dw _scriptCmd_6748
 	.dw _scriptCmd_gotoStartTitleScreen
@@ -354,11 +354,12 @@ _scriptCmd_faceLeft:
 	jp   npcHelper_res3_cbe4_thenNextOpcode
 
 
-_scriptCmd_set6_cb60_reset_cb6c:
+_scriptCmd_set6_cb60_reset_animationFrameIdx:
 	ld   hl, wNPCBytes_cb60
 	add  hl, bc
 	set  6, (hl)
-	ld   hl, wNPCBytes_cb6c
+
+	ld   hl, wNPCBytes_animationFrameIdx
 	add  hl, bc
 	ld   (hl), $00
 
@@ -413,56 +414,59 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 	ld   a, (hl)
 	ld   hl, wNPCScriptParam1
 	add  (hl)
-	jr   c, @retCFset                              ; $6490: $38 $5f
+	jr   c, @retCFset
 
-	cp   $a1                                         ; $6492: $fe $a1
-	jr   nc, @retCFset                             ; $6494: $30 $5b
+// max y-f
+	cp   $a1
+	jr   nc, @retCFset
 
-	add  $0f                                         ; $6496: $c6 $0f
-	ld   e, a                                        ; $6498: $5f
-	ld   d, $00                                      ; $6499: $16 $00
+	add  $0f
+	ld   e, a
+	ld   d, $00
 
+// y offset now in de
 @afterUpDown:
-	ld   hl, wNPC_xCoord                                   ; $649b: $21 $3c $cb
-	add  hl, bc                                      ; $649e: $09
-	ld   a, (hl)                                     ; $649f: $7e
-	ld   c, a                                        ; $64a0: $4f
-	ld   b, $00                                      ; $64a1: $06 $00
-	jp   @afterLeftRight                               ; $64a3: $c3 $d5 $64
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   a, (hl)
+	ld   c, a
+	ld   b, $00
+	jp   @afterLeftRight
 
 @horiz:
-	cp   DIR_LEFT                                         ; $64a6: $fe $09
-	jr   nz, +                             ; $64a8: $20 $14
+	cp   DIR_LEFT
+	jr   nz, +
 
 // left
 	call Call_001_46b4                               ; $64aa: $cd $b4 $46
-	ld   hl, wNPC_xCoord                                   ; $64ad: $21 $3c $cb
-	add  hl, bc                                      ; $64b0: $09
-	ld   a, (hl)                                     ; $64b1: $7e
-	ld   hl, wNPCScriptParam1                                   ; $64b2: $21 $20 $c0
-	sub  (hl)                                        ; $64b5: $96
-	jr   c, @retCFset                              ; $64b6: $38 $39
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wNPCScriptParam1
+	sub  (hl)
+	jr   c, @retCFset
 
-	ld   c, a                                        ; $64b8: $4f
-	ld   b, $00                                      ; $64b9: $06 $00
-	jp   @afterLeftRight                               ; $64bb: $c3 $d5 $64
+	ld   c, a
+	ld   b, $00
+	jp   @afterLeftRight
 
 +
 // right
 	call Call_001_46b4                               ; $64be: $cd $b4 $46
-	ld   hl, wNPC_xCoord                                   ; $64c1: $21 $3c $cb
-	add  hl, bc                                      ; $64c4: $09
-	ld   a, (hl)                                     ; $64c5: $7e
-	ld   hl, wNPCScriptParam1                                   ; $64c6: $21 $20 $c0
-	add  (hl)                                        ; $64c9: $86
-	jr   c, @retCFset                              ; $64ca: $38 $25
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wNPCScriptParam1
+	add  (hl)
+	jr   c, @retCFset
 
-	cp   $f1                                         ; $64cc: $fe $f1
-	jr   nc, @retCFset                             ; $64ce: $30 $21
+// max x-f
+	cp   $f1
+	jr   nc, @retCFset
 
-	add  $0f                                         ; $64d0: $c6 $0f
-	ld   c, a                                        ; $64d2: $4f
-	ld   b, $00                                      ; $64d3: $06 $00
+	add  $0f
+	ld   c, a
+	ld   b, $00
 
 @afterLeftRight:
 	call splitCEintoItsNybbles                               ; $64d5: $cd $1c $55
@@ -480,8 +484,8 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 	ret                                              ; $64f0: $c9
 
 @retCFset:
-	scf                                              ; $64f1: $37
-	ret                                              ; $64f2: $c9
+	scf
+	ret
 
 
 npcHelper_resetBit5OfNPC2ndByteLower6Bits:
@@ -607,55 +611,54 @@ _scriptCmd_facePlayerVertically:
 
 
 _scriptCmd_moveToPlayersXandFacePlayerHorizontally:
-	ld   hl, wPlayerX                                   ; $65a2: $21 $52 $c0
-	ld   a, (hl)                                     ; $65a5: $7e
-	ld   hl, wNPC_xCoord                                   ; $65a6: $21 $3c $cb
-	add  hl, bc                                      ; $65a9: $09
-	cp   (hl)                                        ; $65aa: $be
-	jr   c, +                              ; $65ab: $38 $04
+	ld   hl, wPlayerX
+	ld   a, (hl)
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	cp   (hl)
+	jr   c, +
 
 // player x is >= npc's x
 // get player x - npc x
-	sub  (hl)                                        ; $65ad: $96
-	jp   ++                               ; $65ae: $c3 $b6 $65
+	sub  (hl)
+	jp   ++
 
 +
 // player's x < npc's
 // get npc x - player x
-	ld   a, (hl)                                     ; $65b1: $7e
-	ld   hl, wPlayerX                                   ; $65b2: $21 $52 $c0
-	sub  (hl)                                        ; $65b5: $96
+	ld   a, (hl)
+	ld   hl, wPlayerX
+	sub  (hl)
 
 ++
 // cba8 is x distance between player x and npc x
-	ld   hl, wNPCBytes_pixelsToMove                                   ; $65b6: $21 $a8 $cb
-	add  hl, bc                                      ; $65b9: $09
-	ld   (hl), a                                     ; $65ba: $77
-	jp   _scriptCmd_facePlayerHorizontally                               ; $65bb: $c3 $69 $65
+	ld   hl, wNPCBytes_pixelsToMove
+	add  hl, bc
+	ld   (hl), a
+	jp   _scriptCmd_facePlayerHorizontally
 
 
 _scriptCmd_moveToPlayersYandFacePlayerVertically:
-	ld   hl, wPlayerY                                   ; $65be: $21 $54 $c0
-	ld   a, (hl)                                     ; $65c1: $7e
-	ld   hl, wNPC_yCoord                                   ; $65c2: $21 $48 $cb
-	add  hl, bc                                      ; $65c5: $09
-	cp   (hl)                                        ; $65c6: $be
-	jr   c, jr_001_65cd                              ; $65c7: $38 $04
+	ld   hl, wPlayerY
+	ld   a, (hl)
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	cp   (hl)
+	jr   c, +
 
-	sub  (hl)                                        ; $65c9: $96
-	jp   Jump_001_65d2                               ; $65ca: $c3 $d2 $65
+	sub  (hl)
+	jp   ++
 
++
+	ld   a, (hl)
+	ld   hl, wPlayerY
+	sub  (hl)
 
-jr_001_65cd:
-	ld   a, (hl)                                     ; $65cd: $7e
-	ld   hl, wPlayerY                                   ; $65ce: $21 $54 $c0
-	sub  (hl)                                        ; $65d1: $96
-
-Jump_001_65d2:
-	ld   hl, wNPCBytes_pixelsToMove                                   ; $65d2: $21 $a8 $cb
-	add  hl, bc                                      ; $65d5: $09
-	ld   (hl), a                                     ; $65d6: $77
-	jp   _scriptCmd_facePlayerVertically                               ; $65d7: $c3 $88 $65
+++
+	ld   hl, wNPCBytes_pixelsToMove
+	add  hl, bc
+	ld   (hl), a
+	jp   _scriptCmd_facePlayerVertically
 
 
 keepUpperNybbleOfNPC2ndByteLower6Bits:
@@ -690,13 +693,15 @@ _scriptCmd_res3_cb60:
 
 
 _scriptCmd_65fd:
-	ld   hl, wNPCBytes_cb6c                                   ; $65fd: $21 $6c $cb
+	ld   hl, wNPCBytes_animationFrameIdx                                   ; $65fd: $21 $6c $cb
 	add  hl, bc                                      ; $6600: $09
 	inc  (hl)                                        ; $6601: $34
 	call Call_001_738a                               ; $6602: $cd $8a $73
-	ld   hl, wNPCBytes_cb6c                                   ; $6605: $21 $6c $cb
+	ld   hl, wNPCBytes_animationFrameIdx                                   ; $6605: $21 $6c $cb
 	add  hl, bc                                      ; $6608: $09
 	dec  (hl)                                        ; $6609: $35
+
+// animation byte is 1, we continue, otherwise we stay here
 	ld   hl, $c009                                   ; $660a: $21 $09 $c0
 	ld   a, (hl)                                     ; $660d: $7e
 	cp   $01                                         ; $660e: $fe $01
@@ -746,6 +751,7 @@ _scriptCmd_giveHeartContainer:
 	jp   executeNPCScriptCode
 
 
+// unused
 _scriptCmd_reducePlayerMaxHealth:
 	ld   hl, wPlayerMaxHealth
 	ld   a, (hl)
@@ -785,6 +791,7 @@ _scriptCmd_set2_cb60:
 	jp   executeNPCScriptCode
 
 
+// unused
 _scriptCmd_res2_cb60:
 	ld   hl, wNPCBytes_cb60
 	add  hl, bc
@@ -798,11 +805,13 @@ _scriptCmd_c02a_equFF:
 	jp   executeNPCScriptCode                               ; $6680: $c3 $8a $62
 
 
+// unused
 _scriptCmd_6683:
-	call Call_001_669b                               ; $6683: $cd $9b $66
+	call checkIfNPConTelePosition                               ; $6683: $cd $9b $66
 	jr   nz, _executeNPCScriptCode_6698                             ; $6686: $20 $10
 
-	ld   hl, $c0b7                                   ; $6688: $21 $b7 $c0
+// player at tele position
+	ld   hl, wRoomCurrTeleportIdx                                   ; $6688: $21 $b7 $c0
 	ld   e, (hl)                                     ; $668b: $5e
 	ld   d, $00                                      ; $668c: $16 $00
 	ld   hl, bitTable                                   ; $668e: $21 $41 $07
@@ -816,34 +825,37 @@ _executeNPCScriptCode_6698:
 	jp   executeNPCScriptCode
 
 
-Call_001_669b:
-	ld   hl, wNPC_yCoord                                   ; $669b: $21 $48 $cb
-	add  hl, bc                                      ; $669e: $09
-	ld   a, (hl)                                     ; $669f: $7e
-	srl  a                                           ; $66a0: $cb $3f
-	srl  a                                           ; $66a2: $cb $3f
-	srl  a                                           ; $66a4: $cb $3f
-	srl  a                                           ; $66a6: $cb $3f
-	ld   e, a                                        ; $66a8: $5f
-	ld   d, $00                                      ; $66a9: $16 $00
-	ld   hl, wNPC_xCoord                                   ; $66ab: $21 $3c $cb
-	add  hl, bc                                      ; $66ae: $09
-	ld   a, (hl)                                     ; $66af: $7e
-	srl  a                                           ; $66b0: $cb $3f
-	srl  a                                           ; $66b2: $cb $3f
-	srl  a                                           ; $66b4: $cb $3f
-	srl  a                                           ; $66b6: $cb $3f
-	ld   c, a                                        ; $66b8: $4f
-	ld   b, $00                                      ; $66b9: $06 $00
-	call Call_000_39b9                                       ; $66bb: $cd $b9 $39
-	ret                                              ; $66be: $c9
+checkIfNPConTelePosition:
+// check if npc at tele tile
+// normally player y,x in de,bc
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	ld   a, (hl)
+	srl  a
+	srl  a
+	srl  a
+	srl  a
+	ld   e, a
+	ld   d, $00
 
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   a, (hl)
+	srl  a
+	srl  a
+	srl  a
+	srl  a
+	ld   c, a
+	ld   b, $00
+	call retZIfPlayerOnTeleTile
+	ret
 
+// unused
 _scriptCmd_66bf:
-	call Call_001_669b                               ; $66bf: $cd $9b $66
+	call checkIfNPConTelePosition                               ; $66bf: $cd $9b $66
 	jr   nz, _executeNPCScriptCode_6698                             ; $66c2: $20 $d4
 
-	ld   hl, $c0b7                                   ; $66c4: $21 $b7 $c0
+	ld   hl, wRoomCurrTeleportIdx                                   ; $66c4: $21 $b7 $c0
 	ld   e, (hl)                                     ; $66c7: $5e
 	ld   d, $00                                      ; $66c8: $16 $00
 	ld   hl, bitTable                                   ; $66ca: $21 $41 $07
@@ -912,20 +924,20 @@ npcHelper_orAwith_cbe4:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_setRoomFlagFrom_cbf0:
-	ld   hl, wNPCBytes_cbf0                                   ; $6722: $21 $f0 $cb
-	add  hl, bc                                      ; $6725: $09
-	ld   a, (hl)                                     ; $6726: $7e
-	cp   $ff                                         ; $6727: $fe $ff
-	jr   z, +                              ; $6729: $28 $0a
+_scriptCmd_setEnemyDefeatedRoomFlag:
+	ld   hl, wNPCBytes_roomFlagIdx
+	add  hl, bc
+	ld   a, (hl)
+	cp   $ff
+	jr   z, +
 
-	ld   hl, wRoomFlagIdxToCheck                                   ; $672b: $21 $fc $c0
-	ld   (hl), a                                     ; $672e: $77
-	ld   hl, setRoomFlag                                   ; $672f: $21 $de $09
-	call jpHLinBank1                               ; $6732: $cd $b0 $61
+	ld   hl, wRoomFlagIdxToCheck
+	ld   (hl), a
+	ld   hl, setRoomFlag
+	call jpHLinBank1
 
 +
-	jp   executeNPCScriptCode                               ; $6735: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_set3_cbe4:
@@ -942,6 +954,7 @@ npcHelper_res3_cbe4:
 	ret
 
 
+// unused
 _scriptCmd_6748:
 // de is y coords of tile npc is on (idxed by 2x2 tile)
 	ld   hl, wNPC_yCoord                                   ; $6748: $21 $48 $cb
@@ -1173,6 +1186,7 @@ _scriptCmd_giveSpecialBItem:
 	jp   executeNPCScriptCode
 
 
+// unused
 _scriptCmd_takeSpecialBItem:
 	ld   hl, wNPCScriptParam1
 	ld   a, (hl)
@@ -1192,6 +1206,7 @@ _scriptCmd_addToPlayerHealth:
 	jp   executeNPCScriptCode
 
 
+// unused
 _scriptCmd_dealPlayerDamage:
 	ld   hl, wNPCScriptParam1                                   ; $688f: $21 $20 $c0
 	ld   a, (hl)                                     ; $6892: $7e
@@ -1277,14 +1292,14 @@ getItemsGottenByteAndBitToCheckForItem:
 
 
 _scriptCmd_giveFruit:
-	ld   hl, wNPCScriptParam1                                   ; $6900: $21 $20 $c0
-	ld   e, (hl)                                     ; $6903: $5e
-	ld   hl, getFruitAmountFromWram                                   ; $6904: $21 $fe $13
-	call jpHLinBank4                               ; $6907: $cd $b5 $61
-	ld   a, e                                        ; $690a: $7b
-	ld   d, $00                                      ; $690b: $16 $00
-	cp   $04                                         ; $690d: $fe $04
-	jr   nc, +                             ; $690f: $30 $0b
+	ld   hl, wNPCScriptParam1
+	ld   e, (hl)
+	ld   hl, getFruitAmountFromWram
+	call jpHLinBank4
+	ld   a, e
+	ld   d, $00
+	cp   $04
+	jr   nc, +
 
 // less than 4 of a fruit, ...
 	inc  de                                          ; $6911: $13
@@ -1294,7 +1309,7 @@ _scriptCmd_giveFruit:
 	call Call_000_241a                                       ; $6919: $cd $1a $24
 
 +
-	jp   executeNPCScriptCode                               ; $691c: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_giveNumBombs:
@@ -1459,14 +1474,15 @@ _scriptCmd_startScrollingText:
 	ld   hl, $c066                                   ; $69f5: $21 $66 $c0
 	ld   (hl), a                                     ; $69f8: $77
 
-	ld   hl, wNPCScriptBytesBank                                   ; $69f9: $21 $fc $cb
-	add  hl, bc                                      ; $69fc: $09
-	ld   a, (hl)                                     ; $69fd: $7e
-	ld   hl, wScrollingTextBytesBank                                   ; $69fe: $21 $68 $c0
-	ld   (hl), a                                     ; $6a01: $77
+// get text bytes from script bank
+	ld   hl, wNPCScriptBytesBank
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wScrollingTextBytesBank
+	ld   (hl), a
 
-	call scrollingTextProcessControlBytes                               ; $6a02: $cd $49 $6c
-	jp   executeNPCScriptCode                               ; $6a05: $c3 $8a $62
+	call scrollingTextProcessControlBytes
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_jumpIfAtLeast1key:
@@ -1497,137 +1513,139 @@ _scriptCmd_call:
 _scriptCmd_groupRoomXYjumpTable:
 	ld   hl, wNPCScriptParam1
 	ld   a, (hl)
-	ld   hl, $c006
+	ld   hl, wParamWordForScriptDataCopy
 	ld   (hl), a
+
 	ld   hl, wNPCScriptParam2
 	ld   a, (hl)
-	ld   hl, $c007
+	ld   hl, wParamWordForScriptDataCopy+1
 	ld   (hl), a
 
 @bigLoop:
 // number of non-ffs read (ie exit when 3 ffs read)
-	ld   a, $01                                      ; $6a3a: $3e $01
-	ld   hl, $c00a                                   ; $6a3c: $21 $0a $c0
-	ld   (hl), a                                     ; $6a3f: $77
+	ld   a, $01
+	ld   hl, wNumNonFFsRead
+	ld   (hl), a
 
-// de = 0
-	ld   de, $0000                                   ; $6a40: $11 $00 $00
+// de = 0, compare room group
+	ld   de, $0000
 // bc used as we copy from npc bytes bank
-	ld   hl, wCurrNpcIdx                                   ; $6a43: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6a46: $4e
-	ld   b, $00                                      ; $6a47: $06 $00
-	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6a49: $cd $fb $73
-	ld   hl, $c009                                   ; $6a4c: $21 $09 $c0
-	ld   a, (hl)                                     ; $6a4f: $7e
-	cp   $ff                                         ; $6a50: $fe $ff
-	jr   z, @c009equFFh                              ; $6a52: $28 $0a
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	call copyByteFrom_c006_WordPlusEinto_c009
+	ld   hl, wScriptCopiedByte
+	ld   a, (hl)
+	cp   $ff
+	jr   z, @c009equFFh
 
-	ld   hl, $c00a                                   ; $6a54: $21 $0a $c0
-	inc  (hl)                                        ; $6a57: $34
-	ld   hl, wCurrRoomGroup                                   ; $6a58: $21 $33 $c0
-	cp   (hl)                                        ; $6a5b: $be
-	jr   nz, @next                             ; $6a5c: $20 $75
+	ld   hl, wNumNonFFsRead
+	inc  (hl)
+	ld   hl, wCurrRoomGroup
+	cp   (hl)
+	jr   nz, @next
 
 @c009equFFh:
-// de = 1
-	inc  de                                          ; $6a5e: $13
+// de = 1, compare room x
+	inc  de
 
-	ld   hl, wCurrNpcIdx                                   ; $6a5f: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6a62: $4e
-	ld   b, $00                                      ; $6a63: $06 $00
-	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6a65: $cd $fb $73
-	ld   hl, $c009                                   ; $6a68: $21 $09 $c0
-	ld   a, (hl)                                     ; $6a6b: $7e
-	cp   $ff                                         ; $6a6c: $fe $ff
-	jr   z, @c009equFFh2                              ; $6a6e: $28 $0a
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	call copyByteFrom_c006_WordPlusEinto_c009
+	ld   hl, wScriptCopiedByte
+	ld   a, (hl)
+	cp   $ff
+	jr   z, @c009equFFh2
 
-	ld   hl, $c00a                                   ; $6a70: $21 $0a $c0
-	inc  (hl)                                        ; $6a73: $34
-	ld   hl, wCurrRoomX                                   ; $6a74: $21 $34 $c0
-	cp   (hl)                                        ; $6a77: $be
-	jr   nz, @next                             ; $6a78: $20 $59
+	ld   hl, wNumNonFFsRead
+	inc  (hl)
+	ld   hl, wCurrRoomX
+	cp   (hl)
+	jr   nz, @next
 
 @c009equFFh2:
-// de = 2
-	inc  de                                          ; $6a7a: $13
+// de = 2, compare room y
+	inc  de
 
-	ld   hl, wCurrNpcIdx                                   ; $6a7b: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6a7e: $4e
-	ld   b, $00                                      ; $6a7f: $06 $00
-	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6a81: $cd $fb $73
-	ld   hl, $c009                                   ; $6a84: $21 $09 $c0
-	ld   a, (hl)                                     ; $6a87: $7e
-	cp   $ff                                         ; $6a88: $fe $ff
-	jr   z, @c009equFFh3                              ; $6a8a: $28 $0a
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	call copyByteFrom_c006_WordPlusEinto_c009
+	ld   hl, wScriptCopiedByte
+	ld   a, (hl)
+	cp   $ff
+	jr   z, @c009equFFh3
 
-	ld   hl, $c00a                                   ; $6a8c: $21 $0a $c0
-	inc  (hl)                                        ; $6a8f: $34
-	ld   hl, wCurrRoomY                                   ; $6a90: $21 $35 $c0
-	cp   (hl)                                        ; $6a93: $be
-	jr   nz, @next                             ; $6a94: $20 $3d
+	ld   hl, wNumNonFFsRead
+	inc  (hl)
+	ld   hl, wCurrRoomY
+	cp   (hl)
+	jr   nz, @next
 
 @c009equFFh3:
-	ld   hl, $c00a                                   ; $6a96: $21 $0a $c0
-	dec  (hl)                                        ; $6a99: $35
-	jr   z, @done                              ; $6a9a: $28 $4e
+	ld   hl, wNumNonFFsRead
+	dec  (hl)
+	jr   z, @done
 
-// de = 3
-	ld   de, $0003                                   ; $6a9c: $11 $03 $00
+// de = 3, we have a match, so load addr low byte to jump to
+	ld   de, $0003
 
-	ld   hl, wCurrNpcIdx                                   ; $6a9f: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6aa2: $4e
-	ld   b, $00                                      ; $6aa3: $06 $00
-	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6aa5: $cd $fb $73
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	call copyByteFrom_c006_WordPlusEinto_c009
 
-	ld   hl, wCurrNpcIdx                                   ; $6aa8: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6aab: $4e
-	ld   b, $00                                      ; $6aac: $06 $00
-	ld   hl, $c009                                   ; $6aae: $21 $09 $c0
-	ld   a, (hl)                                     ; $6ab1: $7e
-	ld   hl, wNPCScriptPointerLowByte                                   ; $6ab2: $21 $90 $cb
-	add  hl, bc                                      ; $6ab5: $09
-	ld   (hl), a                                     ; $6ab6: $77
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	ld   hl, wScriptCopiedByte
+	ld   a, (hl)
+	ld   hl, wNPCScriptPointerLowByte
+	add  hl, bc
+	ld   (hl), a
 
-// de = 4
-	inc  de                                          ; $6ab7: $13
-	ld   hl, wCurrNpcIdx                                   ; $6ab8: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6abb: $4e
-	ld   b, $00                                      ; $6abc: $06 $00
-	call copyByteFrom_c006_WordPlusEinto_c009                               ; $6abe: $cd $fb $73
-	ld   hl, wCurrNpcIdx                                   ; $6ac1: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6ac4: $4e
-	ld   b, $00                                      ; $6ac5: $06 $00
-	ld   hl, $c009                                   ; $6ac7: $21 $09 $c0
-	ld   a, (hl)                                     ; $6aca: $7e
-	ld   hl, wNPCScriptPointerHighByte                                   ; $6acb: $21 $9c $cb
-	add  hl, bc                                      ; $6ace: $09
-	ld   (hl), a                                     ; $6acf: $77
-	jp   executeNPCScriptCode                               ; $6ad0: $c3 $8a $62
+// de = 4, addr high byte to jump to
+	inc  de
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	call copyByteFrom_c006_WordPlusEinto_c009
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	ld   hl, wScriptCopiedByte
+	ld   a, (hl)
+	ld   hl, wNPCScriptPointerHighByte
+	add  hl, bc
+	ld   (hl), a
+	jp   executeNPCScriptCode
 
 @next:
 // param word += 5
-	ld   hl, $c006                                   ; $6ad3: $21 $06 $c0
-	ld   a, (hl)                                     ; $6ad6: $7e
-	add  $05                                         ; $6ad7: $c6 $05
-	ld   hl, $c006                                   ; $6ad9: $21 $06 $c0
-	ld   (hl), a                                     ; $6adc: $77
-	ld   hl, $c007                                   ; $6add: $21 $07 $c0
-	ld   a, (hl)                                     ; $6ae0: $7e
-	adc  $00                                         ; $6ae1: $ce $00
-	ld   hl, $c007                                   ; $6ae3: $21 $07 $c0
-	ld   (hl), a                                     ; $6ae6: $77
-	jp   @bigLoop                               ; $6ae7: $c3 $3a $6a
+	ld   hl, wParamWordForScriptDataCopy
+	ld   a, (hl)
+	add  $05
+	ld   hl, wParamWordForScriptDataCopy
+	ld   (hl), a
+
+	ld   hl, wParamWordForScriptDataCopy+1
+	ld   a, (hl)
+	adc  $00
+	ld   hl, wParamWordForScriptDataCopy+1
+	ld   (hl), a
+	jp   @bigLoop
 
 @done:
-	jp   executeNPCScriptCode                               ; $6aea: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 // special bytes:
 // $fd - inits screen again
-// $7f - exits out of screen?
-// $ff - skips? checks next byte
-// $42 - cursor-related?
-// $fe - end of text, waits for input?
+// $7f - exits out of screen
+// $ff - process next control byte
+// $42 - waits
+// $fe - end of text, waits for input
 // otherwise copies 8 bytes
 // if at this point, we see $ff, we loop back up to check above chars
 // if at this point, we see $01, we go to next row
@@ -1650,111 +1668,114 @@ _scriptCmd_displayTextScreen:
 	cp   $7f
 	jp   nz, @not7fh
 
-	call func_232a                                       ; $6b0c: $cd $2a $23
-	call stopSoundsPlaySound5AtNormalSpeed                                       ; $6b0f: $cd $ae $27
-	jp   executeNPCScriptCode                               ; $6b12: $c3 $8a $62
+// 7f - exit menu
+	call backToGameFromMenuQuizText
+	call stopSoundsPlaySound5AtNormalSpeed
+	jp   executeNPCScriptCode
 
 @not7fh:
-	cp   $fd                                         ; $6b15: $fe $fd
-	jr   z, @initScreen                              ; $6b17: $28 $e0
+	cp   $fd
+	jr   z, @initScreen
 
-	cp   $ff                                         ; $6b19: $fe $ff
-	jr   z, @checkNextCharacter                              ; $6b1b: $28 $e7
+	cp   $ff
+	jr   z, @checkNextCharacter
 
-	cp   $42                                         ; $6b1d: $fe $42
-	jr   nz, @not42                             ; $6b1f: $20 $14
+	cp   $42
+	jr   nz, @not42
 
-// byte read is $42
-	call npcHelper_getTextByteFromBank                               ; $6b21: $cd $93 $6b
-	push af                                          ; $6b24: $f5
-	ld   c, a                                        ; $6b25: $4f
-	ld   b, $00                                      ; $6b26: $06 $00
-	call callMinimalMainLoopCTimes                                       ; $6b28: $cd $1a $18
-	pop  af                                          ; $6b2b: $f1
-	ld   c, a                                        ; $6b2c: $4f
-	ld   b, $00                                      ; $6b2d: $06 $00
-	call callMinimalMainLoopCTimes                                       ; $6b2f: $cd $1a $18
-	jp   @checkNextCharacter                               ; $6b32: $c3 $04 $6b
+// byte read is $42 - wait next param x 2 times
+	call npcHelper_getTextByteFromBank
+	push af
+	ld   c, a
+	ld   b, $00
+	call callMinimalMainLoopCTimes
+	pop  af
+	ld   c, a
+	ld   b, $00
+	call callMinimalMainLoopCTimes
+	jp   @checkNextCharacter
 
 @not42:
-	cp   $fe                                         ; $6b35: $fe $fe
-	jr   nz, @notFE                             ; $6b37: $20 $0b
+	cp   $fe
+	jr   nz, @notFE
 
-// byte read is $fe - end of text
-	call waitUntilAllKeysReleased                                       ; $6b39: $cd $23 $18
-	ld   e, $00                                      ; $6b3c: $1e $00
-	call Call_000_19f8                                       ; $6b3e: $cd $f8 $19
-	jp   @checkNextCharacter                               ; $6b41: $c3 $04 $6b
+// byte read is $fe - end of text - wait for input
+	call waitUntilAllKeysReleased
+	ld   e, $00
+	call processInputInMenus
+	jp   @checkNextCharacter
 
 @notFE:
-// a is row offset?
-	ld   c, a                                        ; $6b44: $4f
-	ld   e, $20                                      ; $6b45: $1e $20
-	call ecEquEtimesC                                       ; $6b47: $cd $03 $08
+// a is row offset
+	ld   c, a
+	ld   e, $20
+	call ecEquEtimesC
 // e into d, c into e, ie e * c into de
-	ld   a, e                                        ; $6b4a: $7b
-	ld   d, a                                        ; $6b4b: $57
-	ld   a, c                                        ; $6b4c: $79
-	ld   e, a                                        ; $6b4d: $5f
-	call npcHelper_getTextByteFromBank                               ; $6b4e: $cd $93 $6b
+	ld   a, e
+	ld   d, a
+	ld   a, c
+	ld   e, a
+	call npcHelper_getTextByteFromBank
 
 // de += A in screen 1
-	add  e                                           ; $6b51: $83
-	ld   e, a                                        ; $6b52: $5f
-	ld   a, d                                        ; $6b53: $7a
-	ld   hl, wScreen1displayOffset                                   ; $6b54: $21 $dd $c6
-	adc  (hl)                                        ; $6b57: $8e
-	add  $98                                         ; $6b58: $c6 $98
-	ld   d, a                                        ; $6b5a: $57
+	add  e
+	ld   e, a
+	ld   a, d
+	ld   hl, wScreen1displayOffset
+	adc  (hl)
+	add  >$9862
+	ld   d, a
 
 // c0fa/9 += $62 (constant start of text within round rectangle box)
-	ld   a, e                                        ; $6b5b: $7b
-	add  $62                                         ; $6b5c: $c6 $62
-	ld   e, a                                        ; $6b5e: $5f
-	ld   hl, wScrollingTextCurrRowVramStart                                   ; $6b5f: $21 $f9 $c0
-	ld   (hl), e                                     ; $6b62: $73
+	ld   a, e
+	add  <$9862
+	ld   e, a
+	ld   hl, wScrollingTextCurrRowVramStart
+	ld   (hl), e
 
 // d part
-	ld   a, d                                        ; $6b63: $7a
-	adc  $00                                         ; $6b64: $ce $00
-	ld   d, a                                        ; $6b66: $57
-	inc  hl                                          ; $6b67: $23
-	ld   (hl), a                                     ; $6b68: $77
+	ld   a, d
+	adc  $00
+	ld   d, a
+	inc  hl
+	ld   (hl), a
 
 @loopWaitForVBlankStart:
-	call waitUntilStartOfVBlankPeriod                                       ; $6b69: $cd $e8 $01
-	ld   c, $08                                      ; $6b6c: $0e $08
+// process 8 characters at a time, breaking on ff or 1
+	call waitUntilStartOfVBlankPeriod
+	ld   c, $08
 
 @nextC:
-	call npcHelper_getTextByteFromBank                               ; $6b6e: $cd $93 $6b
-	cp   $ff                                         ; $6b71: $fe $ff
-	jp   z, @checkNextCharacter                            ; $6b73: $ca $04 $6b
+	call npcHelper_getTextByteFromBank
+	cp   $ff
+	jp   z, @checkNextCharacter
 
-	cp   $01                                         ; $6b76: $fe $01
-	jr   z, @byteToCopyEqu1                              ; $6b78: $28 $07
+// newline
+	cp   $01
+	jr   z, @byteToCopyEqu1
 
-	ld   (de), a                                     ; $6b7a: $12
-	inc  de                                          ; $6b7b: $13
+	ld   (de), a
+	inc  de
 
 @toNextC:
-	dec  c                                           ; $6b7c: $0d
-	jr   nz, @nextC                             ; $6b7d: $20 $ef
+	dec  c
+	jr   nz, @nextC
 
-	jr   @loopWaitForVBlankStart                                 ; $6b7f: $18 $e8
+	jr   @loopWaitForVBlankStart
 
 @byteToCopyEqu1:
 // offset in c0f9/a += $20 (next row to display text)
-	ld   hl, wScrollingTextCurrRowVramStart                                   ; $6b81: $21 $f9 $c0
-	ld   a, (hl)                                     ; $6b84: $7e
-	add  <$0020                                         ; $6b85: $c6 $20
-	ld   (hl), a                                     ; $6b87: $77
-	ld   e, a                                        ; $6b88: $5f
-	ld   hl, wScrollingTextCurrRowVramStart+1                                   ; $6b89: $21 $fa $c0
-	ld   a, (hl)                                     ; $6b8c: $7e
-	adc  >$0020                                         ; $6b8d: $ce $00
-	ld   (hl), a                                     ; $6b8f: $77
-	ld   d, a                                        ; $6b90: $57
-	jr   @toNextC                                 ; $6b91: $18 $e9
+	ld   hl, wScrollingTextCurrRowVramStart
+	ld   a, (hl)
+	add  <$0020
+	ld   (hl), a
+	ld   e, a
+	ld   hl, wScrollingTextCurrRowVramStart+1
+	ld   a, (hl)
+	adc  >$0020
+	ld   (hl), a
+	ld   d, a
+	jr   @toNextC
 
 
 npcHelper_getTextByteFromBank:
@@ -1803,7 +1824,7 @@ npcHelper_getTextByteFromBank:
 npcHelper_initTextScreenGfx:
 	call turnOffLCD
 	ld   de, $9800
-	call dEquDoffsetInScreen1
+	call dPlusEquScreen1displayOffset
 
 	ld   hl, lyt_npcTextRoundBorderScreen
 	call copyLayoutFromBank3
@@ -1970,7 +1991,7 @@ scrollingTextProcessControlBytes:
 	ld   (hl), a                                     ; $6ca9: $77
 
 @done:
-	ret                                              ; $6caa: $c9
+	ret
 
 
 // bank = c068
@@ -2056,6 +2077,7 @@ _scriptCmd_waitRandomValBetween2ParamsInclusive:
 	ret
 
 
+// unused
 _scriptCmd_lampOnOrOffSameBGP:
 	ld   hl, wNPCScriptParam1
 	ld   a, (hl)
@@ -2075,6 +2097,7 @@ _scriptCmd_lampOnOrOffSameBGP:
 	jp   executeNPCScriptCode
 
 
+// unused
 _scriptCmd_lampOnOrOffSameOBP0:
 	ld   hl, wNPCScriptParam1
 	ld   a, (hl)
@@ -2248,7 +2271,7 @@ npcHelper_spawnNPC:
 	ld   a, e
 	ld   c, a
 	ld   b, $00
-	call initNPCscriptBytes_set_cbf0_toFF
+	call initNPCscriptBytes_noRoomFlagEffect
 	call loadNPCScriptPointer
 
 // de is idx of new npc - save it
@@ -2565,6 +2588,7 @@ npcHelper_jumpIfAtLeastParam1gotten:
 	jp   executeNPCScriptCode
 
 
+// unused
 _scriptCmd_jumpIfMoreThanNumOilsGotten:
 	ld   hl, wAnointingOilsGotten
 	ld   a, (hl)
@@ -2577,418 +2601,482 @@ _scriptCmd_jumpIfMoreThanParam1HealthGotten:
 	jp   npcHelper_jumpIfAtLeastParam1gotten
 
 
+// unused
 _scriptCmd_jumpIfButtonsPressed:
 	call pollInput
 	ld   hl, wKeysPressed
 	ld   a, (hl)
 	ld   hl, wNPCScriptParam1
 	and  (hl)
-	jr   z, _executeNPCScriptCode_7003
+	jr   z, _f
 
 	jp   npcHelper_jump
 
-
-_executeNPCScriptCode_7003:
-	jp   executeNPCScriptCode
+__	jp   executeNPCScriptCode
 
 
 _scriptCmd_moveNPC_jumpIfCant:
 	call npcHelper_offsetNPCCoordsByScriptByte1
-	jr   nc, _executeNPCScriptCode_7003
+	jr   nc, _b
 
 	jp   npcHelper_jump
 
 
 _scriptCmd_quiz:
-	ld   hl, wCurrNpcIdx                                   ; $700e: $21 $a6 $c0
-	ld   a, (hl)                                     ; $7011: $7e
-	push af                                          ; $7012: $f5
-	call stopAllSounds                                       ; $7013: $cd $32 $15
-	ld   a, $00                                      ; $7016: $3e $00
-	ld   hl, wScrollingTextByteDone                                   ; $7018: $21 $61 $c0
-	ld   (hl), a                                     ; $701b: $77
-	ld   a, $00                                      ; $701c: $3e $00
-	ld   hl, wNPCScriptOpcode                                   ; $701e: $21 $1f $c0
-	ld   (hl), a                                     ; $7021: $77
+	ld   hl, wCurrNpcIdx
+	ld   a, (hl)
+	push af
+	call stopAllSounds
 
-@massiveLoop_7022:
-	call turnOffLCD                                       ; $7022: $cd $0d $02
-	call clear_c200_to_c2ff                               ; $7025: $cd $9e $5b
-	call copyA0hDataToOam                                       ; $7028: $cd $99 $1a
-	ld   c, :func_01_0b29                                      ; $702b: $0e $01
-	ld   hl, func_01_0b29                                   ; $702d: $21 $29 $0b
-	call callHLinBankC                                       ; $7030: $cd $4e $01
-	ld   de, $982b                                   ; $7033: $11 $2b $98
-	call dEquDoffsetInScreen1                                       ; $7036: $cd $a8 $1e
-	ld   hl, $c00a                                   ; $7039: $21 $0a $c0
-	inc  (hl)                                        ; $703c: $34
-	ld   a, (hl)                                     ; $703d: $7e
-	call Call_001_5af8                               ; $703e: $cd $f8 $5a
-	ld   bc, $0001                                   ; $7041: $01 $01 $00
-	call Call_001_719b                               ; $7044: $cd $9b $71
-	ld   bc, $0002                                   ; $7047: $01 $02 $00
-	call Call_001_71b4                               ; $704a: $cd $b4 $71
-	ld   bc, $0000                                   ; $704d: $01 $00 $00
-	call Call_001_71cc                               ; $7050: $cd $cc $71
-	ld   hl, $0020                                   ; $7053: $21 $20 $00
-	call loadTilesetAndVramTileConversionTable_idxedHL                                       ; $7056: $cd $7a $17
-	ld   hl, wLCDCvalue                                   ; $7059: $21 $00 $d0
-	ld   a, $9f                                      ; $705c: $3e $9f
-	ld   (hl), a                                     ; $705e: $77
-	ld   hl, rSCY                                   ; $705f: $21 $42 $ff
-	ld   (hl), $00                                   ; $7062: $36 $00
-	inc  hl                                          ; $7064: $23
-	ld   (hl), $04                                   ; $7065: $36 $04
-	call setNormalBGP_OBP0vals                                       ; $7067: $cd $30 $1e
-	ld   a, $06                                      ; $706a: $3e $06
-	call setLCDfromValue_c015equA                                       ; $706c: $cd $11 $02
-	ld   a, $14                                      ; $706f: $3e $14
-	ld   hl, wOam+1                                   ; $7071: $21 $01 $c2
-	ld   (hl), a                                     ; $7074: $77
-	ld   a, $2a                                      ; $7075: $3e $2a
-	ld   hl, wOam+2                                   ; $7077: $21 $02 $c2
-	ld   (hl), a                                     ; $707a: $77
-	ld   hl, wOam+3                                   ; $707b: $21 $03 $c2
-	ld   (hl), $10                                   ; $707e: $36 $10
-	ld   a, $00                                      ; $7080: $3e $00
-	ld   hl, $c097                                   ; $7082: $21 $97 $c0
-	ld   (hl), a                                     ; $7085: $77
-	ld   a, $79                                      ; $7086: $3e $79
-	ld   hl, $c0b1                                   ; $7088: $21 $b1 $c0
-	ld   (hl), a                                     ; $708b: $77
-	call Call_000_0c69                                       ; $708c: $cd $69 $0c
-	ld   hl, $c097                                   ; $708f: $21 $97 $c0
-	ld   a, (hl)                                     ; $7092: $7e
-	ld   hl, $c0c4                                   ; $7093: $21 $c4 $c0
-	cp   (hl)                                        ; $7096: $be
-	jr   z, +                              ; $7097: $28 $03
+	ld   a, $00
+	ld   hl, wScrollingTextByteDone
+	ld   (hl), a
 
-	jp   @func_7147                               ; $7099: $c3 $47 $71
+	ld   a, $00
+	ld   hl, wNumIncorrectQuestions
+	ld   (hl), a
 
-+
-	ld   a, $ff                                      ; $709c: $3e $ff
-	ld   hl, wSoundIsTwiceSpeed                                   ; $709e: $21 $2a $c7
-	ld   (hl), a                                     ; $70a1: $77
+@loopAskingNextQuestion:
+	call turnOffLCD
+	call clear_c200_to_c2ff
+	call copyA0hDataToOam
 
-	ld   a, $03                                      ; $70a2: $3e $03
-	ld   hl, wSoundToPlayIdx                                   ; $70a4: $21 $09 $c0
-	ld   (hl), a                                     ; $70a7: $77
+	ld   c, :drawQuizScreen
+	ld   hl, drawQuizScreen
+	call callHLinBankC
 
-	call play3soundChannels_6choicesIdxed_c009                                       ; $70a8: $cd $bf $14
+// offset for question no.
+	ld   de, $982b
+	call dPlusEquScreen1displayOffset
 
-	ld   a, $00                                      ; $70ab: $3e $00
-	ld   hl, wSoundIsTwiceSpeed                                   ; $70ad: $21 $2a $c7
-	ld   (hl), a                                     ; $70b0: $77
+// question num
+	ld   hl, wNextQuizQuestionIdx
+	inc  (hl)
+	ld   a, (hl)
+	call drawBCDNumsNoLeading0s
 
-	call Call_001_7254                               ; $70b1: $cd $54 $72
-	ld   bc, $0002                                   ; $70b4: $01 $02 $00
-	call Call_001_71b4                               ; $70b7: $cd $b4 $71
-	call callMinimalMainLoop0fhTimes                                       ; $70ba: $cd $18 $18
-	ld   bc, $0003                                   ; $70bd: $01 $03 $00
-	call Call_001_71b4                               ; $70c0: $cd $b4 $71
-	call callMinimalMainLoop0fhTimes                                       ; $70c3: $cd $18 $18
-	ld   bc, $0004                                   ; $70c6: $01 $04 $00
-	call Call_001_71b4                               ; $70c9: $cd $b4 $71
-	call callMinimalMainLoop0fhTimes                                       ; $70cc: $cd $18 $18
-	ld   hl, wNPCScriptParam2                                   ; $70cf: $21 $21 $c0
-	ld   a, (hl)                                     ; $70d2: $7e
-	cp   $01                                         ; $70d3: $fe $01
-	jr   nz, @next_70e5                             ; $70d5: $20 $0e
+// set normal tiles for face
+	ld   bc, $0001
+	call setQuizEyeTiles
+	ld   bc, $0002
+	call setQuizMouthTiles
+	ld   bc, $0000
+	call setQuizBowtieTiles
 
-	ld   hl, wNPCScriptOpcode                                   ; $70d7: $21 $1f $c0
-	ld   a, (hl)                                     ; $70da: $7e
-	cp   $00                                         ; $70db: $fe $00
-	jr   nz, @next_70e5                             ; $70dd: $20 $06
+	ld   hl, $0020
+	call loadTilesetAndVramTileConversionTable_idxedHL
 
-	call Call_001_7267                               ; $70df: $cd $67 $72
-	call callMinimalMainLoop1ehTimes                                       ; $70e2: $cd $15 $18
+// set lcdc, on, bg8000, bg9c000, 8x16 sprites, bg/spr on
+	ld   hl, wLCDCvalue
+	ld   a, $9f
+	ld   (hl), a
 
-@next_70e5:
+// set scroll
+	ld   hl, rSCY
+	ld   (hl), $00
+	inc  hl
+	ld   (hl), $04
+
+	call setNormalBGP_OBP0vals
+	ld   a, $06
+	call setLCDfromValue_c015equA
+
+// cursor except y
+	ld   a, $14
+	ld   hl, wOam+1
+	ld   (hl), a
+	ld   a, $2a
+	ld   hl, wOam+2
+	ld   (hl), a
+	ld   hl, wOam+3
+	ld   (hl), $10
+
+// base cursor idx and y
+	ld   a, $00
+	ld   hl, wGenericMenuCursorIdx
+	ld   (hl), a
+
+	ld   a, $79
+	ld   hl, wMenuCursorBaseOamY
+	ld   (hl), a
+
+	call nonTitleScreenInputCheckLoop
+
+// check answer choice
+	ld   hl, wGenericMenuCursorIdx
+	ld   a, (hl)
+	ld   hl, wCorrectQuizAnswerIdx
+	cp   (hl)
+	jr   z, @selectedCorrectAnswer
+
+	jp   @selectedWrongAnswer
+
+@selectedCorrectAnswer:
+// play sound 3 at twice speed
+	ld   a, $ff
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+
+	ld   a, SND_03
+	ld   hl, wSoundToPlayIdx
+	ld   (hl), a
+
+	call play3soundChannels_6choicesIdxed_c009
+
+// back to normal speed
+	ld   a, $00
+	ld   hl, wSoundIsTwiceSpeed
+	ld   (hl), a
+
+	call showBlinkingEyesOam
+
+// mouth to increasingly smile
+	ld   bc, $0002
+	call setQuizMouthTiles
+	call callMinimalMainLoop0fhTimes
+	ld   bc, $0003
+	call setQuizMouthTiles
+	call callMinimalMainLoop0fhTimes
+	ld   bc, $0004
+	call setQuizMouthTiles
+	call callMinimalMainLoop0fhTimes
+
+	ld   hl, wNumQuestionsLeft
+	ld   a, (hl)
+	cp   $01
+	jr   nz, @givePrize
+
+// 1 question left, and...
+	ld   hl, wNumIncorrectQuestions
+	ld   a, (hl)
+	cp   $00
+	jr   nz, @givePrize
+
+// 0 incorrect questions still, we're done with quiz
+	call playSoundsAndSpinBowtieForPerfectQuiz
+	call callMinimalMainLoop1ehTimes
+
+@givePrize:
+// once all 1st 3 sound channels off..
 -
-	call minimalMainLoop                                       ; $70e5: $cd $5e $1a
-	call Call_000_14f8                                       ; $70e8: $cd $f8 $14
-	jr   nz, -                             ; $70eb: $20 $f8
+	call minimalMainLoop
+	call retZifFirst3SoundChannelsOff
+	jr   nz, -
 
-	ld   hl, wNPCScriptParam3                                   ; $70ed: $21 $22 $c0
-	ld   c, (hl)                                     ; $70f0: $4e
-	ld   b, $00                                      ; $70f1: $06 $00
-	ld   a, c                                        ; $70f3: $79
-	cp   $ff                                         ; $70f4: $fe $ff
-	jr   nz, +                             ; $70f6: $20 $06
+// add the 2 health if prize was ff
+	ld   hl, wPrizeCounter
+	ld   c, (hl)
+	ld   b, $00
+	ld   a, c
+	cp   $ff
+	jr   nz, +
 
-	call add2toPlayerHealth                               ; $70f8: $cd $84 $50
-	jp   @bigLoop_7125                               ; $70fb: $c3 $25 $71
+	call add2toPlayerHealth
+	jp   @preNextQuestionProcessing
 
 +
-	ld   c, $05                                      ; $70fe: $0e $05
-	ld   hl, wNPCScriptParam3                                   ; $7100: $21 $22 $c0
-	ld   a, (hl)                                     ; $7103: $7e
-	cp   $03                                         ; $7104: $fe $03
-	jr   nz, @startAddingBirdsMaxFF                             ; $7106: $20 $02
+// normal prize, add 5 birds
+	ld   c, $05
+	ld   hl, wPrizeCounter
+	ld   a, (hl)
+	cp   $03
+	jr   nz, @startAddingBirdsMaxFF
 
-	ld   c, $0a                                      ; $7108: $0e $0a
+// prize counter is 3, max prize, add 10 birds
+	ld   c, $0a
 
 @startAddingBirdsMaxFF:
-	ld   hl, wNumBirds                                   ; $710a: $21 $08 $c7
-	inc  (hl)                                        ; $710d: $34
-	jr   nz, +                             ; $710e: $20 $04
+	ld   hl, wNumBirds
+	inc  (hl)
+	jr   nz, +
 
-	ld   hl, wNumBirds                                   ; $7110: $21 $08 $c7
-	dec  (hl)                                        ; $7113: $35
-
-+
-	dec  c                                           ; $7114: $0d
-	jr   nz, @startAddingBirdsMaxFF                             ; $7115: $20 $f3
-
-	ld   hl, wNPCScriptParam3                                   ; $7117: $21 $22 $c0
-	ld   a, (hl)                                     ; $711a: $7e
-	cp   $01                                         ; $711b: $fe $01
-	jr   z, @bigLoop_7125                              ; $711d: $28 $06
-
-	call add2toPlayerHealth                               ; $711f: $cd $84 $50
-	call add2toPlayerHealth                               ; $7122: $cd $84 $50
-
-@bigLoop_7125:
-	ld   hl, wNPCScriptParam2                                   ; $7125: $21 $21 $c0
-	dec  (hl)                                        ; $7128: $35
-	jr   z, @done                              ; $7129: $28 $5c
-
-	ld   hl, wNPCScriptParam1                                   ; $712b: $21 $20 $c0
-	ld   a, (hl)                                     ; $712e: $7e
-	cp   $ff                                         ; $712f: $fe $ff
-	jr   z, ++                              ; $7131: $28 $0c
-
-	add  $01                                         ; $7133: $c6 $01
-	cp   $fa                                         ; $7135: $fe $fa
-	jr   c, +                              ; $7137: $38 $02
-
-	ld   a, $00                                      ; $7139: $3e $00
+	ld   hl, wNumBirds
+	dec  (hl)
 
 +
-	ld   hl, wNPCScriptParam1                                   ; $713b: $21 $20 $c0
-	ld   (hl), a                                     ; $713e: $77
+	dec  c
+	jr   nz, @startAddingBirdsMaxFF
+
+	ld   hl, wPrizeCounter
+	ld   a, (hl)
+	cp   $01
+	jr   z, @preNextQuestionProcessing
+
+// if max prize, add 2 hearts
+	call add2toPlayerHealth
+	call add2toPlayerHealth
+
+@preNextQuestionProcessing:
+	ld   hl, wNumQuestionsLeft
+	dec  (hl)
+	jr   z, @done
+
+// if ff, inc to get to 1st question
+	ld   hl, wQuizQuestionIdx
+	ld   a, (hl)
+	cp   $ff
+	jr   z, ++
+
+// loop to next question
+	add  $01
+	cp   $fa
+	jr   c, +
+
+	ld   a, $00
+
++
+	ld   hl, wQuizQuestionIdx
+	ld   (hl), a
 
 ++
-	ld   e, $3c                                      ; $713f: $1e $3c
-	call Call_000_19f8                                       ; $7141: $cd $f8 $19
-	jp   @massiveLoop_7022                               ; $7144: $c3 $22 $70
+	ld   e, $3c
+	call processInputInMenus
+	jp   @loopAskingNextQuestion
 
-@func_7147:
-	ld   hl, wNPCScriptOpcode                                   ; $7147: $21 $1f $c0
-	inc  (hl)                                        ; $714a: $34
+@selectedWrongAnswer:
+	ld   hl, wNumIncorrectQuestions
+	inc  (hl)
 
-	ld   de, sound_birdsUpdating_channel0                                   ; $714b: $11 $e0 $15
-	ld   a, $00                                      ; $714e: $3e $00
-	call call_playSoundChannelADataInDE                                       ; $7150: $cd $be $01
+// play sound
+	ld   de, sound_quizWrongAnswer_channel0
+	ld   a, $00
+	call call_playSoundChannelADataInDE
 
-	ld   de, sound_birdsUpdating_channel1                                   ; $7153: $11 $e9 $15
-	ld   a, $01                                      ; $7156: $3e $01
-	call call_playSoundChannelADataInDE                                       ; $7158: $cd $be $01
+	ld   de, sound_quizWrongAnswer_channel1
+	ld   a, $01
+	call call_playSoundChannelADataInDE
 
-	ld   bc, $0000                                   ; $715b: $01 $00 $00
-	call Call_001_71b4                               ; $715e: $cd $b4 $71
-	call callMinimalMainLoop0fhTimes                                       ; $7161: $cd $18 $18
+// mouth open
+	ld   bc, $0000
+	call setQuizMouthTiles
+	call callMinimalMainLoop0fhTimes
 
-	ld   bc, $0002                                   ; $7164: $01 $02 $00
-	call Call_001_719b                               ; $7167: $cd $9b $71
-	call callMinimalMainLoop0fhTimes                                       ; $716a: $cd $18 $18
+// eyes forward, then normal
+	ld   bc, $0002
+	call setQuizEyeTiles
+	call callMinimalMainLoop0fhTimes
+	ld   bc, $0001
+	call setQuizEyeTiles
+	call callMinimalMainLoop0fhTimes
 
-	ld   bc, $0001                                   ; $716d: $01 $01 $00
-	call Call_001_719b                               ; $7170: $cd $9b $71
-	call callMinimalMainLoop0fhTimes                                       ; $7173: $cd $18 $18
-
-	ld   bc, $0001                                   ; $7176: $01 $01 $00
-	call Call_001_71b4                               ; $7179: $cd $b4 $71
+// small frown
+	ld   bc, $0001
+	call setQuizMouthTiles
 
 -
-	call minimalMainLoop                                       ; $717c: $cd $5e $1a
-	call Call_000_14f8                                       ; $717f: $cd $f8 $14
-	jr   nz, -                             ; $7182: $20 $f8
+	call minimalMainLoop
+	call retZifFirst3SoundChannelsOff
+	jr   nz, -
 
-	jp   @bigLoop_7125                               ; $7184: $c3 $25 $71
+	jp   @preNextQuestionProcessing
 
 @done:
-	call callMinimalMainLoop78hTimes                                       ; $7187: $cd $0f $18
-	call func_232a                                       ; $718a: $cd $2a $23
-	call stopSoundsPlaySound5AtNormalSpeed                                       ; $718d: $cd $ae $27
-	pop  af                                          ; $7190: $f1
-	ld   hl, wCurrNpcIdx                                   ; $7191: $21 $a6 $c0
-	ld   (hl), a                                     ; $7194: $77
-	jp   executeNPCScriptCode                               ; $7195: $c3 $8a $62
+	call callMinimalMainLoop78hTimes
+	call backToGameFromMenuQuizText
+	call stopSoundsPlaySound5AtNormalSpeed
+
+// restore curr npx idx to execute next script code
+	pop  af
+	ld   hl, wCurrNpcIdx
+	ld   (hl), a
+	jp   executeNPCScriptCode
 
 
-data_7198:
-	add  h                                           ; $7198: $84
-	add  b                                           ; $7199: $80
-	sub  b                                           ; $719a: $90
+quizLeftEyeTiles:
+// blinked (correct), normal, looking forward (incorrect)
+	.db $84 $80 $90
 
-Call_001_719b:
-	ld   a, $00                                      ; $719b: $3e $00
-	ld   hl, $c006                                   ; $719d: $21 $06 $c0
-	ld   (hl), a                                     ; $71a0: $77
-	ld   de, $0008                                   ; $71a1: $11 $08 $00
-	ld   hl, data_7198                                   ; $71a4: $21 $98 $71
-	add  hl, bc                                      ; $71a7: $09
-	ld   a, (hl)                                     ; $71a8: $7e
-	ld   bc, $0021                                   ; $71a9: $01 $21 $00
-	jp   Call_001_71eb                               ; $71ac: $c3 $eb $71
+setQuizEyeTiles:
+	ld   a, $00
+	ld   hl, wQuizFaceOamTileAttr
+	ld   (hl), a
 
+// 8 is oam offset
+	ld   de, $0008
+	ld   hl, quizLeftEyeTiles
+	add  hl, bc
+	ld   a, (hl)
 
-data_71af:
-	adc  d                                           ; $71af: $8a
-	adc  h                                           ; $71b0: $8c
-	adc  b                                           ; $71b1: $88
-	adc  (hl)                                        ; $71b2: $8e
-	and  b                                           ; $71b3: $a0
-
-Call_001_71b4:
-	ld   a, $00                                      ; $71b4: $3e $00
-	ld   hl, $c006                                   ; $71b6: $21 $06 $c0
-	ld   (hl), a                                     ; $71b9: $77
-	ld   de, $0010                                   ; $71ba: $11 $10 $00
-	ld   hl, data_71af                                   ; $71bd: $21 $af $71
-	add  hl, bc                                      ; $71c0: $09
-	ld   a, (hl)                                     ; $71c1: $7e
-	ld   bc, $0029                                   ; $71c2: $01 $29 $00
-	jp   Jump_001_7235                               ; $71c5: $c3 $35 $72
+	ld   bc, $0021
+	jp   setEyesOrBowtieOam_yEquC
 
 
-data_71c8:
-	sub  h                                           ; $71c8: $94
-	sbc  b                                           ; $71c9: $98
-	sbc  h                                           ; $71ca: $9c
-	sbc  b                                           ; $71cb: $98
+quizMouthTiles:
+// mouth open, small frown, normal, small smile, big smile
+	.db $8a $8c $88 $8e $a0
 
-Call_001_71cc:
-	ld   a, $00                                      ; $71cc: $3e $00
-	ld   hl, $c006                                   ; $71ce: $21 $06 $c0
-	ld   (hl), a                                     ; $71d1: $77
-	ld   a, c                                        ; $71d2: $79
-	cp   $01                                         ; $71d3: $fe $01
-	jr   nz, +                             ; $71d5: $20 $05
+setQuizMouthTiles:
+	ld   a, $00
+	ld   hl, wQuizFaceOamTileAttr
+	ld   (hl), a
+// oam offset is $10
+	ld   de, $0010
 
-	ld   a, $00                                      ; $71d7: $3e $00
-	or   $20                                         ; $71d9: $f6 $20
-	ld   (hl), a                                     ; $71db: $77
+	ld   hl, quizMouthTiles
+	add  hl, bc
+	ld   a, (hl)
 
-+
-	ld   de, $0018                                   ; $71dc: $11 $18 $00
-	ld   hl, data_71c8                                   ; $71df: $21 $c8 $71
-	add  hl, bc                                      ; $71e2: $09
-	ld   a, (hl)                                     ; $71e3: $7e
-	ld   bc, $0034                                   ; $71e4: $01 $34 $00
-	call Call_001_71eb                               ; $71e7: $cd $eb $71
-	ret                                              ; $71ea: $c9
+	ld   bc, $0029
+	jp   setMouthOam_yEquC
 
 
-Call_001_71eb:
-	push af                                          ; $71eb: $f5
-	ld   hl, $c006                                   ; $71ec: $21 $06 $c0
-	ld   a, (hl)                                     ; $71ef: $7e
-	ld   hl, wOam+3                                   ; $71f0: $21 $03 $c2
-	add  hl, de                                      ; $71f3: $19
-	ld   (hl), a                                     ; $71f4: $77
-	ld   hl, wOam+7                                   ; $71f5: $21 $07 $c2
-	add  hl, de                                      ; $71f8: $19
-	ld   (hl), a                                     ; $71f9: $77
-	and  $20                                         ; $71fa: $e6 $20
-	jr   z, +                              ; $71fc: $28 $10
+quizBowtieTiles:
+// normal, diagonal, vertical, diagonal - diagonals are NE/SW
+	.db $94 $98 $9c $98
 
-	pop  af                                          ; $71fe: $f1
-	ld   hl, wOam+6                                   ; $71ff: $21 $06 $c2
-	add  hl, de                                      ; $7202: $19
-	ld   (hl), a                                     ; $7203: $77
-	add  $02                                         ; $7204: $c6 $02
-	ld   hl, wOam+2                                   ; $7206: $21 $02 $c2
-	add  hl, de                                      ; $7209: $19
-	ld   (hl), a                                     ; $720a: $77
-	jp   Jump_001_721b                               ; $720b: $c3 $1b $72
+setQuizBowtieTiles:
+	ld   a, $00
+	ld   hl, wQuizFaceOamTileAttr
+	ld   (hl), a
+	ld   a, c
+	cp   $01
+	jr   nz, +
+
+// if c == 1, flip (never used)
+	ld   a, $00
+	or   $20
+	ld   (hl), a
 
 +
-	pop  af                                          ; $720e: $f1
-	ld   hl, wOam+2                                   ; $720f: $21 $02 $c2
-	add  hl, de                                      ; $7212: $19
-	ld   (hl), a                                     ; $7213: $77
-	add  $02                                         ; $7214: $c6 $02
-	ld   hl, wOam+6                                   ; $7216: $21 $06 $c2
-	add  hl, de                                      ; $7219: $19
-	ld   (hl), a                                     ; $721a: $77
-
-Jump_001_721b:
-	ld   a, c                                        ; $721b: $79
-	ld   hl, wOam                                   ; $721c: $21 $00 $c2
-	add  hl, de                                      ; $721f: $19
-	ld   (hl), a                                     ; $7220: $77
-	ld   hl, wOam+4                                   ; $7221: $21 $04 $c2
-	add  hl, de                                      ; $7224: $19
-	ld   (hl), a                                     ; $7225: $77
-	ld   a, $7c                                      ; $7226: $3e $7c
-	ld   hl, wOam+1                                   ; $7228: $21 $01 $c2
-	add  hl, de                                      ; $722b: $19
-	ld   (hl), a                                     ; $722c: $77
-	add  $08                                         ; $722d: $c6 $08
-	ld   hl, wOam+5                                   ; $722f: $21 $05 $c2
-	add  hl, de                                      ; $7232: $19
-	ld   (hl), a                                     ; $7233: $77
-	ret                                              ; $7234: $c9
-
-Jump_001_7235:
-	push af                                          ; $7235: $f5
-	ld   hl, $c006                                   ; $7236: $21 $06 $c0
-	ld   a, (hl)                                     ; $7239: $7e
-	ld   hl, wOam+3                                   ; $723a: $21 $03 $c2
-	add  hl, de                                      ; $723d: $19
-	ld   (hl), a                                     ; $723e: $77
-	ld   hl, wOam+7                                   ; $723f: $21 $07 $c2
-	add  hl, de                                      ; $7242: $19
-	xor  $20                                         ; $7243: $ee $20
-	ld   (hl), a                                     ; $7245: $77
-	pop  af                                          ; $7246: $f1
-	ld   hl, wOam+2                                   ; $7247: $21 $02 $c2
-	add  hl, de                                      ; $724a: $19
-	ld   (hl), a                                     ; $724b: $77
-	ld   hl, wOam+6                                   ; $724c: $21 $06 $c2
-	add  hl, de                                      ; $724f: $19
-	ld   (hl), a                                     ; $7250: $77
-	jp   Jump_001_721b                               ; $7251: $c3 $1b $72
+// offset is $18
+	ld   de, $0018
+	ld   hl, quizBowtieTiles
+	add  hl, bc
+	ld   a, (hl)
+	ld   bc, $0034
+	call setEyesOrBowtieOam_yEquC
+	ret
 
 
-Call_001_7254:
-	ld   bc, $0000                                   ; $7254: $01 $00 $00
-	call Call_001_719b                               ; $7257: $cd $9b $71
-	call callMinimalMainLoop1ehTimes                                       ; $725a: $cd $15 $18
-	ld   bc, $0001                                   ; $725d: $01 $01 $00
-	call Call_001_719b                               ; $7260: $cd $9b $71
-	call callMinimalMainLoop1ehTimes                                       ; $7263: $cd $15 $18
-	ret                                              ; $7266: $c9
+setEyesOrBowtieOam_yEquC:
+	push af
+
+// set attrs
+	ld   hl, wQuizFaceOamTileAttr
+	ld   a, (hl)
+	ld   hl, wOam+3
+	add  hl, de
+	ld   (hl), a
+	ld   hl, wOam+7
+	add  hl, de
+	ld   (hl), a
+
+// if reflected tile first..
+	and  $20
+	jr   z, +
+
+// draw tiles the other way
+	pop  af
+	ld   hl, wOam+6
+	add  hl, de
+	ld   (hl), a
+	add  $02
+	ld   hl, wOam+2
+	add  hl, de
+	ld   (hl), a
+	jp   setQuizOamX_yEquC
+
++
+	pop  af
+	ld   hl, wOam+2
+	add  hl, de
+	ld   (hl), a
+	add  $02
+	ld   hl, wOam+6
+	add  hl, de
+	ld   (hl), a
+
+setQuizOamX_yEquC:
+// y = c
+	ld   a, c
+	ld   hl, wOam
+	add  hl, de
+	ld   (hl), a
+	ld   hl, wOam+4
+	add  hl, de
+	ld   (hl), a
+
+// x same for all face tiles
+	ld   a, $7c
+	ld   hl, wOam+1
+	add  hl, de
+	ld   (hl), a
+
+	add  $08
+	ld   hl, wOam+5
+	add  hl, de
+	ld   (hl), a
+	ret
+
+setMouthOam_yEquC:
+	push af
+
+	ld   hl, wQuizFaceOamTileAttr
+	ld   a, (hl)
+	ld   hl, wOam+3
+	add  hl, de
+	ld   (hl), a
+
+// flip horizontally the next oam
+	ld   hl, wOam+7
+	add  hl, de
+	xor  $20
+	ld   (hl), a
+
+// set mouth tiles to the same tile
+	pop  af
+	ld   hl, wOam+2
+	add  hl, de
+	ld   (hl), a
+
+	ld   hl, wOam+6
+	add  hl, de
+	ld   (hl), a
+
+	jp   setQuizOamX_yEquC
 
 
-Call_001_7267:
-	ld   c, $00                                      ; $7267: $0e $00
-	ld   b, $14                                      ; $7269: $06 $14
+showBlinkingEyesOam:
+// blinked, normal
+	ld   bc, $0000
+	call setQuizEyeTiles
+	call callMinimalMainLoop1ehTimes
+	ld   bc, $0001
+	call setQuizEyeTiles
+	call callMinimalMainLoop1ehTimes
+	ret
+
+
+playSoundsAndSpinBowtieForPerfectQuiz:
+	ld   c, $00
+	ld   b, $14
 
 @loop:
-	inc  c                                           ; $726b: $0c
-	bit  2, c                                        ; $726c: $cb $51
-	jr   z, +                              ; $726e: $28 $08
+	inc  c
+	bit  2, c
+	jr   z, +
 
-	push bc                                          ; $7270: $c5
-	call playSoundEffect20h                                       ; $7271: $cd $ff $27
-	pop  bc                                          ; $7274: $c1
-	ld   c, $00                                      ; $7275: $0e $00
-	dec  b                                           ; $7277: $05
+// every 4 loops, play sound effect, dec b
+	push bc
+	call playSoundEffect20h
+	pop  bc
+	ld   c, $00
+	dec  b
 
 +
-	push bc                                          ; $7278: $c5
-	ld   b, $00                                      ; $7279: $06 $00
-	call Call_001_71cc                               ; $727b: $cd $cc $71
-	call minimalMainLoop                                       ; $727e: $cd $5e $1a
-	pop  bc                                          ; $7281: $c1
-	ld   a, b                                        ; $7282: $78
-	cp   $00                                         ; $7283: $fe $00
-	jr   nz, @loop                             ; $7285: $20 $e4
+// loop through bowtie animation
+	push bc
+	ld   b, $00
+	call setQuizBowtieTiles
 
-	ret                                              ; $7287: $c9
+	call minimalMainLoop
+
+	pop  bc
+	ld   a, b
+	cp   $00
+	jr   nz, @loop
+
+	ret
 
 
 _scriptCmd_jumpIfFacingDirection:
@@ -3072,72 +3160,72 @@ copy8npcMetadataBytesInto_c6d0:
 	ret
 
 
-initNPCscriptBytes_set_cbf0_toFF:
-	ld   a, $ff                                      ; $72fd: $3e $ff
-	ld   hl, wNPCBytes_cbf0                                   ; $72ff: $21 $f0 $cb
-	add  hl, bc                                      ; $7302: $09
-	ld   (hl), a                                     ; $7303: $77
+initNPCscriptBytes_noRoomFlagEffect:
+	ld   a, $ff
+	ld   hl, wNPCBytes_roomFlagIdx
+	add  hl, bc
+	ld   (hl), a
 
 initNPCscriptBytes:
-//
+// todo: control byte
 	ld   a, $10                                      ; $7304: $3e $10
 	ld   hl, wNPCBytes_cb60                                   ; $7306: $21 $60 $cb
 	add  hl, bc                                      ; $7309: $09
 	ld   (hl), a                                     ; $730a: $77
 
-//
-	ld   a, $00                                      ; $730b: $3e $00
-	ld   hl, wNPCBytes_cb6c                                   ; $730d: $21 $6c $cb
-	add  hl, bc                                      ; $7310: $09
-	ld   (hl), a                                     ; $7311: $77
+// clear animation frame idx
+	ld   a, $00
+	ld   hl, wNPCBytes_animationFrameIdx
+	add  hl, bc
+	ld   (hl), a
 
-//
-	ld   hl, wNPCBytes_timeToWait                                   ; $7312: $21 $78 $cb
-	add  hl, bc                                      ; $7315: $09
-	ld   (hl), a                                     ; $7316: $77
+// time to wait set to 0
+	ld   hl, wNPCBytes_timeToWait
+	add  hl, bc
+	ld   (hl), a
 
-//
-	ld   hl, wNPCBytes_pixelsToMove                                   ; $7317: $21 $a8 $cb
-	add  hl, bc                                      ; $731a: $09
-	ld   (hl), a                                     ; $731b: $77
+// pixels to move set to 0
+	ld   hl, wNPCBytes_pixelsToMove
+	add  hl, bc
+	ld   (hl), a
 
 // for do-while loops
-	ld   hl, wNPCBytes_scriptLoopCounter                                   ; $731c: $21 $b4 $cb
-	add  hl, bc                                      ; $731f: $09
-	ld   (hl), a                                     ; $7320: $77
+	ld   hl, wNPCBytes_scriptLoopCounter
+	add  hl, bc
+	ld   (hl), a
 
-//
-	ld   hl, wNPCBytes_damageAndMovementSpeed                                   ; $7321: $21 $54 $cb
-	add  hl, bc                                      ; $7324: $09
-	ld   (hl), a                                     ; $7325: $77
+// clear damage and movement speed
+	ld   hl, wNPCBytes_damageAndMovementSpeed
+	add  hl, bc
+	ld   (hl), a
 
 // $ff means don't change NPC's ID
-	ld   a, $ff                                      ; $7326: $3e $ff
-	ld   hl, wNPCBytes_newID                                   ; $7328: $21 $c0 $cb
-	add  hl, bc                                      ; $732b: $09
-	ld   (hl), a                                     ; $732c: $77
+	ld   a, $ff
+	ld   hl, wNPCBytes_newID
+	add  hl, bc
+	ld   (hl), a
 
 // get bank where script bytes are based on ID
-	ld   de, $0003                                   ; $732d: $11 $03 $00
-	ld   hl, wNPCBytes_ID                                   ; $7330: $21 $30 $cb
-	add  hl, bc                                      ; $7333: $09
-	ld   a, (hl)                                     ; $7334: $7e
-	cp   $6a                                         ; $7335: $fe $6a
-	jr   c, +                              ; $7337: $38 $0a
+	ld   de, $0003
+	ld   hl, wNPCBytes_ID
+	add  hl, bc
+	ld   a, (hl)
+	cp   $6a
+	jr   c, +
 
 // npc idx is >= $6a
-	ld   de, $0002                                   ; $7339: $11 $02 $00
-	cp   $bf                                         ; $733c: $fe $bf
-	jr   c, +                              ; $733e: $38 $03
+	ld   de, $0002
+	cp   $bf
+	jr   c, +
 
 // npc idx >= $bf
-	ld   de, $0006                                   ; $7340: $11 $06 $00
+	ld   de, $0006
 
 +
-	ld   a, e                                        ; $7343: $7b
-	ld   hl, wNPCScriptBytesBank                                   ; $7344: $21 $fc $cb
-	add  hl, bc                                      ; $7347: $09
-	ld   (hl), a                                     ; $7348: $77
+	ld   a, e
+	ld   hl, wNPCScriptBytesBank
+	add  hl, bc
+	ld   (hl), a
 
 //
 	ld   hl, wNPCBytes_cbe4                                   ; $7349: $21 $e4 $cb
@@ -3200,20 +3288,22 @@ getBit6ofNPCBytes_cb60:
 	ret
 
 
+// returns c006 as tile, and c007 as addr?
 Call_001_738a:
+// copy oam addr into c006/7
 	call copy8npcMetadataBytesInto_c6d0                               ; $738a: $cd $c6 $72
 	ld   hl, wCommonByteCopyDestBytes                                   ; $738d: $21 $d0 $c6
 // npc struct byte 0
 	ldi  a, (hl)                                     ; $7390: $2a
-	ld   de, $c006                                   ; $7391: $11 $06 $c0
+	ld   de, wCurrNPCoamDataAddr                                   ; $7391: $11 $06 $c0
 	ld   (de), a                                     ; $7394: $12
 // npc struct byte 1
 	ldi  a, (hl)                                     ; $7395: $2a
-	ld   de, $c007                                   ; $7396: $11 $07 $c0
+	ld   de, wCurrNPCoamDataAddr+1                                   ; $7396: $11 $07 $c0
 	ld   (de), a                                     ; $7399: $12
 
-// de = cb6c
-	ld   hl, wNPCBytes_cb6c                                   ; $739a: $21 $6c $cb
+// de = current animationFrameIdx
+	ld   hl, wNPCBytes_animationFrameIdx                                   ; $739a: $21 $6c $cb
 	add  hl, bc                                      ; $739d: $09
 	ld   e, (hl)                                     ; $739e: $5e
 	ld   d, $00                                      ; $739f: $16 $00
@@ -3241,12 +3331,13 @@ Call_001_738a:
 	cp   DIR_LEFT                                         ; $73bd: $fe $09
 	jr   nz, @next                             ; $73bf: $20 $17
 
-// left
+// left - attr into c008, which is copied to c007 at the end
 	ld   hl, $c008                                   ; $73c1: $21 $08 $c0
 	ld   (hl), $20                                   ; $73c4: $36 $20
 	jp   @next                               ; $73c6: $c3 $d8 $73
 
 @facingUp:
+// up oam details at offset 3
 	ld   a, e                                        ; $73c9: $7b
 	add  $03                                         ; $73ca: $c6 $03
 	ld   e, a                                        ; $73cc: $5f
@@ -3254,15 +3345,19 @@ Call_001_738a:
 	jp   @next                               ; $73cf: $c3 $d8 $73
 
 @facingDown:
+// down oam details at offset 6
 	ld   a, e                                        ; $73d2: $7b
 	add  $06                                         ; $73d3: $c6 $06
 	ld   e, a                                        ; $73d5: $5f
 	ld   d, $00                                      ; $73d6: $16 $00
 
+// left/right details at offset 0
 @next:
+// get byte from oam addr, offseted by e for direction
 	call copyByteFrom_c006_WordPlusEinto_c009                               ; $73d8: $cd $fb $73
+
 // upper 6 bits into c006
-	ld   hl, $c009                                   ; $73db: $21 $09 $c0
+	ld   hl, wScriptCopiedByte                                   ; $73db: $21 $09 $c0
 	ld   a, (hl)                                     ; $73de: $7e
 	and  $fc                                         ; $73df: $e6 $fc
 	ld   hl, $c006                                   ; $73e1: $21 $06 $c0
@@ -3289,34 +3384,38 @@ Call_001_738a:
 
 
 copyByteFrom_c006_WordPlusEinto_c009:
-	ld   hl, wNPCScriptBytesBank                                   ; $73fb: $21 $fc $cb
-	add  hl, bc                                      ; $73fe: $09
-	ld   a, (hl)                                     ; $73ff: $7e
-	ld   hl, wCommonByteCopyFuncBank                                   ; $7400: $21 $a1 $c0
-	ld   (hl), a                                     ; $7403: $77
+// byte to copy is with the script
+	ld   hl, wNPCScriptBytesBank
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wCommonByteCopyFuncBank
+	ld   (hl), a
 
 // copy 1 byte
-	ld   a, $01                                      ; $7404: $3e $01
-	ld   hl, wCommonByteCopyFuncNumBytes                                   ; $7406: $21 $a0 $c0
-	ld   (hl), a                                     ; $7409: $77
+	ld   a, $01
+	ld   hl, wCommonByteCopyFuncNumBytes
+	ld   (hl), a
 
 // addr to copy from is param word (1st npc struct word) + e
-	ld   a, e                                        ; $740a: $7b
-	push de                                          ; $740b: $d5
-	ld   hl, $c006                                   ; $740c: $21 $06 $c0
-	add  (hl)                                        ; $740f: $86
-	ld   hl, wCommonByteCopyFuncSrc                                   ; $7410: $21 $9a $c0
-	ld   (hl), a                                     ; $7413: $77
-	ld   hl, $c007                                   ; $7414: $21 $07 $c0
-	ld   a, (hl)                                     ; $7417: $7e
-	adc  $00                                         ; $7418: $ce $00
-	ld   hl, wCommonByteCopyFuncSrc+1                                   ; $741a: $21 $9b $c0
-	ld   (hl), a                                     ; $741d: $77
+	ld   a, e
+	push de
+	ld   hl, wParamWordForScriptDataCopy
+	add  (hl)
+	ld   hl, wCommonByteCopyFuncSrc
+	ld   (hl), a
 
-	call copyBytesFromAnotherBankInto_c6d0                                       ; $741e: $cd $24 $02
-	ld   hl, wCommonByteCopyDestBytes                                   ; $7421: $21 $d0 $c6
-	ld   a, (hl)                                     ; $7424: $7e
-	ld   hl, $c009                                   ; $7425: $21 $09 $c0
-	ld   (hl), a                                     ; $7428: $77
-	pop  de                                          ; $7429: $d1
-	ret                                              ; $742a: $c9
+	ld   hl, wParamWordForScriptDataCopy+1
+	ld   a, (hl)
+	adc  $00
+	ld   hl, wCommonByteCopyFuncSrc+1
+	ld   (hl), a
+
+	call copyBytesFromAnotherBankInto_c6d0
+
+// get copied byte into c009
+	ld   hl, wCommonByteCopyDestBytes
+	ld   a, (hl)
+	ld   hl, wScriptCopiedByte
+	ld   (hl), a
+	pop  de
+	ret

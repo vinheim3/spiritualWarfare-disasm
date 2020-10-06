@@ -307,7 +307,7 @@ data_03_5031:
 
 
 npc69_scripts:
-	npc_setRoomFlagFrom_cbf0
+	npc_setEnemyDefeatedRoomFlag
 
 
 npc17_scripts:
@@ -355,7 +355,7 @@ npc18_scripts:
 ; ENTID_PRICE_BIRD
 ; ==============================================================================
 npc33_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_res4_cb60
 	npc_jump _infLoop_639f
@@ -556,13 +556,13 @@ npc41_scripts:
 
 
 npc00_scripts:
-	npc_setRoomFlagFrom_cbf0
+	npc_setEnemyDefeatedRoomFlag
 	npc_facePlayerHorizontally
 	npc_turnBackwards
 	npc_res4_cb60
 	npc_set2_cbe4
 	npc_cb60_low2bitsEquParamMinus1 $03
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_playSoundEffectAtAddr sound_167c
 	npc_increaseScore SCORE_10
 	npc_spawnNPCAtOffset $84 $00 $00
@@ -660,7 +660,7 @@ npc02_scripts:
 	npc_set2_cbe4 $47
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_playSoundEffectAtAddr sound_1837
 	.db $16
 	npc_call npcHelper_increaseScoreBy30
@@ -761,7 +761,7 @@ npc3c_scripts:
 ; ENTID_VIALS_HIDDEN_ROOM_NEAR_BOSS_1
 ; ==============================================================================
 npc3d_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_res4_cb60
 	npc_call b3_waitUntilPlayerContact
@@ -1294,7 +1294,7 @@ npc07_scripts:
 ; ENTID_CYCLIST
 ; ==============================================================================
 npc4f_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $02
 	npc_res4_cb60
@@ -1346,7 +1346,7 @@ npc5b_scripts:
 ; ENTID_BASKETBALLER
 ; ==============================================================================
 npc50_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $02
 	npc_res4_cb60
@@ -1396,7 +1396,7 @@ npc50_scripts:
 ; ==============================================================================
 npc51_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $04
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_jumpIfAtTile $08, @shootingFromLeft
 	npc_jump @shootingFromRight
@@ -1433,7 +1433,7 @@ npc51_scripts:
 ; ==============================================================================
 npc52_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $04
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set2_cbe4
 	npc_faceUp
@@ -1453,7 +1453,7 @@ npc52_scripts:
 ; ENTID_BASKETBALL_FROM_RIGHT
 ; ==============================================================================
 npc53_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_set5_cb60
 	npc_set2_cbe4
@@ -1499,7 +1499,7 @@ basketBallHitSomethingEnd:
 ; ENTID_BASKETBALL_FROM_LEFT
 ; ==============================================================================
 npc54_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_set2_cbe4
 	npc_set5_cb60
@@ -1520,7 +1520,7 @@ npc54_scripts:
 ; ENTID_BASKETBALL_FROM_BELOW
 ; ==============================================================================
 npc55_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_set2_cbe4
 	npc_set5_cb60
@@ -1574,7 +1574,7 @@ npc08_scripts:
 ; ENTID_GRAFFITIER_SK
 ; ==============================================================================
 npc4c_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
 	.db $16
@@ -1595,7 +1595,7 @@ npc4c_scripts:
 ; ENTID_GRAFFITIER_MESSY
 ; ==============================================================================
 npc4d_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
 	.db $16
@@ -1750,7 +1750,7 @@ func_03_5b39:
 ; ENTID_FOREST_DRAGON
 ; ==============================================================================
 npc1e_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set7_cb60
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $04
@@ -1773,7 +1773,7 @@ npc1e_scripts:
 ; ENTID_FOREST_ARCHER
 ; ==============================================================================
 npc10_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $02
@@ -1789,7 +1789,7 @@ npc10_scripts:
 ; ENTID_FOREST_ARCHER_SHOOTING
 ; ==============================================================================
 npc11_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setDamageTaken $02
 	npc_res4_cb60
@@ -1818,7 +1818,7 @@ npc12_scripts:
 ; ENTID_FOREST_BEE_SWARM
 ; ==============================================================================
 npc4e_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_res4_cb60
 	npc_setDamageTaken $02
@@ -1870,7 +1870,7 @@ npc13_scripts:
 ; ENTID_FOREST_CHIMNEY_SMOKE
 ; ==============================================================================
 npc14_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_faceUp
 	npc_res4_cb60
@@ -1924,7 +1924,7 @@ npc1c_scripts:
 	npc_wait $14
 	npc_spawnNPCAtOffset ENTID_SLOW_CITY_GUY $00 $00
 	npc_loopAboveParamTimes $06, @func_5c2e
-	npc_setRoomFlagFrom_cbf0
+	npc_setEnemyDefeatedRoomFlag
 	npc_end
 
 
@@ -2082,7 +2082,7 @@ npc26_scripts:
 ; ENTID_HOTEL_GUNNER_BULLET
 ; ==============================================================================
 npc58_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_setMovementSpeed $04
 	npc_set5_cb60
@@ -2095,7 +2095,7 @@ npc58_scripts:
 ; ENTID_HOTEL_GUNNER_BALLOON
 ; ==============================================================================
 npc59_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_jump npc26_scripts
 
 
@@ -2179,7 +2179,7 @@ npc2c_scripts:
 
 npc27_scripts:
 	npc_res4_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_wait $0a
 	npc_setMovementSpeed $03
 	npc_cb60_low2bitsEquParamMinus1 $03
@@ -2203,7 +2203,7 @@ npc27_scripts:
 npc2a_scripts:
 	npc_jumpIfItemGotten ITEMID_HOTELS_BANANA_UNDER_CAR, func_03_5db9
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 -
 	npc_wait $ff
@@ -2222,7 +2222,7 @@ func_03_5d9d:
 ; ==============================================================================
 npc2b_scripts:
 	npc_jumpIfItemGotten ITEMID_HOTELS_BANANA_UNDER_CAR, func_03_5db9
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set5_cb60
 	npc_set3_cb60
 -
@@ -2311,7 +2311,7 @@ npc4b_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_setDamageTaken $01
 	npc_setMovementSpeed $01
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 -
 	npc_moveByParamPixels $ff
@@ -2324,7 +2324,7 @@ npc4b_scripts:
 ; ==============================================================================
 npc43_scripts:
 npc44_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_setDamageTaken $02
 	.db $16
 	npc_cb60_low2bitsEquParamMinus1 $03
@@ -2341,7 +2341,7 @@ npc44_scripts:
 	npc_wait $14
 
 @func_5e3f:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	.db $16
 	npc_playSoundEffectAtAddr sound_1661
 	npc_jumpIfRandomNumLTparam $80, +
@@ -2351,7 +2351,7 @@ npc44_scripts:
 	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BALLOON
 ++
 	npc_wait $05
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	.db $16
 	npc_playSoundEffectAtAddr sound_1661
 	npc_jumpIfRandomNumLTparam $80, +
@@ -2366,14 +2366,14 @@ npc44_scripts:
 ; ENTID_HOUSES_STATIC_BALLOON
 ; ==============================================================================
 npc45_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_addParamsToXthenYCoords $02 $00
 	npc_res4_cb60
 	npc_jump _infLoop_639f
 
 
 npc46_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_playSoundEffectAtAddr sound_1658
 	npc_wait $05
@@ -2385,7 +2385,7 @@ npc46_scripts:
 ; ENTID_BALLOON_POP
 ; ==============================================================================
 npc5a_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_playSoundEffectAtAddr sound_1658
 	npc_wait $05
@@ -2399,7 +2399,7 @@ npc5a_scripts:
 npc47_scripts:
 npc48_scripts:
 	npc_c02a_equFF
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_jump _infLoop_639f
 
@@ -2409,7 +2409,7 @@ npc48_scripts:
 ; ==============================================================================
 npc56_scripts:
 npc57_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set_c059 $ff
 	npc_faceUp
 	npc_set5_cb60
@@ -2445,7 +2445,7 @@ npc4a_scripts:
 	npc_set5_cb60
 	npc_res4_cb60
 	npc_waitRandomValBetween2ParamsInclusive $01 $1e
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 -
 	npc_faceUp
 	npc_moveByParamPixels $01
@@ -2530,7 +2530,7 @@ npc5e_scripts:
 	npc_set3_cb60
 	npc_set2_cb60
 	npc_set7_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 
 @loop:
@@ -2556,7 +2556,7 @@ npc5e_scripts:
 
 npc5f_scripts:
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_giveItem ITEMID_31
 	.db $16
@@ -2769,7 +2769,7 @@ npc63_scripts:
 ; ==============================================================================
 npc64_scripts:
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_setMovementSpeed $03
 	npc_setDamageTaken $04
@@ -2779,7 +2779,7 @@ npc64_scripts:
 
 
 npc65_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_playSoundEffectAtAddr sound_15d7
 	.db $16
@@ -2843,7 +2843,7 @@ npc62_scripts:
 ; ENTID_ITEM_ROOM_ANGEL
 ; ==============================================================================
 npc2d_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_c02a_equFF
 	npc_set2_cbe4
@@ -3396,7 +3396,7 @@ text_03_6930:
 
 
 func_03_697b:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set5_cb60
 	npc_faceRight
 	npc_set2_cbe4
@@ -3408,7 +3408,7 @@ func_03_697b:
 
 
 func_03_6986:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 -
 	npc_resetBit5ofNPC2ndByte_jumpIfNZ +
@@ -3420,7 +3420,7 @@ func_03_6986:
 
 
 data_03_6994:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 
 b3_waitUntilPlayerContact:
@@ -3564,7 +3564,7 @@ npc68_oamData:
 
 npc67_scripts:
 	npc_set_c059 $ff
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_faceLeft
 	npc_setMovementSpeed $02
@@ -3589,7 +3589,7 @@ npc67_scripts:
 
 
 npc68_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_faceLeft
 	npc_setMovementSpeed $02

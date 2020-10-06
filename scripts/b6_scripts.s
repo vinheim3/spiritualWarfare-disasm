@@ -60,7 +60,7 @@ npce5_scripts:
 	npc_wait $14
 	npc_loopAboveParamTimes $05, -
 	npc_placeTile $f1 $80 $80
-	npc_setRoomFlagFrom_cbf0
+	npc_setEnemyDefeatedRoomFlag
 	npc_end
 
 
@@ -139,7 +139,7 @@ npce7_scripts:
 	npc_set7_cb60
 	npc_set3_cb60
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_setMovementSpeed $0d
 -
@@ -165,7 +165,7 @@ npce7_scripts:
 @func_0ee2:
 	npc_moveByParamPixels $10
 	npc_jumpIfAtTile $14, @func_0ee2
-	.db $2a
+	npc_res3_cbe4
 	npc_end
 +
 	npc_playSoundEffectAtAddr sound_1768
@@ -175,14 +175,14 @@ npce7_scripts:
 	npc_res5_cb60
 	npc_moveByParamPixels $ff
 	npc_wait $05
-	.db $2a
+	npc_res3_cbe4
 	npc_end
 
 
 npcec_scripts:
 	npc_set3_cb60
 	npc_res4_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	.db $16
 	npc_giveItem ITEMID_2a
 	npc_end
@@ -192,7 +192,7 @@ npcec_scripts:
 ; ENTID_WAREHOUSE_BOSS_HELPER_TODO_3
 ; ==============================================================================
 npceb_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_setMovementSpeed $01
 	npc_set5_cb60
@@ -216,7 +216,7 @@ npceb_scripts:
 	npc_facePlayerVertically
 	npc_res5_cb60
 	npc_moveByParamPixels $10
-	.db $2a
+	npc_res3_cbe4
 	npc_giveItem ITEMID_2a
 	npc_end
 ++++
@@ -226,7 +226,7 @@ npceb_scripts:
 	npc_moveByParamPixels $04
 	npc_facePlayerVertically
 	npc_moveByParamPixels $04
-	.db $2a
+	npc_res3_cbe4
 	npc_giveItem ITEMID_2a
 	npc_end
 
@@ -365,7 +365,7 @@ npcea_scripts:
 ; ==============================================================================
 npce8_scripts:
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cb60
 	npc_res4_cb60
 	npc_placeTile $08 $80 $80
@@ -378,7 +378,7 @@ npce8_scripts:
 	npc_placeTile $1c $80 $80
 	npc_jump _npc_end_06_1051
 ++
-	.db $2a
+	npc_res3_cbe4
 
 _npc_end_06_1051:
 	npc_end
@@ -389,7 +389,7 @@ _npc_end_06_1051:
 ; ==============================================================================
 npce9_scripts:
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cb60
 	npc_res4_cb60
 	npc_placeTile $7c $80 $80
@@ -402,7 +402,7 @@ npce9_scripts:
 	npc_placeTile $1c $80 $80
 	npc_jump _npc_end_06_1070
 ++
-	.db $2a
+	npc_res3_cbe4
 
 _npc_end_06_1070:
 	npc_end
@@ -413,7 +413,7 @@ _npc_end_06_1070:
 ; ==============================================================================
 npcf1_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_SHIELD, _npc_end_06_1070
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_setDamageTaken $06
 	npc_set5_cb60
 	npc_setMovementSpeed $08
@@ -456,7 +456,7 @@ npcf1_scripts:
 ; ENTID_DEMONS_LAIR_BOSS_FLYING_DEMON_2
 ; ==============================================================================
 npcf2_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set5_cb60
 	npc_setCoords $80 $40
 	npc_setMovementSpeed $04
@@ -487,7 +487,7 @@ npced_scripts:
 	npc_set2_cb60
 	npc_setMovementSpeed $04
 	npc_wait $07
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_placeTile $00 $80 $80
 	npc_wait $08
@@ -523,7 +523,7 @@ npced_scripts:
 ; ENTID_DEMONS_LAIR_BOSS_BLOOD_ENEMY
 ; ==============================================================================
 npcee_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set2_cbe4
@@ -539,7 +539,7 @@ npcee_scripts:
 npcef_scripts:
 npcf3_scripts:
 	npc_jumpIfArmorOfGodGotten AOG_SHIELD, @func_116a
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_setDamageTaken $08
 	npc_set7_cb60
@@ -581,7 +581,7 @@ npcf0_scripts:
 	npc_set7_cb60
 	npc_faceLeft
 @loop:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_placeTile $d0 $80 $81
 	npc_wait $05
@@ -589,7 +589,7 @@ npcf0_scripts:
 	.db $16
 	npc_faceRight
 	npc_moveByParamPixels $20
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_spawnNPCAtOffset $ed $00 $10
 	.db $16
 	npc_turnBackwards
@@ -637,12 +637,12 @@ npcc5_scripts:
 
 npce0_scripts:
 npce1_scripts:
-	npc_setRoomFlagFrom_cbf0
+	npc_setEnemyDefeatedRoomFlag
 	npc_setNewNpcID $02
 
 
 npcf4_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_placeTile $95 $06 $09
 	npc_playSoundEffectAtAddr sound_15d7
 	npc_giveItem ITEMID_31
@@ -660,11 +660,11 @@ npcd6_scripts:
 	npc_wait $01
 -
 	npc_resetBit5ofNPC2ndByte_jumpIfNZ +
-	.db $23
+	npc_c714_equ0
 	npc_wait $02
 	npc_jump -
 +
-	.db $22
+	npc_c714_equFF
 	npc_wait $01
 	npc_jump -
 
@@ -674,7 +674,7 @@ npcd6_scripts:
 ; ==============================================================================
 npcd4_scripts:
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set1_cbe4
 	npc_call func_06_14d4
 -
@@ -709,7 +709,7 @@ npcd8_scripts:
 ; ==============================================================================
 npcd7_scripts:
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
 	npc_setMovementSpeed $02
@@ -747,7 +747,7 @@ npcd7_scripts:
 ; ==============================================================================
 npccd_scripts:
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set1_cbe4
 	npc_set2_cb60
@@ -805,7 +805,7 @@ npcd5_scripts:
 	npc_set3_cb60
 	npc_set2_cbe4
 	npc_set2_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set1_cbe4
 	npc_call func_06_14e5
@@ -918,7 +918,7 @@ func_06_1370:
 ; ENTID_SPAWNED_DEMON
 ; ==============================================================================
 npcd1_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set3_cbe4
 	npc_res4_cb60
@@ -942,8 +942,8 @@ npcd1_scripts:
 ; ENTID_PRISON_FLEEING_DEMON_2
 ; ==============================================================================
 npcda_scripts:
-	npc_setRoomFlagFrom_cbf0
-	npc_set6_cb60_reset_cb6c
+	npc_setEnemyDefeatedRoomFlag
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set5_cb60
 	npc_setMovementSpeed $06
@@ -966,8 +966,8 @@ npcda_scripts:
 ; ENTID_PRISON_FLEEING_DEMON_1
 ; ==============================================================================
 npcd9_scripts:
-	npc_setRoomFlagFrom_cbf0
-	npc_set6_cb60_reset_cb6c
+	npc_setEnemyDefeatedRoomFlag
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set5_cb60
 	npc_set_c059 $07
@@ -978,7 +978,7 @@ npcd9_scripts:
 	npc_setMovementSpeed $03
 	npc_moveByParamPixels $0c
 	npc_setMovementSpeed $04
-	.db $23
+	npc_c714_equ0
 
 fleeingDemonCommon:
 	npc_moveByParamPixels $14
@@ -1009,7 +1009,7 @@ npcdd_scripts:
 	npc_jump -
 +
 	npc_res4_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
 	.db $16
 	npc_setNewNpcID $de
@@ -1033,7 +1033,7 @@ npcdf_scripts:
 	npc_set5_cb60
 	npc_set2_cbe4
 	npc_res4_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
 	.db $16
 	npc_setNewNpcID $dd
@@ -1044,10 +1044,10 @@ npcdf_scripts:
 ; ==============================================================================
 npcd3_scripts:
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_wait $23
-	.db $15
+	npc_res3_cb60
 	npc_setNewNpcID ENTID_SPAWNED_DEMON
 
 
@@ -1057,7 +1057,7 @@ npcd3_scripts:
 npcc8_scripts:
 	npc_setDamageTaken $00
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_wait $14
 	npc_end

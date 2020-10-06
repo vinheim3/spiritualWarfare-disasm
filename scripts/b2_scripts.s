@@ -1,5 +1,5 @@
 func_02_4fdb:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_res4_cb60
 -
@@ -12,7 +12,7 @@ func_02_4fdb:
 
 
 func_02_4fea:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_res4_cb60
 func_02_4fed:
@@ -117,13 +117,13 @@ npcb6_scripts:
 	npc_call func_02_4fea
 	npc_playSoundEffect20h
 -
-	.db $19
+	npc_giveHeartContainer
 	npc_loopAboveParamTimes $0c, -
 	npc_addToPlayerHealth $ff
 	npc_giveNumBirds $ff
 	npc_giveNumBombs $ff
 -
-	.db $1b
+	npc_giveKey
 	npc_loopAboveParamTimes $3f, -
 	npc_incAnointingOilsGotten
 	npc_incAnointingOilsGotten
@@ -151,7 +151,7 @@ npcb7_scripts:
 ; ENTID_TESTROOM_ANGEL
 ; ==============================================================================
 npcb8_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_c02a_equFF
 	npc_set2_cbe4
@@ -449,7 +449,7 @@ openUpTrainStation:
 
 npc6b_scripts:
 	npc_c02a_equFF
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_res4_cb60
 	npc_groupRoomXYjumpTable @table
@@ -535,7 +535,7 @@ npc72_scripts:
 ; ==============================================================================
 npc6e_scripts:
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set2_cb60
 	npc_set5_cb60
@@ -564,7 +564,7 @@ npc6e_scripts:
 npc73_scripts:
 	npc_faceLeft
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set2_cb60
 	npc_set5_cb60
@@ -831,7 +831,7 @@ npc6d_scripts:
 
 @func_54de:
 	npc_set_c059 $ff
-	.db $19
+	npc_giveHeartContainer
 	npc_playSoundEffectAtAddr sound_166a
 	npc_wait $04
 
@@ -1227,7 +1227,7 @@ npc78_scripts:
 	npc_call func_02_58c4
 -
 	npc_call func_02_58cc
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET_LEFT
 	.db $16
@@ -1242,7 +1242,7 @@ npc7a_scripts:
 	npc_call func_02_58c4
 -
 	npc_call func_02_58cc
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET_RIGHT
 	.db $16
@@ -1251,7 +1251,7 @@ npc7a_scripts:
 
 
 func_02_58c4:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_setDamageTaken $01
 	.db $16
 	npc_cb60_low2bitsEquParamMinus1 $03
@@ -1277,7 +1277,7 @@ npc79_scripts:
 npc7b_scripts:
 	npc_playSoundEffectAtAddr sound_1661
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_setMovementSpeed $08
 	npc_setDamageTaken $03
@@ -1294,7 +1294,7 @@ npc7c_scripts:
 	npc_set3_cb60
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set2_cbe4
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	.db $16
 	npc_end
@@ -1304,7 +1304,7 @@ npc7c_scripts:
 ; ENTID_SHOP_ANGEL
 ; ==============================================================================
 npc7d_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_c02a_equFF
 	npc_set2_cbe4
@@ -1635,7 +1635,7 @@ npc7d_scripts:
 ; ENTID_PAWN_SHOP_GUY
 ; ==============================================================================
 npc6c_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_c02a_equFF
 	npc_set2_cbe4
 	npc_res4_cb60
@@ -2217,7 +2217,7 @@ func_02_6618:
 	npc_setCoords $70 $90
 	npc_faceUp
 @func_663d:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set5_cb60
 	npc_set2_cbe4
@@ -2319,7 +2319,7 @@ func_02_669d:
 npc88_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_res4_cb60
 -
@@ -2368,7 +2368,7 @@ npc89_scripts:
 npc8a_scripts:
 	npc_setCoords $10 $20
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_faceRight
 	npc_setMovementSpeed $10
 	npc_wait $01
@@ -2535,7 +2535,7 @@ npc8f_scripts:
 	npc_end
 +
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_setDamageTaken $02
 	npc_setMovementSpeed $02
 	npc_placeTile $00 $80 $80
@@ -2689,7 +2689,7 @@ npc94_scripts:
 ; ==============================================================================
 npc95_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_set5_cb60
 	npc_res4_cb60
@@ -2790,7 +2790,7 @@ func_02_69b6:
 
 func_02_69c0:
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_setDamageTaken $03
 	npc_res4_cb60
 -
@@ -2881,7 +2881,7 @@ npcaa_scripts:
 ; ENTID_BEACH_SKATEBOARDER_BOTTLE
 ; ==============================================================================
 npcab_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $04
 	npc_facePlayerHorizontally
@@ -3044,7 +3044,7 @@ npc99_scripts:
 	npc_placeTile $e0 $80 $80
 
 @end2:
-	npc_setRoomFlagFrom_cbf0
+	npc_setEnemyDefeatedRoomFlag
 	npc_end
 
 
@@ -3053,7 +3053,7 @@ npc99_scripts:
 ; ==============================================================================
 npc9a_scripts:
 	npc_call func_02_4fea
-	.db $1b
+	npc_giveKey
 	npc_playSoundEffectAtAddr sound_1685
 	npc_giveItem ITEMID_SLUMS_BOTTOM_MIDDLE_KEY
 	npc_end
@@ -3096,7 +3096,7 @@ npc9c_scripts:
 	npc_facePlayerHorizontally
 	npc_call func_02_58c4
 	npc_wait $0c
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET
 	npc_wait $1e
@@ -3109,7 +3109,7 @@ npc9c_scripts:
 npca4_scripts:
 	npc_playSoundEffectAtAddr sound_1661
 	npc_set5_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_setMovementSpeed $04
 	npc_setDamageTaken $03
@@ -3124,7 +3124,7 @@ npca5_scripts:
 	npc_call func_02_58c4
 -
 	npc_call func_02_58cc
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET
 	.db $16
@@ -3175,7 +3175,7 @@ npc9d_scripts:
 
 
 npca1_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_res4_cb60
 	npc_set1_cbe4
@@ -3187,7 +3187,7 @@ npca1_scripts:
 
 ;;
 	npc_takeItem ITEMID_31 // 6bde
-	npc_set6_cb60_reset_cb6c // 6be0
+	npc_set6_cb60_reset_animationFrameIdx // 6be0
 	npc_cb60_low2bitsEquParamMinus1 $04 // 6be1
 	npc_setDamageTaken $04 // 6be3
 	npc_res4_cb60 // 6be5
@@ -3214,7 +3214,7 @@ npca1_scripts:
 	npc_wait $03 // 6c1c
 	npc_jumpIfItemGotten ITEMID_30, $6c1a // 6c1e
 	npc_ret // 6c22
-	npc_set6_cb60_reset_cb6c // 6c23
+	npc_set6_cb60_reset_animationFrameIdx // 6c23
 	npc_setDamageTaken $04 // 6c24
 	npc_set3_cb60 // 6c26
 	npc_set2_cbe4 // 6c27
@@ -3224,7 +3224,7 @@ npca1_scripts:
 	npc_jumpIfItemGotten ITEMID_31, $6c34 // 6c2d
 	npc_jump $6c2b // 6c31
 	npc_end // 6c34
-	npc_set6_cb60_reset_cb6c // 6c35
+	npc_set6_cb60_reset_animationFrameIdx // 6c35
 	npc_cb60_low2bitsEquParamMinus1 $04 // 6c36
 	npc_setDamageTaken $04 // 6c38
 	npc_set3_cb60 // 6c3a
@@ -3268,7 +3268,7 @@ npca2_scripts:
 	npc_jumpIfItemGotten ITEMID_2f, npca3_scripts
 
 @func_6c73:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_res4_cb60
 	npc_set7_npc2ndByteLower6Bits
@@ -3299,7 +3299,7 @@ npca2_scripts:
 
 @func_6c9f:
 	npc_set3_cb60
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	.db $26
 	npc_jump npc82_scripts
@@ -3318,7 +3318,7 @@ npca3_scripts:
 +
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_set2_cbe4
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_res4_cb60
 	.db $16
@@ -3351,7 +3351,7 @@ npca3_scripts:
 
 npc9e_scripts:
 	npc_set2_cbe4
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set5_cb60
 	npc_setMovementSpeed $10
@@ -3408,7 +3408,7 @@ npc9e_scripts:
 
 
 npcb0_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_playSoundEffectAtAddr sound_15ae
 	npc_wait $3c
@@ -3416,7 +3416,7 @@ npcb0_scripts:
 
 
 npc9f_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_set3_cb60
 	npc_res4_cb60
@@ -3431,7 +3431,7 @@ npc9f_scripts:
 
 
 npca0_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_set3_cb60
 	npc_res4_cb60
@@ -3446,7 +3446,7 @@ npca0_scripts:
 
 
 npcad_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_set3_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
@@ -3462,13 +3462,13 @@ npcad_scripts:
 	npc_jump @loop
 +
 	npc_jumpIfRandomNumLTparam $fb, @loop
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_spawnNPCAtOffset $b3 $00 $0c
 	npc_jump @loop
 
 
 npcae_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set2_cbe4
 	npc_set3_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
@@ -3484,7 +3484,7 @@ npcae_scripts:
 	npc_jump @loop
 +
 	npc_jumpIfRandomNumLTparam $fb, @loop
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_spawnNPCAtOffset $b3 $00 $0c
 	npc_jump @loop
 
@@ -3493,7 +3493,7 @@ npcae_scripts:
 ; ENTID_FINAL_BOSS_SHIELD
 ; ==============================================================================
 npcaf_scripts:
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_res4_cb60
 	npc_set2_cb60
@@ -3528,7 +3528,7 @@ npcb1_scripts:
 
 npcb2_scripts:
 	npc_set2_cbe4
-	npc_set6_cb60_reset_cb6c
+	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set5_cb60
 	npc_playSoundEffectAtAddr sound_1626
@@ -3682,13 +3682,13 @@ func_02_6f2a:
 	npc_giveSpecialBItem $04
 	npc_giveSpecialBItem $08
 -
-	.db $19
+	npc_giveHeartContainer
 	npc_loopAboveParamTimes $0c, -
 	npc_addToPlayerHealth $ff
 	npc_giveNumBirds $ff
 	npc_giveNumBombs $ff
 -
-	.db $1b
+	npc_giveKey
 	npc_loopAboveParamTimes $3f, -
 	npc_incAnointingOilsGotten
 	npc_incAnointingOilsGotten

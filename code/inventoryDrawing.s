@@ -149,118 +149,139 @@ checkBitemsSelectable:
 	ret
 
 
-;;
-	ld   hl, $c000                                   ; $5223: $21 $00 $c0
-	ld   (hl), $01                                   ; $5226: $36 $01
-	jr   +                                 ; $5228: $18 $0f
+// unused - 5223, draws 1 digit count of an item
+	ld   hl, wInvItemCountsNumDigits
+	ld   (hl), $01
+	jr   +
 
 
 drawBombsOrKeys:
-	ld   hl, $c000                                   ; $522a: $21 $00 $c0
-	ld   (hl), $02                                   ; $522d: $36 $02
-	call aIsMax99                                       ; $522f: $cd $ef $12
-	jr   +                                 ; $5232: $18 $05
+	ld   hl, wInvItemCountsNumDigits
+	ld   (hl), $02
+	call aIsMax99
+	jr   +
 
 drawNumBirdsAtOffset:
-	ld   hl, $c000                                   ; $5234: $21 $00 $c0
-	ld   (hl), $03                                   ; $5237: $36 $03
+	ld   hl, wInvItemCountsNumDigits
+	ld   (hl), $03
 
 +
-	ld   c, a                                        ; $5239: $4f
-	ld   b, $00                                      ; $523a: $06 $00
-	call b4_dEquDoffsetInScreen1                                       ; $523c: $cd $01 $13
-	ld   hl, $c5fc                                   ; $523f: $21 $fc $c5
-	ld   (hl), e                                     ; $5242: $73
-	inc  hl                                          ; $5243: $23
-	ld   (hl), d                                     ; $5244: $72
-	ld   a, $0a                                      ; $5245: $3e $0a
-	call bcDivA_divInC_modInAB                                       ; $5247: $cd $44 $08
-	ld   hl, $c0a0                                   ; $524a: $21 $a0 $c0
-	ld   (hl), b                                     ; $524d: $70
-	ld   b, $00                                      ; $524e: $06 $00
-	ld   a, $0a                                      ; $5250: $3e $0a
-	call bcDivA_divInC_modInAB                                       ; $5252: $cd $44 $08
-	ld   hl, $c0a1                                   ; $5255: $21 $a1 $c0
-	ld   (hl), b                                     ; $5258: $70
-	ld   hl, $c0a2                                   ; $5259: $21 $a2 $c0
-	ld   (hl), c                                     ; $525c: $71
-	ld   hl, $c000                                   ; $525d: $21 $00 $c0
-	ld   a, (hl)                                     ; $5260: $7e
-	cp   $01                                         ; $5261: $fe $01
-	jr   nz, +                             ; $5263: $20 $08
+// a is number of item
+	ld   c, a
+	ld   b, $00
 
-	ld   hl, $c0a0                                   ; $5265: $21 $a0 $c0
-	call copyHLDDigitTileIdxIntoDE
-	jr   @next_1299                                 ; $526b: $18 $2c
+// display in screen 1, store starting addr in c5fc
+	call b4_dPlusEquScreen1displayOffset
+	ld   hl, wInvItemCountsDigitsVramAddr
+	ld   (hl), e
+	inc  hl
+	ld   (hl), d
 
-+
-	cp   $02                                         ; $526d: $fe $02
-	jr   nz, +                             ; $526f: $20 $0b
+// item count div 10
+	ld   a, $0a
+	call bcDivA_divInC_modInAB
 
-	ld   hl, $c0a1                                   ; $5271: $21 $a1 $c0
-	call copyHLDDigitTileIdxIntoDE
-	call copyHLDDigitTileIdxIntoDE
-	jr   @next_1299                                 ; $527a: $18 $1d
+// unit in c0a0
+	ld   hl, wInvCountDigits
+	ld   (hl), b
 
-+
-	ld   hl, $c0a2                                   ; $527c: $21 $a2 $c0
-	ld   a, (hl)                                     ; $527f: $7e
-	cp   $00                                         ; $5280: $fe $00
-	jr   nz, +                             ; $5282: $20 $0c
+// div by 10 again
+	ld   b, $00
+	ld   a, $0a
+	call bcDivA_divInC_modInAB
 
-	dec  hl                                          ; $5284: $2b
+// tens in c0a1, hundreds in c0a2
+	ld   hl, wInvCountDigits+1
+	ld   (hl), b
+	ld   hl, wInvCountDigits+2
+	ld   (hl), c
+
+	ld   hl, wInvItemCountsNumDigits
+	ld   a, (hl)
+	cp   $01
+	jr   nz, +
+
+// draw the 1 digit top half
+	ld   hl, wInvCountDigits
 	call copyHLDDigitTileIdxIntoDE
-	call copyHLDDigitTileIdxIntoDE
-	ld   a, $00                                      ; $528b: $3e $00
-	ld   (de), a                                     ; $528d: $12
-	jr   @next_1299                                 ; $528e: $18 $09
+	jr   @drawBottomHalfOfDigits
 
 +
+	cp   $02
+	jr   nz, +
+
+// draw the 2 digits top halves
+	ld   hl, wInvCountDigits+1
+	call copyHLDDigitTileIdxIntoDE
+	call copyHLDDigitTileIdxIntoDE
+	jr   @drawBottomHalfOfDigits
+
++
+	ld   hl, wInvCountDigits+2
+	ld   a, (hl)
+	cp   $00
+	jr   nz, +
+
+// draw 2 digits top halves if no hundreds
+	dec  hl
+	call copyHLDDigitTileIdxIntoDE
+	call copyHLDDigitTileIdxIntoDE
+	ld   a, $00
+	ld   (de), a
+	jr   @drawBottomHalfOfDigits
+
++
+// otherwise draw all 3 digits top halves
 	call copyHLDDigitTileIdxIntoDE
 	call copyHLDDigitTileIdxIntoDE
 	call copyHLDDigitTileIdxIntoDE
 
-@next_1299:
+@drawBottomHalfOfDigits:
 // start copying bottom half of tiles
-	ld   hl, $c5fc                                   ; $5299: $21 $fc $c5
-	ldi  a, (hl)                                     ; $529c: $2a
-	add  $20                                         ; $529d: $c6 $20
-	ld   e, a                                        ; $529f: $5f
-	ld   a, (hl)                                     ; $52a0: $7e
-	adc  $00                                         ; $52a1: $ce $00
-	ld   d, a                                        ; $52a3: $57
-	ld   hl, $c000                                   ; $52a4: $21 $00 $c0
-	ld   a, (hl)                                     ; $52a7: $7e
-	cp   $01                                         ; $52a8: $fe $01
-	jr   nz, +                             ; $52aa: $20 $08
+	ld   hl, wInvItemCountsDigitsVramAddr
+	ldi  a, (hl)
+	add  <$0020
+	ld   e, a
+	ld   a, (hl)
+	adc  >$0020
+	ld   d, a
 
-	ld   hl, $c0a0                                   ; $52ac: $21 $a0 $c0
+	ld   hl, wInvItemCountsNumDigits
+	ld   a, (hl)
+	cp   $01
+	jr   nz, +
+
+// draw the 1 digit bottom half
+	ld   hl, wInvCountDigits
 	call copyHLDDigitBottomTileIdxIntoDE
-	jr   @done                                 ; $52b2: $18 $2c
+	jr   @done
 
 +
-	cp   $02                                         ; $52b4: $fe $02
-	jr   nz, +                             ; $52b6: $20 $0b
+	cp   $02
+	jr   nz, +
 
-	ld   hl, $c0a1                                   ; $52b8: $21 $a1 $c0
+// draw the 2 digits bottom halves
+	ld   hl, wInvCountDigits+1
 	call copyHLDDigitBottomTileIdxIntoDE
 	call copyHLDDigitBottomTileIdxIntoDE
-	jr   @done                                 ; $52c1: $18 $1d
-
-+
-	ld   hl, $c0a2                                   ; $52c3: $21 $a2 $c0
-	ld   a, (hl)                                     ; $52c6: $7e
-	cp   $00                                         ; $52c7: $fe $00
-	jr   nz, +                             ; $52c9: $20 $0c
-
-	dec  hl                                          ; $52cb: $2b
-	call copyHLDDigitBottomTileIdxIntoDE
-	call copyHLDDigitBottomTileIdxIntoDE
-	ld   a, $00                                      ; $52d2: $3e $00
-	ld   (de), a                                     ; $52d4: $12
-	jr   @done                                 ; $52d5: $18 $09
+	jr   @done
 
 +
+	ld   hl, wInvCountDigits+2
+	ld   a, (hl)
+	cp   $00
+	jr   nz, +
+
+// if no hundrds, 2 digits bottom halves
+	dec  hl
+	call copyHLDDigitBottomTileIdxIntoDE
+	call copyHLDDigitBottomTileIdxIntoDE
+	ld   a, $00
+	ld   (de), a
+	jr   @done
+
++
+// otherwise draw 3 digits bottom halves
 	call copyHLDDigitBottomTileIdxIntoDE
 	call copyHLDDigitBottomTileIdxIntoDE
 	call copyHLDDigitBottomTileIdxIntoDE
@@ -308,7 +329,7 @@ convDigitIntoBottomHalfTileIdx:
 	ret
 
 
-b4_dEquDoffsetInScreen1:
+b4_dPlusEquScreen1displayOffset:
 	ld   hl, wScreen1displayOffset
 	ld   a, d
 	add  (hl)
@@ -318,7 +339,7 @@ b4_dEquDoffsetInScreen1:
 
 drawScore:
 	ld   de, $996a
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	ld   bc, $0000
 
 -
@@ -338,7 +359,7 @@ drawScore:
 
 drawHearts:
 	ld   de, $99a8
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 
 	ld   a, 12
 	ld   hl, wCurrentHeartDrawn
@@ -395,12 +416,12 @@ drawHearts:
 
 drawAreaTextInMapScreen:
 	ld   de, $99e6
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	ld   hl, wRoomGroupNameLine1
 	ld   c, $07
 	call copyTextToVram_spaceIsTile0
 	ld   de, $9a06
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	ld   hl, wRoomGroupNameLine2
 	ld   c, $07
 
@@ -423,7 +444,7 @@ copyTextToVram_spaceIsTile0:
 
 drawBitem:
 	ld   de, $98c5
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	ld   hl, wEquippedBItem
 	ld   c, (hl)
 	ld   b, $00
@@ -436,7 +457,7 @@ drawBitem:
 	ld   (de), a
 	push af
 	ld   de, $98e5
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	pop  af
 	dec  a
 	ld   (de), a
@@ -449,7 +470,7 @@ drawBitem:
 drawAitem:
 // 2 fruit tiles
 	ld   de, $9945
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	ld   hl, wFruitEquipped
 	ld   c, (hl)
 	ld   b, $00
@@ -469,7 +490,7 @@ drawAitem:
 	pop  de
 	ld   (de), a
 	ld   de, $9965
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	pop  af
 	add  $01
 	ld   (de), a
@@ -478,7 +499,7 @@ drawAitem:
 
 drawFruitAmounts:
 	ld   de, $9882
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	ld   bc, $0000
 
 @loop:
@@ -546,7 +567,7 @@ drawRailroadTicketIfRetrieved:
 
 // clear railroad ticket text
 	ld   de, $99a4
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	ld   a, $00
 	ld   (de), a
 	inc  de
@@ -563,7 +584,7 @@ drawRailroadTicketIfRetrieved:
 
 drawSelectableBitems:
 	ld   de, $9821
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	call checkBitemsSelectable
 	ld   b, a
 	ld   c, $00
@@ -623,7 +644,7 @@ drawArmorOfGod:
 	ld   e, (hl)
 	inc  hl
 	ld   d, (hl)
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	call clearOut2x2TileAtDE
 
 +
@@ -646,7 +667,7 @@ playerNameCharToTileIdx:
 
 drawPlayerNameInMap:
 	ld   de, $9806
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 	ld   bc, $0000
 
 -
@@ -705,7 +726,7 @@ drawCurrentLocationInMap:
 	pop  af
 
 	ld   e, a
-	call b4_dEquDoffsetInScreen1
+	call b4_dPlusEquScreen1displayOffset
 // 5b is the x on current location
 	ld   a, $5b
 	ld   (de), a
