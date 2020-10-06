@@ -6,9 +6,9 @@
 ; ==============================================================================
 
 # ------ outstanding to disassemble
-bank_000.s - <8200
-common.s - <320
-scripting.s - <430
+bank_000.s - <7030
+common.s - <240
+scripting.s - <400
 
 # ------- room structs
 byte 2 lower nybble x2 - tileset idx
@@ -57,5 +57,7 @@ if c0b0 is nz, dont use fruit
 if c02a nz, dont use sword
 if c6cb nz, dont use jawbone or sword
 
-# ------- misc
-c059 - ff player cant move, 00 player can move
+# ------- generic vram copy c028's
+c8 - bomb
+fc - initial explosion puff
+7c - flowery looking puff

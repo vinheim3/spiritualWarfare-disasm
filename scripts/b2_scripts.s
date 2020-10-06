@@ -35,14 +35,15 @@ func_02_4ff6:
 
 
 npc82_scripts:
-	npc_set_c059 $00
+unfreezePlayer:
+	npc_setTimeUntilFrozenStateEnds $00
 -
 	npc_wait $01
 	npc_jump -
 
 
 func_02_5008:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_giveNumBombs $01
 	npc_playSoundEffect20h
 	npc_wait $01
@@ -50,7 +51,7 @@ func_02_5008:
 
 
 func_02_5010:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_giveNumBirds $01
 	npc_playSoundEffect20h
 	npc_wait $01
@@ -61,12 +62,12 @@ func_02_5010:
 // 5018
 @loop:
 -
-	npc_set_c059 $ff
-	.db $4f $05
+	npc_setTimeUntilFrozenStateEnds $ff
+	npc_takeNumBirds $05
 	npc_playSoundEffectAtAddr sound_1673
 	npc_wait $02
 	npc_loopAboveParamTimes $01, @loop
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_ret
 
 
@@ -830,7 +831,7 @@ npc6d_scripts:
 	npc_jump func_02_4fdb
 
 @func_54de:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_giveHeartContainer
 	npc_playSoundEffectAtAddr sound_166a
 	npc_wait $04
@@ -842,7 +843,7 @@ npc6d_scripts:
 	npc_jumpIfPlayerIsFullHealth +
 	npc_jump @func_54e6
 +
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_increaseScore SCORE_800
 	npc_ret
 
@@ -1230,7 +1231,7 @@ npc78_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET_LEFT
-	.db $16
+	npc_animate
 	npc_call func_02_58d0
 	npc_jump -
 
@@ -1245,7 +1246,7 @@ npc7a_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET_RIGHT
-	.db $16
+	npc_animate
 	npc_call func_02_58d0
 	npc_jump -
 
@@ -1253,7 +1254,7 @@ npc7a_scripts:
 func_02_58c4:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_setDamageTaken $01
-	.db $16
+	npc_animate
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
 	npc_ret
@@ -1296,7 +1297,7 @@ npc7c_scripts:
 	npc_set2_cbe4
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
-	.db $16
+	npc_animate
 	npc_end
 
 
@@ -1348,94 +1349,94 @@ npc7d_scripts:
 
 @slumsTopRight:
 	npc_jumpIfSpecialBitemGotten SPECIALB_LAMP, @showRoomEmptyText
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5a39
 	npc_startScrollingText @npcText_5dfb
 	npc_spawnNPC ENTID_LAMP $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @beachFishHouse:
 	npc_jumpIfItemGotten ITEMID_BEACH_FISH_HOUSE_BANANA, @showRoomEmptyText
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5aa5
 	npc_startScrollingText @npcText_5dfb
 	npc_spawnNPC ENTID_BANANA $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @afterBeachBoss:
 	npc_jumpIfArmorOfGodGotten AOG_SWORD, @showRoomEmptyText
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5b02
 	npc_spawnNPC ENTID_SWORD_OF_THE_SPIRIT $7a $64
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @entry3:
 	npc_jumpIfItemGotten ITEMID_24, @showRoomEmptyText
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5b5f
 	npc_spawnNPC $80 $52 $50
 	npc_spawnNPC $81 $a2 $50
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @bottomLeftSlums:
 	npc_jumpIfItemGotten ITEMID_SLUMS_BOTTOM_LEFT_POMEGRANATE, +
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5bb7
 	npc_startScrollingText @npcText_5dfb
 	npc_spawnNPC ENTID_POMEGRANATE $52 $64
 	npc_spawnNPC ENTID_PRICE_BIRD $48 $54
 	npc_spawnNPC ENTID_SHOP_7_VIALS $a2 $64
 	npc_spawnNPC ENTID_PRICE_BIRD $98 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 +
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5c07
 	npc_spawnNPC $3a $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @slumsBottomMiddle:
 	npc_jumpIfItemGotten ITEMID_SLUMS_BOTTOM_MIDDLE_KEY, @showRoomEmptyText
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5c57
 	npc_spawnNPC ENTID_SLUMS_BOTTOM_MIDDLE_KEY $7a $64
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @warehouseAboveRR:
 	npc_jumpIfItemGotten ITEMID_WAREHOUSE_ABOVE_RR_POMEGRANATE, +
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5c8f
 	npc_startScrollingText @npcText_5dfb
 	npc_spawnNPC ENTID_POMEGRANATE $52 $64
 	npc_spawnNPC ENTID_PRICE_BIRD $48 $54
 	npc_spawnNPC ENTID_SHOP_OIL $a2 $64
 	npc_spawnNPC ENTID_PRICE_BIRD $98 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 +
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5cd1
 	npc_startScrollingText @npcText_5dfb
 	npc_spawnNPC ENTID_SHOP_OIL $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @warehousesBottomLeftApple:
 	npc_jumpIfItemGotten ITEMID_WAREHOUSES_BOTTOM_LEFT_APPLE, @showRoomEmptyText
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5d3a
 	npc_startScrollingText @npcText_5dfb
 	npc_spawnNPC ENTID_APPLE $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @afterWarehouseBoss:
 	npc_jumpIfArmorOfGodGotten AOG_BOOTS, @showRoomEmptyText
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText @npcText_5d92
 	npc_spawnNPC $36 $7a $64
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @endingScreen:
 -
@@ -1444,7 +1445,7 @@ npc7d_scripts:
 
 @showRoomEmptyText:
 	npc_startScrollingText @text_roomEmpty
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @text_roomEmpty:
 	.db $04 $03
@@ -1646,7 +1647,7 @@ npc6c_scripts:
 	npc_jumpIfItemGotten ITEMID_ARMOUR, @func_5e2c
 +
 	npc_startScrollingText @npcText_5e50
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @func_5e16:
 	npc_jumpIfArmorOfGodGotten AOG_ARMOUR, +
@@ -1655,13 +1656,13 @@ npc6c_scripts:
 	npc_startScrollingText @npcText_5e8c
 	npc_spawnNPC ENTID_BELT_OF_TRUTH $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @func_5e2c:
 	npc_startScrollingText @npcText_5ec8
 	npc_spawnNPC ENTID_BREASTPLATE_OF_RIGHTEOUSNESS $7a $64
 	npc_spawnNPC ENTID_PRICE_BIRD $70 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @func_5e3a:
 	npc_startScrollingText @npcText_5f1f
@@ -1669,7 +1670,7 @@ npc6c_scripts:
 	npc_spawnNPC ENTID_PRICE_BIRD $48 $54
 	npc_spawnNPC ENTID_BREASTPLATE_OF_RIGHTEOUSNESS $a2 $64
 	npc_spawnNPC ENTID_PRICE_BIRD $98 $54
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 @npcText_5e50:
 	.db $04 $03
@@ -1826,7 +1827,7 @@ npc80_scripts:
 
 func_02_602e:
 	npc_giveItem ITEMID_24
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_end
 
 
@@ -1845,7 +1846,7 @@ npc81_scripts:
 npc83_scripts:
 @loop:
 	npc_call func_02_4fed
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_call npc6d_scripts@func_54e6
 	npc_jumpIfItemGotten ITEMID_26, +
 	npc_displayTextScreen @npcText_60bb
@@ -3127,7 +3128,7 @@ npca5_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET
-	.db $16
+	npc_animate
 	npc_waitRandomValBetween2ParamsInclusive $0c $18
 	npc_jump -
 
@@ -3171,7 +3172,7 @@ npc9d_scripts:
 	npc_setMovementSpeed $01
 	npc_faceUp
 	npc_moveByParamPixels $20
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 
 npca1_scripts:
@@ -3196,7 +3197,7 @@ npca1_scripts:
 	npc_wait $0a // 6bec
 	npc_loopAboveParamTimes $0a, $6be6 // 6bee
 	npc_giveItem ITEMID_31 // 6bf2
-	npc_set_c059 $ff // 6bf4
+	npc_setTimeUntilFrozenStateEnds $ff // 6bf4
 	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff // 6bf6
 	npc_placeTile $00 $ff $81 // 6bf9
 	npc_placeTile $00 $80 $81 // 6bfd
@@ -3204,7 +3205,7 @@ npca1_scripts:
 	npc_placeTile $00 $80 $82 // 6c05
 	npc_placeTile $00 $ff $83 // 6c09
 	npc_placeTile $00 $80 $83 // 6c0d
-	npc_set_c059 $00 // 6c11
+	npc_setTimeUntilFrozenStateEnds $00 // 6c11
 	npc_end // 6c13
 
 // 6c14
@@ -3302,7 +3303,7 @@ npca2_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	.db $26
-	npc_jump npc82_scripts
+	npc_jump unfreezePlayer
 
 
 ; ==============================================================================
@@ -3321,7 +3322,7 @@ npca3_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_res4_cb60
-	.db $16
+	npc_animate
 	npc_end
 
 @table:
@@ -3553,7 +3554,7 @@ npcb2_scripts:
 	npc_jumpIfItemGotten ITEMID_33, +
 	npc_setNewNpcID $9e
 +
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_placeTile $00 $ff $81
 	npc_placeTile $00 $ff $82
 	npc_placeTile $00 $ff $83
@@ -3566,10 +3567,10 @@ npcb2_scripts:
 	npc_placeTile $00 $82 $81
 	npc_placeTile $00 $82 $82
 	npc_placeTile $00 $82 $83
-	.db $04
+	npc_set4_cb60
 	npc_wait $08
 	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $03 $ff
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_wait $80
 	npc_teleportPlayer @data
 	npc_end

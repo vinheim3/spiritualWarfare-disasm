@@ -183,7 +183,7 @@ npcec_scripts:
 	npc_set3_cb60
 	npc_res4_cb60
 	npc_set6_cb60_reset_animationFrameIdx
-	.db $16
+	npc_animate
 	npc_giveItem ITEMID_2a
 	npc_end
 
@@ -527,7 +527,7 @@ npcee_scripts:
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set2_cbe4
-	.db $16
+	npc_animate
 	npc_wait $05
 	npc_placeTile $00 $80 $80
 	npc_setNewNpcID ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP_SPAWNER
@@ -586,12 +586,12 @@ npcf0_scripts:
 	npc_placeTile $d0 $80 $81
 	npc_wait $05
 	npc_spawnNPCAtOffset $ed $00 $10
-	.db $16
+	npc_animate
 	npc_faceRight
 	npc_moveByParamPixels $20
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_spawnNPCAtOffset $ed $00 $10
-	.db $16
+	npc_animate
 	npc_turnBackwards
 	npc_moveByParamPixels $20
 	npc_jumpIfItemGotten ITEMID_31, @end
@@ -970,7 +970,7 @@ npcd9_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_set5_cb60
-	npc_set_c059 $07
+	npc_setTimeUntilFrozenStateEnds $07
 	npc_wait $19
 	npc_faceLeft
 	npc_setMovementSpeed $02
@@ -1011,7 +1011,7 @@ npcdd_scripts:
 	npc_res4_cb60
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
-	.db $16
+	npc_animate
 	npc_setNewNpcID $de
 
 
@@ -1035,7 +1035,7 @@ npcdf_scripts:
 	npc_res4_cb60
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
-	.db $16
+	npc_animate
 	npc_setNewNpcID $dd
 
 

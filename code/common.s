@@ -217,7 +217,7 @@ turnOffLCD:
 
 setLCDfromValue_c015equA:
 	push hl
-	ld   hl, $c015
+	ld   hl, wc015
 	ld   (hl), a
 	pop  hl
 	ld   a, $ff
@@ -369,7 +369,7 @@ loadRoomStructData:
 	ld   hl, wFirstRoomStructByte                                   ; $02b6: $21 $2b $c7
 	ld   a, (hl)                                     ; $02b9: $7e
 	and  $04                                         ; $02ba: $e6 $04
-	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $02bc: $21 $79 $c0
+	ld   hl, wBaseRoomFloorTile                                   ; $02bc: $21 $79 $c0
 	ld   (hl), a                                     ; $02bf: $77
 	cp   $00                                         ; $02c0: $fe $00
 	jr   z, @after1stByteBit2check                              ; $02c2: $28 $0d
@@ -381,7 +381,7 @@ loadRoomStructData:
 	ld   l, a                                        ; $02c9: $6f
 	add  hl, de                                      ; $02ca: $19
 	ld   a, (hl)                                     ; $02cb: $7e
-	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $02cc: $21 $79 $c0
+	ld   hl, wBaseRoomFloorTile                                   ; $02cc: $21 $79 $c0
 	ld   (hl), a                                     ; $02cf: $77
 	inc  de                                          ; $02d0: $13
 
@@ -586,6 +586,9 @@ loadRoomStructData:
 	ld   hl, wCurrRoomStructPointerNPCData+1
 	ld   (hl), a
 
+; ==============================================================================
+; Decompressing layout
+; ==============================================================================
 @afterBytePattern:
 	ld   bc, $0000
 
@@ -697,6 +700,9 @@ loadRoomStructData:
 	ld   hl, wCompressedLayoutCurrByteAddr+1
 	ld   (hl), a
 
+; ==============================================================================
+; Storing offsets into compressed rows
+; ==============================================================================
 // similar to loading the compressed room layout data
 	ld   de, $0000
 	ld   bc, $0000
@@ -777,6 +783,9 @@ loadRoomStructData:
 	ld   a, (hl)
 	push af
 
+; ==============================================================================
+; Counting room flag item tiles
+; ==============================================================================
 // c0fc to be count of values between 3 and 9 in other 2x2 block
 	ld   bc, $0000
 	ld   hl, wNumRoomFlagObjects
@@ -881,6 +890,9 @@ loadRoomStructData:
 
 +
 
+; ==============================================================================
+; Storing room flags
+; ==============================================================================
 // func is in bank 1
 	ld   hl, $0001
 	ld   (hl), a
@@ -905,6 +917,9 @@ loadRoomStructData:
 	ld   hl, wCurrRoomStructPointerNPCData+1
 	ld   (hl), a
 
+; ==============================================================================
+; Hidden items?
+; ==============================================================================
 // TODO: process npc data again
 	ld   de, $0000
 	ld   hl, wRoomFlagIdxToCheck                                   ; $0581: $21 $fc $c0
@@ -990,6 +1005,9 @@ loadRoomStructData:
 
 +
 
+; ==============================================================================
+; Load NPCs
+; ==============================================================================
 // actually load the npcs
 	ld   de, $0000
 	ld   bc, $0000
@@ -1164,81 +1182,101 @@ loadRoomStructData:
 
 +
 
-// TODO: clears tiles based on room flags set
-	ld   de, $0000                                   ; $06b0: $11 $00 $00
+; ==============================================================================
+; Clearing item tiles when room flag set
+; ==============================================================================
+// de is row (11 rows)
+	ld   de, $0000
+@hideGottenTiles_nextRow:
 
-@bigLoop_06b3:
-	ld   bc, $0000                                   ; $06b3: $01 $00 $00
+// bc is col (32 cols)
+	ld   bc, $0000
+@hideGottenTiles_nextTile:
+	call store16ePlusCin_c01e
 
-@slightlySmallerLoop_06b6:
-	call store16ePlusCin_c01e                               ; $06b6: $cd $0d $09
-	ld   hl, $c0a0                                   ; $06b9: $21 $a0 $c0
-	ld   (hl), c                                     ; $06bc: $71
-	ld   hl, $c01e                                   ; $06bd: $21 $1e $c0
-	ld   c, (hl)                                     ; $06c0: $4e
-	ld   b, $00                                      ; $06c1: $06 $00
-	ld   hl, w2x2tileTypes                                   ; $06c3: $21 $00 $c3
-	add  hl, bc                                      ; $06c6: $09
-	ld   a, (hl)                                     ; $06c7: $7e
-	ld   hl, $c0a0                                   ; $06c8: $21 $a0 $c0
-	ld   c, (hl)                                     ; $06cb: $4e
-	ld   b, $00                                      ; $06cc: $06 $00
+// curr col in c0a0
+	ld   hl, wCurrColForClearingItemTiles
+	ld   (hl), c
+
+// get tile type at location
+	ld   hl, wECbyte
+	ld   c, (hl)
+	ld   b, $00
+	ld   hl, w2x2tileTypes
+	add  hl, bc
+	ld   a, (hl)
+
+// get col in bc
+	ld   hl, wCurrColForClearingItemTiles
+	ld   c, (hl)
+	ld   b, $00
 	cp   $27                                         ; $06ce: $fe $27
 	jr   nz, +                             ; $06d0: $20 $03
 
-	jp   @next_070a                               ; $06d2: $c3 $0a $07
+// if tile type is 27h, jump
+	jp   @hideGottenTiles_toNextTile
 
 +
-	cp   $10                                         ; $06d5: $fe $10
-	jr   nc, @next_070a                             ; $06d7: $30 $31
+// if tile type not between 3 and 9, go to next tile
+	cp   $10
+	jr   nc, @hideGottenTiles_toNextTile
 
-	cp   $03                                         ; $06d9: $fe $03
-	jr   c, @next_070a                              ; $06db: $38 $2d
+	cp   $03
+	jr   c, @hideGottenTiles_toNextTile
 
-	push af                                          ; $06dd: $f5
-	call retCFifRoomFlagSet                               ; $06de: $cd $2c $07
-	jr   nc, +                             ; $06e1: $30 $20
+	push af
+	call retCFifRoomFlagSet
+	jr   nc, @hideGottenTiles_roomFlagNotSet
 
-// deals with clearing tiles, eg bombs if bombs gotten
-	pop  af                                          ; $06e3: $f1
-	ld   a, c                                        ; $06e4: $79
-	push af                                          ; $06e5: $f5
-	ld   hl, $c01e                                   ; $06e6: $21 $1e $c0
-	ld   c, (hl)                                     ; $06e9: $4e
-	ld   b, $00                                      ; $06ea: $06 $00
-	ld   a, $00                                      ; $06ec: $3e $00
-	ld   hl, w2x2tileTypes                                   ; $06ee: $21 $00 $c3
-	add  hl, bc                                      ; $06f1: $09
-	ld   (hl), a                                     ; $06f2: $77
-	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $06f3: $21 $79 $c0
-	ld   a, (hl)                                     ; $06f6: $7e
-	ld   hl, w2x2gameScreenTiles                                   ; $06f7: $21 $b0 $c3
-	add  hl, bc                                      ; $06fa: $09
-	ld   (hl), a                                     ; $06fb: $77
-	pop  af                                          ; $06fc: $f1
-	ld   c, a                                        ; $06fd: $4f
-	ld   b, $00                                      ; $06fe: $06 $00
-	jp   @next_0707                               ; $0700: $c3 $07 $07
+// room flag set, proceed to hide tile
+	pop  af
+	ld   a, c
 
-+
+	push af
+// tile type in bc
+	ld   hl, wECbyte
+	ld   c, (hl)
+	ld   b, $00
+// zero it out
+	ld   a, $00
+	ld   hl, w2x2tileTypes
+	add  hl, bc
+	ld   (hl), a
+// set base game screen tiles
+	ld   hl, wBaseRoomFloorTile
+	ld   a, (hl)
+	ld   hl, w2x2gameScreenTiles
+	add  hl, bc
+	ld   (hl), a
+	pop  af
+
+// inc still to keep the same flag idx, restore bc (current col)
+	ld   c, a
+	ld   b, $00
+	jp   @incRoomFlagObjects_toNextTile
+
+@hideGottenTiles_roomFlagNotSet:
 	pop  af                                          ; $0703: $f1
 	call Call_000_085c                               ; $0704: $cd $5c $08
 
-@next_0707:
-	call incPositiveNumRoomFlagObjects                               ; $0707: $cd $3a $07
+@incRoomFlagObjects_toNextTile:
+	call incPositiveNumRoomFlagObjects
 
-@next_070a:
-	inc  bc                                          ; $070a: $03
-	ld   a, c                                        ; $070b: $79
-	cp   $10                                         ; $070c: $fe $10
-	jr   c, @slightlySmallerLoop_06b6                              ; $070e: $38 $a6
+@hideGottenTiles_toNextTile:
+	inc  bc
+	ld   a, c
+	cp   $10
+	jr   c, @hideGottenTiles_nextTile
 
-	inc  de                                          ; $0710: $13
-	ld   a, e                                        ; $0711: $7b
-	cp   $0b                                         ; $0712: $fe $0b
-	jr   c, @bigLoop_06b3                              ; $0714: $38 $9d
+	inc  de
+	ld   a, e
+	cp   $0b
+	jr   c, @hideGottenTiles_nextRow
 
-// clear c660-c663
+; ==============================================================================
+;
+; ==============================================================================
+// clear c660-c662
 	ld   bc, $0003                                   ; $0716: $01 $03 $00
 	ld   a, $00                                      ; $0719: $3e $00
 -
@@ -1251,9 +1289,10 @@ loadRoomStructData:
 // clear c07d, back to bank 0
 	ld   hl, $c07d                                   ; $0723: $21 $7d $c0
 	ld   (hl), a                                     ; $0726: $77
-	ld   hl, $0000                                   ; $0727: $21 $00 $00
-	ld   (hl), a                                     ; $072a: $77
-	ret                                              ; $072b: $c9
+
+	ld   hl, $0000
+	ld   (hl), a
+	ret
 
 
 // called from above room struct loading function
@@ -1337,19 +1376,23 @@ convertCurrTileToTileType:
 
 
 Call_000_078b:
-	push de                                          ; $078b: $d5
-	push bc                                          ; $078c: $c5
-	ld   hl, wTileLayoutDataBank                                   ; $078d: $21 $5c $c0
-	ld   l, (hl)                                     ; $0790: $6e
-	ld   h, $00                                      ; $0791: $26 $00
-	ld   (hl), a                                     ; $0793: $77
+	push de
+	push bc
 
-//
+// working on compressed layout data
+	ld   hl, wTileLayoutDataBank
+	ld   l, (hl)
+	ld   h, $00
+	ld   (hl), a
+
+// de is offset into compressed layout, row idxed orig de
 	ld   hl, wOffsetIntoCompressedRoomLayoutPerScreenRow                                   ; $0794: $21 $e0 $c5
 	add  hl, de                                      ; $0797: $19
 	ld   a, (hl)                                     ; $0798: $7e
 	ld   e, a                                        ; $0799: $5f
 	ld   d, $00                                      ; $079a: $16 $00
+
+//
 	ld   a, $00                                      ; $079c: $3e $00
 	ld   hl, $c0a1                                   ; $079e: $21 $a1 $c0
 	ld   (hl), a                                     ; $07a1: $77
@@ -1357,16 +1400,21 @@ Call_000_078b:
 	ld   hl, $c0a2                                   ; $07a4: $21 $a2 $c0
 	ld   (hl), a                                     ; $07a7: $77
 
-@loop_07a8:
+@loop:
+// get compressed bytes for current row
 	ld   hl, wRoomCompressedLayoutAddr                                   ; $07a8: $21 $75 $c0
 	ldi  a, (hl)                                     ; $07ab: $2a
 	ld   h, (hl)                                     ; $07ac: $66
 	ld   l, a                                        ; $07ad: $6f
 	add  hl, de                                      ; $07ae: $19
+
+// get count of tiles and push
 	ld   a, (hl)                                     ; $07af: $7e
 	and  $03                                         ; $07b0: $e6 $03
 	add  $01                                         ; $07b2: $c6 $01
 	push af                                          ; $07b4: $f5
+
+// get tile idx, and compare with last seen tile idx
 	ld   a, (hl)                                     ; $07b5: $7e
 	and  $fc                                         ; $07b6: $e6 $fc
 	ld   b, a                                        ; $07b8: $47
@@ -1374,50 +1422,61 @@ Call_000_078b:
 	cp   (hl)                                        ; $07bc: $be
 	jr   nz, +                             ; $07bd: $20 $07
 
+// if same as last tile, *= 4, and push
 	pop  af                                          ; $07bf: $f1
 	sla  a                                           ; $07c0: $cb $27
 	sla  a                                           ; $07c2: $cb $27
 	push af                                          ; $07c4: $f5
+
+// last tile seen is b?
 	ld   a, b                                        ; $07c5: $78
 
 +
 	ld   hl, $c0a2                                   ; $07c6: $21 $a2 $c0
 	ld   (hl), a                                     ; $07c9: $77
+
+// popped af is count of tiles
+// c0a1 = c0a1-1+count of tiles (eg sum duplicated tiles)
 	pop  af                                          ; $07ca: $f1
 	ld   hl, $c0a1                                   ; $07cb: $21 $a1 $c0
 	dec  (hl)                                        ; $07ce: $35
 	add  (hl)                                        ; $07cf: $86
 	ld   (hl), a                                     ; $07d0: $77
-	cp   c                                           ; $07d1: $b9
-	jr   nc, @next_07dc                             ; $07d2: $30 $08
 
+// only do up to c
+	cp   c                                           ; $07d1: $b9
+	jr   nc, @genericVramCopyTileIdxEquB                             ; $07d2: $30 $08
+
+// include non-dupe tile
 	ld   hl, $c0a1                                   ; $07d4: $21 $a1 $c0
 	inc  (hl)                                        ; $07d7: $34
 	inc  de                                          ; $07d8: $13
-	jp   @loop_07a8                               ; $07d9: $c3 $a8 $07
+	jp   @loop                               ; $07d9: $c3 $a8 $07
 
-@next_07dc:
+@genericVramCopyTileIdxEquB:
 	ld   a, b                                        ; $07dc: $78
-	ld   hl, $c028                                   ; $07dd: $21 $28 $c0
+	ld   hl, wGenericVramCopyTileIdx                                   ; $07dd: $21 $28 $c0
 	ld   (hl), a                                     ; $07e0: $77
 	ld   a, $00                                      ; $07e1: $3e $00
-	call convertCurrTileToTileType                               ; $07e3: $cd $6b $07
-	ld   a, e                                        ; $07e6: $7b
-	cp   $00                                         ; $07e7: $fe $00
-	jr   z, +                              ; $07e9: $28 $08
 
-	ld   hl, wRoomStructByteWhenFirstByteBitSet2                                   ; $07eb: $21 $79 $c0
-	ld   a, (hl)                                     ; $07ee: $7e
-	ld   hl, $c028                                   ; $07ef: $21 $28 $c0
-	ld   (hl), a                                     ; $07f2: $77
+	call convertCurrTileToTileType
+	ld   a, e
+	cp   $00
+	jr   z, +
+
+// for tile type 0, vram copy base floor tile specified
+	ld   hl, wBaseRoomFloorTile
+	ld   a, (hl)
+	ld   hl, wGenericVramCopyTileIdx
+	ld   (hl), a
 
 +
 // back to bank 0
-	ld   hl, $0000                                   ; $07f3: $21 $00 $00
-	ld   (hl), a                                     ; $07f6: $77
-	pop  bc                                          ; $07f7: $c1
-	pop  de                                          ; $07f8: $d1
-	ret                                              ; $07f9: $c9
+	ld   hl, $0000
+	ld   (hl), a
+	pop  bc
+	pop  de
+	ret
 
 
 aDivEqu16:
@@ -1430,7 +1489,7 @@ aDivEqu16:
 
 ecEquEtimesC:
 // c0a0/2 into ec
-// clear $c0a1
+// clear c0a1
 	ld   hl, wEbits
 	ld   (hl), e
 	ld   hl, wOrigC
@@ -1441,12 +1500,12 @@ ecEquEtimesC:
 
 	ld   bc, $0008
 @loop:
-// shift left word, $c0a1 / a
+// shift left word, c0a1 / a
 	sla  a
 	ld   hl, wHighByteOfProduct
 	rl   (hl)
 
-// if bit set in $c0a0 (orig e)...
+// if bit set in c0a0 (orig e)...
 	ld   hl, wEbits
 	sla  (hl)
 	jr   nc, +
@@ -1456,7 +1515,7 @@ ecEquEtimesC:
 	add  (hl)
 	jr   nc, +
 
-// because it's a word, if a carry found, $c0a1 += 1
+// because it's a word, if a carry found, c0a1 += 1
 	ld   hl, wHighByteOfProduct
 	inc  (hl)
 
@@ -1470,8 +1529,8 @@ ecEquEtimesC:
 	jr   nz, @loop
 
 // c from a is part of algo bits shifting in
-// e is $c0a1
-// ec is the word $c0a1/a (e*c)
+// e is c0a1
+// ec is the word c0a1/a (e*c)
 	ld   c, a
 	ld   b, $00
 	ld   hl, wHighByteOfProduct
@@ -1522,6 +1581,7 @@ bcDivA_divInC_modInAB:
 
 
 Call_000_085c:
+// eg c is column when clearing gotten tiles
 	push af                                          ; $085c: $f5
 	ld   hl, $c00c                                   ; $085d: $21 $0c $c0
 	ld   (hl), c                                     ; $0860: $71
@@ -1544,13 +1604,14 @@ Call_000_085c:
 	jp   @done                               ; $0874: $c3 $a6 $08
 
 @next_0877:
+// eg c496+ is tile idx for item tile (3-9)
 	pop  af                                          ; $0877: $f1
 	ld   hl, $c496                                   ; $0878: $21 $96 $c4
 	add  hl, bc                                      ; $087b: $09
 	ld   (hl), a                                     ; $087c: $77
 
-	call Call_000_08fc                               ; $087d: $cd $fc $08
-	ld   hl, $c028                                   ; $0880: $21 $28 $c0
+	call getTileIdxForGenericVramCopy                               ; $087d: $cd $fc $08
+	ld   hl, wGenericVramCopyTileIdx                                   ; $0880: $21 $28 $c0
 	ld   a, (hl)                                     ; $0883: $7e
 	ld   hl, $c4ba                                   ; $0884: $21 $ba $c4
 	add  hl, bc                                      ; $0887: $09
@@ -1585,27 +1646,27 @@ Call_000_085c:
 	ret                                              ; $08ac: $c9
 
 
-data_08ad:
+genericVramTileIdxes:
 	.db $00 $ff $ff $98 $d8 $d4 $c4 $80 $ff $d0 $40 $dc $ff $ff $e4 $c0
 	.db $7c $7c $ff $ff $fc $7c $7c $fc $e0 $ff $ff $ff $ff $ff $ff $ff
 	.db $ff $ff $ff $ff $ff $ff $ff $c8 $ff $ff $ff $28 $ff $ff $ff $ff
 	.db $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff $ff
 	.db $01 $05 $09 $0d $11 $15 $19 $1d $21 $b5 $b9 $bd $91 $95 $99
 
-Call_000_08fc:
+getTileIdxForGenericVramCopy:
 // should be npc ID
-	push bc                                          ; $08fc: $c5
-	push af                                          ; $08fd: $f5
-	ld   c, a                                        ; $08fe: $4f
-	ld   b, $00                                      ; $08ff: $06 $00
-	ld   hl, data_08ad                                   ; $0901: $21 $ad $08
-	add  hl, bc                                      ; $0904: $09
-	ld   a, (hl)                                     ; $0905: $7e
-	ld   hl, $c028                                   ; $0906: $21 $28 $c0
-	ld   (hl), a                                     ; $0909: $77
-	pop  af                                          ; $090a: $f1
-	pop  bc                                          ; $090b: $c1
-	ret                                              ; $090c: $c9
+	push bc
+	push af
+	ld   c, a
+	ld   b, $00
+	ld   hl, genericVramTileIdxes
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wGenericVramCopyTileIdx
+	ld   (hl), a
+	pop  af
+	pop  bc
+	ret
 
 
 store16ePlusCin_c01e:
@@ -1617,9 +1678,7 @@ store16ePlusCin_c01e:
 	sla  a
 	sla  a
 	add  c
-	ld   hl, $c01e
+	ld   hl, wECbyte
 	ld   (hl), a
 	pop  af
 	ret
-
-.include "garbage/common.s"

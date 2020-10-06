@@ -47,9 +47,27 @@ wc001:
 .nextu
 	wCurrNPCoamDataAddr: ; $c006
 		db
+.nextu
+	wNewItemInitialX: ; $c006
+		db
+
+	wNewItemInitialY: ; $c007
+		db
 .endu
 
 .union
+	wNewItemInitialDir: ; $c008
+		db
+
+	wNewItemTypeBaseXoffset: ; $c009
+		db
+
+	wNewItemTypeDirXoffset: ; $c00a
+		db
+
+	wNewItemTypeDirYoffset: ; $c00b
+		db
+.nextu
 	wRoomIdxFromGroup0: ; $c008
 		dw
 
@@ -124,6 +142,15 @@ wc001:
 		wMenuOptionButtonsPressed: ; $c00c
 			db
 	.endu
+.nextu
+	wc008_4:
+		dsb 4
+
+	wGenericTile2x2_x: ; $c00c
+		db
+
+	wGenericTile2x2_y: ; $c00d
+		db
 .endu
 
 wc00f:
@@ -151,11 +178,14 @@ wc017:
 wNewKeysPressed: ; $c018
 	db
 
-wInventoryLastBItemHoveredOver: ; $c019
+wInventoryBitemXChange: ; $c019
 	db
 
 wc01a:
-	dsb $f-$a
+	dsb $e-$a
+
+wECbyte: ; $c01e
+	db
 
 .union
 	wNPCScriptOpcode: ; $c01f
@@ -192,6 +222,10 @@ wc024:
 
 .union
 	wCurrDecompressedTile: ; $c028
+		db
+.nextu
+// not converted to vram idx, eg $2d = water
+	wGenericVramCopyTileIdx: ; $c028
 		db
 .endu
 
@@ -236,7 +270,10 @@ wNumBombs: ; $c03b
 	db
 
 wc03c:
-	dsb $46-$3c
+	dsb $45-$3c
+
+wCurrFruitTimeOnScreen: ; $c045
+	db
 
 wCurrFruitAmount: ; $c046
 	db
@@ -244,7 +281,7 @@ wCurrFruitAmount: ; $c046
 wCurrFruitOnScreen: ; $c047
 	db
 
-wc048:
+wCurrFruitBaseSpeed: ; $c048
 	db
 
 // 00 - vial bombs
@@ -290,8 +327,14 @@ wc056:
 wPlayerAnimationIdx: ; $c057
 	db
 
-wc058:
-	dsb $b-8
+wIsGamePaused: ; $c058
+	db
+
+wTimeUntilFrozenStateEnds: ; $c059
+	db
+
+wc05a:
+	db
 
 // $ff if on
 wIsLampOn: ; $c05b
@@ -339,7 +382,7 @@ wc077:
 	dsb 9-7
 
 // ie 4 or 0
-wRoomStructByteWhenFirstByteBitSet2: ; $c079
+wBaseRoomFloorTile: ; $c079
 	db
 
 wc07a:
@@ -432,6 +475,9 @@ wc09f:
 .nextu
 	wInvCountDigits: ; $c0a0
 		dsb 3
+.nextu
+	wCurrColForClearingItemTiles: ; $c0a0
+		db
 .endu
 
 wc0a3:
@@ -450,13 +496,22 @@ wMusicScreenSoundVal: ; $c0a9
 	db
 
 wc0aa:
-	dsb $b1-$aa
+	dsb $b0-$aa
+
+wTimeUntilCanUseFruitAgain: ; $c0b0
+	db
 
 wMenuCursorBaseOamY: ; $c0b1
 	db
 
 wc0b2:
-	dsb 5-2
+	db
+
+wCurrFruitBounced: ; $c0b3
+	db
+
+wc0b4:
+	db
 
 wBytePatternInRoomStructAfterlayoutAddr: ; $c0b5
 	dw
@@ -489,13 +544,29 @@ wScriptTelePlayerY: ; $c0bf
 	db
 
 wc0c0:
-	dsb 4-0
+	db
+
+wOrigCurrFruitXval: ; $c0c1
+	db
+
+wc0c2:
+	db
+
+wOrigCurrFruitYval: ; $c0c3
+	db
 
 wCorrectQuizAnswerIdx: ; $c0c4
 	db
 
 wc0c5:
-	dsb $d9-$c5
+	db
+
+// 0 is push A, 1/2 is the alternating text for the item
+wInvChangingTextIdx: ; $c0c6
+	db
+
+wc0c7:
+	dsb $d9-$c7
 
 wCounterSo2ArmorIsAThirdDamageTaken: ; $c0d9
 	db
@@ -503,8 +574,21 @@ wCounterSo2ArmorIsAThirdDamageTaken: ; $c0d9
 wCurrGroupMapVRamOffset: ; $c0da
 	dw
 
-wc0dc:
-	dsb $f8-$dc
+// fruit-related structs
+wCurrentFruitTiles: ; $c0dc
+	dsb NUM_FRUITS_ON_SCREEN
+wCurrFruitXvals: ; $c0e0
+	dsb NUM_FRUITS_ON_SCREEN
+wCurrFruitYvals: ; $c0e4
+	dsb NUM_FRUITS_ON_SCREEN
+wCurrFruitDirs: ; $c0e8
+	dsb NUM_FRUITS_ON_SCREEN
+wCurrFruitOnScreenCounter: ; $c0ec
+	dsb NUM_FRUITS_ON_SCREEN
+wCurrFruitSpeeds: ; $c0f0
+	dsb NUM_FRUITS_ON_SCREEN
+wCurrFruitFlags: ; $c0f4
+	dsb NUM_FRUITS_ON_SCREEN
 
 wIsSecretPlayerName: ; $c0f8
 	db
@@ -552,7 +636,14 @@ w2x2gameScreenTiles: ; $c3b0
 	dsb $b0
 
 wc460:
-	dsb $dd-$60
+	dsb $96-$60
+
+// cleared when loading room data
+wc496:
+	dsb $3c
+
+wc4d2:
+	dsb $d-2
 
 // $ff if off
 wIsMusicOff: ; $c4dd
@@ -567,8 +658,12 @@ wCurrQuizQuestionIdx: ; $c4df
 wTextInputChars: ; $c4e0
 	dsb $20
 
-w500:
-	dsb $e0
+wc500:
+	dsb $80
+
+// cleared when loading room data
+wc580:
+	dsb $60
 
 wOffsetIntoCompressedRoomLayoutPerScreenRow: ; $c5e0
 	dsb $b
@@ -588,8 +683,11 @@ wBGPwhenLampOn: ; $c5f4
 wOBP0whenLampOn: ; $c5f6
 	dw
 
-wc5f8:
-	dsb $a-8
+wCurrFruitHitObstacle: ; $c5f8
+	db
+
+wc5f9:
+	db
 
 wNumKeys: ; $c5fa
 	db
@@ -606,6 +704,7 @@ wSecondRoomStructByteBit7: ; $c5fe
 wTilesetIdx: ; $c5ff
 	db
 
+// cleared when loading room data
 wc600:
 	dsb $48
 
@@ -647,8 +746,12 @@ wc65e:
 wInventorySelectedYIdx: ; $c65f
 	db
 
+// cleared when loading room data, 8 bytes per 3 things
 wc660:
-	dsb $d0-$60
+	dsb $18
+
+wc678:
+	dsb $d0-$78
 
 wCommonByteCopyDestBytes: ; $c6d0
 	dsb $c
@@ -685,7 +788,13 @@ wFruitEquipped: ; $c70c
 	db
 
 wc70d:
-	dsb $11-$d
+	dsb 2
+
+wCurrFruitTileIdx: ; $c70f
+	db
+
+wc710:
+	db
 
 .union
 	wMenuCursorIdx: ; $c711
@@ -696,10 +805,24 @@ wc70d:
 .nextu
 	wMusicScreenIsTwiceSpeed: ; $c711
 		db
+.nextu
+	wFruitFlagBit7: ; $c711
+		db
 .endu
 
-wc712:
-	dsb 5-2
+// bits 0-2 are the angle if bit 5 set
+// bit 4 set if it can pass through obstacles
+// bit 5 set if affected by angles
+// bit 6 set if zig-zag pattern
+// bit 7 set if cant destroy certain tiles
+wCurrFruitBaseFlags: ; $c712
+	db
+
+wNumFruitsCreated: ; $c713
+	db
+
+wc714:
+	db
 
 wLastReviveRoomGroup: ; $c715
 	db
@@ -833,6 +956,18 @@ wNPCBytes_roomFlagIdx: ; $cbf0
 
 wNPCScriptBytesBank: ; $cbfc
 	dsb NUM_NPCS
+
+wcc08:
+	dsb $efe-$c08
+
+wGenericVramCopyOffset: ; $cefe
+	db
+
+wGenericVramCopyLastIdx: ; $ceff
+	db
+
+wGenericVramCopyData: ; $cf00
+	dsb $100
 
 .ends
 

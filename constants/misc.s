@@ -41,8 +41,12 @@
 .define SCORE_1500		$20
 .define SCORE_5000		$2c
 
+// generic vram tiles
+.define GVT_BOMB	$27
+
 // misc
 .define NUM_NPCS	$0c
+.define NUM_FRUITS_ON_SCREEN	$04
 .define MIN_HEALTH	$06
 .define MAX_ROOMS_IN_ROOM_FLAGS		10
 .define MAX_BYTES_FOR_ROOM_FLAGS	$40

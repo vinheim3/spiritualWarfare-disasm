@@ -363,14 +363,14 @@ npc33_scripts:
 
 func_03_5082:
 -
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_addToPlayerHealth $01
 	npc_playSoundEffectAtAddr sound_166a
 	npc_wait $02
 	npc_jumpIfPlayerIsFullHealth +
 	npc_jump -
 +
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_ret
 
 
@@ -380,13 +380,13 @@ func_03_5082:
 npc34_scripts:
 	npc_call data_03_6994
 	npc_groupRoomXYjumpTable @table
-	npc_set_c059 $ff
-	npc_call func_03_50c0
+	npc_setTimeUntilFrozenStateEnds $ff
+	npc_call aogFreezePlayerWhilePlayingSounds
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_BELT
 	npc_increaseScore SCORE_1500
 	npc_giveItem ITEMID_BELT
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_end
 
 @pawnShop:
@@ -404,13 +404,13 @@ npc34_scripts:
 	.db $ff $ff $ff
 
 
-func_03_50c0:
-	npc_set_c059 $ff
+aogFreezePlayerWhilePlayingSounds:
+	npc_setTimeUntilFrozenStateEnds $ff
 -
 	npc_playSoundEffectAtAddr sound_1685
 	npc_wait $02
 	npc_loopAboveParamTimes $1e, -
-	npc_set_c059 $01
+	npc_setTimeUntilFrozenStateEnds $01
 	npc_ret
 
 
@@ -420,13 +420,13 @@ func_03_50c0:
 npc35_scripts:
 	npc_call data_03_6994
 	npc_groupRoomXYjumpTable @table
-	npc_set_c059 $ff
-	npc_call func_03_50c0
+	npc_setTimeUntilFrozenStateEnds $ff
+	npc_call aogFreezePlayerWhilePlayingSounds
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_ARMOUR
 	npc_increaseScore SCORE_1500
 	npc_giveItem ITEMID_ARMOUR
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_end
 
 @pawnShop:
@@ -449,12 +449,12 @@ npc35_scripts:
 ; ==============================================================================
 npc36_scripts:
 	npc_call data_03_6994
-	npc_set_c059 $ff
-	npc_call func_03_50c0
+	npc_setTimeUntilFrozenStateEnds $ff
+	npc_call aogFreezePlayerWhilePlayingSounds
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_BOOTS
 	npc_increaseScore SCORE_1500
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_end
 
 
@@ -463,12 +463,12 @@ npc36_scripts:
 ; ==============================================================================
 npc38_scripts:
 	npc_call data_03_6994
-	npc_set_c059 $ff
-	npc_call func_03_50c0
+	npc_setTimeUntilFrozenStateEnds $ff
+	npc_call aogFreezePlayerWhilePlayingSounds
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_HELM
 	npc_increaseScore SCORE_1500
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_end
 
 
@@ -477,12 +477,12 @@ npc38_scripts:
 ; ==============================================================================
 npc37_scripts:
 	npc_call data_03_6994
-	npc_set_c059 $ff
-	npc_call func_03_50c0
+	npc_setTimeUntilFrozenStateEnds $ff
+	npc_call aogFreezePlayerWhilePlayingSounds
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_SHIELD
 	npc_increaseScore SCORE_1500
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_end
 
 
@@ -491,12 +491,12 @@ npc37_scripts:
 ; ==============================================================================
 npc39_scripts:
 	npc_call data_03_6994
-	npc_set_c059 $ff
-	npc_call func_03_50c0
+	npc_setTimeUntilFrozenStateEnds $ff
+	npc_call aogFreezePlayerWhilePlayingSounds
 	npc_call func_03_5082
 	npc_giveArmorOfGod AOG_SWORD
 	npc_increaseScore SCORE_1500
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_end
 
 
@@ -662,10 +662,10 @@ npc02_scripts:
 	npc_res4_cb60
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_playSoundEffectAtAddr sound_1837
-	.db $16
+	npc_animate
 	npc_call npcHelper_increaseScoreBy30
 	npc_wait $02
-	.db $04
+	npc_set4_cb60
 	npc_jumpIfRandomNumLTparam $a0, +
 	npc_end
 +
@@ -681,7 +681,7 @@ npc02_scripts:
 shopTake20birds:
 -
 	npc_takeNumBirds $05
-	npc_set_c059 $0a
+	npc_setTimeUntilFrozenStateEnds $0a
 	npc_playSoundEffectAtAddr sound_1673
 	npc_wait $02
 	npc_loopAboveParamTimes $04, -
@@ -751,7 +751,7 @@ npc3c_scripts:
 	npc_call func_03_69b4
 	npc_loopAboveParamTimes 150, -
 +
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_giveItem ITEMID_VIALBIRD_HIDDEN_ROOM_NEAR_BOSS_1
 	npc_increaseScore SCORE_800
 	npc_end
@@ -770,7 +770,7 @@ npc3d_scripts:
 	npc_call func_03_69aa
 	npc_loopAboveParamTimes 75, -
 +
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 	npc_giveItem ITEMID_VIALBIRD_HIDDEN_ROOM_NEAR_BOSS_1
 	npc_increaseScore SCORE_800
 	npc_end
@@ -1404,7 +1404,7 @@ npc51_scripts:
 @shootingFromLeft:
 	npc_faceRight
 	npc_res4_cb60
-	.db $16
+	npc_animate
 	npc_faceUp
 	npc_moveByParamPixels $04
 	npc_faceRight
@@ -1417,7 +1417,7 @@ npc51_scripts:
 @shootingFromRight:
 	npc_faceLeft
 	npc_res4_cb60
-	.db $16
+	npc_animate
 	npc_faceUp
 	npc_moveByParamPixels $04
 	npc_faceLeft
@@ -1577,7 +1577,7 @@ npc4c_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
-	.db $16
+	npc_animate
 	npc_playSoundEffectAtAddr sound_1647
 	npc_jumpIfRandomNumLTparam $aa, +
 	npc_placeTile $98 $80 $80
@@ -1598,7 +1598,7 @@ npc4d_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
-	.db $16
+	npc_animate
 	npc_playSoundEffectAtAddr sound_1647
 	npc_jumpIfRandomNumLTparam $aa, +
 	npc_placeTile $50 $80 $80
@@ -1794,7 +1794,7 @@ npc11_scripts:
 	npc_setDamageTaken $02
 	npc_res4_cb60
 	npc_wait $0a
-	.db $16
+	npc_animate
 	npc_spawnNPCinFrontOfSelf $12
 	npc_playSoundEffectAtAddr sound_1604
 	npc_wait $28
@@ -2192,7 +2192,7 @@ npc27_scripts:
 	npc_moveByParamPixels $18
 	npc_jump -
 +
-	.db $4f $05
+	npc_takeNumBirds $05
 	npc_wait $2d
 	npc_setNewNpcID $27
 
@@ -2326,7 +2326,7 @@ npc43_scripts:
 npc44_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_setDamageTaken $02
-	.db $16
+	npc_animate
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_res4_cb60
 @loop:
@@ -2342,7 +2342,7 @@ npc44_scripts:
 
 @func_5e3f:
 	npc_set6_cb60_reset_animationFrameIdx
-	.db $16
+	npc_animate
 	npc_playSoundEffectAtAddr sound_1661
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BULLET
@@ -2352,7 +2352,7 @@ npc44_scripts:
 ++
 	npc_wait $05
 	npc_set6_cb60_reset_animationFrameIdx
-	.db $16
+	npc_animate
 	npc_playSoundEffectAtAddr sound_1661
 	npc_jumpIfRandomNumLTparam $80, +
 	npc_spawnNPCinFrontOfSelf ENTID_HOTEL_GUNNER_BULLET
@@ -2410,7 +2410,7 @@ npc48_scripts:
 npc56_scripts:
 npc57_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_faceUp
 	npc_set5_cb60
 	npc_res4_cb60
@@ -2432,7 +2432,7 @@ npc57_scripts:
 	npc_moveByParamPixels $08
 	npc_setMovementSpeed $08
 	npc_moveByParamPixels $50
-	npc_set_c059 $01
+	npc_setTimeUntilFrozenStateEnds $01
 	npc_end
 
 
@@ -2559,9 +2559,9 @@ npc5f_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_giveItem ITEMID_31
-	.db $16
+	npc_animate
 	npc_wait $05
-	.db $04
+	npc_set4_cb60
 	npc_placeTile $85 $08 $02
 	npc_playSoundEffectAtAddr sound_15d7
 	npc_end
@@ -2782,7 +2782,7 @@ npc65_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_res4_cb60
 	npc_playSoundEffectAtAddr sound_15d7
-	.db $16
+	npc_animate
 	npc_end
 
 
@@ -2929,7 +2929,7 @@ npc2d_scripts:
 
 @pearFirstScreen:
 	npc_jumpIfItemGotten ITEMID_PEAR_FIRST_SCREEN _showText_roomEmpty_clear_c059
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_firstPear
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_PEAR, $78 $5c
@@ -2939,7 +2939,7 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_BOSS_1_AREA_HIDDEN_APPLE _showText_roomEmpty_clear_c059
 
 @func_6219:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_6423
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_APPLE $7a $64
@@ -2949,14 +2949,14 @@ npc2d_scripts:
 @afterBoss1:
 	npc_jumpIfItemGotten ITEMID_BELT _showText_roomEmpty_clear_c059
 	npc_jumpIfArmorOfGodGotten AOG_BELT _showText_roomEmpty_clear_c059
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_6497
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_BELT_OF_TRUTH $7a $64
 	npc_jump @emptyRoom
 
 @cityTopLeft:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_64fe
 	npc_startScrollingText text_7f_03_63aa
 	npc_jumpIfItemGotten ITEMID_PEAR_TOPLEFT_CITY, +
@@ -2975,7 +2975,7 @@ npc2d_scripts:
 
 @hiddenRoomNearBoss1:
 	npc_jumpIfItemGotten ITEMID_VIALBIRD_HIDDEN_ROOM_NEAR_BOSS_1, _showText_roomEmpty_clear_c059
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 // 75 vials, 150 spirit points
 	npc_startScrollingText text_03_6566
 	npc_startScrollingText text_7f_03_63aa
@@ -2989,7 +2989,7 @@ npc2d_scripts:
 
 @cityBoss:
 	npc_jumpIfArmorOfGodGotten AOG_ARMOUR, _showText_roomEmpty_clear_c059
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_65c3
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_BREASTPLATE_OF_RIGHTEOUSNESS $7a $64
@@ -2999,7 +2999,7 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_HOUSES_HIDDEN_GRAPES, _showText_roomEmpty_clear_c059
 
 @func_62a8:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_6621
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_GRAPES $7a $64
@@ -3010,7 +3010,7 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_HOUSES_TOP_RIGHT_POMEGRANATE, _showText_roomEmpty_clear_c059
 
 @func_62bf:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_666e
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_POMEGRANATE $7a $64
@@ -3025,7 +3025,7 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_SHIPYARD_TUNNEL_BANANA, _showText_roomEmpty_clear_c059
 
 @func_62dd:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_66d5
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_BANANA $7a $64
@@ -3036,7 +3036,7 @@ npc2d_scripts:
 	npc_jumpIfItemGotten ITEMID_PORT_BOTTOM_LEFT_PEAR, _showText_roomEmpty_clear_c059
 
 @airportBuildingEastCont:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_672f
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_PEAR $7a $64
@@ -3045,7 +3045,7 @@ npc2d_scripts:
 
 @afterForestCherryBoss:
 	npc_jumpIfArmorOfGodGotten AOG_HELM, +
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_6789
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_HELMET_OF_SALVATION $78 $6c
@@ -3068,7 +3068,7 @@ npc2d_scripts:
 
 @entry10:
 	npc_jumpIfSpecialBitemGotten SPECIALB_JAWBONE, _showText_roomEmpty_clear_c059
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_67ca
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $40 $7a $64
@@ -3084,7 +3084,7 @@ npc2d_scripts:
 	npc_jump @func_62a8
 
 @cityBar:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_6849
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_BELT_BEING_TAKEN_AWAY $88 $90
@@ -3092,7 +3092,7 @@ npc2d_scripts:
 	npc_jump @emptyRoom
 
 @casino:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_68bb
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC $56 $88 $90
@@ -3101,7 +3101,7 @@ npc2d_scripts:
 
 @afterDemonLairBoss:
 	npc_jumpIfArmorOfGodGotten AOG_SHIELD, _showText_roomEmpty_clear_c059
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_startScrollingText text_03_6930
 	npc_startScrollingText text_7f_03_63aa
 	npc_spawnNPC ENTID_SHIELD_OF_FAITH $7a $64
@@ -3117,7 +3117,7 @@ npc2d_scripts:
 
 @emptyRoom:
 --
-	npc_set_c059 $00
+	npc_setTimeUntilFrozenStateEnds $00
 
 _infLoop_639f:
 -
@@ -3442,7 +3442,7 @@ data_03_699f:
 
 
 func_03_69aa:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_giveNumBombs $01
 	npc_playSoundEffectAtAddr sound_175f
 	npc_wait $02
@@ -3450,7 +3450,7 @@ func_03_69aa:
 
 
 func_03_69b4:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_giveNumBirds $01
 	npc_playSoundEffectAtAddr sound_175f
 	npc_wait $02
@@ -3482,9 +3482,10 @@ npcHelper_increaseScoreBy20:
 	npc_ret
 
 
-;;
-	ld   b, l                                        ; $69d1: $45
-	ld   ($0845), sp                                 ; $69d2: $08 $45 $08
+// unused - 69d1
+npcHelper_increaseScoreBy900:
+	npc_increaseScore SCORE_100
+	npc_increaseScore SCORE_100
 
 
 npcHelper_increaseScoreBy700:
@@ -3502,7 +3503,7 @@ npcHelper_increaseScoreBy300:
 
 
 npc66_scripts:
-	npc_set_c059 $80
+	npc_setTimeUntilFrozenStateEnds $80
 	npc_setCoords $08 $40
 	npc_call @func_6a09
 	npc_call @func_6a09
@@ -3511,23 +3512,23 @@ npc66_scripts:
 	npc_call @func_6a09
 	npc_startScrollingText @text_6a37
 	npc_stopAllSoundsPlayParamSoundSetIfTwiceSpeed $01 $ff
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_wait $5a
 -
-	npc_set_c059 $80
+	npc_setTimeUntilFrozenStateEnds $80
 	npc_wait $01
 	npc_jump -
 
 @func_6a09:
 -
-	npc_set_c059 $80
+	npc_setTimeUntilFrozenStateEnds $80
 	npc_placeTile $d8 $80 $80
 	npc_addParamsToXthenYCoords $10 $00
 	npc_loopAboveParamTimes $08, -
 	npc_addParamsToXthenYCoords $c0 $00
 	npc_addParamsToXthenYCoords $c0 $00
 	npc_wait $04
-	npc_set_c059 $80
+	npc_setTimeUntilFrozenStateEnds $80
 	npc_placeTile $9c $80 $80
 	npc_addParamsToXthenYCoords $10 $00
 	npc_loopAboveParamTimes $08, $6a1e
@@ -3563,7 +3564,7 @@ npc68_oamData:
 
 
 npc67_scripts:
-	npc_set_c059 $ff
+	npc_setTimeUntilFrozenStateEnds $ff
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_faceLeft

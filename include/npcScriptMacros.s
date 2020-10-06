@@ -86,7 +86,9 @@
 	.db $15
 .endm
 
-// 16
+.macro npc_animate
+	.db $16
+.endm
 
 .macro npc_moveNPCturnBackIfCant
 	.db $17
@@ -244,7 +246,7 @@
 	.db $53 \1
 .endm
 
-.macro npc_set_c059
+.macro npc_setTimeUntilFrozenStateEnds
 	.db $54 \1
 .endm
 

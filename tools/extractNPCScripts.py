@@ -105,7 +105,7 @@ while start + offset < end:
     elif opcode == 0x53:
         comps.append(f'\tnpc_giveNumBombs {next_byte}')
     elif opcode == 0x54:
-        comps.append(f'\tnpc_set_c059 {next_byte}')
+        comps.append(f'\tnpc_setTimeUntilFrozenStateEnds {next_byte}')
     elif opcode == 0x80:
         comps.append(f'\tnpc_setCoords {next_2_bytes}')
     elif opcode == 0x81:

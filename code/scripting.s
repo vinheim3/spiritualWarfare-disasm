@@ -184,7 +184,7 @@ scriptCmdTable:
 	.dw _scriptCmd_moveToPlayersYandFacePlayerVertically
 	.dw _scriptCmd_set3_cb60
 	.dw _scriptCmd_res3_cb60
-	.dw _scriptCmd_65fd
+	.dw _scriptCmd_animate
 	.dw _scriptCmd_moveNPCturnBackIfCant
 	.dw _scriptCmd_playSoundEffect20h
 	.dw _scriptCmd_giveHeartContainer
@@ -230,7 +230,7 @@ scriptCmdTable:
 	.dw _scriptCmd_takeItem
 	.dw _scriptCmd_giveFruit
 	.dw _scriptCmd_giveNumBombs
-	.dw _scriptCmd_set_c059
+	.dw _scriptCmd_setTimeUntilFrozenStateEnds
 	.dw _scriptCmd_getSimilarNPCsToCurrLocationDir
 
 // 2 params
@@ -470,13 +470,14 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 
 @afterLeftRight:
 	call splitCEintoItsNybbles                               ; $64d5: $cd $1c $55
+// high c and e nybbles into bc, de
 	ld   hl, $c008                                   ; $64d8: $21 $08 $c0
 	ld   c, (hl)                                     ; $64db: $4e
 	ld   b, $00                                      ; $64dc: $06 $00
 	ld   hl, $c009                                   ; $64de: $21 $09 $c0
 	ld   e, (hl)                                     ; $64e1: $5e
 	ld   d, $00                                      ; $64e2: $16 $00
-	call getTilePlayerIsOn                                       ; $64e4: $cd $ed $3f
+	call getTileEntityOrPlayerIsOn                                       ; $64e4: $cd $ed $3f
 	call Call_001_45cf                               ; $64e7: $cd $cf $45
 	ld   hl, wCurrNpcIdx                                   ; $64ea: $21 $a6 $c0
 	ld   c, (hl)                                     ; $64ed: $4e
@@ -692,7 +693,7 @@ _scriptCmd_res3_cb60:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_65fd:
+_scriptCmd_animate:
 	ld   hl, wNPCBytes_animationFrameIdx                                   ; $65fd: $21 $6c $cb
 	add  hl, bc                                      ; $6600: $09
 	inc  (hl)                                        ; $6601: $34
@@ -702,7 +703,7 @@ _scriptCmd_65fd:
 	dec  (hl)                                        ; $6609: $35
 
 // animation byte is 1, we continue, otherwise we stay here
-	ld   hl, $c009                                   ; $660a: $21 $09 $c0
+	ld   hl, wScriptCopiedByte                                   ; $660a: $21 $09 $c0
 	ld   a, (hl)                                     ; $660d: $7e
 	cp   $01                                         ; $660e: $fe $01
 	jr   z, @done                              ; $6610: $28 $03
@@ -1306,7 +1307,7 @@ _scriptCmd_giveFruit:
 	ld   hl, wNPCScriptParam1                                   ; $6912: $21 $20 $c0
 	ld   a, (hl)                                     ; $6915: $7e
 	call setFruitAsAmountToE                                       ; $6916: $cd $ca $23
-	call Call_000_241a                                       ; $6919: $cd $1a $24
+	call updateCurrFruitBaseData                                       ; $6919: $cd $1a $24
 
 +
 	jp   executeNPCScriptCode
@@ -1327,12 +1328,12 @@ _scriptCmd_giveNumBombs:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_set_c059:
-	ld   hl, wNPCScriptParam1                                   ; $6932: $21 $20 $c0
-	ld   a, (hl)                                     ; $6935: $7e
-	ld   hl, $c059                                   ; $6936: $21 $59 $c0
-	ld   (hl), a                                     ; $6939: $77
-	jp   executeNPCScriptCode                               ; $693a: $c3 $8a $62
+_scriptCmd_setTimeUntilFrozenStateEnds:
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, wTimeUntilFrozenStateEnds
+	ld   (hl), a
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_getSimilarNPCsToCurrLocationDir:
@@ -2484,43 +2485,45 @@ _scriptCmd_placeTile:
 	jr   nc, @done                             ; $6f4a: $30 $35
 
 // param 1 is tile type to replace with
-// store in game screen tiles
-	ld   hl, wNPCScriptParam1                                   ; $6f4c: $21 $20 $c0
-	ld   a, (hl)                                     ; $6f4f: $7e
-	ld   hl, w2x2gameScreenTiles                                   ; $6f50: $21 $b0 $c3
-	add  hl, bc                                      ; $6f53: $09
-	ld   (hl), a                                     ; $6f54: $77
-	ld   hl, $c028                                   ; $6f55: $21 $28 $c0
-	ld   (hl), a                                     ; $6f58: $77
-	ld   a, c                                        ; $6f59: $79
-	push af                                          ; $6f5a: $f5
+// store in game screen tiles too as a permanent change
+	ld   hl, wNPCScriptParam1
+	ld   a, (hl)
+	ld   hl, w2x2gameScreenTiles
+	add  hl, bc
+	ld   (hl), a
+	ld   hl, wGenericVramCopyTileIdx
+	ld   (hl), a
+	ld   a, c
+	push af
 
 // as well as to tile types
-	ld   a, $00                                      ; $6f5b: $3e $00
-	call convertCurrTileToTileType                                       ; $6f5d: $cd $6b $07
-	pop  af                                          ; $6f60: $f1
-	ld   c, a                                        ; $6f61: $4f
-	ld   b, $00                                      ; $6f62: $06 $00
-	ld   a, e                                        ; $6f64: $7b
-	ld   hl, w2x2tileTypes                                   ; $6f65: $21 $00 $c3
-	add  hl, bc                                      ; $6f68: $09
-	ld   (hl), a                                     ; $6f69: $77
+	ld   a, $00 // back to bank 0
+	call convertCurrTileToTileType
+
+	pop  af
+	ld   c, a
+	ld   b, $00
+	ld   a, e
+	ld   hl, w2x2tileTypes
+	add  hl, bc
+	ld   (hl), a
 
 // c00c is x of tile, c00d is y of tile
-	ld   hl, wNPCScriptParam2                                   ; $6f6a: $21 $21 $c0
-	ld   c, (hl)                                     ; $6f6d: $4e
-	ld   b, $00                                      ; $6f6e: $06 $00
-	ld   hl, $c00c                                   ; $6f70: $21 $0c $c0
-	ld   (hl), c                                     ; $6f73: $71
-	ld   hl, wNPCScriptParam3                                   ; $6f74: $21 $22 $c0
-	ld   e, (hl)                                     ; $6f77: $5e
-	ld   d, $00                                      ; $6f78: $16 $00
-	ld   hl, $c00d                                   ; $6f7a: $21 $0d $c0
-	ld   (hl), e                                     ; $6f7d: $73
-	call Call_001_59ba                               ; $6f7e: $cd $ba $59
+	ld   hl, wNPCScriptParam2
+	ld   c, (hl)
+	ld   b, $00
+	ld   hl, wGenericTile2x2_x
+	ld   (hl), c
+
+	ld   hl, wNPCScriptParam3
+	ld   e, (hl)
+	ld   d, $00
+	ld   hl, wGenericTile2x2_y
+	ld   (hl), e
+	call copy_c028_tileDetailsToGenericVramCopy
 
 @done:
-	jp   executeNPCScriptCode                               ; $6f81: $c3 $8a $62
+	jp   executeNPCScriptCode
 
 
 _scriptCmd_jumpIfItemGotten:
