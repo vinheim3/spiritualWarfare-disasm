@@ -46,8 +46,10 @@
 
 // misc
 .define NUM_NPCS	$0c
-.define NUM_FRUITS_ON_SCREEN	$04
+.define NUM_ROOM_FLAG_ITEMS			$0c
+.define NUM_FRUITS_ON_SCREEN		$04
 .define MIN_HEALTH	$06
+.define MAX_HEALTH	$18
 .define MAX_ROOMS_IN_ROOM_FLAGS		10
 .define MAX_BYTES_FOR_ROOM_FLAGS	$40
 .define NUM_SOUNDS	$2a

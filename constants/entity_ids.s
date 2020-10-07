@@ -1,5 +1,5 @@
 .enum 0
-	ENTID_00									db
+	ENTID_DEAD_ENEMY_PRAYING					db // $00
 	ENTID_DEVIL_SPAWN							db // $01
 	ENTID_02									db
 	ENTID_STUB_03								db // $03
@@ -21,8 +21,9 @@
 	ENTID_FOREST_SLOW_AXEMAN					db // $13
 	ENTID_FOREST_CHIMNEY_SMOKE					db // $14
 	ENTID_RAILROAD_TICKET						db // $15
-	// TODO: 16 and 17 are dropped birds
-	ENTID_16									dsb 9-6
+	ENTID_DROPPED_1_BIRD						db // $16
+	ENTID_DROPPED_5_BIRDS						db // $17
+	ENTID_DROPPED_1_FULL_HEART					db // $18
 	ENTID_RUNNING_CITY_GUY						db // $19
 	ENTID_BLOCKAGE_BUILDER						db // $1a
 	ENTID_CITY_BANDIT							db // $1b

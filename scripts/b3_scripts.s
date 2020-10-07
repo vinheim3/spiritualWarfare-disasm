@@ -287,6 +287,9 @@ npcText_yourFaithLooksWeak:
 	.db $ff $fe $7f
 
 
+; ==============================================================================
+; ENTID_DROPPED_1_BIRD
+; ==============================================================================
 npc16_scripts:
 	npc_set3_cb60
 	npc_call func_03_697b
@@ -298,7 +301,8 @@ npc16_scripts:
 	npc_end
 +
 	npc_giveNumBirds $01
-data_03_5031:
+
+afterDropPickedUp:
 	npc_playSoundEffectAtAddr sound_1685
 	npc_faceUp
 	npc_setMovementSpeed $0c
@@ -310,6 +314,9 @@ npc69_scripts:
 	npc_setEnemyDefeatedRoomFlag
 
 
+; ==============================================================================
+; ENTID_DROPPED_5_BIRDS
+; ==============================================================================
 npc17_scripts:
 	npc_set3_cb60
 	npc_call func_03_697b
@@ -321,7 +328,7 @@ npc17_scripts:
 	npc_end
 +
 	npc_giveNumBirds $05
-	npc_jump data_03_5031
+	npc_jump afterDropPickedUp
 
 
 npc3f_scripts:
@@ -334,9 +341,12 @@ npc3f_scripts:
 	npc_end
 +
 	npc_giveNumBirds $0a
-	npc_jump data_03_5031
+	npc_jump afterDropPickedUp
 
 
+; ==============================================================================
+; ENTID_DROPPED_1_FULL_HEART
+; ==============================================================================
 npc18_scripts:
 	npc_set3_cb60
 	npc_call func_03_697b
@@ -348,7 +358,7 @@ npc18_scripts:
 	npc_end
 +
 	npc_addToPlayerHealth $02
-	npc_jump data_03_5031
+	npc_jump afterDropPickedUp
 
 
 ; ==============================================================================
@@ -555,6 +565,9 @@ npc41_scripts:
 	npc_end
 
 
+; ==============================================================================
+; ENTID_DEAD_ENEMY_PRAYING
+; ==============================================================================
 npc00_scripts:
 	npc_setEnemyDefeatedRoomFlag
 	npc_facePlayerHorizontally
@@ -565,7 +578,8 @@ npc00_scripts:
 	npc_set6_cb60_reset_animationFrameIdx
 	npc_playSoundEffectAtAddr sound_167c
 	npc_increaseScore SCORE_10
-	npc_spawnNPCAtOffset $84 $00 $00
+// removes itself based on chance
+	npc_spawnNPCAtOffset ENTID_QUIZ_ANGEL $00 $00
 	npc_wait $05
 	npc_jumpIfRandomNumLTparam $aa, +
 	npc_spawnNPCAtOffset ENTID_DEVIL_SPAWN $00 $00
@@ -579,14 +593,14 @@ npc00_scripts:
 
 +
 	npc_jumpIfRandomNumLTparam $40, +
-	npc_setNewNpcID $16
+	npc_setNewNpcID ENTID_DROPPED_1_BIRD
 
 +
 	npc_jumpIfRandomNumLTparam $80, +
-	npc_setNewNpcID $17
+	npc_setNewNpcID ENTID_DROPPED_5_BIRDS
 
 +
-	npc_setNewNpcID $18
+	npc_setNewNpcID ENTID_DROPPED_1_FULL_HEART
 
 
 ; ==============================================================================
@@ -670,10 +684,10 @@ npc02_scripts:
 	npc_end
 +
 	npc_jumpIfRandomNumLTparam $55, +
-	npc_setNewNpcID $16
+	npc_setNewNpcID ENTID_DROPPED_1_BIRD
 +
 	npc_jumpIfRandomNumLTparam $19, +
-	npc_setNewNpcID $17
+	npc_setNewNpcID ENTID_DROPPED_5_BIRDS
 +
 	npc_setNewNpcID $3f
 

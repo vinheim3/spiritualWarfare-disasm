@@ -697,7 +697,7 @@ _scriptCmd_animate:
 	ld   hl, wNPCBytes_animationFrameIdx                                   ; $65fd: $21 $6c $cb
 	add  hl, bc                                      ; $6600: $09
 	inc  (hl)                                        ; $6601: $34
-	call Call_001_738a                               ; $6602: $cd $8a $73
+	call getNpcOamTileAndAttr                               ; $6602: $cd $8a $73
 	ld   hl, wNPCBytes_animationFrameIdx                                   ; $6605: $21 $6c $cb
 	add  hl, bc                                      ; $6608: $09
 	dec  (hl)                                        ; $6609: $35
@@ -848,7 +848,7 @@ checkIfNPConTelePosition:
 	srl  a
 	ld   c, a
 	ld   b, $00
-	call retZIfPlayerOnTeleTile
+	call retZifBC_DEonTeleTile
 	ret
 
 // unused
@@ -2541,36 +2541,43 @@ _scriptCmd_jumpIfItemGotten:
 
 
 _scriptCmd_jumpIfAtTile:
-	ld   hl, wNPC_yCoord                                   ; $6f99: $21 $48 $cb
-	add  hl, bc                                      ; $6f9c: $09
-	ld   a, (hl)                                     ; $6f9d: $7e
-	add  $08                                         ; $6f9e: $c6 $08
-	srl  a                                           ; $6fa0: $cb $3f
-	srl  a                                           ; $6fa2: $cb $3f
-	srl  a                                           ; $6fa4: $cb $3f
-	srl  a                                           ; $6fa6: $cb $3f
-	ld   e, a                                        ; $6fa8: $5f
-	ld   d, $00                                      ; $6fa9: $16 $00
-	ld   hl, wNPC_xCoord                                   ; $6fab: $21 $3c $cb
-	add  hl, bc                                      ; $6fae: $09
-	ld   a, (hl)                                     ; $6faf: $7e
-	add  $08                                         ; $6fb0: $c6 $08
-	srl  a                                           ; $6fb2: $cb $3f
-	srl  a                                           ; $6fb4: $cb $3f
-	srl  a                                           ; $6fb6: $cb $3f
-	srl  a                                           ; $6fb8: $cb $3f
-	ld   c, a                                        ; $6fba: $4f
-	ld   b, $00                                      ; $6fbb: $06 $00
-	call c028_equGameScreenTileIdx_16ePlusC                               ; $6fbd: $cd $0c $40
-	ld   hl, wCurrNpcIdx                                   ; $6fc0: $21 $a6 $c0
-	ld   c, (hl)                                     ; $6fc3: $4e
-	ld   b, $00                                      ; $6fc4: $06 $00
-	ld   hl, $c028                                   ; $6fc6: $21 $28 $c0
-	ld   a, (hl)                                     ; $6fc9: $7e
-	and  $fc                                         ; $6fca: $e6 $fc
-	ld   hl, wNPCScriptParam1                                   ; $6fcc: $21 $20 $c0
-	cp   (hl)                                        ; $6fcf: $be
-	jr   nz, +                             ; $6fd0: $20 $03
+// de is y tile idx
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	ld   a, (hl)
+	add  $08
+	srl  a
+	srl  a
+	srl  a
+	srl  a
+	ld   e, a
+	ld   d, $00
+
+// bc is x tile idx
+	ld   hl, wNPC_xCoord
+	add  hl, bc
+	ld   a, (hl)
+	add  $08
+	srl  a
+	srl  a
+	srl  a
+	srl  a
+	ld   c, a
+	ld   b, $00
+
+// get 2x2 tile
+	call c028_equGameScreenTileIdx_16ePlusC
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+	ld   hl, wGenericGameScreenTileIdx
+	ld   a, (hl)
+	and  $fc
+
+// jump if same as param
+	ld   hl, wNPCScriptParam1
+	cp   (hl)
+	jr   nz, +
 
 npcHelper_jump_6fd2:
 	jp   npcHelper_jump
@@ -3291,80 +3298,81 @@ getBit6ofNPCBytes_cb60:
 	ret
 
 
-// returns c006 as tile, and c007 as addr?
-Call_001_738a:
+// returns c006 as tile, and c007 as attr?
+getNpcOamTileAndAttr:
 // copy oam addr into c006/7
-	call copy8npcMetadataBytesInto_c6d0                               ; $738a: $cd $c6 $72
-	ld   hl, wCommonByteCopyDestBytes                                   ; $738d: $21 $d0 $c6
+	call copy8npcMetadataBytesInto_c6d0
+	ld   hl, wCommonByteCopyDestBytes
 // npc struct byte 0
-	ldi  a, (hl)                                     ; $7390: $2a
-	ld   de, wCurrNPCoamDataAddr                                   ; $7391: $11 $06 $c0
-	ld   (de), a                                     ; $7394: $12
+	ldi  a, (hl)
+	ld   de, wCurrNPCoamDataAddr
+	ld   (de), a
 // npc struct byte 1
-	ldi  a, (hl)                                     ; $7395: $2a
-	ld   de, wCurrNPCoamDataAddr+1                                   ; $7396: $11 $07 $c0
-	ld   (de), a                                     ; $7399: $12
+	ldi  a, (hl)
+	ld   de, wCurrNPCoamDataAddr+1
+	ld   (de), a
 
 // de = current animationFrameIdx
-	ld   hl, wNPCBytes_animationFrameIdx                                   ; $739a: $21 $6c $cb
-	add  hl, bc                                      ; $739d: $09
-	ld   e, (hl)                                     ; $739e: $5e
-	ld   d, $00                                      ; $739f: $16 $00
+	ld   hl, wNPCBytes_animationFrameIdx
+	add  hl, bc
+	ld   e, (hl)
+	ld   d, $00
 
 // clear c008 ($20 if facing left)
-	ld   a, $00                                      ; $73a1: $3e $00
-	ld   hl, $c008                                   ; $73a3: $21 $08 $c0
-	ld   (hl), a                                     ; $73a6: $77
+	ld   a, $00
+	ld   hl, wNpcOamTileAttr2
+	ld   (hl), a
+
 	call getBit6ofNPCBytes_cb60                               ; $73a7: $cd $82 $73
 	jr   z, @checkVertDirs                              ; $73aa: $28 $06
 
-	call getCurrNpcDirection                               ; $73ac: $cd $e3 $65
-	jp   +                               ; $73af: $c3 $bd $73
-
+// if bit 6 set, ignore vert dirs
+	call getCurrNpcDirection
+	jp   +
 
 @checkVertDirs:
-	call getCurrNpcDirection                               ; $73b2: $cd $e3 $65
-	cp   DIR_DOWN                                         ; $73b5: $fe $06
-	jr   z, @facingDown                              ; $73b7: $28 $19
+	call getCurrNpcDirection
+	cp   DIR_DOWN
+	jr   z, @facingDown
 
-	cp   DIR_UP                                         ; $73b9: $fe $03
-	jr   z, @facingUp                              ; $73bb: $28 $0c
+	cp   DIR_UP
+	jr   z, @facingUp
 
 +
-	cp   DIR_LEFT                                         ; $73bd: $fe $09
-	jr   nz, @next                             ; $73bf: $20 $17
+	cp   DIR_LEFT
+	jr   nz, @next
 
 // left - attr into c008, which is copied to c007 at the end
-	ld   hl, $c008                                   ; $73c1: $21 $08 $c0
-	ld   (hl), $20                                   ; $73c4: $36 $20
-	jp   @next                               ; $73c6: $c3 $d8 $73
+	ld   hl, wNpcOamTileAttr2
+	ld   (hl), $20
+	jp   @next
 
 @facingUp:
 // up oam details at offset 3
-	ld   a, e                                        ; $73c9: $7b
-	add  $03                                         ; $73ca: $c6 $03
-	ld   e, a                                        ; $73cc: $5f
-	ld   d, $00                                      ; $73cd: $16 $00
-	jp   @next                               ; $73cf: $c3 $d8 $73
+	ld   a, e
+	add  $03
+	ld   e, a
+	ld   d, $00
+	jp   @next
 
 @facingDown:
 // down oam details at offset 6
-	ld   a, e                                        ; $73d2: $7b
-	add  $06                                         ; $73d3: $c6 $06
-	ld   e, a                                        ; $73d5: $5f
-	ld   d, $00                                      ; $73d6: $16 $00
+	ld   a, e
+	add  $06
+	ld   e, a
+	ld   d, $00
 
 // left/right details at offset 0
 @next:
 // get byte from oam addr, offseted by e for direction
-	call copyByteFrom_c006_WordPlusEinto_c009                               ; $73d8: $cd $fb $73
+	call copyByteFrom_c006_WordPlusEinto_c009
 
 // upper 6 bits into c006
-	ld   hl, wScriptCopiedByte                                   ; $73db: $21 $09 $c0
-	ld   a, (hl)                                     ; $73de: $7e
-	and  $fc                                         ; $73df: $e6 $fc
-	ld   hl, $c006                                   ; $73e1: $21 $06 $c0
-	ld   (hl), a                                     ; $73e4: $77
+	ld   hl, wScriptCopiedByte
+	ld   a, (hl)
+	and  $fc
+	ld   hl, wNpcOamTileIdx
+	ld   (hl), a
 
 // bit 3 of cb60 unset..
 	ld   hl, wNPCBytes_cb60                                   ; $73e5: $21 $60 $cb
@@ -3374,16 +3382,16 @@ Call_001_738a:
 	jr   nz, +                             ; $73ec: $20 $04
 
 // inc c006
-	ld   hl, $c006                                   ; $73ee: $21 $06 $c0
+	ld   hl, wNpcOamTileIdx                                   ; $73ee: $21 $06 $c0
 	inc  (hl)                                        ; $73f1: $34
 
 +
 // copy c008 to c007
-	ld   hl, $c008                                   ; $73f2: $21 $08 $c0
-	ld   a, (hl)                                     ; $73f5: $7e
-	ld   hl, $c007                                   ; $73f6: $21 $07 $c0
-	ld   (hl), a                                     ; $73f9: $77
-	ret                                              ; $73fa: $c9
+	ld   hl, wNpcOamTileAttr2
+	ld   a, (hl)
+	ld   hl, wNpcOamTileAttr
+	ld   (hl), a
+	ret
 
 
 copyByteFrom_c006_WordPlusEinto_c009:

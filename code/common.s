@@ -173,8 +173,9 @@ call_updateSounds:
 	ret
 
 
-;;
-	call waitUntilNextVBlankPeriod                               ; $01e2: $cd $e5 $01
+// unused - 01e2
+waitUntilNext2VBlankPeriods:
+	call waitUntilNextVBlankPeriod
 
 waitUntilNextVBlankPeriod:
 	call waitUntilNotInVBlankPeriod
@@ -182,7 +183,7 @@ waitUntilNextVBlankPeriod:
 waitUntilStartOfVBlankPeriod:
 	ld   hl, rLCDC
 	bit  7, (hl)
-	jr   z, _ret_01f7
+	jr   z, _f
 
 	ld   hl, rLY
 -
@@ -190,14 +191,13 @@ waitUntilStartOfVBlankPeriod:
 	cp   $90
 	jr   nz, -
 
-_ret_01f7:
-	ret
+__	ret
 
 
 waitUntilNotInVBlankPeriod:
 	ld   hl, rLCDC
 	bit  7, (hl)
-	jp   z, _ret_01f7
+	jp   z, _b
 
 	ld   hl, rLY
 -
@@ -365,44 +365,45 @@ loadRoomStructData:
 	inc  de
 
 @afterOBP0palettes:
-// $c079 is 1st struct byte's bit 2
-	ld   hl, wFirstRoomStructByte                                   ; $02b6: $21 $2b $c7
-	ld   a, (hl)                                     ; $02b9: $7e
-	and  $04                                         ; $02ba: $e6 $04
-	ld   hl, wBaseRoomFloorTile                                   ; $02bc: $21 $79 $c0
-	ld   (hl), a                                     ; $02bf: $77
-	cp   $00                                         ; $02c0: $fe $00
-	jr   z, @after1stByteBit2check                              ; $02c2: $28 $0d
+// check if base empty tile is different, eg grass
+	ld   hl, wFirstRoomStructByte
+	ld   a, (hl)
+	and  $04
+	ld   hl, wBaseRoomFloorTile
+	ld   (hl), a
+	cp   $00
+	jr   z, @after1stByteBit2check
 
 // run the follow if the above bit 2 is set
-	ld   hl, wCurrRoomStructPointer                                   ; $02c4: $21 $06 $c0
-	ldi  a, (hl)                                     ; $02c7: $2a
-	ld   h, (hl)                                     ; $02c8: $66
-	ld   l, a                                        ; $02c9: $6f
-	add  hl, de                                      ; $02ca: $19
-	ld   a, (hl)                                     ; $02cb: $7e
-	ld   hl, wBaseRoomFloorTile                                   ; $02cc: $21 $79 $c0
-	ld   (hl), a                                     ; $02cf: $77
-	inc  de                                          ; $02d0: $13
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wBaseRoomFloorTile
+	ld   (hl), a
+	inc  de
 
 @after1stByteBit2check:
 // 2nd/next struct byte
-	ld   hl, wCurrRoomStructPointer                                   ; $02d1: $21 $06 $c0
-	ldi  a, (hl)                                     ; $02d4: $2a
-	ld   h, (hl)                                     ; $02d5: $66
-	ld   l, a                                        ; $02d6: $6f
-	add  hl, de                                      ; $02d7: $19
-	ld   a, (hl)                                     ; $02d8: $7e
-	inc  de                                          ; $02d9: $13
+	ld   hl, wCurrRoomStructPointer
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	inc  de
 
 // store it in $c72c
-	ld   hl, wSecondRoomStructByte                                   ; $02da: $21 $2c $c7
-	ld   (hl), a                                     ; $02dd: $77
-	and  $80                                         ; $02de: $e6 $80
+	ld   hl, wSecondRoomStructByte
+	ld   (hl), a
+	and  $80
 
 // store its bit 7 in $c5fe
 	ld   hl, wSecondRoomStructByteBit7                                   ; $02e0: $21 $fe $c5
 	ld   (hl), a                                     ; $02e3: $77
+
 	ld   hl, wSecondRoomStructByte                                   ; $02e4: $21 $2c $c7
 	ld   a, (hl)                                     ; $02e7: $7e
 	and  $40                                         ; $02e8: $e6 $40
@@ -416,40 +417,40 @@ loadRoomStructData:
 
 +
 // 2nd byte's bit 4 in $c090
-	ld   hl, wSecondRoomStructByte                                   ; $02f2: $21 $2c $c7
-	ld   a, (hl)                                     ; $02f5: $7e
-	and  $10                                         ; $02f6: $e6 $10
+	ld   hl, wSecondRoomStructByte
+	ld   a, (hl)
+	and  $10
 // has to do with oam
-	ld   hl, wIsPlatformingLikeRoom                                   ; $02f8: $21 $90 $c0
-	ld   (hl), a                                     ; $02fb: $77
+	ld   hl, wIsPlatformingLikeRoom
+	ld   (hl), a
 
 // 2nd byte's low nybble x2 in wTilesetIdx
-	ld   hl, wSecondRoomStructByte                                   ; $02fc: $21 $2c $c7
-	ld   a, (hl)                                     ; $02ff: $7e
-	and  $0f                                         ; $0300: $e6 $0f
-	sla  a                                           ; $0302: $cb $27
-	ld   hl, wTilesetIdx                                   ; $0304: $21 $ff $c5
-	ld   (hl), a                                     ; $0307: $77
-	ld   c, a                                        ; $0308: $4f
-	ld   b, $00                                      ; $0309: $06 $00
+	ld   hl, wSecondRoomStructByte
+	ld   a, (hl)
+	and  $0f
+	sla  a
+	ld   hl, wTilesetIdx
+	ld   (hl), a
+	ld   c, a
+	ld   b, $00
 .rept 5
-	sla  c                                           ; $030b: $cb $21
-	rl   b                                           ; $030d: $cb $10
+	sla  c
+	rl   b
 .endr
 // lower nybble * $40
-	ld   hl, tileTypeConversionTable                                   ; $031f: $21 $cd $4a
-	add  hl, bc                                      ; $0322: $09
-	push hl                                          ; $0323: $e5
-	pop  bc                                          ; $0324: $c1
-	ld   hl, wAddrOfRooms40hTileTypeConversionTable                                   ; $0325: $21 $91 $c0
-	ld   (hl), c                                     ; $0328: $71
-	inc  hl                                          ; $0329: $23
-	ld   (hl), b                                     ; $032a: $70
+	ld   hl, tileTypeConversionTable
+	add  hl, bc
+	push hl
+	pop  bc
+	ld   hl, wAddrOfRooms40hTileTypeConversionTable
+	ld   (hl), c
+	inc  hl
+	ld   (hl), b
 
-	ld   hl, wSecondRoomStructByte                                   ; $032b: $21 $2c $c7
-	ld   a, (hl)                                     ; $032e: $7e
-	and  $20                                         ; $032f: $e6 $20
-	jr   z, @afterLampOnPalettes                              ; $0331: $28 $34
+	ld   hl, wSecondRoomStructByte
+	ld   a, (hl)
+	and  $20
+	jr   z, @afterLampOnPalettes
 
 // 2nd byte's bit 5 is set
 	ld   hl, wCurrRoomStructPointer
@@ -836,7 +837,7 @@ loadRoomStructData:
 	ld   hl, wDoneProcessingHiddenItems
 	ld   a, (hl)
 	cp   $00
-	jr   z, @next_053b
+	jr   z, @afterNPCbit7check
 
 // 3 bytes per npc
 	ld   hl, wNumBytesForRoomFlagEntity
@@ -853,13 +854,13 @@ loadRoomStructData:
 	dec  de
 	and  $80
 	bit  7, a
-	jr   nz, @next_053b
+	jr   nz, @afterNPCbit7check
 
-// 4 bytes for something??
-	ld   hl, wNumBytesForRoomFlagEntity                                   ; $0537: $21 $a0 $c0
-	inc  (hl)                                        ; $053a: $34
+// npc takes up another room flag if its bit 7 is unset
+	ld   hl, wNumBytesForRoomFlagEntity
+	inc  (hl)
 
-@next_053b:
+@afterNPCbit7check:
 // de = e + val in c0a0
 	ld   a, e
 	ld   hl, wNumBytesForRoomFlagEntity
@@ -868,10 +869,10 @@ loadRoomStructData:
 	ld   d, $00
 	jr   nc, @loopCheckForMoreRoomFlagObjects
 
-// bug: never executed, would not work if it did
-	ld   hl, $c007                                   ; $0545: $21 $07 $c0
-	inc  (hl)                                        ; $0548: $34
-	jp   @loopCheckForMoreRoomFlagObjects                               ; $0549: $c3 $06 $05
+// if addr offset loops to 0, inc pointer high byte
+	ld   hl, wCurrRoomStructPointerNPCData+1
+	inc  (hl)
+	jp   @loopCheckForMoreRoomFlagObjects
 
 @nextByteCheckDone:
 	inc  de
@@ -918,90 +919,90 @@ loadRoomStructData:
 	ld   (hl), a
 
 ; ==============================================================================
-; Hidden items?
+; Hidden items
 ; ==============================================================================
-// TODO: process npc data again
 	ld   de, $0000
-	ld   hl, wRoomFlagIdxToCheck                                   ; $0581: $21 $fc $c0
-	ld   (hl), e                                     ; $0584: $73
-	ld   hl, wFirstRoomStructByte                                   ; $0585: $21 $2b $c7
-	ld   a, (hl)                                     ; $0588: $7e
-	and  $10                                         ; $0589: $e6 $10
+	ld   hl, wRoomFlagIdxToCheck
+	ld   (hl), e
+	ld   hl, wFirstRoomStructByte
+	ld   a, (hl)
+	and  $10
 // jump if no hidden items
-	jr   nz, @noHiddenItems                             ; $058b: $20 $4b
+	jr   nz, @noHiddenItems
 
-@nextNPC:
-	ld   hl, wCurrRoomStructPointerNPCData                                   ; $058d: $21 $06 $c0
-	ldi  a, (hl)                                     ; $0590: $2a
-	ld   h, (hl)                                     ; $0591: $66
-	ld   l, a                                        ; $0592: $6f
-	add  hl, de                                      ; $0593: $19
-	ld   a, (hl)                                     ; $0594: $7e
-	cp   $ff                                         ; $0595: $fe $ff
-	jr   z, @noMoreNPCs                              ; $0597: $28 $3e
+@nextHiddenItem:
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	cp   $ff
+	jr   z, @noMoreHiddenItems
 
-	call retCFifRoomFlagSet                               ; $0599: $cd $2c $07
-	jr   c, @skipNPC                              ; $059c: $38 $31
+	call retCFifRoomFlagSet
+	jr   c, @skipHiddenItem
 
 // npc should be present
 // c00c is npc ID
-	ld   hl, wCurrRoomStructPointerNPCData                                   ; $059e: $21 $06 $c0
-	ldi  a, (hl)                                     ; $05a1: $2a
-	ld   h, (hl)                                     ; $05a2: $66
-	ld   l, a                                        ; $05a3: $6f
-	add  hl, de                                      ; $05a4: $19
-	ld   a, (hl)                                     ; $05a5: $7e
-	ld   hl, $c00c                                   ; $05a6: $21 $0c $c0
-	ld   (hl), a                                     ; $05a9: $77
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	ld   hl, wHiddenItemID
+	ld   (hl), a
 
-	push de                                          ; $05aa: $d5
-// bc is upper nybble of 2nd npc byte
-	inc  de                                          ; $05ab: $13
-	ld   hl, wCurrRoomStructPointerNPCData                                   ; $05ac: $21 $06 $c0
-	ldi  a, (hl)                                     ; $05af: $2a
-	ld   h, (hl)                                     ; $05b0: $66
-	ld   l, a                                        ; $05b1: $6f
-	add  hl, de                                      ; $05b2: $19
-	ld   a, (hl)                                     ; $05b3: $7e
-	call aDivEqu16                               ; $05b4: $cd $fa $07
-	ld   c, a                                        ; $05b7: $4f
-	ld   b, $00                                      ; $05b8: $06 $00
+	push de
+// bc is upper nybble of 2nd npc byte (x val)
+	inc  de
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	call aDivEqu16
+	ld   c, a
+	ld   b, $00
 
-// de is lower nybble of 2nd npc byte (direction)
-	ld   hl, wCurrRoomStructPointerNPCData                                   ; $05ba: $21 $06 $c0
-	ldi  a, (hl)                                     ; $05bd: $2a
-	ld   h, (hl)                                     ; $05be: $66
-	ld   l, a                                        ; $05bf: $6f
-	add  hl, de                                      ; $05c0: $19
-	ld   a, (hl)                                     ; $05c1: $7e
-	and  $0f                                         ; $05c2: $e6 $0f
-	ld   e, a                                        ; $05c4: $5f
-	ld   d, $00                                      ; $05c5: $16 $00
+// de is lower nybble of 2nd npc byte (y val)
+	ld   hl, wCurrRoomStructPointerNPCData
+	ldi  a, (hl)
+	ld   h, (hl)
+	ld   l, a
+	add  hl, de
+	ld   a, (hl)
+	and  $0f
+	ld   e, a
+	ld   d, $00
 
-// a is npc ID
-	ld   hl, $c00c                                   ; $05c7: $21 $0c $c0
-	ld   a, (hl)                                     ; $05ca: $7e
-	call Call_000_085c                               ; $05cb: $cd $5c $08
-	pop  de                                          ; $05ce: $d1
+// set id later in func
+	ld   hl, wHiddenItemID
+	ld   a, (hl)
+	call storeHiddenItemAttrs
+	pop  de
 
-@skipNPC:
-	inc  de                                          ; $05cf: $13
-	inc  de                                          ; $05d0: $13
-	call incPositiveNumRoomFlagObjects                               ; $05d1: $cd $3a $07
-	jp   @nextNPC                               ; $05d4: $c3 $8d $05
+@skipHiddenItem:
+	inc  de
+	inc  de
+	call incPositiveNumRoomFlagObjects
+	jp   @nextHiddenItem
 
-@noMoreNPCs:
-	inc  de                                          ; $05d7: $13
+@noMoreHiddenItems:
+	inc  de
 
 @noHiddenItems:
-	ld   a, e                                        ; $05d8: $7b
-	ld   hl, $c006                                   ; $05d9: $21 $06 $c0
-	add  (hl)                                        ; $05dc: $86
-	ld   (hl), a                                     ; $05dd: $77
-	jr   nc, +                             ; $05de: $30 $04
+// skip past hidden items to npcs
+	ld   a, e
+	ld   hl, wCurrRoomStructPointerNPCData
+	add  (hl)
+	ld   (hl), a
+	jr   nc, +
 
-	ld   hl, $c007                                   ; $05e0: $21 $07 $c0
-	inc  (hl)                                        ; $05e3: $34
+	ld   hl, wCurrRoomStructPointerNPCData+1
+	inc  (hl)
 
 +
 
@@ -1210,10 +1211,10 @@ loadRoomStructData:
 	ld   hl, wCurrColForClearingItemTiles
 	ld   c, (hl)
 	ld   b, $00
-	cp   $27                                         ; $06ce: $fe $27
-	jr   nz, +                             ; $06d0: $20 $03
+	cp   $27
+	jr   nz, +
 
-// if tile type is 27h, jump
+// if tile type is 27h, jump (covered by next anyway)
 	jp   @hideGottenTiles_toNextTile
 
 +
@@ -1256,8 +1257,8 @@ loadRoomStructData:
 	jp   @incRoomFlagObjects_toNextTile
 
 @hideGottenTiles_roomFlagNotSet:
-	pop  af                                          ; $0703: $f1
-	call Call_000_085c                               ; $0704: $cd $5c $08
+	pop  af
+	call storeHiddenItemAttrs
 
 @incRoomFlagObjects_toNextTile:
 	call incPositiveNumRoomFlagObjects
@@ -1580,70 +1581,76 @@ bcDivA_divInC_modInAB:
 	ret
 
 
-Call_000_085c:
+storeHiddenItemAttrs:
 // eg c is column when clearing gotten tiles
-	push af                                          ; $085c: $f5
-	ld   hl, $c00c                                   ; $085d: $21 $0c $c0
-	ld   (hl), c                                     ; $0860: $71
+// pushed af here is a value from 3-9
+	push af
+	ld   hl, wHiddenItemCol
+	ld   (hl), c
 
-//
-	ld   bc, $0000                                   ; $0861: $01 $00 $00
+// loop through to fill next slot
+	ld   bc, $0000
 -
-	ld   hl, $c496                                   ; $0864: $21 $96 $c4
-	add  hl, bc                                      ; $0867: $09
-	ld   a, (hl)                                     ; $0868: $7e
-	cp   $00                                         ; $0869: $fe $00
-	jr   z, @next_0877                              ; $086b: $28 $0a
+	ld   hl, wRoomFlagItemTypes
+	add  hl, bc
+	ld   a, (hl)
+	cp   $00
+	jr   z, @processItem
 
-	inc  bc                                          ; $086d: $03
-	ld   a, c                                        ; $086e: $79
-	cp   NUM_NPCS                                         ; $086f: $fe $0c
-	jr   c, -                              ; $0871: $38 $f1
+	inc  bc
+	ld   a, c
+	cp   NUM_ROOM_FLAG_ITEMS
+	jr   c, -
 
-	pop  af                                          ; $0873: $f1
-	jp   @done                               ; $0874: $c3 $a6 $08
+	pop  af
+	jp   @done
 
-@next_0877:
+@processItem:
 // eg c496+ is tile idx for item tile (3-9)
-	pop  af                                          ; $0877: $f1
-	ld   hl, $c496                                   ; $0878: $21 $96 $c4
-	add  hl, bc                                      ; $087b: $09
-	ld   (hl), a                                     ; $087c: $77
+	pop  af
+	ld   hl, wRoomFlagItemTypes
+	add  hl, bc
+	ld   (hl), a
 
-	call getTileIdxForGenericVramCopy                               ; $087d: $cd $fc $08
-	ld   hl, wGenericVramCopyTileIdx                                   ; $0880: $21 $28 $c0
-	ld   a, (hl)                                     ; $0883: $7e
-	ld   hl, $c4ba                                   ; $0884: $21 $ba $c4
-	add  hl, bc                                      ; $0887: $09
-	ld   (hl), a                                     ; $0888: $77
+// convert 3-9 idx into a 2x2 tile idx
+	call getTileIdxForGenericVramCopy
+	ld   hl, wGenericVramCopyTileIdx
+	ld   a, (hl)
+	ld   hl, wRoomFlagItemTileIdx
+	add  hl, bc
+	ld   (hl), a
 
-	ld   hl, $c00c                                   ; $0889: $21 $0c $c0
-	ld   a, (hl)                                     ; $088c: $7e
-	ld   hl, $c4a2                                   ; $088d: $21 $a2 $c4
-	add  hl, bc                                      ; $0890: $09
-	ld   (hl), a                                     ; $0891: $77
+// set x val
+	ld   hl, wHiddenItemCol
+	ld   a, (hl)
+	ld   hl, wRoomFlagTileCol
+	add  hl, bc
+	ld   (hl), a
 
-	ld   a, e                                        ; $0892: $7b
-	ld   hl, $c4ae                                   ; $0893: $21 $ae $c4
-	add  hl, bc                                      ; $0896: $09
-	ld   (hl), a                                     ; $0897: $77
+// set y val
+	ld   a, e
+	ld   hl, wRoomFlagTileRow
+	add  hl, bc
+	ld   (hl), a
 
-	ld   hl, $c0fc                                   ; $0898: $21 $fc $c0
-	ld   a, (hl)                                     ; $089b: $7e
-	ld   hl, $c4c6                                   ; $089c: $21 $c6 $c4
-	add  hl, bc                                      ; $089f: $09
-	ld   (hl), a                                     ; $08a0: $77
+// room flag is set, store its idx here
+	ld   hl, wRoomFlagIdxToCheck
+	ld   a, (hl)
+	ld   hl, wRoomFlagItemFlagIdx
+	add  hl, bc
+	ld   (hl), a
 
-	inc  bc                                          ; $08a1: $03
-	ld   hl, $c57e                                   ; $08a2: $21 $7e $c5
-	ld   (hl), c                                     ; $08a5: $71
+// possibly unused? stores num actual room flag items
+	inc  bc
+	ld   hl, wNextRoomFlagItemIdx
+	ld   (hl), c
 
 @done:
-// bc is npc ID
-	ld   hl, $c00c                                   ; $08a6: $21 $0c $c0
-	ld   c, (hl)                                     ; $08a9: $4e
-	ld   b, $00                                      ; $08aa: $06 $00
-	ret                                              ; $08ac: $c9
+// restore bc
+	ld   hl, wHiddenItemCol
+	ld   c, (hl)
+	ld   b, $00
+	ret
 
 
 genericVramTileIdxes:

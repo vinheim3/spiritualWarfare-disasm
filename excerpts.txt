@@ -6,9 +6,9 @@
 ; ==============================================================================
 
 # ------ outstanding to disassemble
-bank_000.s - <7030
-common.s - <240
-scripting.s - <400
+bank_000.s - <5510
+common.s - <70
+scripting.s - <320
 
 # ------- room structs
 byte 2 lower nybble x2 - tileset idx
@@ -61,3 +61,13 @@ if c6cb nz, dont use jawbone or sword
 c8 - bomb
 fc - initial explosion puff
 7c - flowery looking puff
+
+# ------- misc
+damage from things ignores invincibility if base damage bit 7 set
+npc oam data offsets
+0 - left/right, 3 - up, 6 - down
+npc metadata bytes
++4 = 2e57, 3391 (hit by fruit)
++5 = 3cd1, 3de7
++6 = 3881 (hit by sword/bomb)
++7 = 439c

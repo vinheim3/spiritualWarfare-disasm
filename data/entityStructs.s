@@ -1,7 +1,7 @@
 npcStructs:
 // npc script bytes in bank 3
 
-// ?? - ?? - word for script ptr - cbc0 -
+// last 4 are new entity ids it turns into under specific conditions
 	m_NPCData npc00_oamData npc00_scripts $ff $ff $ff $ff
 	m_NPCData npc01_oamData npc01_scripts $02 $ff $02 $7c
 	m_NPCData npc02_oamData npc02_scripts $ff $ff $ff $ff

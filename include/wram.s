@@ -53,9 +53,40 @@ wc001:
 
 	wNewItemInitialY: ; $c007
 		db
+.nextu
+	wClowNybble: ; $c006
+		db
+
+	wElowNybble: ; $c007
+		db
+.nextu
+	wPwOrNameScreenArrowCursorX: ; $c006
+		db
+.nextu
+	wCalcdPasswordSumVal: ; $c006
+		dw
+.nextu
+	wNpcOamTileIdx: ; $c006
+		db
+
+	wNpcOamTileAttr: ; $c007
+		db
 .endu
 
 .union
+// copied to above
+	wNpcOamTileAttr2: ; $c008
+		db
+.nextu
+	wCalcdPasswordChecsum: ; $c008
+		db
+.nextu
+	wChighNybble: ; $c008
+		db
+
+	wEhighNybble: ; $c009
+		db
+.nextu
 	wNewItemInitialDir: ; $c008
 		db
 
@@ -146,11 +177,22 @@ wc001:
 	wc008_4:
 		dsb 4
 
-	wGenericTile2x2_x: ; $c00c
-		db
+	.union
+		wGenericTile2x2_x: ; $c00c
+			db
 
-	wGenericTile2x2_y: ; $c00d
-		db
+		wGenericTile2x2_y: ; $c00d
+			db
+	.nextu
+		wHiddenItemID: ; $c00c
+			db
+	.nextu
+		wHiddenItemCol: ; $c00c
+			db
+	.nextu
+		wGenericColVal: ; $c00c
+			db
+	.endu
 .endu
 
 wc00f:
@@ -172,7 +214,7 @@ wc015:
 wKeysPressed: ; $c016
 	db
 
-wc017:
+wNpcTopLeftVramTile: ; $c017
 	db
 
 wNewKeysPressed: ; $c018
@@ -218,7 +260,13 @@ wBaseDamageTaken: ; $c023
 	db
 
 wc024:
-	dsb 8-4
+	db
+
+wPlayerInvincibilityCounter: ; $c025
+	db
+
+wc026:
+	dsb 2
 
 .union
 	wCurrDecompressedTile: ; $c028
@@ -227,10 +275,17 @@ wc024:
 // not converted to vram idx, eg $2d = water
 	wGenericVramCopyTileIdx: ; $c028
 		db
+.nextu
+	wGenericGameScreenTileIdx: ; $c028
+		db
 .endu
 
-wc029:
-	dsb $b-9
+// unused
+w0whenStartingTitleScreen: ; $c029
+	db
+
+wc02a:
+	db
 
 wPlayerScore: ; $c02b
 	dsb 6
@@ -320,7 +375,7 @@ wPlayerY: ; $c054
 wPlayerOamAttr: ; $c055
 	db
 
-wc056:
+wPlayerIdxIntoGenericVramForTile: ; $c056
 	db
 
 // 0, 1 or 2, eg shows leg forward, or not
@@ -406,8 +461,13 @@ wRandomNumberTableIdx: ; $c094
 wRandomNumber: ; $c096
 	db
 
-wGenericMenuCursorIdx: ; $c097
-	db
+.union
+	wGenericMenuCursorIdx: ; $c097
+		db
+.nextu
+	wPasswordOrNameMaxChars: ; $c097
+		db
+.endu
 
 wGenericMenuMaxCursorIdx: ; $c098
 	db
@@ -543,7 +603,7 @@ wScriptTelePlayerX: ; $c0be
 wScriptTelePlayerY: ; $c0bf
 	db
 
-wc0c0:
+wPwOrNameCharSelectCursorIdx: ; $c0c0
 	db
 
 wOrigCurrFruitXval: ; $c0c1
@@ -565,8 +625,18 @@ wc0c5:
 wInvChangingTextIdx: ; $c0c6
 	db
 
-wc0c7:
-	dsb $d9-$c7
+wPwOrNameInputCursorIdx: ; $c0c7
+	db
+
+wc0c8:
+	dsb $d6-$c8
+
+// unused
+wFFbeforeMainGame: ; $c0d6
+	db
+
+wc0d7:
+	dsb 2
 
 wCounterSo2ArmorIsAThirdDamageTaken: ; $c0d9
 	db
@@ -596,10 +666,10 @@ wIsSecretPlayerName: ; $c0f8
 wScrollingTextCurrRowVramStart: ; $c0f9
 	dw
 
-wc0fb:
+// unused
+w0whenButtonPressedOnTitleScreen: ; $c0fb
 	db
 
-// used for other purposes?
 .union
 	wNumRoomFlagObjects: ; $c0fc
 		db
@@ -638,9 +708,17 @@ w2x2gameScreenTiles: ; $c3b0
 wc460:
 	dsb $96-$60
 
-// cleared when loading room data
-wc496:
-	dsb $3c
+// room flag items
+wRoomFlagItemTypes: ; $c496
+	dsb NUM_ROOM_FLAG_ITEMS
+wRoomFlagTileCol: ; $c4a2
+	dsb NUM_ROOM_FLAG_ITEMS
+wRoomFlagTileRow: ; $c4ae
+	dsb NUM_ROOM_FLAG_ITEMS
+wRoomFlagItemTileIdx: ; $c4ba
+	dsb NUM_ROOM_FLAG_ITEMS
+wRoomFlagItemFlagIdx: ; $c4c6
+	dsb NUM_ROOM_FLAG_ITEMS
 
 wc4d2:
 	dsb $d-2
@@ -655,11 +733,68 @@ wc4de:
 wCurrQuizQuestionIdx: ; $c4df
 	db
 
-wTextInputChars: ; $c4e0
-	dsb $20
+.union
+	wTextInputChars: ; $c4e0
+		dsb $20
+.nextu
+	wPasswordInputName: ; $c4e0
+		dsb 8
+
+	wPasswordReviveRoomGroup: ; $c4e8
+		db
+
+	wPasswordArmourOfGod: ; $c4e9
+		db
+
+	wPasswordBombsUpper2bitsAndSpecialBitems: ; $c4ea
+		db
+
+	wPasswordOilsAndHCs: ; $c4eb
+		db
+
+	wPasswordPlayerHealth: ; $c4ec
+		db
+
+	wPasswordKeys: ; $c4ed
+		db
+
+	wPasswordBombsLow6bits: ; $c4ee
+		db
+
+	wPasswordBirdsLow6bits: ; $c4ef
+		db
+
+	wPasswordItemsGotten: ; $c4f0
+		dsb 9
+
+	wPasswordCurrQuizNoDiv5: ; $c4f9
+		db
+
+	wPassword1st2FruitAmounts: ; $c4fa
+		db
+
+	wPassword2nd2FruitAmounts: ; $c4fb
+		db
+
+	wPasswordBirdsUpper2bits5thFruit: ; $c4fc
+		db
+
+	wPasswordSumVal: ; $c4fd
+		dw
+
+	wPasswordChecksum: ; $c4ff
+		db
+.endu
 
 wc500:
-	dsb $80
+	dsb $7e
+
+// unused?
+wNextRoomFlagItemIdx: ; $c57e
+	db
+
+wc57f:
+	db
 
 // cleared when loading room data
 wc580:
@@ -912,6 +1047,8 @@ wNPC_yCoord: ; $cb48
 wNPCBytes_damageAndMovementSpeed: ; $cb54
 	dsb NUM_NPCS
 
+// if bit 3 set, inc oam tile idx
+// if bit 6 set, ignore vert directions when getting tiles
 wNPCBytes_cb60: ; $cb60
 	dsb NUM_NPCS
 
@@ -948,6 +1085,8 @@ wNPCScriptPointerReturnLowByte: ; $cbcc
 wNPCScriptPointerReturnHighByte: ; $cbd8
 	dsb NUM_NPCS
 
+// if bit 4 unset of cb60, and bit 1 set here, dont draw
+// if bit 4 set here, unaffected by sword
 wNPCBytes_cbe4: ; $cbe4
 	dsb NUM_NPCS
 
@@ -993,10 +1132,10 @@ wOBP1FlashCounter: ; $d003
 wd004:
 	dsb 6-4
 
-wCurrent2x2tileToVramTileIdxConversionTable: ; $d006
+wBGtileToVramConversionTable: ; $d006
 	dsb $40
 
-wVramTileConversionTables: ; $d046
+wSprTileToVramConversionTable: ; $d046
 	dsb $40
 
 wd086:
@@ -1011,8 +1150,25 @@ wCurrVBlanksUntilNextTileAnimation: ; $d0fd
 wCurrTileAnimationAddr: ; $d0fe
 	dw
 
-wd100:
-	dsb $400-$100
+wAnimatedTiles:
+	.db
+wAnimatedWaterTiles: ; $d100
+	dsb $80
+wAnimatedLavaTiles: ; $d180
+	dsb $80
+wAnimatedBlockCracking: ; $d200
+	dsb $40
+wAnimatedBigBubble: ; $d240
+	dsb $40
+wAnimatedSmallBubble: ; $d280
+	dsb $40
+wBlankTile: ; $d2c0
+	dsb $10
+wAnimatedFlames: ; $d2d0
+	dsb $40
+
+wd310:
+	dsb $400-$310
 
 wIsTitleScreen: ; $d400
 	db

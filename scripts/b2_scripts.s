@@ -1285,7 +1285,7 @@ npc7b_scripts:
 	npc_moveByParamPixels $10
 	npc_res5_cb60
 	npc_moveByParamPixels $ff
-	npc_setNewNpcID $7c
+	npc_setNewNpcID ENTID_ENEMY_ITEM_EXPLOSION
 
 
 ; ==============================================================================
@@ -1809,10 +1809,10 @@ npc90_scripts:
 +
 	npc_moveByParamPixels $20
 	npc_jumpIfRandomNumLTparam $80, +
-	npc_setNewNpcID $7f
+	npc_setNewNpcID ENTID_BEACH_UP_AND_DOWN_SHARKS
 	npc_end
 +
-	npc_setNewNpcID $ac
+	npc_setNewNpcID ENTID_BEACH_ENCIRCLING_SHARKS
 	npc_end
 
 
