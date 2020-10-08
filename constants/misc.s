@@ -45,9 +45,12 @@
 .define GVT_BOMB	$27
 
 // misc
-.define NUM_NPCS	$0c
-.define NUM_ROOM_FLAG_ITEMS			$0c
-.define NUM_FRUITS_ON_SCREEN		$04
+.define NUM_NPCS		$0c
+.define NUM_BOMBS		$18
+.define NUM_EXPLOSIONS	$18
+.define NUM_FALLING_OBJECTS		$03
+.define NUM_ROOM_FLAG_ITEMS		$0c
+.define NUM_FRUITS_ON_SCREEN	$04
 .define MIN_HEALTH	$06
 .define MAX_HEALTH	$18
 .define MAX_ROOMS_IN_ROOM_FLAGS		10

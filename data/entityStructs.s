@@ -1,7 +1,11 @@
 npcStructs:
 // npc script bytes in bank 3
 
-// last 4 are new entity ids it turns into under specific conditions
+// last 4 are new entity ids it turns into under specific conditions, incl.
+// 1st is when hit by fruit/jawbone
+// 2nd is when hit by falling object
+// 3rd is when hit by sword/bomb
+// 4th
 	m_NPCData npc00_oamData npc00_scripts $ff $ff $ff $ff
 	m_NPCData npc01_oamData npc01_scripts $02 $ff $02 $7c
 	m_NPCData npc02_oamData npc02_scripts $ff $ff $ff $ff

@@ -9,7 +9,10 @@ wInvItemCountsNumDigits: ; $c000
 
 // these 1st few wram bytes seem to be multi-purpose, ie unions
 wc001:
-	dsb 6-1
+	dsb 4-1
+
+wFruitFallingObjectCollisionAddr: ; $c004
+	dw
 
 .union
 	wCurrGroupStructPointer: ; $c006
@@ -71,9 +74,18 @@ wc001:
 
 	wNpcOamTileAttr: ; $c007
 		db
+.nextu
+	wc006:
+		db
+
+	wBitemTileIdxLeft: ; $c007
+		db
 .endu
 
 .union
+	wBitemTileIdxRight: ; $c008
+		db
+.nextu
 // copied to above
 	wNpcOamTileAttr2: ; $c008
 		db
@@ -192,7 +204,16 @@ wc001:
 	.nextu
 		wGenericColVal: ; $c00c
 			db
+	.nextu
+		wTempFruitX: ; $c00c
+			db
 	.endu
+.nextu
+	wc008_5:
+		dsb 5
+
+	wJawboneOrSwordMoveOffset: ; $c00d
+		db
 .endu
 
 wc00f:
@@ -345,8 +366,12 @@ wCurrFruitBaseSpeed: ; $c048
 wEquippedBItem: ; $c049
 	db
 
-wc04a:
-	dsb $c-$a
+// ie allows player to stand in front of a building
+wPlayerOrEntityYCollisionAdjust: ; $c04a
+	db
+
+wc04b:
+	db
 
 wIsEquippingRaft: ; $c04c
 	db
@@ -546,17 +571,31 @@ wc0a3:
 wCurrNpcIdx: ; $c0a6
 	db
 
-wMusicScreenSongVal: ; $c0a7
-	db
+.union
+	wMusicScreenSongVal: ; $c0a7
+		db
 
-wc0a8:
-	db
+	wc0a8:
+		db
 
-wMusicScreenSoundVal: ; $c0a9
-	db
+	wMusicScreenSoundVal: ; $c0a9
+		db
+.nextu
+	wItemTopBoundingBox: ; $c0a7
+		db
 
-wc0aa:
-	dsb $b0-$aa
+	wItemBottomBoundingBox: ; $c0a8
+		db
+
+	wItemLeftBoundingBox: ; $c0a9
+		db
+
+	wItemRightBoundingBox: ; $c0aa
+		db
+.endu
+
+wc0ab:
+	dsb $b0-$ab
 
 wTimeUntilCanUseFruitAgain: ; $c0b0
 	db
@@ -797,8 +836,14 @@ wc57f:
 	db
 
 // cleared when loading room data
-wc580:
-	dsb $60
+wExplosionVar0: ; $c580 // tile type?
+	dsb $18
+wExplosionYvals: ; $c598
+	dsb $18
+wExplosionXvals: ; $c5b0
+	dsb $18
+wExplosionVar3: ; $c5c8 // timer?
+	dsb $18
 
 wOffsetIntoCompressedRoomLayoutPerScreenRow: ; $c5e0
 	dsb $b
@@ -839,9 +884,13 @@ wSecondRoomStructByteBit7: ; $c5fe
 wTilesetIdx: ; $c5ff
 	db
 
-// cleared when loading room data
-wc600:
-	dsb $48
+wBombTimers: ; $c600
+	dsb $18
+// bit 7 for both used for something?
+wBombXvals: ; $c618
+	dsb $18
+wBombYvals: ; $c630
+	dsb $18
 
 // ie times 2 to get the double index for its item description
 wInventorySelectedXIdx: ; $c648
@@ -881,12 +930,40 @@ wc65e:
 wInventorySelectedYIdx: ; $c65f
 	db
 
-// cleared when loading room data, 8 bytes per 3 things
-wc660:
-	dsb $18
+wFallingObjectID: ; $c660
+	dsb 3
+wFallingObjectXval: ; $c663
+	dsb 3
+wFallingObjectTileIdx: ; $c666
+	dsb 3
+wFallingObjectYval: ; $c669
+	dsb 3
+wFallingObjectVar4: ; $c66c
+	dsb 3
+wFallingObjectVar5: ; $c66f
+	dsb 3
+wFallingObjectVar6: ; $c672
+	dsb 3
+wFallingObjectVar7: ; $c675
+	dsb 3
 
 wc678:
-	dsb $d0-$78
+	dsb $cb-$78
+
+wJawboneOrSwordTimeUntilReuse: ; $c6cb
+	db
+
+wJawboneOrSwordXval: ; $c6cc
+	db
+
+wJawboneOrSwordYval: ; $c6cd
+	db
+
+wJawboneOrSwordDir: ; $c6ce
+	db
+
+wc6cf:
+	db
 
 wCommonByteCopyDestBytes: ; $c6d0
 	dsb $c
@@ -1047,8 +1124,11 @@ wNPC_yCoord: ; $cb48
 wNPCBytes_damageAndMovementSpeed: ; $cb54
 	dsb NUM_NPCS
 
-// if bit 3 set, inc oam tile idx
-// if bit 6 set, ignore vert directions when getting tiles
+// if bit 3 set, inc oam tile idx (eg walking)
+// if bit 4 set, not affected by jawbone/sword/fruit
+// if bit 4 or 5 set, not affected by falling objects
+// if bit 6 set, ignore vert directions when getting its tiles
+// if bit 7 set, fruits bounce off
 wNPCBytes_cb60: ; $cb60
 	dsb NUM_NPCS
 
@@ -1060,6 +1140,8 @@ wNPCBytes_timeToWait: ; $cb78
 	dsb NUM_NPCS
 
 // this whole byte uses upper nybble for some controls
+// bit 6 set when using a b item on it
+// if bit 7 set, it will transform into npc byte 4 if specified
 // lower nybble is mostly direction
 wNPC2ndByteLower6Bits: ; $cb84
 	dsb NUM_NPCS
@@ -1085,7 +1167,8 @@ wNPCScriptPointerReturnLowByte: ; $cbcc
 wNPCScriptPointerReturnHighByte: ; $cbd8
 	dsb NUM_NPCS
 
-// if bit 4 unset of cb60, and bit 1 set here, dont draw
+// if bit 1 set here, dont draw
+// if bit 2 unset, change npc due to being hit by fruit
 // if bit 4 set here, unaffected by sword
 wNPCBytes_cbe4: ; $cbe4
 	dsb NUM_NPCS

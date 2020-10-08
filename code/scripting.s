@@ -1,8 +1,11 @@
 Call_001_6244:
 	push bc
 	push af                                          ; $6245: $f5
+
+// preserve c
 	ld   hl, $c00c                                   ; $6246: $21 $0c $c0
 	ld   (hl), c                                     ; $6249: $71
+
 	ld   hl, wArmorOfGodGotten                                   ; $624a: $21 $52 $c6
 	ld   a, (hl)                                     ; $624d: $7e
 	and  AOG_HELM                                         ; $624e: $e6 $10
@@ -15,38 +18,40 @@ Call_001_6244:
 Jump_001_6257:
 	ld   bc, $0000                                   ; $6257: $01 $00 $00
 
-jr_001_625a:
-	ld   hl, $c600                                   ; $625a: $21 $00 $c6
+@nextBomb:
+	ld   hl, wBombTimers                                   ; $625a: $21 $00 $c6
 	add  hl, bc                                      ; $625d: $09
 	ld   a, (hl)                                     ; $625e: $7e
 	cp   $00                                         ; $625f: $fe $00
-	jr   z, jr_001_626f                              ; $6261: $28 $0c
+	jr   z, @timerAt0                              ; $6261: $28 $0c
 
 	inc  bc                                          ; $6263: $03
-
-jr_001_6264:
 	ld   a, c                                        ; $6264: $79
-	cp   $18                                         ; $6265: $fe $18
-	jr   c, jr_001_625a                              ; $6267: $38 $f1
+	cp   NUM_BOMBS                                         ; $6265: $fe $18
+	jr   c, @nextBomb                              ; $6267: $38 $f1
 
-	call Call_000_35b2                                       ; $6269: $cd $b2 $35
+	call updateBombs                                       ; $6269: $cd $b2 $35
 	jp   Jump_001_6257                               ; $626c: $c3 $57 $62
 
-
-jr_001_626f:
+@timerAt0:
 	pop  af                                          ; $626f: $f1
-	ld   hl, $c600                                   ; $6270: $21 $00 $c6
+
+// set next bomb timer
+	ld   hl, wBombTimers                                   ; $6270: $21 $00 $c6
 	add  hl, bc                                      ; $6273: $09
 	ld   (hl), a                                     ; $6274: $77
+
 	ld   hl, $c00c                                   ; $6275: $21 $0c $c0
 	ld   a, (hl)                                     ; $6278: $7e
 	ld   hl, $c04b                                   ; $6279: $21 $4b $c0
 	or   (hl)                                        ; $627c: $b6
-	ld   hl, $c618                                   ; $627d: $21 $18 $c6
+	ld   hl, wBombXvals                                   ; $627d: $21 $18 $c6
 	add  hl, bc                                      ; $6280: $09
 	ld   (hl), a                                     ; $6281: $77
+
+// e
 	ld   a, e                                        ; $6282: $7b
-	ld   hl, $c630                                   ; $6283: $21 $30 $c6
+	ld   hl, wBombYvals                                   ; $6283: $21 $30 $c6
 	add  hl, bc                                      ; $6286: $09
 	ld   (hl), a                                     ; $6287: $77
 	pop  bc                                          ; $6288: $c1
@@ -401,7 +406,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 
 	ld   e, a
 	ld   d, $00
-	call deEquEplusValIn_c04a
+	call deEquEplusYCollisionAdjust
 	jp   @afterUpDown
 
 +
@@ -438,7 +443,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 	jr   nz, +
 
 // left
-	call Call_001_46b4                               ; $64aa: $cd $b4 $46
+	call deEquNpcYAddCollisionAdjust
 	ld   hl, wNPC_xCoord
 	add  hl, bc
 	ld   a, (hl)
@@ -452,7 +457,7 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 
 +
 // right
-	call Call_001_46b4                               ; $64be: $cd $b4 $46
+	call deEquNpcYAddCollisionAdjust
 	ld   hl, wNPC_xCoord
 	add  hl, bc
 	ld   a, (hl)
@@ -469,16 +474,19 @@ npcHelper_offsetNPCCoordsByScriptByte1:
 	ld   b, $00
 
 @afterLeftRight:
-	call splitCEintoItsNybbles                               ; $64d5: $cd $1c $55
+	call splitCEintoItsNybbles
 // high c and e nybbles into bc, de
-	ld   hl, $c008                                   ; $64d8: $21 $08 $c0
-	ld   c, (hl)                                     ; $64db: $4e
-	ld   b, $00                                      ; $64dc: $06 $00
-	ld   hl, $c009                                   ; $64de: $21 $09 $c0
-	ld   e, (hl)                                     ; $64e1: $5e
-	ld   d, $00                                      ; $64e2: $16 $00
+	ld   hl, wChighNybble
+	ld   c, (hl)
+	ld   b, $00
+
+	ld   hl, wEhighNybble
+	ld   e, (hl)
+	ld   d, $00
+
 	call getTileEntityOrPlayerIsOn                                       ; $64e4: $cd $ed $3f
-	call Call_001_45cf                               ; $64e7: $cd $cf $45
+	call retCifNot0                               ; $64e7: $cd $cf $45
+
 	ld   hl, wCurrNpcIdx                                   ; $64ea: $21 $a6 $c0
 	ld   c, (hl)                                     ; $64ed: $4e
 	ld   b, $00                                      ; $64ee: $06 $00
@@ -694,8 +702,8 @@ _scriptCmd_res3_cb60:
 
 
 _scriptCmd_animate:
-	ld   hl, wNPCBytes_animationFrameIdx                                   ; $65fd: $21 $6c $cb
-	add  hl, bc                                      ; $6600: $09
+	ld   hl, wNPCBytes_animationFrameIdx
+	add  hl, bc
 	inc  (hl)                                        ; $6601: $34
 	call getNpcOamTileAndAttr                               ; $6602: $cd $8a $73
 	ld   hl, wNPCBytes_animationFrameIdx                                   ; $6605: $21 $6c $cb
@@ -711,7 +719,7 @@ _scriptCmd_animate:
 	call _scriptPtrMinusEqu1                               ; $6612: $cd $1c $66
 
 @done:
-	ret                                              ; $6615: $c9
+	ret
 
 
 scriptPtrMinusEqu3:

@@ -412,7 +412,7 @@ loadRoomStructData:
 // TODO: run the following if 2nd byte's bit 6 is set
 // c04a seems to be a Y offset for both player and NPCs (0 or 8 in some cases)
 	ld   a, $00                                      ; $02ec: $3e $00
-	ld   hl, $c04a                                   ; $02ee: $21 $4a $c0
+	ld   hl, wPlayerOrEntityYCollisionAdjust                                   ; $02ee: $21 $4a $c0
 	ld   (hl), a                                     ; $02f1: $77
 
 +
@@ -1275,14 +1275,14 @@ loadRoomStructData:
 	jr   c, @hideGottenTiles_nextRow
 
 ; ==============================================================================
-;
+; Falling objects, and...
 ; ==============================================================================
 // clear c660-c662
 	ld   bc, $0003                                   ; $0716: $01 $03 $00
 	ld   a, $00                                      ; $0719: $3e $00
 -
 	dec  bc                                          ; $071b: $0b
-	ld   hl, $c660                                   ; $071c: $21 $60 $c6
+	ld   hl, wFallingObjectID                                   ; $071c: $21 $60 $c6
 	add  hl, bc                                      ; $071f: $09
 	ld   (hl), a                                     ; $0720: $77
 	jr   nz, -                             ; $0721: $20 $f8

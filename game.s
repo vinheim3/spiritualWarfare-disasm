@@ -22,6 +22,7 @@
 	.include "code/common.s"
 	.include "garbage/common.s"
 	.include "code/bank_000.s"
+	.include "data/soundDataAddresses.s"
 	.include "code/scripting.s"
 	.include "data/roomGroupStructs.s"
 
