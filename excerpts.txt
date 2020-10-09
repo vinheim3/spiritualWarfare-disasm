@@ -6,9 +6,9 @@
 ; ==============================================================================
 
 # ------ outstanding to disassemble
-bank_000.s - <4540
+bank_000.s - <4260
 common.s - <70
-scripting.s - <310
+scripting.s - <250
 
 # ------- room structs
 byte 2 lower nybble x2 - tileset idx
@@ -64,10 +64,16 @@ fc - initial explosion puff
 
 # ------- misc
 damage from things ignores invincibility if base damage bit 7 set
+
 npc oam data offsets
 0 - left/right, 3 - up, 6 - down
+
 npc metadata bytes
 +4 = 2e57 (hit and affected by jawbone), 3391 (hit by fruit)
 +5 = 3cd1 (hit by falling object), 3de7 (hit by falling object)
 +6 = 3881 (hit by sword/bomb)
 +7 = 439c
+
+c08b - if non-zero, dont take any damage
+if 0, avoid check to go to game over screen
+set to 13 when player dead

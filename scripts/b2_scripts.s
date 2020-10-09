@@ -1,9 +1,9 @@
 func_02_4fdb:
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 -
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ @done
+	npc_processAndJumpIfPlayerCollided @done
 	npc_resetNPC2ndByteBit5_jumpIfOrigSet @done
 	npc_wait $01
 	npc_jump -
@@ -12,12 +12,12 @@ func_02_4fdb:
 
 
 func_02_4fea:
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 func_02_4fed:
 -
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ @done
+	npc_processAndJumpIfPlayerCollided @done
 	npc_wait $01
 	npc_jump -
 
@@ -28,9 +28,9 @@ func_02_4fed:
 func_02_4ff6:
 @loop:
 	npc_wait $01
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ @loop
+	npc_processAndJumpIfPlayerCollided @loop
 	npc_wait $05
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ @loop
+	npc_processAndJumpIfPlayerCollided @loop
 	npc_ret
 
 
@@ -152,11 +152,11 @@ npcb7_scripts:
 ; ENTID_TESTROOM_ANGEL
 ; ==============================================================================
 npcb8_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_c02a_equFF
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 -
 	npc_call func_02_4fed
 	npc_quiz $ff $0a $01
@@ -450,9 +450,9 @@ openUpTrainStation:
 
 npc6b_scripts:
 	npc_c02a_equFF
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 	npc_groupRoomXYjumpTable @table
 	npc_jump @houses
 
@@ -536,8 +536,8 @@ npc72_scripts:
 ; ==============================================================================
 npc6e_scripts:
 	npc_set3_cb60
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	npc_set2_cb60
 	npc_set5_cb60
 	npc_setMovementSpeed $02
@@ -565,8 +565,8 @@ npc6e_scripts:
 npc73_scripts:
 	npc_faceLeft
 	npc_set3_cb60
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	npc_set2_cb60
 	npc_set5_cb60
 	npc_moveByParamPixels $10
@@ -965,7 +965,7 @@ npc92_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_setDamageTaken $02
 	npc_setMovementSpeed $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 --
 	npc_moveByParamPixels $10
 	npc_turnRight
@@ -984,8 +984,8 @@ npc92_scripts:
 ; ENTID_HELPFUL_LADY
 ; ==============================================================================
 npc77_scripts:
-	npc_res4_cb60
-	npc_set2_cbe4
+	npc_damagableByPlayerItems
+	npc_unaffectedByFruit
 	npc_call func_02_4fed
 	npc_groupRoomXYjumpTable @table
 	npc_end
@@ -1228,7 +1228,7 @@ npc78_scripts:
 	npc_call func_02_58c4
 -
 	npc_call func_02_58cc
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET_LEFT
 	npc_animate
@@ -1243,7 +1243,7 @@ npc7a_scripts:
 	npc_call func_02_58c4
 -
 	npc_call func_02_58cc
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET_RIGHT
 	npc_animate
@@ -1252,11 +1252,11 @@ npc7a_scripts:
 
 
 func_02_58c4:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_setDamageTaken $01
 	npc_animate
 	npc_cb60_low2bitsEquParamMinus1 $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_ret
 
 
@@ -1278,8 +1278,8 @@ npc79_scripts:
 npc7b_scripts:
 	npc_playSoundEffectAtAddr sound_1661
 	npc_set5_cb60
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	npc_setMovementSpeed $08
 	npc_setDamageTaken $03
 	npc_moveByParamPixels $10
@@ -1294,9 +1294,9 @@ npc7b_scripts:
 npc7c_scripts:
 	npc_set3_cb60
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_set2_cbe4
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_unaffectedByFruit
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	npc_animate
 	npc_end
 
@@ -1305,11 +1305,11 @@ npc7c_scripts:
 ; ENTID_SHOP_ANGEL
 ; ==============================================================================
 npc7d_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_c02a_equFF
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 	npc_groupRoomXYjumpTable @table
 	npc_playSoundEffect20h
 	npc_end
@@ -1636,10 +1636,10 @@ npc7d_scripts:
 ; ENTID_PAWN_SHOP_GUY
 ; ==============================================================================
 npc6c_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_c02a_equFF
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 	npc_jumpIfArmorOfGodGotten AOG_BELT, +
 	npc_jumpIfItemGotten ITEMID_BELT, @func_5e16
 +
@@ -1771,7 +1771,7 @@ npc7f_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $08
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 -
 	npc_moveByParamPixels $ff
 	npc_turnBackwards
@@ -1786,7 +1786,7 @@ npcac_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $04
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $08
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 -
 	npc_moveByParamPixels $60
 	npc_turnRight
@@ -2218,11 +2218,11 @@ func_02_6618:
 	npc_setCoords $70 $90
 	npc_faceUp
 @func_663d:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_set5_cb60
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 	npc_moveByParamPixels $18
 @func_6645:
 	npc_moveByParamPixels $04
@@ -2241,10 +2241,10 @@ func_02_6618:
 +
 	npc_turnLeft
 @func_6662:
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ @done
+	npc_processAndJumpIfPlayerCollided @done
 	npc_loopAboveParamTimes $5a, @func_6645
 	npc_wait $0f
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ @done
+	npc_processAndJumpIfPlayerCollided @done
 @npc_end:
 	npc_end
 @done:
@@ -2285,7 +2285,7 @@ npc87_scripts:
 
 
 func_02_6697:
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setDamageTaken $02
 	npc_ret
@@ -2320,9 +2320,9 @@ func_02_669d:
 npc88_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
 	npc_set5_cb60
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 -
 	npc_moveByParamPixels $20
 	npc_turnBackwards
@@ -2334,11 +2334,11 @@ npc88_scripts:
 ; ==============================================================================
 npc89_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
-	npc_set2_cbe4
-	npc_res4_cb60
+	npc_unaffectedByFruit
+	npc_damagableByPlayerItems
 @loop:
 	npc_moveByParamPixels $10
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ ++
+	npc_processAndJumpIfPlayerCollided ++
 	npc_flipBit4ofNPC2ndByte_jumpIfNZ +
 	npc_jump @loop
 +
@@ -2353,7 +2353,7 @@ npc89_scripts:
 +
 	npc_turnBackwards
 ++
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ -
+	npc_processAndJumpIfPlayerCollided -
 	npc_jump @loop
 
 @text_66f0:
@@ -2369,7 +2369,7 @@ npc89_scripts:
 npc8a_scripts:
 	npc_setCoords $10 $20
 	npc_set5_cb60
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_faceRight
 	npc_setMovementSpeed $10
 	npc_wait $01
@@ -2451,7 +2451,7 @@ npc8b_scripts:
 ; ==============================================================================
 npc8c_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_setDamageTaken $02
 	npc_setMovementSpeed $03
 	npc_waitRandomValBetween2ParamsInclusive $05 $0a
@@ -2474,8 +2474,8 @@ npc8c_scripts:
 ; ==============================================================================
 npc8d_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_set7_cb60
-	npc_res4_cb60
+	npc_fruitsBounceOff
+	npc_damagableByPlayerItems
 	npc_setDamageTaken $03
 	npc_setMovementSpeed $03
 -
@@ -2493,10 +2493,10 @@ npc8d_scripts:
 ; ==============================================================================
 npc8e_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $04
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_setDamageTaken $03
 	npc_setMovementSpeed $02
-	npc_set7_cb60
+	npc_fruitsBounceOff
 	npc_waitRandomValBetween2ParamsInclusive $05 $0a
 @loop:
 	npc_moveByParamPixels $10
@@ -2536,11 +2536,11 @@ npc8f_scripts:
 	npc_end
 +
 	npc_set3_cb60
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_setDamageTaken $02
 	npc_setMovementSpeed $02
 	npc_placeTile $00 $80 $80
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_moveByParamPixels $10
 	npc_placeTile $48 $80 $80
 	npc_end
@@ -2552,7 +2552,7 @@ npc8f_scripts:
 npc91_scripts:
 	npc_setDamageTaken $02
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 -
 	npc_call func_02_6866
 	npc_call func_02_6877
@@ -2605,7 +2605,7 @@ _npc_end_02_6897:
 npc93_scripts:
 	npc_setMovementSpeed $04
 	npc_setDamageTaken $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 @loop:
 	npc_waitRandomValBetween2ParamsInclusive $08 $10
 	npc_jumpIfRandomNumLTparam $80, +
@@ -2650,7 +2650,7 @@ npc93_scripts:
 npc94_scripts:
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_waitRandomValBetween2ParamsInclusive $08 $10
 @func_68ea:
 	npc_jumpIfRandomNumLTparam $80, @loop
@@ -2690,10 +2690,10 @@ npc94_scripts:
 ; ==============================================================================
 npc95_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_set3_cb60
 	npc_set5_cb60
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_setMovementSpeed $04
 	npc_setDamageTaken $03
 	npc_moveByParamPixels $ff
@@ -2707,7 +2707,7 @@ npc96_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $02
 	npc_setDamageTaken $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_waitRandomValBetween2ParamsInclusive $08 $10
 @loop:
 	npc_moveByParamPixels $10
@@ -2791,9 +2791,9 @@ func_02_69b6:
 
 func_02_69c0:
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_setDamageTaken $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 -
 	npc_playSoundEffectAtAddr sound_15fb
 	npc_wait $03
@@ -2806,7 +2806,7 @@ func_02_69c0:
 ; ==============================================================================
 npca7_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_setDamageTaken $02
 	npc_wait $0a
 --
@@ -2815,7 +2815,7 @@ npca7_scripts:
 	npc_turnBackwards
 	npc_setMovementSpeed $01
 -
-	npc_set3_cbe4
+	npc_setPathfindToPlayer
 	npc_moveByParamPixels $04
 	npc_loopAboveParamTimes $0c, -
 	npc_jump --
@@ -2826,11 +2826,11 @@ npca7_scripts:
 ; ==============================================================================
 npca8_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_setDamageTaken $02
 	npc_wait $0a
 -
-	npc_set3_cbe4
+	npc_setPathfindToPlayer
 	npc_moveByParamPixels $04
 	npc_wait $01
 	npc_jump -
@@ -2841,12 +2841,12 @@ npca8_scripts:
 ; ==============================================================================
 npca9_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_setDamageTaken $02
 	npc_wait $0a
 	npc_setMovementSpeed $03
 @loop:
-	npc_set3_cbe4
+	npc_setPathfindToPlayer
 	npc_moveByParamPixels $20
 	npc_moveNPC_jumpIfCant $08, +
 	npc_waitRandomValBetween2ParamsInclusive $0a $28
@@ -2862,7 +2862,7 @@ npca9_scripts:
 ; ==============================================================================
 npcaa_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $03
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_setDamageTaken $04
 	npc_wait $0a
 @loop:
@@ -2882,11 +2882,11 @@ npcaa_scripts:
 ; ENTID_BEACH_SKATEBOARDER_BOTTLE
 ; ==============================================================================
 npcab_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_cb60_low2bitsEquParamMinus1 $02
 	npc_setMovementSpeed $04
 	npc_facePlayerHorizontally
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_moveByParamPixels $ff
 	npc_setNewNpcID ENTID_ENEMY_ITEM_EXPLOSION
 
@@ -3081,7 +3081,7 @@ npc9b_scripts:
 	npc_jumpIfAtTile $c0, +
 	npc_jump @innerLoop
 +
-	npc_resetBit5ofNPC2ndByte_jumpIfNZ @innerLoop
+	npc_processAndJumpIfPlayerCollided @innerLoop
 	npc_placeTile $86 $80 $80
 	npc_wait $08
 	npc_spawnNPCAtOffset ENTID_GUNMAN_IN_DOOR $00 $00
@@ -3097,7 +3097,7 @@ npc9c_scripts:
 	npc_facePlayerHorizontally
 	npc_call func_02_58c4
 	npc_wait $0c
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET
 	npc_wait $1e
@@ -3110,8 +3110,8 @@ npc9c_scripts:
 npca4_scripts:
 	npc_playSoundEffectAtAddr sound_1661
 	npc_set5_cb60
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	npc_setMovementSpeed $04
 	npc_setDamageTaken $03
 	npc_moveByParamPixels $ff
@@ -3125,7 +3125,7 @@ npca5_scripts:
 	npc_call func_02_58c4
 -
 	npc_call func_02_58cc
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_wait $08
 	npc_spawnNPCinFrontOfSelf ENTID_GUNMAN_BULLET
 	npc_animate
@@ -3138,7 +3138,7 @@ npca5_scripts:
 ; ==============================================================================
 npca6_scripts:
 	npc_cb60_low2bitsEquParamMinus1 $02
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_setDamageTaken $02
 -
 	npc_call func_02_6bae
@@ -3176,10 +3176,10 @@ npc9d_scripts:
 
 
 npca1_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_set3_cb60
-	npc_res4_cb60
-	npc_set1_cbe4
+	npc_damagableByPlayerItems
+	npc_makeInvisible
 -
 	npc_giveItem ITEMID_30
 	npc_wait $01
@@ -3188,10 +3188,10 @@ npca1_scripts:
 
 ;;
 	npc_takeItem ITEMID_31 // 6bde
-	npc_set6_cb60_reset_animationFrameIdx // 6be0
+	npc_noVertTiles_reset_animationFrameIdx // 6be0
 	npc_cb60_low2bitsEquParamMinus1 $04 // 6be1
 	npc_setDamageTaken $04 // 6be3
-	npc_res4_cb60 // 6be5
+	npc_damagableByPlayerItems // 6be5
 	npc_call $6c14 // 6be6
 	npc_playSoundEffectAtAddr sound_1626 // 6be9
 	npc_wait $0a // 6bec
@@ -3215,21 +3215,21 @@ npca1_scripts:
 	npc_wait $03 // 6c1c
 	npc_jumpIfItemGotten ITEMID_30, $6c1a // 6c1e
 	npc_ret // 6c22
-	npc_set6_cb60_reset_animationFrameIdx // 6c23
+	npc_noVertTiles_reset_animationFrameIdx // 6c23
 	npc_setDamageTaken $04 // 6c24
 	npc_set3_cb60 // 6c26
-	npc_set2_cbe4 // 6c27
-	npc_res4_cb60 // 6c28
+	npc_unaffectedByFruit // 6c27
+	npc_damagableByPlayerItems // 6c28
 	npc_wait $05 // 6c29
 	npc_wait $01 // 6c2b
 	npc_jumpIfItemGotten ITEMID_31, $6c34 // 6c2d
 	npc_jump $6c2b // 6c31
 	npc_end // 6c34
-	npc_set6_cb60_reset_animationFrameIdx // 6c35
+	npc_noVertTiles_reset_animationFrameIdx // 6c35
 	npc_cb60_low2bitsEquParamMinus1 $04 // 6c36
 	npc_setDamageTaken $04 // 6c38
 	npc_set3_cb60 // 6c3a
-	npc_res4_cb60 // 6c3b
+	npc_damagableByPlayerItems // 6c3b
 	npc_wait $05 // 6c3c
 	npc_wait $01 // 6c3e
 	npc_jumpIfItemGotten ITEMID_31, $6c47 // 6c40
@@ -3258,7 +3258,7 @@ npca2_scripts:
 
 @indoorSlums:
 	npc_jumpIfItemGotten ITEMID_BRICK_WALL_SLUMS_1ST_HOUSE, npca3_scripts
-	npc_set1_cbe4
+	npc_makeInvisible
 	npc_jump @func_6c73
 
 @entry1:
@@ -3269,9 +3269,9 @@ npca2_scripts:
 	npc_jumpIfItemGotten ITEMID_2f, npca3_scripts
 
 @func_6c73:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_set3_cb60
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_set7_npc2ndByteLower6Bits
 -
 	npc_jumpIfLampOn +
@@ -3300,8 +3300,8 @@ npca2_scripts:
 
 @func_6c9f:
 	npc_set3_cb60
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	.db $26
 	npc_jump unfreezePlayer
 
@@ -3318,10 +3318,10 @@ npca3_scripts:
 	npc_increaseScore SCORE_500
 +
 	npc_cb60_low2bitsEquParamMinus1 $04
-	npc_set2_cbe4
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_unaffectedByFruit
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_set3_cb60
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_animate
 	npc_end
 
@@ -3351,9 +3351,9 @@ npca3_scripts:
 
 
 npc9e_scripts:
-	npc_set2_cbe4
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_unaffectedByFruit
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	npc_set5_cb60
 	npc_setMovementSpeed $10
 -
@@ -3409,18 +3409,18 @@ npc9e_scripts:
 
 
 npcb0_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	npc_playSoundEffectAtAddr sound_15ae
 	npc_wait $3c
 	npc_setNewNpcID $9e
 
 
 npc9f_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_set2_cbe4
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_unaffectedByFruit
 	npc_set3_cb60
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 -
 	.db $55 $9e
 	.db $55 $b0
@@ -3432,10 +3432,10 @@ npc9f_scripts:
 
 
 npca0_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_set2_cbe4
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_unaffectedByFruit
 	npc_set3_cb60
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 -
 	.db $55 $9e
 	.db $55 $b0
@@ -3447,11 +3447,11 @@ npca0_scripts:
 
 
 npcad_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_set2_cbe4
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_unaffectedByFruit
 	npc_set3_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 @loop:
 	.db $55 $9e
 	.db $55 $b0
@@ -3463,17 +3463,17 @@ npcad_scripts:
 	npc_jump @loop
 +
 	npc_jumpIfRandomNumLTparam $fb, @loop
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_spawnNPCAtOffset $b3 $00 $0c
 	npc_jump @loop
 
 
 npcae_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_set2_cbe4
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_unaffectedByFruit
 	npc_set3_cb60
 	npc_cb60_low2bitsEquParamMinus1 $04
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 @loop:
 	.db $55 $9e
 	.db $55 $b0
@@ -3485,7 +3485,7 @@ npcae_scripts:
 	npc_jump @loop
 +
 	npc_jumpIfRandomNumLTparam $fb, @loop
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_spawnNPCAtOffset $b3 $00 $0c
 	npc_jump @loop
 
@@ -3494,9 +3494,9 @@ npcae_scripts:
 ; ENTID_FINAL_BOSS_SHIELD
 ; ==============================================================================
 npcaf_scripts:
-	npc_set6_cb60_reset_animationFrameIdx
+	npc_noVertTiles_reset_animationFrameIdx
 	npc_set3_cb60
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_set2_cb60
 	npc_set5_cb60
 	npc_setMovementSpeed $02
@@ -3528,9 +3528,9 @@ npcb1_scripts:
 
 
 npcb2_scripts:
-	npc_set2_cbe4
-	npc_set6_cb60_reset_animationFrameIdx
-	npc_res4_cb60
+	npc_unaffectedByFruit
+	npc_noVertTiles_reset_animationFrameIdx
+	npc_damagableByPlayerItems
 	npc_set5_cb60
 	npc_playSoundEffectAtAddr sound_1626
 	npc_increaseScore SCORE_5000
@@ -3581,16 +3581,16 @@ npcb2_scripts:
 
 
 npcb3_scripts:
-	npc_res4_cb60
+	npc_damagableByPlayerItems
 	npc_playSoundEffectAtAddr sound_1604
 	npc_set5_cb60
 	npc_setMovementSpeed $03
 	npc_setDamageTaken $04
 -
 	npc_moveByParamPixels $04
-	npc_set3_cbe4
+	npc_setPathfindToPlayer
 	npc_moveByParamPixels $04
-	npc_set3_cbe4
+	npc_setPathfindToPlayer
 	npc_loopAboveParamTimes $3c, -
 	npc_wait $0f
 

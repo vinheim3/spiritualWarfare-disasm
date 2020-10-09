@@ -1,7 +1,7 @@
 .enum 0
 	ENTID_DEAD_ENEMY_PRAYING					db // $00
 	ENTID_DEVIL_SPAWN							db // $01
-	ENTID_02									db
+	ENTID_DEVIL_SPAWN_DEATH						db // $02
 	ENTID_STUB_03								db // $03
 	ENTID_MISC_NPC								db // $04
 	ENTID_SUNGLASSES_KNIFE_GUY					db // $05
@@ -64,7 +64,8 @@
 	// objects that disappear if the item normally used to bypass it,
 	// gets taken, or if the item it leads to has been gotten
 	ENTID_DISAPPEARING_OBSTACLE					db // $3e
-	ENTID_3f									dsb $41-$3f
+	ENTID_DROPPED_10_BIRDS						db // $3f
+	ENTID_40									db
 	ENTID_RAFT									db // $41
 	ENTID_CITY_BANDIT_BLOCKER					db // $42
 	ENTID_HOTEL_HIGHRISE_GUNNER_1				db // $43
@@ -215,7 +216,7 @@
 	ENTID_WAREHOUSE_BOSS_HELPER_TODO_1			db // $e8
 	ENTID_WAREHOUSE_BOSS_HELPER_TODO_2			db // $e9
 	ENTID_WAREHOUSE_SLOW_BULLET_BOSS			db // $ea
-	ENTID_WAREHOUSE_BOSS_HELPER_TODO_3			db // $eb
+	ENTID_WAREHOUSE_BOSS_HELPER_BULLET			db // $eb
 	ENTID_ec									db
 	ENTID_DEMONS_LAIR_BOSS_BLOOD_DROP			db // $ed
 	ENTID_DEMONS_LAIR_BOSS_BLOOD_ENEMY			db // $ee

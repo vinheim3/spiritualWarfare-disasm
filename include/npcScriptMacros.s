@@ -10,7 +10,7 @@
 	.db $02
 .endm
 
-.macro npc_set7_cb60
+.macro npc_fruitsBounceOff
 	.db $03
 .endm
 
@@ -34,7 +34,7 @@
 	.db $08
 .endm
 
-.macro npc_set6_cb60_reset_animationFrameIdx
+.macro npc_noVertTiles_reset_animationFrameIdx
 	.db $09
 .endm
 
@@ -46,7 +46,7 @@
 	.db $0b
 .endm
 
-.macro npc_res4_cb60
+.macro npc_damagableByPlayerItems
 	.db $0c
 .endm
 
@@ -124,11 +124,11 @@
 
 // 20/21 unused
 
-.macro npc_c714_equFF
+.macro npc_slowPlayerMovement
 	.db $22
 .endm
 
-.macro npc_c714_equ0
+.macro npc_unslowPlayerMovement
 	.db $23
 .endm
 
@@ -144,7 +144,7 @@
 	.db $26
 .endm
 
-.macro npc_set2_cbe4
+.macro npc_unaffectedByFruit
 	.db $27
 .endm
 
@@ -152,11 +152,11 @@
 	.db $28
 .endm
 
-.macro npc_set3_cbe4
+.macro npc_setPathfindToPlayer
 	.db $29
 .endm
 
-.macro npc_res3_cbe4
+.macro npc_unsetPathfindToPlayer
 	.db $2a
 .endm
 
@@ -166,7 +166,7 @@
 	.db $2c
 .endm
 
-.macro npc_set1_cbe4
+.macro npc_makeInvisible
 	.db $2d
 .endm
 
@@ -263,7 +263,7 @@
 	.dw \1
 .endm
 
-.macro npc_resetBit5ofNPC2ndByte_jumpIfNZ
+.macro npc_processAndJumpIfPlayerCollided
 	.db $82
 	.dw \1
 .endm

@@ -78,11 +78,19 @@ wFruitFallingObjectCollisionAddr: ; $c004
 	wc006:
 		db
 
-	wBitemTileIdxLeft: ; $c007
-		db
+	.union
+		wBitemTileIdxLeft: ; $c007
+			db
+	.nextu
+		wNpcPlayerXDiff: ; $c007
+			db
+	.endu
 .endu
 
 .union
+	wNpcPlayerYDiff: ; $c008
+		db
+.nextu
 	wBitemTileIdxRight: ; $c008
 		db
 .nextu
@@ -280,7 +288,7 @@ wECbyte: ; $c01e
 wBaseDamageTaken: ; $c023
 	db
 
-wc024:
+wCurrNpcMovingDir: ; $c024
 	db
 
 wPlayerInvincibilityCounter: ; $c025
@@ -436,14 +444,24 @@ wScrollingTextByteAddr: ; $c062
 wScrollingTextVramOffset: ; $c064
 	dw
 
-wc066:
-	dsb 8-6
+wScrollingTextYStart: ; $c066
+	db
+
+wScrollingTextXStart: ; $c067
+	db
 
 wScrollingTextBytesBank: ; $c068
 	db
 
 wc069:
-	dsb $72-$69
+	dsb $e-9
+
+// set from movement speed+1
+wc06e: ; $c06e
+	db
+
+wc06f:
+	dsb $72-$6f
 
 // every 2 health is a heart
 wPlayerHealth: ; $c072
@@ -924,7 +942,7 @@ wSpecialBitemsGotten: ; $c653
 wItemsGotten: ; $c654
 	dsb $a
 
-wc65e:
+wUpdateNpcsCallCount: ; $c65e
 	db
 
 wInventorySelectedYIdx: ; $c65f
@@ -942,9 +960,9 @@ wFallingObjectVar4: ; $c66c
 	dsb 3
 wFallingObjectVar5: ; $c66f
 	dsb 3
-wFallingObjectVar6: ; $c672
+wFallingObject2x2xVal: ; $c672
 	dsb 3
-wFallingObjectVar7: ; $c675
+wFallingObject2x2yVal: ; $c675
 	dsb 3
 
 wc678:
@@ -1033,7 +1051,7 @@ wCurrFruitBaseFlags: ; $c712
 wNumFruitsCreated: ; $c713
 	db
 
-wc714:
+wPlayerMovementSlowed: ; $c714
 	db
 
 wLastReviveRoomGroup: ; $c715
@@ -1125,6 +1143,7 @@ wNPCBytes_damageAndMovementSpeed: ; $cb54
 	dsb NUM_NPCS
 
 // if bit 3 set, inc oam tile idx (eg walking)
+// bit 4 set initially
 // if bit 4 set, not affected by jawbone/sword/fruit
 // if bit 4 or 5 set, not affected by falling objects
 // if bit 6 set, ignore vert directions when getting its tiles
@@ -1140,6 +1159,8 @@ wNPCBytes_timeToWait: ; $cb78
 	dsb NUM_NPCS
 
 // this whole byte uses upper nybble for some controls
+// bit 4 unset when pixels to move, set when done (unused?)
+// bit 5 set means player colliding with it
 // bit 6 set when using a b item on it
 // if bit 7 set, it will transform into npc byte 4 if specified
 // lower nybble is mostly direction
@@ -1169,6 +1190,7 @@ wNPCScriptPointerReturnHighByte: ; $cbd8
 
 // if bit 1 set here, dont draw
 // if bit 2 unset, change npc due to being hit by fruit
+// if bit 3 set, npc movement func tries to move to player
 // if bit 4 set here, unaffected by sword
 wNPCBytes_cbe4: ; $cbe4
 	dsb NUM_NPCS

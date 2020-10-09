@@ -817,71 +817,78 @@ postInitGame2:
 	call drawGameOverScreenScore
 	call generatePassword
 
-// controls for selecting option from game over
-	ld   de, $9962                                   ; $1665: $11 $62 $99
-	call dPlusEquScreen0displayOffset                               ; $1668: $cd $99 $1e
-	ld   bc, $0000                                   ; $166b: $01 $00 $00
+// show current password line 1
+	ld   de, $9962
+	call dPlusEquScreen0displayOffset
+	ld   bc, $0000
 -
-	ld   hl, wTextInputChars                                   ; $166e: $21 $e0 $c4
-	add  hl, bc                                      ; $1671: $09
-	ld   a, (hl)                                     ; $1672: $7e
-	and  $3f                                         ; $1673: $e6 $3f
-	ld   hl, text_passwordOrNameChars                                   ; $1675: $21 $5e $0d
-	add  l                                           ; $1678: $85
-	ld   l, a                                        ; $1679: $6f
-	ld   a, h                                        ; $167a: $7c
-	adc  $00                                         ; $167b: $ce $00
-	ld   h, a                                        ; $167d: $67
-	ld   a, (hl)                                     ; $167e: $7e
-	ld   (de), a                                     ; $167f: $12
-	inc  de                                          ; $1680: $13
-	inc  bc                                          ; $1681: $03
-	ld   a, c                                        ; $1682: $79
-	cp   $10                                         ; $1683: $fe $10
-	jr   nz, -                             ; $1685: $20 $e7
+	ld   hl, wTextInputChars
+	add  hl, bc
+	ld   a, (hl)
+	and  $3f
+	ld   hl, text_passwordOrNameChars
+	add  l
+	ld   l, a
+	ld   a, h
+	adc  $00
+	ld   h, a
+	ld   a, (hl)
+	ld   (de), a
+	inc  de
+	inc  bc
+	ld   a, c
+	cp   $10
+	jr   nz, -
 
-	ld   de, $9982                                   ; $1687: $11 $82 $99
-	call dPlusEquScreen0displayOffset                               ; $168a: $cd $99 $1e
+// password line 2
+	ld   de, $9982
+	call dPlusEquScreen0displayOffset
 
-jr_000_168d:
-	ld   hl, wTextInputChars                                   ; $168d: $21 $e0 $c4
-	add  hl, bc                                      ; $1690: $09
-	ld   a, (hl)                                     ; $1691: $7e
-	and  $3f                                         ; $1692: $e6 $3f
-	ld   hl, text_passwordOrNameChars                                   ; $1694: $21 $5e $0d
-	add  l                                           ; $1697: $85
-	ld   l, a                                        ; $1698: $6f
-	ld   a, h                                        ; $1699: $7c
-	adc  $00                                         ; $169a: $ce $00
-	ld   h, a                                        ; $169c: $67
-	ld   a, (hl)                                     ; $169d: $7e
-	ld   (de), a                                     ; $169e: $12
-	inc  de                                          ; $169f: $13
-	inc  bc                                          ; $16a0: $03
-	ld   a, c                                        ; $16a1: $79
-	cp   $20                                         ; $16a2: $fe $20
-	jr   nz, jr_000_168d                             ; $16a4: $20 $e7
+-
+	ld   hl, wTextInputChars
+	add  hl, bc
+	ld   a, (hl)
+	and  $3f
+	ld   hl, text_passwordOrNameChars
+	add  l
+	ld   l, a
+	ld   a, h
+	adc  $00
+	ld   h, a
+	ld   a, (hl)
+	ld   (de), a
+	inc  de
+	inc  bc
+	ld   a, c
+	cp   $20
+	jr   nz, -
 
-	ld   a, $01                                      ; $16a6: $3e $01
-	call setLCDfromValue_c015equA                               ; $16a8: $cd $11 $02
-	call stopSoundsPlaySound4AtNormalSpeed                               ; $16ab: $cd $ea $27
-	ld   hl, wOam+1                                   ; $16ae: $21 $01 $c2
-	ld   (hl), $34                                   ; $16b1: $36 $34
-	ld   hl, wOam+2                                   ; $16b3: $21 $02 $c2
-	ld   (hl), $a2                                   ; $16b6: $36 $a2
-	ld   hl, wOam+3                                   ; $16b8: $21 $03 $c2
-	ld   (hl), $00                                   ; $16bb: $36 $00
-	ld   a, $02                                      ; $16bd: $3e $02
-	ld   hl, wGenericMenuMaxCursorIdx                                   ; $16bf: $21 $98 $c0
-	ld   (hl), a                                     ; $16c2: $77
-	ld   a, $00                                      ; $16c3: $3e $00
-	ld   hl, wGenericMenuCursorIdx                                   ; $16c5: $21 $97 $c0
-	ld   (hl), a                                     ; $16c8: $77
-	ld   a, $40                                      ; $16c9: $3e $40
-	ld   hl, wMenuCursorBaseOamY                                   ; $16cb: $21 $b1 $c0
-	ld   (hl), a                                     ; $16ce: $77
-	call nonTitleScreenInputCheckLoop                               ; $16cf: $cd $69 $0c
-	call stopAllSounds                               ; $16d2: $cd $32 $15
+	ld   a, $01
+	call setLCDfromValue_c015equA
+	call stopSoundsPlaySound4AtNormalSpeed
+
+// controls for selecting option from game over
+	ld   hl, wOam+1
+	ld   (hl), $34
+	ld   hl, wOam+2
+	ld   (hl), $a2
+	ld   hl, wOam+3
+	ld   (hl), $00
+
+	ld   a, $02
+	ld   hl, wGenericMenuMaxCursorIdx
+	ld   (hl), a
+
+	ld   a, $00
+	ld   hl, wGenericMenuCursorIdx
+	ld   (hl), a
+
+	ld   a, $40
+	ld   hl, wMenuCursorBaseOamY
+	ld   (hl), a
+
+	call nonTitleScreenInputCheckLoop
+	call stopAllSounds
 
 	ld   hl, wGenericMenuCursorIdx
 	ld   a, (hl)
@@ -1644,8 +1651,8 @@ mainLoopCheckingForGameOver:
 	ld   (hl), a                                     ; $1b33: $77
 	ld   hl, $c6c8                                   ; $1b34: $21 $c8 $c6
 	ld   (hl), a                                     ; $1b37: $77
-	ld   hl, $c714                                   ; $1b38: $21 $14 $c7
-	ld   (hl), a                                     ; $1b3b: $77
+	ld   hl, wPlayerMovementSlowed
+	ld   (hl), a
 	ld   hl, wJawboneOrSwordTimeUntilReuse
 	ld   (hl), a
 	ld   hl, wTimeUntilFrozenStateEnds
@@ -1734,20 +1741,7 @@ mainLoopCheckingForGameOver:
 	ld   (hl), $00
 	jp   @loadScreen
 
-
-;;
-	ld   a, $00                                      ; $1be0: $3e $00
-	ld   hl, wRoomCurrTeleportIdx                                   ; $1be2: $21 $b7 $c0
-	ld   (hl), a                                     ; $1be5: $77
-
--
-	call updateSoundsStartOfVBlank                               ; $1be6: $cd $76 $1a
-	call processTeleportsRetZwhenDone                                       ; $1be9: $cd $26 $58
-	jr   nz, -                             ; $1bec: $20 $f8
-
-	call waitUntilStartOfVBlankPeriod                               ; $1bee: $cd $e8 $01
-	call applyPalettesBasedOnLamp                               ; $1bf1: $cd $06 $1e
-	call call_updateSounds                               ; $1bf4: $cd $d6 $01
+.include "garbage/b0_1be0.s"
 
 @mainLoopAfterLoadScreen:
 	call retZIfCanRaftOnScreen
@@ -1829,7 +1823,7 @@ mainLoop:
 	call handleInventoryScreen
 	jr   z, mainLoop
 
-	jp   _scfRetToGoToGameOverScreen
+	jp   @scfRetToGoToGameOverScreen
 
 
 @afterInvScreenCheck:
@@ -1863,6 +1857,7 @@ mainLoop:
 	cp   $00                                         ; $1c9c: $fe $00
 	jr   z, +                              ; $1c9e: $28 $06
 
+// both branches are the same
 	call stopSoundsPlaySound5AtNormalSpeed
 	jp   @afterPauseGameCheck
 
@@ -1887,68 +1882,69 @@ mainLoop:
 	dec  (hl)
 
 +
-//
+// todo: decrease a timer
 	ld   hl, $c6c8                                   ; $1cbd: $21 $c8 $c6
 	ld   a, (hl)                                     ; $1cc0: $7e
 	cp   $00                                         ; $1cc1: $fe $00
-	jr   z, jr_000_1cc6                              ; $1cc3: $28 $01
+	jr   z, +                              ; $1cc3: $28 $01
 
 	dec  (hl)                                        ; $1cc5: $35
 
-jr_000_1cc6:
-	ld   hl, wPlayerInvincibilityCounter                                   ; $1cc6: $21 $25 $c0
-	ld   a, (hl)                                     ; $1cc9: $7e
-	cp   $00                                         ; $1cca: $fe $00
-	jr   z, jr_000_1ccf                              ; $1ccc: $28 $01
++
+// decrease invinvibility timer
+	ld   hl, wPlayerInvincibilityCounter
+	ld   a, (hl)
+	cp   $00
+	jr   z, +
 
-	dec  (hl)                                        ; $1cce: $35
+	dec  (hl)
 
-jr_000_1ccf:
++
 	ld   hl, wNextUsableOamIdx                                   ; $1ccf: $21 $4e $c0
 	ld   a, (hl)                                     ; $1cd2: $7e
 	add  $0a                                         ; $1cd3: $c6 $0a
 	cp   $28                                         ; $1cd5: $fe $28
-	jr   c, jr_000_1cdb                              ; $1cd7: $38 $02
+	jr   c, +                              ; $1cd7: $38 $02
 
 	sub  $28                                         ; $1cd9: $d6 $28
 
-jr_000_1cdb:
++
 	ld   hl, wNextUsableOamIdx                                   ; $1cdb: $21 $4e $c0
 	ld   (hl), a                                     ; $1cde: $77
+
+//
 	ld   hl, $c08b                                   ; $1cdf: $21 $8b $c0
 	ld   a, (hl)                                     ; $1ce2: $7e
 	cp   $00                                         ; $1ce3: $fe $00
-	jr   z, jr_000_1cfa                              ; $1ce5: $28 $13
+	jr   z, @func_1cfa                              ; $1ce5: $28 $13
 
 	call Call_000_294f                               ; $1ce7: $cd $4f $29
 	ld   hl, $c08d                                   ; $1cea: $21 $8d $c0
 	ld   a, (hl)                                     ; $1ced: $7e
 	cp   $00                                         ; $1cee: $fe $00
-	jr   nz, _scfRetToGoToGameOverScreen                             ; $1cf0: $20 $03
+	jr   nz, @scfRetToGoToGameOverScreen                             ; $1cf0: $20 $03
 
-	jp   Jump_000_1dca                               ; $1cf2: $c3 $ca $1d
+	jp   @updateGameState                               ; $1cf2: $c3 $ca $1d
 
-
-_scfRetToGoToGameOverScreen:
+@scfRetToGoToGameOverScreen:
 	call stopAllSounds
 	scf
 	ret
 
-
-jr_000_1cfa:
+@func_1cfa:
 	ld   hl, $c05d                                   ; $1cfa: $21 $5d $c0
 	ld   a, (hl)                                     ; $1cfd: $7e
 	cp   $fe                                         ; $1cfe: $fe $fe
-	jp   nz, Jump_000_1dad                           ; $1d00: $c2 $ad $1d
+	jp   nz, @func_1dad                           ; $1d00: $c2 $ad $1d
 
 	ld   hl, $c57f                                   ; $1d03: $21 $7f $c5
 	ld   a, (hl)                                     ; $1d06: $7e
 	cp   $00                                         ; $1d07: $fe $00
-	jr   z, jr_000_1d2a                              ; $1d09: $28 $1f
+	jr   z, @func_1d2a                              ; $1d09: $28 $1f
 
 	ld   hl, $c57f                                   ; $1d0b: $21 $7f $c5
 	dec  (hl)                                        ; $1d0e: $35
-	jp   nz, Jump_000_1dca                           ; $1d0f: $c2 $ca $1d
+	jp   nz, @updateGameState                           ; $1d0f: $c2 $ca $1d
 
 	ld   hl, $c6da                                   ; $1d12: $21 $da $c6
 	ld   a, (hl)                                     ; $1d15: $7e
@@ -1960,23 +1956,22 @@ jr_000_1cfa:
 	ld   (hl), a                                     ; $1d21: $77
 	ld   hl, $c05e                                   ; $1d22: $21 $5e $c0
 	ld   (hl), $00                                   ; $1d25: $36 $00
-	jp   Jump_000_1dca                               ; $1d27: $c3 $ca $1d
+	jp   @updateGameState                               ; $1d27: $c3 $ca $1d
 
-
-jr_000_1d2a:
+@func_1d2a:
 	ld   hl, $c6d8                                   ; $1d2a: $21 $d8 $c6
 	ld   a, (hl)                                     ; $1d2d: $7e
 	ld   hl, $c6d9                                   ; $1d2e: $21 $d9 $c6
 	or   (hl)                                        ; $1d31: $b6
-	jr   z, jr_000_1da7                              ; $1d32: $28 $73
+	jr   z, @func_1da7                              ; $1d32: $28 $73
 
 	ld   hl, $c6d9                                   ; $1d34: $21 $d9 $c6
 	ld   a, (hl)                                     ; $1d37: $7e
 	cp   $00                                         ; $1d38: $fe $00
-	jr   z, jr_000_1d5f                              ; $1d3a: $28 $23
+	jr   z, @func_1d5f                              ; $1d3a: $28 $23
 
 	bit  7, a                                        ; $1d3c: $cb $7f
-	jr   nz, jr_000_1d51                             ; $1d3e: $20 $11
+	jr   nz, @func_1d51                             ; $1d3e: $20 $11
 
 	ld   hl, wPlayerY                                   ; $1d40: $21 $54 $c0
 	inc  (hl)                                        ; $1d43: $34
@@ -1984,10 +1979,9 @@ jr_000_1d2a:
 	dec  (hl)                                        ; $1d47: $35
 	ld   bc, $0046                                   ; $1d48: $01 $46 $00
 	ld   de, $0000                                   ; $1d4b: $11 $00 $00
-	jp   Jump_000_1d5f                               ; $1d4e: $c3 $5f $1d
+	jp   @func_1d5f                               ; $1d4e: $c3 $5f $1d
 
-
-jr_000_1d51:
+@func_1d51:
 	ld   hl, wPlayerY                                   ; $1d51: $21 $54 $c0
 	dec  (hl)                                        ; $1d54: $35
 	ld   hl, $c6d9                                   ; $1d55: $21 $d9 $c6
@@ -1995,15 +1989,14 @@ jr_000_1d51:
 	ld   bc, $0043                                   ; $1d59: $01 $43 $00
 	ld   de, $0000                                   ; $1d5c: $11 $00 $00
 
-Jump_000_1d5f:
-jr_000_1d5f:
+@func_1d5f:
 	ld   hl, $c6d8                                   ; $1d5f: $21 $d8 $c6
 	ld   a, (hl)                                     ; $1d62: $7e
 	cp   $00                                         ; $1d63: $fe $00
-	jr   z, Jump_000_1d8a                              ; $1d65: $28 $23
+	jr   z, @func_1d8a                              ; $1d65: $28 $23
 
 	bit  7, a                                        ; $1d67: $cb $7f
-	jr   nz, jr_000_1d7c                             ; $1d69: $20 $11
+	jr   nz, @func_1d7c                             ; $1d69: $20 $11
 
 	ld   hl, wPlayerX                                   ; $1d6b: $21 $52 $c0
 	inc  (hl)                                        ; $1d6e: $34
@@ -2011,10 +2004,9 @@ jr_000_1d5f:
 	dec  (hl)                                        ; $1d72: $35
 	ld   bc, $0040                                   ; $1d73: $01 $40 $00
 	ld   de, $0000                                   ; $1d76: $11 $00 $00
-	jp   Jump_000_1d8a                               ; $1d79: $c3 $8a $1d
+	jp   @func_1d8a                               ; $1d79: $c3 $8a $1d
 
-
-jr_000_1d7c:
+@func_1d7c:
 	ld   hl, wPlayerX                                   ; $1d7c: $21 $52 $c0
 	dec  (hl)                                        ; $1d7f: $35
 	ld   hl, $c6d8                                   ; $1d80: $21 $d8 $c6
@@ -2022,7 +2014,7 @@ jr_000_1d7c:
 	ld   bc, $0040                                   ; $1d84: $01 $40 $00
 	ld   de, $0020                                   ; $1d87: $11 $20 $00
 
-Jump_000_1d8a:
+@func_1d8a:
 	ld   hl, wPlayerOamAttr                                   ; $1d8a: $21 $55 $c0
 	ld   a, (hl)                                     ; $1d8d: $7e
 	and  $df                                         ; $1d8e: $e6 $df
@@ -2036,47 +2028,45 @@ Jump_000_1d8a:
 	ld   hl, wPlayerIdxIntoGenericVramForTile                                   ; $1d9d: $21 $56 $c0
 	ld   (hl), c                                     ; $1da0: $71
 	call Jump_001_4d69                                       ; $1da1: $cd $69 $4d
-	jp   Jump_000_1dca                               ; $1da4: $c3 $ca $1d
+	jp   @updateGameState                               ; $1da4: $c3 $ca $1d
 
-
-jr_000_1da7:
+@func_1da7:
 	ld   a, $00                                      ; $1da7: $3e $00
 	ld   hl, $c05d                                   ; $1da9: $21 $5d $c0
 	ld   (hl), a                                     ; $1dac: $77
 
-Jump_000_1dad:
+@func_1dad:
 	ld   hl, wTimeUntilFrozenStateEnds                                   ; $1dad: $21 $59 $c0
 	ld   a, (hl)                                     ; $1db0: $7e
 	cp   $00                                         ; $1db1: $fe $00
-	jr   nz, Jump_000_1dca                             ; $1db3: $20 $15
+	jr   nz, @updateGameState                             ; $1db3: $20 $15
 
 // not frozen
 	call Call_000_29ea                               ; $1db5: $cd $ea $29
 	ld   hl, $c05d                                   ; $1db8: $21 $5d $c0
 	ld   a, (hl)                                     ; $1dbb: $7e
 	cp   $00                                         ; $1dbc: $fe $00
-	jr   z, jr_000_1dc7                              ; $1dbe: $28 $07
+	jr   z, @canUseItems_updateGameState                              ; $1dbe: $28 $07
 
 	cp   $fe                                         ; $1dc0: $fe $fe
-	jr   z, jr_000_1dc7                              ; $1dc2: $28 $03
+	jr   z, @canUseItems_updateGameState                              ; $1dc2: $28 $03
 
 	scf                                              ; $1dc4: $37
 	ccf                                              ; $1dc5: $3f
 	ret                                              ; $1dc6: $c9
 
-
-jr_000_1dc7:
+@canUseItems_updateGameState:
 	call checkUsingItems
 
-Jump_000_1dca:
+@updateGameState:
 	call updateNPCs
 	call loadNpcOamDataToWram
 	call copyPlayerDataOnto_wOam
-	call Call_000_3aa4                               ; $1dd3: $cd $a4 $3a
+	call Call_000_3aa4	; $1dd3: explosion-related
 	call updateFruits
 	call updateBombs
 	call updateJawboneOrSword
-	call func_48ec                                       ; $1ddf: $cd $ec $48
+	call func_48ec	; $1ddf: falling object-related
 	call updateFallingObjects
 	call loadBWeaponDataToOam
 	call updateFallingObjectsOam
@@ -2300,9 +2290,9 @@ loadRoomDataFromStruct:
 	call setAtoHL_deBytes
 
 // clear explosion vars
-	ld   hl, wExplosionVar0                                   ; $1f34: $21 $80 $c5
-	ld   de, $0060                                   ; $1f37: $11 $60 $00
-	call setAtoHL_deBytes                               ; $1f3a: $cd $6d $27
+	ld   hl, wExplosionVar0
+	ld   de, $0060
+	call setAtoHL_deBytes
 
 // clear room flag item vars
 	ld   hl, wRoomFlagItemTypes
@@ -3086,7 +3076,7 @@ playerTakeDamage:
 
 	ld   e, $00                                      ; $28d1: $1e $00
 
-	ld   hl, $c024                                   ; $28d3: $21 $24 $c0
+	ld   hl, wCurrNpcMovingDir                                   ; $28d3: $21 $24 $c0
 	ld   a, (hl)                                     ; $28d6: $7e
 	ld   hl, $c026                                   ; $28d7: $21 $26 $c0
 	ld   (hl), a                                     ; $28da: $77
@@ -3111,7 +3101,7 @@ playerTakeDamage:
 	ld   hl, $c08c                                   ; $28f3: $21 $8c $c0
 	ld   (hl), a                                     ; $28f6: $77
 
-// pointer to $49
+// $13
 	ld   hl, $c08b                                   ; $28f7: $21 $8b $c0
 	ld   (hl), e                                     ; $28fa: $73
 
@@ -3193,6 +3183,7 @@ Call_000_294f:
 	add  $02                                         ; $2955: $c6 $02
 	ld   hl, $c08b                                   ; $2957: $21 $8b $c0
 	ld   (hl), a                                     ; $295a: $77
+
 	ld   e, a                                        ; $295b: $5f
 	ld   d, $00                                      ; $295c: $16 $00
 	ld   hl, data_09fd                                   ; $295e: $21 $fd $09
@@ -3203,6 +3194,7 @@ Call_000_294f:
 
 	ld   hl, $c08b                                   ; $2967: $21 $8b $c0
 	ld   (hl), a                                     ; $296a: $77
+
 	ld   a, $01                                      ; $296b: $3e $01
 	ld   hl, $c08d                                   ; $296d: $21 $8d $c0
 	ld   (hl), a                                     ; $2970: $77
@@ -3381,19 +3373,19 @@ jr_000_2a56:
 
 
 jr_000_2a5a:
-	ld   hl, $c714                                   ; $2a5a: $21 $14 $c7
-	ld   a, (hl)                                     ; $2a5d: $7e
-	ld   hl, wIsUsingRaft                                   ; $2a5e: $21 $4f $c0
-	or   (hl)                                        ; $2a61: $b6
-	ld   hl, wMainLoopCounter                                   ; $2a62: $21 $14 $c0
-	and  (hl)                                        ; $2a65: $a6
-	and  $01                                         ; $2a66: $e6 $01
-	jr   z, jr_000_2a6b                              ; $2a68: $28 $01
+// if c714 non-zero (eg on stairs), or using raft, only process input every main loop
+	ld   hl, wPlayerMovementSlowed
+	ld   a, (hl)
+	ld   hl, wIsUsingRaft
+	or   (hl)
+	ld   hl, wMainLoopCounter
+	and  (hl)
+	and  $01
+	jr   z, +
 
-	ret                                              ; $2a6a: $c9
+	ret
 
-
-jr_000_2a6b:
++
 	ld   a, $00                                      ; $2a6b: $3e $00
 	ld   hl, $c04d                                   ; $2a6d: $21 $4d $c0
 	ld   (hl), a                                     ; $2a70: $77
@@ -5999,7 +5991,7 @@ jr_000_3783:
 	ld   hl, wBaseDamageTaken                                   ; $37b5: $21 $23 $c0
 	ld   (hl), a                                     ; $37b8: $77
 	ld   a, $ff                                      ; $37b9: $3e $ff
-	ld   hl, $c024                                   ; $37bb: $21 $24 $c0
+	ld   hl, wCurrNpcMovingDir                                   ; $37bb: $21 $24 $c0
 	ld   (hl), a                                     ; $37be: $77
 	call playerTakeDamage                               ; $37bf: $cd $75 $28
 
@@ -6890,7 +6882,7 @@ checkFallingObjectCollisions:
 	ld   hl, wBaseDamageTaken                                   ; $3c39: $21 $23 $c0
 	ld   (hl), a                                     ; $3c3c: $77
 	ld   a, $ff                                      ; $3c3d: $3e $ff
-	ld   hl, $c024                                   ; $3c3f: $21 $24 $c0
+	ld   hl, wCurrNpcMovingDir                                   ; $3c3f: $21 $24 $c0
 	ld   (hl), a                                     ; $3c42: $77
 	call playerTakeDamage                               ; $3c43: $cd $75 $28
 	jp   @next_3c56                               ; $3c46: $c3 $56 $3c
@@ -7112,7 +7104,7 @@ Call_000_3d05:
 
 	ld   a, $81                                      ; $3d8c: $3e $81
 	ld   a, $ff                                      ; $3d8e: $3e $ff
-	ld   hl, $c024                                   ; $3d90: $21 $24 $c0
+	ld   hl, wCurrNpcMovingDir                                   ; $3d90: $21 $24 $c0
 	ld   (hl), a                                     ; $3d93: $77
 	call playerTakeDamage                               ; $3d94: $cd $75 $28
 
@@ -7416,13 +7408,12 @@ updateFallingObjects:
 func_3f41:
 	call getTileEntityOrPlayerIsOn                               ; func_3f41: $cd $ed $3f
 	cp   $10                                         ; $3f44: $fe $10
-	jr   c, jr_000_3f4a                              ; $3f46: $38 $02
+	jr   c, +                              ; $3f46: $38 $02
 
 	scf                                              ; $3f48: $37
 	ret                                              ; $3f49: $c9
 
-
-jr_000_3f4a:
++
 	push bc                                          ; $3f4a: $c5
 	ld   hl, $c00c                                   ; $3f4b: $21 $0c $c0
 	ld   (hl), c                                     ; $3f4e: $71
@@ -7430,123 +7421,118 @@ jr_000_3f4a:
 	ld   (hl), e                                     ; $3f52: $73
 	ld   bc, $0000                                   ; $3f53: $01 $00 $00
 
-Jump_000_3f56:
+@nextFallingObject:
 	ld   hl, wFallingObjectID                                   ; $3f56: $21 $60 $c6
 	add  hl, bc                                      ; $3f59: $09
 	ld   a, (hl)                                     ; $3f5a: $7e
 	cp   $00                                         ; $3f5b: $fe $00
-	jp   z, Jump_000_3fe2                            ; $3f5d: $ca $e2 $3f
+	jp   z, @toNextFallingObject                            ; $3f5d: $ca $e2 $3f
 
 	cp   $18                                         ; $3f60: $fe $18
-	jp   c, Jump_000_3fe2                            ; $3f62: $da $e2 $3f
+	jp   c, @toNextFallingObject                            ; $3f62: $da $e2 $3f
 
 	ld   hl, wFallingObjectVar4                                   ; $3f65: $21 $6c $c6
 	add  hl, bc                                      ; $3f68: $09
 	ld   a, (hl)                                     ; $3f69: $7e
 	cp   $06                                         ; $3f6a: $fe $06
-	jr   z, jr_000_3fd4                              ; $3f6c: $28 $66
+	jr   z, @func_3fd4                              ; $3f6c: $28 $66
 
-	jr   c, jr_000_3fa1                              ; $3f6e: $38 $31
+	jr   c, @func_3fa1                              ; $3f6e: $38 $31
 
-	ld   hl, wFallingObjectVar6                                   ; $3f70: $21 $72 $c6
+	ld   hl, wFallingObject2x2xVal                                   ; $3f70: $21 $72 $c6
 	add  hl, bc                                      ; $3f73: $09
 	ld   a, (hl)                                     ; $3f74: $7e
 	ld   hl, $c00c                                   ; $3f75: $21 $0c $c0
 	cp   (hl)                                        ; $3f78: $be
-	jr   nz, jr_000_3f89                             ; $3f79: $20 $0e
+	jr   nz, @func_3f89                             ; $3f79: $20 $0e
 
-	ld   hl, wFallingObjectVar7                                   ; $3f7b: $21 $75 $c6
+	ld   hl, wFallingObject2x2yVal                                   ; $3f7b: $21 $75 $c6
 	add  hl, bc                                      ; $3f7e: $09
 	ld   a, (hl)                                     ; $3f7f: $7e
 
-Jump_000_3f80:
+@func_3f80:
 	ld   hl, $c00d                                   ; $3f80: $21 $0d $c0
 	cp   (hl)                                        ; $3f83: $be
-	jr   nz, Jump_000_3fe2                             ; $3f84: $20 $5c
+	jr   nz, @toNextFallingObject                             ; $3f84: $20 $5c
 
-	jp   Jump_000_3fb7                               ; $3f86: $c3 $b7 $3f
+	jp   @aEqu26h_scf                               ; $3f86: $c3 $b7 $3f
 
-
-jr_000_3f89:
+@func_3f89:
 	sub  $01                                         ; $3f89: $d6 $01
 	ld   hl, $c00c                                   ; $3f8b: $21 $0c $c0
 	cp   (hl)                                        ; $3f8e: $be
-	jr   nz, Jump_000_3fe2                             ; $3f8f: $20 $51
+	jr   nz, @toNextFallingObject                             ; $3f8f: $20 $51
 
-	ld   hl, wFallingObjectVar7                                   ; $3f91: $21 $75 $c6
+	ld   hl, wFallingObject2x2yVal                                   ; $3f91: $21 $75 $c6
 	add  hl, bc                                      ; $3f94: $09
 	ld   a, (hl)                                     ; $3f95: $7e
 	ld   hl, $c00d                                   ; $3f96: $21 $0d $c0
 	cp   (hl)                                        ; $3f99: $be
-	jr   z, Jump_000_3fb7                              ; $3f9a: $28 $1b
+	jr   z, @aEqu26h_scf                              ; $3f9a: $28 $1b
 
 	add  $01                                         ; $3f9c: $c6 $01
-	jp   Jump_000_3f80                               ; $3f9e: $c3 $80 $3f
+	jp   @func_3f80                               ; $3f9e: $c3 $80 $3f
 
-
-jr_000_3fa1:
-	ld   hl, wFallingObjectVar6                                   ; $3fa1: $21 $72 $c6
+@func_3fa1:
+	ld   hl, wFallingObject2x2xVal                                   ; $3fa1: $21 $72 $c6
 	add  hl, bc                                      ; $3fa4: $09
 	ld   a, (hl)                                     ; $3fa5: $7e
 	ld   hl, $c00c                                   ; $3fa6: $21 $0c $c0
 	cp   (hl)                                        ; $3fa9: $be
-	jr   nz, jr_000_3fbc                             ; $3faa: $20 $10
+	jr   nz, @func_3fbc                             ; $3faa: $20 $10
 
-	ld   hl, wFallingObjectVar7                                   ; $3fac: $21 $75 $c6
+	ld   hl, wFallingObject2x2yVal                                   ; $3fac: $21 $75 $c6
 	add  hl, bc                                      ; $3faf: $09
 	ld   a, (hl)                                     ; $3fb0: $7e
 
-Jump_000_3fb1:
+@func_3fb1:
 	ld   hl, $c00d                                   ; $3fb1: $21 $0d $c0
 	cp   (hl)                                        ; $3fb4: $be
-	jr   nz, Jump_000_3fe2                             ; $3fb5: $20 $2b
+	jr   nz, @toNextFallingObject                             ; $3fb5: $20 $2b
 
-Jump_000_3fb7:
+@aEqu26h_scf:
 	pop  bc                                          ; $3fb7: $c1
 	ld   a, $26                                      ; $3fb8: $3e $26
 	scf                                              ; $3fba: $37
 	ret                                              ; $3fbb: $c9
 
-
-jr_000_3fbc:
+@func_3fbc:
 	add  $01                                         ; $3fbc: $c6 $01
 	ld   hl, $c00c                                   ; $3fbe: $21 $0c $c0
 	cp   (hl)                                        ; $3fc1: $be
-	jr   nz, Jump_000_3fe2                             ; $3fc2: $20 $1e
+	jr   nz, @toNextFallingObject                             ; $3fc2: $20 $1e
 
-Jump_000_3fc4:
-	ld   hl, wFallingObjectVar7                                   ; $3fc4: $21 $75 $c6
+@func_3fc4:
+	ld   hl, wFallingObject2x2yVal                                   ; $3fc4: $21 $75 $c6
 	add  hl, bc                                      ; $3fc7: $09
 	ld   a, (hl)                                     ; $3fc8: $7e
 	ld   hl, $c00d                                   ; $3fc9: $21 $0d $c0
 	cp   (hl)                                        ; $3fcc: $be
-	jr   z, Jump_000_3fb7                              ; $3fcd: $28 $e8
+	jr   z, @aEqu26h_scf                              ; $3fcd: $28 $e8
 
 	add  $01                                         ; $3fcf: $c6 $01
-	jp   Jump_000_3fb1                               ; $3fd1: $c3 $b1 $3f
+	jp   @func_3fb1                               ; $3fd1: $c3 $b1 $3f
 
-
-jr_000_3fd4:
-	ld   hl, wFallingObjectVar6                                   ; $3fd4: $21 $72 $c6
+@func_3fd4:
+	ld   hl, wFallingObject2x2xVal                                   ; $3fd4: $21 $72 $c6
 	add  hl, bc                                      ; $3fd7: $09
 	ld   a, (hl)                                     ; $3fd8: $7e
 	ld   hl, $c00c                                   ; $3fd9: $21 $0c $c0
 	cp   (hl)                                        ; $3fdc: $be
-	jr   nz, Jump_000_3fe2                             ; $3fdd: $20 $03
+	jr   nz, @toNextFallingObject                             ; $3fdd: $20 $03
 
-	jp   Jump_000_3fc4                               ; $3fdf: $c3 $c4 $3f
+	jp   @func_3fc4                               ; $3fdf: $c3 $c4 $3f
 
+@toNextFallingObject:
+	inc  bc
+	ld   a, c
+	cp   NUM_FALLING_OBJECTS
+	jp   c, @nextFallingObject
 
-Jump_000_3fe2:
-	inc  bc                                          ; $3fe2: $03
-	ld   a, c                                        ; $3fe3: $79
-	cp   $03                                         ; $3fe4: $fe $03
-	jp   c, Jump_000_3f56                            ; $3fe6: $da $56 $3f
-
-	pop  bc                                          ; $3fe9: $c1
-	scf                                              ; $3fea: $37
-	ccf                                              ; $3feb: $3f
-	ret                                              ; $3fec: $c9
+	pop  bc
+	scf
+	ccf
+	ret
 
 
 // c008 is x coord, c009 is y coord
@@ -7568,11 +7554,13 @@ getTileEntityOrPlayerIsOn:
 	ld   (hl), a                                     ; $4001: $77
 	and  $7f                                         ; $4002: $e6 $7f
 
-// tile type with no bit 7 in c00a/b
+// tile type addr in c00a/b
 	ld   hl, $c00a                                   ; $4004: $21 $0a $c0
 	ld   (hl), e                                     ; $4007: $73
 	inc  hl                                          ; $4008: $23
 	ld   (hl), d                                     ; $4009: $72
+	
+// a is tile type with no bit 7
 	pop  de                                          ; $400a: $d1
 	ret                                              ; $400b: $c9
 
@@ -7991,14 +7979,15 @@ loadNpcOamDataToWram:
 
 
 updateNPCs:
-// flip c65e
-	ld   hl, $c65e                                   ; $4272: $21 $5e $c6
-	ld   a, (hl)                                     ; $4275: $7e
-	and  $01                                         ; $4276: $e6 $01
-	ld   c, a                                        ; $4278: $4f
-	ld   b, $00                                      ; $4279: $06 $00
-	ld   hl, $c65e                                   ; $427b: $21 $5e $c6
-	inc  (hl)                                        ; $427e: $34
+// skip the 1st npc half the time
+	ld   hl, wUpdateNpcsCallCount
+	ld   a, (hl)
+	and  $01
+	ld   c, a
+	ld   b, $00
+
+	ld   hl, wUpdateNpcsCallCount
+	inc  (hl)
 
 @checkNextNPC:
 	ld   hl, wNPCBytes_ID
@@ -8033,32 +8022,34 @@ updateNPCs:
 	call Call_001_4324                               ; $42a0: $cd $24 $43
 	jr   nz, @afterAnimationFrameCheck                             ; $42a3: $20 $42
 
-	call getBit6ofNPCBytes_cb60                               ; $42a5: $cd $82 $73
-	jr   nz, +                             ; $42a8: $20 $1a
+	call getBit6ofNPCBytes_cb60
+	jr   nz, @npcHasNoVertTiles
 
-	ld   hl, wNPCBytes_pixelsToMove                                   ; $42aa: $21 $a8 $cb
-	add  hl, bc                                      ; $42ad: $09
-	ld   a, (hl)                                     ; $42ae: $7e
-	cp   $00                                         ; $42af: $fe $00
-	jr   z, @afterAnimationFrameCheck                              ; $42b1: $28 $34
+// npc has vert directions
+	ld   hl, wNPCBytes_pixelsToMove
+	add  hl, bc
+	ld   a, (hl)
+	cp   $00
+	jr   z, @afterAnimationFrameCheck
 
 // npc still has pixels to move
-	ld   hl, wNPCBytes_animationFrameIdx                                   ; $42b3: $21 $6c $cb
-	add  hl, bc                                      ; $42b6: $09
-	inc  (hl)                                        ; $42b7: $34
-	ld   hl, wNPCBytes_animationFrameIdx                                   ; $42b8: $21 $6c $cb
-	add  hl, bc                                      ; $42bb: $09
-	ld   a, (hl)                                     ; $42bc: $7e
-	cp   $03                                         ; $42bd: $fe $03
-	jr   nc, @resetAnimationFrameIdx                             ; $42bf: $30 $1f
+	ld   hl, wNPCBytes_animationFrameIdx
+	add  hl, bc
+	inc  (hl)
+	ld   hl, wNPCBytes_animationFrameIdx
+	add  hl, bc
+	ld   a, (hl)
+	cp   $03
+	jr   nc, @resetAnimationFrameIdx
 
-	jp   @afterAnimationFrameCheck                               ; $42c1: $c3 $e7 $42
+	jp   @afterAnimationFrameCheck
 
-+
-	ld   hl, wNPCBytes_animationFrameIdx                                   ; $42c4: $21 $6c $cb
-	add  hl, bc                                      ; $42c7: $09
-	inc  (hl)                                        ; $42c8: $34
-	call getNpcOamTileAndAttr                               ; $42c9: $cd $8a $73
+@npcHasNoVertTiles:
+	ld   hl, wNPCBytes_animationFrameIdx
+	add  hl, bc
+	inc  (hl)
+	call getNpcOamTileAndAttr
+
 	ld   hl, $c009                                   ; $42cc: $21 $09 $c0
 	ld   a, (hl)                                     ; $42cf: $7e
 	cp   $02                                         ; $42d0: $fe $02
@@ -8082,41 +8073,44 @@ updateNPCs:
 -
 // if cb78 or cba8 are non-zero, before or after executing opcodes
 // jump to their relevant function
-	ld   hl, wNPCBytes_timeToWait                                   ; $42e7: $21 $78 $cb
-	add  hl, bc                                      ; $42ea: $09
-	ld   a, (hl)                                     ; $42eb: $7e
-	cp   $00                                         ; $42ec: $fe $00
-	jr   nz, @needToWait                             ; $42ee: $20 $24
+	ld   hl, wNPCBytes_timeToWait
+	add  hl, bc
+	ld   a, (hl)
+	cp   $00
+	jr   nz, @needToWait
 
-	ld   hl, wNPCBytes_pixelsToMove                                   ; $42f0: $21 $a8 $cb
-	add  hl, bc                                      ; $42f3: $09
-	ld   a, (hl)                                     ; $42f4: $7e
-	cp   $00                                         ; $42f5: $fe $00
-	jr   nz, @stillHasPixelsToMove                             ; $42f7: $20 $21
+	ld   hl, wNPCBytes_pixelsToMove
+	add  hl, bc
+	ld   a, (hl)
+	cp   $00
+	jr   nz, @stillHasPixelsToMove
 
-	call executeNPCScriptCode                               ; $42f9: $cd $8a $62
-	ld   hl, wCurrNpcIdx                                   ; $42fc: $21 $a6 $c0
-	ld   c, (hl)                                     ; $42ff: $4e
-	ld   b, $00                                      ; $4300: $06 $00
-	ld   hl, wNPCBytes_timeToWait                                   ; $4302: $21 $78 $cb
-	add  hl, bc                                      ; $4305: $09
-	ld   a, (hl)                                     ; $4306: $7e
-	ld   hl, wNPCBytes_pixelsToMove                                   ; $4307: $21 $a8 $cb
-	add  hl, bc                                      ; $430a: $09
-	or   (hl)                                        ; $430b: $b6
-	jr   nz, -                             ; $430c: $20 $d9
+// execute next opcode if no need to wait/move anymore
+	call executeNPCScriptCode
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
+
+// if now need to wait/move, execute those funcs
+	ld   hl, wNPCBytes_timeToWait
+	add  hl, bc
+	ld   a, (hl)
+	ld   hl, wNPCBytes_pixelsToMove
+	add  hl, bc
+	or   (hl)
+	jr   nz, -
 
 // cb78 and cba8 are 0
 	call Call_001_4346                               ; $430e: $cd $46 $43
-	jp   @gotoCheckNextNPC                               ; $4311: $c3 $88 $42
+	jp   @gotoCheckNextNPC
 
 @needToWait:
-	call npcWaitFunc                               ; $4314: $cd $3d $43
-	jp   @gotoCheckNextNPC                               ; $4317: $c3 $88 $42
+	call npcWaitFunc
+	jp   @gotoCheckNextNPC
 
 @stillHasPixelsToMove:
-	call npcMovePixelFunc                               ; $431a: $cd $d5 $43
-	jp   @gotoCheckNextNPC                               ; $431d: $c3 $88 $42
+	call npcMovePixelFunc
+	jp   @gotoCheckNextNPC
 
 
 data_4320:
@@ -8151,6 +8145,7 @@ npcWaitFunc:
 	ret                                              ; $4345: $c9
 
 
+// called 1st thing in wait func, and also after done with opcodes
 Call_001_4346:
 // de = (c0b2)
 	ld   hl, $c0b2                                   ; $4346: $21 $b2 $c0
@@ -8161,7 +8156,7 @@ Call_001_4346:
 	ld   hl, npcBackwardsData                                   ; $434c: $21 $15 $65
 	add  hl, de                                      ; $434f: $19
 	ld   a, (hl)                                     ; $4350: $7e
-	ld   hl, $c024                                   ; $4351: $21 $24 $c0
+	ld   hl, wCurrNpcMovingDir                                   ; $4351: $21 $24 $c0
 	ld   (hl), a                                     ; $4354: $77
 
 //
@@ -8200,48 +8195,62 @@ c044_equBit2of_cb60:
 
 
 Call_001_438c:
-	jr   nc, jr_001_43b2                             ; $438c: $30 $24
+	jr   nc, @doneIfNoCollision
 
-	push af                                          ; $438e: $f5
-	ld   a, c                                        ; $438f: $79
-	push af                                          ; $4390: $f5
-	ld   a, e                                        ; $4391: $7b
-	push af                                          ; $4392: $f5
-	ld   hl, wCurrNpcIdx                                   ; $4393: $21 $a6 $c0
-	ld   c, (hl)                                     ; $4396: $4e
-	ld   b, $00                                      ; $4397: $06 $00
-	call copy8npcMetadataBytesInto_c6d0                               ; $4399: $cd $c6 $72
-	ld   hl, wCommonByteCopyDestBytes+7                                   ; $439c: $21 $d7 $c6
-	ld   a, (hl)                                     ; $439f: $7e
-	cp   $ff                                         ; $43a0: $fe $ff
-	jr   z, jr_001_43a9                              ; $43a2: $28 $05
+// player took damage
+// preserve vars
+	push af
+	ld   a, c
+	push af
+	ld   a, e
+	push af
 
-	ld   hl, wNPCBytes_newID                                   ; $43a4: $21 $c0 $cb
-	add  hl, bc                                      ; $43a7: $09
-	ld   (hl), a                                     ; $43a8: $77
+	ld   hl, wCurrNpcIdx
+	ld   c, (hl)
+	ld   b, $00
 
-jr_001_43a9:
-	pop  af                                          ; $43a9: $f1
-	ld   e, a                                        ; $43aa: $5f
-	ld   d, $00                                      ; $43ab: $16 $00
-	pop  af                                          ; $43ad: $f1
-	ld   c, a                                        ; $43ae: $4f
-	ld   b, $00                                      ; $43af: $06 $00
-	pop  af                                          ; $43b1: $f1
+// last byte in entity struct used to transform npc
+	call copy8npcMetadataBytesInto_c6d0
+	ld   hl, wCommonByteCopyDestBytes+7
+	ld   a, (hl)
+	cp   $ff
+	jr   z, +
 
-jr_001_43b2:
-	jr   z, @done                              ; $43b2: $28 $20
+	ld   hl, wNPCBytes_newID
+	add  hl, bc
+	ld   (hl), a
 
++
+// restore orig e
+	pop  af
+	ld   e, a
+	ld   d, $00
+// restore orig c
+	pop  af
+	ld   c, a
+	ld   b, $00
+	pop  af
+// restore orig a
+
+@doneIfNoCollision:
+// not within bounds
+	jr   z, @done
+
+// not took damage, but collided
 	ld   hl, $c08b                                   ; $43b4: $21 $8b $c0
 	ld   a, (hl)                                     ; $43b7: $7e
 	cp   $00                                         ; $43b8: $fe $00
 	jr   nz, @done                             ; $43ba: $20 $18
 
+// player not dead??
 	ld   a, c                                        ; $43bc: $79
 	push af                                          ; $43bd: $f5
+
 	ld   hl, wCurrNpcIdx                                   ; $43be: $21 $a6 $c0
 	ld   c, (hl)                                     ; $43c1: $4e
 	ld   b, $00                                      ; $43c2: $06 $00
+
+// set bit 5 of npc 2nd byte low 6 bits
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $43c4: $21 $84 $cb
 	add  hl, bc                                      ; $43c7: $09
 	ld   a, (hl)                                     ; $43c8: $7e
@@ -8249,6 +8258,7 @@ jr_001_43b2:
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $43cb: $21 $84 $cb
 	add  hl, bc                                      ; $43ce: $09
 	ld   (hl), a                                     ; $43cf: $77
+
 	pop  af                                          ; $43d0: $f1
 	ld   c, a                                        ; $43d1: $4f
 	ld   b, $00                                      ; $43d2: $06 $00
@@ -8259,40 +8269,41 @@ jr_001_43b2:
 
 npcMovePixelFunc:
 // reset bit 4
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $43d5: $21 $84 $cb
-	add  hl, bc                                      ; $43d8: $09
-	ld   a, (hl)                                     ; $43d9: $7e
-	and  $ef                                         ; $43da: $e6 $ef
-	ld   (hl), a                                     ; $43dc: $77
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
+	ld   a, (hl)
+	and  $ef
+	ld   (hl), a
 
 // direction in c024
-	and  $0f                                         ; $43dd: $e6 $0f
-	ld   hl, $c024                                   ; $43df: $21 $24 $c0
-	ld   (hl), a                                     ; $43e2: $77
+	and  $0f
+	ld   hl, wCurrNpcMovingDir
+	ld   (hl), a
 
 // cb54 upper nybble into players damage taken
-	ld   hl, wNPCBytes_damageAndMovementSpeed                                   ; $43e3: $21 $54 $cb
-	add  hl, bc                                      ; $43e6: $09
-	ld   a, (hl)                                     ; $43e7: $7e
-	call aDivEqu16                                       ; $43e8: $cd $fa $07
-	ld   hl, wBaseDamageTaken                                   ; $43eb: $21 $23 $c0
-	ld   (hl), a                                     ; $43ee: $77
+	ld   hl, wNPCBytes_damageAndMovementSpeed
+	add  hl, bc
+	ld   a, (hl)
+	call aDivEqu16
+	ld   hl, wBaseDamageTaken
+	ld   (hl), a
 
-// cb54 low nybble+1 into c06e
+// movement speed into c06e
 	ld   hl, wNPCBytes_damageAndMovementSpeed                                   ; $43ef: $21 $54 $cb
 	add  hl, bc                                      ; $43f2: $09
 	ld   a, (hl)                                     ; $43f3: $7e
 	and  $0f                                         ; $43f4: $e6 $0f
 	ld   hl, $c06e                                   ; $43f6: $21 $6e $c0
 	ld   (hl), a                                     ; $43f9: $77
+
 	inc  (hl)                                        ; $43fa: $34
 
-//
+// if bit 3 not set, move to player?
 	ld   hl, wNPCBytes_cbe4                                   ; $43fb: $21 $e4 $cb
 	add  hl, bc                                      ; $43fe: $09
 	ld   a, (hl)                                     ; $43ff: $7e
 	and  $08                                         ; $4400: $e6 $08
-	jr   nz, func_4424                                     ; $4402: $20 $20
+	jr   nz, @func_4424                                     ; $4402: $20 $20
 
 // c050 is right->2, up->4, down->8, left->1
 	ld   hl, wNPC2ndByteLower6Bits                                   ; $4404: $21 $84 $cb
@@ -8301,184 +8312,193 @@ npcMovePixelFunc:
 	and  $0f                                         ; $4409: $e6 $0f
 	ld   e, a                                        ; $440b: $5f
 	ld   d, $00                                      ; $440c: $16 $00
-	ld   hl, data_441a                                   ; $440e: $21 $1a $44
+	ld   hl, @data_441a                                   ; $440e: $21 $1a $44
 	add  hl, de                                      ; $4411: $19
 	ld   a, (hl)                                     ; $4412: $7e
 	ld   hl, $c050                                   ; $4413: $21 $50 $c0
 	ld   (hl), a                                     ; $4416: $77
-	jp   Jump_001_450e                               ; $4417: $c3 $0e $45
 
+	jp   @bigNext_450e                               ; $4417: $c3 $0e $45
 
-data_441a:
-	ld   (bc), a                                     ; $441a: $02
-	ld   (bc), a                                     ; $441b: $02
-	ld   (bc), a                                     ; $441c: $02
-	inc  b                                           ; $441d: $04
-	inc  b                                           ; $441e: $04
-	inc  b                                           ; $441f: $04
-	ld   ($0808), sp                                 ; $4420: $08 $08 $08
+@data_441a:
+	.db $02 $02 $02
+	.db $04 $04 $04
+	.db $08 $08 $08
 	.db $01
 
-
-func_4424:
+@func_4424:
 	ld   de, $0001
 	ld   hl, wNPC_xCoord                                   ; $4427: $21 $3c $cb
 	add  hl, bc                                      ; $442a: $09
 	ld   a, (hl)                                     ; $442b: $7e
+
+// a = npc x - player x
 	ld   hl, wPlayerX                                   ; $442c: $21 $52 $c0
 	sub  (hl)                                        ; $442f: $96
-	jr   nc, jr_001_4439                             ; $4430: $30 $07
+	jr   nc, @rightOfPlayer                             ; $4430: $30 $07
 
+// left of player
 	ld   de, $0002                                   ; $4432: $11 $02 $00
+// neg a (a = player x - npc x, ie diff)
 	xor  $ff                                         ; $4435: $ee $ff
 	add  $01                                         ; $4437: $c6 $01
 
-jr_001_4439:
-	ld   hl, $c007                                   ; $4439: $21 $07 $c0
+@rightOfPlayer:
+	ld   hl, wNpcPlayerXDiff                                   ; $4439: $21 $07 $c0
 	ld   (hl), a                                     ; $443c: $77
+
+// de is 1 if right of player, 2 if left, 0 if within 3 px of player
 	cp   $03                                         ; $443d: $fe $03
-	jr   nc, jr_001_4444                             ; $443f: $30 $03
+	jr   nc, +                             ; $443f: $30 $03
 
 	ld   de, $0000                                   ; $4441: $11 $00 $00
 
-jr_001_4444:
++
 	ld   hl, $c050                                   ; $4444: $21 $50 $c0
 	ld   (hl), e                                     ; $4447: $73
+
+// vertical, a is diff between npc y and player y
 	ld   de, $0004                                   ; $4448: $11 $04 $00
 	ld   hl, wNPC_yCoord                                   ; $444b: $21 $48 $cb
 	add  hl, bc                                      ; $444e: $09
 	ld   a, (hl)                                     ; $444f: $7e
 	ld   hl, wPlayerY                                   ; $4450: $21 $54 $c0
 	sub  (hl)                                        ; $4453: $96
-	jr   nc, jr_001_445d                             ; $4454: $30 $07
+	jr   nc, @belowPlayer                             ; $4454: $30 $07
 
+// above player
 	ld   de, $0008                                   ; $4456: $11 $08 $00
+// neg a
 	xor  $ff                                         ; $4459: $ee $ff
 	add  $01                                         ; $445b: $c6 $01
 
-jr_001_445d:
-	ld   hl, $c008                                   ; $445d: $21 $08 $c0
+@belowPlayer:
+	ld   hl, wNpcPlayerYDiff                                   ; $445d: $21 $08 $c0
 	ld   (hl), a                                     ; $4460: $77
+
+// de is 8 if above, 4 if below, 0 if within 3 px of player
 	cp   $03                                         ; $4461: $fe $03
-	jr   nc, jr_001_4468                             ; $4463: $30 $03
+	jr   nc, +                             ; $4463: $30 $03
 
 	ld   de, $0000                                   ; $4465: $11 $00 $00
 
-jr_001_4468:
++
 	ld   a, e                                        ; $4468: $7b
+
+// c050 upper 2 bits is based on vertical, low 2 based on horiz
 	ld   hl, $c050                                   ; $4469: $21 $50 $c0
 	or   (hl)                                        ; $446c: $b6
 	ld   hl, $c050                                   ; $446d: $21 $50 $c0
 	ld   (hl), a                                     ; $4470: $77
+
+// de is based on horiz
 	and  $03                                         ; $4471: $e6 $03
 	ld   e, a                                        ; $4473: $5f
 	ld   d, $00                                      ; $4474: $16 $00
-	ld   hl, $c007                                   ; $4476: $21 $07 $c0
-	ld   a, (hl)                                     ; $4479: $7e
-	ld   hl, $c008                                   ; $447a: $21 $08 $c0
-	cp   (hl)                                        ; $447d: $be
-	jr   nc, jr_001_449a                             ; $447e: $30 $1a
 
-	ld   hl, $c008                                   ; $4480: $21 $08 $c0
+// if closer to player's x than y..
+	ld   hl, wNpcPlayerXDiff                                   ; $4476: $21 $07 $c0
+	ld   a, (hl)                                     ; $4479: $7e
+	ld   hl, wNpcPlayerYDiff                                   ; $447a: $21 $08 $c0
+	cp   (hl)                                        ; $447d: $be
+	jr   nc, @closerToPlayersY                             ; $447e: $30 $1a
+
+// set y diff to x diff
+	ld   hl, wNpcPlayerYDiff                                   ; $4480: $21 $08 $c0
 	ld   c, (hl)                                     ; $4483: $4e
 	ld   b, $00                                      ; $4484: $06 $00
-	ld   hl, $c008                                   ; $4486: $21 $08 $c0
+	ld   hl, wNpcPlayerYDiff                                   ; $4486: $21 $08 $c0
 	ld   (hl), a                                     ; $4489: $77
+
+// de is vertical bits only
 	ld   hl, $c050                                   ; $448a: $21 $50 $c0
 	ld   a, (hl)                                     ; $448d: $7e
 	and  $0c                                         ; $448e: $e6 $0c
 	ld   e, a                                        ; $4490: $5f
 	ld   d, $00                                      ; $4491: $16 $00
+
+// c is player y diff
 	ld   a, c                                        ; $4493: $79
 	ld   hl, wCurrNpcIdx                                   ; $4494: $21 $a6 $c0
 	ld   c, (hl)                                     ; $4497: $4e
 	ld   b, $00                                      ; $4498: $06 $00
 
-jr_001_449a:
+@closerToPlayersY:
 	srl  a                                           ; $449a: $cb $3f
-	ld   hl, $c008                                   ; $449c: $21 $08 $c0
+	ld   hl, wNpcPlayerYDiff                                   ; $449c: $21 $08 $c0
 	cp   (hl)                                        ; $449f: $be
-	jr   nc, jr_001_44a5                             ; $44a0: $30 $03
+	jr   nc, +                             ; $44a0: $30 $03
 
 	ld   de, $0000                                   ; $44a2: $11 $00 $00
 
-jr_001_44a5:
++
 	ld   a, e                                        ; $44a5: $7b
 	sla  a                                           ; $44a6: $cb $27
 	sla  a                                           ; $44a8: $cb $27
 	sla  a                                           ; $44aa: $cb $27
 	sla  a                                           ; $44ac: $cb $27
+
 	ld   hl, $c050                                   ; $44ae: $21 $50 $c0
 	or   (hl)                                        ; $44b1: $b6
 	ld   hl, $c050                                   ; $44b2: $21 $50 $c0
 	ld   (hl), a                                     ; $44b5: $77
+
 	call aDivEqu16                                       ; $44b6: $cd $fa $07
 	ld   hl, $c050                                   ; $44b9: $21 $50 $c0
 	and  (hl)                                        ; $44bc: $a6
-	jr   nz, jr_001_44c3                             ; $44bd: $20 $04
+	jr   nz, +                             ; $44bd: $20 $04
 
 	ld   hl, $c050                                   ; $44bf: $21 $50 $c0
 	ld   a, (hl)                                     ; $44c2: $7e
 
-jr_001_44c3:
++
 	ld   e, a                                        ; $44c3: $5f
 	ld   d, $00                                      ; $44c4: $16 $00
-	ld   hl, $c65e                                   ; $44c6: $21 $5e $c6
+	ld   hl, wUpdateNpcsCallCount                                   ; $44c6: $21 $5e $c6
 	ld   a, (hl)                                     ; $44c9: $7e
 	and  $0e                                         ; $44ca: $e6 $0e
 	cp   $08                                         ; $44cc: $fe $08
-	jr   nz, jr_001_44dd                             ; $44ce: $20 $0d
+	jr   nz, @func_44dd                             ; $44ce: $20 $0d
 
-	call keepUpperNybbleOfNPC2ndByteLower6Bits                               ; $44d0: $cd $da $65
-	ld   hl, data_44fe                                   ; $44d3: $21 $fe $44
-	add  hl, de                                      ; $44d6: $19
-	or   (hl)                                        ; $44d7: $b6
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $44d8: $21 $84 $cb
-	add  hl, bc                                      ; $44db: $09
-	ld   (hl), a                                     ; $44dc: $77
+// set npc new direction, idxed de
+	call keepUpperNybbleOfNPC2ndByteLower6Bits
+	ld   hl, @moveFuncNewDirs
+	add  hl, de
+	or   (hl)
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
+	ld   (hl), a
 
-jr_001_44dd:
+@func_44dd:
 	ld   hl, $c06e                                   ; $44dd: $21 $6e $c0
 	ld   a, (hl)                                     ; $44e0: $7e
 	cp   $01                                         ; $44e1: $fe $01
-	jr   nz, Jump_001_450e                             ; $44e3: $20 $29
+	jr   nz, @bigNext_450e                             ; $44e3: $20 $29
 
-	ld   hl, $c65e                                   ; $44e5: $21 $5e $c6
+	ld   hl, wUpdateNpcsCallCount                                   ; $44e5: $21 $5e $c6
 	ld   a, (hl)                                     ; $44e8: $7e
 	and  $02                                         ; $44e9: $e6 $02
-	jr   nz, Jump_001_450e                             ; $44eb: $20 $21
+	jr   nz, @bigNext_450e                             ; $44eb: $20 $21
 
 	ld   hl, $c050                                   ; $44ed: $21 $50 $c0
 	ld   a, (hl)                                     ; $44f0: $7e
 	call aDivEqu16                                       ; $44f1: $cd $fa $07
-	jr   z, Jump_001_450e                              ; $44f4: $28 $18
+	jr   z, @bigNext_450e                              ; $44f4: $28 $18
 
 	ld   hl, $c050                                   ; $44f6: $21 $50 $c0
 	and  (hl)                                        ; $44f9: $a6
 	ld   (hl), a                                     ; $44fa: $77
-	jp   Jump_001_450e                               ; $44fb: $c3 $0e $45
+	jp   @bigNext_450e                               ; $44fb: $c3 $0e $45
 
+@moveFuncNewDirs:
+	.db DIR_RIGHT, DIR_LEFT, DIR_RIGHT, DIR_LEFT
+	.db DIR_UP,    DIR_LEFT, DIR_RIGHT, DIR_LEFT
+	.db DIR_DOWN,  DIR_LEFT, DIR_RIGHT, DIR_LEFT
+	.db DIR_RIGHT, DIR_LEFT, DIR_RIGHT, DIR_LEFT
 
-data_44fe:
-	nop                                              ; $44fe: $00
-	add  hl, bc                                      ; $44ff: $09
-	nop                                              ; $4500: $00
-	add  hl, bc                                      ; $4501: $09
-	inc  bc                                          ; $4502: $03
-	add  hl, bc                                      ; $4503: $09
-	nop                                              ; $4504: $00
-	add  hl, bc                                      ; $4505: $09
-	ld   b, $09                                      ; $4506: $06 $09
-	nop                                              ; $4508: $00
-	add  hl, bc                                      ; $4509: $09
-	nop                                              ; $450a: $00
-	add  hl, bc                                      ; $450b: $09
-	nop                                              ; $450c: $00
-	add  hl, bc                                      ; $450d: $09
-
-Jump_001_450e:
+@bigNext_450e:
 	call Call_001_4562                               ; $450e: $cd $62 $45
-	jr   c, @func_454e                              ; $4511: $38 $3b
+	jr   c, @noPixelsToMove                              ; $4511: $38 $3b
 
 	ld   hl, wNPCBytes_pixelsToMove                                   ; $4513: $21 $a8 $cb
 	add  hl, bc                                      ; $4516: $09
@@ -8487,16 +8507,17 @@ Jump_001_450e:
 
 	ld   hl, $c06e                                   ; $451a: $21 $6e $c0
 	dec  (hl)                                        ; $451d: $35
-	jr   nz, @func_4521                             ; $451e: $20 $01
+	jr   nz, +                             ; $451e: $20 $01
 
 	ret                                              ; $4520: $c9
 
-@func_4521:
++
 	ld   hl, $c050                                   ; $4521: $21 $50 $c0
 	ld   a, (hl)                                     ; $4524: $7e
 	call aDivEqu16                                       ; $4525: $cd $fa $07
-	jr   z, Jump_001_450e                              ; $4528: $28 $e4
+	jr   z, @bigNext_450e                              ; $4528: $28 $e4
 
+//
 	ld   hl, $c050                                   ; $452a: $21 $50 $c0
 	ld   e, (hl)                                     ; $452d: $5e
 	ld   d, $00                                      ; $452e: $16 $00
@@ -8508,7 +8529,7 @@ Jump_001_450e:
 	pop  af                                          ; $4539: $f1
 	ld   hl, $c050                                   ; $453a: $21 $50 $c0
 	ld   (hl), a                                     ; $453d: $77
-	jr   c, @func_454e                              ; $453e: $38 $0e
+	jr   c, @noPixelsToMove                              ; $453e: $38 $0e
 
 	ld   hl, wNPCBytes_pixelsToMove                                   ; $4540: $21 $a8 $cb
 	add  hl, bc                                      ; $4543: $09
@@ -8517,25 +8538,27 @@ Jump_001_450e:
 
 	ld   hl, $c06e                                   ; $4547: $21 $6e $c0
 	dec  (hl)                                        ; $454a: $35
-	jr   nz, Jump_001_450e                             ; $454b: $20 $c1
+	jr   nz, @bigNext_450e                             ; $454b: $20 $c1
 
-	ret                                              ; $454d: $c9
+	ret
 
-@func_454e:
-	ld   a, $00                                      ; $454e: $3e $00
-	ld   hl, wNPCBytes_pixelsToMove                                   ; $4550: $21 $a8 $cb
-	add  hl, bc                                      ; $4553: $09
-	ld   (hl), a                                     ; $4554: $77
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $4555: $21 $84 $cb
-	add  hl, bc                                      ; $4558: $09
-	ld   a, (hl)                                     ; $4559: $7e
-	or   $10                                         ; $455a: $f6 $10
-	ld   hl, wNPC2ndByteLower6Bits                                   ; $455c: $21 $84 $cb
-	add  hl, bc                                      ; $455f: $09
-	ld   (hl), a                                     ; $4560: $77
+@noPixelsToMove:
+	ld   a, $00
+	ld   hl, wNPCBytes_pixelsToMove
+	add  hl, bc
+	ld   (hl), a
+
+// set bit 4
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
+	ld   a, (hl)
+	or   $10
+	ld   hl, wNPC2ndByteLower6Bits
+	add  hl, bc
+	ld   (hl), a
 
 @done:
-	ret                                              ; $4561: $c9
+	ret
 
 
 Call_001_4562:
@@ -9124,7 +9147,7 @@ resetRandomNumberTableIdx:
 
 
 ;;
-	ret                                              ; $48b1: $c9
+	ret
 
 
 getNextRandomNumber:
@@ -9176,7 +9199,7 @@ getNextRandomNumber:
 
 
 ;;
-	ret                                              ; $48eb: $c9
+	ret
 
 
 func_48ec:
@@ -9477,25 +9500,28 @@ createFallingObject_retCifCant:
 	add  hl, bc
 	ld   (hl), a
 
-//
+// 
 	ld   hl, $c00d                                   ; $4a7a: $21 $0d $c0
 	ld   a, (hl)                                     ; $4a7d: $7e
 	ld   hl, wFallingObjectVar4                                   ; $4a7e: $21 $6c $c6
 	add  hl, bc                                      ; $4a81: $09
 	ld   (hl), a                                     ; $4a82: $77
 
+// some kind of timer?
 	ld   a, $10                                      ; $4a83: $3e $10
 	ld   hl, wFallingObjectVar5                                   ; $4a85: $21 $6f $c6
 	add  hl, bc                                      ; $4a88: $09
 	ld   (hl), a                                     ; $4a89: $77
 
+// orig e (2x2 y val)
 	ld   a, e                                        ; $4a8a: $7b
-	ld   hl, wFallingObjectVar7                                   ; $4a8b: $21 $75 $c6
+	ld   hl, wFallingObject2x2yVal                                   ; $4a8b: $21 $75 $c6
 	add  hl, bc                                      ; $4a8e: $09
 	ld   (hl), a                                     ; $4a8f: $77
 
+// orig c (2x2 x val)
 	pop  af                                          ; $4a90: $f1
-	ld   hl, wFallingObjectVar6                                   ; $4a91: $21 $72 $c6
+	ld   hl, wFallingObject2x2xVal                                   ; $4a91: $21 $72 $c6
 	add  hl, bc                                      ; $4a94: $09
 	ld   (hl), a                                     ; $4a95: $77
 
@@ -9598,7 +9624,7 @@ checkPlayerCollisionWithEnemy:
 	jr   nz, @retZunset                             ; $4b0d: $20 $17
 
 // c027 0, set to 2
-	ld   hl, $c024                                   ; $4b0f: $21 $24 $c0
+	ld   hl, wCurrNpcMovingDir                                   ; $4b0f: $21 $24 $c0
 	ld   a, (hl)                                     ; $4b12: $7e
 	ld   hl, $c026                                   ; $4b13: $21 $26 $c0
 	ld   (hl), a                                     ; $4b16: $77
@@ -9850,16 +9876,19 @@ jr_001_4c55:
 
 
 checkTransitioningToLeftScreen:
-	ld   hl, wPlayerX                                   ; $4c5b: $21 $52 $c0
-	ld   a, (hl)                                     ; $4c5e: $7e
-	cp   $00                                         ; $4c5f: $fe $00
-	jr   nz, jr_001_4c79                             ; $4c61: $20 $16
+	ld   hl, wPlayerX
+	ld   a, (hl)
+	cp   $00
+	jr   nz, @notTransitioningLeft
 
-	ld   hl, wPlayerOamAttr                                   ; $4c63: $21 $55 $c0
-	ld   a, (hl)                                     ; $4c66: $7e
-	or   $20                                         ; $4c67: $f6 $20
-	ld   hl, wPlayerOamAttr                                   ; $4c69: $21 $55 $c0
-	ld   (hl), a                                     ; $4c6c: $77
+// x = 0, always look left
+	ld   hl, wPlayerOamAttr
+	ld   a, (hl)
+	or   $20
+	ld   hl, wPlayerOamAttr
+	ld   (hl), a
+
+// use tile idx 40h
 	ld   a, $40                                      ; $4c6d: $3e $40
 	ld   hl, wPlayerIdxIntoGenericVramForTile                                   ; $4c6f: $21 $56 $c0
 	ld   (hl), a                                     ; $4c72: $77
@@ -9868,13 +9897,18 @@ checkTransitioningToLeftScreen:
 	ld   bc, $0009                                   ; $4c73: $01 $09 $00
 	jp   _screenTransition                               ; $4c76: $c3 $87 $4e
 
-jr_001_4c79:
+@notTransitioningLeft:
+// bc = player x - 1
 	ld   hl, wPlayerX                                   ; $4c79: $21 $52 $c0
 	ld   c, (hl)                                     ; $4c7c: $4e
 	ld   b, $00                                      ; $4c7d: $06 $00
 	dec  bc                                          ; $4c7f: $0b
+
+// de is player's collision box top edge
 	call deEquPlayerYplus_c04a                                       ; $4c80: $cd $40 $2b
 	call splitCEintoItsNybbles                               ; $4c83: $cd $1c $55
+
+// clear some vars
 	ld   a, $00                                      ; $4c86: $3e $00
 	ld   hl, $c088                                   ; $4c88: $21 $88 $c0
 	ld   (hl), a                                     ; $4c8b: $77
@@ -9882,11 +9916,14 @@ jr_001_4c79:
 	ld   (hl), a                                     ; $4c8f: $77
 	ld   hl, $c08a                                   ; $4c90: $21 $8a $c0
 	ld   (hl), a                                     ; $4c93: $77
+
+// set some vars to 9
 	ld   a, $09                                      ; $4c94: $3e $09
 	ld   hl, $c082                                   ; $4c96: $21 $82 $c0
 	ld   (hl), a                                     ; $4c99: $77
 	ld   hl, $c0b2                                   ; $4c9a: $21 $b2 $c0
 	ld   (hl), a                                     ; $4c9d: $77
+
 	call Call_001_53d8                               ; $4c9e: $cd $d8 $53
 	jr   c, Jump_001_4cca                              ; $4ca1: $38 $27
 
@@ -9923,7 +9960,6 @@ Jump_001_4cca:
 	jr   z, Jump_001_4cd5                              ; $4cd0: $28 $03
 
 	jp   Jump_001_4d69                               ; $4cd2: $c3 $69 $4d
-
 
 Jump_001_4cd5:
 	ld   hl, wPlayerOamAttr                                   ; $4cd5: $21 $55 $c0
@@ -11093,7 +11129,7 @@ Call_001_5342:
 	ld   hl, wArmorOfGodGotten                                   ; $5351: $21 $52 $c6
 	ld   a, (hl)                                     ; $5354: $7e
 	and  $01                                         ; $5355: $e6 $01
-	jr   z, jr_001_53d5                              ; $5357: $28 $7c
+	jr   z, Jump_001_53d5                              ; $5357: $28 $7c
 
 	ld   hl, $c082                                   ; $5359: $21 $82 $c0
 	ld   a, (hl)                                     ; $535c: $7e
@@ -11118,15 +11154,15 @@ jr_001_5378:
 	ld   hl, $c089                                   ; $5378: $21 $89 $c0
 	ld   a, (hl)                                     ; $537b: $7e
 	cp   $0f                                         ; $537c: $fe $0f
-	jr   c, jr_001_53d5                              ; $537e: $38 $55
+	jr   c, Jump_001_53d5                              ; $537e: $38 $55
 
 	dec  de                                          ; $5380: $1b
 	bit  7, d                                        ; $5381: $cb $7a
-	jr   nz, jr_001_53d5                             ; $5383: $20 $50
+	jr   nz, Jump_001_53d5                             ; $5383: $20 $50
 
 	call func_3f41                                       ; $5385: $cd $41 $3f
 	inc  de                                          ; $5388: $13
-	jr   c, jr_001_53d5                              ; $5389: $38 $4a
+	jr   c, Jump_001_53d5                              ; $5389: $38 $4a
 
 	ld   a, $03                                      ; $538b: $3e $03
 	ld   hl, $c00d                                   ; $538d: $21 $0d $c0
@@ -11157,16 +11193,16 @@ jr_001_53b1:
 	ld   hl, $c08a                                   ; $53b1: $21 $8a $c0
 	ld   a, (hl)                                     ; $53b4: $7e
 	cp   $0f                                         ; $53b5: $fe $0f
-	jr   c, jr_001_53d5                              ; $53b7: $38 $1c
+	jr   c, Jump_001_53d5                              ; $53b7: $38 $1c
 
 	inc  de                                          ; $53b9: $13
 	ld   a, e                                        ; $53ba: $7b
 	cp   $0b                                         ; $53bb: $fe $0b
-	jr   z, jr_001_53d5                              ; $53bd: $28 $16
+	jr   z, Jump_001_53d5                              ; $53bd: $28 $16
 
 	call func_3f41                                       ; $53bf: $cd $41 $3f
 	dec  de                                          ; $53c2: $1b
-	jr   c, jr_001_53d5                              ; $53c3: $38 $10
+	jr   c, Jump_001_53d5                              ; $53c3: $38 $10
 
 	ld   a, $06                                      ; $53c5: $3e $06
 	ld   hl, $c00d                                   ; $53c7: $21 $0d $c0
@@ -11181,9 +11217,7 @@ Jump_001_53d1:
 	ccf                                              ; $53d3: $3f
 	ret                                              ; $53d4: $c9
 
-
 Jump_001_53d5:
-jr_001_53d5:
 	pop  af                                          ; $53d5: $f1
 
 jr_001_53d6:
@@ -11214,25 +11248,24 @@ Call_001_53d8:
 	call getTileEntityOrPlayerIsOn                                       ; $53f8: $cd $ed $3f
 	call Call_001_553b                               ; $53fb: $cd $3b $55
 	call Call_001_52ab                               ; $53fe: $cd $ab $52
-	jr   c, jr_001_5463                              ; $5401: $38 $60
+	jr   c, Jump_001_5463                              ; $5401: $38 $60
 
 	ld   hl, $c007                                   ; $5403: $21 $07 $c0
 	ld   a, (hl)                                     ; $5406: $7e
 	ld   hl, wPlayerOrEntityYCollisionAdjust                                   ; $5407: $21 $4a $c0
 	cp   (hl)                                        ; $540a: $be
-	jr   c, jr_001_545d                              ; $540b: $38 $50
+	jr   c, Jump_001_545d                              ; $540b: $38 $50
 
-	jr   z, jr_001_545d                              ; $540d: $28 $4e
+	jr   z, Jump_001_545d                              ; $540d: $28 $4e
 
 	inc  de                                          ; $540f: $13
 	call getTileEntityOrPlayerIsOn                                       ; $5410: $cd $ed $3f
 	call Call_001_553b                               ; $5413: $cd $3b $55
-	jr   nc, jr_001_545d                             ; $5416: $30 $45
+	jr   nc, Jump_001_545d                             ; $5416: $30 $45
 
 	ld   hl, wPlayerY                                   ; $5418: $21 $54 $c0
 	dec  (hl)                                        ; $541b: $35
 	jp   Jump_001_545d                               ; $541c: $c3 $5d $54
-
 
 jr_001_541f:
 	cp   $0c                                         ; $541f: $fe $0c
@@ -11242,17 +11275,16 @@ jr_001_541f:
 	call getTileEntityOrPlayerIsOn                                       ; $5424: $cd $ed $3f
 	call Call_001_553b                               ; $5427: $cd $3b $55
 	call Call_001_52ab                               ; $542a: $cd $ab $52
-	jr   c, jr_001_5463                              ; $542d: $38 $34
+	jr   c, Jump_001_5463                              ; $542d: $38 $34
 
 	dec  de                                          ; $542f: $1b
 	call getTileEntityOrPlayerIsOn                                       ; $5430: $cd $ed $3f
 	call Call_001_553b                               ; $5433: $cd $3b $55
-	jr   nc, jr_001_545d                             ; $5436: $30 $25
+	jr   nc, Jump_001_545d                             ; $5436: $30 $25
 
 	ld   hl, wPlayerY                                   ; $5438: $21 $54 $c0
 	inc  (hl)                                        ; $543b: $34
 	jp   Jump_001_545d                               ; $543c: $c3 $5d $54
-
 
 jr_001_543f:
 	call getTileEntityOrPlayerIsOn                                       ; $543f: $cd $ed $3f
@@ -11264,24 +11296,20 @@ jr_001_543f:
 	call Call_001_553b                               ; $544b: $cd $3b $55
 	jp   Jump_001_5463                               ; $544e: $c3 $63 $54
 
-
 jr_001_5451:
 	inc  de                                          ; $5451: $13
 	call getTileEntityOrPlayerIsOn                                       ; $5452: $cd $ed $3f
 	call Call_001_553b                               ; $5455: $cd $3b $55
 	call Call_001_52ab                               ; $5458: $cd $ab $52
-	jr   c, jr_001_5463                              ; $545b: $38 $06
+	jr   c, Jump_001_5463                              ; $545b: $38 $06
 
 Jump_001_545d:
-jr_001_545d:
 	scf                                              ; $545d: $37
 	ccf                                              ; $545e: $3f
 	call Call_001_5465                               ; $545f: $cd $65 $54
 	ret                                              ; $5462: $c9
 
-
 Jump_001_5463:
-jr_001_5463:
 	scf                                              ; $5463: $37
 	ret                                              ; $5464: $c9
 
@@ -11559,27 +11587,30 @@ checkRaftChanges_sendToOam:
 	cp   $00
 	jr   z, _ret_55a8
 
-// equipping raft
-	ld   hl, wPlayerX                                   ; $55bf: $21 $52 $c0
-	ld   a, (hl)                                     ; $55c2: $7e
-	add  $08                                         ; $55c3: $c6 $08
-	ld   c, a                                        ; $55c5: $4f
-	ld   b, $00                                      ; $55c6: $06 $00
-	ld   hl, wPlayerY                                   ; $55c8: $21 $54 $c0
-	ld   a, (hl)                                     ; $55cb: $7e
-	add  $0f                                         ; $55cc: $c6 $0f
-	ld   e, a                                        ; $55ce: $5f
-	ld   d, $00                                      ; $55cf: $16 $00
-	call splitCEintoItsNybbles                               ; $55d1: $cd $1c $55
-	ld   hl, $c008                                   ; $55d4: $21 $08 $c0
-	ld   c, (hl)                                     ; $55d7: $4e
-	ld   b, $00                                      ; $55d8: $06 $00
-	ld   hl, $c009                                   ; $55da: $21 $09 $c0
-	ld   e, (hl)                                     ; $55dd: $5e
-	ld   d, $00                                      ; $55de: $16 $00
-	call getTileEntityOrPlayerIsOn                                       ; $55e0: $cd $ed $3f
-	cp   $2d                                         ; $55e3: $fe $2d
-	jr   nz, +                             ; $55e5: $20 $06
+// equipping raft, coords slightly south of player
+	ld   hl, wPlayerX
+	ld   a, (hl)
+	add  $08
+	ld   c, a
+	ld   b, $00
+
+	ld   hl, wPlayerY
+	ld   a, (hl)
+	add  $0f
+	ld   e, a
+	ld   d, $00
+
+	call splitCEintoItsNybbles
+	ld   hl, wChighNybble
+	ld   c, (hl)
+	ld   b, $00
+
+	ld   hl, wEhighNybble
+	ld   e, (hl)
+	ld   d, $00
+	call getTileEntityOrPlayerIsOn
+	cp   $2d
+	jr   nz, +
 
 // set using raft if current tile is $2d (water)
 	ld   a, $ff
@@ -11608,25 +11639,29 @@ copyRaftDataToOam:
 	call getLastUsableOamIdx_fromA
 	call clear2spritesInOam_1stIdxedE
 
-	ld   a, $b1                                      ; $560d: $3e $b1
-	call convertEntity2x2tileToTopLeftVramTile                                       ; $560f: $cd $dd $17
-	ld   hl, wOam+2                                   ; $5612: $21 $02 $c2
-	add  hl, de                                      ; $5615: $19
-	ld   (hl), a                                     ; $5616: $77
-	add  $02                                         ; $5617: $c6 $02
-	ld   hl, wOam+6                                   ; $5619: $21 $06 $c2
-	add  hl, de                                      ; $561c: $19
-	ld   (hl), a                                     ; $561d: $77
-	ld   hl, wOam+3                                   ; $561e: $21 $03 $c2
-	add  hl, de                                      ; $5621: $19
-	ld   (hl), $00                                   ; $5622: $36 $00
-	ld   hl, wOam+7                                   ; $5624: $21 $07 $c2
-	add  hl, de                                      ; $5627: $19
-	ld   (hl), $00                                   ; $5628: $36 $00
-	ld   hl, wIsUsingRaft                                   ; $562a: $21 $4f $c0
-	ld   a, (hl)                                     ; $562d: $7e
-	cp   $00                                         ; $562e: $fe $00
-	jr   z, @notUsingRaft                              ; $5630: $28 $2d
+// tile idx
+	ld   a, $b1
+	call convertEntity2x2tileToTopLeftVramTile
+	ld   hl, wOam+2
+	add  hl, de
+	ld   (hl), a
+	add  $02
+	ld   hl, wOam+6
+	add  hl, de
+	ld   (hl), a
+
+// attr
+	ld   hl, wOam+3
+	add  hl, de
+	ld   (hl), $00
+	ld   hl, wOam+7
+	add  hl, de
+	ld   (hl), $00
+
+	ld   hl, wIsUsingRaft
+	ld   a, (hl)
+	cp   $00
+	jr   z, @notUsingRaft
 
 // using raft
 	ld   hl, wPlayerX
@@ -12299,16 +12334,19 @@ replaceTileHere:
 Call_001_59a1:
 	push af                                          ; $59a1: $f5
 
+// when checking player collision, this is the x
 	ld   hl, wGenericTile2x2_x                                   ; $59a2: $21 $0c $c0
 	ld   a, (hl)                                     ; $59a5: $7e
 	ld   hl, $c6c9                                   ; $59a6: $21 $c9 $c6
 	ld   (hl), a                                     ; $59a9: $77
 
+// this is y
 	ld   hl, wGenericTile2x2_y                                   ; $59aa: $21 $0d $c0
 	ld   a, (hl)                                     ; $59ad: $7e
 	ld   hl, $c6ca                                   ; $59ae: $21 $ca $c6
 	ld   (hl), a                                     ; $59b1: $77
 
+// this is a timer
 	ld   a, $20                                      ; $59b2: $3e $20
 	ld   hl, $c6c8                                   ; $59b4: $21 $c8 $c6
 	ld   (hl), a                                     ; $59b7: $77
@@ -12318,7 +12356,7 @@ Call_001_59a1:
 
 
 copy_c028_tileDetailsToGenericVramCopy:
-	call Call_001_59f0                               ; $59ba: $cd $f0 $59
+	call copy18_2x2tilesIfLastIdxLaggingBehindBy1group
 	call getSrcDestOfBottomTilesGenericVramCopyFrom_c028
 
 // this hl is dest for 2 bottom tiles
@@ -12377,13 +12415,14 @@ copy_c028_tileDetailsToGenericVramCopy:
 	ret
 
 
-Call_001_59f0:
-	ld   hl, wGenericVramCopyLastIdx                                   ; $59f0: $21 $ff $ce
-	ld   a, (hl)                                     ; $59f3: $7e
-	add  $08                                         ; $59f4: $c6 $08
-	ld   hl, wGenericVramCopyOffset                                   ; $59f6: $21 $fe $ce
-	cp   (hl)                                        ; $59f9: $be
-	jr   nz, @done                             ; $59fa: $20 $0c
+// todo: is this condition ever met?
+copy18_2x2tilesIfLastIdxLaggingBehindBy1group:
+	ld   hl, wGenericVramCopyLastIdx
+	ld   a, (hl)
+	add  $08
+	ld   hl, wGenericVramCopyOffset
+	cp   (hl)
+	jr   nz, @done
 
 	call waitUntilStartOfVBlankPeriod
 	call genericVramCopyUpTo6_2x2tiles

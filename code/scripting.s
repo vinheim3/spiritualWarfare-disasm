@@ -30,6 +30,7 @@ Jump_001_6257:
 	cp   NUM_BOMBS                                         ; $6265: $fe $18
 	jr   c, @nextBomb                              ; $6267: $38 $f1
 
+// all timers > 0
 	call updateBombs                                       ; $6269: $cd $b2 $35
 	jp   Jump_001_6257                               ; $626c: $c3 $57 $62
 
@@ -170,16 +171,16 @@ scriptCmdTable:
 	.dw _scriptCmd_end
 	.dw _scriptCmd_set5_cb60
 	.dw _scriptCmd_res5_cb60
-	.dw _scriptCmd_set7_cb60
+	.dw _scriptCmd_fruitsBounceOff
 	.dw _scriptCmd_set4_cb60
 	.dw _scriptCmd_faceUp
 	.dw _scriptCmd_faceDown
 	.dw _scriptCmd_faceRight
 	.dw _scriptCmd_faceLeft
-	.dw _scriptCmd_set6_cb60_reset_animationFrameIdx
+	.dw _scriptCmd_noVertTiles_reset_animationFrameIdx
 	.dw _scriptCmd_offsetNPCCoordsBy1_turnRight
 	.dw _scriptCmd_offsetNPCCoordsBy1_turnLeft
-	.dw _scriptCmd_res4_cb60
+	.dw _scriptCmd_damagableByPlayerItems
 	.dw _scriptCmd_turnLeft
 	.dw _scriptCmd_turnRight
 	.dw _scriptCmd_turnBackwards
@@ -201,18 +202,18 @@ scriptCmdTable:
 	.dw _scriptCmd_c02a_equFF
 	.dw _scriptCmd_6683
 	.dw _scriptCmd_66bf
-	.dw _scriptCmd_c714_equFF
-	.dw _scriptCmd_c714_equ0
+	.dw _scriptCmd_slowPlayerMovement
+	.dw _scriptCmd_unslowPlayerMovement
 	.dw _scriptCmd_ret
 	.dw _scriptCmd_incAnointingOilsGotten
 	.dw _scriptCmd_set7_npc2ndByteLower6Bits
-	.dw _scriptCmd_set2_cbe4
+	.dw _scriptCmd_unaffectedByFruit
 	.dw _scriptCmd_setEnemyDefeatedRoomFlag
-	.dw _scriptCmd_set3_cbe4
+	.dw _scriptCmd_setPathfindToPlayer
 	.dw _scriptCmd_6748
 	.dw _scriptCmd_gotoStartTitleScreen
 	.dw _scriptCmd_endIfSimilarIDNpcExists
-	.dw _scriptCmd_set1_cbe4
+	.dw _scriptCmd_makeInvisible
 
 // 1 param
 	.dw _scriptCmd_moveByParamPixels
@@ -241,7 +242,7 @@ scriptCmdTable:
 // 2 params
 	.dw _scriptCmd_setCoords // $44
 	.dw _scriptCmd_jump
-	.dw _scriptCmd_resetBit5ofNPC2ndByte_jumpIfNZ
+	.dw _scriptCmd_processAndJumpIfPlayerCollided
 	.dw _scriptCmd_startScrollingText
 	.dw _scriptCmd_jumpIfAtLeast1key
 	.dw _scriptCmd_call
@@ -306,7 +307,7 @@ _scriptCmd_res5_cb60:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_set7_cb60:
+_scriptCmd_fruitsBounceOff:
 	ld   hl, wNPCBytes_cb60
 	add  hl, bc
 	set  7, (hl)
@@ -327,8 +328,8 @@ _scriptCmd_faceUp:
 	add  hl, bc
 	ld   (hl), a
 
-npcHelper_res3_cbe4_thenNextOpcode:
-	call npcHelper_res3_cbe4
+npcHelper_unsetPathfindToPlayer_thenNextOpcode:
+	call npcHelper_unsetPathfindToPlayer
 	jp   executeNPCScriptCode
 
 
@@ -338,7 +339,7 @@ _scriptCmd_faceDown:
 	ld   hl, wNPC2ndByteLower6Bits
 	add  hl, bc
 	ld   (hl), a
-	jp   npcHelper_res3_cbe4_thenNextOpcode
+	jp   npcHelper_unsetPathfindToPlayer_thenNextOpcode
 
 
 _scriptCmd_faceRight:
@@ -347,7 +348,7 @@ _scriptCmd_faceRight:
 	ld   hl, wNPC2ndByteLower6Bits
 	add  hl, bc
 	ld   (hl), a
-	jp   npcHelper_res3_cbe4_thenNextOpcode
+	jp   npcHelper_unsetPathfindToPlayer_thenNextOpcode
 
 
 _scriptCmd_faceLeft:
@@ -356,10 +357,10 @@ _scriptCmd_faceLeft:
 	ld   hl, wNPC2ndByteLower6Bits
 	add  hl, bc
 	ld   (hl), a
-	jp   npcHelper_res3_cbe4_thenNextOpcode
+	jp   npcHelper_unsetPathfindToPlayer_thenNextOpcode
 
 
-_scriptCmd_set6_cb60_reset_animationFrameIdx:
+_scriptCmd_noVertTiles_reset_animationFrameIdx:
 	ld   hl, wNPCBytes_cb60
 	add  hl, bc
 	set  6, (hl)
@@ -502,7 +503,7 @@ npcHelper_resetBit5OfNPC2ndByteLower6Bits:
 	jp   npcHelper_resetBitOfNPC2ndByteLower6Bits
 
 
-_scriptCmd_res4_cb60:
+_scriptCmd_damagableByPlayerItems:
 	ld   hl, wNPCBytes_cb60
 	add  hl, bc
 	res  4, (hl)
@@ -583,7 +584,7 @@ _scriptCmd_turnBackwards:
 
 
 _scriptCmd_facePlayerHorizontally:
-	call npcHelper_res3_cbe4
+	call npcHelper_unsetPathfindToPlayer
 	call keepUpperNybbleOfNPC2ndByteLower6Bits
 	ld   de, DIR_RIGHT
 	ld   hl, wPlayerX
@@ -605,7 +606,7 @@ npcHelper_setNPCdirectionBits:
 
 
 _scriptCmd_facePlayerVertically:
-	call npcHelper_res3_cbe4
+	call npcHelper_unsetPathfindToPlayer
 	call keepUpperNybbleOfNPC2ndByteLower6Bits
 	ld   de, DIR_DOWN
 	ld   hl, wPlayerY
@@ -880,16 +881,16 @@ _scriptCmd_66bf:
 	jp   executeNPCScriptCode                               ; $66dc: $c3 $8a $62
 
 
-_scriptCmd_c714_equFF:
+_scriptCmd_slowPlayerMovement:
 	ld   a, $ff                                      ; $66df: $3e $ff
-	ld   hl, $c714                                   ; $66e1: $21 $14 $c7
+	ld   hl, wPlayerMovementSlowed                                   ; $66e1: $21 $14 $c7
 	ld   (hl), a                                     ; $66e4: $77
 	jp   executeNPCScriptCode                               ; $66e5: $c3 $8a $62
 
 
-_scriptCmd_c714_equ0:
+_scriptCmd_unslowPlayerMovement:
 	ld   a, $00                                      ; $66e8: $3e $00
-	ld   hl, $c714                                   ; $66ea: $21 $14 $c7
+	ld   hl, wPlayerMovementSlowed                                   ; $66ea: $21 $14 $c7
 	ld   (hl), a                                     ; $66ed: $77
 	jp   executeNPCScriptCode                               ; $66ee: $c3 $8a $62
 
@@ -922,7 +923,7 @@ _scriptCmd_set7_npc2ndByteLower6Bits:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_set2_cbe4:
+_scriptCmd_unaffectedByFruit:
 	ld   a, $04
 
 npcHelper_orAwith_cbe4:
@@ -949,14 +950,14 @@ _scriptCmd_setEnemyDefeatedRoomFlag:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_set3_cbe4:
+_scriptCmd_setPathfindToPlayer:
 	ld   hl, wNPCBytes_cbe4
 	add  hl, bc
 	set  3, (hl)
 	jp   executeNPCScriptCode
 
 
-npcHelper_res3_cbe4:
+npcHelper_unsetPathfindToPlayer:
 	ld   hl, wNPCBytes_cbe4
 	add  hl, bc
 	res  3, (hl)
@@ -1026,7 +1027,7 @@ _scriptCmd_endIfSimilarIDNpcExists:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_set1_cbe4:
+_scriptCmd_makeInvisible:
 	ld   a, $02
 	jp   npcHelper_orAwith_cbe4
 
@@ -1222,7 +1223,7 @@ _scriptCmd_dealPlayerDamage:
 	ld   hl, wBaseDamageTaken                                   ; $6893: $21 $23 $c0
 	ld   (hl), a                                     ; $6896: $77
 	ld   a, $ff                                      ; $6897: $3e $ff
-	ld   hl, $c024                                   ; $6899: $21 $24 $c0
+	ld   hl, wCurrNpcMovingDir                                   ; $6899: $21 $24 $c0
 	ld   (hl), a                                     ; $689c: $77
 	call playerTakeDamage                                       ; $689d: $cd $75 $28
 	jp   executeNPCScriptCode                               ; $68a0: $c3 $8a $62
@@ -1403,7 +1404,7 @@ _scriptCmd_getSimilarNPCsToCurrLocationDir:
 	add  hl, bc
 	ld   (hl), a
 
-	jp   npcHelper_res3_cbe4_thenNextOpcode
+	jp   npcHelper_unsetPathfindToPlayer_thenNextOpcode
 
 
 _scriptCmd_setCoords:
@@ -1434,7 +1435,7 @@ _scriptCmd_jump:
 	jp   executeNPCScriptCode
 
 
-_scriptCmd_resetBit5ofNPC2ndByte_jumpIfNZ:
+_scriptCmd_processAndJumpIfPlayerCollided:
 	call npcHelper_resetBit5OfNPC2ndByteLower6Bits
 	jr   nz, _scriptCmd_jump
 
@@ -1463,25 +1464,26 @@ _scriptCmd_startScrollingText:
 	ld   hl, wScrollingTextByteAddr+1
 	ld   (hl), a
 
-//
+// set initial coords
 	ld   hl, wNPC_xCoord
-	add  hl, bc                                      ; $69da: $09
-	ld   a, (hl)                                     ; $69db: $7e
-	add  $08                                         ; $69dc: $c6 $08
-	srl  a                                           ; $69de: $cb $3f
-	srl  a                                           ; $69e0: $cb $3f
-	srl  a                                           ; $69e2: $cb $3f
-	ld   hl, $c067                                   ; $69e4: $21 $67 $c0
-	ld   (hl), a                                     ; $69e7: $77
-	ld   hl, wNPC_yCoord                                   ; $69e8: $21 $48 $cb
-	add  hl, bc                                      ; $69eb: $09
-	ld   a, (hl)                                     ; $69ec: $7e
-	adc  $08                                         ; $69ed: $ce $08
-	srl  a                                           ; $69ef: $cb $3f
-	srl  a                                           ; $69f1: $cb $3f
-	srl  a                                           ; $69f3: $cb $3f
-	ld   hl, $c066                                   ; $69f5: $21 $66 $c0
-	ld   (hl), a                                     ; $69f8: $77
+	add  hl, bc
+	ld   a, (hl)
+	add  $08
+	srl  a
+	srl  a
+	srl  a
+	ld   hl, wScrollingTextXStart
+	ld   (hl), a
+
+	ld   hl, wNPC_yCoord
+	add  hl, bc
+	ld   a, (hl)
+	adc  $08
+	srl  a
+	srl  a
+	srl  a
+	ld   hl, wScrollingTextYStart
+	ld   (hl), a
 
 // get text bytes from script bank
 	ld   hl, wNPCScriptBytesBank
@@ -1939,65 +1941,75 @@ npcHelper_resetBitOfNPC2ndByteLower6Bits:
 scrollingTextProcessControlBytes:
 // row byte
 	ld   de, $0001
-	call loadScrollingTextByteIdxedE                               ; $6c4c: $cd $ab $6c
-	ld   a, e                                        ; $6c4f: $7b
-	bit  7, a                                        ; $6c50: $cb $7f
-	jr   z, +                              ; $6c52: $28 $06
+	call loadScrollingTextByteIdxedE
+	ld   a, e
+	bit  7, a
+	jr   z, +
 
-	ld   hl, $c067                                   ; $6c54: $21 $67 $c0
-	add  (hl)                                        ; $6c57: $86
-	and  $1f                                         ; $6c58: $e6 $1f
+// bit 7 set, offset from npc
+	ld   hl, wScrollingTextXStart
+	add  (hl)
+	and  $1f
 
 +
-	ld   hl, wScrollingTextVramOffset                                   ; $6c5a: $21 $64 $c0
-	ld   (hl), a                                     ; $6c5d: $77
+	ld   hl, wScrollingTextVramOffset
+	ld   (hl), a
 
 // col byte
-	ld   de, $0000                                   ; $6c5e: $11 $00 $00
-	call loadScrollingTextByteIdxedE                               ; $6c61: $cd $ab $6c
-	ld   a, e                                        ; $6c64: $7b
-	cp   $7f                                         ; $6c65: $fe $7f
-	jr   z, @done                              ; $6c67: $28 $41
+	ld   de, $0000
+	call loadScrollingTextByteIdxedE
+	ld   a, e
+// 7f is done marker
+	cp   $7f
+	jr   z, @done
 
-	cp   $80                                         ; $6c69: $fe $80
-	jr   c, +                              ; $6c6b: $38 $06
+	cp   $80
+	jr   c, +
 
-	ld   hl, $c066                                   ; $6c6d: $21 $66 $c0
-	add  (hl)                                        ; $6c70: $86
-	and  $1f                                         ; $6c71: $e6 $1f
+// bit 7 set, offset from npc
+	ld   hl, wScrollingTextYStart
+	add  (hl)
+	and  $1f
 
 +
-	ld   e, a                                        ; $6c73: $5f
-	ld   c, $20                                      ; $6c74: $0e $20
-	call ecEquEtimesC                                       ; $6c76: $cd $03 $08
-	ld   hl, wScrollingTextVramOffset                                   ; $6c79: $21 $64 $c0
-	ld   a, (hl)                                     ; $6c7c: $7e
-	call ecPlusEquA                                       ; $6c7d: $cd $3d $08
-	ld   hl, wScrollingTextVramOffset                                   ; $6c80: $21 $64 $c0
-	ld   (hl), c                                     ; $6c83: $71
-	ld   hl, wScrollingTextVramOffset+1                                   ; $6c84: $21 $65 $c0
-	ld   (hl), e                                     ; $6c87: $73
-	ld   hl, wScrollingTextCurrRowVramStart                                   ; $6c88: $21 $f9 $c0
-	ld   (hl), c                                     ; $6c8b: $71
-	ld   hl, wScrollingTextCurrRowVramStart+1                                   ; $6c8c: $21 $fa $c0
-	ld   (hl), e                                     ; $6c8f: $73
+// a is now row
+	ld   e, a
+	ld   c, $20
+	call ecEquEtimesC
+
+// store col in offset
+	ld   hl, wScrollingTextVramOffset
+	ld   a, (hl)
+	call ecPlusEquA
+	ld   hl, wScrollingTextVramOffset
+	ld   (hl), c
+
+// row in +1
+	ld   hl, wScrollingTextVramOffset+1
+	ld   (hl), e
+
+// and keep the start
+	ld   hl, wScrollingTextCurrRowVramStart
+	ld   (hl), c
+	ld   hl, wScrollingTextCurrRowVramStart+1
+	ld   (hl), e
 
 // read past the coordinate bytes
-	ld   hl, wScrollingTextByteAddr                                   ; $6c90: $21 $62 $c0
-	ld   a, (hl)                                     ; $6c93: $7e
-	add  $02                                         ; $6c94: $c6 $02
-	ld   hl, wScrollingTextByteAddr                                   ; $6c96: $21 $62 $c0
-	ld   (hl), a                                     ; $6c99: $77
-	ld   hl, wScrollingTextByteAddr+1                                   ; $6c9a: $21 $63 $c0
-	ld   a, (hl)                                     ; $6c9d: $7e
-	adc  $00                                         ; $6c9e: $ce $00
-	ld   hl, wScrollingTextByteAddr+1                                   ; $6ca0: $21 $63 $c0
-	ld   (hl), a                                     ; $6ca3: $77
+	ld   hl, wScrollingTextByteAddr
+	ld   a, (hl)
+	add  $02
+	ld   hl, wScrollingTextByteAddr
+	ld   (hl), a
+	ld   hl, wScrollingTextByteAddr+1
+	ld   a, (hl)
+	adc  $00
+	ld   hl, wScrollingTextByteAddr+1
+	ld   (hl), a
 
 // don't do another byte this time
-	ld   a, $ff                                      ; $6ca4: $3e $ff
-	ld   hl, wScrollingTextByteDone                                   ; $6ca6: $21 $61 $c0
-	ld   (hl), a                                     ; $6ca9: $77
+	ld   a, $ff
+	ld   hl, wScrollingTextByteDone
+	ld   (hl), a
 
 @done:
 	ret
@@ -3185,7 +3197,7 @@ initNPCscriptBytes_noRoomFlagEffect:
 	ld   (hl), a
 
 initNPCscriptBytes:
-// todo: control byte
+// control byte, initially immune to player items/falling objects
 	ld   a, $10                                      ; $7304: $3e $10
 	ld   hl, wNPCBytes_cb60                                   ; $7306: $21 $60 $cb
 	add  hl, bc                                      ; $7309: $09
@@ -3331,8 +3343,9 @@ getNpcOamTileAndAttr:
 	ld   hl, wNpcOamTileAttr2
 	ld   (hl), a
 
-	call getBit6ofNPCBytes_cb60                               ; $73a7: $cd $82 $73
-	jr   z, @checkVertDirs                              ; $73aa: $28 $06
+// bit 6 set, dont look for vert tiles
+	call getBit6ofNPCBytes_cb60
+	jr   z, @checkVertDirs
 
 // if bit 6 set, ignore vert dirs
 	call getCurrNpcDirection
